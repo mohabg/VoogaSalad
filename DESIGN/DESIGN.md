@@ -114,12 +114,16 @@ canvas, and an image for its graphical representation. The user would then choos
 of attack or movement, which would then be separate classes that would be added to the Sprite. An inheritance hierarchy is still being used, but
 to represent the different behaviors of the sprite. This makes it easily extendable, as new behaviors can inherit common features from their
 superclasses, which means the only code that will be necessary to write would be what is unique to that behavior.
+
 ###Strategy Design Pattern###
-> -This design pattern ties in with our decision to use composition, as described above. Using this pattern, 
+> -This design pattern ties in with our decision to use composition, as described above. Using this pattern,
+
 ###Observable Design Pattern###
 > - 
+
 ###XStream vs Serializable###
 > - Serializable is not human-readable so there is no way to see what is being stored just y looking at the text of the file.
+
 ###Factory Design Pattern###
 This section describes any issues which need to be addressed or resolved before attempting to devise a
 complete design solution. Include any design decisions that each sub-team discussed at length
