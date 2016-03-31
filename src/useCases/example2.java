@@ -1,4 +1,6 @@
-package interfaces;
+package useCases;
+
+import interfaces.IGameLoader;
 
 public class example2 {
 

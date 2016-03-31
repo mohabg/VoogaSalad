@@ -1,4 +1,7 @@
-package interfaces;
+package useCases;
+
+import interfaces.IData;
+import interfaces.IGameLoader;
 
 public class GameLoader implements IGameLoader {
 
