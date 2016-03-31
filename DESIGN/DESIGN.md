@@ -36,6 +36,10 @@ dummy program that serves as a exemplar). Describe how a game is represented to 
 what support is provided to make it easy to create a game. Finally, describe any erroneous
 situations that are reported to the user (i.e., bad input data, empty data, etc.).
 
+> - Authoring Environment Interface
+![Authoring Environment Interface](https://github.com/duke-compsci308-spring2016/voogasalad_TheDuballers/blob/master/DESIGN/authoringUI.png "Authoring Environment Interface")
+
+
 ##Design Details##
 This section describes each module introduced in the Overview in detail (as well as any other
 sub-modules that may be needed but are not significant to include in a high-level description of the
