@@ -17,19 +17,20 @@ USE CASES
   16. Allow users to choose the methods of movement (i.e. direction/speed)
   17. Allow users to choose the power ups they want to include (i.e. add health)
   18. Allow users to reset the game 
-  19. Allow users to save games
-  20. Allow users to load games
-  21. Allow users to set the background image of the game
-  22. Allow users to determine which enemies to use
-  23. Allow users to determine the attributes of the enemies 
-  24. Allow users to determine the spawn rate of enemies for a level
-  25. Allow users to determine the obstacles on the screen
-  26. Allow users to define the effect of key inputs
-  27. Enable multiplayer with two players on the same computer
-  28. Allow user to revert back to authoring environment in the middle of the game
-  29. Allow users to have the Game keep track of high score.
-  30. Allow users to define cheat codes
-  31. Allow real time updating of sprites in the game
-  32. Allow users to change the speed the game runs at
-  33. Have preloaded default games for users to play
-  34. Allow users to determine if projectiles explode upon impact
+  19. Allow users to save games from the authoring environment
+  20. Allow users to save games from the game player
+  21. Allow users to load games
+  22. Allow users to set the background image of the game
+  23. Allow users to determine which enemies to use
+  24. Allow users to determine the attributes of the enemies 
+  25. Allow users to determine the spawn rate of enemies for a level
+  26. Allow users to determine the obstacles on the screen
+  27. Allow users to define the effect of key inputs
+  28. Enable multiplayer with two players on the same computer
+  29. Allow user to revert back to authoring environment in the middle of the game
+  30. Allow users to have the Game keep track of high score.
+  31. Allow users to define cheat codes
+  32. Allow real time updating of sprites in the game
+  33. Allow users to change the speed the game runs at
+  34. Have preloaded default games for users to play
+  35. Allow users to determine if projectiles explode upon impact
