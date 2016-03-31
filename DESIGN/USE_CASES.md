@@ -34,3 +34,7 @@ USE CASES
   33. Allow users to change the speed the game runs at
   34. Have preloaded default games for users to play
   35. Allow users to determine if projectiles explode upon impact
+  36. (Space Invaders) End game if enemies hit the bottom of the screen
+  37. (Gallaga) User can control multiple sprites with the same inputs
+  38. (Space Invaders) Obstacles that slowly disappear as damaged
+  39. (Robotron:2084) Enemy AI that swarm the player
