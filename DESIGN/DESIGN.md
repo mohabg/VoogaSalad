@@ -30,11 +30,12 @@ objects to be dragged and created in the game environment, whether that be enemy
 
 ####Game Engine
 
-####Game Data
-Game data is responsible for 
 
+####Game Data
+The Game Data will be composed of an actual GameData class and a GameLoader class. The GameData will have all the game information, including GUI/view components, and will be shared by the front end and engine. The GameLoader will save and load this information into XML files. A GameLoader separate from the data was necessary in order to pass around the different player classes (which wouldn't make sense for the entire data).
 
 ####Game Player
+The game player will be the link between the data and the game engine, and it will display components that allow the user to see and interact with the game. We decided to divide the Game player as into gameplayer, heads up display (HUD), highscoretable, and gamepreferences. The gameplayer is the module that handles the basic running of the game and displays the information handled by the game engine. It will be able to start, pause, and save games through methods in the game engine and its instance of a gameloader object, which loads and saves xml files. This module will have access to all the others (including data), since it provides the basic framework for playing a game. HUD and highscoretable are GUI elements that are added to the main window (which will be part of the gameplayer module). The HUD elements and HighScoreEntryItems will be basically wrappers for data objects, which will be created using the GameData that is kept in gameplayer. The highscore table is populated with lists, and it will be extendable/reusable for displaying other lists of varied elements (e.g. pre-existing games). The preferences will basically reuse the code from the authoring environment.
 
 
 ##User Interface##
@@ -71,7 +72,9 @@ Erroneous situations that will be reported to the user include: loading an impro
 #### Game Player Interface
 ![Game Player Interface](https://github.com/duke-compsci308-spring2016/voogasalad_TheDuballers/blob/master/DESIGN/PlayerUI.png "Game Player Interface")
 
-### Game Player Interface Explanation
+### Game Player Interface Explanation 
+
+The game will be displayed (along with the HUD) in a main screen that only has a pause button. Upon clicking this button, users will see a menu with four choices: replay, switch, save, and settings. Replay will return to the main screen but restart the game. Clicking on switch will open the list of possible games (in a table like the high score one). Save will just run the save() method and return to the main screen. Settings will go to a new screen that contains the possible changes (same as the possible settings in the authoring environment). If a player finishes a game (i.e. wins or loses), then the high score table will be displayed.
 
 ##Design Details##
 This section describes each module introduced in the Overview in detail (as well as any other

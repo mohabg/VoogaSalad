@@ -12,8 +12,11 @@ Primary roles: Assembling the GUI components into the main Authoring Environment
 Primary roles: Creating the ItemWindow and adding functionality (such as allowing the user to upload their own images and ensuring that they are of the correct sprite subclass), creating the SpritePropertiesWindow and adding functionality (which mostly involves creating the related editable-properties factory), helping with the DisplayWindow, populating menus, adding click-a-sprite-and-see-and-editable-its-properties functionality, artistic elements/making things look pretty
 
 ###Game Engine
-> - People: ADD
+> - People: Huijia Yu and Joe Jacob
 
+###Roles
+
+Primary roles: Both of us will work together on the GamePlayer and the classes that it needs (described in Design file), especially to implement basic functionality. We will divide up the extensions later.
 
 ###Game Data
 > - People: ADD
