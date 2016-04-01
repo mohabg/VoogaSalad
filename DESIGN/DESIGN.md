@@ -37,7 +37,6 @@ Game data is responsible for
 ####Game Player
 
 
-
 ##User Interface##
 This section describes how the user will interact with your program (keep it simple to
 start). Describe the overall appearance of program's user interface components and how users
@@ -97,6 +96,15 @@ The Authoring Environment is currently split up as so:
 #### Game Data Design Details
 
 #### Game Player Design Details
+The game player is primarily responsible for displaying high scores, dynamically displaying data through the heads up display (HUD), facilitating game preferences changes, and implementing replay, switch, and save game functionality.
+
+> - The HighScoreTable class will hold an instance to a VBox that hosts the high scores for the specified game. This VBox is populated with a List of HighScoreEntry objects, which are added to the class through the addHighScore() method. The HighScoreEntry class is responsible for presenting a single player's high score for a game. This presentation will include: the player's name, the player's score, the time it took to achieve that score, and the maximum level at which the score was earned. Each of these properties is stored in a HighScoreEntryItem<T> object and is stored in a List that populates the HBox instance within the HighScoreEntry class. Because the HighScoreEntry class's HBox instance can hold a variable number of items, these entries can be compounded in the future with more relevant high score information. The HighScoreEntryItem<T> class is simple a wrapper for a high score-relevant data item of type T.
+
+> - The HUDView class is responsible for displaying the complete HUD that will be visible during gameplay. The HUD will be represented through the JavaFX GUI object, BorderPane, which allows us to specifically place objects in the top, bottom, left, or right portions of the game screen. Each section of the HUD will be represented by a HUDElement, which consists of a Pane and can be initialized to either an HBox or VBox through its constructor. Because all HUDElements are indistinguishable from each other with respect to which section of the HUD it occupies, in the HUDView class, all HUDElements will be stored in a Map<HUDEnum, HUDElement> where HUDEnum is an enum class that has values: TOP, BOTTOM, LEFT, and RIGHT. This also serves the purpose of users specifying which HUDElement to add an object to through the add() and remove() methods in the HUDView class. In order to populate the HUDElement Pane instances, we created the HUDItem<T> class, which wraps an object of type T that one would typically find on a HUD. Since the objects stored in the HUDItem<T> class will be the same instance of the data it represents (through dependency injection), we can ensure that this data updates dynamically and no views need to be updated manually. 
+
+> - The GamePreferences class is simply a stripped version of the settings panel in the authoring environment that deals with generic game settings, such as speed, difficulty, immortality, etc. Because of this, the GamePreferences class will simply reuse the code and class structure for the analogous piece in the authoring environment, as described above.
+
+> - The replaying, switching, pausing, and saving of games will be handled by the GamePlayer class. The GamePlayer class has a GameLoader object, which handles the loading and switching of games, a GameData object that holds the game data specific to the game currently being played, a GameEngine object which handles the backend for the game, and Buttons that are linked to the replay(), pause(), save(), and switch() methods. The replay() method simply implemented by retrieving the GameFile class from the GameData class and passing it as an argument to the GameLoader class's loadGame() method, which subsequently reloads the same game on the screen, from the beginning. The pause() method simply calls the stopPlay() method in the GameEngine class to stop the changes of any models and prevent keystrokes from affecting game models. The save() method calls the saveGame() method in GameLoader, which is passed the current state of the game from the GameData object's method, getCurrentGame(). Also, the switch() method simply opens the file directory where games are stored and the user choice is passed to the GameLoader class, which loads the chosen game. The GameLoader class uses XStream to read and write game files through simple XStream API calls. 
 
 ##Example games##
 Describe three example games from our genre in detail that differ significantly. Clearly identify how the functional differences in
