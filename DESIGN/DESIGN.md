@@ -24,6 +24,19 @@ each one's API. Include a picture of how the modules are related (these pictures
 and scanned in, created with a standard drawing program, or screen shots from a UML design program).
 Discuss specific classes, methods, and data structures, but not individual lines of code.
 
+####Authoring Environment
+In a general sense, the authoring environment UI is broken up into four primary parts, with the end goal being the passage of game data in a single or multiple XML files
+back to the game engine. There is a menu bar that allows the user to choose options such as File to open new games or create new games. From the menu bar in the authoring environment,
+users can also choose to load and edit existing games in addition to clicking a play button to begin playing a game the user has loaded or created. There is also a window called the item window where the user can view available 
+objects to be dragged and created in the game environment, whether that be enemy object, user objects, or even obstacle objects. There is also a display window where the user can drag and drop objects onto to create the objects displayed and controlled in the user's game. Finally, each item in the display window can be edited by the user simply by clicking on the item, and a separate pane in the authoring environment will pop up and display that object or character's attributes. From there, the user can choose to set custom attributes, with examples containing health or attack points.
+In general, the authoring environment will be an interactive tool for the user to create custom game objects, set custom game rules, and set custom properties for each character in the game.
+
+####Game Engine
+
+####Game Data
+
+####Game Player
+
 
 
 ##User Interface##
@@ -36,9 +49,13 @@ dummy program that serves as a exemplar). Describe how a game is represented to 
 what support is provided to make it easy to create a game. Finally, describe any erroneous
 situations that are reported to the user (i.e., bad input data, empty data, etc.).
 
-### Authoring Environment Interface
+#### Authoring Environment Interface
 ![Authoring Environment Interface](https://github.com/duke-compsci308-spring2016/voogasalad_TheDuballers/blob/master/DESIGN/authoringUI.png "Authoring Environment Interface")
 
+#### Authoring Environment Interface Explanation -- SAMMY BOY
+
+#### Game Player Interface
+![Game Player Interface](https://github.com/duke-compsci308-spring2016/voogasalad_TheDuballers/blob/master/DESIGN/PlayerUI.png "Game Player Interface")
 
 
 ##Design Details##
@@ -50,6 +67,14 @@ to include additional requirements (from the assignment specification or discuss
 Note, each sub-team should have its own API for others in the overall team or for new team members
 to write extensions. Finally, justify the decision to create each module with respect to the
 design's key goals, principles, and abstractions.
+
+#### Authoring Environment Design Details
+
+#### Game Engine Design Details
+
+#### Game Data Design Details
+
+#### Game Player Design Details
 
 ##Example games##
 Describe three example games from our genre in detail that differ significantly. Clearly identify how the functional differences in
@@ -64,7 +89,7 @@ examples to help make concrete the abstractions in your design.
 
 ###Space Invaders###
 *Player and enemies can only shoot vertically, and the player can only move horizontally
-..*Player and enemies will both be sprites, which can have their movement and orientation defined/restricted. User can modify these restirctions
+..*Player and enemies will both be sprites, which can have their movement and orientation defined/restricted. User can modify these restrictions
 *Pattened enemy movements (no AI)
 ..*Sprites velocites can have defined patterns, via the setPattern() method. 
 *Game over if enemies reaches the ground
@@ -106,6 +131,7 @@ the locaiton of the person that was just killed(we will provide some default ani
 We already include functionality to set boundaries. When a projectile hits a vertical wall, its x velocity is negated. When it hits a horizontal wall, the y velocity is negated
 
 ##Design Considerations##
+
 ###Inheritance vs. Composition###
 > - Originally, we planned on using an inheritance hierarchy to represent all the sprites, in the back end. We had an abstract Sprite superclas
 which had two subclasses. One was a Character class, which was also abstract. The main difference between this class and its superclass was the
@@ -127,7 +153,7 @@ superclasses, which means the only code that will be necessary to write would be
 > - 
 
 ###XStream vs Serializable###
-> - Serializable is not human-readable so there is no way to see what is being stored just y looking at the text of the file.
+> - Serializable is not human-readable so there is no way to see what is being stored just by looking at the text of the file. Serializable, however, presents a much easier and short set of method calls needed to fully serialize an object into a file and deserialize back to the original object. XStream, we found, was the middle ground between the simplicity but non-readability of Serializable and the difficulty but readability of XML files. With XStream, many of the original benefits of Serializable are preserved, that is, being able to have the program automatically save objects as files. XStream is also very human readable as objects are stored as XML files in the end, and this helps with allowing us, the programmers, to determine whether not data has been saved correctly; this feature could potentially be very helpful one day as our saved objects contain more and more data.
 
 ###Factory Design Pattern###
 This section describes any issues which need to be addressed or resolved before attempting to devise a
