@@ -94,6 +94,12 @@ The Authoring Environment is currently split up as so:
 #### Game Engine Design Details
 
 #### Game Data Design Details
+The Game Data portion consists of two primary classes: GameData and GameLoader.
+
+> - The GameData class is responsible for holding the current state of the game through GameModels and GameViews instances, which can be updated by the setModels() and setViews() methods and have accompanying getters. There is only one instance of the GameData class, effectively making it a singleton; however, the only class that has access to this instance is the GamePlayer class. The GamePlayer class is also the only class that updates the GameData explicitly through method calls because all model data is updated through dependency injection into the backend. The GameModels class stores a List of Models which correspond to each View stored in the List of Views in the GameViews class. 
+
+> - The GameLoader class has the primary methods: loadGame() and saveGame(). The loadGame() method simply takes in a file path to the stored game file and parses the game file using XStream method calls and returns the decoded objects to GamePlayer. The saveGame() method takes in a Map<Model, View> to write to XML and store it in the file system with a specified name. 
+
 
 #### Game Player Design Details
 The game player is primarily responsible for displaying high scores, dynamically displaying data through the heads up display (HUD), facilitating game preferences changes, and implementing replay, switch, and save game functionality.
