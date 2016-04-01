@@ -89,10 +89,10 @@ these games is supported by your design and enabled by your authoring environmen
 examples to help make concrete the abstractions in your design.
 
 ###Common Features####
-*Enemies and player can attack
-*Score and lives/health
-*Multiple levels
-*Multiple enemy types
+> - Enemies and player can attack
+> - Score and lives/health
+> - Multiple levels
+> - Multiple enemy types
 
 ###Space Invaders###
 *Player and enemies can only shoot vertically, and the player can only move horizontally
