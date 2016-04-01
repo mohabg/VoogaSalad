@@ -34,6 +34,8 @@ In general, the authoring environment will be an interactive tool for the user t
 ####Game Engine
 
 ####Game Data
+Game data is responsible for 
+
 
 ####Game Player
 
@@ -173,7 +175,7 @@ superclasses, which means the only code that will be necessary to write would be
 > -This design pattern ties in with our decision to use composition, as described above. Using this pattern, 
 
 ###Observable Design Pattern###
-> - 
+> - We decided to implement the Observer design pattern to facilitate the communication between a view and its corresponding model for every sprite. This avoids the need to manually update the rendering of the game in the GUI in accordance with the changes the game engine would make to the image's respective model. This was accomplished through the use of JavaFX's Observer/Observable classes, which allow us to trigger a notification to an object's observers when something has changed within the object. We had many alternatives with regard to implementation, such as ObservableLists, Listeners, etc.; however, we wanted to stray away from using JavaFX data structures because of XStream's tendency to generate massive XML files for them, so Observer/Observable presented itself as the only option. The choice to use the observable design pattern over the model-view-controller architecture was motivated by implementation restrictions as well as ease. While the model-view-controller architecture is more robust with the ability of the controller to hold many instances of different views and models, that luxury wasn't going to be exploited with the implementation of a sprite because of its simple need of a single model and view. Additionally, the use of Observer/Observable between the model and the view almost made the controller redundant in that the communication between the two classes became automatic, thus rendering the controller's primary use of facilitating communication completely useless. 
 
 ###XStream vs Serializable###
 > - Serializable is not human-readable so there is no way to see what is being stored just by looking at the text of the file. Serializable, however, presents a much easier and short set of method calls needed to fully serialize an object into a file and deserialize back to the original object. XStream, we found, was the middle ground between the simplicity but non-readability of Serializable and the difficulty but readability of XML files. With XStream, many of the original benefits of Serializable are preserved, that is, being able to have the program automatically save objects as files. XStream is also very human readable as objects are stored as XML files in the end, and this helps with allowing us, the programmers, to determine whether not data has been saved correctly; this feature could potentially be very helpful one day as our saved objects contain more and more data.
