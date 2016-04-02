@@ -36,7 +36,9 @@ public class MainAuthoringWindow {
 	}
 	
 	public Scene getScene(){
-		return new Scene(myPane, myScreenWidth, myScreenHeight);
+		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
+		myRetScene.getStylesheets().add("resources/styles.css");
+		return myRetScene;
 	}
 
 }
