@@ -7,7 +7,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class GameMakerWindow {
@@ -16,7 +15,6 @@ public class GameMakerWindow {
 	private GraphicsContext myGraphics;
 	private Canvas myCanvas = new Canvas(0.4*myScreenWidth, myScreenHeight);
 	private ScrollPane myGameArea;
-	private VBox myWindow;
 	private TabPane myTabPane;
 	
 	public GameMakerWindow(){
@@ -28,7 +26,7 @@ public class GameMakerWindow {
 		myGameArea = new ScrollPane();
         tab.setContent(myCanvas);
         myGameArea.setFitToWidth(true);
-        myGameArea.setPrefHeight(myScreenHeight);
+        myGameArea.setPrefHeight(myScreenHeight+600);
         myGameArea.setPrefWidth(0.4*myScreenWidth);
         myGraphics.setFill(Color.BLACK);
         myGraphics.fillRect(0,0,myCanvas.getWidth(), myCanvas.getHeight());
