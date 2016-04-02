@@ -5,14 +5,13 @@ import java.awt.Toolkit;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class ItemWindow {
 	private TabPane myTabPane;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private VBox myImagesBox;
+	
 	public ItemWindow(){
 		myTabPane = new TabPane();
 		myImagesBox = new VBox();
