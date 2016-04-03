@@ -24,21 +24,25 @@ public class MainAuthoringWindow {
 	
 	public MainAuthoringWindow(){
 		myPane = new BorderPane();
-		myItemWindow = new ItemWindow();
-		myMenubar = new AuthoringMenubarCreator();
 		myMainWindow = new GameMakerWindow();
+		myItemWindow = new ItemWindow(myMainWindow);
+		myMenubar = new AuthoringMenubarCreator();
 		mySettingsWindow = new SettingsWindow();
+		
+		myPane.setCenter(myMainWindow.getMainWindow());
 		myPane.setLeft(myItemWindow.getTabPane());
 		myPane.setTop(myMenubar.getMenuBar());
-		myPane.setCenter(myMainWindow.getMainWindow());
 		myPane.setRight(mySettingsWindow.getBox());
-		
 	}
 	
 	public Scene getScene(){
 		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
 		myRetScene.getStylesheets().add("resources/styles.css");
 		return myRetScene;
+	}
+	
+	public GameMakerWindow getGameWindow(){
+		return myMainWindow;
 	}
 
 }

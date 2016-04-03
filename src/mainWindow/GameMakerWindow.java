@@ -2,6 +2,7 @@ package mainWindow;
 
 import java.awt.Toolkit;
 
+import itemWindow.ItemWindow;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -12,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +30,7 @@ public class GameMakerWindow {
     private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
     private AnchorPane myGamePane;
+    private Tab tab;
 
 	
 	public GameMakerWindow(){
@@ -43,19 +46,22 @@ public class GameMakerWindow {
         myGamePane = new AnchorPane();
         myGamePane.getStyleClass().add("pane");
 
-        ImageView myImage = new ImageView("pictures/gaming.png");
-        myImage.setCursor(Cursor.HAND);
-        myImage.setOnMousePressed(circleOnMousePressedEventHandler);
-        myImage.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        myGamePane.getChildren().addAll(myImage);
         myGameArea = new ScrollPane();
         myGamePane.setPrefWidth(0.3*SCREEN_WIDTH);
         myGamePane.setPrefHeight(SCREEN_HEIGHT);
         tab.setContent(myGamePane);
         myTabPane.getTabs().add(tab);
-	
 //        myGraphics.setFill(Color.BLACK);
 //        myGraphics.fillRect(0,0,myCanvas.getWidth(), myCanvas.getHeight());
+
+	}
+	
+	public void addImageToPane(){
+        ImageView myImage = new ImageView("pictures/gaming.png");
+        myImage.setCursor(Cursor.HAND);
+        myImage.setOnMousePressed(circleOnMousePressedEventHandler);
+        myImage.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+        myGamePane.getChildren().addAll(myImage);
 
 	}
 	
@@ -92,5 +98,15 @@ public class GameMakerWindow {
 	
 	public TabPane getMainWindow(){
 		return myTabPane;
+	}
+	
+		
+	public void addImageToWindow(){
+		ImageView temp = new ImageView("pictures/galaga_ship.png");
+		temp.setCursor(Cursor.HAND);
+		temp.setOnMousePressed(circleOnMousePressedEventHandler);
+		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+		myGamePane.getChildren().addAll(temp);
+		System.out.println("test");
 	}
 }
