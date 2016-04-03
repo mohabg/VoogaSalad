@@ -2,7 +2,6 @@ package mainWindow;
 
 import java.awt.Toolkit;
 
-import itemWindow.ItemWindow;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -24,13 +23,13 @@ public class GameMakerWindow {
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 //	private GraphicsContext myGraphics;
-	private Canvas myCanvas = new Canvas(0.4*SCREEN_WIDTH, SCREEN_HEIGHT);
+//	private Canvas myCanvas = new Canvas(0.4*SCREEN_WIDTH, SCREEN_HEIGHT);
 	private ScrollPane myGameArea;
 	private TabPane myTabPane;
     private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
     private AnchorPane myGamePane;
-    private Tab tab;
+//    private Tab tab;
 
 	
 	public GameMakerWindow(){
@@ -101,8 +100,8 @@ public class GameMakerWindow {
 	}
 	
 		
-	public void addImageToWindow(){
-		ImageView temp = new ImageView("pictures/galaga_ship.png");
+	public void addImageToWindow(String address){
+		ImageView temp = new ImageView(address);
 		temp.setCursor(Cursor.HAND);
 		temp.setOnMousePressed(circleOnMousePressedEventHandler);
 		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
