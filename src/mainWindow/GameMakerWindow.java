@@ -46,7 +46,6 @@ public class GameMakerWindow {
         myGamePane = new AnchorPane();
         myGamePane.getStyleClass().add("pane");
 
-//        ImageView myImage = new ImageView("pictures/gaming.png");
         myGameArea = new ScrollPane();
         myGamePane.setPrefWidth(0.3*SCREEN_WIDTH);
         myGamePane.setPrefHeight(SCREEN_HEIGHT);
@@ -54,6 +53,15 @@ public class GameMakerWindow {
         myTabPane.getTabs().add(tab);
 //        myGraphics.setFill(Color.BLACK);
 //        myGraphics.fillRect(0,0,myCanvas.getWidth(), myCanvas.getHeight());
+
+	}
+	
+	public void addImageToPane(){
+        ImageView myImage = new ImageView("pictures/gaming.png");
+        myImage.setCursor(Cursor.HAND);
+        myImage.setOnMousePressed(circleOnMousePressedEventHandler);
+        myImage.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+        myGamePane.getChildren().addAll(myImage);
 
 	}
 	
