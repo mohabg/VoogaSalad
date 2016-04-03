@@ -93,12 +93,11 @@ public class GameMakerWindow {
 	}
 	
 		
-	public void addImageToWindow(){
-		ImageView temp = new ImageView("pictures/galaga_ship.png");
+	public void addImageToWindow(ImageView img){
+		ImageView temp = new ImageView(img.getImage());
 		temp.setCursor(Cursor.HAND);
 		temp.setOnMousePressed(circleOnMousePressedEventHandler);
 		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		myGamePane.getChildren().addAll(temp);
-		System.out.println("test");
 	}
 }
