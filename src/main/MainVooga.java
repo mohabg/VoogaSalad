@@ -16,7 +16,6 @@ public class MainVooga extends Application {
 		StartOptionsWindow myFirstWindow = new StartOptionsWindow(primaryStage);
 		primaryStage.setScene(myFirstWindow.getScene());
 		primaryStage.show();
-		
 	}
 
 }
