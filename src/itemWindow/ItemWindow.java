@@ -1,15 +1,13 @@
 package itemWindow;
 
-import java.awt.Toolkit;
-
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import mainWindow.GameMakerWindow;
+
+import java.awt.*;
 
 public class ItemWindow {
 	private TabPane myTabPane;
@@ -24,7 +22,6 @@ public class ItemWindow {
 		myTabPane.setPrefHeight(SCREEN_HEIGHT);
 		myTabPane.setPrefWidth(0.25*SCREEN_WIDTH);
 		createPlayerSpritesTab();
-
 	}
 	
 	private void createPlayerSpritesTab(){
