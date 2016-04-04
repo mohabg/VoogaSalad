@@ -1,8 +1,4 @@
-
 package main;
-/**
- * @author davidyan
- */
 import authoringEnvironment.StartOptionsWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;

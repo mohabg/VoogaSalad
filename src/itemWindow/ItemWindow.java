@@ -1,8 +1,5 @@
 package itemWindow;
 
-import java.awt.Toolkit;
-import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -10,27 +7,30 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import mainWindow.GameMakerWindow;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class ItemWindow {
 	private TabPane myTabPane;
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private GameMakerWindow myGameMakerWindow;
 	private ArrayList<String> playerSprites;
 	private ArrayList<String> enemySprites;
 	private ArrayList<String> backgroundImages;
 
-
-	public ItemWindow(GameMakerWindow window){
-		myGameMakerWindow = window;
+	public ItemWindow(){
 		myTabPane = new TabPane();
 		myTabPane.setPrefHeight(SCREEN_HEIGHT);
 		myTabPane.setPrefWidth(0.25*SCREEN_WIDTH);
 		fillPlayerSprites();
 		fillEnemySprites();
 		fillBackgroundImages();
-		createSpriteTab("Player", playerSprites, true);
-		createSpriteTab("Enemies", enemySprites, true);
-		createSpriteTab("Backgrounds", backgroundImages, false);
+	}
+
+	public void init(GameMakerWindow myGameMakerWindow){
+		createSpriteTab("Player", playerSprites, true, myGameMakerWindow);
+		createSpriteTab("Enemies", enemySprites, true, myGameMakerWindow);
+		createSpriteTab("Backgrounds", backgroundImages, false, myGameMakerWindow);
 	}
 
 	private void fillPlayerSprites(){
@@ -54,22 +54,22 @@ public class ItemWindow {
 		backgroundImages.add("pictures/space_background.png");
 	}
 
-	private void createSpriteTab(String tabTitle, ArrayList<String> spriteImages, boolean isSprite){
+	private void createSpriteTab(String tabTitle, ArrayList<String> spriteImages, boolean isSprite, GameMakerWindow window){
 		Tab tab = new Tab();
 		tab.setText(tabTitle);
 
 		TilePane tilePane = new TilePane();
 		setTilePaneSettings(tilePane);
-		populateSpriteTilePane(tilePane, spriteImages, isSprite);
+		populateSpriteTilePane(tilePane, spriteImages, isSprite, window);
 
 		tab.setContent(tilePane);
 		myTabPane.getTabs().add(tab);
 	}
 
-	private void populateSpriteTilePane(TilePane tp, ArrayList<String> spriteImages, boolean isSprite){
+	private void populateSpriteTilePane(TilePane tp, ArrayList<String> spriteImages, boolean isSprite, GameMakerWindow window){
 		for(String x : spriteImages){
 			ImageView img = new ImageView(x);
-			img.setOnMouseClicked(e -> {myGameMakerWindow.addToWindow(img, isSprite);});
+			img.setOnMouseClicked(e -> {window.addToWindow(img, isSprite);});
 			img.setFitHeight(myTabPane.getPrefWidth()*0.25);
 			img.setFitWidth(myTabPane.getPrefWidth()*0.25);
 			tp.getChildren().add(img);

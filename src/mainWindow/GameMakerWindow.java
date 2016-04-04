@@ -1,4 +1,7 @@
 package mainWindow;
+/**
+ * @author: davidyan
+ */
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -43,7 +46,6 @@ public class GameMakerWindow {
 
 	EventHandler<MouseEvent> circleOnMousePressedEventHandler =
 			new EventHandler<MouseEvent>() {
-
 				@Override
 				public void handle(MouseEvent t) {
 					orgSceneX = t.getSceneX();
@@ -52,8 +54,6 @@ public class GameMakerWindow {
 					orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
 					System.out.println(orgTranslateX);
 					System.out.println(orgTranslateY);
-
-
 				}
 			};
 
@@ -81,6 +81,7 @@ public class GameMakerWindow {
 		temp.setOnMousePressed(circleOnMousePressedEventHandler);
 		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		myGamePane.getChildren().addAll(temp);
+		System.out.println(myGamePane.getChildren());
 		if(!isSprite) temp.toBack();
 	}
 }
