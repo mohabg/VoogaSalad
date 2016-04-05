@@ -1,25 +1,37 @@
 package highscoretable;
 
-import java.util.*;
-import java.util.stream.*;
+import javafx.beans.property.*;
 
-import javafx.scene.layout.HBox;
+public class HighScore {
+	SimpleDoubleProperty scorevalue;
+	SimpleStringProperty playername;
+	SimpleStringProperty gamename;
 
-public class HighScore extends HBox {
-	List<HighScoreItem> items;
+	public HighScore(Double score, String player, String game) {
+		scorevalue = new SimpleDoubleProperty(score);
+		playername = new SimpleStringProperty(player);
+		gamename = new SimpleStringProperty(game);
 
-	public HighScore(HighScoreItem<Integer> score, HighScoreItem<String> name, HighScoreItem... args) {
-		super();
-
-		items = new ArrayList<HighScoreItem>();
-		items.add(score);
-		items.add(name);
-		items.addAll(Arrays.asList(args));
-		getChildren().addAll(items.stream().map(i -> i.getNode()).collect(Collectors.toList()));
 	}
 
-	public Integer getScore() {
-		return (Integer) items.get(0).getItem();
+	public Double getScoreValue(){
+		return scorevalue.doubleValue();
+		
 	}
+	public SimpleDoubleProperty scorevalueProperty() {
+		return scorevalue;
+	}
+
+	public SimpleStringProperty playernameProperty() {
+		return playername;
+
+	}
+
+	public SimpleStringProperty gamenameProperty() {
+		return gamename;
+	}
+	// public Integer getScore() {
+	// return (Integer) items.get(0).getItem();
+	// }
 
 }
