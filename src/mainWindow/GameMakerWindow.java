@@ -18,11 +18,11 @@ public class GameMakerWindow {
 
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private ScrollPane myGameArea;
+	private ScrollPane myGameArea, myGameArea2;
 	private TabPane myTabPane;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
-	private AnchorPane myGamePane;
+	private AnchorPane myGamePane, myGamePane2;
 
 	public GameMakerWindow(){
 		myTabPane = new TabPane();
@@ -41,7 +41,26 @@ public class GameMakerWindow {
 		myGamePane.setPrefWidth(0.3*SCREEN_WIDTH);
 		myGamePane.setPrefHeight(SCREEN_HEIGHT);
 		tab.setContent(myGamePane);
+
+		Tab tab2 = new Tab();
+		tab2.setText("Tab 2");
+
+		myGameArea2 = new ScrollPane();
+		myGameArea2.setFitToWidth(true);
+		myGameArea2.setPrefHeight(SCREEN_HEIGHT);
+		myGameArea2.setPrefWidth(0.4*SCREEN_WIDTH);
+
+		myGamePane2 = new AnchorPane();
+		myGamePane2.getStyleClass().add("pane");
+
+		myGameArea2 = new ScrollPane();
+		myGamePane2.setPrefWidth(0.3*SCREEN_WIDTH);
+		myGamePane2.setPrefHeight(SCREEN_HEIGHT);
+		tab2.setContent(myGamePane2);
+
 		myTabPane.getTabs().add(tab);
+		myTabPane.getTabs().add(tab2);
+
 	}
 
 	EventHandler<MouseEvent> circleOnMousePressedEventHandler =
@@ -75,13 +94,15 @@ public class GameMakerWindow {
 		return myTabPane;
 	}
 
+	//know active tab
 	public void addToWindow(ImageView img, boolean isSprite){
 		ImageView temp = new ImageView(img.getImage());
 		temp.setCursor(Cursor.HAND);
 		temp.setOnMousePressed(circleOnMousePressedEventHandler);
 		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		myGamePane.getChildren().addAll(temp);
-		System.out.println(myGamePane.getChildren());
+		System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
+		AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
+		myPane.getChildren().addAll(temp);
 		if(!isSprite) temp.toBack();
 	}
 }

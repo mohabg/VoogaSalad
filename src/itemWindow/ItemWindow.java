@@ -26,7 +26,9 @@ public class ItemWindow {
 		fillEnemySprites();
 		fillBackgroundImages();
 	}
-
+	//init
+	//for aSprite: sprites
+	//asprite.seton(myGameMakerWindow.addtoWindow())
 	public void init(GameMakerWindow myGameMakerWindow){
 		createSpriteTab("Player", playerSprites, true, myGameMakerWindow);
 		createSpriteTab("Enemies", enemySprites, true, myGameMakerWindow);
