@@ -1,5 +1,8 @@
 package HUD;
 
 public enum HUDEnum {
-	Left, Right, Up, Down;
+	Left, 
+	Right, 
+	Up, 
+	Down;
 }
