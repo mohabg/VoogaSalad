@@ -2,7 +2,6 @@ package mainWindow;
 /**
  * @author: davidyan
  */
-import java.awt.Toolkit;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
@@ -11,6 +10,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+
 import java.awt.*;
 
 public class GameMakerWindow {
@@ -93,7 +93,7 @@ public class GameMakerWindow {
 		return myTabPane;
 	}
 
-	public void addToWindow(ImageView img, boolean isSprite){
+	public void addToWindow(ImageView img){
 		ImageView temp = new ImageView(img.getImage());
 		temp.setCursor(Cursor.HAND);
 		temp.setOnMousePressed(circleOnMousePressedEventHandler);
@@ -101,6 +101,5 @@ public class GameMakerWindow {
 		System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
 		AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
 		myPane.getChildren().addAll(temp);
-		if(!isSprite) temp.toBack();
 	}
 }
