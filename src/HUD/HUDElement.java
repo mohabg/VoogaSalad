@@ -33,4 +33,8 @@ public class HUDElement {
 	public void removeHUDItem(HUDItem item) {
 		myElement.getChildren().remove(item.getItem());
 	}
+	
+	public Pane getBox() {
+		return myElement;
+	}
 }
