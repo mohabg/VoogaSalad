@@ -75,12 +75,11 @@ public class GameMakerWindow {
 		return myTabPane;
 	}
 		
-	public void addToWindow(ImageView img, boolean isSprite){
+	public void addToWindow(ImageView img){
 		ImageView temp = new ImageView(img.getImage());
 		temp.setCursor(Cursor.HAND);
 		temp.setOnMousePressed(circleOnMousePressedEventHandler);
 		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		myGamePane.getChildren().addAll(temp);
-		if(!isSprite) temp.toBack();
 	}
 }

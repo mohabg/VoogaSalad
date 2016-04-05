@@ -25,7 +25,8 @@ public class MainAuthoringWindow {
 	public MainAuthoringWindow(){
 		myPane = new BorderPane();
 		myMainWindow = new GameMakerWindow();
-		myItemWindow = new ItemWindow(myMainWindow);
+		myItemWindow = new ItemWindow();
+		myItemWindow.init(myMainWindow);
 		myMenubar = new AuthoringMenubarCreator();
 		mySettingsWindow = new SettingsWindow();
 		
