@@ -17,7 +17,8 @@ public class AuthoringMenubarCreator {
 		Menu myFileMenu = myFileMenuMaker.getMenu();
 		myMenuBar.getMenus().add(myFileMenu);
 
-		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu(window);
+		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu();
+		myNewLevelMaker.setNewAction(window);
 		Menu myAddNewTab = myNewLevelMaker.getMenu();
 		myMenuBar.getMenus().add(myAddNewTab);
 

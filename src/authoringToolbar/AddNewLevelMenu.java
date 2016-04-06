@@ -11,15 +11,15 @@ public class AddNewLevelMenu {
     private Menu myFileMenu;
     private MenuItem myNewFile;
 
-    public AddNewLevelMenu(GameMakerWindow window){
+    public AddNewLevelMenu(){
         myFileMenu = new Menu("Add");
-        setNewAction(window);
-        myFileMenu.getItems().add(myNewFile);
     }
 
     public void setNewAction(GameMakerWindow myWindow){
         myNewFile = new MenuItem("Add New Tab");
         myNewFile.setOnAction(e->myWindow.addNewTab());
+        myFileMenu.getItems().add(myNewFile);
+
 
     }
 
