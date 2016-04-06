@@ -24,11 +24,11 @@ public class AuthoringMenubarCreator {
 
 	}
 	
-	private void makeFileMenu(){
-//		FileMenu myFileMenuMaker = new FileMenu();
-//		Menu myFileMenu = myFileMenuMaker.getMenu();
-//		myMenuBar.getMenus().add(myFileMenu);
-	}
+//	private void makeFileMenu(){
+////		FileMenu myFileMenuMaker = new FileMenu();
+////		Menu myFileMenu = myFileMenuMaker.getMenu();
+////		myMenuBar.getMenus().add(myFileMenu);
+//	}
 
 
 	public MenuBar getMenuBar(){
