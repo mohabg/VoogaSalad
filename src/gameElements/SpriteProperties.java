@@ -31,6 +31,19 @@ private double yVel;
 		this.angle = angle;
 	}
 	
+	public void incrementX(){
+		this.x++;
+	}
+	
+	public void decrementX(){
+		this.x--;
+	}
+	public void incrementY(){
+		this.y++;
+	}
+	public void decrementY(){
+		this.y--;
+	}
 	public double getWidth() {
 		return width;
 	}

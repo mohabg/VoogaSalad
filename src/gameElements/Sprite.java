@@ -15,5 +15,7 @@ public class Sprite extends Observable{
 	public void setBehaviors(List<Behavior> behaviors){
 		this.behaviors = behaviors;
 	}
-	
+	public SpriteProperties getSpriteProperties(){
+		return this.myProperties;
+	}
 }

@@ -4,5 +4,5 @@ public abstract class Behavior {
 	public Behavior(){
 		
 	}
-	public abstract void pply();
+	public abstract void apply();
 }
