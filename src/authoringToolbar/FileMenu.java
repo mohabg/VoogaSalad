@@ -2,8 +2,6 @@ package authoringToolbar;
 /**
  * @author davidyan
  */
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
@@ -19,12 +17,7 @@ public class FileMenu {
     
     public void setNewAction(){
     	myNewFile = new MenuItem("New");
-        myNewFile.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle (ActionEvent e) {
-            	System.out.println("New");
-            }
-        });
+        myNewFile.setOnAction(e-> System.out.println("HI"));
 
     }
     

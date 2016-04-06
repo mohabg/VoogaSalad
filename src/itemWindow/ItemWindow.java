@@ -1,11 +1,11 @@
 package itemWindow;
 
-import java.awt.Toolkit;
-import java.util.ArrayList;
-
 import authoringEnvironment.ViewSprite;
 import javafx.scene.control.TabPane;
 import mainWindow.GameMakerWindow;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class ItemWindow {
     private TabPane myTabPane;
@@ -67,7 +67,7 @@ public class ItemWindow {
     
     private void fillEnemySprites(){
         //use property file
-        enemySprites = new ArrayList<ViewSprite>();
+        enemySprites = new ArrayList<>();
         ViewSprite galagaEnemy1 = new ViewSprite();
         galagaEnemy1.setImage("pictures/galaga_enemy_1.png");
         ViewSprite galagaEnemy2 = new ViewSprite();

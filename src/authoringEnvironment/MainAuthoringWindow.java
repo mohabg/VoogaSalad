@@ -25,6 +25,7 @@ public class MainAuthoringWindow {
 		myItemWindow = new ItemWindow();
 		myItemWindow.init(myGameMakerWindow);
 		myMenubar = new AuthoringMenubarCreator();
+		myMenubar.init(myGameMakerWindow);
 		mySettingsWindow = new SettingsWindow();
 
 		myPane.setCenter(myGameMakerWindow.getMainWindow());
