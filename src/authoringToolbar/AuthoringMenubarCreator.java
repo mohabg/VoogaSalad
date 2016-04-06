@@ -9,20 +9,24 @@ public class AuthoringMenubarCreator {
 	
 	public AuthoringMenubarCreator(){
 		myMenuBar = new MenuBar();
-		makeFileMenu();
+//		makeFileMenu();
 	}
 
 	public void init(GameMakerWindow window){
-		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu(window);
-		Menu myFileMenu = myNewLevelMaker.getMenu();
+		FileMenu myFileMenuMaker = new FileMenu();
+		Menu myFileMenu = myFileMenuMaker.getMenu();
 		myMenuBar.getMenus().add(myFileMenu);
+
+		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu(window);
+		Menu myAddNewTab = myNewLevelMaker.getMenu();
+		myMenuBar.getMenus().add(myAddNewTab);
 
 	}
 	
 	private void makeFileMenu(){
-		FileMenu myFileMenuMaker = new FileMenu();
-		Menu myFileMenu = myFileMenuMaker.getMenu();
-		myMenuBar.getMenus().add(myFileMenu);
+//		FileMenu myFileMenuMaker = new FileMenu();
+//		Menu myFileMenu = myFileMenuMaker.getMenu();
+//		myMenuBar.getMenus().add(myFileMenu);
 	}
 
 
