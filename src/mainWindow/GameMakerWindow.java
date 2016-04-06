@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import settingsWindow.SettingsWindow;
 
 import java.awt.*;
 
@@ -24,6 +25,7 @@ public class GameMakerWindow {
 	private double orgTranslateX, orgTranslateY;
 	private AnchorPane myGamePane;
 	private ViewSprite currSprite;
+    private SettingsWindow myWindow;
 
 	public GameMakerWindow(){
 		myTabPane = new TabPane();
@@ -47,6 +49,9 @@ public class GameMakerWindow {
 		myTabPane.getTabs().add(tab);
 
 	}
+    public void init(SettingsWindow window){
+        myWindow = window;
+    }
 
 	public void addNewTab(){
 		Tab myTab = new Tab("Tab " + (myTabPane.getTabs().size() + 1));
@@ -77,6 +82,7 @@ public class GameMakerWindow {
 					orgSceneY = t.getSceneY();
 					orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
 					orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
+                    currSprite.setSettingsContent();
 					System.out.println(orgTranslateX);
 					System.out.println(orgTranslateY);
 				}
@@ -102,7 +108,7 @@ public class GameMakerWindow {
 	}
 
 	public void addToWindow(ViewSprite mySprite){
-		ViewSprite copy = new ViewSprite();
+		ViewSprite copy = new ViewSprite(myWindow);
 		copy.setImage(mySprite.getImage());
 		currSprite = copy;
 		copy.getImageView().setCursor(Cursor.HAND);
