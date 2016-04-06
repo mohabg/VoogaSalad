@@ -62,6 +62,7 @@ public class StartOptionsWindow {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
 			myStage.setScene(myMainAuthoringWindow.getScene());
 			myStage.show();
+			myStage.centerOnScreen();
 		});
 		return newButton;
 	}

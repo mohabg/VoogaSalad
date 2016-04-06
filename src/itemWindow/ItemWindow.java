@@ -1,83 +1,96 @@
 package itemWindow;
 
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.control.Tab;
+import authoringEnvironment.ViewSprite;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.TilePane;
 import mainWindow.GameMakerWindow;
 
 public class ItemWindow {
-	private TabPane myTabPane;
-	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private GameMakerWindow myGameMakerWindow;
-	private TilePane playerSpritesTilePane;
-
-	public ItemWindow(GameMakerWindow testy){
-		myGameMakerWindow = testy;
-		myTabPane = new TabPane();
-		myTabPane.setPrefHeight(SCREEN_HEIGHT);
-		myTabPane.setPrefWidth(0.25*SCREEN_WIDTH);
-		createPlayerSpritesTab();
-
-	}
-	
-	private void createPlayerSpritesTab(){
-		Tab playerSprites = new Tab();
-		playerSprites.setText("Player");
-		
-		playerSpritesTilePane = new TilePane();
-		playerSpritesTilePane.setPrefTileHeight(myTabPane.getPrefWidth()*0.45);
-		playerSpritesTilePane.setPrefTileWidth(myTabPane.getPrefWidth()*0.45);
-		double inset = myTabPane.getPrefWidth()*0.033;
-		playerSpritesTilePane.setPadding(new Insets(inset, inset, inset, inset));
-		playerSpritesTilePane.setHgap(inset);
-		
-		ImageView img = new ImageView("pictures/galaga_ship.png");
-		ImageView img2 = new ImageView("pictures/galaga_enemy_1.png");
-		ImageView img3 = new ImageView("pictures/player3.gif");
-		ImageView img4 = new ImageView("pictures/helicopter.gif");
-		ImageView img5 = new ImageView("pictures/cipher.png");
-		ImageView img6 = new ImageView("pictures/Frogfoot.png");
-
-		playerSpritesTilePane.getChildren().add(img);
-		playerSpritesTilePane.getChildren().add(img2);
-		playerSpritesTilePane.getChildren().add(img3);
-		playerSpritesTilePane.getChildren().add(img4);
-		playerSpritesTilePane.getChildren().add(img5);
-		playerSpritesTilePane.getChildren().add(img6);
-
-		playerSprites.setContent(playerSpritesTilePane);
-		img.setOnMouseClicked(e -> {
-			myGameMakerWindow.addImageToWindow("pictures/galaga_ship.png");
-			});
-		img2.setOnMouseClicked(e -> {myGameMakerWindow.addImageToWindow("pictures/galaga_enemy_1.png");});
-		img3.setOnMouseClicked(e -> {myGameMakerWindow.addImageToWindow("pictures/player3.gif");});
-		img4.setOnMouseClicked(e -> {
-			myGameMakerWindow.addImageToWindow("pictures/helicopter.gif");
-			});
-		img5.setOnMouseClicked(e -> {myGameMakerWindow.addImageToWindow("pictures/cipher.png");});
-		img6.setOnMouseClicked(e -> {myGameMakerWindow.addImageToWindow("pictures/Frogfoot.png");});
-
-		myTabPane.getTabs().add(playerSprites);
-		
-		
-	}
-	
-
-	private Tab createEnemySpritesTab(){
-		Tab enemySprites = new Tab();
-		enemySprites.setText("Enemies");
-		return enemySprites;
-	}
-	
-	public TabPane getTabPane(){
-		return myTabPane;
-	}
-
+    private TabPane myTabPane;
+    private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+    private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private ArrayList<ViewSprite> playerSprites;
+    private ArrayList<ViewSprite> enemySprites;
+    private ArrayList<ViewSprite> backgroundImages;
+    
+    private PlayerSpritesTab playerSpritesTab;
+    private EnemySpritesTab enemySpritesTab;
+    private BackgroundImagesTab backgroundImagesTab;
+    
+    public ItemWindow(){
+        myTabPane = new TabPane();
+        myTabPane.setPrefHeight(SCREEN_HEIGHT);
+        myTabPane.setPrefWidth(0.25*SCREEN_WIDTH);
+        
+        fillPlayerSprites();
+        fillEnemySprites();
+        fillBackgroundImages();
+        
+        playerSpritesTab = new PlayerSpritesTab();
+        playerSpritesTab.populateTab(playerSprites);
+        playerSpritesTab.setTabTitle("Player");
+        
+        enemySpritesTab = new EnemySpritesTab();
+        enemySpritesTab.populateTab(enemySprites);
+        enemySpritesTab.setTabTitle("Enemies");
+        
+        backgroundImagesTab = new BackgroundImagesTab();
+        backgroundImagesTab.populateTab(backgroundImages);
+        backgroundImagesTab.setTabTitle("Backgrounds");
+        
+        myTabPane.getTabs().addAll(playerSpritesTab.getTab(), enemySpritesTab.getTab(), backgroundImagesTab.getTab());
+    }
+    
+    public void init(GameMakerWindow window){
+        for(ViewSprite viewSprite : playerSprites){
+            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite.getImageView());});
+        }
+        
+        for(ViewSprite viewSprite : enemySprites){
+            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite.getImageView());});
+        }
+        
+        for(ViewSprite viewSprite : backgroundImages){
+            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite.getImageView());});
+        }
+    }
+    
+    private void fillPlayerSprites(){
+        //use property file
+        playerSprites = new ArrayList<ViewSprite>();
+        ViewSprite galagaShip = new ViewSprite();
+        galagaShip.setImage("pictures/galaga_ship.png");
+        playerSprites.add(galagaShip);
+    }
+    
+    private void fillEnemySprites(){
+        //use property file
+        enemySprites = new ArrayList<ViewSprite>();
+        ViewSprite galagaEnemy1 = new ViewSprite();
+        galagaEnemy1.setImage("pictures/galaga_enemy_1.png");
+        ViewSprite galagaEnemy2 = new ViewSprite();
+        galagaEnemy2.setImage("pictures/galaga_enemy_2.png");
+        ViewSprite galagaEnemy3 = new ViewSprite();
+        galagaEnemy3.setImage("pictures/galaga_enemy_3.png");
+        enemySprites.add(galagaEnemy1);
+        enemySprites.add(galagaEnemy2);
+        enemySprites.add(galagaEnemy3);
+    }
+    
+    private void fillBackgroundImages(){
+        //use property file
+        backgroundImages = new ArrayList<ViewSprite>();
+        ViewSprite background1 = new ViewSprite();
+        background1.setImage("pictures/sky_background.png");
+        ViewSprite background2 = new ViewSprite();
+        background2.setImage("pictures/space_background.png");
+        backgroundImages.add(background1);
+        backgroundImages.add(background2);
+    }
+    
+    public TabPane getTabPane(){
+        return myTabPane;
+    }
 }
