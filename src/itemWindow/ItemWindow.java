@@ -45,15 +45,15 @@ public class ItemWindow {
     
     public void init(GameMakerWindow window){
         for(ViewSprite viewSprite : playerSprites){
-            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite.getImageView());});
+            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
         }
         
         for(ViewSprite viewSprite : enemySprites){
-            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite.getImageView());});
+            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
         }
         
         for(ViewSprite viewSprite : backgroundImages){
-            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite.getImageView());});
+            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
         }
     }
     

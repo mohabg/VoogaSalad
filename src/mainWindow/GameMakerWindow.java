@@ -2,6 +2,7 @@ package mainWindow;
 /**
  * @author: davidyan
  */
+import authoringEnvironment.ViewSprite;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
@@ -99,13 +100,14 @@ public class GameMakerWindow {
 		return myTabPane;
 	}
 
-	public void addToWindow(ImageView img){
-		ImageView temp = new ImageView(img.getImage());
-		temp.setCursor(Cursor.HAND);
-		temp.setOnMousePressed(circleOnMousePressedEventHandler);
-		temp.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+	public void addToWindow(ViewSprite mySprite){
+		ViewSprite copy = new ViewSprite();
+		copy.setImage(mySprite.getImage());
+		copy.getImageView().setCursor(Cursor.HAND);
+		copy.getImageView().setOnMousePressed(circleOnMousePressedEventHandler);
+		copy.getImageView().setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
 		AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
-		myPane.getChildren().addAll(temp);
+		myPane.getChildren().addAll(copy.getImageView());
 	}
 }
