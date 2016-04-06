@@ -16,6 +16,7 @@ public class ViewSprite {
     public ViewSprite() {
         imageview = new ImageView();
         mySettingsWindow = new SettingsWindow();
+
     }
 
 
@@ -23,6 +24,7 @@ public class ViewSprite {
         myRef = imagePath;
         Image image = new Image(imagePath);
         this.imageview.setImage(image);
+
     }
 
     public String getImage(){

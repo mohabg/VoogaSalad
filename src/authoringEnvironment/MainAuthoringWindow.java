@@ -32,6 +32,7 @@ public class MainAuthoringWindow {
 		myPane.setLeft(myItemWindow.getTabPane());
 		myPane.setTop(myMenubar.getMenuBar());
 		myPane.setRight(mySettingsWindow.getBox());
+        //mySettingsWindow.setContent();
 	}
 
 	public Scene getScene(){

@@ -23,6 +23,7 @@ public class GameMakerWindow {
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 	private AnchorPane myGamePane;
+	private ViewSprite currSprite;
 
 	public GameMakerWindow(){
 		myTabPane = new TabPane();
@@ -103,6 +104,7 @@ public class GameMakerWindow {
 	public void addToWindow(ViewSprite mySprite){
 		ViewSprite copy = new ViewSprite();
 		copy.setImage(mySprite.getImage());
+		currSprite = copy;
 		copy.getImageView().setCursor(Cursor.HAND);
 		copy.getImageView().setOnMousePressed(circleOnMousePressedEventHandler);
 		copy.getImageView().setOnMouseDragged(circleOnMouseDraggedEventHandler);
