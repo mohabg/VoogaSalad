@@ -10,16 +10,14 @@ import mainWindow.GameMakerWindow;
 public class AddNewLevelMenu {
     private Menu myFileMenu;
     private MenuItem myNewFile;
-    private GameMakerWindow myWindow;
 
     public AddNewLevelMenu(GameMakerWindow window){
-        myWindow = window;
         myFileMenu = new Menu("Add");
-        setNewAction();
+        setNewAction(window);
         myFileMenu.getItems().add(myNewFile);
     }
 
-    public void setNewAction(){
+    public void setNewAction(GameMakerWindow myWindow){
         myNewFile = new MenuItem("Add New Tab");
         myNewFile.setOnAction(e->myWindow.addNewTab());
 
