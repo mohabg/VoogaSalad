@@ -3,24 +3,24 @@ package spriteProperties;
 /**
  * Created by davidyan on 4/6/16.
  */
-public class Health {
-    private int myHealth;
+public class Health extends NumProperty {
+//    private int myHealth;
 
     public Health(){
-        myHealth = 100;
+        super();
     }
 
     public Health(int useHealth){
-        myHealth = useHealth;
+        super(useHealth);
     }
 
-    public int getHealth(){
-        return myHealth;
-    }
-
-    public void setHealth(int useHealth){
-        myHealth = useHealth;
-    }
+//    public int getHealth(){
+//        return myHealth;
+//    }
+//
+//    public void setHealth(int useHealth){
+//        myHealth = useHealth;
+//    }
 
     public String toString(){
         return "Health";

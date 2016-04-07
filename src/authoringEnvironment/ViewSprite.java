@@ -9,21 +9,28 @@ import javafx.scene.image.ImageView;
 import settingsWindow.SettingsWindow;
 import spriteProperties.Attack;
 import spriteProperties.Defense;
+import spriteProperties.NumProperty;
+import java.util.*;
 
 public class ViewSprite {
 
     private ImageView imageview;
     private SettingsWindow mySettingsWindow;
     private String myRef;
+    private List<NumProperty> myPropertiesList;
     private Health myHealth;
     private Attack myAttack;
     private Defense myDefense;
 
     public ViewSprite(SettingsWindow myWindow) {
         imageview = new ImageView();
-        myHealth = new Health(100);
+        myHealth = new Health();
         myAttack = new Attack();
         myDefense = new Defense();
+        myPropertiesList = new ArrayList<>();
+        myPropertiesList.add(myHealth);
+        myPropertiesList.add(myAttack);
+        myPropertiesList.add(myDefense);
         mySettingsWindow = myWindow;
     }
 
@@ -36,7 +43,7 @@ public class ViewSprite {
     }
 
     public void setSettingsContent(){
-        mySettingsWindow.setContent(myHealth,myAttack,myDefense);
+        mySettingsWindow.setContent(myPropertiesList);
     }
 
     public String getImage(){
