@@ -1,8 +1,12 @@
 package gameplayer;
 
+import java.io.File;
+
 import javafx.event.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -27,19 +31,19 @@ public class ButtonFactory {
 		VBox box = new VBox();
 
 		Button cont = makeOneButton("cont", a -> {
-			myGameWindow.setPlay();
+			myGameWindow.setScreen("PlayScreen");
 		});
 		Button restart = makeOneButton("restart", a -> {
-			myGameWindow.setRestart();
+			myGameWindow.restart();
 		});
 		Button switchgame = makeOneButton("switchgame", a -> {
-//			myGameLoader.load();
+			myGameWindow.setScreen("GameFileScreen");
 		});
 		Button save = makeOneButton("save", a -> {
 //			myGameLoader.save();
 		});
 		Button settings = makeOneButton("settings", a -> {
-			myGameWindow.setSettings();
+			myGameWindow.setScreen("SettingsScreen");
 		});
 
 		box.getChildren().addAll(cont, restart, switchgame, save, settings);
@@ -48,8 +52,20 @@ public class ButtonFactory {
 	
 	public Button makePause(){
 		return makeOneButton("pause", a -> {
-			myGameWindow.setPause();
+			myGameWindow.setScreen("PauseScreen");
 		});
+	}
+	
+	public ImageView makeDisplay(File file) {
+		ImageView imageview = new ImageView();
+		imageview.setImage(new Image("pictures/cipher.png"));
+		imageview.setOnMouseClicked((event) -> {
+			myGameWindow.newGame(file);
+			
+			System.out.println(file);
+		});
+		return imageview;
+
 	}
 	
 

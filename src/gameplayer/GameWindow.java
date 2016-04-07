@@ -1,16 +1,23 @@
 package gameplayer;
 
 import java.awt.Toolkit;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 public class GameWindow {
-	//	Game myGame;
-	//	GameView myGameView;
-	//	GameLoader myLoader;
+	// Game myGame;
+	// GameView myGameView;
+	// GameLoader myLoader;
 	Pane myPane;
 	ButtonFactory myFactory;
+	File myGameFile;
+
+	Map<String, Screen> myScreenMap;
+
 	Screen myPlayScreen;
 	Screen myPauseScreen;
 	GameFileScreen myGameFileScreen;
@@ -21,60 +28,41 @@ public class GameWindow {
 
 	public GameWindow() {
 
-		//		Game game
-		//		myGame = game;
+		// Game game
+		// myGame = game;
 		myPane = new Pane();
 		myFactory = new ButtonFactory(this);
-		myPlayScreen =  new PlayScreen(); 
-		myPauseScreen =  new PauseScreen();
-		myGameFileScreen = new GameFileScreen();
-		mySettingsScreen = new SettingsScreen();
 
-		myPlayScreen.add(myFactory.makePause());
-		myPauseScreen.add(myFactory.makePauseScreenButtons());
+		myScreenMap = new HashMap<String, Screen>();
+		myScreenMap.put("PlayScreen", new PlayScreen(myFactory));
+		myScreenMap.put("PauseScreen", new PauseScreen(myFactory));
+		myScreenMap.put("GameFileScreen", new GameFileScreen(myFactory));
+		myScreenMap.put("SettingsScreen", new SettingsScreen(myFactory));
 
-		setGames();
-		if(myGameFileScreen.getGameFile()!= null){
-			//initialize game
-		}
+		setScreen("GameFileScreen");
 
 	}
-	
-	public void setGames(){
+
+	public void setScreen(String key) {
 		myPane.getChildren().clear();
-		myPane.getChildren().add(myGameFileScreen.getPane());
+		myPane.getChildren().add(myScreenMap.get(key).getPane());
 	}
 
-	public void setPlay() {
-		//		myGame.start();
-		myPane.getChildren().clear();
-		myPane.getChildren().add(myPlayScreen.getPane());
+	public void restart() {
+
+		newGame(myGameFile);
 	}
 
-	public void setPause() {
-		//		myGame.pause();
-		myPane.getChildren().clear();
-		myPane.getChildren().add(myPauseScreen.getPane());
-
+	public void newGame(File file) {
+		// make game;
+		myGameFile = file;
+		setScreen("PlayScreen");
 	}
 
-	public void setSettings() {
-		myPane.getChildren().clear();
-		myPane.getChildren().add(mySettingsScreen.getPane());
-	}
-
-
-	public Scene getScene(){
+	public Scene getScene() {
 		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
 		myRetScene.getStylesheets().add("resources/styles.css");
 		return myRetScene;
 	}
-
-	public void setRestart() {
-		//HOW DO I DO THIS--reflection? probably will ask Loader to run again for last 
-		myGameFileScreen.getGameFile();
-		//new Game from file
-	}
-
 
 }

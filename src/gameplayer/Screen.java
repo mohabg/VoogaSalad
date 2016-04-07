@@ -5,9 +5,11 @@ import javafx.scene.layout.Pane;
 
 public abstract class Screen {
 	Pane myPane;
+	ButtonFactory myFactory;
 
-	public Screen(){
+	public Screen(ButtonFactory myFactory){
 		myPane = new Pane();
+		this.myFactory = myFactory;
 	}
 
 	public void add(Node node){
