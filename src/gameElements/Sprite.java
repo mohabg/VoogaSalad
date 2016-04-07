@@ -19,12 +19,13 @@ public class Sprite extends Observable{
 	}
 	public void setCollision(Collision collision){
 		myCollision = collision;
+		collision.setSprite(this);
 	}
 	public Collision getCollision(){
 		return myCollision;
 	}
-	public double getHealth(){
-		return myHealth.getHealth();
+	public Health getHealth(){
+		return myHealth;
 	}
 	public SpriteProperties getProperties(){
 		return myProperties;
