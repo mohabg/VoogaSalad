@@ -1,19 +1,13 @@
 package gameplayer;
 
-import javafx.scene.layout.Pane;
 
-public class PlayScreen implements IScreen {
-	Pane myPane;
+public class PlayScreen extends Screen {
+//	HUD
 
-	public PlayScreen(GameView myGameView) {
-		myPane.getChildren().addAll(myGameView);
-
+	public PlayScreen() {
+		super();
+//		add HUD
 	}
 
-	@Override
-	public void setStage() {
-		// TODO Auto-generated method stub
-
-	}
 
 }

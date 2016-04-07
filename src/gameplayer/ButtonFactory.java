@@ -6,13 +6,14 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-public abstract class ButtonFactory {
+public class ButtonFactory {
 	GameWindow myGameWindow;
-	GameLoader myGameLoader;
+//	GameLoader myGameLoader;
 
-	public ButtonFactory(GameWindow myGameWindow, GameLoader myGameLoader) {
+	public ButtonFactory(GameWindow myGameWindow) {
+//		, GameLoader myGameLoader
 		this.myGameWindow = myGameWindow;
-		this.myGameLoader = myGameLoader;
+//		this.myGameLoader = myGameLoader;
 	}
 
 	private Button makeOneButton(String name, EventHandler<? super MouseEvent> action) {
@@ -25,24 +26,31 @@ public abstract class ButtonFactory {
 	public VBox makePauseScreenButtons() {
 		VBox box = new VBox();
 
-		Button cont = makeOneButton("", a -> {
-			myGameWindow.setPlayWindow();
+		Button cont = makeOneButton("cont", a -> {
+			myGameWindow.setPlay();
 		});
-		Button restart = makeOneButton("", a -> {
-			myGameWindow.setNewPlayWindow();
+		Button restart = makeOneButton("restart", a -> {
+			myGameWindow.setRestart();
 		});
-		Button switchgame = makeOneButton("", a -> {
-			myGameLoader.load();
+		Button switchgame = makeOneButton("switchgame", a -> {
+//			myGameLoader.load();
 		});
-		Button save = makeOneButton("", a -> {
-			myGameLoader.save();
+		Button save = makeOneButton("save", a -> {
+//			myGameLoader.save();
 		});
-		Button settings = makeOneButton("", a -> {
-			myGameWindow.setSettingsWindow();
+		Button settings = makeOneButton("settings", a -> {
+			myGameWindow.setSettings();
 		});
 
 		box.getChildren().addAll(cont, restart, switchgame, save, settings);
 		return box;
 	}
+	
+	public Button makePause(){
+		return makeOneButton("pause", a -> {
+			myGameWindow.setPause();
+		});
+	}
+	
 
 }

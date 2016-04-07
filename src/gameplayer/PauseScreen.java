@@ -1,19 +1,11 @@
 package gameplayer;
 
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 
-public class PauseScreen implements IScreen {
-	Pane myPane;
+public class PauseScreen extends Screen {
 
-	public PauseScreen(Node myButtons) {
-		myPane.getChildren().add(myButtons);
+	public PauseScreen() {
+		super();
 	}
 
-	@Override
-	public void setStage() {
-		// TODO Auto-generated method stub
-
-	}
 
 }

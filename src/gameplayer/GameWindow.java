@@ -1,40 +1,80 @@
 package gameplayer;
 
+import java.awt.Toolkit;
+
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+
 public class GameWindow {
-	Game myGame;
-	GameView myGameView;
-	GameLoader myLoader;
+	//	Game myGame;
+	//	GameView myGameView;
+	//	GameLoader myLoader;
+	Pane myPane;
 	ButtonFactory myFactory;
-	IScreen myPauseScreen;
-	IScreen myPlayScreen;
-	IScreen mySettingsScreen;
+	Screen myPlayScreen;
+	Screen myPauseScreen;
+	GameFileScreen myGameFileScreen;
+	Screen mySettingsScreen;
 
-	public GameWindow(Game game) {
-		myGame = game;
-		myPlayScreen = new PlayScreen(myGameView);
-		myPauseScreen = new PauseScreen(myFactory.makePauseScreenButtons());
+	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+	public GameWindow() {
+
+		//		Game game
+		//		myGame = game;
+		myPane = new Pane();
+		myFactory = new ButtonFactory(this);
+		myPlayScreen =  new PlayScreen(); 
+		myPauseScreen =  new PauseScreen();
+		myGameFileScreen = new GameFileScreen();
 		mySettingsScreen = new SettingsScreen();
-	}
 
-	public void setPlayWindow() {
-		myGame.start();
-		myPlayScreen.setStage();
-	}
+		myPlayScreen.add(myFactory.makePause());
+		myPauseScreen.add(myFactory.makePauseScreenButtons());
 
-	public void setPauseWindow() {
-		myGame.pause();
-		myPauseScreen.setStage();
+		setGames();
+		if(myGameFileScreen.getGameFile()!= null){
+			//initialize game
+		}
 
 	}
-
-	public void setSettingsWindow() {
-		myGame.pause();
-		mySettingsScreen.setStage();
+	
+	public void setGames(){
+		myPane.getChildren().clear();
+		myPane.getChildren().add(myGameFileScreen.getPane());
 	}
 
-	public void setNewPlayWindow() {
-		// TODO Auto-generated method stub
+	public void setPlay() {
+		//		myGame.start();
+		myPane.getChildren().clear();
+		myPane.getChildren().add(myPlayScreen.getPane());
+	}
+
+	public void setPause() {
+		//		myGame.pause();
+		myPane.getChildren().clear();
+		myPane.getChildren().add(myPauseScreen.getPane());
 
 	}
+
+	public void setSettings() {
+		myPane.getChildren().clear();
+		myPane.getChildren().add(mySettingsScreen.getPane());
+	}
+
+
+	public Scene getScene(){
+		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
+		myRetScene.getStylesheets().add("resources/styles.css");
+		return myRetScene;
+	}
+
+	public void setRestart() {
+		//HOW DO I DO THIS--reflection? probably will ask Loader to run again for last 
+		myGameFileScreen.getGameFile();
+		//new Game from file
+	}
+
 
 }
