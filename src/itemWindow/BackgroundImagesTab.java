@@ -4,12 +4,12 @@ package itemWindow;
  * Created by davidyan on 4/4/16.
  */
 
-import java.util.ArrayList;
-
 import authoringEnvironment.ViewSprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
+
+import java.util.ArrayList;
 
 public class BackgroundImagesTab implements ITab{
 
