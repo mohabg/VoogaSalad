@@ -24,7 +24,6 @@ public class GameMakerWindow {
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 	private AnchorPane myGamePane;
-	private ViewSprite currSprite;
     private SettingsWindow myWindow;
 
 	public GameMakerWindow(){
@@ -80,11 +79,11 @@ public class GameMakerWindow {
 				public void handle(MouseEvent t) {
 					orgSceneX = t.getSceneX();
 					orgSceneY = t.getSceneY();
-					orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
-					orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
-                    currSprite.setSettingsContent();
-					System.out.println(orgTranslateX);
-					System.out.println(orgTranslateY);
+                    ViewSprite mySprite = ((ViewSprite) (t.getSource()));
+					orgTranslateX = mySprite.getTranslateX();
+					orgTranslateY = mySprite.getTranslateY();
+                    System.out.println(mySprite.getImage());
+                    mySprite.setSettingsContent(myWindow);
 				}
 			};
 
@@ -108,14 +107,14 @@ public class GameMakerWindow {
 	}
 
 	public void addToWindow(ViewSprite mySprite){
-		ViewSprite copy = new ViewSprite(myWindow);
+		ViewSprite copy = new ViewSprite();
 		copy.setImage(mySprite.getImage());
-		currSprite = copy;
-		copy.getImageView().setCursor(Cursor.HAND);
-		copy.getImageView().setOnMousePressed(circleOnMousePressedEventHandler);
-		copy.getImageView().setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
+//		currSprite = copy;
+		copy.setCursor(Cursor.HAND);
+		copy.setOnMousePressed(circleOnMousePressedEventHandler);
+		copy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+//		System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
 		AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
-		myPane.getChildren().addAll(copy.getImageView());
+		myPane.getChildren().addAll(copy);
 	}
 }
