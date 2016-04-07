@@ -15,14 +15,13 @@ import java.util.*;
 public class ViewSprite {
 
     private ImageView imageview;
-    private SettingsWindow mySettingsWindow;
     private String myRef;
     private List<NumProperty> myPropertiesList;
     private Health myHealth;
     private Attack myAttack;
     private Defense myDefense;
 
-    public ViewSprite(SettingsWindow myWindow) {
+    public ViewSprite() {
         imageview = new ImageView();
         myHealth = new Health();
         myAttack = new Attack();
@@ -31,7 +30,6 @@ public class ViewSprite {
         myPropertiesList.add(myHealth);
         myPropertiesList.add(myAttack);
         myPropertiesList.add(myDefense);
-        mySettingsWindow = myWindow;
     }
 
 
@@ -42,7 +40,7 @@ public class ViewSprite {
 
     }
 
-    public void setSettingsContent(){
+    public void setSettingsContent(SettingsWindow mySettingsWindow){
         mySettingsWindow.setContent(myPropertiesList);
     }
 

@@ -26,7 +26,7 @@ public class MainAuthoringWindow {
 		myMenubar = new AuthoringMenubarCreator();
 		myMenubar.init(myGameMakerWindow);
 		mySettingsWindow = new SettingsWindow();
-        myItemWindow.init(myGameMakerWindow, mySettingsWindow);
+        myItemWindow.init(myGameMakerWindow);
         myGameMakerWindow.init(mySettingsWindow);
 
 

@@ -82,7 +82,7 @@ public class GameMakerWindow {
 					orgSceneY = t.getSceneY();
 					orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
 					orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
-                    currSprite.setSettingsContent();
+                    currSprite.setSettingsContent(myWindow);
 					System.out.println(orgTranslateX);
 					System.out.println(orgTranslateY);
 				}
@@ -108,7 +108,7 @@ public class GameMakerWindow {
 	}
 
 	public void addToWindow(ViewSprite mySprite){
-		ViewSprite copy = new ViewSprite(myWindow);
+		ViewSprite copy = new ViewSprite();
 		copy.setImage(mySprite.getImage());
 		currSprite = copy;
 		copy.getImageView().setCursor(Cursor.HAND);
