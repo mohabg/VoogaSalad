@@ -1,6 +1,6 @@
 package gameElements;
 
-public abstract class Movement extends Behavior{
+public abstract class Movement implements Behavior{
 		
 		private SpriteProperties spriteProperties;
 		

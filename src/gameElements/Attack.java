@@ -1,5 +1,5 @@
 package gameElements;
 
-public class Attack {
+public abstract class Attack implements Behavior{
 
 }

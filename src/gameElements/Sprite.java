@@ -10,13 +10,19 @@ public class Sprite extends Observable{
 	private Map<String, Behavior> myBehaviors;
 	private SpriteProperties myProperties;
 	private Health myHealth;
+	private Collision myCollision;
 	
 	public Sprite(SpriteProperties properties){
 		myProperties = properties;
 		myHealth = new Health();
 		myHealth.addObserver((Observer) this);
 	}
-	
+	public void setCollision(Collision collision){
+		myCollision = collision;
+	}
+	public Collision getCollision(){
+		return myCollision;
+	}
 	public double getHealth(){
 		return myHealth.getHealth();
 	}
