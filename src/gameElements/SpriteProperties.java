@@ -1,5 +1,6 @@
 package gameElements;
 
+import java.util.Map;
 
 public class SpriteProperties {
 
@@ -10,6 +11,7 @@ private double height;
 private double angle;
 private double xVel;
 private double yVel;
+private Map<String, Movement> myMovements;
 
 
 	public SpriteProperties() {
@@ -17,7 +19,12 @@ private double yVel;
 		this.y = 0;
 		this.angle = 0;
 	}
-
+	public SpriteProperties(double x, double y, double xVel, double yVel){
+		this.x = x;
+		this.y = y;
+		this.xVel = xVel;
+		this.yVel = yVel;
+	}
 	public SpriteProperties(double x, double y, double angle, double xVel, double yVel){
 		this.x = x;
 		this.y = y;
@@ -30,19 +37,11 @@ private double yVel;
 		this.y = y;
 		this.angle = angle;
 	}
-	
-	public void incrementX(){
-		this.x++;
+	public void setMovement(String type, Movement movement){
+		myMovements.put(type, movement);
 	}
-	
-	public void decrementX(){
-		this.x--;
-	}
-	public void incrementY(){
-		this.y++;
-	}
-	public void decrementY(){
-		this.y--;
+	public Movement getMovement(String movement){
+		return myMovements.get(movement);
 	}
 	public double getWidth() {
 		return width;
