@@ -26,7 +26,7 @@ public class BackgroundImagesTab implements ITab{
         for(ViewSprite x : viewSprites){
 //			img.setFitHeight(myTabPane.getPrefWidth()*0.25);
 //			img.setFitWidth(myTabPane.getPrefWidth()*0.25);
-            tilepane.getChildren().add(x.getImageView());
+            tilepane.getChildren().add(x);
         }
         tab.setContent(tilepane);
     }

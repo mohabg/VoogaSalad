@@ -4,11 +4,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import spriteProperties.NumProperty;
 
 import java.awt.*;
-import java.util.List;
-
 public class SettingsWindow {
 	private VBox myDisplay;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -27,17 +24,9 @@ public class SettingsWindow {
 		myDisplay.getChildren().add(myTempBox);
 	}
 
-	public void setContent(List<NumProperty> myProperties){
+	public void setContent(VBox mySpriteBox){
         myDisplay.getChildren().clear();
-        for(NumProperty aProp: myProperties){
-            HBox myTempBox = new HBox();
-            Label myLabel = new Label(aProp.toString());
-            Slider mySlider = new Slider(0,aProp.getMyValue(),aProp.getMyValue()/2);
-            mySlider.setShowTickMarks(true);
-            mySlider.setShowTickLabels(true);
-            myTempBox.getChildren().addAll(myLabel, mySlider);
-            myDisplay.getChildren().add(myTempBox);
-        }
+        myDisplay.getChildren().add(mySpriteBox);
 
     }
 	public VBox getBox(){
