@@ -21,6 +21,7 @@ public class MainAuthoringWindow {
 
 	public MainAuthoringWindow(){
 		myPane = new BorderPane();
+
 		myGameMakerWindow = new GameMakerWindow();
 		myItemWindow = new ItemWindow();
 		myMenubar = new AuthoringMenubarCreator();

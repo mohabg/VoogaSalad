@@ -63,15 +63,15 @@ public class ItemWindow {
         myTabPane.getTabs().addAll(playerSpritesTab.getTab(), enemySpritesTab.getTab(), backgroundImagesTab.getTab());
 
         for(ViewSprite viewSprite : playerSprites){
-            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
+            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
         }
         
         for(ViewSprite viewSprite : enemySprites){
-            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
+            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
         }
         
         for(ViewSprite viewSprite : backgroundImages){
-            viewSprite.getImageView().setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
+            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
         }
     }
     

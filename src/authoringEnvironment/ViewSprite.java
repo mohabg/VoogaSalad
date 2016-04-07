@@ -3,6 +3,12 @@ package authoringEnvironment;
 /**
  * Created by davidyan on 4/4/16.
  */
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import spriteProperties.Health;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,9 +18,8 @@ import spriteProperties.Defense;
 import spriteProperties.NumProperty;
 import java.util.*;
 
-public class ViewSprite {
+public class ViewSprite extends ImageView {
 
-    private ImageView imageview;
     private String myRef;
     private List<NumProperty> myPropertiesList;
     private Health myHealth;
@@ -22,7 +27,7 @@ public class ViewSprite {
     private Defense myDefense;
 
     public ViewSprite() {
-        imageview = new ImageView();
+        super();
         myHealth = new Health();
         myAttack = new Attack();
         myDefense = new Defense();
@@ -36,20 +41,51 @@ public class ViewSprite {
     public void setImage(String imagePath){
         myRef = imagePath;
         Image image = new Image(imagePath);
-        this.imageview.setImage(image);
+        setImage(image);
+    }
 
+    public void setMyHealth(double test){
+        myHealth.setMyValue(test);
+    }
+
+    public double getMyHealth(){
+        return myHealth.getMyValue();
     }
 
     public void setSettingsContent(SettingsWindow mySettingsWindow){
-        mySettingsWindow.setContent(myPropertiesList);
+        VBox myBox = new VBox(8);
+        for(NumProperty aProp: myPropertiesList){
+            HBox myTempBox = new HBox();
+            Label myLabel = new Label(aProp.toString());
+            Slider mySlider = new Slider(0,100,aProp.getMyValue());
+//            mySlider.setMin(0);
+//            mySlider.setMax(100);
+            mySlider.setShowTickMarks(true);
+            mySlider.setShowTickLabels(true);
+
+            mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+                public void changed(ObservableValue<? extends Number> ov,
+                                    Number old_val, Number new_val) {
+                    aProp.setMyValue((double) new_val);
+                }
+            });
+            myTempBox.getChildren().addAll(myLabel, mySlider);
+            myBox.getChildren().add(myTempBox);
+        }
+
+        mySettingsWindow.setContent(myBox);
     }
 
-    public String getImage(){
+    public String getMyImage(){
         return myRef;
     }
 
-    public ImageView getImageView(){
-        return imageview;
+//    public ImageView getImageView(){
+//        return imageview;
+//    }
+
+    public List<NumProperty> getMyProperties(){
+        return myPropertiesList;
     }
 
 
