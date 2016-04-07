@@ -14,10 +14,6 @@ public class HighScore {
 
 	}
 
-	public Double getScoreValue(){
-		return scorevalue.doubleValue();
-		
-	}
 	public SimpleDoubleProperty scorevalueProperty() {
 		return scorevalue;
 	}
