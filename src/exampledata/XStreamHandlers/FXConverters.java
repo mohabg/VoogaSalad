@@ -1,4 +1,4 @@
-package exampledata;
+package exampledata.XStreamHandlers;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -19,6 +19,7 @@ public class FXConverters {
         xStream.registerConverter(new LongPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new IntegerPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new ObservableListConverter(xStream.getMapper()));
+        xStream.registerConverter(new ViewSpriteConverter());
     }
 
 

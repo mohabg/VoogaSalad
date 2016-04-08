@@ -12,6 +12,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.xml.sax.InputSource;
 
 import com.thoughtworks.xstream.io.xml.StaxDriver;
+
+import exampledata.XStreamHandlers.FXConverters;
+
 import java.io.*;
 
 public class xmlMaker {

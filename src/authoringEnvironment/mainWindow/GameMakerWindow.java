@@ -24,6 +24,8 @@ import spriteProperties.NumProperty;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import authoringEnvironment.LevelModel;
 
 public class GameMakerWindow {
 	private Settings settings;
@@ -48,6 +50,7 @@ public class GameMakerWindow {
 
 	public void addNewTab() {
 		Tab myTab = new Tab(ItemWindowData.TAB + (myTabPane.getTabs().size() + 1));
+
 		ScrollPane myNewGameArea = new ScrollPane();
 		settings.setGameAreaSettings(myNewGameArea);
 
@@ -118,11 +121,14 @@ public class GameMakerWindow {
 		return myTabPane;
 	}
 
-	public void addToWindow(ViewSprite mySprite, Model myModel) {
-		ViewSprite copy = new ViewSprite();
-		Model mCopy = new Model();
-		copy.setImage(mySprite.getImage());
-		// currSprite = copy;
+
+	public void addToWindow(ViewSprite mySprite, Model myModel){
+		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
+        Model mCopy = new Model();
+        
+        System.out.println(copy.getMyImage() +  " " + copy.getTranslateX() + " " + copy.getY() + " " + copy.getFitWidth() + " " + copy.getFitHeight());
+		//copy.setImage(mySprite.getImage());
+//		currSprite = copy;
 		copy.setCursor(Cursor.HAND);
 
 		mySpriteMap.put(copy, mCopy);
@@ -134,9 +140,13 @@ public class GameMakerWindow {
 		myPane.getChildren().addAll(copy);
 	}
 
-	public Map<ViewSprite, Model> getMap() {
-		return mySpriteMap;
+	public void populateEditingFromSave(List<LevelModel> gameLevels) {
+		
 	}
+	
+    public Map<ViewSprite, Model> getMap(){
+        return mySpriteMap;
+    }
 
 	public TabPane getMyTabPane() {
 		return myTabPane;
