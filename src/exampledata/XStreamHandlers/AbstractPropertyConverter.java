@@ -1,4 +1,4 @@
-package exampledata;
+package exampledata.XStreamHandlers;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
