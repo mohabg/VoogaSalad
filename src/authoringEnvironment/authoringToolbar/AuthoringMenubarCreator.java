@@ -22,6 +22,10 @@ public class AuthoringMenubarCreator {
 		Menu myAddNewTab = myNewLevelMaker.getMenu();
 		myMenuBar.getMenus().add(myAddNewTab);
 
+        SaveGameMenu mySaveGameMenu = new SaveGameMenu();
+        mySaveGameMenu.addLevelTab(window);
+        myMenuBar.getMenus().add(mySaveGameMenu.getMenu());
+
 	}
 	
 //	private void makeFileMenu(){

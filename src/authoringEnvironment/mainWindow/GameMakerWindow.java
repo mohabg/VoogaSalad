@@ -158,4 +158,12 @@ public class GameMakerWindow {
 		AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
 		myPane.getChildren().addAll(copy);
 	}
+
+    public Map<ViewSprite, Model> getMap(){
+        return mySpriteMap;
+    }
+
+    public TabPane getMyTabPane(){
+        return myTabPane;
+    }
 }
