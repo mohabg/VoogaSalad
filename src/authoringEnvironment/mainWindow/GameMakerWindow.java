@@ -78,25 +78,16 @@ public class GameMakerWindow {
 
     public VBox setSettingsContent(Model spriteModel) {
         VBox myBox = new VBox(8);
-        for (NumProperty aProp : spriteModel.getMyPropertiesList()) {
+        List<NumProperty> myList = spriteModel.getMyPropertiesList();
+        myList.forEach(numProperty ->{
             HBox myTempBox = new HBox();
-            Label myLabel = new Label(aProp.toString());
-            Slider mySlider = new Slider(0, 100, aProp.getMyValue());
-            // mySlider.setMin(0);
-            // mySlider.setMax(100);
+            Label myLabel = new Label(numProperty.toString());
+            Slider mySlider = new Slider(0, 100, numProperty.getMyValue());
             settings.setSliderSettings(mySlider);
-            mySlider.valueProperty().bindBidirectional(aProp.getDouble());
-            // mySlider.valueProperty().addListener(new ChangeListener<Number>()
-            // {
-            // public void changed(ObservableValue<? extends Number> ov,
-            // Number old_val, Number new_val) {
-            // aProp.setMyValue((double) new_val);
-            // }
-            // });
+            mySlider.valueProperty().bindBidirectional(numProperty.getDouble());
             myTempBox.getChildren().addAll(myLabel, mySlider);
             myBox.getChildren().add(myTempBox);
-        }
-
+        });
         return myBox;
     }
 
@@ -121,17 +112,12 @@ public class GameMakerWindow {
     public void addToWindow(ViewSprite mySprite, Model myModel){
         ViewSprite copy = new ViewSprite(mySprite.getMyImage());
         Model mCopy = new Model();
-
-        System.out.println(copy.getMyImage() +  " " + copy.getTranslateX() + " " + copy.getY() + " " + copy.getFitWidth() + " " + copy.getFitHeight());
-        //copy.setImage(mySprite.getImage());
-//		currSprite = copy;
         copy.setCursor(Cursor.HAND);
 
         mySpriteMap.put(copy, mCopy);
 
         copy.setOnMousePressed(circleOnMousePressedEventHandler);
         copy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        // System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
         AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
         myPane.getChildren().addAll(copy);
     }
