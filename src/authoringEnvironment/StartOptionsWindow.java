@@ -1,4 +1,5 @@
 package authoringEnvironment;
+import gameplayer.GameWindow;
 /**
  * @author davidyan
  */
@@ -43,7 +44,9 @@ public class StartOptionsWindow {
 	public Button createPlayButton() {
 		Button playButton = new Button("Play A Game");
 		playButton.setOnAction(e-> {
-			System.out.println("PLAY");
+			GameWindow myGameWindow = new GameWindow();
+			myStage.setScene(myGameWindow.getScene());
+			myStage.show();
 		});
 		return playButton;
 	}

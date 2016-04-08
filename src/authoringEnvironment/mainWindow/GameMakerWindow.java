@@ -144,9 +144,9 @@ public class GameMakerWindow {
 	}
 
 	public void addToWindow(ViewSprite mySprite, Model myModel){
-		ViewSprite copy = new ViewSprite();
+		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
         Model mCopy = new Model();
-		copy.setImage(mySprite.getImage());
+		//copy.setImage(mySprite.getImage());
 //		currSprite = copy;
 		copy.setCursor(Cursor.HAND);
 
