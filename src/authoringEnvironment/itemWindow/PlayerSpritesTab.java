@@ -1,4 +1,4 @@
-package itemWindow;
+package authoringEnvironment.itemWindow;
 
 /**
  * Created by davidyan on 4/4/16.
@@ -10,12 +10,12 @@ import javafx.scene.layout.TilePane;
 
 import java.util.ArrayList;
 
-public class EnemySpritesTab implements ITab{
+public class PlayerSpritesTab implements ITab{
 
     Tab tab;
     TilePane tilepane;
 
-    public EnemySpritesTab() {
+    public PlayerSpritesTab(){
         tab = new Tab();
         tilepane = new TilePane();
     }
@@ -45,5 +45,4 @@ public class EnemySpritesTab implements ITab{
     public Tab getTab(){
         return tab;
     }
-
 }

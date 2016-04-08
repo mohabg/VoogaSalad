@@ -1,4 +1,4 @@
-package settingsWindow;
+package authoringEnvironment.settingsWindow;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;

@@ -1,4 +1,4 @@
-package itemWindow;
+package authoringEnvironment.itemWindow;
 
 /**
  * Created by davidyan on 4/4/16.
