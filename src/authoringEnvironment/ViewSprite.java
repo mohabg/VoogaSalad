@@ -24,6 +24,11 @@ public class ViewSprite extends ImageView {
 //        myPropertiesList.add(myAttack);
 //        myPropertiesList.add(myDefense);
     }
+    
+    public ViewSprite(String imagePath) {
+    	super();
+    	setImage(imagePath);
+    }
 
 
     public void setImage(String imagePath){
@@ -31,38 +36,6 @@ public class ViewSprite extends ImageView {
         Image image = new Image(imagePath);
         setImage(image);
     }
-
-//    public void setMyHealth(double test){
-//        myHealth.setMyValue(test);
-//    }
-//
-//    public double getMyHealth(){
-//        return myHealth.getMyValue();
-//    }
-
-//    public void setSettingsContent(SettingsWindow mySettingsWindow){
-//        VBox myBox = new VBox(8);
-//        for(NumProperty aProp: myPropertiesList){
-//            HBox myTempBox = new HBox();
-//            Label myLabel = new Label(aProp.toString());
-//            Slider mySlider = new Slider(0,100,aProp.getMyValue());
-////            mySlider.setMin(0);
-////            mySlider.setMax(100);
-//            mySlider.setShowTickMarks(true);
-//            mySlider.setShowTickLabels(true);
-//
-//            mySlider.valueProperty().addListener(new ChangeListener<Number>() {
-//                public void changed(ObservableValue<? extends Number> ov,
-//                                    Number old_val, Number new_val) {
-//                    aProp.setMyValue((double) new_val);
-//                }
-//            });
-//            myTempBox.getChildren().addAll(myLabel, mySlider);
-//            myBox.getChildren().add(myTempBox);
-//        }
-//
-//        mySettingsWindow.setContent(myBox);
-//    }
 
     public String getMyImage(){
         return myRef;

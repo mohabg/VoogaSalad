@@ -4,6 +4,7 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameMakerWindow;
+import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -11,10 +12,15 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 
 
@@ -46,13 +52,28 @@ public class SaveGameMenu {
             }
             myLevelModelList.add(new LevelModel(myLevelMap));
         }
-//        XStream xstream = new XStream(new StaxDriver());
-//        xstream.setMode(XStream.ID_REFERENCES);
-////        FXConverters.configure(xstream);
-//
-//        //Object to XML Conversion
-//        String xml = xstream.toXML(myLevelModelList);
-//        System.out.println(xml);
+        XStream xstream = new XStream(new StaxDriver());
+        xstream.setMode(XStream.ID_REFERENCES);
+        FXConverters.configure(xstream);
+
+        //Object to XML Conversion
+        String xml = xstream.toXML(myLevelModelList);
+        
+        FileWriter fw;
+		try {
+			fw = new FileWriter("my-file.xml");
+			fw.write(xml);
+		    fw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+//		ArrayList<LevelModel> test = (ArrayList<LevelModel>) xstream.fromXML(xml);
+//		for(ViewSprite v : test.get(0).getMyMap().keySet()) {
+//			System.out.println(v.getMyImage());
+//		}
+        //System.out.println(xml);
 
     }
 

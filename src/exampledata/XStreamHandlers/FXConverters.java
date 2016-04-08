@@ -1,14 +1,6 @@
-package exampledata;
+package exampledata.XStreamHandlers;
 
 import com.thoughtworks.xstream.XStream;
-
-import exampledata.XStreamHandlers.BooleanPropertyConverter;
-import exampledata.XStreamHandlers.DoublePropertyConverter;
-import exampledata.XStreamHandlers.IntegerPropertyConverter;
-import exampledata.XStreamHandlers.LongPropertyConverter;
-import exampledata.XStreamHandlers.ObjectPropertyConverter;
-import exampledata.XStreamHandlers.ObservableListConverter;
-import exampledata.XStreamHandlers.StringPropertyConverter;
 
 /**
  * Utility to configure a xStream with JavaFX property converters.<br>
@@ -27,6 +19,7 @@ public class FXConverters {
         xStream.registerConverter(new LongPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new IntegerPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new ObservableListConverter(xStream.getMapper()));
+        xStream.registerConverter(new ViewSpriteConverter());
     }
 
 
