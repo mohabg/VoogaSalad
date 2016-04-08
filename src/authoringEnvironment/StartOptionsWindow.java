@@ -25,18 +25,18 @@ public class StartOptionsWindow {
 		startWindowBox = new VBox();
 		Settings settings = new Settings();
 		settings.setStartWindowSettings(startWindowBox);
-		makeStartBox();
-		myPane.setCenter(startWindowBox);
-
+		
+		makeAndSetStartBox();
 	}
 
-	public void makeStartBox() {
+	private void makeAndSetStartBox() {
+		// TODO CHANGE THIS TO USE REFLECTION
 		ImageView myLogo = new ImageView("pictures/gaming.png");
 		Button createNewButton = createNewButton();
 		Button editButton = createEditButton();
 		Button playButton = createPlayButton();
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
-
+		myPane.setCenter(startWindowBox);
 	}
 	public Button createPlayButton() {
 		Button playButton = new Button("Play A Game");
