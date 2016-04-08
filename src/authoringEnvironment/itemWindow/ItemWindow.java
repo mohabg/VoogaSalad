@@ -1,12 +1,13 @@
-package itemWindow;
+package authoringEnvironment.itemWindow;
 
+import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import javafx.scene.control.TabPane;
-import mainWindow.GameMakerWindow;
+import authoringEnvironment.mainWindow.GameMakerWindow;
 
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.*;
 public class ItemWindow {
     private TabPane myTabPane;
     private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -18,9 +19,12 @@ public class ItemWindow {
     private PlayerSpritesTab playerSpritesTab;
     private EnemySpritesTab enemySpritesTab;
     private BackgroundImagesTab backgroundImagesTab;
-    
+
+    private Map<ViewSprite, Model> mySpritesAndModels;
+
     public ItemWindow(){
         myTabPane = new TabPane();
+        mySpritesAndModels = new HashMap<ViewSprite, Model>();
         myTabPane.setPrefHeight(SCREEN_HEIGHT);
         myTabPane.setPrefWidth(0.25*SCREEN_WIDTH);
         
@@ -63,15 +67,19 @@ public class ItemWindow {
         myTabPane.getTabs().addAll(playerSpritesTab.getTab(), enemySpritesTab.getTab(), backgroundImagesTab.getTab());
 
         for(ViewSprite viewSprite : playerSprites){
-            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
+            // send viewsprite and the model by retrieving model from map
+            // gamemaker will now make clone of both
+            // game maker sends the model to the settings panel
+            //
+            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite, mySpritesAndModels.get(viewSprite));});
         }
         
         for(ViewSprite viewSprite : enemySprites){
-            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
+            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite, mySpritesAndModels.get(viewSprite));});
         }
         
         for(ViewSprite viewSprite : backgroundImages){
-            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite);});
+            viewSprite.setOnMouseClicked(e -> {window.addToWindow(viewSprite, mySpritesAndModels.get(viewSprite));});
         }
     }
     
@@ -80,6 +88,10 @@ public class ItemWindow {
         playerSprites = new ArrayList<ViewSprite>();
         ViewSprite galagaShip = new ViewSprite();
         galagaShip.setImage("pictures/galaga_ship.png");
+
+        Model newModel = new Model();
+        mySpritesAndModels.put(galagaShip, newModel);
+
         playerSprites.add(galagaShip);
     }
     
@@ -88,10 +100,22 @@ public class ItemWindow {
         enemySprites = new ArrayList<>();
         ViewSprite galagaEnemy1 = new ViewSprite();
         galagaEnemy1.setImage("pictures/galaga_enemy_1.png");
+        Model newModel = new Model();
+        mySpritesAndModels.put(galagaEnemy1, newModel);
+
         ViewSprite galagaEnemy2 = new ViewSprite();
         galagaEnemy2.setImage("pictures/galaga_enemy_2.png");
+
+        Model neModel = new Model();
+        mySpritesAndModels.put(galagaEnemy2, neModel);
+
+
         ViewSprite galagaEnemy3 = new ViewSprite();
         galagaEnemy3.setImage("pictures/galaga_enemy_3.png");
+
+        Model nModel = new Model();
+        mySpritesAndModels.put(galagaEnemy3, nModel);
+
         enemySprites.add(galagaEnemy1);
         enemySprites.add(galagaEnemy2);
         enemySprites.add(galagaEnemy3);

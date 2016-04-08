@@ -1,4 +1,4 @@
-package authoringToolbar;
+package authoringEnvironment.authoringToolbar;
 /**
  * @author davidyan
  */

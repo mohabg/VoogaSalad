@@ -1,19 +1,26 @@
-package mainWindow;
+package authoringEnvironment.mainWindow;
 /**
  * @author: davidyan
  */
+import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import settingsWindow.SettingsWindow;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import authoringEnvironment.settingsWindow.SettingsWindow;
+import spriteProperties.NumProperty;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameMakerWindow {
 
@@ -25,9 +32,11 @@ public class GameMakerWindow {
 	private double orgTranslateX, orgTranslateY;
 	private AnchorPane myGamePane;
     private SettingsWindow myWindow;
+    private Map<ViewSprite, Model> mySpriteMap;
 
 	public GameMakerWindow(){
 		myTabPane = new TabPane();
+        mySpriteMap = new HashMap<ViewSprite, Model>();
 		Tab tab = new Tab();
 		tab.setText("Tab 1");
 
@@ -69,8 +78,6 @@ public class GameMakerWindow {
 		myTabPane.getTabs().add(myTab);
 		myTabPane.getSelectionModel().select(myTab);
 
-
-
 	}
 
 	EventHandler<MouseEvent> circleOnMousePressedEventHandler =
@@ -83,9 +90,39 @@ public class GameMakerWindow {
 					orgTranslateX = mySprite.getTranslateX();
 					orgTranslateY = mySprite.getTranslateY();
                     System.out.println(mySprite.getImage());
-                    mySprite.setSettingsContent(myWindow);
+
+                    myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
+
+
+                    //mySprite.setSettingsContent(myWindow);
+                    //myWindow.setContent(settingsPropertyFactory.makeNewThing(ViewSprite's model'));
 				}
 			};
+
+    public VBox setSettingsContent(Model spriteModel){
+        VBox myBox = new VBox(8);
+        for(NumProperty aProp: spriteModel.getMyPropertiesList()){
+            HBox myTempBox = new HBox();
+            javafx.scene.control.Label myLabel = new javafx.scene.control.Label(aProp.toString());
+            Slider mySlider = new Slider(0,100,aProp.getMyValue());
+//            mySlider.setMin(0);
+//            mySlider.setMax(100);
+            mySlider.setShowTickMarks(true);
+            mySlider.setShowTickLabels(true);
+
+            mySlider.valueProperty().bindBidirectional(aProp.getDouble());
+//            mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+//                public void changed(ObservableValue<? extends Number> ov,
+//                                    Number old_val, Number new_val) {
+//                    aProp.setMyValue((double) new_val);
+//                }
+//            });
+            myTempBox.getChildren().addAll(myLabel, mySlider);
+            myBox.getChildren().add(myTempBox);
+        }
+
+        return myBox;
+    }
 
 	EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
 			new EventHandler<MouseEvent>() {
@@ -106,11 +143,15 @@ public class GameMakerWindow {
 		return myTabPane;
 	}
 
-	public void addToWindow(ViewSprite mySprite){
+	public void addToWindow(ViewSprite mySprite, Model myModel){
 		ViewSprite copy = new ViewSprite();
+        Model mCopy = new Model();
 		copy.setImage(mySprite.getImage());
 //		currSprite = copy;
 		copy.setCursor(Cursor.HAND);
+
+        mySpriteMap.put(copy, mCopy);
+
 		copy.setOnMousePressed(circleOnMousePressedEventHandler);
 		copy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 //		System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());

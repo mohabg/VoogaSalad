@@ -1,8 +1,9 @@
-package itemWindow;
+package authoringEnvironment.itemWindow;
 
 /**
  * Created by davidyan on 4/4/16.
  */
+
 import authoringEnvironment.ViewSprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
@@ -10,12 +11,12 @@ import javafx.scene.layout.TilePane;
 
 import java.util.ArrayList;
 
-public class PlayerSpritesTab implements ITab{
+public class BackgroundImagesTab implements ITab{
 
     Tab tab;
     TilePane tilepane;
 
-    public PlayerSpritesTab(){
+    public BackgroundImagesTab() {
         tab = new Tab();
         tilepane = new TilePane();
     }
@@ -45,4 +46,5 @@ public class PlayerSpritesTab implements ITab{
     public Tab getTab(){
         return tab;
     }
+
 }

@@ -1,8 +1,8 @@
-package authoringToolbar;
+package authoringEnvironment.authoringToolbar;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import mainWindow.GameMakerWindow;
+import authoringEnvironment.mainWindow.GameMakerWindow;
 
 public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
