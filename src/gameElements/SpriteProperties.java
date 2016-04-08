@@ -1,34 +1,63 @@
 package gameElements;
 
+import java.util.Map;
 
-public class Vector {
+public class SpriteProperties {
 
 private double x;
 private double y;
+private double width;
+private double height;
 private double angle;
 private double xVel;
 private double yVel;
+private Map<String, Movement> myMovements;
 
 
-	public Vector() {
+	public SpriteProperties() {
 		this.x = 0;
 		this.y = 0;
 		this.angle = 0;
 	}
-
-	public Vector(double x, double y, double angle, double xVel, double yVel){
+	public SpriteProperties(double x, double y, double xVel, double yVel){
+		this.x = x;
+		this.y = y;
+		this.xVel = xVel;
+		this.yVel = yVel;
+	}
+	public SpriteProperties(double x, double y, double angle, double xVel, double yVel){
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
 		this.xVel = xVel;
 		this.yVel = yVel;
 	}
-	public Vector(double x, double y, double angle){
+	public SpriteProperties(double x, double y, double angle){
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
 	}
+	public void setMovement(String type, Movement movement){
+		myMovements.put(type, movement);
+	}
+	public Movement getMovement(String movement){
+		return myMovements.get(movement);
+	}
+	public double getWidth() {
+		return width;
+	}
 
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
 	public double getxVel() {
 		return xVel;
 	}
@@ -45,7 +74,7 @@ private double yVel;
 		this.yVel = yVel;
 	}
 
-	public Vector(double x, double y){
+	public SpriteProperties(double x, double y){
 		this(x, y, 0);
 	}
 
@@ -77,7 +106,7 @@ private double yVel;
 		return angle;
 	}
 
-	public double getDistance(Vector otherVect){
+	public double getDistance(SpriteProperties otherVect){
 		return Math.sqrt(( Math.pow(x,2) - Math.pow(otherVect.getX(),2))
 				+ (Math.pow(y,2) - Math.pow(otherVect.getY(), 2)));
 	}
