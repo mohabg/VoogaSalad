@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public abstract class Screen {
-	Pane myPane;
+	private Pane myPane;
 	ButtonFactory myFactory;
 
 	public Screen(ButtonFactory myFactory){
