@@ -21,6 +21,8 @@ import spriteProperties.NumProperty;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import authoringEnvironment.LevelModel;
 
 public class GameMakerWindow {
 
@@ -38,7 +40,7 @@ public class GameMakerWindow {
 		myTabPane = new TabPane();
         mySpriteMap = new HashMap<ViewSprite, Model>();
 		Tab tab = new Tab();
-		tab.setText("Tab 1");
+		tab.setText("Level 1");
 
 		myGameArea = new ScrollPane();
 		myGameArea.setFitToWidth(true);
@@ -62,7 +64,7 @@ public class GameMakerWindow {
     }
 
 	public void addNewTab(){
-		Tab myTab = new Tab("Tab " + (myTabPane.getTabs().size() + 1));
+		Tab myTab = new Tab("Level " + (myTabPane.getTabs().size() + 1));
 		ScrollPane myNewGameArea = new ScrollPane();
 		myNewGameArea.setFitToWidth(true);
 		myNewGameArea.setPrefHeight(SCREEN_HEIGHT);
@@ -146,6 +148,8 @@ public class GameMakerWindow {
 	public void addToWindow(ViewSprite mySprite, Model myModel){
 		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
         Model mCopy = new Model();
+        
+        System.out.println(copy.getMyImage() +  " " + copy.getTranslateX() + " " + copy.getY() + " " + copy.getFitWidth() + " " + copy.getFitHeight());
 		//copy.setImage(mySprite.getImage());
 //		currSprite = copy;
 		copy.setCursor(Cursor.HAND);
@@ -159,6 +163,10 @@ public class GameMakerWindow {
 		myPane.getChildren().addAll(copy);
 	}
 
+	public void populateEditingFromSave(List<LevelModel> gameLevels) {
+		
+	}
+	
     public Map<ViewSprite, Model> getMap(){
         return mySpriteMap;
     }
