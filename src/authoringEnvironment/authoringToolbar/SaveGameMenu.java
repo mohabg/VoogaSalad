@@ -53,7 +53,6 @@ public class SaveGameMenu {
             myLevelModelList.add(new LevelModel(myLevelMap));
         }
         XStream xstream = new XStream(new StaxDriver());
-        xstream.setMode(XStream.ID_REFERENCES);
         FXConverters.configure(xstream);
 
         //Object to XML Conversion
