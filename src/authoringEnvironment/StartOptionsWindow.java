@@ -54,7 +54,10 @@ public class StartOptionsWindow {
 	public Button createEditButton() {
 		Button editButton = new Button("Edit An Existing Game");
 		editButton.setOnAction(e-> {
-			System.out.println("EDIT");
+			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
+			myStage.setScene(myMainAuthoringWindow.getScene());
+			myStage.show();
+			myStage.centerOnScreen();
 		});
 		return editButton;
 	}
