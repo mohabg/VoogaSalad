@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ItemWindowData {
-	public static String TAB = "Tab "; 
+	public static String TAB = "Level ";
 	public static String VIEWSPRITE = "authoringEnvironment.ViewSprite";
 
 	public static String SPRITEIMAGES = "resources/SpriteImages";
