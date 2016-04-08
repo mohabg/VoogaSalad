@@ -1,0 +1,1 @@
+<?xml version="1.0" ?><exampledata.Level id="1"><character id="2"><health id="3"><value>1</value></health></character><myGoal id="4"><isDone>false</isDone></myGoal><testList class="com.sun.javafx.collections.ObservableListWrapper" id="5"><int>4</int></testList></exampledata.Level>

@@ -19,7 +19,10 @@ public class xmlMaker {
 	
 	public static void main(String[] args) throws IOException{
 		Level myLevel = new Level(1, false);
-	      XStream xstream = new XStream(new StaxDriver());	      
+	      XStream xstream = new XStream(new StaxDriver());	
+	      xstream.setMode(XStream.ID_REFERENCES);
+	      FXConverters.configure(xstream);
+	      
 	      //Object to XML Conversion
 	      String xml = xstream.toXML(myLevel);
 	      FileWriter fw = new FileWriter("my-file.xml");
@@ -40,6 +43,14 @@ public class xmlMaker {
 //	          System.err.println("Error in XML Write: " + e.getMessage());
 //
 //	      }
+	      
+	     // File fi = new File("voogasalad_TheDuballers/src/exampledata/myLevelTest.xml");
+	      System.out.println(xml);
+	      Level readLevel = (Level) xstream.fromXML(xml);
+	      System.out.println(myLevel.character.health);
+	      System.out.println(readLevel.character.health);
+	      System.out.println(readLevel.testList.get(0));
+	      System.out.println(myLevel.testList.get(0));
 
 	}
 	   public static String formatXml(String xml){
