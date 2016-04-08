@@ -19,22 +19,29 @@ public class GameWindow {
 	// Game myGame;
 	// GameView myGameView;
 	// GameLoader myLoader;
-	Pane myPane;
-	ButtonFactory myFactory;
-	File myGameFile;
-
-	Map<String, Screen> myScreenMap;
-
-	Screen myPlayScreen;
-	Screen myPauseScreen;
-	GameFileScreen myGameFileScreen;
-	Screen mySettingsScreen;
-
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+	
+	private Pane myPane;
+	ButtonFactory myFactory;
+	private File myGameFile;
+
+	private Map<String, Screen> myScreenMap;
+
+	private Screen myPlayScreen;
+	private Screen myPauseScreen;
+	private GameFileScreen myGameFileScreen;
+	private Screen mySettingsScreen;
+
+//	private enum Screens {
+//		Play,
+//		Pause,
+//		GameFile,
+//		Settings;
+//	};
+	
 
 	public GameWindow() {
-
 		// Game game
 		// myGame = game;
 		myPane = new Pane();

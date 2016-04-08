@@ -25,20 +25,22 @@ public class StartOptionsWindow {
 		startWindowBox = new VBox();
 		Settings settings = new Settings();
 		settings.setStartWindowSettings(startWindowBox);
-		makeStartBox();
-		myPane.setCenter(startWindowBox);
-
+		
+		makeAndSetStartBox();
 	}
 
-	public void makeStartBox() {
+	private void makeAndSetStartBox() {
+		// TODO CHANGE THIS TO USE REFLECTION
 		ImageView myLogo = new ImageView("pictures/gaming.png");
 		Button createNewButton = createNewButton();
 		Button editButton = createEditButton();
 		Button playButton = createPlayButton();
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
-
+		myPane.setCenter(startWindowBox);
 	}
+	
 	public Button createPlayButton() {
+		// TODO MOVE TO RESOURCES FILE
 		Button playButton = new Button("Play A Game");
 		playButton.setOnAction(e -> {
 			GameWindow myGameWindow = new GameWindow();
@@ -49,6 +51,7 @@ public class StartOptionsWindow {
 	}
 
 	public Button createEditButton() {
+		// TODO MOVE TO RESOURCES FILE
 		Button editButton = new Button("Edit An Existing Game");
 		editButton.setOnAction(e -> {
 			System.out.println("EDIT");
@@ -57,6 +60,7 @@ public class StartOptionsWindow {
 	}
 
 	public Button createNewButton() {
+		// TODO MOVE TO RESOURCES FILE
 		Button newButton = new Button("Create A New Game");
 		newButton.setOnAction(e -> {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();

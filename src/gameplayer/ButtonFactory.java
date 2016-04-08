@@ -1,6 +1,7 @@
 package gameplayer;
 
 import java.io.File;
+import java.util.concurrent.Callable;
 
 import javafx.event.*;
 import javafx.scene.Node;
@@ -19,35 +20,42 @@ public class ButtonFactory {
 		this.myGameWindow = myGameWindow;
 //		this.myGameLoader = myGameLoader;
 	}
-
-	private Button makeOneButton(String name, EventHandler<? super MouseEvent> action) {
-		Button b = new Button();
-		b.setText(name);
-		b.setOnMouseClicked(action);
-		return b;
-	}
-
+	
+//	public <T> Button makeTheButton(Callable<T> call) {
+//		return 
+//	}
 	public VBox makePauseScreenButtons() {
 		VBox box = new VBox();
-
+		
 		Button cont = makeOneButton("cont", a -> {
 			myGameWindow.setScreen("PlayScreen");
 		});
+		
 		Button restart = makeOneButton("restart", a -> {
 			myGameWindow.restart();
 		});
+		
 		Button switchgame = makeOneButton("switchgame", a -> {
 			myGameWindow.setScreen("GameFileScreen");
 		});
+		
 		Button save = makeOneButton("save", a -> {
 //			myGameLoader.save();
 		});
+		
 		Button settings = makeOneButton("settings", a -> {
 			myGameWindow.setScreen("SettingsScreen");
 		});
 
 		box.getChildren().addAll(cont, restart, switchgame, save, settings);
 		return box;
+	}
+		
+	private Button makeOneButton(String name, EventHandler<? super MouseEvent> action) {
+		Button b = new Button();
+		b.setText(name);
+		b.setOnMouseClicked(action);
+		return b;
 	}
 	
 	public Button makePause(){

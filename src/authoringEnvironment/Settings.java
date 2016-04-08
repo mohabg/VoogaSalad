@@ -15,7 +15,8 @@ public class Settings {
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private static final int mySpacing = 20;
-
+	
+	// TODO: REPLACE THE CONSTANTS IN HERE
 	public Settings() {
 
 	}
