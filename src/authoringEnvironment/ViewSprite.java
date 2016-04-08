@@ -8,11 +8,11 @@ import javafx.scene.image.ImageView;
 
 public class ViewSprite extends ImageView {
 
-    private String myRef;
-//    private List<NumProperty> myPropertiesList;
-//    private Health myHealth;
-//    private Attack myAttack;
-//    private Defense myDefense;
+	private String myRef;
+	// private List<NumProperty> myPropertiesList;
+	// private Health myHealth;
+	// private Attack myAttack;
+	// private Defense myDefense;
 
     public ViewSprite() {
         super();
@@ -30,12 +30,19 @@ public class ViewSprite extends ImageView {
     	setImage(imagePath);
     }
 
+	public void setImage(String imagePath) {
+		myRef = imagePath;
+		Image image = new Image(imagePath);
+		setImage(image);
+	}
 
-    public void setImage(String imagePath){
-        myRef = imagePath;
-        Image image = new Image(imagePath);
-        setImage(image);
-    }
+	// public void setMyHealth(double test){
+	// myHealth.setMyValue(test);
+	// }
+	//
+	// public double getMyHealth(){
+	// return myHealth.getMyValue();
+	// }
 
     public String getMyImage(){
         return myRef;
@@ -49,6 +56,12 @@ public class ViewSprite extends ImageView {
 //        return myPropertiesList;
 //    }
 
+	// public ImageView getImageView(){
+	// return imageview;
+	// }
 
+	// public List<NumProperty> getMyProperties(){
+	// return myPropertiesList;
+	// }
 
 }
