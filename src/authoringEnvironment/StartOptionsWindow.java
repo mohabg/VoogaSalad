@@ -1,4 +1,5 @@
 package authoringEnvironment;
+
 import gameplayer.GameWindow;
 /**
  * @author davidyan
@@ -13,37 +14,33 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class StartOptionsWindow {
-	
+
 	private Stage myStage;
 	private BorderPane myPane;
 	private VBox startWindowBox;
-	private static final int mySpacing = 20;
-	
-	public StartOptionsWindow(Stage useStage){
+
+	public StartOptionsWindow(Stage useStage) {
 		myStage = useStage;
 		myPane = new BorderPane();
 		startWindowBox = new VBox();
-		startWindowBox.setPadding(new Insets(mySpacing, mySpacing, mySpacing, mySpacing));
-		startWindowBox.setSpacing(mySpacing);
-		startWindowBox.setAlignment(Pos.CENTER);
+		Settings settings = new Settings();
+		settings.setStartWindowSettings(startWindowBox);
 		makeStartBox();
 		myPane.setCenter(startWindowBox);
 
-		
 	}
-	
-	public void makeStartBox(){
-		ImageView myLogo = new ImageView("pictures/gaming.png");		
+
+	public void makeStartBox() {
+		ImageView myLogo = new ImageView("pictures/gaming.png");
 		Button createNewButton = createNewButton();
 		Button editButton = createEditButton();
 		Button playButton = createPlayButton();
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
 
 	}
-
 	public Button createPlayButton() {
 		Button playButton = new Button("Play A Game");
-		playButton.setOnAction(e-> {
+		playButton.setOnAction(e -> {
 			GameWindow myGameWindow = new GameWindow();
 			myStage.setScene(myGameWindow.getScene());
 			myStage.show();
@@ -53,7 +50,7 @@ public class StartOptionsWindow {
 
 	public Button createEditButton() {
 		Button editButton = new Button("Edit An Existing Game");
-		editButton.setOnAction(e-> {
+		editButton.setOnAction(e -> {
 			System.out.println("EDIT");
 		});
 		return editButton;
@@ -61,7 +58,7 @@ public class StartOptionsWindow {
 
 	public Button createNewButton() {
 		Button newButton = new Button("Create A New Game");
-		newButton.setOnAction(e-> {
+		newButton.setOnAction(e -> {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
 			myStage.setScene(myMainAuthoringWindow.getScene());
 			myStage.show();
@@ -69,8 +66,8 @@ public class StartOptionsWindow {
 		});
 		return newButton;
 	}
-	
-	public Scene getScene(){
+
+	public Scene getScene() {
 		return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
 	}
 

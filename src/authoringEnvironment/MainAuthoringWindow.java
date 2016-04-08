@@ -23,11 +23,11 @@ public class MainAuthoringWindow {
 		myPane = new BorderPane();
 
 		myGameMakerWindow = new GameMakerWindow();
-		myItemWindow = new ItemWindow();
+		myItemWindow = new ItemWindow(myGameMakerWindow);
 		myMenubar = new AuthoringMenubarCreator();
 		myMenubar.init(myGameMakerWindow);
 		mySettingsWindow = new SettingsWindow();
-        myItemWindow.init(myGameMakerWindow);
+//        myItemWindow.init();
         myGameMakerWindow.init(mySettingsWindow);
 
 
@@ -35,7 +35,7 @@ public class MainAuthoringWindow {
 		myPane.setLeft(myItemWindow.getTabPane());
 		myPane.setTop(myMenubar.getMenuBar());
 		myPane.setRight(mySettingsWindow.getBox());
-        //mySettingsWindow.setContent();
+//        mySettingsWindow.setContent();
 	}
 
 	public Scene getScene(){
