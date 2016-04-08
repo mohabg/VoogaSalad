@@ -2,27 +2,25 @@ package authoringEnvironment.mainWindow;
 /**
  * @author: davidyan
  */
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
+import authoringEnvironment.settingsWindow.SettingsWindow;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import authoringEnvironment.settingsWindow.SettingsWindow;
 import spriteProperties.NumProperty;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import authoringEnvironment.LevelModel;
+import java.util.Map;
 
 public class GameMakerWindow {
 
@@ -111,6 +109,9 @@ public class GameMakerWindow {
 //            mySlider.setMax(100);
             mySlider.setShowTickMarks(true);
             mySlider.setShowTickLabels(true);
+
+//            Spinner<Integer> mySpinner = new Spinner<>();
+//            mySpinner.valueProperty().addListener(aProp.getDouble());
 
             mySlider.valueProperty().bindBidirectional(aProp.getDouble());
 //            mySlider.valueProperty().addListener(new ChangeListener<Number>() {
