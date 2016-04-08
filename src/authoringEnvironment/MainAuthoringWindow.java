@@ -2,12 +2,12 @@ package authoringEnvironment;
 /**
  * @author davidyan
  */
-import authoringToolbar.AuthoringMenubarCreator;
-import itemWindow.ItemWindow;
+import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
+import authoringEnvironment.itemWindow.ItemWindow;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import mainWindow.GameMakerWindow;
-import settingsWindow.SettingsWindow;
+import authoringEnvironment.mainWindow.GameMakerWindow;
+import authoringEnvironment.settingsWindow.SettingsWindow;
 import java.awt.*;
 
 public class MainAuthoringWindow {

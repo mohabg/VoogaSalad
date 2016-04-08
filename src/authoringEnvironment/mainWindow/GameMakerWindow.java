@@ -1,4 +1,4 @@
-package mainWindow;
+package authoringEnvironment.mainWindow;
 /**
  * @author: davidyan
  */
@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import settingsWindow.SettingsWindow;
+import authoringEnvironment.settingsWindow.SettingsWindow;
 import spriteProperties.NumProperty;
 
 import java.awt.*;

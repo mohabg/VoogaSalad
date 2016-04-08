@@ -1,9 +1,9 @@
-package itemWindow;
+package authoringEnvironment.itemWindow;
 
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import javafx.scene.control.TabPane;
-import mainWindow.GameMakerWindow;
+import authoringEnvironment.mainWindow.GameMakerWindow;
 
 import java.awt.*;
 import java.util.ArrayList;
