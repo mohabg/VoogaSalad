@@ -18,7 +18,7 @@ public class Model {
     private Attack myAttack;
 
 
-    public Model() {
+    public Model(String ref) {
         myHealth = new Health();
         myAttack = new Attack();
         myDefense = new Defense();
@@ -26,7 +26,9 @@ public class Model {
         myPropertiesList.add(myHealth);
         myPropertiesList.add(myAttack);
         myPropertiesList.add(myDefense);
+        myRef = ref;
     }
+
 
     public List<NumProperty> getMyPropertiesList() {
         return myPropertiesList;

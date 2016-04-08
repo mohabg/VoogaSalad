@@ -3,152 +3,144 @@ package authoringEnvironment.mainWindow;
 /**
  * @author: davidyan
  */
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.itemWindow.ItemWindowData;
+import authoringEnvironment.settingsWindow.SettingsWindow;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import authoringEnvironment.settingsWindow.SettingsWindow;
 import spriteProperties.NumProperty;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import authoringEnvironment.LevelModel;
+import java.util.Map;
 
 public class GameMakerWindow {
-	private Settings settings;
-	private TabPane myTabPane;
-	private SettingsWindow myWindow;
-	
-	private double orgSceneX, orgSceneY;
-	private double orgTranslateX, orgTranslateY;
-	private Map<ViewSprite, Model> mySpriteMap;
+    private Settings settings;
+    private TabPane myTabPane;
+    private SettingsWindow myWindow;
 
-	public GameMakerWindow() {
-		settings = new Settings();
-		myTabPane = new TabPane();
-		mySpriteMap = new HashMap<ViewSprite, Model>();
-		addNewTab();
+    private double orgSceneX, orgSceneY;
+    private double orgTranslateX, orgTranslateY;
+    private Map<ViewSprite, Model> mySpriteMap;
 
-	}
+    public GameMakerWindow() {
+        settings = new Settings();
+        myTabPane = new TabPane();
+        mySpriteMap = new HashMap<ViewSprite, Model>();
+        addNewTab();
 
-	public void init(SettingsWindow window) {
-		myWindow = window;
-	}
+    }
 
-	public void addNewTab() {
-		Tab myTab = new Tab(ItemWindowData.TAB + (myTabPane.getTabs().size() + 1));
+    public void init(SettingsWindow window) {
+        myWindow = window;
+    }
 
-		ScrollPane myNewGameArea = new ScrollPane();
-		settings.setGameAreaSettings(myNewGameArea);
+    public void addNewTab() {
+        Tab myTab = new Tab(ItemWindowData.TAB + (myTabPane.getTabs().size() + 1));
 
-		AnchorPane myNewGamePane = new AnchorPane();
-		settings.setGamePaneSettings(myNewGamePane);
+        ScrollPane myNewGameArea = new ScrollPane();
+        settings.setGameAreaSettings(myNewGameArea);
 
-		myTab.setContent(myNewGamePane);
-		myTabPane.getTabs().add(myTab);
-		myTabPane.getSelectionModel().select(myTab);
+        AnchorPane myNewGamePane = new AnchorPane();
+        settings.setGamePaneSettings(myNewGamePane);
 
-	}
+        myTab.setContent(myNewGamePane);
+        myTabPane.getTabs().add(myTab);
+        myTabPane.getSelectionModel().select(myTab);
 
-	EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent t) {
-			orgSceneX = t.getSceneX();
-			orgSceneY = t.getSceneY();
-			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
-			orgTranslateX = mySprite.getTranslateX();
-			orgTranslateY = mySprite.getTranslateY();
+    }
 
-			myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
+    EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent t) {
+            orgSceneX = t.getSceneX();
+            orgSceneY = t.getSceneY();
+            ViewSprite mySprite = ((ViewSprite) (t.getSource()));
+            orgTranslateX = mySprite.getTranslateX();
+            orgTranslateY = mySprite.getTranslateY();
 
-			// mySprite.setSettingsContent(myWindow);
-			// myWindow.setContent(settingsPropertyFactory.makeNewThing(ViewSprite's
-			// model'));
-		}
-	};
+            myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
 
-	public VBox setSettingsContent(Model spriteModel) {
-		VBox myBox = new VBox(8);
-		for (NumProperty aProp : spriteModel.getMyPropertiesList()) {
-			HBox myTempBox = new HBox();
-			Label myLabel = new Label(aProp.toString());
-			Slider mySlider = new Slider(0, 100, aProp.getMyValue());
-			// mySlider.setMin(0);
-			// mySlider.setMax(100);
-			settings.setSliderSettings(mySlider);
-			mySlider.valueProperty().bindBidirectional(aProp.getDouble());
-			// mySlider.valueProperty().addListener(new ChangeListener<Number>()
-			// {
-			// public void changed(ObservableValue<? extends Number> ov,
-			// Number old_val, Number new_val) {
-			// aProp.setMyValue((double) new_val);
-			// }
-			// });
-			myTempBox.getChildren().addAll(myLabel, mySlider);
-			myBox.getChildren().add(myTempBox);
-		}
+            // mySprite.setSettingsContent(myWindow);
+            // myWindow.setContent(settingsPropertyFactory.makeNewThing(ViewSprite's
+            // model'));
+        }
+    };
 
-		return myBox;
-	}
+    public VBox setSettingsContent(Model spriteModel) {
+        VBox myBox = new VBox(8);
+        VBox myPictureBox = new VBox();
+        ImageView myImage = new ImageView(new Image(spriteModel.getMyRef()));
+        myPictureBox.getChildren().add(myImage);
+        myPictureBox.setAlignment(Pos.CENTER);
+        myBox.getChildren().add(myPictureBox);
+        List<NumProperty> myList = spriteModel.getMyPropertiesList();
+        myList.forEach(numProperty ->{
+            HBox myTempBox = new HBox();
+            myTempBox.setPadding(new Insets(20,0,0,0));
+            Label myLabel = new Label(numProperty.toString());
+            Slider mySlider = new Slider(0, 100, numProperty.getMyValue());
+            settings.setSliderSettings(mySlider);
+            mySlider.valueProperty().bindBidirectional(numProperty.getDouble());
+            myTempBox.getChildren().addAll(myLabel, mySlider);
+            myTempBox.setAlignment(Pos.CENTER);
+            myBox.getChildren().add(myTempBox);
+        });
+        return myBox;
+    }
 
-	EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent t) {
-			double offsetX = t.getSceneX() - orgSceneX;
-			double offsetY = t.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
+    EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent t) {
+            double offsetX = t.getSceneX() - orgSceneX;
+            double offsetY = t.getSceneY() - orgSceneY;
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
 
-			((ImageView) (t.getSource())).setTranslateX(newTranslateX);
-			((ImageView) (t.getSource())).setTranslateY(newTranslateY);
-		}
-	};
+            ((ImageView) (t.getSource())).setTranslateX(newTranslateX);
+            ((ImageView) (t.getSource())).setTranslateY(newTranslateY);
+        }
+    };
 
-	public TabPane getMainWindow() {
-		return myTabPane;
-	}
+    public TabPane getMainWindow() {
+        return myTabPane;
+    }
 
 
-	public void addToWindow(ViewSprite mySprite, Model myModel){
-		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
-        Model mCopy = new Model();
-        
-        System.out.println(copy.getMyImage() +  " " + copy.getTranslateX() + " " + copy.getY() + " " + copy.getFitWidth() + " " + copy.getFitHeight());
-		//copy.setImage(mySprite.getImage());
-//		currSprite = copy;
-		copy.setCursor(Cursor.HAND);
+    public void addToWindow(ViewSprite mySprite, Model myModel){
+        ViewSprite copy = new ViewSprite(mySprite.getMyImage());
+        Model mCopy = new Model(myModel.getMyRef());
+        copy.setCursor(Cursor.HAND);
 
-		mySpriteMap.put(copy, mCopy);
+        mySpriteMap.put(copy, mCopy);
 
-		copy.setOnMousePressed(circleOnMousePressedEventHandler);
-		copy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		// System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
-		AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
-		myPane.getChildren().addAll(copy);
-	}
+        copy.setOnMousePressed(circleOnMousePressedEventHandler);
+        copy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+        AnchorPane myPane = (AnchorPane) myTabPane.getSelectionModel().getSelectedItem().getContent();
+        myPane.getChildren().addAll(copy);
+    }
 
-	public void populateEditingFromSave(List<LevelModel> gameLevels) {
-		
-	}
-	
+    public void populateEditingFromSave(List<LevelModel> gameLevels) {
+
+    }
+
     public Map<ViewSprite, Model> getMap(){
         return mySpriteMap;
     }
 
-	public TabPane getMyTabPane() {
-		return myTabPane;
-	}
+    public TabPane getMyTabPane() {
+        return myTabPane;
+    }
 }
