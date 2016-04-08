@@ -1,7 +1,8 @@
 package authoringEnvironment.itemWindow;
 
-import java.util.ArrayList;
+import java.util.*;
 
+import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
@@ -16,7 +17,7 @@ public abstract class ATab {
         tilepane = new TilePane();
     }
     
-    public void populateTab(ArrayList<ViewSprite> viewSprites){
+    public void populateTab(Collection<ViewSprite> viewSprites){
         Settings s = new Settings();
         s.setTilePaneSettings(tilepane);
         for(ViewSprite x : viewSprites){
