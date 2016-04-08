@@ -29,7 +29,11 @@ In a general sense, the authoring environment UI is broken up into four primary 
 objects to be dragged and created in the game environment, whether that be enemy object, user objects, or even obstacle objects. The ItemWindow will have classes such as the ItemTab class to create multiple tabs for selecting different types of sprites to be placed in the environment. Each object will be a ViewSprite class that contains a Model subclass in addition to a View subclass. The view subclass of the sprite will be used to display objects in the front end. The model subclass will be used to send data to the back end. There is also a display window contained in the DisplayWindow class that will contain other classes to generate the game creation window where the user can drag and drop objects onto to create the objects displayed and controlled in the user's game. Each window will be placed in a TabPane creator class that will create different tabs for different windows. Finally, the settings windwo will be created in the SettingsWindow class that will fill itself according to the information given to it by the sprite properties. The SettingsWindow class will also contain a front end item factory to determine which Fx objects need to be made and displayed for which property that the user is editing. Each item in the display window can be edited by the user simply by clicking on the item, and a separate pane in the authoring environment will pop up and display that object or character's attributes. From there, the user can choose to set custom attributes, with examples containing health or attack points. In general, the authoring environment will be an interactive tool for the user to create custom game objects, set custom game rules, and set custom properties for each character in the game.
 
 ####Game Engine
-
+The game engine is set up so that there is a high level game class which controls several level classes that the user customizes. In each level
+class, there are a set of sprites, a time object, and a score object. None of these classes are abstract. The sprite class is pretty basic, at
+its core, but the key is that its attributes will be defined by subclasses of the abstract Behavior class. These classes will define specific features of
+each sprite. Key features to mention are the sprite's attacking, and moving cacpabilities, as well as what occurs when it collides with other sprites.
+These three features will be subclasses of Behavior, and will also be abstract. All of this can be seen in the included picture.
 
 ####Game Data
 The Game Data will be composed of an actual GameData class and a GameLoader class. The GameData will have all the game information, including GUI/view components, and will be shared by the front end and engine. The GameLoader will save and load this information into XML files. A GameLoader separate from the data was necessary in order to pass around the different player classes (which wouldn't make sense for the entire data).
@@ -95,7 +99,14 @@ The Authoring Environment is currently split up as so:
 > - Our Display Window that holds the sprites is simple, with it primarily being a TabPane as well to accomodate the user if he/she decides to edit multiple levels of a game rather than limiting them to just one. We want the user to be able to scroll up and down the background of the game, placing objects anywhere in the background, so we decided to place a Canvas within a Scrollpane for this aspect of the Authoring Environment.
 
 #### Game Engine Design Details
-
+This section describes each module introduced in the Overview in detail (as well as any other
+sub-modules that may be needed but are not significant to include in a high-level description of the
+program). Describe how each module handles specific features given in the assignment specification,
+what resources it might use, how it collaborates with other modules, and how each could be extended
+to include additional requirements (from the assignment specification or discussed by your team).
+Note, each sub-team should have its own API for others in the overall team or for new team members
+to write extensions. Finally, justify the decision to create each module with respect to the
+design's key goals, principles, and abstractions.
 #### Game Data Design Details
 The Game Data portion consists of two primary classes: GameData and GameLoader.
 
@@ -184,9 +195,6 @@ canvas, and an image for its graphical representation. The user would then choos
 of attack or movement, which would then be separate classes that would be added to the Sprite. An inheritance hierarchy is still being used, but
 to represent the different behaviors of the sprite. This makes it easily extendable, as new behaviors can inherit common features from their
 superclasses, which means the only code that will be necessary to write would be what is unique to that behavior.
-
-###Strategy Design Pattern###
-> -This design pattern ties in with our decision to use composition, as described above. Using this pattern, 
 
 ###Observable Design Pattern###
 > - We decided to implement the Observer design pattern to facilitate the communication between a view and its corresponding model for every sprite. This avoids the need to manually update the rendering of the game in the GUI in accordance with the changes the game engine would make to the image's respective model. This was accomplished through the use of JavaFX's Observer/Observable classes, which allow us to trigger a notification to an object's observers when something has changed within the object. We had many alternatives with regard to implementation, such as ObservableLists, Listeners, etc.; however, we wanted to stray away from using JavaFX data structures because of XStream's tendency to generate massive XML files for them, so Observer/Observable presented itself as the only option. The choice to use the observable design pattern over the model-view-controller architecture was motivated by implementation restrictions as well as ease. While the model-view-controller architecture is more robust with the ability of the controller to hold many instances of different views and models, that luxury wasn't going to be exploited with the implementation of a sprite because of its simple need of a single model and view. Additionally, the use of Observer/Observable between the model and the view almost made the controller redundant in that the communication between the two classes became automatic, thus rendering the controller's primary use of facilitating communication completely useless. 
