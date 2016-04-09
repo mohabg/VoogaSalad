@@ -18,6 +18,11 @@ public class Sprite extends Observable {
 	private boolean visible;
 	private boolean movable;
 	private boolean colliable;
+	private Collisions collisions;
+	
+	public Collisions getCollisions(){
+		
+	}
 
 	public Sprite() {
 		//Default init values
