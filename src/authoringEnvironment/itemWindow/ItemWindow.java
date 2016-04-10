@@ -58,7 +58,7 @@ public class ItemWindow {
 			ViewSprite sprite = (ViewSprite) c.newInstance();
 
 			sprite.setImage(ItemWindowData.SpriteImages.getString(key));
-			mySpritesAndModels.put(sprite, new Model());
+			mySpritesAndModels.put(sprite, new Model(ItemWindowData.SpriteImages.getString(key)));
 
 			sprite.setOnMouseClicked(e -> {
 				window.addToWindow(sprite, mySpritesAndModels.get(sprite));
