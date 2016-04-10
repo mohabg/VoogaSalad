@@ -1,20 +1,18 @@
 package authoringEnvironment.settingsWindow;
 
+import authoringEnvironment.Settings;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.awt.*;
-
-import authoringEnvironment.Settings;
 public class SettingsWindow {
 	private Settings settings;
 	private VBox myDisplay;
+    private VisualFactory myVisualFactory;
 
 	public SettingsWindow(){
 		settings = new Settings();
-
+        myVisualFactory = new VisualFactory();
 		myDisplay = new VBox();
 		settings.setSettingsDisplaySettings(myDisplay);
 
@@ -34,5 +32,9 @@ public class SettingsWindow {
 	public VBox getBox(){
 		return myDisplay;
 	}
+
+    public VisualFactory getMyVisualFactory(){
+        return myVisualFactory;
+    }
 
 }

@@ -13,14 +13,16 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import spriteProperties.NumProperty;
+import spriteProperties.Behavior;
 
 import java.util.HashMap;
 import java.util.List;
@@ -82,22 +84,37 @@ public class GameMakerWindow {
     public VBox setSettingsContent(Model spriteModel) {
         VBox myBox = new VBox(8);
         VBox myPictureBox = new VBox();
+        myPictureBox.setPadding(new Insets(20,0,0,0));
         ImageView myImage = new ImageView(new Image(spriteModel.getMyRef()));
         myPictureBox.getChildren().add(myImage);
         myPictureBox.setAlignment(Pos.CENTER);
         myBox.getChildren().add(myPictureBox);
-        List<NumProperty> myList = spriteModel.getMyPropertiesList();
-        myList.forEach(numProperty ->{
-            HBox myTempBox = new HBox();
-            myTempBox.setPadding(new Insets(20,0,0,0));
-            Label myLabel = new Label(numProperty.toString());
-            Slider mySlider = new Slider(0, 100, numProperty.getMyValue());
-            settings.setSliderSettings(mySlider);
-            mySlider.valueProperty().bindBidirectional(numProperty.getDouble());
-            myTempBox.getChildren().addAll(myLabel, mySlider);
-            myTempBox.setAlignment(Pos.CENTER);
-            myBox.getChildren().add(myTempBox);
-        });
+        List<Behavior> myList = spriteModel.getMyPropertiesList();
+        List<HBox> myBoxes = myWindow.getMyVisualFactory().getHBoxes(myList);
+        myBox.getChildren().addAll(myBoxes);
+//        Spinner<Integer> mySpinner = new Spinner<>();
+//        myList.forEach(numProperty ->{
+//            HBox myTempBox = new HBox();
+//            myTempBox.setPadding(new Insets(20,0,0,0));
+//            Label myLabel = new Label(numProperty.toString());
+//            Slider mySlider = new Slider(0, 100, numProperty.getMyValue());
+//            settings.setSliderSettings(mySlider);
+//            mySlider.valueProperty().bindBidirectional(numProperty.getDouble());
+//            myTempBox.getChildren().addAll(myLabel, mySlider);
+//            myTempBox.setAlignment(Pos.CENTER);
+//            myBox.getChildren().add(myTempBox);
+//        });
+//
+//        ComboBox<String> myWeaponOptions = new ComboBox<>();
+//        WeaponProperty myWeapon = spriteModel.getMyWeapon();
+//        List<WeaponProperty> myWeaponList = spriteModel.getMyWeaponsList();
+//        myWeaponList.forEach(weapon->{
+//            myWeaponOptions.getItems().add(weapon.toString());
+//            }
+//        );
+//        myWeaponOptions.valueProperty().bindBidirectional(myWeapon.getMyWeapon());
+//        myBox.getChildren().add(myWeaponOptions);
+
         return myBox;
     }
 
