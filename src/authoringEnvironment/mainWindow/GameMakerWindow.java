@@ -74,10 +74,6 @@ public class GameMakerWindow {
             orgTranslateY = mySprite.getTranslateY();
 
             myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
-
-            // mySprite.setSettingsContent(myWindow);
-            // myWindow.setContent(settingsPropertyFactory.makeNewThing(ViewSprite's
-            // model'));
         }
     };
 
@@ -92,29 +88,6 @@ public class GameMakerWindow {
         List<Behavior> myList = spriteModel.getMyPropertiesList();
         List<HBox> myBoxes = myWindow.getMyVisualFactory().getHBoxes(myList);
         myBox.getChildren().addAll(myBoxes);
-//        Spinner<Integer> mySpinner = new Spinner<>();
-//        myList.forEach(numProperty ->{
-//            HBox myTempBox = new HBox();
-//            myTempBox.setPadding(new Insets(20,0,0,0));
-//            Label myLabel = new Label(numProperty.toString());
-//            Slider mySlider = new Slider(0, 100, numProperty.getMyValue());
-//            settings.setSliderSettings(mySlider);
-//            mySlider.valueProperty().bindBidirectional(numProperty.getDouble());
-//            myTempBox.getChildren().addAll(myLabel, mySlider);
-//            myTempBox.setAlignment(Pos.CENTER);
-//            myBox.getChildren().add(myTempBox);
-//        });
-//
-//        ComboBox<String> myWeaponOptions = new ComboBox<>();
-//        WeaponProperty myWeapon = spriteModel.getMyWeapon();
-//        List<WeaponProperty> myWeaponList = spriteModel.getMyWeaponsList();
-//        myWeaponList.forEach(weapon->{
-//            myWeaponOptions.getItems().add(weapon.toString());
-//            }
-//        );
-//        myWeaponOptions.valueProperty().bindBidirectional(myWeapon.getMyWeapon());
-//        myBox.getChildren().add(myWeaponOptions);
-
         return myBox;
     }
 
