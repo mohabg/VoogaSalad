@@ -1,9 +1,8 @@
 package gameElements;
 
-public abstract class Attack implements Behavior{
+public abstract class Attack extends Sprite implements Behavior{
 		
 		private Movement movement;
-		private Collision collision;
 		
 		public Movement getMovement() {
 			return movement;
@@ -11,11 +10,6 @@ public abstract class Attack implements Behavior{
 		public void setMovement(Movement movement) {
 			this.movement = movement;
 		}
-		public Collision getCollision() {
-			return collision;
-		}
-		public void setCollision(Collision collision) {
-			this.collision = collision;
-		}
+		
 		
 }

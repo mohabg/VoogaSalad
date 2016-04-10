@@ -4,27 +4,32 @@ import java.lang.reflect.Method;
 
 public class Collision implements Behavior{
 	
-	private Sprite sprite; 
+	private Sprite spriteProperties; 
 	
 	public Sprite getSprite() {
-		return sprite;
+		return spriteProperties;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setSpriteProperties(Sprite spriteProperties) {
+		this.spriteProperties = spriteProperties;
 	}
 
 	@Override
-	public void apply(Sprite sprite) {
+	public void apply(Sprite spriteProperties) {
 		Class thisCollisionClass = this.getClass();
-		Class spriteCollisionClass = sprite.getCollision().getClass();
+		Class spriteCollisionClass = spriteProperties.getCollision().getClass();
 		try{
 			Method method = thisCollisionClass.getMethod("handleCollision", spriteCollisionClass);
-			method.invoke(thisCollisionClass, sprite.getCollision());
+			method.invoke(thisCollisionClass, spriteProperties.getCollision());
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean ready() {
+		return false;
 	}
 	
 }
