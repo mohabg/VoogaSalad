@@ -46,4 +46,16 @@ public class MainAuthoringWindow implements IScreen{
 		return myRetScene;
 	}
 
+	@Override
+	public void switchScene(IScreen screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParentScreen(IScreen screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

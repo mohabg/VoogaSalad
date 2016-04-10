@@ -16,23 +16,31 @@ public class PlayScreen implements IScreen {
 	private Pane myPane;
 	private File gameFile;
 	private IScreen parentScreen;
+	private BorderPane bpContainer;
 	
-	public PlayScreen(File gameFile) {
-		this.gameFile = gameFile;
-		BorderPane container = new BorderPane();
-		container.setTop(myFactory.makePause());
-		
-		add(container);
+	private final String PAUSE = "Pause";
+	
+	public PlayScreen(File newGameFile) {
+		gameFile = newGameFile;
+		initBorderPane();
 
 		
 		// TODO ADD HUD TO THIS SCREEN
 	}
 
+	private void initBorderPane() {
+		bpContainer = new BorderPane();
+		bpContainer.setTop(ButtonFactory.makeButton(PAUSE, a -> {
+			switchScene(new PauseScreen());
+		}));
+		myPane.getChildren().add(bpContainer);
+	}
+	
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		for (LevelModel lm : gameLevels) {
 			Map<ViewSprite, Model> spriteList = lm.getMyMap();
 			for(ViewSprite vs : spriteList.keySet()) {
-				add(vs);
+				myPane.getChildren().add(vs);
 			}
 		}
 	}

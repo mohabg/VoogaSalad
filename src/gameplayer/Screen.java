@@ -5,7 +5,6 @@ import javafx.scene.layout.Pane;
 
 public abstract class Screen {
 	private Pane myPane;
-	ButtonFactory myFactory;
 
 	public Screen(){
 		myPane = new Pane();
