@@ -51,7 +51,7 @@ public class ButtonFactory {
 		return box;
 	}
 		
-	private Button makeOneButton(String name, EventHandler<? super MouseEvent> action) {
+	public Button makeOneButton(String name, EventHandler<? super MouseEvent> action) {
 		Button b = new Button();
 		b.setText(name);
 		b.setOnMouseClicked(action);

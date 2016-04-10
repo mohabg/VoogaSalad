@@ -53,7 +53,11 @@ public class GameWindow {
 		myScreenMap.put("GameFileScreen", new GameFileScreen(myFactory));
 		myScreenMap.put("SettingsScreen", new SettingsScreen(myFactory));
 
+		myFactory.makeOneButton("c", p -> {setScreen("GameFileScreen");});
 		setScreen("GameFileScreen");
+	}
+	
+	private void makeButtons() {	
 	}
 
 	public void setScreen(String key) {
