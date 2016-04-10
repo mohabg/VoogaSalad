@@ -14,11 +14,9 @@ import authoringEnvironment.LevelModel;
 import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class GameWindow implements IScreen{
-	// Game myGame;
-	// GameView myGameView;
-	// GameLoader myLoader;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	
@@ -32,6 +30,7 @@ public class GameWindow implements IScreen{
 	private GameFileScreen myGameFileScreen;
 	private Screen mySettingsScreen;
 	
+	private IScreen parentScreen;
 
 	public GameWindow() {
 		myPane = new Pane();
@@ -56,27 +55,37 @@ public class GameWindow implements IScreen{
 		newGame(myGameFile);
 	}
 
-	public void newGame(File file) {
-		// make game;
-		myGameFile = file;
-		
-		List<LevelModel> gameLevels = parseAndLoadGame(file);
-		PlayScreen ps = (PlayScreen) myScreenMap.get("PlayScreen");
-		ps.setGameLevels(gameLevels);
-		
-		setScreen("PlayScreen");
-	}
-
-	private ArrayList<LevelModel> parseAndLoadGame(File file) {
-		XStream xstream = new XStream(new StaxDriver());
-		FXConverters.configure(xstream);
-		return (ArrayList<LevelModel>) xstream.fromXML(file);
+//	public void newGame(File file) {
+//		// make game;
+//		myGameFile = file;
+//		
+//		List<LevelModel> gameLevels = parseAndLoadGame(file);
+//		PlayScreen ps = (PlayScreen) myScreenMap.get("PlayScreen");
+//		ps.setGameLevels(gameLevels);
+//		
+//		setScreen("PlayScreen");
+//	}
+//
+//	private ArrayList<LevelModel> parseAndLoadGame(File file) {
+//		XStream xstream = new XStream(new StaxDriver());
+//		FXConverters.configure(xstream);
+//		return (ArrayList<LevelModel>) xstream.fromXML(file);
+//	}
+	
+	public void switchScene(IScreen screen) {
+		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
 	}
 	
 	public Scene getScene() {
 		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
 		myRetScene.getStylesheets().add("resources/styles.css");
 		return myRetScene;
+	}
+
+
+	@Override
+	public void setParentScreen(IScreen screen) {
+		parentScreen = screen;	
 	}
 
 }

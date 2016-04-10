@@ -6,9 +6,10 @@ import java.util.Map;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
-public class PlayScreen extends Screen {
+public class PlayScreen implements IScreen {
 //	HUD
 
 	public PlayScreen() {
@@ -29,5 +30,23 @@ public class PlayScreen extends Screen {
 				add(vs);
 			}
 		}
+	}
+
+	@Override
+	public Scene getScene() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void switchScene(IScreen screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParentScreen(IScreen screen) {
+		// TODO Auto-generated method stub
+		
 	}
 }
