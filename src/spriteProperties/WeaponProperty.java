@@ -1,9 +1,6 @@
 package spriteProperties;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 /**
  * Created by davidyan on 4/9/16.
@@ -11,10 +8,12 @@ import javafx.beans.property.StringProperty;
 public abstract class WeaponProperty extends Behavior {
     private StringProperty myWeapon = new SimpleStringProperty();
     private IntegerProperty myNumBullets = new SimpleIntegerProperty();
+    private BooleanProperty isChosen = new SimpleBooleanProperty();
 
     public WeaponProperty(String val){
         myWeapon.set(val);
         myNumBullets.set(10);
+        isChosen.set(false);
     }
 
     public int getMyNumBullets() {
@@ -35,6 +34,14 @@ public abstract class WeaponProperty extends Behavior {
 
     public void setMyWeapon(String value) {
         myWeapon.set(value);
+    }
+
+    public BooleanProperty getChosen(){
+        return isChosen;
+    }
+
+    public void setIsChosen(boolean chosen){
+        isChosen.set(chosen);
     }
 
 

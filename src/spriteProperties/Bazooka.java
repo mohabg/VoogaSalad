@@ -5,7 +5,7 @@ package spriteProperties;
  */
 public class Bazooka extends WeaponProperty {
     public Bazooka(){
-        super("Fast Gun");
+        super("Bazooka");
     }
 
     public Bazooka(String myWeapon){
@@ -13,6 +13,6 @@ public class Bazooka extends WeaponProperty {
     }
 
     public String toString(){
-        return "Fast Gun";
+        return "Bazooka";
     }
 }

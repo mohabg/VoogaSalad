@@ -6,7 +6,7 @@ package spriteProperties;
 public class Pistol extends WeaponProperty {
 
     public Pistol(){
-        super("Big Gun");
+        super("Pistol");
     }
 
     public Pistol(String myWeapon){
@@ -14,6 +14,6 @@ public class Pistol extends WeaponProperty {
     }
 
     public String toString(){
-        return "Big Gun";
+        return "Pistol";
     }
 }
