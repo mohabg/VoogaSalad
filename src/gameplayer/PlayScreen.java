@@ -11,8 +11,8 @@ import javafx.scene.layout.BorderPane;
 public class PlayScreen extends Screen {
 //	HUD
 
-	public PlayScreen(ButtonFactory myFactory) {
-		super(myFactory);
+	public PlayScreen() {
+		super();
 		BorderPane container = new BorderPane();
 		container.setTop(myFactory.makePause());
 		

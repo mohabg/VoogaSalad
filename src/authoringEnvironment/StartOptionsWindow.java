@@ -1,6 +1,8 @@
 package authoringEnvironment;
 
+import gameplayer.ButtonFactory;
 import gameplayer.GameWindow;
+import gameplayer.IScreen;
 /**
  * @author davidyan
  */
@@ -13,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class StartOptionsWindow {
+public class StartOptionsWindow implements IScreen{
 
 	private Stage myStage;
 	private BorderPane myPane;
@@ -41,34 +43,33 @@ public class StartOptionsWindow {
 	
 	public Button createPlayButton() {
 		// TODO MOVE TO RESOURCES FILE
-		Button playButton = new Button("Play A Game");
-		playButton.setOnAction(e -> {
-			GameWindow myGameWindow = new GameWindow();
-			myStage.setScene(myGameWindow.getScene());
-			myStage.show();
-		});
+		Button playButton = ButtonFactory.makeButton("Play a Game", (e -> {
+			switchScene(new GameWindow());
+		}));
 		return playButton;
 	}
 
 	public Button createEditButton() {
 		// TODO MOVE TO RESOURCES FILE
-		Button editButton = new Button("Edit An Existing Game");
-		editButton.setOnAction(e -> {
+		Button editButton = ButtonFactory.makeButton("Edit An Existing Game", (e -> {
 			System.out.println("EDIT");
-		});
+		}));
 		return editButton;
 	}
 
 	public Button createNewButton() {
 		// TODO MOVE TO RESOURCES FILE
-		Button newButton = new Button("Create A New Game");
-		newButton.setOnAction(e -> {
-			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
-			myStage.setScene(myMainAuthoringWindow.getScene());
-			myStage.show();
+		Button newButton = ButtonFactory.makeButton("Create A New Game", (e -> {
+			switchScene(new MainAuthoringWindow());
+			// TODO might want to remove line below
 			myStage.centerOnScreen();
-		});
+		}));
 		return newButton;
+	}
+	
+	private void switchScene(IScreen screen) {
+		myStage.setScene(screen.getScene());
+		myStage.show();
 	}
 
 	public Scene getScene() {

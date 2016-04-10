@@ -15,7 +15,7 @@ import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-public class GameWindow {
+public class GameWindow implements IScreen{
 	// Game myGame;
 	// GameView myGameView;
 	// GameLoader myLoader;
@@ -23,7 +23,6 @@ public class GameWindow {
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	
 	private Pane myPane;
-	ButtonFactory myFactory;
 	private File myGameFile;
 
 	private Map<String, Screen> myScreenMap;
@@ -32,33 +31,21 @@ public class GameWindow {
 	private Screen myPauseScreen;
 	private GameFileScreen myGameFileScreen;
 	private Screen mySettingsScreen;
-
-//	private enum Screens {
-//		Play,
-//		Pause,
-//		GameFile,
-//		Settings;
-//	};
 	
 
 	public GameWindow() {
-		// Game game
-		// myGame = game;
 		myPane = new Pane();
-		myFactory = new ButtonFactory(this);
 
 		myScreenMap = new HashMap<String, Screen>();
-		myScreenMap.put("PlayScreen", new PlayScreen(myFactory));
-		myScreenMap.put("PauseScreen", new PauseScreen(myFactory));
-		myScreenMap.put("GameFileScreen", new GameFileScreen(myFactory));
-		myScreenMap.put("SettingsScreen", new SettingsScreen(myFactory));
+		myScreenMap.put("PlayScreen", new PlayScreen());
+		myScreenMap.put("PauseScreen", new PauseScreen());
+		myScreenMap.put("GameFileScreen", new GameFileScreen());
+		myScreenMap.put("SettingsScreen", new SettingsScreen());
 
-		myFactory.makeOneButton("c", p -> {setScreen("GameFileScreen");});
+		myFactory.makeButton("c", p -> {setScreen("GameFileScreen");});
 		setScreen("GameFileScreen");
 	}
 	
-	private void makeButtons() {	
-	}
 
 	public void setScreen(String key) {
 		myPane.getChildren().clear();
@@ -66,7 +53,6 @@ public class GameWindow {
 	}
 
 	public void restart() {
-
 		newGame(myGameFile);
 	}
 

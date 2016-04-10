@@ -12,8 +12,8 @@ public class GameFileScreen extends Screen {
 	File myDirectory;
 	File myGameFile;
 
-	public GameFileScreen(ButtonFactory myFactory) {
-		super(myFactory);
+	public GameFileScreen() {
+		super();
 		init();
 
 	}
@@ -29,7 +29,6 @@ public class GameFileScreen extends Screen {
 	}
 
 	private void setDirectory() {
-
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		myDirectory = directoryChooser.showDialog(new Stage());
 

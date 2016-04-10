@@ -7,9 +7,8 @@ public abstract class Screen {
 	private Pane myPane;
 	ButtonFactory myFactory;
 
-	public Screen(ButtonFactory myFactory){
+	public Screen(){
 		myPane = new Pane();
-		this.myFactory = myFactory;
 	}
 
 	public void add(Node node){

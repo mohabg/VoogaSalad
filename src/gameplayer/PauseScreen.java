@@ -7,11 +7,13 @@ import javafx.scene.layout.StackPane;
 
 public class PauseScreen extends Screen {
 
-	public PauseScreen(ButtonFactory myFactory) {
-		super(myFactory);
+	public PauseScreen() {
+		super();
 		BorderPane container = new BorderPane();
 		container.setCenter(myFactory.makePauseScreenButtons());
 		add(container);
 	}
+	
+	
 
 }
