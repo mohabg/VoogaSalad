@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  * Created by davidyan on 4/6/16.
  */
 
-public abstract class NumProperty implements IProperties {
+public abstract class NumProperty extends Behavior implements IProperties {
     private double myValue;
     private DoubleProperty val = new SimpleDoubleProperty();
     public NumProperty(){
