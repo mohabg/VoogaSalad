@@ -11,7 +11,8 @@ import authoringEnvironment.LevelModel;
 import exampledata.XStreamHandlers.FXConverters;
 
 public class GameLoader {
-	XStream xstream;
+	private XStream xstream;
+	
 	
 	public GameLoader() { 
 		xstream = new XStream(new StaxDriver());
@@ -20,10 +21,18 @@ public class GameLoader {
 	
 	public IScreen newGame(File file) {
 		List<LevelModel> gameLevels = parseAndLoadGame(file);
-		PlayScreen ps = new PlayScreen();
+		PlayScreen ps = new PlayScreen(file);
 		ps.setGameLevels(gameLevels);
 		
 		return ps;
+	}
+	
+	public void saveGame() {
+		
+	}
+	
+	public IScreen restartGame(File file) {
+		return newGame(file);
 	}
 	
 	private ArrayList<LevelModel> parseAndLoadGame(File file) {	

@@ -1,5 +1,6 @@
 package gameplayer;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -8,19 +9,23 @@ import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class PlayScreen implements IScreen {
-//	HUD
-
-	public PlayScreen() {
-		super();
+	private Pane myPane;
+	private File gameFile;
+	private IScreen parentScreen;
+	
+	public PlayScreen(File gameFile) {
+		this.gameFile = gameFile;
 		BorderPane container = new BorderPane();
 		container.setTop(myFactory.makePause());
 		
 		add(container);
 
 		
-//		add HUD
+		// TODO ADD HUD TO THIS SCREEN
 	}
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
@@ -32,21 +37,22 @@ public class PlayScreen implements IScreen {
 		}
 	}
 
+	public File getGameFile() {
+		return gameFile;
+	}
+	
 	@Override
 	public Scene getScene() {
-		// TODO Auto-generated method stub
-		return null;
+		return myPane.getScene();
 	}
 
 	@Override
 	public void switchScene(IScreen screen) {
-		// TODO Auto-generated method stub
-		
+		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());	
 	}
 
 	@Override
 	public void setParentScreen(IScreen screen) {
-		// TODO Auto-generated method stub
-		
+		parentScreen = screen;	
 	}
 }

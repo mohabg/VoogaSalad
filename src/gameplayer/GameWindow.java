@@ -35,13 +35,13 @@ public class GameWindow implements IScreen{
 	public GameWindow() {
 		myPane = new Pane();
 
-		myScreenMap = new HashMap<String, Screen>();
-		myScreenMap.put("PlayScreen", new PlayScreen());
-		myScreenMap.put("PauseScreen", new PauseScreen());
-		myScreenMap.put("GameFileScreen", new GameFileScreen());
-		myScreenMap.put("SettingsScreen", new SettingsScreen());
-
-		myFactory.makeButton("c", p -> {setScreen("GameFileScreen");});
+//		myScreenMap = new HashMap<String, Screen>();
+//		myScreenMap.put("PlayScreen", new PlayScreen());
+//		myScreenMap.put("PauseScreen", new PauseScreen());
+//		myScreenMap.put("GameFileScreen", new GameFileScreen());
+//		myScreenMap.put("SettingsScreen", new SettingsScreen());
+//
+//		myFactory.makeButton("c", p -> {setScreen("GameFileScreen");});
 		setScreen("GameFileScreen");
 	}
 	
@@ -51,35 +51,22 @@ public class GameWindow implements IScreen{
 		myPane.getChildren().add(myScreenMap.get(key).getPane());
 	}
 
-	public void restart() {
-		newGame(myGameFile);
-	}
+//	public void restart() {
+//		newGame(myGameFile);
+//	}
 
-//	public void newGame(File file) {
-//		// make game;
-//		myGameFile = file;
-//		
-//		List<LevelModel> gameLevels = parseAndLoadGame(file);
-//		PlayScreen ps = (PlayScreen) myScreenMap.get("PlayScreen");
-//		ps.setGameLevels(gameLevels);
-//		
-//		setScreen("PlayScreen");
-//	}
-//
-//	private ArrayList<LevelModel> parseAndLoadGame(File file) {
-//		XStream xstream = new XStream(new StaxDriver());
-//		FXConverters.configure(xstream);
-//		return (ArrayList<LevelModel>) xstream.fromXML(file);
-//	}
 	
+	@Override
 	public void switchScene(IScreen screen) {
 		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
 	}
 	
+	@Override
 	public Scene getScene() {
-		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
-		myRetScene.getStylesheets().add("resources/styles.css");
-		return myRetScene;
+		return myPane.getScene();
+//		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
+//		myRetScene.getStylesheets().add("resources/styles.css");
+//		return myRetScene;
 	}
 
 
