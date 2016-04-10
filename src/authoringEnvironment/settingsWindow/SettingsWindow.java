@@ -1,12 +1,11 @@
-package settingsWindow;
-
-import java.awt.Toolkit;
+package authoringEnvironment.settingsWindow;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.awt.*;
 public class SettingsWindow {
 	private VBox myDisplay;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -24,7 +23,12 @@ public class SettingsWindow {
 		myDisplay.setPrefHeight(myScreenHeight);
 		myDisplay.getChildren().add(myTempBox);
 	}
-	
+
+	public void setContent(VBox mySpriteBox){
+        myDisplay.getChildren().clear();
+        myDisplay.getChildren().add(mySpriteBox);
+
+    }
 	public VBox getBox(){
 		return myDisplay;
 	}

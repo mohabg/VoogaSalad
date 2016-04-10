@@ -1,14 +1,14 @@
-package itemWindow;
+package authoringEnvironment.itemWindow;
 
 /**
  * Created by davidyan on 4/4/16.
  */
-import java.util.ArrayList;
-
 import authoringEnvironment.ViewSprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
+
+import java.util.ArrayList;
 
 public class EnemySpritesTab implements ITab{
 
@@ -25,7 +25,7 @@ public class EnemySpritesTab implements ITab{
         for(ViewSprite x : viewSprites){
 //			img.setFitHeight(myTabPane.getPrefWidth()*0.25);
 //			img.setFitWidth(myTabPane.getPrefWidth()*0.25);
-            tilepane.getChildren().add(x.getImageView());
+            tilepane.getChildren().add(x);
         }
         tab.setContent(tilepane);
     }
