@@ -1,5 +1,6 @@
 package authoringEnvironment;
 
+<<<<<<< HEAD
 /**
  * Created by davidyan on 4/4/16.
  */
@@ -65,3 +66,26 @@ public class ViewSprite extends ImageView {
 	// }
 
 }
+=======
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class ViewSprite {
+
+	ImageView imageview;
+	
+	public ViewSprite() {
+		imageview = new ImageView();
+	}
+	
+	public void setImage(String imagePath){
+		Image image = new Image(imagePath);
+		this.imageview.setImage(image);
+	}
+	
+	public ImageView getImageView(){
+		return imageview;
+	}
+
+}
+>>>>>>> 73f82726e8a42dacbe90ec2f2b19f9ab8dbcd25e
