@@ -1,29 +1,15 @@
 package authoringEnvironment.authoringToolbar;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 /**
  * @author davidyan
  */
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 
-public class FileMenu {
-    private Menu myFileMenu;
-    private MenuItem myNewFile;
-    
-    public FileMenu(){
-    	myFileMenu = new Menu("File");
-    	setNewAction();
-    	myFileMenu.getItems().add(myNewFile);
+public class FileMenu extends AbstractMenu{
+    public FileMenu(String menuName){
+    	super(menuName);
     }
-    
-    public void setNewAction(){
-    	myNewFile = new MenuItem("New");
-        myNewFile.setOnAction(e-> System.out.println("HI"));
-
-    }
-    
-    public Menu getMenu(){
-    	return myFileMenu;
-    }
-
-
 }

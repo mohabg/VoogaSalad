@@ -12,42 +12,40 @@ import java.util.stream.Collectors;
 
 public class ItemWindow {
 	private TabPane myTabPane;
-	private GameMakerWindow window;
-
+	private GameMakerWindow myGameMakerWindow;
 	private Map<ViewSprite, Model> mySpritesAndModels;
 
 	public ItemWindow(GameMakerWindow window) {
-		this.window = window;
+		myGameMakerWindow = window;
 		myTabPane = new TabPane();
 		mySpritesAndModels = new HashMap<ViewSprite, Model>();
-		Settings.setTabPaneSettings(myTabPane);
-
-		init();
+		initTabPane();
 	}
 
-	public void init() {
-		 myTabPane.getTabs().addAll(ItemWindowData.TabTypes.stream().map(t ->
-		 makeTab(t)).collect(Collectors.toList()));
-
+	private void initTabPane() {
+		 Settings.setTabPaneSettings(myTabPane);
+		 myTabPane.getTabs().addAll(ItemWindowData.TabTypes.stream()
+				 .map(t ->makeTab(t))
+				 .collect(Collectors.toList()));
 	}
 
 	private Tab makeTab(String type) {
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
-			AItemTab tab = (AItemTab) c.newInstance();
+			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
 			tab.setTabTitle(type);
 			return tab.getTab();
-
 		} catch (Exception e) {
-
+			// TODO throw exception
 		}
 		return null;
-
 	}
 
-	private Collection<ViewSprite> fillSprites(String type) {
-		return ItemWindowData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type)).map(k -> makeViewSprite(k))
+	private List<ViewSprite> fillSprites(String type) {
+		return ItemWindowData.SpriteImages.keySet().stream()
+				.filter(s -> s.startsWith(type))
+				.map(k -> makeViewSprite(k))
 				.collect(Collectors.toList());
 	}
 
@@ -60,7 +58,7 @@ public class ItemWindow {
 			mySpritesAndModels.put(sprite, new Model(ItemWindowData.SpriteImages.getString(key)));
 
 			sprite.setOnMouseClicked(e -> {
-				window.getCurrentTab().addToWindow(sprite, mySpritesAndModels.get(sprite));
+				myGameMakerWindow.getCurrentTab().addToWindow(sprite, mySpritesAndModels.get(sprite));
 			});
 
 			return sprite;

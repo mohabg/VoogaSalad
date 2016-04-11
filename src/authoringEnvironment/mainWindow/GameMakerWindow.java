@@ -21,6 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.Screen;
+import interfaces.ITab;
+import interfaces.ITabPane;
 import spriteProperties.NumProperty;
 
 import java.util.HashMap;
@@ -28,46 +30,53 @@ import java.util.Map;
 import java.util.List;
 import authoringEnvironment.LevelModel;
 
-public class GameMakerWindow {
-    private TabPane myTabPane;
-    private SettingsWindow myWindow;
-    
-    public GameMakerWindow() {
-        myTabPane = new TabPane();
-        
-    }
-    
-    public void init(SettingsWindow window) {
-        myWindow = window;
-        addNewTab();
-        
-    }
-    
-    public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
-        GameTab myTab = new GameTab(mySpriteMap, ItemWindowData.TAB + (myTabPane.getTabs().size() + 1), myWindow);
-        
-        myTabPane.getTabs().add(myTab);
-        myTabPane.getSelectionModel().select(myTab);
-    }
-    
-    public void addNewTab() {
-        createNewTab(new HashMap<ViewSprite, Model>());
-    }
-    
-    public GameTab getCurrentTab() {
-        return (GameTab) myTabPane.getSelectionModel().getSelectedItem();
-    }
-    
-    public void populateEditingFromSave(List<LevelModel> gameLevels) {
-        myTabPane.getTabs().clear();
-        for (LevelModel lm : gameLevels) {
-            
-            createNewTab(lm.getMyMap());
-        }
-        
-    }
-    
-    public TabPane getMyTabPane() {
-        return myTabPane;
-    }
+public class GameMakerWindow implements ITabPane{
+	private TabPane myTabPane;
+	private SettingsWindow myWindow;
+
+	public GameMakerWindow() {
+		myTabPane = new TabPane();
+	}
+
+	public void init(SettingsWindow window) {
+		myWindow = window;
+		addNewTab();
+	}
+
+	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
+		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
+		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
+
+		myTabPane.getTabs().add(myTab);
+		myTabPane.getSelectionModel().select(myTab);
+	}
+
+	public void populateEditingFromSave(List<LevelModel> gameLevels) {
+		myTabPane.getTabs().clear();
+		for (LevelModel lm : gameLevels) {
+			createNewTab(lm.getMyMap());
+		}
+	}
+	
+	public void addNewTab() {
+		createNewTab(new HashMap<ViewSprite, Model>());
+	}
+
+	public GameAuthoringTab getCurrentTab() {
+		return (GameAuthoringTab) myTabPane.getSelectionModel().getSelectedItem();
+	}
+	
+	public TabPane getMyTabPane() {
+		return myTabPane;
+	}
+
+	@Override
+	public void addNewTab(ITab newTab) {
+		createNewTab(new HashMap<ViewSprite, Model>());
+	}
+
+	@Override
+	public TabPane getTabPane() {
+		return myTabPane;
+	}
 }
