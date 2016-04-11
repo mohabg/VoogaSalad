@@ -59,7 +59,7 @@ public class PauseScreen implements IScreen {
 		});
 		
 		Button save = ButtonFactory.makeButton(SAVE_GAME, a -> {
-			myGameLoader.saveGame();
+//			myGameLoader.saveGame();
 		});
 		
 		Button settings = ButtonFactory.makeButton(CHANGE_SETTINGS, a -> {

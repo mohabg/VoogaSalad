@@ -6,20 +6,18 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 public class SettingsWindow {
-	private Settings settings;
 	private VBox myDisplay;
     private VisualFactory myVisualFactory;
 
 	public SettingsWindow(){
-		settings = new Settings();
         myVisualFactory = new VisualFactory();
 		myDisplay = new VBox();
-		settings.setSettingsDisplaySettings(myDisplay);
+		Settings.setSettingsDisplaySettings(myDisplay);
 
 		HBox myTempBox = new HBox();
 		Label myLabel = new Label("Example Property:");
 		Slider mySlider = new Slider(0,100,50);
-		settings.setSliderSettings(mySlider);
+		Settings.setSliderSettings(mySlider);
 		myTempBox.getChildren().addAll(myLabel, mySlider);
 		myDisplay.getChildren().add(myTempBox);
 	}
