@@ -44,7 +44,7 @@ public class GameMakerWindow {
 	}
 
 	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
-		GameTab myTab = new GameTab(ItemWindowData.TAB + (myTabPane.getTabs().size() + 1), mySpriteMap, myWindow);
+		GameTab myTab = new GameTab(mySpriteMap, ItemWindowData.TAB + (myTabPane.getTabs().size() + 1), myWindow);
 
 		myTabPane.getTabs().add(myTab);
 		myTabPane.getSelectionModel().select(myTab);

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by davidyan on 4/7/16.
  */
 public class Model {
-    private String myImagePath;
+    private String myRef;
     private List<Behavior> myPropertiesList;
     private Health myHealth;
     private Attack myAttack;
@@ -21,8 +21,7 @@ public class Model {
         myHealth = new Health();
         myAttack = new Attack();
         myDefense = new Defense();
-        myPropertiesList = new ArrayList<Behavior>();
-        
+        myPropertiesList = new ArrayList<>();
         myPropertiesList.add(myHealth);
         myPropertiesList.add(myAttack);
         myPropertiesList.add(myDefense);
@@ -30,7 +29,7 @@ public class Model {
         myPropertiesList.add(new Pistol());
         myPropertiesList.add(new Bazooka());
         myPropertiesList.add(new MachineGun());
-        myImagePath = ref;
+        myRef = ref;
     }
 
 
@@ -68,12 +67,12 @@ public class Model {
     }
 
 
-    public String getMyImagePath() {
-        return myImagePath;
+    public String getMyRef() {
+        return myRef;
     }
 
     public void setMyRef(String myRef) {
-        this.myImagePath = myRef;
+        this.myRef = myRef;
     }
 
     public WeaponProperty getMyWeapon() {
