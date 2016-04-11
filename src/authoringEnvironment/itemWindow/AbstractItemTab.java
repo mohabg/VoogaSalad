@@ -4,7 +4,9 @@ import java.util.*;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import interfaces.ITab;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
 
@@ -31,5 +33,10 @@ public abstract class AbstractItemTab implements ITab{
 
     public Tab getTab(){
         return myTab;
+    }
+    
+    @Override
+    public void setTabContent(Node content) {
+    	
     }
 }
