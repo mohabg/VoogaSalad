@@ -51,14 +51,11 @@ public class VisualFactory {
                 myTempBox.getChildren().add(mySpinner);
                 myTempBox.setAlignment(Pos.CENTER);
                 myBoxes.add(myTempBox);
-
             }
 
         }
 
         );
-
-
         return myBoxes;
     }
 
