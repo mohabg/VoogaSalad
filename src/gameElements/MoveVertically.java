@@ -2,14 +2,19 @@ package gameElements;
 
 public class MoveVertically extends Movement{
 
+	private double moveY;
 	
-	public MoveVertically(Actor sprite, int incrementByX, int incremenentByY) {
-		super(sprite, incrementByX, incrementByX);
+	public void getMoveY(double moveY){
+		this.moveY=moveY;
+	}
+	
+	public MoveVertically(Actor sprite) {
+		super(sprite);
 	}
 
 	@Override
 	public void apply(Sprite sprite) {
-		sprite.setY(sprite.getY()+this.getIncrementByX());
+		sprite.setY(sprite.getY()+moveY);
 		
 	}
 

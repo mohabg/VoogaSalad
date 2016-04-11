@@ -2,14 +2,19 @@ package gameElements;
 
 public class MoveHorizontally extends Movement{
 	
+	private double moveX;
 	
-	public MoveHorizontally(Actor sprite, int incrementByX, int incremenentByY) {
-		super(sprite, incrementByX, incrementByX);
+	public void setMoveX(double moveX){
+		this.moveX=moveX;
+	}
+	
+	public MoveHorizontally(Actor sprite) {
+		super(sprite);
 	}
 
 	@Override
 	public void apply(Sprite sprite) {
-		sprite.setY(sprite.getY()+this.getIncrementByX());
+		sprite.setX(sprite.getX()+moveX);
 		
 	}
 
