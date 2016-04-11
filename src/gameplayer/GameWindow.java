@@ -14,75 +14,67 @@ import authoringEnvironment.LevelModel;
 import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import loading.GameLoader;
 
-public class GameWindow {
-	// Game myGame;
-	// GameView myGameView;
-	// GameLoader myLoader;
+import javafx.stage.Stage;
+
+public class GameWindow implements IScreen{
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 
 	private Pane myPane;
-	ButtonFactory myFactory;
 	private File myGameFile;
 
 	private Map<String, Screen> myScreenMap;
 
-	// private Screen myPlayScreen;
-	// private Screen myPauseScreen;
-	// private GameFileScreen myGameFileScreen;
-	// private Screen mySettingsScreen;
-	private GameLoader myGameLoader;
-	// private enum Screens {
-	// Play,
-	// Pause,
-	// GameFile,
-	// Settings;
-	// };
+	private Screen myPlayScreen;
+	private Screen myPauseScreen;
+	private GameFileScreen myGameFileScreen;
+	private Screen mySettingsScreen;
+	
+	private IScreen parentScreen;
 
 	public GameWindow() {
-		// Game game
-		// myGame = game;
 		myPane = new Pane();
-		myFactory = new ButtonFactory(this);
-		myGameLoader = new GameLoader();
 
-		myScreenMap = new HashMap<String, Screen>();
-		myScreenMap.put("PlayScreen", new PlayScreen(myFactory));
-		myScreenMap.put("PauseScreen", new PauseScreen(myFactory));
-		myScreenMap.put("GameFileScreen", new GameFileScreen(myFactory));
-		myScreenMap.put("SettingsScreen", new SettingsScreen(myFactory));
 
+//		myScreenMap = new HashMap<String, Screen>();
+//		myScreenMap.put("PlayScreen", new PlayScreen());
+//		myScreenMap.put("PauseScreen", new PauseScreen());
+//		myScreenMap.put("GameFileScreen", new GameFileScreen());
+//		myScreenMap.put("SettingsScreen", new SettingsScreen());
+//
+//		myFactory.makeButton("c", p -> {setScreen("GameFileScreen");});
 		setScreen("GameFileScreen");
 	}
+	
 
 	public void setScreen(String key) {
 		myPane.getChildren().clear();
 		myPane.getChildren().add(myScreenMap.get(key).getPane());
 	}
 
-	public void restart() {
+//	public void restart() {
+//		newGame(myGameFile);
+//	}
 
-		newGame(myGameFile);
+	
+	@Override
+	public void switchScene(IScreen screen) {
+		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
 	}
-
-	public void newGame(File file) {
-		// make game;
-		myGameFile = file;
-
-		List<LevelModel> gameLevels = myGameLoader.parseAndLoadGame(file);
-		for (LevelModel lm : gameLevels) {
-			myScreenMap.get("PlayScreen").addAll(myGameLoader.getViewSprites(lm));
-		}
-
-		setScreen("PlayScreen");
-	}
-
+	
+	@Override
 	public Scene getScene() {
-		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
-		myRetScene.getStylesheets().add("resources/styles.css");
-		return myRetScene;
+		return myPane.getScene();
+//		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
+//		myRetScene.getStylesheets().add("resources/styles.css");
+//		return myRetScene;
+	}
+
+
+	@Override
+	public void setParentScreen(IScreen screen) {
+		parentScreen = screen;	
 	}
 
 }

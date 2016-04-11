@@ -8,9 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameplayer.IScreen;
+
 import java.awt.*;
 
-public class MainAuthoringWindow {
+public class MainAuthoringWindow implements IScreen{
 	private BorderPane myPane;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -45,6 +47,18 @@ public class MainAuthoringWindow {
 	}
 	public GameMakerWindow getGameMakerWindow(){
 		return myGameMakerWindow;
+	}
+
+	@Override
+	public void switchScene(IScreen screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParentScreen(IScreen screen) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

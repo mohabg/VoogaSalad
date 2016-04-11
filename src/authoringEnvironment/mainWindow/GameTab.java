@@ -96,5 +96,9 @@ public class GameTab extends Tab {
 		// System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
 		((Pane) getContent()).getChildren().addAll(copy);
 	}
+	
+	public Map<ViewSprite, Model> getMap(){
+		return mySpriteMap;
+	}
 
 }
