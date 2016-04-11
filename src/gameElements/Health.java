@@ -20,6 +20,10 @@ public class Health extends Observable{
 			this.notifyObservers();
 		}
 	}
+	public void setHealth(double health){
+		this.value = health;
+		isMortal = true;
+	}
 	public double getHealth(){
 		return value;
 	}

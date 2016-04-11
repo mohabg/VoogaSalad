@@ -15,7 +15,9 @@ public class Bullet extends Attack{
 	}
 	@Override
 	public void apply(Sprite sprite) {
-		//Shoot Bullet
+		if(hasAmmunitionLeft()){
+			
+		}
 		
 	}
 

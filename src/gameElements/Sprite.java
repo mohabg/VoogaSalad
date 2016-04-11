@@ -30,6 +30,9 @@ public class Sprite extends Observable{
 	public SpriteProperties getProperties(){
 		return myProperties;
 	}
+	public void update(){
+		
+	}
 	public boolean isDead(){
 		return myHealth.isDead();
 	}
