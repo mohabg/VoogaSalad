@@ -8,7 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
 
-public abstract class AbstractItemTab {
+public abstract class AbstractItemTab implements ITab{
 	private Tab myTab;
     private TilePane myTilePane;
 

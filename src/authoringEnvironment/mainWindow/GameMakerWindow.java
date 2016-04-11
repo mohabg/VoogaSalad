@@ -21,6 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.Screen;
+import interfaces.ITab;
+import interfaces.ITabPane;
 import spriteProperties.NumProperty;
 
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import java.util.Map;
 import java.util.List;
 import authoringEnvironment.LevelModel;
 
-public class GameMakerWindow {
+public class GameMakerWindow implements ITabPane{
 	private TabPane myTabPane;
 	private SettingsWindow myWindow;
 
@@ -65,6 +67,16 @@ public class GameMakerWindow {
 	}
 	
 	public TabPane getMyTabPane() {
+		return myTabPane;
+	}
+
+	@Override
+	public void addNewTab(ITab newTab) {
+		createNewTab(new HashMap<ViewSprite, Model>());
+	}
+
+	@Override
+	public TabPane getTabPane() {
 		return myTabPane;
 	}
 }

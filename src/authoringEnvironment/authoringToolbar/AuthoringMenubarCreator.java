@@ -13,6 +13,7 @@ import gameplayer.GameLoader;
 public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
 	
+	// TODO SWITCH TO REFLECTION
 	private final String MENU_FILE = "File";
 	private final String MENU_ITEM_NEW_FILE="New File";
 	    
