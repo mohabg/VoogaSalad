@@ -15,13 +15,13 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class GameFileScreen implements IScreen {
-	private File myDirectory;
 	private File myGameFile;
 	
 	
 	private Pane myPane;
 	private TabPane tabPane;
 	private IScreen parentScreen;
+	private Scene myScene;
 	
 	private final File DEFAULT_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/DefaultGames");
 	private final File SAVED_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/SavedGames");
@@ -36,6 +36,7 @@ public class GameFileScreen implements IScreen {
 	
 	public GameFileScreen() {
 		myPane = new Pane();
+		myScene = new Scene(myPane);
 		tabPane = new TabPane();
 		myGameLoader = new GameLoader();
 		initTabs();
@@ -44,6 +45,8 @@ public class GameFileScreen implements IScreen {
 	private void initTabs() {
 		tabPane.getTabs().add(addTab(DEFAULT_GAMES, DEFAULT_DIRECTORY));
 		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
+		System.out.println("here");
+		myPane.getChildren().add(tabPane);
 	}
 	
 	private Tab addTab(String title, File directory) {

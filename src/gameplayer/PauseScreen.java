@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class PauseScreen implements IScreen {
 	private BorderPane container;
 	private Pane myPane;
+	private Scene myScene;
 	private IScreen parentScreen;
 	
 	private GameLoader myGameLoader;
@@ -27,7 +28,10 @@ public class PauseScreen implements IScreen {
 	
 	
 	public PauseScreen() {
+		myPane = new Pane();
+		myScene = new Scene(myPane);
 		container = new BorderPane();
+		myGameLoader = new GameLoader();
 		initBorderPane();
 	}
 	

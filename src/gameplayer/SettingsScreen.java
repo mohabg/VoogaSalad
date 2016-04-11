@@ -7,15 +7,17 @@ import javafx.stage.Stage;
 
 public class SettingsScreen implements IScreen {
 	private Pane myPane;
+	private Scene myScene;
 	private IScreen parentScreen;
 	
 	public SettingsScreen() {
 		myPane = new Pane();
+		myScene = new Scene(myPane);
 	}
 	
 	@Override
 	public Scene getScene() {
-		return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
+		return myPane.getScene();
 	}
 
 	@Override

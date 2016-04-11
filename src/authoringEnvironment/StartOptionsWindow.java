@@ -63,9 +63,9 @@ public class StartOptionsWindow implements IScreen{
 	}
 	
 	public void switchScene(IScreen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
-//		myStage.setScene(screen.getScene());
-//		myStage.show();
+		//((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
+		myStage.setScene(screen.getScene());
+		myStage.show();
 	}
 	
 	public void setParentScreen(IScreen screen) {
