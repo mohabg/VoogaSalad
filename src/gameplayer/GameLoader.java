@@ -1,6 +1,8 @@
 package gameplayer;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,30 +14,40 @@ import exampledata.XStreamHandlers.FXConverters;
 
 public class GameLoader {
 	private XStream xstream;
-	
-	
-	public GameLoader() { 
+
+	public GameLoader() {
 		xstream = new XStream(new StaxDriver());
 		FXConverters.configure(xstream);
 	}
-	
+
 	public IScreen newGame(File file) {
 		List<LevelModel> gameLevels = parseAndLoadGame(file);
 		PlayScreen ps = new PlayScreen(file);
 		ps.setGameLevels(gameLevels);
-		
+
 		return ps;
 	}
-	
-	public void saveGame() {
-		
+
+	public void saveGame(List<LevelModel> gameLevels) {
+		String xml = xstream.toXML(gameLevels);
+
+		FileWriter fw;
+		try {
+			fw = new FileWriter(System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml");
+			fw.write(xml);
+			fw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
-	
+
 	public IScreen restartGame(File file) {
 		return newGame(file);
 	}
-	
-	private ArrayList<LevelModel> parseAndLoadGame(File file) {	
+
+	public ArrayList<LevelModel> parseAndLoadGame(File file) {
 		return (ArrayList<LevelModel>) xstream.fromXML(file);
 	}
 }

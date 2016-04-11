@@ -8,18 +8,17 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
 
-public abstract class ATab {
+public abstract class AItemTab {
 	Tab tab;
     TilePane tilepane;
 
-    public ATab() {
+    public AItemTab() {
         tab = new Tab();
         tilepane = new TilePane();
     }
     
     public void populateTab(Collection<ViewSprite> viewSprites){
-        Settings s = new Settings();
-        s.setTilePaneSettings(tilepane);
+        Settings.setTilePaneSettings(tilepane);
         for(ViewSprite x : viewSprites){
 //			img.setFitHeight(myTabPane.getPrefWidth()*0.25);
 //			img.setFitWidth(myTabPane.getPrefWidth()*0.25);

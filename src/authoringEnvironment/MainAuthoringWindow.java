@@ -33,7 +33,7 @@ public class MainAuthoringWindow implements IScreen{
         myGameMakerWindow.init(mySettingsWindow);
 
 
-        myPane.setCenter(myGameMakerWindow.getMainWindow());
+        myPane.setCenter(myGameMakerWindow.getMyTabPane());
 		myPane.setLeft(myItemWindow.getTabPane());
 		myPane.setTop(myMenubar.getMenuBar());
 		myPane.setRight(mySettingsWindow.getBox());
@@ -44,6 +44,9 @@ public class MainAuthoringWindow implements IScreen{
 		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
 		myRetScene.getStylesheets().add("resources/styles.css");
 		return myRetScene;
+	}
+	public GameMakerWindow getGameMakerWindow(){
+		return myGameMakerWindow;
 	}
 
 	@Override

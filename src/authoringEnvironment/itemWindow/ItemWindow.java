@@ -20,8 +20,7 @@ public class ItemWindow {
 		this.window = window;
 		myTabPane = new TabPane();
 		mySpritesAndModels = new HashMap<ViewSprite, Model>();
-		Settings s = new Settings();
-		s.setTabPaneSettings(myTabPane);
+		Settings.setTabPaneSettings(myTabPane);
 
 		init();
 	}
@@ -35,7 +34,7 @@ public class ItemWindow {
 	private Tab makeTab(String type) {
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
-			ATab tab = (ATab) c.newInstance();
+			AItemTab tab = (AItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
 			tab.setTabTitle(type);
 			return tab.getTab();
@@ -61,7 +60,7 @@ public class ItemWindow {
 			mySpritesAndModels.put(sprite, new Model(ItemWindowData.SpriteImages.getString(key)));
 
 			sprite.setOnMouseClicked(e -> {
-				window.addToWindow(sprite, mySpritesAndModels.get(sprite));
+				window.getCurrentTab().addToWindow(sprite, mySpritesAndModels.get(sprite));
 			});
 
 			return sprite;
