@@ -2,15 +2,17 @@ package authoringEnvironment;
 /**
  * @author davidyan
  */
-import authoringToolbar.AuthoringMenubarCreator;
-import itemWindow.ItemWindow;
+import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
+import authoringEnvironment.itemWindow.ItemWindow;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import mainWindow.GameMakerWindow;
-import settingsWindow.SettingsWindow;
+import authoringEnvironment.mainWindow.GameMakerWindow;
+import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameplayer.IScreen;
+
 import java.awt.*;
 
-public class MainAuthoringWindow {
+public class MainAuthoringWindow implements IScreen{
 	private BorderPane myPane;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -21,26 +23,42 @@ public class MainAuthoringWindow {
 
 	public MainAuthoringWindow(){
 		myPane = new BorderPane();
+
 		myGameMakerWindow = new GameMakerWindow();
-		myItemWindow = new ItemWindow();
+		myItemWindow = new ItemWindow(myGameMakerWindow);
 		myMenubar = new AuthoringMenubarCreator();
 		myMenubar.init(myGameMakerWindow);
 		mySettingsWindow = new SettingsWindow();
-        myItemWindow.init(myGameMakerWindow, mySettingsWindow);
+//        myItemWindow.init();
         myGameMakerWindow.init(mySettingsWindow);
 
 
-        myPane.setCenter(myGameMakerWindow.getMainWindow());
+        myPane.setCenter(myGameMakerWindow.getMyTabPane());
 		myPane.setLeft(myItemWindow.getTabPane());
 		myPane.setTop(myMenubar.getMenuBar());
 		myPane.setRight(mySettingsWindow.getBox());
-        //mySettingsWindow.setContent();
+//        mySettingsWindow.setContent();
 	}
 
 	public Scene getScene(){
 		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
 		myRetScene.getStylesheets().add("resources/styles.css");
 		return myRetScene;
+	}
+	public GameMakerWindow getGameMakerWindow(){
+		return myGameMakerWindow;
+	}
+
+	@Override
+	public void switchScene(IScreen screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParentScreen(IScreen screen) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

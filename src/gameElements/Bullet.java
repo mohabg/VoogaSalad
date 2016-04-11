@@ -5,7 +5,7 @@ public class Bullet extends Attack{
 	private Sprite mySprite;
 	private SpriteProperties myProperties;
 	
-	public Bullet(){
+	public Bullet(double numBullets, double rechargeTime){
 		myProperties = new SpriteProperties();
 	}
 	public Bullet(Sprite sprite){
