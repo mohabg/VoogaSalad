@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-public class GameFileScreen implements IScreen {
+public abstract class GameFileScreen implements IScreen {
 	private File myGameFile;
 
 	private Pane myPane;
@@ -36,13 +36,13 @@ public class GameFileScreen implements IScreen {
 		myPane = new Pane();
 		myScene = new Scene(myPane);
 		tabPane = new TabPane();
-		myGameLoader = new GameLoader();
+		setMyGameLoader(new GameLoader());
 		initTabs();
 	}
 
 	private void initTabs() {
 		tabPane.getTabs().add(addTab(DEFAULT_GAMES, DEFAULT_DIRECTORY));
-//		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
+		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
 		System.out.println("here");
 		myPane.getChildren().add(tabPane);
 	}
@@ -65,16 +65,9 @@ public class GameFileScreen implements IScreen {
 		return directory.listFiles(f -> f.getName().endsWith(FILE_TYPE));
 	}
 
-	public ImageView makeDisplay(File file) {
-		ImageView imageview = new ImageView();
-		// TODO have this pull the saved game's picture
-		imageview.setImage(new Image(DEFAULT_PICTURE));
-		imageview.setOnMouseClicked((event) -> {
-			IScreen playScreen = myGameLoader.newGame(file);
-			switchScene(playScreen);
-		});
-		return imageview;
-	}
+	public abstract ImageView makeDisplay(File file); 
+	//TODO: MAKE THE ACTUAL EVENTS abstract, not this whole method 
+
 
 	public File getGameFile() {
 		return myGameFile;
@@ -93,6 +86,14 @@ public class GameFileScreen implements IScreen {
 	@Override
 	public void setParentScreen(IScreen screen) {
 		parentScreen = screen;
+	}
+
+	public GameLoader getMyGameLoader() {
+		return myGameLoader;
+	}
+
+	public void setMyGameLoader(GameLoader myGameLoader) {
+		this.myGameLoader = myGameLoader;
 	}
 
 }
