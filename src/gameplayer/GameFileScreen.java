@@ -42,7 +42,7 @@ public class GameFileScreen implements IScreen {
 
 	private void initTabs() {
 		tabPane.getTabs().add(addTab(DEFAULT_GAMES, DEFAULT_DIRECTORY));
-//		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
+		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
 		System.out.println("here");
 		myPane.getChildren().add(tabPane);
 	}
