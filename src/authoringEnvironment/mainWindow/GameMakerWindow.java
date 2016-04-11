@@ -34,22 +34,29 @@ public class GameMakerWindow {
 
 	public GameMakerWindow() {
 		myTabPane = new TabPane();
-
 	}
 
 	public void init(SettingsWindow window) {
 		myWindow = window;
 		addNewTab();
-
 	}
 
 	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
-		GameTab myTab = new GameTab(mySpriteMap, ItemWindowData.TAB + (myTabPane.getTabs().size() + 1), myWindow);
+		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
+		GameTab myTab = new GameTab(mySpriteMap, tabName, myWindow);
 
 		myTabPane.getTabs().add(myTab);
 		myTabPane.getSelectionModel().select(myTab);
 	}
 
+	public void populateEditingFromSave(List<LevelModel> gameLevels) {
+		myTabPane.getTabs().clear();
+		for (LevelModel lm : gameLevels) {
+			createNewTab(lm.getMyMap());
+		}
+
+	}
+	
 	public void addNewTab() {
 		createNewTab(new HashMap<ViewSprite, Model>());
 	}
@@ -57,16 +64,7 @@ public class GameMakerWindow {
 	public GameTab getCurrentTab() {
 		return (GameTab) myTabPane.getSelectionModel().getSelectedItem();
 	}
-
-	public void populateEditingFromSave(List<LevelModel> gameLevels) {
-		myTabPane.getTabs().clear();
-		for (LevelModel lm : gameLevels) {
-
-			createNewTab(lm.getMyMap());
-		}
-
-	}
-
+	
 	public TabPane getMyTabPane() {
 		return myTabPane;
 	}

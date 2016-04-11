@@ -1,0 +1,35 @@
+package authoringEnvironment.itemWindow;
+
+import java.util.*;
+
+import authoringEnvironment.Settings;
+import authoringEnvironment.ViewSprite;
+import javafx.geometry.Insets;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.TilePane;
+
+public abstract class AbstractItemTab {
+	private Tab myTab;
+    private TilePane myTilePane;
+
+    public AbstractItemTab() {
+        myTab = new Tab();
+        myTilePane = new TilePane();
+    }
+    
+    public void populateTab(Collection<ViewSprite> viewSprites){
+        Settings.setTilePaneSettings(myTilePane);
+        for(ViewSprite sprite : viewSprites){
+            myTilePane.getChildren().add(sprite);
+        }
+        myTab.setContent(myTilePane);
+    }
+
+    public void setTabTitle(String tabTitle){
+        myTab.setText(tabTitle);
+    }
+
+    public Tab getTab(){
+        return myTab;
+    }
+}

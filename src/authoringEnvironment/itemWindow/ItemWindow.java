@@ -34,7 +34,7 @@ public class ItemWindow {
 	private Tab makeTab(String type) {
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
-			AItemTab tab = (AItemTab) c.newInstance();
+			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
 			tab.setTabTitle(type);
 			return tab.getTab();
