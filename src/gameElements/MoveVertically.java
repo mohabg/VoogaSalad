@@ -2,7 +2,7 @@ package gameElements;
 
 public class MoveVertically extends Movement{
 
-	public MoveVertically(Sprite sprite) {
+	public MoveVertically(Actor sprite) {
 		super(sprite);
 	}
 
