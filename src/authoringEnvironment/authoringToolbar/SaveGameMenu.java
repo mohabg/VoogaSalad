@@ -4,7 +4,7 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameMakerWindow;
-import authoringEnvironment.mainWindow.GameTab;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
 import exampledata.XStreamHandlers.FXConverters;
 import gameplayer.GameLoader;
 import javafx.scene.Node;

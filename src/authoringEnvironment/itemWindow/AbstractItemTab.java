@@ -24,7 +24,7 @@ public abstract class AbstractItemTab implements ITab{
         for(ViewSprite sprite : viewSprites){
             myTilePane.getChildren().add(sprite);
         }
-        myTab.setContent(myTilePane);
+        setTabContent(myTilePane);
     }
 
     public void setTabTitle(String tabTitle){
@@ -37,6 +37,6 @@ public abstract class AbstractItemTab implements ITab{
     
     @Override
     public void setTabContent(Node content) {
-    	
+    	myTab.setContent(content);
     }
 }

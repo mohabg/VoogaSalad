@@ -45,7 +45,7 @@ public class GameMakerWindow implements ITabPane{
 
 	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
 		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
-		GameTab myTab = new GameTab(mySpriteMap, tabName, myWindow);
+		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
 
 		myTabPane.getTabs().add(myTab);
 		myTabPane.getSelectionModel().select(myTab);
@@ -62,8 +62,8 @@ public class GameMakerWindow implements ITabPane{
 		createNewTab(new HashMap<ViewSprite, Model>());
 	}
 
-	public GameTab getCurrentTab() {
-		return (GameTab) myTabPane.getSelectionModel().getSelectedItem();
+	public GameAuthoringTab getCurrentTab() {
+		return (GameAuthoringTab) myTabPane.getSelectionModel().getSelectedItem();
 	}
 	
 	public TabPane getMyTabPane() {

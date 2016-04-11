@@ -13,7 +13,7 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.mainWindow.GameTab;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
 import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -60,7 +60,7 @@ public class GameLoader {
 		FXConverters.configure(xstream);
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for(Tab levelTab: levels.getTabs()){
-			Map<ViewSprite, Model> spriteModels = ((GameTab) levelTab).getMap();
+			Map<ViewSprite, Model> spriteModels = ((GameAuthoringTab) levelTab).getMap();
 			LevelModel newLM = new LevelModel(spriteModels);
             levelModelList.add(newLM);
         }

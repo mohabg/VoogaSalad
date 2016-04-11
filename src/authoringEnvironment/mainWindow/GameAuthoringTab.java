@@ -8,8 +8,10 @@ import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import interfaces.ITab;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
@@ -19,7 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class GameTab extends Tab {
+public class GameAuthoringTab extends Tab implements ITab{
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 	private Map<ViewSprite, Model> mySpriteMap;
@@ -50,11 +52,10 @@ public class GameTab extends Tab {
 			orgSceneY = t.getSceneY();
 
 			myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
-
 		}
 	};
 	
-	public GameTab(Map<ViewSprite, Model> spriteMap, String title, SettingsWindow window) {
+	public GameAuthoringTab(Map<ViewSprite, Model> spriteMap, String title, SettingsWindow window) {
 		super(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
@@ -97,6 +98,18 @@ public class GameTab extends Tab {
 	
 	public Map<ViewSprite, Model> getMap(){
 		return mySpriteMap;
+	}
+
+	@Override
+	public void setTabContent(Node content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTabTitle(String tabTitle) {
+		//poo
+		return;
 	}
 
 }
