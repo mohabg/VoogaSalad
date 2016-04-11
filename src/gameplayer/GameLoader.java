@@ -21,6 +21,7 @@ import javafx.scene.control.TabPane;
 public class GameLoader {
 	private XStream xstream;
 	private final String DEFAULT_DIRECTORY = System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml";
+	
 	public GameLoader() {
 		xstream = new XStream(new StaxDriver());
 		FXConverters.configure(xstream);

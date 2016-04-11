@@ -13,7 +13,6 @@ public class FileMenu {
     
     public FileMenu(){
     	myFileMenu = new Menu(FILE);
-    	setNewAction();
     }
     
     public void setNewAction(){
