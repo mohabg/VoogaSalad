@@ -4,6 +4,7 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameMakerWindow;
+import authoringEnvironment.mainWindow.GameTab;
 import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
@@ -41,16 +42,8 @@ public class SaveGameMenu {
 
     public void saveMyGame(GameMakerWindow myWindow) {
         TabPane myLevels = myWindow.getMyTabPane();
-        Map<ViewSprite, Model> myModelsMap = myWindow.getMap();
-
         for(Tab aTab: myLevels.getTabs()){
-            Map<ViewSprite,Model> myLevelMap = new HashMap<ViewSprite,Model>();
-            AnchorPane myCurrLevel = (AnchorPane) aTab.getContent();
-            for(Node myView: myCurrLevel.getChildren()){
-                ViewSprite myChar = (ViewSprite) myView;
-                myLevelMap.put(myChar,myModelsMap.get(myChar));
-            }
-            myLevelModelList.add(new LevelModel(myLevelMap));
+            myLevelModelList.add(new LevelModel(((GameTab) aTab).getMap()));
         }
         XStream xstream = new XStream(new StaxDriver());
         FXConverters.configure(xstream);

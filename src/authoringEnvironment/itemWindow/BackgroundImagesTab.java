@@ -11,7 +11,7 @@ import javafx.scene.layout.TilePane;
 
 import java.util.ArrayList;
 
-public class BackgroundImagesTab extends ATab {
+public class BackgroundImagesTab extends AItemTab {
 
 	public BackgroundImagesTab() {
 		super();

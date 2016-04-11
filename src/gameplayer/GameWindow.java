@@ -14,12 +14,13 @@ import authoringEnvironment.LevelModel;
 import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+
 import javafx.stage.Stage;
 
 public class GameWindow implements IScreen{
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-	
+
 	private Pane myPane;
 	private File myGameFile;
 
@@ -34,6 +35,7 @@ public class GameWindow implements IScreen{
 
 	public GameWindow() {
 		myPane = new Pane();
+
 
 //		myScreenMap = new HashMap<String, Screen>();
 //		myScreenMap.put("PlayScreen", new PlayScreen());
