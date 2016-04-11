@@ -6,6 +6,7 @@ import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.mainWindow.GameTab;
 import exampledata.XStreamHandlers.FXConverters;
+import gameplayer.GameLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -31,55 +32,27 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 public class SaveGameMenu {
 
     private Menu myFileMenu;
-    private MenuItem myNewFile;
-    private List<LevelModel> myLevelModelList;
-
-
+    private GameLoader myGameLoader;
+    
+    private final String SAVE_GAME = "Save Game";
+    private final String SAVE_CURRENT_GAME = "Save Current Game";
+    
     public SaveGameMenu(){
-        myFileMenu = new Menu("Save Game");
-        myLevelModelList = new ArrayList<LevelModel>();
-    }
-
-    public void saveMyGame(GameMakerWindow myWindow) {
-        TabPane myLevels = myWindow.getMyTabPane();
-        for(Tab aTab: myLevels.getTabs()){
-            myLevelModelList.add(new LevelModel(((GameTab) aTab).getMap()));
-        }
-        XStream xstream = new XStream(new StaxDriver());
-        FXConverters.configure(xstream);
-
-        //Object to XML Conversion
-        String xml = xstream.toXML(myLevelModelList);
-        
-        FileWriter fw;
-		try {
-			fw = new FileWriter(System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml");
-			fw.write(xml);
-		    fw.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-//		ArrayList<LevelModel> test = (ArrayList<LevelModel>) xstream.fromXML(xml);
-//		for(ViewSprite v : test.get(0).getMyMap().keySet()) {
-//			System.out.println(v.getMyImage());
-//		}
-        //System.out.println(xml);
-
+        myFileMenu = new Menu(SAVE_GAME);
+        myGameLoader = new GameLoader();
     }
 
     public void addLevelTab(GameMakerWindow myWindow){
-        myNewFile = new MenuItem("Save Current Game");
+    	MenuItem myNewFile = new MenuItem(SAVE_CURRENT_GAME);
         myNewFile.setOnAction(e->saveMyGame(myWindow));
         myFileMenu.getItems().add(myNewFile);
-
     }
-
-    public List<LevelModel> getMyLevelModelList(){
-        return myLevelModelList;
+    
+    private void saveMyGame(GameMakerWindow myWindow) {
+    	TabPane allLevels = myWindow.getMyTabPane();
+    	List<LevelModel> levelModels = myGameLoader.levelTabsToModels(allLevels);
+    	myGameLoader.saveGame(levelModels);
     }
-
 
     public Menu getMenu(){
         return myFileMenu;
