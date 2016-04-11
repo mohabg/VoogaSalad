@@ -19,7 +19,7 @@ public class ViewSpriteConverter implements Converter {
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
 		ViewSprite vs = (ViewSprite) value;
 		writer.startNode("image");
-		writer.setValue(vs.getMyImage() + " " + vs.getTranslateX() + " " + vs.getTranslateY() + " " + vs.getFitWidth()
+		writer.setValue(vs.getMyImagePath() + " " + vs.getTranslateX() + " " + vs.getTranslateY() + " " + vs.getFitWidth()
 		+ " " + vs.getFitHeight());
 		writer.endNode();
 	}

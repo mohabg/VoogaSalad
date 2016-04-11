@@ -23,47 +23,12 @@ public class GameTab extends Tab {
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 	private Map<ViewSprite, Model> mySpriteMap;
-	private SettingsWindow myWindow;
-
-	public GameTab(Map<ViewSprite, Model> mySpriteMap, String title, SettingsWindow window) {
-		super(title);
-		this.mySpriteMap = mySpriteMap;
-		myWindow = window;
-
-		ScrollPane myNewGameArea = new ScrollPane();
-		Settings.setGameAreaSettings(myNewGameArea);
-
-		AnchorPane myNewGamePane = new AnchorPane();
-		Settings.setGamePaneSettings(myNewGamePane);
-
-		setContent(myNewGamePane);
-		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
-
-	}
-
-	EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent t) {
-			orgSceneX = t.getSceneX();
-			orgSceneY = t.getSceneY();
-			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
-			orgTranslateX = mySprite.getTranslateX();
-			orgTranslateY = mySprite.getTranslateY();
-
-			myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
-
-		}
-	};
-
-	public VBox setSettingsContent(Model spriteModel) {
-		VBox myBox = new VBox(8);
-		List<HBox> x = myWindow.getMyVisualFactory().getHBoxes(spriteModel.getMyPropertiesList());
-		System.out.println(x.size());
-		myBox.getChildren().addAll(x);
-		return myBox;
-	}
-
-	EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+	private SettingsWindow mySettingsWindow;
+	private AnchorPane myNewGamePane;
+	
+	private final double VBOX_SPACING = 8;
+	
+	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
 			double offsetX = t.getSceneX() - orgSceneX;
@@ -75,26 +40,59 @@ public class GameTab extends Tab {
 			((ImageView) (t.getSource())).setTranslateY(newTranslateY);
 		}
 	};
+	
+	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent t) {
+			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
+			orgTranslateX = mySprite.getTranslateX();
+			orgTranslateY = mySprite.getTranslateY();
+
+			orgSceneX = t.getSceneX();
+			orgSceneY = t.getSceneY();
+			
+			mySettingsWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
+		}
+	};
+	
+	public GameTab(String title, Map<ViewSprite, Model> spriteMap, SettingsWindow window) {
+		super(title);
+		mySpriteMap = spriteMap;
+		mySettingsWindow = window;
+		myNewGamePane = new AnchorPane();
+		initGameTabPane();
+		
+//		ScrollPane myNewGameArea = new ScrollPane();
+//		Settings.setGameAreaSettings(myNewGameArea);
+	}
+
+	private void initGameTabPane() {
+		Settings.setGamePaneSettings(myNewGamePane);	
+		setContent(myNewGamePane);
+		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
+	}
+	
+	public VBox setSettingsContent(Model spriteModel) {
+		VBox myBox = new VBox(VBOX_SPACING);
+		// TODO might be able to remove the settings window dependency if i take away this call
+		List<HBox> x = mySettingsWindow.getMyVisualFactory().getHBoxes(spriteModel.getMyPropertiesList());
+		myBox.getChildren().addAll(x);
+		return myBox;
+	}
 
 	public void addToWindow(ViewSprite mySprite, Model myModel) {
-		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
-		Model mCopy = new Model(myModel.getMyRef());
-
-		System.out.println(copy.getMyImage() + " " + copy.getTranslateX() + " " + copy.getY() + " " + copy.getFitWidth()
-				+ " " + copy.getFitHeight());
-		// copy.setImage(mySprite.getImage());
-		// currSprite = copy;
+		ViewSprite copy = new ViewSprite(mySprite.getMyImagePath());
+		Model mCopy = new Model(myModel.getMyImagePath());
 
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
-		
 	}
-	private void addWithClicking(ViewSprite copy){
-		copy.setCursor(Cursor.HAND);
-		copy.setOnMousePressed(circleOnMousePressedEventHandler);
-		copy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		// System.out.println(myTabPane.getSelectionModel().getSelectedItem().getContent());
-		((Pane) getContent()).getChildren().addAll(copy);
+	
+	private void addWithClicking(ViewSprite viewSpriteCopy){
+		viewSpriteCopy.setCursor(Cursor.HAND);
+		viewSpriteCopy.setOnMousePressed(circleOnMousePressedEventHandler);
+		viewSpriteCopy.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+		((Pane) getContent()).getChildren().add(viewSpriteCopy);
 	}
 	
 	public Map<ViewSprite, Model> getMap(){
