@@ -14,6 +14,7 @@ public class ExampleReflection {
             for(Constructor constructor: clazz.getConstructors()){
                 for(Parameter param: constructor.getParameters()){
                     if(param.getType().equals(Double.TYPE)){
+                        //TODO: work on identifying parameter types to display corresponding fx objects
                         System.out.println("yes");
                     }else{
                         System.out.println("NO");
