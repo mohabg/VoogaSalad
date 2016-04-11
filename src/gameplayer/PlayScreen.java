@@ -1,33 +1,20 @@
 package gameplayer;
 
-import java.util.List;
-import java.util.Map;
-
-import authoringEnvironment.LevelModel;
-import authoringEnvironment.Model;
-import authoringEnvironment.ViewSprite;
+import java.util.Collection;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
 public class PlayScreen extends Screen {
-//	HUD
+	// HUD
 
 	public PlayScreen(ButtonFactory myFactory) {
 		super(myFactory);
 		BorderPane container = new BorderPane();
 		container.setTop(myFactory.makePause());
-		
+
 		add(container);
 
-		
-//		add HUD
+		// add HUD
 	}
 
-	public void setGameLevels(List<LevelModel> gameLevels) {
-		for (LevelModel lm : gameLevels) {
-			Map<ViewSprite, Model> spriteList = lm.getMyMap();
-			for(ViewSprite vs : spriteList.keySet()) {
-				add(vs);
-			}
-		}
-	}
 }

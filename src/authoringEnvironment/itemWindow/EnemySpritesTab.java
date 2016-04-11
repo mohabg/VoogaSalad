@@ -10,7 +10,7 @@ import javafx.scene.layout.TilePane;
 
 import java.util.ArrayList;
 
-public class EnemySpritesTab extends ATab {
+public class EnemySpritesTab extends AItemTab {
 
 	public EnemySpritesTab() {
 		super();

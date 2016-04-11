@@ -1,4 +1,4 @@
-package XStreamHandlers;
+package exampledata.XStreamHandlers;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 import authoringEnvironment.ViewSprite;
 
-public class ViewSpriteConverter implements Converter{
+public class ViewSpriteConverter implements Converter {
 
 	@Override
 	public boolean canConvert(Class object) {
@@ -19,7 +19,8 @@ public class ViewSpriteConverter implements Converter{
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
 		ViewSprite vs = (ViewSprite) value;
 		writer.startNode("image");
-		writer.setValue(vs.getMyImage() +  " " + vs.getTranslateX() + " " + vs.getTranslateY() + " " + vs.getFitWidth() + " " + vs.getFitHeight());
+		writer.setValue(vs.getMyImage() + " " + vs.getTranslateX() + " " + vs.getTranslateY() + " " + vs.getFitWidth()
+		+ " " + vs.getFitHeight());
 		writer.endNode();
 	}
 
@@ -33,9 +34,9 @@ public class ViewSpriteConverter implements Converter{
 		vs.setTranslateY(Double.parseDouble(imageData[2]));
 		vs.setFitHeight(Double.parseDouble(imageData[3]));
 		vs.setFitHeight(Double.parseDouble(imageData[4]));
-		
+
 		reader.moveUp();
 		return vs;
 	}
-	
+
 }

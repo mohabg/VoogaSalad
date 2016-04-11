@@ -1,5 +1,7 @@
 package authoringEnvironment;
 
+import java.io.File;
+
 import gameplayer.GameWindow;
 /**
  * @author davidyan
@@ -11,7 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import loading.GameLoader;
 
 public class StartOptionsWindow {
 
@@ -25,7 +30,7 @@ public class StartOptionsWindow {
 		startWindowBox = new VBox();
 		Settings settings = new Settings();
 		settings.setStartWindowSettings(startWindowBox);
-		
+
 		makeAndSetStartBox();
 	}
 
@@ -38,7 +43,7 @@ public class StartOptionsWindow {
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
 		myPane.setCenter(startWindowBox);
 	}
-	
+
 	public Button createPlayButton() {
 		// TODO MOVE TO RESOURCES FILE
 		Button playButton = new Button("Play A Game");
@@ -54,7 +59,21 @@ public class StartOptionsWindow {
 		// TODO MOVE TO RESOURCES FILE
 		Button editButton = new Button("Edit An Existing Game");
 		editButton.setOnAction(e -> {
-			System.out.println("EDIT");
+			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
+
+			// MOVE OR SOMERHING
+			
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Resource File");
+			File file =fileChooser.showOpenDialog(new Stage());
+
+			GameLoader g = new GameLoader();
+
+			myMainAuthoringWindow.getGameMakerWindow().populateEditingFromSave(g.parseAndLoadGame(file));
+
+			myStage.setScene(myMainAuthoringWindow.getScene());
+			myStage.show();
+			myStage.centerOnScreen();
 		});
 		return editButton;
 	}

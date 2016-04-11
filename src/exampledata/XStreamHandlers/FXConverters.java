@@ -1,4 +1,4 @@
-package XStreamHandlers;
+package exampledata.XStreamHandlers;
 
 import com.thoughtworks.xstream.XStream;
 

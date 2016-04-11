@@ -14,6 +14,7 @@ import authoringEnvironment.LevelModel;
 import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import loading.GameLoader;
 
 public class GameWindow {
 	// Game myGame;
@@ -21,31 +22,31 @@ public class GameWindow {
 	// GameLoader myLoader;
 	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-	
+
 	private Pane myPane;
 	ButtonFactory myFactory;
 	private File myGameFile;
 
 	private Map<String, Screen> myScreenMap;
 
-	private Screen myPlayScreen;
-	private Screen myPauseScreen;
-	private GameFileScreen myGameFileScreen;
-	private Screen mySettingsScreen;
-
-//	private enum Screens {
-//		Play,
-//		Pause,
-//		GameFile,
-//		Settings;
-//	};
-	
+	// private Screen myPlayScreen;
+	// private Screen myPauseScreen;
+	// private GameFileScreen myGameFileScreen;
+	// private Screen mySettingsScreen;
+	private GameLoader myGameLoader;
+	// private enum Screens {
+	// Play,
+	// Pause,
+	// GameFile,
+	// Settings;
+	// };
 
 	public GameWindow() {
 		// Game game
 		// myGame = game;
 		myPane = new Pane();
 		myFactory = new ButtonFactory(this);
+		myGameLoader = new GameLoader();
 
 		myScreenMap = new HashMap<String, Screen>();
 		myScreenMap.put("PlayScreen", new PlayScreen(myFactory));
@@ -69,20 +70,15 @@ public class GameWindow {
 	public void newGame(File file) {
 		// make game;
 		myGameFile = file;
-		
-		List<LevelModel> gameLevels = parseAndLoadGame(file);
-		PlayScreen ps = (PlayScreen) myScreenMap.get("PlayScreen");
-		ps.setGameLevels(gameLevels);
-		
+
+		List<LevelModel> gameLevels = myGameLoader.parseAndLoadGame(file);
+		for (LevelModel lm : gameLevels) {
+			myScreenMap.get("PlayScreen").addAll(myGameLoader.getViewSprites(lm));
+		}
+
 		setScreen("PlayScreen");
 	}
 
-	private ArrayList<LevelModel> parseAndLoadGame(File file) {
-		XStream xstream = new XStream(new StaxDriver());
-		FXConverters.configure(xstream);
-		return (ArrayList<LevelModel>) xstream.fromXML(file);
-	}
-	
 	public Scene getScene() {
 		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
 		myRetScene.getStylesheets().add("resources/styles.css");

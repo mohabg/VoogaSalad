@@ -1,5 +1,7 @@
 package gameplayer;
 
+import java.util.Collection;
+
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
@@ -18,6 +20,9 @@ public abstract class Screen {
 	}
 	public Pane getPane(){
 		return myPane;
+	}
+	public void addAll(Collection<Node> c) {
+		c.forEach(n -> add(n));
 	}
 
 }
