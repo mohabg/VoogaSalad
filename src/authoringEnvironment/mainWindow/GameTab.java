@@ -87,6 +87,7 @@ public class GameTab extends Tab {
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);	
 	}
+	
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);

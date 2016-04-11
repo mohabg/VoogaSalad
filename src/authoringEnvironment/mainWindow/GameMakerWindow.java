@@ -54,7 +54,6 @@ public class GameMakerWindow {
 		for (LevelModel lm : gameLevels) {
 			createNewTab(lm.getMyMap());
 		}
-
 	}
 	
 	public void addNewTab() {

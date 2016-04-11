@@ -17,7 +17,7 @@ public abstract class AbstractItemTab {
         myTilePane = new TilePane();
     }
     
-    public void populateTab(Collection<ViewSprite> viewSprites){
+    public void populateTab(List<ViewSprite> viewSprites){
         Settings.setTilePaneSettings(myTilePane);
         for(ViewSprite sprite : viewSprites){
             myTilePane.getChildren().add(sprite);
