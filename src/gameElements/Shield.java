@@ -6,7 +6,7 @@ public class Shield extends Defense{
 	private Double rechargeTime;
 	
 	public Shield(){
-		
+		shieldValue=getHealth().getHealth();
 	}
 	public Sprite getMyProperties() {
 		return myProperties;
@@ -39,7 +39,6 @@ public class Shield extends Defense{
 	public void apply(Sprite spriteProperties) {
 		getMyProperties().setX(spriteProperties.getX());
 		getMyProperties().setY(spriteProperties.getY());
-		getMovement().apply(myProperties);
 
 	}
 
