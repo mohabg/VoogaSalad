@@ -1,8 +1,10 @@
 package authoringEnvironment;
 
+import java.io.File;
+
 import gameplayer.ButtonFactory;
 import gameplayer.GameFileScreen;
-import gameplayer.GameWindow;
+import gameplayer.GameLoader;
 import gameplayer.IScreen;
 /**
  * @author davidyan
@@ -17,28 +19,27 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import loading.GameLoader;
 
-public class StartOptionsWindow implements IScreen{
+public class StartOptionsWindow implements IScreen {
 
 	private Stage myStage;
 	private BorderPane myPane;
 	private VBox startWindowBox;
 	private Settings settings;
 	private IScreen parentScreen;
-	
+
 	private final String CREATE_GAME = "Create A New Game";
 	private final String EDIT_GAME = "Edit An Existing Game";
 	private final String PLAY_GAME = "Play a Game";
-	
+
 	private final String DEFAULT_IMAGE = "pictures/gaming.png";
-	
+
 	public StartOptionsWindow(Stage currStage) {
 		myStage = currStage;
 		myPane = new BorderPane();
 		startWindowBox = new VBox();
 		settings = new Settings();
-		
+
 		settings.setStartWindowSettings(startWindowBox);
 
 		makeAndSetStartBox();
@@ -47,30 +48,41 @@ public class StartOptionsWindow implements IScreen{
 	private void makeAndSetStartBox() {
 		// TODO CHANGE THIS TO USE REFLECTION
 		ImageView myLogo = new ImageView(DEFAULT_IMAGE);
-		
+
 		Button createNewButton = ButtonFactory.makeButton(CREATE_GAME, (e -> {
 			switchScene(new MainAuthoringWindow());
 			myStage.centerOnScreen();
 		}));
-		
-		Button editButton =  ButtonFactory.makeButton(EDIT_GAME, (e -> {
-			System.out.println("EDIT");
+
+		Button editButton = ButtonFactory.makeButton(EDIT_GAME, (e -> {
+
+			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
+			// MOVE OR SOMERHING
+
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Resource File");
+			File file = fileChooser.showOpenDialog(new Stage());
+			GameLoader g = new GameLoader();
+			myMainAuthoringWindow.getGameMakerWindow().populateEditingFromSave(g.parseAndLoadGame(file));
+			myStage.setScene(myMainAuthoringWindow.getScene());
+			myStage.show();
+			myStage.centerOnScreen();
 		}));
-		
+
 		Button playButton = ButtonFactory.makeButton(PLAY_GAME, (e -> {
 			switchScene(new GameFileScreen());
 		}));
-		
+
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
 		myPane.setCenter(startWindowBox);
 	}
-	
+
 	public void switchScene(IScreen screen) {
-		//((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
+		// ((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
 		myStage.setScene(screen.getScene());
 		myStage.show();
 	}
-	
+
 	public void setParentScreen(IScreen screen) {
 		parentScreen = screen;
 	}

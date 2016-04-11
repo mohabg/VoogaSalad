@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import loading.GameLoader;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.Screen;
 import spriteProperties.NumProperty;
