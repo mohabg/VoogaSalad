@@ -1,6 +1,6 @@
 package gameElements;
 
-public abstract class Attack implements Behavior{
+public abstract class Attack extends Sprite implements Behavior{
 		
 		private Movement movement;
 		private Collision collision;

@@ -2,13 +2,13 @@ package gameElements;
 
 public abstract class Movement implements Behavior{
 		
-		private SpriteProperties spriteProperties;
+		private Sprite mySprite;
 		
 		public Movement(Sprite sprite){
-			this.spriteProperties = sprite.getProperties();
+			this.mySprite = sprite;
 		}
 		
-		public SpriteProperties getSpriteProperties(){
-			return spriteProperties;
+		public Sprite getSpriteProperties(){
+			return mySprite;
 		}
 }	

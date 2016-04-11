@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 
 public abstract class Collision{
 	
-	private Sprite sprite; 
+	private Actor sprite; 
 	
-	public Sprite getSprite() {
+	public Actor getSprite() {
 		return sprite;
 	}
 
-	public void setSprite(Sprite sprite) {
+	public void setSprite(Actor sprite) {
 		this.sprite = sprite;
 	}
 	
