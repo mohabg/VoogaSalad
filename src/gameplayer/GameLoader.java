@@ -19,11 +19,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 public class GameLoader {
-	private XStream xstream;
-	private final String DEFAULT_DIRECTORY = System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml";
+	private static XStream xstream = new XStream(new StaxDriver());
+	
+	private static final String DEFAULT_DIRECTORY = System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml";
 	
 	public GameLoader() {
-		xstream = new XStream(new StaxDriver());
 		FXConverters.configure(xstream);
 	}
 
@@ -35,11 +35,14 @@ public class GameLoader {
 		return ps;
 	}
 
-	public void saveGame(List<LevelModel> gameLevels) {
+	public static void saveGame(List<LevelModel> gameLevels) {
+		FXConverters.configure(xstream);
 		saveGame(DEFAULT_DIRECTORY, gameLevels);
 	}
 	
-	public void saveGame(String saveFileDir, List<LevelModel> gameLevels) {
+	// TODO MIGHT WANT TO ASK FOR FILENAME HERE
+	public static void saveGame(String saveFileDir, List<LevelModel> gameLevels) {
+		FXConverters.configure(xstream);
 		String xml = xstream.toXML(gameLevels);
 
 		FileWriter fw;
@@ -52,7 +55,9 @@ public class GameLoader {
 		}
 	}
 
-	public List<LevelModel> levelTabsToModels(TabPane levels) {
+	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
+	public static List<LevelModel> levelTabsToModels(TabPane levels) {
+		FXConverters.configure(xstream);
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for(Tab levelTab: levels.getTabs()){
 			Map<ViewSprite, Model> spriteModels = ((GameTab) levelTab).getMap();
