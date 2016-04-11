@@ -60,7 +60,7 @@ public class SaveGameMenu {
         
         FileWriter fw;
 		try {
-			fw = new FileWriter("my-file.xml");
+			fw = new FileWriter(System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml");
 			fw.write(xml);
 		    fw.close();
 		} catch (IOException e1) {

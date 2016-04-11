@@ -15,8 +15,14 @@ public class HeadsUpDisplay {
 	
 	// TODO: unless i have no other use for HUDElement, i should probably take away the wrapper or have hudelement extend pane.. it's getting annoying
 	
+	
 	public HeadsUpDisplay() {
+		this(0, 0);
+	}
+	
+	public HeadsUpDisplay(double width, double height) {
 		myHUD = new BorderPane();
+		myHUD.setPrefSize(width, height);
 		makeDisplay();
 	}
 	
@@ -96,7 +102,18 @@ public class HeadsUpDisplay {
 		hudBarBox.resize(width, height);
 	}
 	
+	public void setHeight(double height) {
+		myHUD.setPrefHeight(height);
+	}
 	
+	public void setWidth(double width) {
+		myHUD.setPrefWidth(width);
+	}
+	
+	public void setSize(double width, double height) {
+		setWidth(width);
+		setHeight(height);
+	}
 	
 	/**
 	 * 
