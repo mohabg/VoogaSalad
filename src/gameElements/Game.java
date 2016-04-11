@@ -1,5 +1,7 @@
 package gameElements;
 
+import exampledata.Level;
+
 import java.util.List;
 import java.util.ArrayList;
 

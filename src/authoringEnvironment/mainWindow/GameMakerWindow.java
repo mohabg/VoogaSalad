@@ -29,45 +29,45 @@ import java.util.List;
 import authoringEnvironment.LevelModel;
 
 public class GameMakerWindow {
-	private TabPane myTabPane;
-	private SettingsWindow myWindow;
-
-	public GameMakerWindow() {
-		myTabPane = new TabPane();
-
-	}
-
-	public void init(SettingsWindow window) {
-		myWindow = window;
-		addNewTab();
-
-	}
-
-	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
-		GameTab myTab = new GameTab(mySpriteMap, ItemWindowData.TAB + (myTabPane.getTabs().size() + 1), myWindow);
-
-		myTabPane.getTabs().add(myTab);
-		myTabPane.getSelectionModel().select(myTab);
-	}
-
-	public void addNewTab() {
-		createNewTab(new HashMap<ViewSprite, Model>());
-	}
-
-	public GameTab getCurrentTab() {
-		return (GameTab) myTabPane.getSelectionModel().getSelectedItem();
-	}
-
-	public void populateEditingFromSave(List<LevelModel> gameLevels) {
-		myTabPane.getTabs().clear();
-		for (LevelModel lm : gameLevels) {
-
-			createNewTab(lm.getMyMap());
-		}
-
-	}
-
-	public TabPane getMyTabPane() {
-		return myTabPane;
-	}
+    private TabPane myTabPane;
+    private SettingsWindow myWindow;
+    
+    public GameMakerWindow() {
+        myTabPane = new TabPane();
+        
+    }
+    
+    public void init(SettingsWindow window) {
+        myWindow = window;
+        addNewTab();
+        
+    }
+    
+    public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
+        GameTab myTab = new GameTab(mySpriteMap, ItemWindowData.TAB + (myTabPane.getTabs().size() + 1), myWindow);
+        
+        myTabPane.getTabs().add(myTab);
+        myTabPane.getSelectionModel().select(myTab);
+    }
+    
+    public void addNewTab() {
+        createNewTab(new HashMap<ViewSprite, Model>());
+    }
+    
+    public GameTab getCurrentTab() {
+        return (GameTab) myTabPane.getSelectionModel().getSelectedItem();
+    }
+    
+    public void populateEditingFromSave(List<LevelModel> gameLevels) {
+        myTabPane.getTabs().clear();
+        for (LevelModel lm : gameLevels) {
+            
+            createNewTab(lm.getMyMap());
+        }
+        
+    }
+    
+    public TabPane getMyTabPane() {
+        return myTabPane;
+    }
 }
