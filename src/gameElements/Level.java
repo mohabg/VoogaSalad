@@ -7,6 +7,7 @@ public class Level {
 	private LevelProperties levelProperties;
 	private Map<Integer, Sprite> spriteMap;
 	private Integer currentSpriteID;
+	private GoalFactory goalFactory;
 	
 	public Level(){
 		
@@ -66,5 +67,13 @@ public class Level {
 	
 	public int getCurrentPoints(){
 		return getLevelProperties().getCurrentPoints();
+	}
+
+	public GoalFactory getGoalFactory() {
+		return goalFactory;
+	}
+
+	public void setGoalFactory(GoalFactory goalFactory) {
+		this.goalFactory = goalFactory;
 	}
 }
