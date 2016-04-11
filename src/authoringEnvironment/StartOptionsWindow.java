@@ -1,4 +1,13 @@
 package authoringEnvironment;
+
+import java.io.File;
+
+import gameplayer.ButtonFactory;
+import gameplayer.GameEditingFileScreen;
+import gameplayer.GameFileScreen;
+import gameplayer.GameLoader;
+import gameplayer.GamePlayingFileScreen;
+import gameplayer.IScreen;
 /**
  * @author davidyan
  */
@@ -9,65 +18,68 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class StartOptionsWindow {
-	
+public class StartOptionsWindow implements IScreen {
+
 	private Stage myStage;
 	private BorderPane myPane;
 	private VBox startWindowBox;
-	private static final int mySpacing = 20;
-	
-	public StartOptionsWindow(Stage useStage){
-		myStage = useStage;
+	private Settings settings;
+	private IScreen parentScreen;
+
+	private final String CREATE_GAME = "Create A New Game";
+	private final String EDIT_GAME = "Edit An Existing Game";
+	private final String PLAY_GAME = "Play a Game";
+
+	private final String DEFAULT_IMAGE = "pictures/gaming.png";
+
+	public StartOptionsWindow(Stage currStage) {
+		myStage = currStage;
 		myPane = new BorderPane();
 		startWindowBox = new VBox();
-		startWindowBox.setPadding(new Insets(mySpacing, mySpacing, mySpacing, mySpacing));
-		startWindowBox.setSpacing(mySpacing);
-		startWindowBox.setAlignment(Pos.CENTER);
-		makeStartBox();
-		myPane.setCenter(startWindowBox);
+		settings = new Settings();
 
-		
-	}
-	
-	public void makeStartBox(){
-		ImageView myLogo = new ImageView("pictures/gaming.png");		
-		Button createNewButton = createNewButton();
-		Button editButton = createEditButton();
-		Button playButton = createPlayButton();
-		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
+		settings.setStartWindowSettings(startWindowBox);
 
+		makeAndSetStartBox();
 	}
 
-	public Button createPlayButton() {
-		Button playButton = new Button("Play A Game");
-		playButton.setOnAction(e-> {
-			System.out.println("PLAY");
-		});
-		return playButton;
-	}
+	private void makeAndSetStartBox() {
+		// TODO CHANGE THIS TO USE REFLECTION
+		ImageView myLogo = new ImageView(DEFAULT_IMAGE);
 
-	public Button createEditButton() {
-		Button editButton = new Button("Edit An Existing Game");
-		editButton.setOnAction(e-> {
-			System.out.println("EDIT");
-		});
-		return editButton;
-	}
-
-	public Button createNewButton() {
-		Button newButton = new Button("Create A New Game");
-		newButton.setOnAction(e-> {
-			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
-			myStage.setScene(myMainAuthoringWindow.getScene());
-			myStage.show();
+		Button createNewButton = ButtonFactory.makeButton(CREATE_GAME, (e -> {
+			switchScene(new MainAuthoringWindow());
 			myStage.centerOnScreen();
-		});
-		return newButton;
+		}));
+
+		Button editButton = ButtonFactory.makeButton(EDIT_GAME, (e -> {
+
+			switchScene(new GameEditingFileScreen());
+		}));
+
+		Button playButton = ButtonFactory.makeButton(PLAY_GAME, (e -> {
+			switchScene(new GamePlayingFileScreen());
+		}));
+
+		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
+		myPane.setCenter(startWindowBox);
 	}
-	
-	public Scene getScene(){
+
+	public void switchScene(IScreen screen) {
+		// ((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
+		myStage.setScene(screen.getScene());
+		myStage.show();
+	}
+
+	public void setParentScreen(IScreen screen) {
+		parentScreen = screen;
+	}
+
+	public Scene getScene() {
 		return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
 	}
 

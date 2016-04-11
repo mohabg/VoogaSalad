@@ -2,13 +2,26 @@ package gameElements;
 
 public abstract class Movement implements Behavior{
 		
-		private SpriteProperties spriteProperties;
+		private Sprite mySprite;
+		private int incrementByX;
+		private int incrementByY;
 		
-		public Movement(Sprite sprite){
-			this.spriteProperties = sprite.getProperties();
+		
+		public Movement(Sprite sprite, int incrementByX, int incrementByY){
+			this.incrementByX=incrementByX;
+			this.incrementByY=incrementByY;
+			this.mySprite = sprite;
 		}
 		
-		public SpriteProperties getSpriteProperties(){
-			return spriteProperties;
+		public int getIncrementByX() {
+			return incrementByX;
+		}
+
+		public int getIncrementByY() {
+			return incrementByY;
+		}
+
+		public Sprite getSpriteProperties(){
+			return mySprite;
 		}
 }	

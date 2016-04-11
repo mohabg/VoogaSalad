@@ -10,7 +10,7 @@ public class DamageCollision extends Collision{
 	public double getDaamage(){
 		return damage;
 	}
-	private void handleCollision(TakeDamageCollision collision){
+	protected void handleCollision(TakeDamageCollision collision){
 		Sprite spriteToDamage = collision.getSprite();
 		spriteToDamage.getHealth().decrementHealth(damage);
 	}
