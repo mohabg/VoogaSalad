@@ -63,4 +63,8 @@ public class Level {
 	public void updateSpriteID(Integer spriteID, Sprite newSprite){
 		getSpriteMap().put(spriteID, newSprite);
 	}
+	
+	public int getCurrentPoints(){
+		return getLevelProperties().getCurrentPoints();
+	}
 }

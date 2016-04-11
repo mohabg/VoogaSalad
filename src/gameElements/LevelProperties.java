@@ -5,6 +5,7 @@ public class LevelProperties {
 	private String levelName;
 	private Integer nextLevel;
 	private Integer previousLevel;
+	private Integer currentPoints;
 	
 	public LevelProperties(){
 		setLevelID(null);
@@ -41,6 +42,12 @@ public class LevelProperties {
 	}
 	public void setPreviousLevel(Integer previousLevel) {
 		this.previousLevel = previousLevel;
+	}
+	public Integer getCurrentPoints() {
+		return currentPoints;
+	}
+	public void setCurrentPoints(Integer currentPoints) {
+		this.currentPoints = currentPoints;
 	}
 	
 	
