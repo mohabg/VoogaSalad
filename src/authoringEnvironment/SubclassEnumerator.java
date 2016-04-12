@@ -6,29 +6,55 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gameElements.Behavior;
+import gameElements.Collision;
 import gameElements.Sprite;
 
 public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
 	public static final String PACKAGE_NAME = "gameElements";
 	
-	public static void main(String[] args) {
-		List<Class<?>> test = new ArrayList<Class<?>>();
-		
+//	public static void main(String[] args) {
+//		List<Class<?>> test = new ArrayList<Class<?>>();
+//		
+//		try {
+//			test = getClasses(PACKAGE_NAME);
+//		} catch (ClassNotFoundException | IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println(test);
+//		findSubclasses(test, Collision.class);
+//		for (Class<?> c : test) {
+//			//System.out.println(c.getName());
+//		}
+//		
+//		getSubclasses(PACKAGE_NAME, Collision.class);
+//	}
+	
+	public static Map<String, Class<?>> getSubclasses(String packageName, Class<?> superclass) {
+		Map<String, Class<?>> subclassNameMap = new HashMap<String, Class<?>>();
+		List<Class<?>> packageClasses = new ArrayList<Class<?>>();
 		try {
-			test = getClasses(PACKAGE_NAME);
+			packageClasses = getClasses(packageName);
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(test);
-		findSubclasses(test, Behavior.class);
-		for (Class<?> c : test) {
-			//System.out.println(c.getName());
+		
+		List<Class<?>> subclasses = findSubclasses(packageClasses, superclass);
+		
+		for (Class<?> subclass : subclasses) {
+			String subclassName = subclass.getName();
+			String readableName = subclassName.substring(subclassName.indexOf(".")+1);
+			subclassNameMap.put(readableName, subclass);
 		}
+		
+		return subclassNameMap;
 	}
 	
 	private static List<Class<?>> findSubclasses(List<Class<?>> classes, Class<?> superclass) {
@@ -44,7 +70,7 @@ public class SubclassEnumerator {
 	
 	/**
      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
-     *
+     * 
      * @param packageName The base package
      * @return The classes
      * @throws ClassNotFoundException
