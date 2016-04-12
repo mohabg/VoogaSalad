@@ -1,45 +1,38 @@
 package gameElements;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
-public class Sprite extends Observable{
+public class Sprite {
 
-private double x;
-private double y;
-private double width;
-private double height;
-private double angle;
-private Health myHealth;
-private Collision myCollision;
+	private double x;
+	private double y;
+	private double width;
+	private double height;
+	private double angle;
+	private Health myHealth;
+	private List<Collision> myCollisions;
 
 	public Sprite() {
 		this.x = 0;
 		this.y = 0;
 		this.angle = 0;
 	}
-	public Sprite(double x, double y, double xVel, double yVel){
+
+	public Sprite(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
-	public Sprite(double x, double y, double angle, double xVel, double yVel){
+
+	public Sprite(double x, double y, double angle) {
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
+
 	}
-	public Sprite(double x, double y, double angle){
-		this.x = x;
-		this.y = y;
-		this.angle = angle;
-	}
-	
-	public Sprite(double x, double y, double angle, double xVel, double yVel, Health healthVal){
-		this.x = x;
-		this.y = y;
-		this.angle = angle;
-		myHealth=healthVal;
-		getHealth().addObserver((Observer) this);
+
+	public boolean isDead() {
+		return myHealth.isDead();
 	}
 
 	public double getWidth() {
@@ -58,15 +51,11 @@ private Collision myCollision;
 		this.height = height;
 	}
 
-	public Sprite(double x, double y){
-		this(x, y, 0);
-	}
-
 	public double getX() {
 		return x;
 	}
 
-	public void setCoord(double x, double y){
+	public void setCoord(double x, double y) {
 		setX(x);
 		setY(y);
 	}
@@ -87,23 +76,28 @@ private Collision myCollision;
 		return angle;
 	}
 
-	public double getDistance(Sprite otherVect){
-		return Math.sqrt(( Math.pow(x,2) - Math.pow(otherVect.getX(),2))
-				+ (Math.pow(y,2) - Math.pow(otherVect.getY(), 2)));
+	public double getDistance(Sprite otherVect) {
+		return Math.sqrt(
+				(Math.pow(x, 2) - Math.pow(otherVect.getX(), 2)) + (Math.pow(y, 2) - Math.pow(otherVect.getY(), 2)));
 	}
-
 
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
-	public Health getHealth(){
+
+	public Health getHealth() {
 		return myHealth;
 	}
 
-	public void setCollision(Collision collision){
-		myCollision = collision;
+	public void setHealth(Health myHealth) {
+		this.myHealth = myHealth;
 	}
-	public Collision getCollision(){
-		return myCollision;
+
+	public void addCollision(Collision collision) {
+		myCollisions.add(collision);
+	}
+
+	public List<Collision> getCollisions() {
+		return myCollisions;
 	}
 }

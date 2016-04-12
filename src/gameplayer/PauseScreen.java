@@ -55,7 +55,7 @@ public class PauseScreen implements IScreen {
 		});
 		
 		Button switchgame = ButtonFactory.makeButton(SWITCH_GAME, a -> {
-			switchScene(new GameFileScreen());
+			switchScene(new GamePlayingFileScreen());
 		});
 		
 		Button save = ButtonFactory.makeButton(SAVE_GAME, a -> {

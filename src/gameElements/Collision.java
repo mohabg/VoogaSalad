@@ -2,34 +2,46 @@ package gameElements;
 
 import java.lang.reflect.Method;
 
-public class Collision implements Behavior{
+public abstract class Collision{
 	
-	private Sprite spriteProperties; 
+	private Sprite sprite; 
 	
 	public Sprite getSprite() {
-		return spriteProperties;
+		return sprite;
 	}
 
-	public void setSpriteProperties(Sprite spriteProperties) {
-		this.spriteProperties = spriteProperties;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+	
+	protected void handleCollision(Collision other){
+		//Subclasses should overload this method 
+		applyEffects(this, other);
+		applyEffects(other, this);
 	}
 
-	@Override
-	public void apply(Sprite spriteProperties) {
-		Class thisCollisionClass = this.getClass();
-		Class spriteCollisionClass = spriteProperties.getCollision().getClass();
+	private void applyEffects(Collision one, Collision two) {
+		Method methodToInvoke = getCollisionEffects(one, two);
+		if(methodToInvoke != null){
+			try{
+				methodToInvoke.invoke(one, two);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	protected Method getCollisionEffects(Collision one, Collision two) {
+		Class CollisionOneClass = one.getClass();
+		Class CollisionTwoClass = two.getClass();
 		try{
-			Method method = thisCollisionClass.getMethod("handleCollision", spriteCollisionClass);
-			method.invoke(thisCollisionClass, spriteProperties.getCollision());
+			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass);
+			return method;
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		return null;
 	}
-
-	@Override
-	public boolean ready() {
-		return false;
-	}
-	
 }

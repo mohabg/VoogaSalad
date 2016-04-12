@@ -3,30 +3,35 @@ package gameElements;
 public abstract class Attack extends Sprite implements Behavior{
 		
 		private Movement movement;
-		private double damage;
-		public Attack(){
-			
-		}
-		public Attack(Movement movement){
-			this.movement = movement;
-			damage = 0;
-		}
-		public Attack(Movement movement, double damage){
-			this.movement = movement;
-			this.damage = damage;
-		}
+		private Collision collision;
+		private int ammunition;
+		private boolean readyToShoot;
+		
 		public Movement getMovement() {
 			return movement;
 		}
 		public void setMovement(Movement movement) {
 			this.movement = movement;
 		}
-		public double getDamage() {
-			return damage;
+		public Collision getCollision() {
+			return collision;
 		}
-		public void setDamage(double damage) {
-			this.damage = damage;
+		public void setCollision(Collision collision) {
+			this.collision = collision;
 		}
-		
-		
+		public int getAmmunition() {
+			return ammunition;
+		}
+		public void setAmmunition(int ammunition) {
+			this.ammunition = ammunition;
+		}
+		public boolean hasAmmunitionLeft(){
+			return ammunition != 0;
+		}
+		public boolean isReadyToShoot() {
+			return readyToShoot;
+		}
+		public void setReadyToShoot(boolean readyToShoot) {
+			this.readyToShoot = readyToShoot;
+		}
 }

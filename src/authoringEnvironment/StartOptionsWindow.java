@@ -3,8 +3,10 @@ package authoringEnvironment;
 import java.io.File;
 
 import gameplayer.ButtonFactory;
+import gameplayer.GameEditingFileScreen;
 import gameplayer.GameFileScreen;
 import gameplayer.GameLoader;
+import gameplayer.GamePlayingFileScreen;
 import gameplayer.IScreen;
 /**
  * @author davidyan
@@ -56,21 +58,11 @@ public class StartOptionsWindow implements IScreen {
 
 		Button editButton = ButtonFactory.makeButton(EDIT_GAME, (e -> {
 
-			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
-			// MOVE OR SOMERHING
-
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Open Resource File");
-			File file = fileChooser.showOpenDialog(new Stage());
-			GameLoader g = new GameLoader();
-			myMainAuthoringWindow.getGameMakerWindow().populateEditingFromSave(g.parseAndLoadGame(file));
-			myStage.setScene(myMainAuthoringWindow.getScene());
-			myStage.show();
-			myStage.centerOnScreen();
+			switchScene(new GameEditingFileScreen());
 		}));
 
 		Button playButton = ButtonFactory.makeButton(PLAY_GAME, (e -> {
-			switchScene(new GameFileScreen());
+			switchScene(new GamePlayingFileScreen());
 		}));
 
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);

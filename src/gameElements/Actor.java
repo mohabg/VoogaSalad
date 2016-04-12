@@ -6,24 +6,14 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Actor extends Observable{
+public class Actor extends Sprite{
 	private Map<String, Behavior> myBehaviors;
-	private Sprite myProperties;
 	
-	public Actor(Sprite properties){
-		myProperties = properties;
+	public Actor(){
+		
 	}
-	
-	public Collision getCollision(){
-		return getProperties().getCollision();
-	}
-	public Health getHealth(){
-		return getProperties().getHealth();
-	}
-	public Sprite getProperties(){
-		return myProperties;
-	}
-	public boolean isDead(){
-		return getHealth().isDead();
-	}
+    public void update(){
+//        for all behaviors
+//                apply(this));
+    }
 }

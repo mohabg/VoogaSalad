@@ -1,58 +1,41 @@
+
 package gameElements;
 
 public class Bullet extends Attack{
-	
-	private MobileBehavior mySprite;
-	private Sprite myProperties;
-	private Integer numBullets;
-	private Double rechargeTime;
-	
-	public Bullet(){
-		myProperties = new Sprite();
-	}
-	public Bullet(MobileBehavior sprite){
-		mySprite = sprite;
-		myProperties = new Sprite();
-		myProperties.setCoord(mySprite.getProperties().getX(), mySprite.getProperties().getY());
-	}
-	public Bullet(MobileBehavior sprite, Integer bullets, Double recharge){
-		mySprite = sprite;
-		myProperties = new Sprite();
-		myProperties.setCoord(mySprite.getProperties().getX(), mySprite.getProperties().getY());
-		numBullets=bullets;
-		rechargeTime=recharge;
-	}
-	
-	
-	public Integer getNumBullets() {
-		return numBullets;
-	}
-	public void setNumBullets(Integer numBullets) {
-		this.numBullets = numBullets;
-	}
-	public Double getRechargeTime() {
-		return rechargeTime;
-	}
-	public void setRechargeTime(Double rechargeTime) {
-		this.rechargeTime = rechargeTime;
-	}
-	public Sprite getProperties(){
-		return this.myProperties;
-	}
-	public MobileBehavior getSprite(){
-		return this.mySprite;
-	}
-	
-	@Override
-	public void apply(Sprite spriteProperties) {
-		getProperties().setX(getSprite().getProperties().getX());
-		getProperties().setY(getSprite().getProperties().getY());
-		getMovement().apply(myProperties);
-	}
-	@Override
-	public boolean ready() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
+    private Actor mySprite;
+    private double numberOfBullets;
+    private double rechargeTime;
+
+    public Bullet(double numBullets, double rechargeTime){
+
+    }
+    public Bullet(Actor sprite){
+        mySprite = sprite;
+    }
+    public double getNumberOfBullets() {
+        return numberOfBullets;
+    }
+    public void setNumberOfBullets(double numberOfBullets) {
+        this.numberOfBullets = numberOfBullets;
+    }
+    public double getRechargeTime() {
+        return rechargeTime;
+    }
+    public void setRechargeTime(double rechargeTime) {
+        this.rechargeTime = rechargeTime;
+    }
+    public void decrementRechargeTime(double decrement){
+        this.rechargeTime -= decrement;
+    }
+    @Override
+    public void apply(Sprite sprite) {
+        if(ready()){
+            this.setCoord(mySprite.getX(), mySprite.getY());
+            getMovement().apply(this);
+        }
+    }
+    public boolean ready(){
+        return numberOfBullets > 0 && rechargeTime <= 0;
+    }
 }
