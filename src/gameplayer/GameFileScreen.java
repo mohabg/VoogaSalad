@@ -12,6 +12,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import authoringEnvironment.Settings;
+
 public abstract class GameFileScreen implements IScreen {
 	private File myGameFile;
 
@@ -35,6 +37,7 @@ public abstract class GameFileScreen implements IScreen {
 		myScene = new Scene(myPane);
 		tabPane = new TabPane();
 		setMyGameLoader(new GameLoader());
+//		Settings.setGamePlayingSettings((Pane) tabPane);
 		initTabs();
 	}
 
