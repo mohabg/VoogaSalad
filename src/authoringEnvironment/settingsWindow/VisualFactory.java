@@ -11,6 +11,10 @@ import resources.ResourcesReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by davidyan on 4/9/16.
@@ -82,7 +86,11 @@ public class VisualFactory {
 
     }
 
-
+    private <T> List<T> makeList(Class<T> type) {
+    	List<T> pp = new ArrayList<T>();
+    	System.out.println(pp.getClass().toGenericString());
+    	return new ArrayList<T>();
+    }
     //TODO: Binding and figuring out list of objects in reflection
     public TabPane getMyTabs (Sprite mySprite){
         TabPane myTabs = new TabPane();
@@ -93,7 +101,27 @@ public class VisualFactory {
             f.setAccessible(true);
             VBox myBox = new VBox();
             try {
-                Class clazz = Class.forName(f.getGenericType().getTypeName());
+            	Type k = f.getGenericType();
+            	System.out.println(k.getTypeName());
+            	if (k instanceof ParameterizedType) {
+            		ParameterizedType pt = (ParameterizedType) k;
+            		
+            		System.out.println(((Class) pt.getRawType()));
+            		//System.out.println((Class)(.getClass().getGenericSuperclass()));
+	            	Type[] ts = pt.getActualTypeArguments();
+	            	Class lkk = (Class) Class.forName(ts[0].getTypeName());
+	            	List p = makeList(lkk);
+	            	System.out.println(p.getClass().toGenericString());
+	            	
+	            	for (Type t : ts) {
+	            		System.out.println("poo");
+	            		System.out.println(t.toString());
+	            	}
+	            	System.out.println("dig");
+	            	System.out.println(((ParameterizedType) k).getRawType());
+            	}
+            	
+                Class clazz = (Class) Class.forName(f.getGenericType().getTypeName());
                 for(Parameter param: getLongestParams(clazz)){
                     if(param.getType().equals(int.class) || param.getType().equals(double.class)){
                         System.out.println("here");

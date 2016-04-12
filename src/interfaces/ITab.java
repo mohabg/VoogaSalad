@@ -8,7 +8,7 @@ import javafx.scene.control.Tab;
 public interface ITab {
 	void setTabContent(Node content);
 	
-	void setTabContent(ViewSprite view, Sprite sprite);
+	void setTabContent(ViewSprite view, Sprite mySprite);
 	
 	Node getTabContent();
 	

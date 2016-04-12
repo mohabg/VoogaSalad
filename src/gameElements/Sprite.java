@@ -18,6 +18,7 @@ public class Sprite {
         myHealth = new Health();
         myCollisions = new ArrayList<Collision>();
     }
+    
     public Sprite(String ref) {
         this();
         myRef = new RefObject(ref);
