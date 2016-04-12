@@ -4,7 +4,7 @@ public class DissapearCollision extends Collision{
 	
 	@Override
 	protected void handleCollision(Collision other){
-		Actor mySprite = getSprite();
+		Sprite mySprite = getSprite();
 		//Set Alpha to zero
 	}
 }

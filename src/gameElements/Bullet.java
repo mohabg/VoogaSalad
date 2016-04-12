@@ -1,3 +1,4 @@
+
 package gameElements;
 
 public class Bullet extends Attack{
