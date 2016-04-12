@@ -42,9 +42,10 @@ public abstract class AbstractItemTab implements ITab{
     }
 
 	@Override
-	public void setTabContent(ViewSprite view, Sprite model) {
+	public void setTabContent(ViewSprite view, Sprite sprite) {
 		// TODO Auto-generated method stub
-		
+		// poo
+		return;
 	}
 
 	@Override

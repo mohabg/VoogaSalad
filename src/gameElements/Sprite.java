@@ -2,6 +2,7 @@ package gameElements;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
+import javafx.beans.property.DoubleProperty;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,11 +14,42 @@ public class Sprite {
     private RefObject myRef;
 
 
+    public void setMyRef(RefObject myRef) {
+        this.myRef = myRef;
+    }
+
+    public SpriteProperties getMySpriteProperties() {
+        return mySpriteProperties;
+    }
+
+    public void setMySpriteProperties(SpriteProperties mySpriteProperties) {
+        this.mySpriteProperties = mySpriteProperties;
+    }
+
+    public Health getMyHealth() {
+        return myHealth;
+    }
+
+    public void setMyHealth(Health myHealth) {
+        this.myHealth = myHealth;
+    }
+
+    public List<Collision> getMyCollisions() {
+        return myCollisions;
+    }
+
+    public void setMyCollisions(List<Collision> myCollisions) {
+        this.myCollisions = myCollisions;
+    }
+
+
+
     public Sprite() {
         mySpriteProperties = new SpriteProperties();
         myHealth = new Health();
         myCollisions = new ArrayList<Collision>();
     }
+
     public Sprite(String ref) {
         this();
         myRef = new RefObject(ref);
@@ -44,7 +76,7 @@ public class Sprite {
 		return myHealth.isDead();
 	}
 
-	public double getWidth() {
+	public DoubleProperty getWidth() {
 		return mySpriteProperties.getMyWidth();
 	}
 
@@ -52,7 +84,7 @@ public class Sprite {
 		mySpriteProperties.setMyWidth(width);
 	}
 
-	public double getHeight() {
+	public DoubleProperty getHeight() {
 		 return mySpriteProperties.getMyHeight();
 	}
 
@@ -60,7 +92,7 @@ public class Sprite {
 		mySpriteProperties.setMyHeight(height);
 	}
 
-	public double getX() {
+	public DoubleProperty getX() {
 		return mySpriteProperties.getMyX();
 	}
 
@@ -73,7 +105,7 @@ public class Sprite {
 		mySpriteProperties.getMyX();
 	}
 
-	public double getY() {
+	public DoubleProperty getY() {
 		return mySpriteProperties.getMyY();
 	}
 
@@ -87,7 +119,7 @@ public class Sprite {
 
 	public double getDistance(Sprite otherVect) {
 		return Math.sqrt(
-				(Math.pow(mySpriteProperties.getMyX(), 2) - Math.pow(otherVect.getX(), 2)) + (Math.pow(mySpriteProperties.getMyY(), 2) - Math.pow(otherVect.getY(), 2)));
+				(Math.pow(mySpriteProperties.getMyX().doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(mySpriteProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
 	}
 
 	public void setAngle(double angle) {
