@@ -14,7 +14,12 @@ import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.IScreen;
 import interfaces.ITabPane;
-
+/** 
+ * This is the creator for the menubar, which allows the user to select new files,
+ *  add a level, save, or return to the start screen
+ * @author Huijia
+ *
+ */
 public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
 
@@ -34,7 +39,12 @@ public class AuthoringMenubarCreator {
 	public AuthoringMenubarCreator() {
 		myMenuBar = new MenuBar();
 	}
-
+	/** 
+	 * This method initializes the menubar using the tabpane (to set the add tab action). 
+	 * We made this to eliminate dependencies.
+	 * 
+	 * @param window
+	 */
 	public void initMenuBar(ITabPane window) {
 		FileMenu myFileMenuMaker = new FileMenu(MENU_FILE);
 		myFileMenuMaker.setNewAction(MENU_ITEM_NEW_FILE, e -> {
