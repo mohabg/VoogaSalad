@@ -6,6 +6,8 @@ public class LevelProperties {
 	private Integer nextLevel;
 	private Integer previousLevel;
 	private Integer currentPoints;
+	private Time time;
+	private Integer numGoals;
 	
 	public LevelProperties(){
 		setLevelID(null);
@@ -48,6 +50,18 @@ public class LevelProperties {
 	}
 	public void setCurrentPoints(Integer currentPoints) {
 		this.currentPoints = currentPoints;
+	}
+	public Integer getNumGoals() {
+		return numGoals;
+	}
+	public void setNumGoals(Integer numGoals) {
+		this.numGoals = numGoals;
+	}
+	public Time getTime() {
+		return time;
+	}
+	public void setTime(Time time) {
+		this.time = time;
 	}
 	
 	
