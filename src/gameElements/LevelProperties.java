@@ -1,5 +1,11 @@
 package gameElements;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import gameElements.IKeyboardAction.KeyboardActions;
+import javafx.scene.input.KeyCode;
+
 public class LevelProperties {
 	private Integer levelID;
 	private String levelName;
@@ -8,18 +14,21 @@ public class LevelProperties {
 	private Integer currentPoints;
 	private Time time;
 	private Integer numGoals;
+	private HashMap<KeyCode, KeyboardActions> keyMapping;
 	
 	public LevelProperties(){
 		setLevelID(null);
 		setLevelName("");
 		setNextLevel(-1);
 		setPreviousLevel(-1);
+		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 	}
 	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel) {
 		setLevelID(levelID);
 		setLevelName(levelName);
 		setNextLevel(nextLevel);
 		setPreviousLevel(previousLevel);
+		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 	}
 	public Integer getLevelID() {
 		return levelID;
@@ -64,5 +73,10 @@ public class LevelProperties {
 		this.time = time;
 	}
 	
+	public KeyboardActions getKeyboardAction(KeyCode key){
+		if(!keyMapping.keySet().contains(key)) return KeyboardActions.Default;
+		return keyMapping.get(key);
+	}
+
 	
 }
