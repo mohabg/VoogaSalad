@@ -27,7 +27,7 @@ public class MainAuthoringWindow implements IScreen{
 		myGameMakerWindow = new GameMakerWindow();
 		myItemWindow = new ItemWindow(myGameMakerWindow);
 		myMenubar = new AuthoringMenubarCreator();
-		myMenubar.init(myGameMakerWindow);
+		myMenubar.initMenuBar(myGameMakerWindow);
 		mySettingsWindow = new SettingsWindow();
 //        myItemWindow.init();
         myGameMakerWindow.init(mySettingsWindow);

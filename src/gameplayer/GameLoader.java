@@ -5,18 +5,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.Model;
+import authoringEnvironment.ViewSprite;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
 import exampledata.XStreamHandlers.FXConverters;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 public class GameLoader {
-	private XStream xstream;
-
+	private static XStream xstream = new XStream(new StaxDriver());
+	
+	private static final String DEFAULT_DIRECTORY = System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml";
+	
 	public GameLoader() {
-		xstream = new XStream(new StaxDriver());
 		FXConverters.configure(xstream);
 	}
 
@@ -28,26 +35,43 @@ public class GameLoader {
 		return ps;
 	}
 
-	public void saveGame(List<LevelModel> gameLevels) {
+	public static void saveGame(List<LevelModel> gameLevels) {
+		FXConverters.configure(xstream);
+		saveGame(DEFAULT_DIRECTORY, gameLevels);
+	}
+	
+	// TODO MIGHT WANT TO ASK FOR FILENAME HERE
+	public static void saveGame(String saveFileDir, List<LevelModel> gameLevels) {
+		FXConverters.configure(xstream);
 		String xml = xstream.toXML(gameLevels);
 
 		FileWriter fw;
 		try {
-			fw = new FileWriter(System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml");
+			fw = new FileWriter(saveFileDir);
 			fw.write(xml);
 			fw.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			// TODO PRINT ERROR
 		}
-
 	}
 
+	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
+	public static List<LevelModel> levelTabsToModels(TabPane levels) {
+		FXConverters.configure(xstream);
+		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
+		for(Tab levelTab: levels.getTabs()){
+			Map<ViewSprite, Model> spriteModels = ((GameAuthoringTab) levelTab).getMap();
+			LevelModel newLM = new LevelModel(spriteModels);
+            levelModelList.add(newLM);
+        }
+		return levelModelList;
+	}
+	
 	public IScreen restartGame(File file) {
 		return newGame(file);
 	}
 
-	public ArrayList<LevelModel> parseAndLoadGame(File file) {
-		return (ArrayList<LevelModel>) xstream.fromXML(file);
+	public List<LevelModel> parseAndLoadGame(File file) {
+		return (List<LevelModel>) xstream.fromXML(file);
 	}
 }
