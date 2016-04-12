@@ -48,8 +48,41 @@ public class VisualFactory {
 
     }
 
+    public Constructor[] getConstructors(Class myClass){
+        return myClass.getConstructors();
+    }
+
+    public Spinner makeNewSpinner(Parameter myParam){
+            Spinner mySpinner = new Spinner();
+            SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
+            mySpinner.setValueFactory(factory);
+            mySpinner.setEditable(true);
+            //TODO: Possibly use param to bind spinner to?
+            return mySpinner;
+    }
+
+    public static HBox makeTextInputBox(Parameter myParam, Field f){
+        Label label1 = new Label("This:");
+        TextField textField = new TextField(f.toString());
+        HBox hb = new HBox();
+        hb.getChildren().addAll(label1, textField);
+        hb.setSpacing(10);
+        //TODO: Bind this to parameter if possible
+        return hb;
+    }
+
+    public static Parameter[] getLongestParams(Class myClass){
+        for(Constructor constructor: myClass.getConstructors()){
+            if(constructor.getParameterCount() == longestConstructor(myClass)){
+                return constructor.getParameters();
+            }
+        }
+        return new Parameter[0];
+
+    }
 
 
+    //TODO: Binding and figuring out list of objects in reflection
     public TabPane getMyTabs (Sprite mySprite){
         TabPane myTabs = new TabPane();
         Field[] fields = mySprite.getClass().getDeclaredFields();
@@ -59,27 +92,14 @@ public class VisualFactory {
             f.setAccessible(true);
             try {
                 Class clazz = Class.forName(f.getGenericType().getTypeName());
-                    for(Constructor constructor: clazz.getConstructors()) {
-                        if (constructor.getParameterCount() == longestConstructor(clazz)) {
-                            for(Parameter param: constructor.getParameters()){
-                                if(param.getType().equals(int.class) || param.getType().equals(double.class)){
-                                    Spinner mySpinner = new Spinner();
-                                    SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
-                                    mySpinner.setValueFactory(factory);
-                                    mySpinner.setEditable(true);
-                                    myTempPane.getChildren().add(mySpinner);
-                                }
-                                if(param.getType().isAssignableFrom(String.class)){
-                                    Label label1 = new Label("This:");
-                                    TextField textField = new TextField(f.toString());
-                                    HBox hb = new HBox();
-                                    hb.getChildren().addAll(label1, textField);
-                                    hb.setSpacing(10);
-                                    myTempPane.getChildren().add(hb);
-                                }
-                            }
-                        }
+                for(Parameter param: getLongestParams(clazz)){
+                    if(param.getType().equals(int.class) || param.getType().equals(double.class)){
+                        myTempPane.getChildren().add(makeNewSpinner(param));
                     }
+                    if(param.getType().isAssignableFrom(String.class)){
+                        myTempPane.getChildren().add(makeTextInputBox(param,f));
+                    }
+                }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -90,77 +110,5 @@ public class VisualFactory {
         return myTabs;
     }
 
-
-    /**
-     * try {
-
-
-     //TODO: Replace these with class names found in properties files
-     for(Constructor constructor: clazz.getConstructors()){
-     if (constructor.getParameterCount() == longestConstructor(clazz)) {
-     for(Parameter param: constructor.getParameters()){
-     if(param.getType().equals(int.class) || param.getType().equals(double.class)){
-     //TODO: take the objects here and integrate them to be displayed in the settings window
-
-     System.out.println("yes number");
-     }
-     if(param.getType().equals(boolean.class)){
-     System.out.println("yes boolean");
-     }
-     if(param.getType().isAssignableFrom(String.class)){
-     System.out.println("yes string");
-
-     }
-     }
-     }
-
-     }
-     } catch (ClassNotFoundException e) {
-     e.printStackTrace();
-     }
-     */
-
-
-
-
-
-
-
-
-    /**
-     *         List<HBox> myBoxes = new ArrayList<HBox>();
-     myBehaviors.forEach(behavior -> {
-     if(behavior instanceof NumProperty){
-     HBox myTempBox = new HBox();
-     myTempBox.setPadding(new Insets(20,0,0,0));
-     Label myLabel = new Label(behavior.toString());
-     Slider mySlider = new Slider(0, 100, ((NumProperty) behavior).getMyValue()/2);
-     mySettings.setSliderSettings(mySlider);
-     mySlider.valueProperty().bindBidirectional(((NumProperty) behavior).getDouble());
-     myTempBox.getChildren().addAll(myLabel, mySlider);
-     myTempBox.setAlignment(Pos.CENTER);
-     myBoxes.add(myTempBox);
-     }
-     else if(behavior instanceof WeaponProperty){
-     HBox myTempBox = new HBox();
-     myTempBox.setPadding(new Insets(20,0,0,0));
-     Label myLabel = new Label(behavior.toString());
-     Spinner mySpinner = new Spinner();
-     SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
-     mySpinner.setValueFactory(factory);
-     mySpinner.setEditable(true);
-     factory.valueProperty().bindBidirectional(((WeaponProperty) behavior).myNumBulletsProperty());
-     myTempBox.getChildren().add(myLabel);
-     myTempBox.getChildren().add(mySpinner);
-     myTempBox.setAlignment(Pos.CENTER);
-     myBoxes.add(myTempBox);
-     }
-
-     }
-
-     );
-     return myBoxes;
-
-     */
 
 }
