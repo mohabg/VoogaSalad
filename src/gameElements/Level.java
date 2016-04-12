@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import gameElements.IKeyboardAction.KeyboardActions;
+import javafx.scene.input.KeyEvent;
+
 public class Level implements ILevel{
 	private LevelProperties levelProperties;
 	private Map<Integer, Sprite> spriteMap;
 	private Map<Integer, Goal> goalMap;
+    private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
+
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
@@ -120,8 +125,30 @@ public class Level implements ILevel{
 			}
 		}
 	}
+	
+	private void handleKeyboardAction(KeyEvent key, boolean enable) {
+		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
+		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
+		Integer currentSpriteID = getCurrentSpriteID();
+		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
+		if(keyboardAction == null) {
+			keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
+			keyboardActionMap.put(action, keyboardAction);		}
+		KeyboardActionChecker keyboardActionChecker=new KeyboardActionChecker();
+		
+		if(keyboardActionChecker.checkKeyboardAction(action, currentSprite) && enable){
+			keyboardAction.enableKeyboardAction(currentSprite);
+		}
+		else{
+			keyboardAction.disableKeyboardAction(currentSprite);
+		}
+	
+	}
+	
+	
 	@Override
 	public void update() {
+		updateSprites();
 		checkCollisions();
 		if(completeGoals()){
 			// TODO : win level
@@ -134,4 +161,20 @@ public class Level implements ILevel{
 		// remove sprite
 		
 	}
+	
+
+    /**
+     * This method handles Key Press Events.
+     */
+    public void handleKeyPress(KeyEvent key) {
+    	handleKeyboardAction(key, true);
+    }
+    
+	  /**
+     * This method handles Key Release Events.
+     */
+    public void handleKeyRelease(KeyEvent key) {
+    	handleKeyboardAction(key, false);
+    }
+    
 }
