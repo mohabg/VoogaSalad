@@ -28,14 +28,14 @@ public class Engine {
 		return myGame.getCurrentLevel();
 	}
 	
-	public int addGoal(GoalProperties newGoal) {
+/*	public int addGoal(GoalProperties newGoal) {
 		return myGame.getCurrentLevel().setGoal(newGoal);
 	}
 
 	public void updateGoal(Integer goalID, GoalProperties newGoal) {
 	    myGame.getCurrentLevel().updateGoal(goalID, newGoal);
 	}
-
+*/
 	public void deleteGoal(Integer goalID) {
 	    myGame.getCurrentLevel().deleteGoal(goalID);
 	}

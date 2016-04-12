@@ -1,67 +1,78 @@
 package gameElements;
 
-import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
-
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+
+import authoringEnvironment.RefObject;
 
 public class Sprite {
-    private SpriteProperties mySpriteProperties;
+
+	private double x;
+	private double y;
+	private double width;
+	private double height;
+	private double angle;
 	private Health myHealth;
 	private List<Collision> myCollisions;
+	private Map<String, Behavior> myBehaviors;
     private RefObject myRef;
+    
+  
 
 
-    public Sprite() {
-        mySpriteProperties = new SpriteProperties();
-        myHealth = new Health();
-        myCollisions = new ArrayList<Collision>();
-    }
-    public Sprite(String ref) {
-        this();
-        myRef = new RefObject(ref);
-        mySpriteProperties.setMyX(0);
-        mySpriteProperties.setMyY(0);
-        mySpriteProperties.setMyAngle(0);
-        //myRef.setMyRef(ref);
+	public Sprite() {
+		this.x = 0;
+		this.y = 0;
+		this.angle = 0;
 	}
+	
+	  public Sprite(String ref) {
+	        this();
+	        myRef = new RefObject(ref);
+	        setX(0);
+	        setY(0);
+	        setAngle(0);
+	        //myRef.setMyRef(ref);
+		}
 
 	public Sprite(double x, double y) {
-        this();
-        mySpriteProperties.setMyX(0);
-        mySpriteProperties.setMyY(0);
+		this.x = x;
+		this.y = y;
 	}
 
 	public Sprite(double x, double y, double angle) {
-        this();
-        mySpriteProperties.setMyX(0);
-        mySpriteProperties.setMyY(0);
-        mySpriteProperties.setMyAngle(0);
+		this.x = x;
+		this.y = y;
+		this.angle = angle;
+
 	}
 
+	  
+    public void setMyRef(RefObject myRef) {
+        this.myRef = myRef;
+    }
 	public boolean isDead() {
 		return myHealth.isDead();
 	}
 
 	public double getWidth() {
-		return mySpriteProperties.getMyWidth();
+		return width;
 	}
 
 	public void setWidth(double width) {
-		mySpriteProperties.setMyWidth(width);
+		this.width = width;
 	}
 
 	public double getHeight() {
-		 return mySpriteProperties.getMyHeight();
+		return height;
 	}
 
 	public void setHeight(double height) {
-		mySpriteProperties.setMyHeight(height);
+		this.height = height;
 	}
 
 	public double getX() {
-		return mySpriteProperties.getMyX();
+		return x;
 	}
 
 	public void setCoord(double x, double y) {
@@ -70,28 +81,28 @@ public class Sprite {
 	}
 
 	public void setX(double x) {
-		mySpriteProperties.getMyX();
+		this.x = x;
 	}
 
 	public double getY() {
-		return mySpriteProperties.getMyY();
+		return y;
 	}
 
 	public void setY(double y) {
-		mySpriteProperties.setMyY(y);
+		this.y = y;
 	}
 
 	public double getAngle() {
-		return mySpriteProperties.getMyAngle();
+		return angle;
 	}
 
 	public double getDistance(Sprite otherVect) {
 		return Math.sqrt(
-				(Math.pow(mySpriteProperties.getMyX(), 2) - Math.pow(otherVect.getX(), 2)) + (Math.pow(mySpriteProperties.getMyY(), 2) - Math.pow(otherVect.getY(), 2)));
+				(Math.pow(x, 2) - Math.pow(otherVect.getX(), 2)) + (Math.pow(y, 2) - Math.pow(otherVect.getY(), 2)));
 	}
 
 	public void setAngle(double angle) {
-		mySpriteProperties.setMyAngle(angle);
+		this.angle = angle;
 	}
 
 	public Health getHealth() {
@@ -109,8 +120,4 @@ public class Sprite {
 	public List<Collision> getCollisions() {
 		return myCollisions;
 	}
-
-    public String getMyRef(){
-        return myRef.getMyRef();
-    }
 }
