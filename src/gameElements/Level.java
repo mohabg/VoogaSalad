@@ -77,6 +77,25 @@ public class Level implements ILevel{
 		this.goalFactory = goalFactory;
 	}
 	
+	public int setGoal(GoalProperties goal){
+		//CHANGE THIS ONCE WE HAVE A KEY MAP
+		goalMap.put((Integer) 0, new Goal(goal));
+		return 0;
+	}
+	
+	public void updateGoal(Integer goalID, GoalProperties goal) {
+		goalMap.remove(goalID);
+		if (!goalMap.containsValue(goal))
+			goalMap.put(goalID, new Goal(goal));
+	}
+	
+	public void deleteGoal(Integer goalID) {
+		goalMap.remove(goalID);
+		if (levelProperties.getNumGoals() > goalMap.size()) {
+			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
+		}
+	}
+	
 	private boolean completeGoals(){
 		GoalChecker goalChecker = new GoalChecker(this);
 		for(Goal goal:goalMap.values()){

@@ -1,7 +1,5 @@
 package gameElements;
 
-import exampledata.Level;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -27,7 +25,7 @@ public class Game {
         return myInfo;
     }
 
-    public void setGameWorldCharacteristics(GameInfo newInfo) {
+    public void setGameInfo(GameInfo newInfo) {
         myInfo = newInfo;
     }
 	

@@ -2,6 +2,7 @@ package exampledata;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import gameElements.LevelProperties;
 import gameElements.Time;
 
 public class Level {
@@ -17,5 +18,5 @@ public class Level {
 		testList.add(new Integer(4));
 		// TODO Auto-generated constructor stub
 	}
-
+	
 }

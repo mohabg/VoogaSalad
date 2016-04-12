@@ -1,13 +1,13 @@
 package gameElements;
 
-public abstract class Goal implements IGoal{
+public class Goal implements IGoal{
 	public enum Goals{
 		PointsGoal
 	}
 	
 	private GoalProperties goalProperties;
 	
-	public Goal (GoalProperties myProperties){
+	public Goal(GoalProperties myProperties){
 		setGoalProperties(myProperties);
 	}
 
