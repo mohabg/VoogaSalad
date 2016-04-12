@@ -2,6 +2,7 @@ package authoringEnvironment.settingsWindow;
 
 import authoringEnvironment.Settings;
 import gameElements.Sprite;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -53,13 +54,17 @@ public class VisualFactory {
         return myClass.getConstructors();
     }
 
-    public Spinner makeNewSpinner(Parameter myParam){
-            Spinner mySpinner = new Spinner();
-            SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
-            mySpinner.setValueFactory(factory);
-            mySpinner.setEditable(true);
-            //TODO: Possibly use param to bind spinner to?
-            return mySpinner;
+    public HBox makeNewSpinner(Parameter myParam){
+        HBox myBox = new HBox(8);
+        myBox.setPadding(new Insets(20,20,20,20));
+        Label myLabel = new Label(myParam.getName());
+        Spinner mySpinner = new Spinner();
+        SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
+        mySpinner.setValueFactory(factory);
+        mySpinner.setEditable(true);
+        //TODO: Possibly use param to bind spinner to?
+        myBox.getChildren().addAll(myLabel,mySpinner);
+        return myBox;
     }
 
     public static HBox makeTextInputBox(Parameter myParam, Field f){
@@ -86,6 +91,16 @@ public class VisualFactory {
     //TODO: Binding and figuring out list of objects in reflection
     public TabPane getMyTabs (Sprite mySprite){
         TabPane myTabs = new TabPane();
+//        Tab myTab = new Tab("TESTING");
+//        AnchorPane myPane = new AnchorPane();
+//        Spinner mySpinner = new Spinner();
+//        SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0 );
+//        mySpinner.setValueFactory(factory);
+//        mySpinner.setEditable(true);
+//        factory.valueProperty().bindBidirectional(mySprite.getMySpriteProperties().getMyX());
+//        myPane.getChildren().add(mySpinner);
+//        myTab.setContent(myPane);
+//        myTabs.getTabs().add(myTab);
         Field[] fields = mySprite.getClass().getDeclaredFields();
         for (Field f : fields) {
             Tab myTab = new Tab("Tab");
@@ -94,17 +109,8 @@ public class VisualFactory {
             VBox myBox = new VBox();
             try {
                 Class clazz = Class.forName(f.getGenericType().getTypeName());
-                for(Parameter param: getLongestParams(clazz)){
-                    if(param.getType().equals(int.class) || param.getType().equals(double.class)){
-                        System.out.println("here");
-                        myBox.getChildren().add(makeNewSpinner(param));
-                    }
-                    if(param.getType().isAssignableFrom(String.class)){
-                        myTempPane.getChildren().add(makeTextInputBox(param,f));
-                    }
-                }
+
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
             myTempPane.getChildren().add(myBox);
             myTab.setContent(myTempPane);
