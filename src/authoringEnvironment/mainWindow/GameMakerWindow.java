@@ -25,6 +25,7 @@ import interfaces.ITab;
 import interfaces.ITabPane;
 import spriteProperties.NumProperty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -32,10 +33,12 @@ import authoringEnvironment.LevelModel;
 
 public class GameMakerWindow implements ITabPane{
 	private TabPane myTabPane;
+	private Map<Tab, GameAuthoringTab> myGameTabs;
 	private SettingsWindow myWindow;
 
 	public GameMakerWindow() {
 		myTabPane = new TabPane();
+		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 	}
 
 	public void init(SettingsWindow window) {
@@ -46,9 +49,10 @@ public class GameMakerWindow implements ITabPane{
 	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
 		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
-
-		myTabPane.getTabs().add(myTab);
-		myTabPane.getSelectionModel().select(myTab);
+		myGameTabs.put(myTab.getTab(), myTab);
+		
+		getTabPane().getTabs().add(myTab.getTab());
+		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
 
 	public void populateEditingFromSave(List<LevelModel> gameLevels) {
@@ -58,25 +62,31 @@ public class GameMakerWindow implements ITabPane{
 		}
 	}
 	
+	public ITab getCurrentTab() {
+		return myGameTabs.get(myTabPane.getSelectionModel().getSelectedItem());
+	}
+	
+	public TabPane getTabPane() {
+		return myTabPane;
+	}
+
+	@Override
 	public void addNewTab() {
 		createNewTab(new HashMap<ViewSprite, Model>());
 	}
 
-	public GameAuthoringTab getCurrentTab() {
-		return (GameAuthoringTab) myTabPane.getSelectionModel().getSelectedItem();
-	}
-	
-	public TabPane getMyTabPane() {
-		return myTabPane;
+	@Override
+	public List<ITab> getITabs() {
+		List<ITab> myITabsList = new ArrayList<ITab>();
+		myGameTabs.values().stream()
+		.forEach(e -> {
+			myITabsList.add((ITab) e);
+		});
+		return myITabsList;
 	}
 
-	@Override
-	public void addNewTab(ITab newTab) {
-		createNewTab(new HashMap<ViewSprite, Model>());
-	}
-
-	@Override
-	public TabPane getTabPane() {
-		return myTabPane;
-	}
+//	@Override
+//	public TabPane getTabPane() {
+//		return myTabPane;
+//	}
 }

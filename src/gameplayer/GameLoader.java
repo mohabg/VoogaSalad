@@ -15,6 +15,8 @@ import authoringEnvironment.Model;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
 import exampledata.XStreamHandlers.FXConverters;
+import interfaces.ITab;
+import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -56,10 +58,10 @@ public class GameLoader {
 	}
 
 	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
-	public static List<LevelModel> levelTabsToModels(TabPane levels) {
+	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
 		FXConverters.configure(xstream);
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
-		for(Tab levelTab: levels.getTabs()){
+		for(ITab levelTab: levels.getITabs()){
 			Map<ViewSprite, Model> spriteModels = ((GameAuthoringTab) levelTab).getMap();
 			LevelModel newLM = new LevelModel(spriteModels);
             levelModelList.add(newLM);

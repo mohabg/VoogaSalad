@@ -2,10 +2,10 @@ package authoringEnvironment.itemWindow;
 
 import java.util.*;
 
+import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import interfaces.ITab;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
@@ -27,6 +27,7 @@ public abstract class AbstractItemTab implements ITab{
         setTabContent(myTilePane);
     }
 
+    
     public void setTabTitle(String tabTitle){
         myTab.setText(tabTitle);
     }
@@ -39,4 +40,16 @@ public abstract class AbstractItemTab implements ITab{
     public void setTabContent(Node content) {
     	myTab.setContent(content);
     }
+
+	@Override
+	public void setTabContent(ViewSprite view, Model model) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Node getTabContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

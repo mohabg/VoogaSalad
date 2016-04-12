@@ -22,6 +22,7 @@ public class GameEditingFileScreen extends GameFileScreen {
 		imageview.setImage(new Image(DEFAULT_PICTURE));
 		imageview.setOnMouseClicked((event) -> {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow();
+			// TODO CHANGE THIS TO INJECTIONS
 			myMainAuthoringWindow.getGameMakerWindow()
 					.populateEditingFromSave(getMyGameLoader().parseAndLoadGame(file));
 			switchScene(myMainAuthoringWindow);
