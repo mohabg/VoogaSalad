@@ -8,7 +8,7 @@ public abstract class Goal implements IGoal{
 	
 	private GoalProperties goalProperties;
 	
-	public Goal(GoalProperties myProperties){
+	public Goal (GoalProperties myProperties){
 		setGoalProperties(myProperties);
 	}
 
