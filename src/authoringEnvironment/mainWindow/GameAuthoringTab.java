@@ -3,7 +3,6 @@ package authoringEnvironment.mainWindow;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -36,22 +35,23 @@ public class GameAuthoringTab extends Tab implements ITab{
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 
-			((ImageView) (t.getSource())).setTranslateX(newTranslateX);
-			((ImageView) (t.getSource())).setTranslateY(newTranslateY);
+			ImageView dragSource = (ImageView) t.getSource();
+			dragSource.setTranslateX(newTranslateX);
+			dragSource.setTranslateY(newTranslateY);
 		}
 	};
 	
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
+			ImageView mySprite = ((ImageView) (t.getSource()));
 			orgTranslateX = mySprite.getTranslateX();
 			orgTranslateY = mySprite.getTranslateY();
 			
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
 
-			myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
+			updateSettingsPane((ViewSprite) mySprite);
 		}
 	};
 	
@@ -72,6 +72,10 @@ public class GameAuthoringTab extends Tab implements ITab{
 
 		setContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
+	}
+	
+	private void updateSettingsPane(ViewSprite clickedSprite) {
+		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 	
 	public VBox setSettingsContent(Model spriteModel) {
