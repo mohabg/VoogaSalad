@@ -5,6 +5,7 @@ import gameElements.Sprite;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import resources.ResourcesReader;
 
 import java.lang.reflect.Constructor;
@@ -90,11 +91,13 @@ public class VisualFactory {
             Tab myTab = new Tab("Tab");
             AnchorPane myTempPane = new AnchorPane();
             f.setAccessible(true);
+            VBox myBox = new VBox();
             try {
                 Class clazz = Class.forName(f.getGenericType().getTypeName());
                 for(Parameter param: getLongestParams(clazz)){
                     if(param.getType().equals(int.class) || param.getType().equals(double.class)){
-                        myTempPane.getChildren().add(makeNewSpinner(param));
+                        System.out.println("here");
+                        myBox.getChildren().add(makeNewSpinner(param));
                     }
                     if(param.getType().isAssignableFrom(String.class)){
                         myTempPane.getChildren().add(makeTextInputBox(param,f));
@@ -103,6 +106,7 @@ public class VisualFactory {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            myTempPane.getChildren().add(myBox);
             myTab.setContent(myTempPane);
             myTabs.getTabs().add(myTab);
         }
