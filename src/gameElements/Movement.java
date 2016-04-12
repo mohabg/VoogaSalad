@@ -11,4 +11,4 @@ public abstract class Movement implements Behavior{
 		public Sprite getSpriteProperties(){
 			return mySprite;
 		}
-}	
+}
