@@ -4,11 +4,7 @@ package authoringEnvironment.itemWindow;
  * Created by davidyan on 4/4/16.
  */
 import authoringEnvironment.ViewSprite;
-import javafx.geometry.Insets;
-import javafx.scene.control.Tab;
-import javafx.scene.layout.TilePane;
-
-import java.util.ArrayList;
+import gameElements.Sprite;
 
 public class EnemySpritesTab extends AbstractItemTab {
 
@@ -16,4 +12,8 @@ public class EnemySpritesTab extends AbstractItemTab {
 		super();
 	}
 
+    @Override
+    public void setTabContent(ViewSprite view, Sprite mySprite) {
+
+    }
 }

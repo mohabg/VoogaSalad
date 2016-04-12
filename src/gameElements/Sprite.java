@@ -1,34 +1,43 @@
 package gameElements;
 
+import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Sprite {
-
-    private SpriteProperties mySpriteProperties = new SpriteProperties();
+    private SpriteProperties mySpriteProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
-    private String myRef;
+    private RefObject myRef;
 
 
+    public Sprite() {
+        mySpriteProperties = new SpriteProperties();
+        myHealth = new Health();
+        myCollisions = new ArrayList<Collision>();
+    }
     public Sprite(String ref) {
+        this();
+        myRef = new RefObject(ref);
         mySpriteProperties.setMyX(0);
         mySpriteProperties.setMyY(0);
         mySpriteProperties.setMyAngle(0);
-        myRef = ref;
+        //myRef.setMyRef(ref);
 	}
 
 	public Sprite(double x, double y) {
+        this();
         mySpriteProperties.setMyX(0);
         mySpriteProperties.setMyY(0);
 	}
 
 	public Sprite(double x, double y, double angle) {
+        this();
         mySpriteProperties.setMyX(0);
         mySpriteProperties.setMyY(0);
         mySpriteProperties.setMyAngle(0);
-
 	}
 
 	public boolean isDead() {
@@ -102,6 +111,6 @@ public class Sprite {
 	}
 
     public String getMyRef(){
-        return myRef;
+        return myRef.getMyRef();
     }
 }

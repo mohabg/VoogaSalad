@@ -4,10 +4,12 @@ public abstract class Defense extends Sprite implements Behavior{
 	private Health myHealth;
 	
 	public Defense(){
+        super("hi");
 		myHealth=new Health();
 	}
 	public Defense(Health health){
-		myHealth=health;
+        super("hi");
+        myHealth=health;
 	}
 	
 	public Health getHealth() {

@@ -1,6 +1,7 @@
 package authoringEnvironment;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * Created by davidyan on 4/12/16.
@@ -13,6 +14,12 @@ public class SpriteProperties {
     private DoubleProperty myAngle;
 
     public SpriteProperties(){
+        myX = new SimpleDoubleProperty();
+        myY = new SimpleDoubleProperty();
+        myWidth = new SimpleDoubleProperty();
+        myHeight = new SimpleDoubleProperty();
+        myAngle = new SimpleDoubleProperty();
+        myX.set(0);
         myX.set(0);
         myY.set(0);
         myWidth.set(0);
