@@ -24,6 +24,12 @@ public class MoveExpand extends Movement{
 		
 	}
 
+	@Override
+	public boolean ready() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
 
 	

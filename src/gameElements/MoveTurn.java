@@ -17,6 +17,12 @@ public class MoveTurn extends Movement {
 			sprite.setAngle(this.degree+sprite.getAngle());	
 		}
 
+		@Override
+		public boolean ready() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
 	}
 
 	

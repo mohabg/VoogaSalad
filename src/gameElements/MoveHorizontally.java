@@ -18,5 +18,11 @@ public class MoveHorizontally extends Movement{
 		
 	}
 
+	@Override
+	public boolean ready() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
