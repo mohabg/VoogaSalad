@@ -1,9 +1,5 @@
 package authoringEnvironment.mainWindow;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -14,12 +10,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+
+import java.util.Map;
 
 public class GameAuthoringTab implements ITab{
 	private final double VBOX_SPACING = 8;
@@ -84,7 +82,7 @@ public class GameAuthoringTab implements ITab{
 	
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(VBOX_SPACING);
-		List<HBox> propertiesList = myWindow.getMyVisualFactory().getHBoxes(spriteModel.getMyPropertiesList());
+		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}

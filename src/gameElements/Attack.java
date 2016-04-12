@@ -6,8 +6,20 @@ public abstract class Attack extends Sprite implements Behavior{
 		private Collision collision;
 		private int ammunition;
 		private boolean readyToShoot;
-		
-		public Movement getMovement() {
+
+    public Attack(String ref) {
+        super(ref);
+    }
+
+    public Attack(double x, double y) {
+        super(x, y);
+    }
+
+    public Attack(double x, double y, double angle) {
+        super(x, y, angle);
+    }
+
+    public Movement getMovement() {
 			return movement;
 		}
 		public void setMovement(Movement movement) {

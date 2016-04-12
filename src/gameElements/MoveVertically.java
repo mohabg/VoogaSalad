@@ -12,9 +12,10 @@ public class MoveVertically extends Movement{
 		
 	}
 
-    @Override
-    public boolean ready() {
-        return false;
-    }
-
+	@Override
+	public boolean ready() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }
