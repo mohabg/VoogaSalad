@@ -1,8 +1,6 @@
 package gameElements;
 
-import java.util.Observable;
-
-public class Health extends Observable{
+public class Health {
 	
 	private double value;
 	private boolean isMortal;
@@ -10,14 +8,13 @@ public class Health extends Observable{
 	public Health(){
 		isMortal = false;
 	}
-	public Health(double value){
-		this.value = value;
+	public Health(double myHealth){
+		this.value = myHealth;
 		isMortal = true;
 	}
 	private void changeHealth(double val){
 		if(!isMortal){
 			value += val;
-			this.notifyObservers();
 		}
 	}
 	public void setHealth(double health){

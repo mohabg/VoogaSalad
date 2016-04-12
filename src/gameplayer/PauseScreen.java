@@ -2,6 +2,7 @@ package gameplayer;
 
 import java.io.File;
 
+import authoringEnvironment.Settings;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PauseScreen implements IScreen {
-	private BorderPane container;
 	private Pane myPane;
 	private Scene myScene;
 	private IScreen parentScreen;
@@ -29,15 +29,17 @@ public class PauseScreen implements IScreen {
 	
 	public PauseScreen() {
 		myPane = new Pane();
+		Settings.setGamePlayingSettings(myPane);
+
 		myScene = new Scene(myPane);
-		container = new BorderPane();
 		myGameLoader = new GameLoader();
 		initBorderPane();
 	}
 	
 	private void initBorderPane() {
-		container.setCenter(makePauseScreenButtons());
-		myPane.getChildren().add(container);
+		VBox buttons = makePauseScreenButtons();
+		Settings.setStartWindowSettings(buttons);
+		myPane.getChildren().add(buttons);
 	}
 	
 	private VBox makePauseScreenButtons() {

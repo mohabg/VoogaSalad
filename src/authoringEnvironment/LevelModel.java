@@ -3,17 +3,19 @@ package authoringEnvironment;
 /**
  * Created by davidyan on 4/7/16.
  */
+import gameElements.Sprite;
+
 import java.util.*;
 
 public class LevelModel {
 
-	private Map<ViewSprite, Model> myMap;
+	private Map<ViewSprite, Sprite> myMap;
 
-	public LevelModel(Map<ViewSprite, Model> useMap) {
+	public LevelModel(Map<ViewSprite, Sprite> useMap) {
 		myMap = useMap;
 	}
 
-	public Map<ViewSprite, Model> getMyMap() {
+	public Map<ViewSprite, Sprite> getMyMap() {
 		return myMap;
 	}
 

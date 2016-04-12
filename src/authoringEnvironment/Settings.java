@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
@@ -61,5 +62,11 @@ public  class Settings {
 	startWindowBox.setPadding(new Insets(mySpacing, mySpacing, mySpacing, mySpacing));
 	startWindowBox.setSpacing(mySpacing);
 	startWindowBox.setAlignment(Pos.CENTER);
+	}
+	
+	public static void setGamePlayingSettings(Pane pane){
+		pane.setPrefHeight(SCREEN_HEIGHT);
+		pane.setPrefWidth(0.4 * SCREEN_WIDTH);
+		
 	}
 }
