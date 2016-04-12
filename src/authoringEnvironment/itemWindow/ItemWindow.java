@@ -6,17 +6,18 @@ import authoringEnvironment.ViewSprite;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import authoringEnvironment.mainWindow.GameMakerWindow;
+import interfaces.ITabPane;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ItemWindow {
 	private TabPane myTabPane;
-	private GameMakerWindow myGameMakerWindow;
+	private ITabPane myGameTabPane;
 	private Map<ViewSprite, Model> mySpritesAndModels;
 
-	public ItemWindow(GameMakerWindow window) {
-		myGameMakerWindow = window;
+	public ItemWindow(ITabPane window) {
+		myGameTabPane = window;
 		myTabPane = new TabPane();
 		mySpritesAndModels = new HashMap<ViewSprite, Model>();
 		initTabPane();
@@ -58,7 +59,7 @@ public class ItemWindow {
 			mySpritesAndModels.put(sprite, new Model(ItemWindowData.SpriteImages.getString(key)));
 
 			sprite.setOnMouseClicked(e -> {
-				myGameMakerWindow.getCurrentTab().addToWindow(sprite, mySpritesAndModels.get(sprite));
+				myGameTabPane.getCurrentTab().setTabContent(sprite, mySpritesAndModels.get(sprite));
 			});
 
 			return sprite;
