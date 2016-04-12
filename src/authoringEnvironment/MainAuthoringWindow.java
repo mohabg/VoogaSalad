@@ -33,7 +33,7 @@ public class MainAuthoringWindow implements IScreen{
         myGameMakerWindow.init(mySettingsWindow);
 
 
-        myPane.setCenter(myGameMakerWindow.getMyTabPane());
+        myPane.setCenter(myGameMakerWindow.getTabPane());
 		myPane.setLeft(myItemWindow.getTabPane());
 		myPane.setTop(myMenubar.getMenuBar());
 		myPane.setRight(mySettingsWindow.getBox());

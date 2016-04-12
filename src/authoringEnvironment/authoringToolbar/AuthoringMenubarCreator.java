@@ -9,6 +9,7 @@ import java.util.List;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import gameplayer.GameLoader;
+import interfaces.ITabPane;
 
 public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
@@ -27,7 +28,7 @@ public class AuthoringMenubarCreator {
 		myMenuBar = new MenuBar();
 	}
 
-	public void initMenuBar(GameMakerWindow window){
+	public void initMenuBar(ITabPane window){
 		FileMenu myFileMenuMaker = new FileMenu(MENU_FILE);
 		myFileMenuMaker.setNewAction(MENU_ITEM_NEW_FILE, e -> {
 			System.out.println("NOT IMPLEMENTED");
@@ -40,13 +41,13 @@ public class AuthoringMenubarCreator {
 
         SaveGameMenu mySaveGameMenu = new SaveGameMenu(MENU_SAVE);
         mySaveGameMenu.setNewAction(MENU_ITEM_SAVE_GAME, e -> {
-        	saveMyGame(window.getMyTabPane());
+        	saveMyGame(window);
         });
         
         myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu());
 	}
 	
-	 private void saveMyGame(TabPane tabLevels) {
+	 private void saveMyGame(ITabPane tabLevels) {
 	    List<LevelModel> levelModels = GameLoader.levelTabsToModels(tabLevels);
 	    GameLoader.saveGame(levelModels);
 	 }
