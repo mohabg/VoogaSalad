@@ -30,9 +30,8 @@ public class Bullet extends Attack{
     }
     @Override
     public void apply(Sprite sprite) {
-        if(numberOfBullets > 0 && rechargeTime <= 0){
-        
-        	 this.setCoord(mySprite.getX(), mySprite.getY());
+        if(ready()){
+            this.setCoord(mySprite.getX(), mySprite.getY());
             getMovement().apply(this);
         }
     }

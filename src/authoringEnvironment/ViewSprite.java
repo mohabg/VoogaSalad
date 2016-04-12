@@ -13,9 +13,11 @@ public class ViewSprite extends ImageView {
 	// private Health myHealth;
 	// private Attack myAttack;
 	// private Defense myDefense;
+    private SpriteProperties mySpriteProperties;
 
     public ViewSprite() {
         super();
+        mySpriteProperties = new SpriteProperties();
 //        myHealth = new Health();
 //        myAttack = new Attack();
 //        myDefense = new Defense();
@@ -24,10 +26,14 @@ public class ViewSprite extends ImageView {
 //        myPropertiesList.add(myAttack);
 //        myPropertiesList.add(myDefense);
     }
+
+    public SpriteProperties getMySpriteProperties(){
+        return mySpriteProperties;
+    }
     
     public ViewSprite(String imagePath) {
-    	super();
-    	setImage(imagePath);
+        this();
+        setImage(imagePath);
     }
 
 	public void setImage(String imagePath) {

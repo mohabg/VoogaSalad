@@ -15,7 +15,7 @@ public class CollisionChecker {
 	}
 	
 	private Rectangle spriteToRectangle(Sprite sprite){
-		Rectangle rectangle = new Rectangle ( (int) sprite.getX(), (int) sprite.getY(), (int) sprite.getWidth(), (int) sprite.getHeight());
+		Rectangle rectangle = new Rectangle ( (int) sprite.getX().doubleValue(), (int) sprite.getY().doubleValue(), (int) sprite.getWidth().doubleValue(), (int) sprite.getHeight().doubleValue());
 		return rectangle;
 	}
 	

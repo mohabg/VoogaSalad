@@ -27,7 +27,7 @@ public class GameAuthoringTab implements ITab{
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
 	private SettingsWindow myWindow;
-	
+	//private Map<ViewSprite, >
 	
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -37,7 +37,10 @@ public class GameAuthoringTab implements ITab{
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 
-			ImageView dragSource = (ImageView) t.getSource();
+			ViewSprite dragSource = (ViewSprite) t.getSource();
+            dragSource.getMySpriteProperties().setMyX(newTranslateX);
+            dragSource.getMySpriteProperties().setMyY(newTranslateY);
+            // update x, update y with newTranslate
 			dragSource.setTranslateX(newTranslateX);
 			dragSource.setTranslateY(newTranslateY);
 		}
@@ -46,7 +49,7 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			ImageView mySprite = ((ImageView) (t.getSource()));
+			ImageView mySprite = ((ViewSprite) (t.getSource()));
 			orgTranslateX = mySprite.getTranslateX();
 			orgTranslateY = mySprite.getTranslateY();
 			
@@ -123,7 +126,10 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getMyRef());
-
+        //created here
+        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
+        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}
