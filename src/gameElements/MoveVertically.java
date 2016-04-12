@@ -12,4 +12,9 @@ public class MoveVertically extends Movement{
 		
 	}
 
+    @Override
+    public boolean ready() {
+        return false;
+    }
+
 }

@@ -8,9 +8,10 @@ public class Bullet extends Attack{
     private double rechargeTime;
 
     public Bullet(double numBullets, double rechargeTime){
-
+        super("hi");
     }
     public Bullet(Actor sprite){
+        super("hi");
         mySprite = sprite;
     }
     public double getNumberOfBullets() {

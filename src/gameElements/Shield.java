@@ -4,7 +4,13 @@ public class Shield extends Defense{
 	private Sprite myProperties;
 	private Double shieldValue;
 	private Double rechargeTime;
-	
+
+
+    public Shield(double shield, double recharge){
+        shieldValue = shield;
+        rechargeTime = recharge;
+    }
+
 	public Shield(){
 		shieldValue=getHealth().getHealth();
 	}

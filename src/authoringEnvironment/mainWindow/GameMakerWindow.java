@@ -3,33 +3,20 @@ package authoringEnvironment.mainWindow;
 /**
  * @author: davidyan
  */
-import authoringEnvironment.Model;
-import authoringEnvironment.Settings;
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.itemWindow.ItemWindowData;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import authoringEnvironment.settingsWindow.SettingsWindow;
-import gameplayer.Screen;
+import gameElements.Sprite;
 import interfaces.ITab;
 import interfaces.ITabPane;
-import spriteProperties.NumProperty;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import authoringEnvironment.LevelModel;
+import java.util.Map;
 
 public class GameMakerWindow implements ITabPane{
 	private TabPane myTabPane;
@@ -46,7 +33,7 @@ public class GameMakerWindow implements ITabPane{
 		addNewTab();
 	}
 
-	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
+	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
 		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
 		myGameTabs.put(myTab.getTab(), myTab);
@@ -72,7 +59,7 @@ public class GameMakerWindow implements ITabPane{
 
 	@Override
 	public void addNewTab() {
-		createNewTab(new HashMap<ViewSprite, Model>());
+		createNewTab(new HashMap<ViewSprite, Sprite>());
 	}
 
 	@Override

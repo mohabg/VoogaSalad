@@ -1,24 +1,23 @@
 package authoringEnvironment.mainWindow;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.Sprite;
 import interfaces.ITab;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+
+import java.util.Map;
 
 public class GameAuthoringTab implements ITab{
 	private final double VBOX_SPACING = 8;
@@ -26,7 +25,7 @@ public class GameAuthoringTab implements ITab{
 	private double orgTranslateX, orgTranslateY;
 	
 	private Tab myTab;
-	private Map<ViewSprite, Model> mySpriteMap;
+	private Map<ViewSprite, Sprite> mySpriteMap;
 	private SettingsWindow myWindow;
 	
 	
@@ -58,7 +57,7 @@ public class GameAuthoringTab implements ITab{
 		}
 	};
 	
-	public GameAuthoringTab(Map<ViewSprite, Model> spriteMap, String title, SettingsWindow window) {
+	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
 		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
@@ -81,9 +80,9 @@ public class GameAuthoringTab implements ITab{
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 	
-	public VBox setSettingsContent(Model spriteModel) {
+	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(VBOX_SPACING);
-		List<HBox> propertiesList = myWindow.getMyVisualFactory().getHBoxes(spriteModel.getMyPropertiesList());
+		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
@@ -95,7 +94,7 @@ public class GameAuthoringTab implements ITab{
 		((Pane) getTabContent()).getChildren().addAll(sprite);
 	}
 	
-	public Map<ViewSprite, Model> getMap(){
+	public Map<ViewSprite, Sprite> getMap(){
 		return mySpriteMap;
 	}
 
@@ -121,9 +120,9 @@ public class GameAuthoringTab implements ITab{
 	}
 
 	@Override
-	public void setTabContent(ViewSprite view, Model model) {
+	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
-		Model mCopy = new Model(model.getMyRef());
+		Sprite mCopy = new Sprite(sprite.getMyRef());
 
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);

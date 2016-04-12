@@ -1,24 +1,21 @@
 package gameplayer;
 
+import authoringEnvironment.LevelModel;
+import authoringEnvironment.ViewSprite;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import exampledata.XStreamHandlers.FXConverters;
+import gameElements.Sprite;
+import interfaces.ITab;
+import interfaces.ITabPane;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import authoringEnvironment.LevelModel;
-import authoringEnvironment.Model;
-import authoringEnvironment.ViewSprite;
-import authoringEnvironment.mainWindow.GameAuthoringTab;
-import exampledata.XStreamHandlers.FXConverters;
-import interfaces.ITab;
-import interfaces.ITabPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 
 public class GameLoader {
 	private static XStream xstream = new XStream(new StaxDriver());
@@ -62,7 +59,7 @@ public class GameLoader {
 		FXConverters.configure(xstream);
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for(ITab levelTab: levels.getITabs()){
-			Map<ViewSprite, Model> spriteModels = ((GameAuthoringTab) levelTab).getMap();
+			Map<ViewSprite, Sprite> spriteModels = ((GameAuthoringTab) levelTab).getMap();
 			LevelModel newLM = new LevelModel(spriteModels);
             levelModelList.add(newLM);
         }
