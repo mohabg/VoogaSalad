@@ -4,7 +4,7 @@ import authoringEnvironment.ViewSprite;
 import gameElements.Sprite;
 
 /**
- * Created by davidyan on 4/4/16.
+ * @author David Yan, Huijia Yu
  */
 
 public class PlayerSpritesTab extends AbstractItemTab {

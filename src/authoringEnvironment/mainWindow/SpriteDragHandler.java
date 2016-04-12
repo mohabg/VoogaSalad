@@ -2,6 +2,9 @@ package authoringEnvironment.mainWindow;
 
 import interfaces.ITabPane;
 
+/**
+ * @author Huijia Yu
+ */
 public class SpriteDragHandler {
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;

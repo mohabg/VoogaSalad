@@ -1,7 +1,7 @@
 package authoringEnvironment;
 
 /**
- * Created by davidyan on 4/7/16.
+ * @author David Yan, Joe Jacob
  */
 import gameElements.Sprite;
 

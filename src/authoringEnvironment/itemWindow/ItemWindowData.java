@@ -3,7 +3,9 @@ package authoringEnvironment.itemWindow;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-
+/**
+ * @author Huijia Yu
+ */
 public class ItemWindowData {
 	public static String TAB = "Level ";
 	public static String VIEWSPRITE = "authoringEnvironment.ViewSprite";

@@ -1,7 +1,7 @@
 package authoringEnvironment;
 
 /**
- * Created by davidyan on 4/4/16.
+ * @author David Yan, Joe Jacob, Huijia Yu
  */
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

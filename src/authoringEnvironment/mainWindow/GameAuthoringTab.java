@@ -18,7 +18,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.Map;
-
+/**
+ * @author David Yan, Huijia Yu, Joe Jacob
+ */
 public class GameAuthoringTab implements ITab{
 	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
@@ -82,7 +84,8 @@ public class GameAuthoringTab implements ITab{
 	private void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
-	
+
+
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(VBOX_SPACING);
 		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);

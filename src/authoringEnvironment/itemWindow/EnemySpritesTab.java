@@ -1,7 +1,7 @@
 package authoringEnvironment.itemWindow;
 
 /**
- * Created by davidyan on 4/4/16.
+ * @author David Yan, Huijia Yu, Joe Jacob
  */
 import authoringEnvironment.ViewSprite;
 import gameElements.Sprite;

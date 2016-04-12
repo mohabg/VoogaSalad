@@ -1,7 +1,7 @@
 package authoringEnvironment.mainWindow;
 
 /**
- * @author: davidyan
+ * @author: David Yan, Joe Jacob, Huijia Yu
  */
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;

@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author David Yan, Sam Toffler, Huijia Yu, Joe Jacob
+ */
 public class ItemWindow {
 	private TabPane myTabPane;
 	private ITabPane myGameTabPane;
@@ -31,6 +34,12 @@ public class ItemWindow {
 				 .collect(Collectors.toList()));
 	}
 
+
+    /**
+     * makeTab uses the method of reflection to generate new instances of tabs
+     * The tabs are filled with sprites
+     * @return new tab to be added to the character tab settings
+     */
 	private Tab makeTab(String type) {
         System.out.println(type);
 		try {
@@ -38,7 +47,6 @@ public class ItemWindow {
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
 			tab.setTabTitle(type);
-            System.out.println(tab.getTab());
 			return tab.getTab();
 		} catch (Exception e) {
 			// TODO throw exception
@@ -60,7 +68,6 @@ public class ItemWindow {
 
 			sprite.setImage(ItemWindowData.SpriteImages.getString(key));
             String p = ItemWindowData.SpriteImages.getString(key);
-            System.out.println(p);
             Sprite newS = new Sprite(p);
 
 			mySpritesAndModels.put(sprite, newS);
