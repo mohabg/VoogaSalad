@@ -1,23 +1,17 @@
 package authoringEnvironment.authoringToolbar;
 
-import javafx.scene.control.Menu;
+import authoringEnvironment.LevelModel;
+import authoringEnvironment.StartOptionsWindow;
+import gameplayer.GameLoader;
+import interfaces.ITabPane;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 import java.util.List;
-
-import authoringEnvironment.LevelModel;
-import authoringEnvironment.StartOptionsWindow;
-import authoringEnvironment.mainWindow.GameMakerWindow;
-import gameplayer.GameLoader;
-import gameplayer.GamePlayingFileScreen;
-import gameplayer.IScreen;
-import interfaces.ITabPane;
 /** 
  * This is the creator for the menubar, which allows the user to select new files,
  *  add a level, save, or return to the start screen
- * @author Huijia
+ * @author Huijia, David Yan, Joe Jacob
  *
  */
 public class AuthoringMenubarCreator {

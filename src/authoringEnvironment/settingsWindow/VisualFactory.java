@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by davidyan on 4/9/16.
+ * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class VisualFactory {
     private Settings mySettings;
