@@ -20,7 +20,6 @@ public class SpriteProperties {
         myHeight = new SimpleDoubleProperty();
         myAngle = new SimpleDoubleProperty();
         myX.set(0);
-        myX.set(0);
         myY.set(0);
         myWidth.set(0);
         myHeight.set(0);
@@ -48,8 +47,8 @@ public class SpriteProperties {
         this.myAngle.set(myAngle);
     }
 
-    public double getMyX() {
-        return myX.get();
+    public DoubleProperty getMyX() {
+        return myX;
     }
 
     public DoubleProperty myXProperty() {
@@ -60,8 +59,8 @@ public class SpriteProperties {
         this.myX.set(myX);
     }
 
-    public double getMyY() {
-        return myY.get();
+    public DoubleProperty getMyY() {
+        return myY;
     }
 
     public DoubleProperty myYProperty() {
@@ -72,8 +71,8 @@ public class SpriteProperties {
         this.myY.set(myY);
     }
 
-    public double getMyWidth() {
-        return myWidth.get();
+    public DoubleProperty getMyWidth() {
+        return myWidth;
     }
 
     public DoubleProperty myWidthProperty() {
@@ -84,8 +83,8 @@ public class SpriteProperties {
         this.myWidth.set(myWidth);
     }
 
-    public double getMyHeight() {
-        return myHeight.get();
+    public DoubleProperty getMyHeight() {
+        return myHeight;
     }
 
     public DoubleProperty myHeightProperty() {

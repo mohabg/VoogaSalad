@@ -125,7 +125,10 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getMyRef());
+        //created here
 
+        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
+        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}

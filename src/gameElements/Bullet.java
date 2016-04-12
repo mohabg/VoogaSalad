@@ -32,7 +32,7 @@ public class Bullet extends Attack{
     @Override
     public void apply(Sprite sprite) {
         if(ready()){
-            this.setCoord(mySprite.getX(), mySprite.getY());
+            this.setCoord(mySprite.getX().doubleValue(), mySprite.getY().doubleValue());
             getMovement().apply(this);
         }
     }
