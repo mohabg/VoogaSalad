@@ -11,6 +11,13 @@
 
     <dependencies>
         <dependency>
+          <groupId>XStream</groupId>
+          <artifactId>XStream</artifactId>
+          <version>1.0.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/xstream-1.4.9.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>javafx</artifactId>
             <version>8.0.31</version>
