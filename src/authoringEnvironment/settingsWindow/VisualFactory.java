@@ -53,11 +53,6 @@ public class VisualFactory {
                     for(Parameter param: constructor.getParameters()){
                         if(param.getType().equals(int.class) || param.getType().equals(double.class)){
                             //TODO: take the objects here and integrate them to be displayed in the settings window
-//                            Spinner mySpinner = new Spinner();
-//                            SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
-//                            mySpinner.setValueFactory(factory);
-//                            mySpinner.setEditable(true);
-//                        factory.valueProperty().bindBidirectional();
 
                             System.out.println("yes number");
                         }

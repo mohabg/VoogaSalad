@@ -1,18 +1,16 @@
 package gameplayer;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public abstract class GameFileScreen implements IScreen {
 	private File myGameFile;
@@ -80,7 +78,9 @@ public abstract class GameFileScreen implements IScreen {
 
 	@Override
 	public void switchScene(IScreen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
+		Stage myStage = (Stage) myPane.getScene().getWindow();
+        myStage.setScene(screen.getScene());
+        myStage.centerOnScreen();
 	}
 
 	@Override
