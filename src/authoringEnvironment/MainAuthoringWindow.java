@@ -6,6 +6,7 @@ import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
 import authoringEnvironment.itemWindow.ItemWindow;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.IScreen;
@@ -52,6 +53,7 @@ public class MainAuthoringWindow implements IScreen{
 	@Override
 	public void switchScene(IScreen screen) {
 		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -60,5 +62,6 @@ public class MainAuthoringWindow implements IScreen{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

@@ -3,6 +3,7 @@ package gameplayer;
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import gameElements.Sprite;
 import javafx.scene.Group;
@@ -29,6 +30,7 @@ public class PlayScreen implements IScreen {
 	public PlayScreen(File newGameFile) {
 		gameFile = newGameFile;
 		myPane = new Pane();
+		Settings.setGamePlayingSettings(myPane);
 		myViewSprites = new Group();
 		myScene = new Scene(myPane);
 		myHUD = new HeadsUpDisplay(myScene.getWidth(), myScene.getHeight());
