@@ -5,6 +5,7 @@ import java.util.*;
 import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import gameElements.Sprite;
 import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -42,9 +43,10 @@ public abstract class AbstractItemTab implements ITab{
     }
 
 	@Override
-	public void setTabContent(ViewSprite view, Model model) {
+	public void setTabContent(ViewSprite view, Sprite sprite) {
 		// TODO Auto-generated method stub
-		
+		// poo
+		return;
 	}
 
 	@Override
