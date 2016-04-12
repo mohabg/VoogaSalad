@@ -2,7 +2,7 @@ package gameElements;
 
 public abstract class Goal implements IGoal{
 	public enum Goals{
-		
+		PointsGoal
 	}
 	
 	private GoalProperties goalProperties;
