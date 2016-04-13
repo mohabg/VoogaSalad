@@ -101,11 +101,11 @@ public class VisualFactory {
 		Tab myTab = new Tab(f.getName());
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
-		myBox.getChildren().add(oneSpinner(f, mySprite));
-		// Field[] properties = f.getType().getDeclaredFields();
-		// for (Field p: properties){
-		// myBox.getChildren().add(oneSpinner(p));
-		// }
+//		myBox.getChildren().add(oneSpinner(f, mySprite));
+		 Field[] properties = f.getType().getDeclaredFields();
+		 for (Field p: properties){
+		 myBox.getChildren().add(oneSpinner(p, mySprite));
+		 }
 
 		myPane.getChildren().add(myBox);
 		myTab.setContent(myPane);
@@ -126,9 +126,11 @@ public class VisualFactory {
 
 			try {
 				Property thisproperty = (Property) p.get(mySprite);
+				System.out.println(p.get(mySprite).toString());
 				factory.valueProperty().bindBidirectional(thisproperty);
 			} catch (Exception e){
-				e.printStackTrace();
+				System.out.println("stacktrace lol");
+//				e.printStackTrace();
 			}
 		
 		return mySpinner;
