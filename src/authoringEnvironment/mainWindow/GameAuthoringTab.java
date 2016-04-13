@@ -1,6 +1,7 @@
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.Settings;
+import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
@@ -139,10 +140,18 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getMyRef());
+		
+		SpriteProperties sp = copy.getMySpriteProperties();
         //created here
-        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
-        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
-        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
+		
+		mCopy.setHeight(sp.getMyHeight());
+		mCopy.setWidth(sp.getMyWidth());
+		mCopy.setX(sp.getMyX());
+		mCopy.setY(sp.getMyY());
+		mCopy.setAngle(sp.myAngleProperty());
+//        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+//        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
+//        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}
