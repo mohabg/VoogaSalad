@@ -20,15 +20,16 @@ public class Movement implements Behavior{
 
 		@Override
 		public void apply(Sprite sprite) {
-			// TODO Auto-generated method stub
+			if(sprite.canMove()){
+				move(sprite);
+			}
+		}
+		
+		public void move(Sprite sprite) {
 			//set x to zero when up/down is pressed
+			
 		}
 
-		@Override
-		public boolean ready() {
-			// TODO Auto-generated method stub
-			return false;
-		}
 		public DoubleProperty toDoubleProperty(DoubleBinding value){
 			DoubleProperty doubleValue=new SimpleDoubleProperty(value.doubleValue());
 			return doubleValue;

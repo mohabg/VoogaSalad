@@ -13,15 +13,10 @@ public class MoveTurn extends Movement {
 		}
 		
 		@Override
-		public void apply(Sprite sprite) {
+		public void move(Sprite sprite) {
 			sprite.setAngle(toDoubleProperty(sprite.getAngle().add(degree)));	
 		}
 
-		@Override
-		public boolean ready() {
-			// TODO Auto-generated method stub
-			return false;
-		}
 
 	}
 

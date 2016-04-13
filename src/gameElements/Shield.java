@@ -1,25 +1,22 @@
 package gameElements;
 
+import java.util.List;
+import java.util.Map;
+
+import authoringEnvironment.RefObject;
+import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
 
 public class Shield extends Defense{
-	private DoubleProperty shieldValue;
+	
 	private DoubleProperty rechargeTime;
 
-	public Shield(Health health, DoubleProperty recharge) {
-		super(health);
-		shieldValue = getHealth().getHealth();
-		rechargeTime = recharge;
-	}
-	
-	
+	public Shield(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+			Map<String, Behavior> myBehaviors, RefObject myRef, Health myHealth2,
+			ApplyBehaviorConditions behaviorConditions, double rechargeTime) {
+		super(myProperties, myHealth, myCollisions, myBehaviors, myRef, behaviorConditions);
 
-	public DoubleProperty getShieldValue() {
-		return shieldValue;
-	}
-
-	public void setShieldValue(DoubleProperty shieldValue) {
-		this.shieldValue=shieldValue;
+		this.rechargeTime.set(rechargeTime);
 	}
 
 	public DoubleProperty getRechargeTime() {
@@ -32,21 +29,18 @@ public class Shield extends Defense{
 	public void decrementRechargeTime(DoubleProperty decrement){
 		rechargeTime.subtract(decrement);
 	}
-	
-	public void decrementShieldValue(DoubleProperty decrement){
-		shieldValue.subtract(decrement);
-	}
-	
-	@Override
-	public void apply(Sprite sprite) {
-		this.setCoord(sprite.getX(), sprite.getY());
-
-	}
 
 	@Override
-	public boolean ready() {
-		// TODO Auto-generated method stub
+	public boolean readyToDefend(Sprite sprite) {
+		if(sprite.isUserControlled()){
+			//Should depend on key input instead of this method
+			return true;
+		}
+		else{
+			//AI controlled shielding?
+			ApplyBehaviorConditions behaviorConditions = getBehaviorConditions();
+			
+		}
 		return false;
 	}
-
 }
