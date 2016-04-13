@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * @author davidyan
+ * @author Huijia Yu, Joe Jacob
  */
 
 public class StartOptionsWindow implements IScreen {

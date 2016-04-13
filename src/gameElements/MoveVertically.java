@@ -2,20 +2,22 @@ package gameElements;
 
 public class MoveVertically extends Movement{
 
+	private double moveY;
+	
+	public void getMoveY(double moveY){
+		this.moveY=moveY;
+	}
+	
 	public MoveVertically(Actor sprite) {
 		super(sprite);
 	}
 
 	@Override
 	public void apply(Sprite sprite) {
-		
+		sprite.setY(toDoubleProperty(sprite.getY().add(moveY)));
 		
 	}
 
-	@Override
-	public boolean ready() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	
 }

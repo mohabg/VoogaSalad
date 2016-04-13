@@ -5,6 +5,9 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
+/**
+ * @author Joe Jacob
+ */
 public abstract class AbstractMenu {
 	private Menu myMenu;
 	

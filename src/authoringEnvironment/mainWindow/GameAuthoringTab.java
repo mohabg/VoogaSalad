@@ -18,7 +18,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.Map;
-
+/**
+ * @author David Yan, Huijia Yu, Joe Jacob
+ */
 public class GameAuthoringTab implements ITab{
 	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
@@ -82,14 +84,19 @@ public class GameAuthoringTab implements ITab{
 	private void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
-	
+
+    /**
+     * @param spriteModel model used to generate visual elements that
+     * are added to a new VBox and displayed in the Settings Window
+     */
+
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(VBOX_SPACING);
 		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
-	
+
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
@@ -122,6 +129,12 @@ public class GameAuthoringTab implements ITab{
 		myTab.setText(tabTitle);
 	}
 
+    /**
+     * @param view is a ViewSprite that's going to be copied and get its properties set between the
+     * Sprite properties.
+     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+     * change is made, the other knows of the change
+     */
 	@Override
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());

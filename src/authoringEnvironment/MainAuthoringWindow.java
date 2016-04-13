@@ -1,15 +1,14 @@
 package authoringEnvironment;
 /**
- * @author davidyan
+ * @author David Yan, Joe Jacob, Huijia Yu
  */
 import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
 import authoringEnvironment.itemWindow.ItemWindow;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.IScreen;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 
 import java.awt.*;
 
