@@ -1,27 +1,29 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+
 public class Health {
 	
-	private double value;
+	private DoubleProperty value;
 	private boolean isMortal;
 	
 	public Health(){
 		isMortal = false;
 	}
-	public Health(double myHealth){
+	public Health(DoubleProperty myHealth){
 		this.value = myHealth;
 		isMortal = true;
 	}
 	private void changeHealth(double val){
 		if(!isMortal){
-			value += val;
+			value.add(val);
 		}
 	}
-	public void setHealth(double health){
+	public void setHealth(DoubleProperty health){
 		this.value = health;
 		isMortal = true;
 	}
-	public double getHealth(){
+	public DoubleProperty getHealth(){
 		return value;
 	}
 	public void decrementHealth(double val){
@@ -34,6 +36,6 @@ public class Health {
 		if(!isMortal){
 			return false;
 		}
-		return value <= 0;
+		return value.doubleValue() <= 0;
 	}
 }
