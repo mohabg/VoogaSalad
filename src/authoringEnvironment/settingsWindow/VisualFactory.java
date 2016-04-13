@@ -98,13 +98,24 @@ public class VisualFactory {
 	}
 
 	private Tab getOneTab(Field f, Sprite mySprite) {
+		f.setAccessible(true);
 		Tab myTab = new Tab(f.getName());
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
 //		myBox.getChildren().add(oneSpinner(f, mySprite));
 		 Field[] properties = f.getType().getDeclaredFields();
 		 for (Field p: properties){
-		 myBox.getChildren().add(oneSpinner(p, mySprite));
+				p.setAccessible(true);
+
+		 try {
+			myBox.getChildren().add(oneSpinner(p, f.get(mySprite)));
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 }
 
 		myPane.getChildren().add(myBox);
@@ -112,9 +123,8 @@ public class VisualFactory {
 		return myTab;
 	}
 
-	private Spinner oneSpinner(Field p, Sprite mySprite) {
+	private Spinner oneSpinner(Field p, Object object) {
 
-		p.setAccessible(true);
 		Spinner mySpinner = new Spinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
@@ -125,8 +135,8 @@ public class VisualFactory {
 //			System.out.println("----" + p.getType().toGenericString());
 
 			try {
-				Property thisproperty = (Property) p.get(mySprite);
-				System.out.println(p.get(mySprite).toString());
+				Property thisproperty = (Property) p.get(object);
+				System.out.println(p.get(object).toString());
 				factory.valueProperty().bindBidirectional(thisproperty);
 			} catch (Exception e){
 				System.out.println("stacktrace lol");
