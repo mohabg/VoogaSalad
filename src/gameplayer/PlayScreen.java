@@ -5,14 +5,19 @@ import HUD.HeadsUpDisplay;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import gameElements.Level;
 import gameElements.Sprite;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,15 +59,33 @@ public class PlayScreen implements IScreen {
 	}
 	
 	public void setGameLevels(List<LevelModel> gameLevels) {
-		for (LevelModel lm : gameLevels) {
+		List<Level> levelList = new ArrayList<Level>();
+
+		for (int i=0; i<gameLevels.size();i++) {
+			LevelModel lm = gameLevels.get(i);
+			Level newLevel= new Level();
 			Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
 			for(ViewSprite vs : spriteList.keySet()) {
+				Sprite s = spriteList.get(vs);
+		        vs.xProperty().bindBidirectional(s.getX());
+		        vs.yProperty().bindBidirectional(s.getY());
+		        
 				myViewSprites.getChildren().add(vs);
+				newLevel.addSprite(s);
 			}
+			//add level to game
+//			newLevel.setLevelProperties(levelProperties);
+			myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
+			myPane.setOnKeyReleased(key-> newLevel.handleKeyRelease(key));
+			levelList.add(newLevel);
+			
+			
 		}
 		myPane.getChildren().add(myViewSprites);
 		
 		// TODO GIVE MODELS TO BACKEND
+		
+		
 		// bind image-specific attributes
 	}
 
