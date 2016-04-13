@@ -79,7 +79,6 @@ public class VisualFactory {
 
 	private <T> List<T> makeList(Class<T> type) {
 		List<T> pp = new ArrayList<T>();
-		System.out.println(pp.getClass().toGenericString());
 		return new ArrayList<T>();
 	}
 
@@ -129,17 +128,14 @@ public class VisualFactory {
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
-		System.out.println("+++++++" + p.getType().toGenericString());
 
 		// p.getType().asSubclass(Property.class)
 //			System.out.println("----" + p.getType().toGenericString());
 
 			try {
 				Property thisproperty = (Property) p.get(object);
-				System.out.println(p.get(object).toString());
 				factory.valueProperty().bindBidirectional(thisproperty);
 			} catch (Exception e){
-				System.out.println("stacktrace lol");
 //				e.printStackTrace();
 			}
 		

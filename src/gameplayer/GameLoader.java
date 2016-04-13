@@ -21,6 +21,7 @@ public class GameLoader {
 	private static XStream xstream = new XStream(new StaxDriver());
 	
 	private static final String DEFAULT_DIRECTORY = System.getProperty("user.dir") + "/SavedGameData/DefaultGames/my-file.xml";
+	private static final String SAVED_DIRECTORY = System.getProperty("user.dir") + "/SavedGameData/SavedGames/my-file.xml";
 	
 	public GameLoader() {
 		FXConverters.configure(xstream);
@@ -36,7 +37,7 @@ public class GameLoader {
 
 	public static void saveGame(List<LevelModel> gameLevels) {
 		FXConverters.configure(xstream);
-		saveGame(DEFAULT_DIRECTORY, gameLevels);
+		saveGame(SAVED_DIRECTORY, gameLevels);
 	}
 	
 	// TODO MIGHT WANT TO ASK FOR FILENAME HERE

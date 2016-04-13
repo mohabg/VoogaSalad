@@ -63,6 +63,7 @@ public class ItemWindow {
 			ViewSprite sprite = (ViewSprite) c.newInstance();
 
 			sprite.setImage(ItemWindowData.SpriteImages.getString(key));
+
             String p = ItemWindowData.SpriteImages.getString(key);
             Sprite newS = new Sprite(p);
            
@@ -73,7 +74,6 @@ public class ItemWindow {
             newS.setWidth(new SimpleDoubleProperty(sprite.getWidth()));
 
 			mySpritesAndModels.put(sprite, newS);
-
 
 			sprite.setOnMouseClicked(e -> {
 				myGameTabPane.getCurrentTab().setTabContent(sprite, mySpritesAndModels.get(sprite));
