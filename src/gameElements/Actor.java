@@ -7,8 +7,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Actor extends Sprite{
-	private Map<String, Behavior> myBehaviors;
-	
+
+	//add key input Map
+	//find automatic behaviors
 	public Actor(){
 		
 	}
