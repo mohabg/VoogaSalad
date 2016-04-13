@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 public  class Settings {
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+	private static final double ITEM_WINDOW_WIDTH = SCREEN_WIDTH * 0.25;
 	private static final int mySpacing = 20;
 	
 	// TODO: REPLACE THE CONSTANTS IN HERE
@@ -22,11 +23,11 @@ public  class Settings {
 	}
 
 	public static void setTilePaneSettings(TilePane tilepane) {
-		tilepane.setPrefTileHeight(200);
-		tilepane.setPrefTileWidth(200);
-		double inset = 5;
-		tilepane.setPadding(new Insets(inset, inset, inset, inset));
-		tilepane.setHgap(inset);
+		tilepane.setPrefTileHeight(ITEM_WINDOW_WIDTH/3);
+		tilepane.setPrefTileWidth(ITEM_WINDOW_WIDTH/3);
+//		double inset = 5;
+//		tilepane.setPadding(new Insets(inset, inset, inset, inset));
+//		tilepane.setHgap(inset);
 	}
 
 	public static void setTabPaneSettings(TabPane myTabPane) {

@@ -83,6 +83,8 @@ public class GameAuthoringTab extends Tab implements ITab{
 
 	public void addToWindow(ViewSprite mySprite, Model myModel) {
 		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
+		copy.setFitHeight(copy.getImage().getHeight()*0.5);
+		copy.setFitWidth(copy.getImage().getWidth()*0.5);
 		Model mCopy = new Model(myModel.getMyRef());
 
 		mySpriteMap.put(copy, mCopy);
