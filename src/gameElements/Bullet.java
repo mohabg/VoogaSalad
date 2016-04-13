@@ -1,3 +1,4 @@
+
 package gameElements;
 
 public class Bullet extends Attack{
@@ -7,7 +8,7 @@ public class Bullet extends Attack{
     private double rechargeTime;
 
     public Bullet(double numBullets, double rechargeTime){
-
+      
     }
     public Bullet(Actor sprite){
         mySprite = sprite;

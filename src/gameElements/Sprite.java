@@ -1,98 +1,135 @@
 package gameElements;
 
+import authoringEnvironment.RefObject;
+import authoringEnvironment.SpriteProperties;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import authoringEnvironment.RefObject;
+
 public class Sprite {
 
-private double x;
-private double y;
-private double width;
-private double height;
-private double angle;
-private Health myHealth;
-private List<Collision> myCollisions;
-
+	private DoubleProperty x;
+	private DoubleProperty y;
+	private DoubleProperty width;
+	private DoubleProperty height;
+	private DoubleProperty angle;
+	private Health myHealth;
+	private List<Collision> myCollisions;
+	private Map<String, Behavior> myBehaviors;
+	private RefObject myRef;
 
 	public Sprite() {
-		this.x = 0;
-		this.y = 0;
-		this.angle = 0;
-	}
-	public Sprite(double x, double y){
-		this.x = x;
-		this.y = y;
-	}
-	public Sprite(double x, double y, double angle){
-		this.x = x;
-		this.y = y;
-		this.angle = angle;
-		
+		myHealth = new Health();
+		myCollisions = new ArrayList<Collision>();
 	}
 
-	public boolean isDead(){
+	public Sprite(String ref) {
+		this();
+		myRef = new RefObject(ref);
+		DoubleProperty property=new SimpleDoubleProperty(0.0);
+	
+		setX(property);
+		setY(property);
+		setAngle(property);
+		// myRef.setMyRef(ref);
+	}
+
+
+
+	public void setMyRef(RefObject myRef) {
+		this.myRef = myRef;
+	}
+
+	public Health getMyHealth() {
+		return myHealth;
+	}
+
+	public void setMyHealth(Health myHealth) {
+		this.myHealth = myHealth;
+	}
+
+	public List<Collision> getMyCollisions() {
+		return myCollisions;
+	}
+
+	public void setMyCollisions(List<Collision> myCollisions) {
+		this.myCollisions = myCollisions;
+	}
+
+
+	public boolean isDead() {
 		return myHealth.isDead();
 	}
-	
-	public double getWidth() {
+
+	public DoubleProperty getWidth() {
 		return width;
 	}
 
-	public void setWidth(double width) {
+	public void setWidth(DoubleProperty width) {
 		this.width = width;
 	}
 
-	public double getHeight() {
+
+	public DoubleProperty getHeight() {
 		return height;
 	}
 
-	public void setHeight(double height) {
+	public void setHeight(DoubleProperty height) {
 		this.height = height;
 	}
 
-	public double getX() {
+
+	public DoubleProperty getX() {
 		return x;
 	}
 
-	public void setCoord(double x, double y){
+	public void setCoord(DoubleProperty x, DoubleProperty y) {
 		setX(x);
 		setY(y);
 	}
-	public void setX(double x) {
+
+	public void setX(DoubleProperty x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public DoubleProperty getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(DoubleProperty y) {
 		this.y = y;
 	}
 
-	public double getAngle() {
+	public DoubleProperty getAngle() {
 		return angle;
 	}
 
-	public double getDistance(Sprite otherVect){
-		return Math.sqrt(( Math.pow(x,2) - Math.pow(otherVect.getX(),2))
-				+ (Math.pow(y,2) - Math.pow(otherVect.getY(), 2)));
+	public double getDistance(Sprite otherVect) {
+		return Math.sqrt((Math.pow(x.doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(y.doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
 	}
 
-
-	public void setAngle(double angle) {
+	public void setAngle(DoubleProperty angle) {
 		this.angle = angle;
 	}
+
 	public Health getHealth() {
 		return myHealth;
 	}
+
 	public void setHealth(Health myHealth) {
 		this.myHealth = myHealth;
 	}
-	public void addCollision(Collision collision){
+
+	public void addCollision(Collision collision) {
 		myCollisions.add(collision);
 	}
-	public List<Collision> getCollisions(){
+
+	public List<Collision> getCollisions() {
 		return myCollisions;
 	}
 }

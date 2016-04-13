@@ -1,15 +1,20 @@
 package authoringEnvironment.itemWindow;
 
-import java.util.*;
-
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import gameElements.Sprite;
 import interfaces.ITab;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
 
+import java.util.List;
+/** 
+ * This is the abstract tab class which will be used for the item window. 
+ *
+ * @author Huijia
+ *
+ */
 public abstract class AbstractItemTab implements ITab{
 	
 	private Tab myTab;
@@ -21,7 +26,10 @@ public abstract class AbstractItemTab implements ITab{
         myTab = new Tab();
         myTilePane = new TilePane();
     }
-    
+    /** 
+     * this adds the sprites to the tab
+     * @param viewSprites
+     */
     public void populateTab(List<ViewSprite> viewSprites){
         Settings.setTilePaneSettings(myTilePane);
         IMAGE_HEIGHT = myTilePane.getTileHeight() - 50;
@@ -33,6 +41,7 @@ public abstract class AbstractItemTab implements ITab{
         setTabContent(myTilePane);
     }
 
+    
     public void setTabTitle(String tabTitle){
         myTab.setText(tabTitle);
     }
@@ -45,4 +54,17 @@ public abstract class AbstractItemTab implements ITab{
     public void setTabContent(Node content) {
     	myTab.setContent(content);
     }
+
+	@Override
+	public void setTabContent(ViewSprite view, Sprite sprite) {
+		// TODO Auto-generated method stub
+		// poo
+		return;
+	}
+
+	@Override
+	public Node getTabContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

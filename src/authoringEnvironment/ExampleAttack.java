@@ -6,7 +6,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Created by davidyan on 4/11/16.
+ * @author David Yan
  */
 public class ExampleAttack {
 

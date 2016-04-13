@@ -1,22 +1,21 @@
 package gameplayer;
 
+import authoringEnvironment.LevelModel;
+import authoringEnvironment.ViewSprite;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import exampledata.XStreamHandlers.FXConverters;
+import gameElements.Sprite;
+import interfaces.ITab;
+import interfaces.ITabPane;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import authoringEnvironment.LevelModel;
-import authoringEnvironment.Model;
-import authoringEnvironment.ViewSprite;
-import authoringEnvironment.mainWindow.GameAuthoringTab;
-import exampledata.XStreamHandlers.FXConverters;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 
 public class GameLoader {
 	private static XStream xstream = new XStream(new StaxDriver());
@@ -56,11 +55,11 @@ public class GameLoader {
 	}
 
 	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
-	public static List<LevelModel> levelTabsToModels(TabPane levels) {
+	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
 		FXConverters.configure(xstream);
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
-		for(Tab levelTab: levels.getTabs()){
-			Map<ViewSprite, Model> spriteModels = ((GameAuthoringTab) levelTab).getMap();
+		for(ITab levelTab: levels.getITabs()){
+			Map<ViewSprite, Sprite> spriteModels = ((GameAuthoringTab) levelTab).getMap();
 			LevelModel newLM = new LevelModel(spriteModels);
             levelModelList.add(newLM);
         }

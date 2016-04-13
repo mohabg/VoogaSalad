@@ -1,32 +1,35 @@
 package authoringEnvironment.mainWindow;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import authoringEnvironment.Model;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.Sprite;
 import interfaces.ITab;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class GameAuthoringTab extends Tab implements ITab{
+import java.util.Map;
+/**
+ * @author David Yan, Huijia Yu, Joe Jacob
+ */
+public class GameAuthoringTab implements ITab{
+	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
-	private Map<ViewSprite, Model> mySpriteMap;
+	
+	private Tab myTab;
+	private Map<ViewSprite, Sprite> mySpriteMap;
 	private SettingsWindow myWindow;
-	private final double VBOX_SPACING = 8;
+	//private Map<ViewSprite, >
 	
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -36,27 +39,31 @@ public class GameAuthoringTab extends Tab implements ITab{
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 
-			((ImageView) (t.getSource())).setTranslateX(newTranslateX);
-			((ImageView) (t.getSource())).setTranslateY(newTranslateY);
+			ViewSprite dragSource = (ViewSprite) t.getSource();
+            dragSource.getMySpriteProperties().setMyX(newTranslateX);
+            dragSource.getMySpriteProperties().setMyY(newTranslateY);
+            // update x, update y with newTranslate
+			dragSource.setTranslateX(newTranslateX);
+			dragSource.setTranslateY(newTranslateY);
 		}
 	};
 	
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
+			ImageView mySprite = ((ViewSprite) (t.getSource()));
 			orgTranslateX = mySprite.getTranslateX();
 			orgTranslateY = mySprite.getTranslateY();
 			
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
 
-			myWindow.setContent(setSettingsContent(mySpriteMap.get(mySprite)));
+			updateSettingsPane((ViewSprite) mySprite);
 		}
 	};
 	
-	public GameAuthoringTab(Map<ViewSprite, Model> spriteMap, String title, SettingsWindow window) {
-		super(title);
+	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
+		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
 		
@@ -70,48 +77,74 @@ public class GameAuthoringTab extends Tab implements ITab{
 		AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
 
-		setContent(myNewGamePane);
+		setTabContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
 	}
 	
-	public VBox setSettingsContent(Model spriteModel) {
+	private void updateSettingsPane(ViewSprite clickedSprite) {
+		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
+	}
+
+    /**
+     * @param spriteModel model used to generate visual elements that
+     * are added to a new VBox and displayed in the Settings Window
+     */
+
+	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(VBOX_SPACING);
-		List<HBox> propertiesList = myWindow.getMyVisualFactory().getHBoxes(spriteModel.getMyPropertiesList());
+		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
 
-	public void addToWindow(ViewSprite mySprite, Model myModel) {
-		ViewSprite copy = new ViewSprite(mySprite.getMyImage());
-		copy.setFitHeight(copy.getImage().getHeight()*0.5);
-		copy.setFitWidth(copy.getImage().getWidth()*0.5);
-		Model mCopy = new Model(myModel.getMyRef());
-
-		mySpriteMap.put(copy, mCopy);
-		addWithClicking(copy);	
-	}
-	
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		((Pane) getContent()).getChildren().addAll(sprite);
+		((Pane) getTabContent()).getChildren().addAll(sprite);
 	}
 	
-	public Map<ViewSprite, Model> getMap(){
+	public Map<ViewSprite, Sprite> getMap(){
 		return mySpriteMap;
 	}
 
 	@Override
+	public Tab getTab() {
+		return myTab;
+	}
+	
+	@Override
+	public Node getTabContent() {
+		return myTab.getContent();
+	}
+	
+	@Override
 	public void setTabContent(Node content) {
-		// TODO Auto-generated method stub
+		myTab.setContent(content);
 		
 	}
 
 	@Override
 	public void setTabTitle(String tabTitle) {
-		//poo
-		return;
+		myTab.setText(tabTitle);
+	}
+
+    /**
+     * @param view is a ViewSprite that's going to be copied and get its properties set between the
+     * Sprite properties.
+     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+     * change is made, the other knows of the change
+     */
+	@Override
+	public void setTabContent(ViewSprite view, Sprite sprite) {
+		ViewSprite copy = new ViewSprite(view.getMyImage());
+		Sprite mCopy = new Sprite(sprite.getMyRef());
+        //created here
+        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
+        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
+		mySpriteMap.put(copy, mCopy);
+		addWithClicking(copy);
 	}
 
 }

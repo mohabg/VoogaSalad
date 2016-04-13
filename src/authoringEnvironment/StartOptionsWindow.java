@@ -1,26 +1,19 @@
 package authoringEnvironment;
 
-import java.io.File;
-
 import gameplayer.ButtonFactory;
 import gameplayer.GameEditingFileScreen;
-import gameplayer.GameFileScreen;
-import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.IScreen;
-/**
- * @author davidyan
- */
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+/**
+ * @author Huijia Yu, Joe Jacob
+ */
 
 public class StartOptionsWindow implements IScreen {
 
@@ -73,7 +66,8 @@ public class StartOptionsWindow implements IScreen {
 		// ((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
 		myStage.setScene(screen.getScene());
 		myStage.show();
-	}
+
+    }
 
 	public void setParentScreen(IScreen screen) {
 		parentScreen = screen;

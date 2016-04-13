@@ -1,15 +1,11 @@
 package authoringEnvironment.itemWindow;
 
 /**
- * Created by davidyan on 4/4/16.
+ * @author David Yan, Huijia Yu, Joe Jacob
  */
 
 import authoringEnvironment.ViewSprite;
-import javafx.geometry.Insets;
-import javafx.scene.control.Tab;
-import javafx.scene.layout.TilePane;
-
-import java.util.ArrayList;
+import gameElements.Sprite;
 
 public class BackgroundImagesTab extends AbstractItemTab {
 
@@ -17,4 +13,8 @@ public class BackgroundImagesTab extends AbstractItemTab {
 		super();
 	}
 
+    @Override
+    public void setTabContent(ViewSprite view, Sprite mySprite) {
+
+    }
 }
