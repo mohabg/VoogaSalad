@@ -126,9 +126,11 @@ public class VisualFactory {
 
 			try {
 				Property thisproperty = (Property) p.get(mySprite);
+				System.out.println(p.get(mySprite).toString());
 				factory.valueProperty().bindBidirectional(thisproperty);
 			} catch (Exception e){
-				e.printStackTrace();
+				System.out.println("stacktrace lol");
+//				e.printStackTrace();
 			}
 		
 		return mySpinner;
