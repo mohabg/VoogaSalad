@@ -4,6 +4,8 @@ import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import gameElements.Sprite;
 import interfaces.ITabPane;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -63,6 +65,12 @@ public class ItemWindow {
 			sprite.setImage(ItemWindowData.SpriteImages.getString(key));
             String p = ItemWindowData.SpriteImages.getString(key);
             Sprite newS = new Sprite(p);
+           
+            
+            //TODO: move this stuff to sprite class
+            System.out.println(sprite.getHeight());
+            newS.setHeight(new SimpleDoubleProperty(sprite.getHeight()));
+            newS.setWidth(new SimpleDoubleProperty(sprite.getWidth()));
 
 			mySpritesAndModels.put(sprite, newS);
 
