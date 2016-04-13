@@ -100,6 +100,8 @@ public class GameAuthoringTab implements ITab{
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
+		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
+		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		((Pane) getTabContent()).getChildren().addAll(sprite);
@@ -144,14 +146,13 @@ public class GameAuthoringTab implements ITab{
 		SpriteProperties sp = copy.getMySpriteProperties();
         //created here
 		
-		mCopy.setHeight(sp.getMyHeight());
-		mCopy.setWidth(sp.getMyWidth());
-		mCopy.setX(sp.getMyX());
-		mCopy.setY(sp.getMyY());
-		mCopy.setAngle(sp.myAngleProperty());
-//        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
-//        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
-//        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
+//		mCopy.setHeight(sp.getMyHeight());
+//		mCopy.setWidth(sp.getMyWidth());
+//		mCopy.setX(sp.getMyX());
+//		mCopy.setY(sp.getMyY());
+        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+        copy.xProperty().bindBidirectional(mCopy.getX());
+        copy.yProperty().bindBidirectional(mCopy.getY());
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}

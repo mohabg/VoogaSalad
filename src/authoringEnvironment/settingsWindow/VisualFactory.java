@@ -104,7 +104,6 @@ public class VisualFactory {
 
 	private <T> List<T> makeList(Class<T> type) {
 		List<T> pp = new ArrayList<T>();
-		System.out.println(pp.getClass().toGenericString());
 		return new ArrayList<T>();
 	}
 
@@ -123,6 +122,7 @@ public class VisualFactory {
 
 	private Tab getOneTab(Field f, Sprite mySprite) {
 		String tabName = f.getName();
+		f.setAccessible(true);
 		Tab myTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
@@ -186,17 +186,16 @@ public class VisualFactory {
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
-		System.out.println("+++++++" + p.getType().toGenericString());
 
 		// p.getType().asSubclass(Property.class)
 //			System.out.println("----" + p.getType().toGenericString());
 
-			try {
-				Property thisproperty = (Property) p.get(mySprite);
-				factory.valueProperty().bindBidirectional(thisproperty);
-			} catch (Exception e){
-				e.printStackTrace();
-			}
+//			try {
+//				Property thisproperty = (Property) p.get(Object);
+//				factory.valueProperty().bindBidirectional(thisproperty);
+//			} catch (Exception e){
+////				e.printStackTrace();
+//			}
 		
 		return mySpinner;
 

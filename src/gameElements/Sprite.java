@@ -13,11 +13,12 @@ import authoringEnvironment.RefObject;
 
 public class Sprite {
 
-	private DoubleProperty x;
-	private DoubleProperty y;
-	private DoubleProperty width;
-	private DoubleProperty height;
-	private DoubleProperty angle;
+//	private DoubleProperty x;
+//	private DoubleProperty y;
+//	private DoubleProperty width;
+//	private DoubleProperty height;
+//	private DoubleProperty angle;
+	private SpriteProperties myProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
 	private Map<String, Behavior> myBehaviors;
@@ -26,6 +27,7 @@ public class Sprite {
 	public Sprite() {
 		myHealth = new Health();
 		myCollisions = new ArrayList<Collision>();
+		myProperties = new SpriteProperties();
 	}
 
 	public Sprite(String ref) {
@@ -69,54 +71,54 @@ public class Sprite {
 	}
 
 	public DoubleProperty getWidth() {
-		return width;
+		return myProperties.getMyWidth();
 	}
 
 	public void setWidth(DoubleProperty width) {
-		this.width = width;
+		myProperties.setMyWidthProperty( width);
 	}
 
 
 	public DoubleProperty getHeight() {
-		return height;
+		return myProperties.getMyHeight();
 	}
 
 	public void setHeight(DoubleProperty height) {
-		this.height = height;
+		myProperties.setMyHeightProperty(height);
 	}
 
 
 	public DoubleProperty getX() {
-		return x;
+		return myProperties.getMyX();
 	}
 
 	public void setCoord(DoubleProperty x, DoubleProperty y) {
-		setX(x);
-		setY(y);
+		myProperties.setMyXProperty(x);
+		myProperties.setMyYProperty(y);
 	}
 
 	public void setX(DoubleProperty x) {
-		this.x = x;
+		myProperties.setMyXProperty(x);
 	}
 
 	public DoubleProperty getY() {
-		return y;
+		return myProperties.getMyY();
 	}
 
 	public void setY(DoubleProperty y) {
-		this.y = y;
+		myProperties.setMyYProperty(y);
 	}
 
 	public DoubleProperty getAngle() {
-		return angle;
+		return myProperties.myAngleProperty();
 	}
 
 	public double getDistance(Sprite otherVect) {
-		return Math.sqrt((Math.pow(x.doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(y.doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
+		return Math.sqrt((Math.pow(myProperties.getMyX().doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(myProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
 	}
 
 	public void setAngle(DoubleProperty angle) {
-		this.angle = angle;
+		myProperties.setMyAngleProperty(angle);;
 	}
 
 	public Health getHealth() {
@@ -133,5 +135,13 @@ public class Sprite {
 
 	public List<Collision> getCollisions() {
 		return myCollisions;
+	}
+	
+	public void setMySpriteProperties(SpriteProperties sp){
+		myProperties = sp;
+	}
+	
+	public SpriteProperties getSpriteProperties(){
+		return myProperties;
 	}
 }
