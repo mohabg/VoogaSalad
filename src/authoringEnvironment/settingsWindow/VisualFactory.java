@@ -2,8 +2,11 @@ package authoringEnvironment.settingsWindow;
 
 import authoringEnvironment.Settings;
 import gameElements.Sprite;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -14,6 +17,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -22,7 +27,8 @@ import java.util.List;
 public class VisualFactory {
 	private Settings mySettings;
 	private ResourcesReader myReader;
-
+	private int poo;
+	
 	public VisualFactory() {
 		mySettings = new Settings();
 	}
@@ -33,9 +39,28 @@ public class VisualFactory {
 	}
 
 	public static void main(String[] args) {
-
+		System.out.println("sps");
+		Field[] poo = SimpleDoubleProperty.class.getDeclaredFields();
+		System.out.println(poo.length);
+		for (Field p : poo) {
+			p.setAccessible(true);
+			System.out.println(p.getGenericType().getTypeName());
+		}
+		
+		List<Field> ls = getAllFields(new ArrayList<Field>(), SimpleDoubleProperty.class);
+		System.out.println(ls.size());
 	}
 
+	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+	    fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+	    if (type.getSuperclass() != null) {
+	        fields = getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return fields;
+	}
+	
 	public Constructor[] getConstructors(Class myClass) {
 		return myClass.getConstructors();
 	}
@@ -91,17 +116,18 @@ public class VisualFactory {
 
 		for (Field f : fields) {
 			myTabs.getTabs().add(getOneTab(f, mySprite));
-
 		}
 		//
 		return myTabs;
 	}
 
 	private Tab getOneTab(Field f, Sprite mySprite) {
-		Tab myTab = new Tab(f.getName());
+		String tabName = f.getName();
+		Tab myTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
-		myBox.getChildren().add(oneSpinner(f, mySprite));
+		myBox.getChildren().addAll(makePropertyBoxes(f), new ArrayList<Node>());
+		//myBox.getChildren().add(oneSpinner(f, mySprite));
 		// Field[] properties = f.getType().getDeclaredFields();
 		// for (Field p: properties){
 		// myBox.getChildren().add(oneSpinner(p));
@@ -111,9 +137,27 @@ public class VisualFactory {
 		myTab.setContent(myPane);
 		return myTab;
 	}
+	
+	private List<Node> makePropertyBoxes(Field f, List<Node> properties) {
+		Constructor<?>[] fieldConstructors = f.getType().getConstructors();
+		// sorting comparator
+		Comparator<Constructor> byParamNumber= 
+				(Constructor c1, Constructor c2) -> c1.getParameterCount() >= c2.getParameterCount() ? 1:-1;
+//		Arrays.sort(fieldConstructors, (Constructor c1, Constructor c2) -> {
+//			return a.getParameterCount() > b.getParameterCount();
+//		});
+		
+		
+		properties.addAll(Arrays.asList(type.getDeclaredFields()));
 
+	    if (type.getSuperclass() != null) {
+	        fields = getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return properties;
+	}
+	
 	private Spinner oneSpinner(Field p, Sprite mySprite) {
-
 		p.setAccessible(true);
 		Spinner mySpinner = new Spinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
