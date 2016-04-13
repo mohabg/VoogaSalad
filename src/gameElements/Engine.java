@@ -10,6 +10,9 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import gameElements.IKeyboardAction.KeyboardActions;
+import javafx.scene.input.KeyEvent;
+
 public class Engine {
 	
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
@@ -81,6 +84,14 @@ public class Engine {
     
     public double getGameTimeInSeconds() {
     	return myGameTime;
+    }
+    
+    public void setResultForKeyPress(KeyEvent event) {
+    	myEditor.setResultForKeyPress(event);
+    }
+    
+    public void setResultForKeyRelease(KeyEvent event) {
+    	myEditor.setResultForKeyRelease(event);
     }
 
 }

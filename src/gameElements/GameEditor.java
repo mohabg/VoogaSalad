@@ -1,4 +1,6 @@
 package gameElements;
+import gameElements.IKeyboardAction.KeyboardActions;
+import javafx.scene.input.KeyEvent;
 
 public class GameEditor implements IGameEditor {
 	
@@ -60,11 +62,15 @@ public class GameEditor implements IGameEditor {
 		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
 	}
 	
-	public void step() {
-		myGame.getCurrentLevel().update();
-	}
-	
 	public void updateGame() {
     	myGame.getCurrentLevel().update();
+    }
+	
+	public void setResultForKeyPress(KeyEvent event) {
+    	myGame.getCurrentLevel().handleKeyPress(event);
+    }
+    
+    public void setResultForKeyRelease(KeyEvent event) {
+    	myGame.getCurrentLevel().handleKeyRelease(event);
     }
 }

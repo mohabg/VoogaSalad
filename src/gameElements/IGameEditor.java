@@ -1,4 +1,6 @@
 package gameElements;
+import gameElements.IKeyboardAction.KeyboardActions;
+import javafx.scene.input.KeyEvent;
 
 public interface IGameEditor {
 	
@@ -15,6 +17,7 @@ public interface IGameEditor {
 	public void setLevelCharacteristics(LevelProperties levelProperties);
 	public Integer getUserSprite();
 	public void setUserSprite(Integer spriteID);
-	public void step();
 	public void updateGame();
+	public void setResultForKeyPress(KeyEvent event);
+	public void setResultForKeyRelease(KeyEvent event);
 }
