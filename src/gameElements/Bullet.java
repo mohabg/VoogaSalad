@@ -8,10 +8,9 @@ public class Bullet extends Attack{
     private double rechargeTime;
 
     public Bullet(double numBullets, double rechargeTime){
-        super("hi");
+      
     }
     public Bullet(Actor sprite){
-        super("hi");
         mySprite = sprite;
     }
     public double getNumberOfBullets() {
@@ -32,7 +31,7 @@ public class Bullet extends Attack{
     @Override
     public void apply(Sprite sprite) {
         if(ready()){
-            this.setCoord(mySprite.getX().doubleValue(), mySprite.getY().doubleValue());
+            this.setCoord(mySprite.getX(), mySprite.getY());
             getMovement().apply(this);
         }
     }

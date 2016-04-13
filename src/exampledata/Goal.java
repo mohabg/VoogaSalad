@@ -5,7 +5,6 @@ public class Goal {
 
 	public Goal(boolean goal) {
 		isDone = goal;
-		// TODO Auto-generated constructor stub
 	}
 
 }
