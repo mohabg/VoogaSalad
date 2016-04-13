@@ -5,7 +5,7 @@ import spriteProperties.IProperties;
 
 import java.util.List;
 /**
- * Created by davidyan on 4/6/16.
+ * @author David Yan
  */
 public abstract class AViewSprite {
 

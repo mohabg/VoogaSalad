@@ -1,7 +1,7 @@
 package authoringEnvironment.mainWindow;
 
 /**
- * @author: davidyan
+ * @author: David Yan, Joe Jacob, Huijia Yu
  */
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
@@ -33,6 +33,10 @@ public class GameMakerWindow implements ITabPane{
 		addNewTab();
 	}
 
+    /**
+     * @param mySpriteMap uses the map to populate a new tab, or level, in the Game Authoring Window
+     */
+
 	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
 		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
@@ -41,6 +45,11 @@ public class GameMakerWindow implements ITabPane{
 		getTabPane().getTabs().add(myTab.getTab());
 		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
+
+    /**
+     * @param gameLevels takes a list of game level objects to populate the correct
+     * number of tabs with the correct objects
+     */
 
 	public void populateEditingFromSave(List<LevelModel> gameLevels) {
 		myTabPane.getTabs().clear();
@@ -62,6 +71,9 @@ public class GameMakerWindow implements ITabPane{
 		createNewTab(new HashMap<ViewSprite, Sprite>());
 	}
 
+    /**
+     * @return list of tabs
+     */
 	@Override
 	public List<ITab> getITabs() {
 		List<ITab> myITabsList = new ArrayList<ITab>();

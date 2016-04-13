@@ -4,7 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- * Created by davidyan on 4/12/16.
+ * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class SpriteProperties {
     private DoubleProperty myX;
