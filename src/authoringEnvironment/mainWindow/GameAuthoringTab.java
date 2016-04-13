@@ -85,6 +85,10 @@ public class GameAuthoringTab implements ITab{
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 
+    /**
+     * @param spriteModel model used to generate visual elements that
+     * are added to a new VBox and displayed in the Settings Window
+     */
 
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(VBOX_SPACING);
@@ -92,7 +96,7 @@ public class GameAuthoringTab implements ITab{
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
-	
+
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
@@ -125,6 +129,12 @@ public class GameAuthoringTab implements ITab{
 		myTab.setText(tabTitle);
 	}
 
+    /**
+     * @param view is a ViewSprite that's going to be copied and get its properties set between the
+     * Sprite properties.
+     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+     * change is made, the other knows of the change
+     */
 	@Override
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());

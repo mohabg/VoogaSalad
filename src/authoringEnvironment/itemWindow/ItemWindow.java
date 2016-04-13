@@ -34,12 +34,6 @@ public class ItemWindow {
 				 .collect(Collectors.toList()));
 	}
 
-
-    /**
-     * makeTab uses the method of reflection to generate new instances of tabs
-     * The tabs are filled with sprites
-     * @return new tab to be added to the character tab settings
-     */
 	private Tab makeTab(String type) {
         System.out.println(type);
 		try {
