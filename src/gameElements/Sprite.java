@@ -40,7 +40,9 @@ public class Sprite {
 	}
 
 
-
+	public String getMyRef() {
+		return myRef.getMyRef();
+	}
 	public void setMyRef(RefObject myRef) {
 		this.myRef = myRef;
 	}
