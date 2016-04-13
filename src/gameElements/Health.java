@@ -1,27 +1,30 @@
 package gameElements;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Health {
 	
-	private DoubleProperty value;
-	private boolean isMortal;
+	private DoubleProperty value = new SimpleDoubleProperty();
+	private BooleanProperty isMortal = new SimpleBooleanProperty();
 	
 	public Health(){
-		isMortal = false;
+		isMortal.set(false);
 	}
 	public Health(DoubleProperty myHealth){
 		this.value = myHealth;
-		isMortal = true;
+		isMortal.set(true);
 	}
 	private void changeHealth(double val){
-		if(!isMortal){
+		if(isMortal.getValue().booleanValue()){
 			value.add(val);
 		}
 	}
 	public void setHealth(DoubleProperty health){
 		this.value = health;
-		isMortal = true;
+		isMortal.set(true);
 	}
 	public DoubleProperty getHealth(){
 		return value;
@@ -33,7 +36,7 @@ public class Health {
 		changeHealth(val);
 	}
 	public boolean isDead(){
-		if(!isMortal){
+		if(!isMortal.getValue().booleanValue()){
 			return false;
 		}
 		return value.doubleValue() <= 0;

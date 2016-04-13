@@ -32,10 +32,26 @@ public class SubclassEnumerator {
 		for (Class<?> c : test) {
 			//System.out.println(c.getName());
 		}
-		
-		getSubclasses(PACKAGE_NAME, Behavior.class);
+		getReadableClasses(PACKAGE_NAME);
+		//getSubclasses(PACKAGE_NAME, Behavior.class);
 	}
 	
+	public static List<String> getReadableClasses(String packageName) {
+		List<Class<?>> clazzes = new ArrayList<Class<?>>();
+		try {
+			clazzes = getClasses(packageName);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<String> readableClasses = new ArrayList<String>();
+		for(Class<?> c : clazzes) {
+			readableClasses.add(c.getName());
+		}
+		
+		return readableClasses;
+	}
 	
 	public static Map<String, Class<?>> getSubclasses(String packageName, Class<?> superclass) {
 		Map<String, Class<?>> subclassNameMap = new HashMap<String, Class<?>>();
