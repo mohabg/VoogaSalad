@@ -155,6 +155,7 @@ public class VisualFactory {
 	
 	private Set<HBox> makePropertyBoxes(Type fType, String fParamName, Set<HBox> properties) {
 		System.out.println(fType.getTypeName());
+		// prevents infinite recursion problem with Collision
 		if(fType.getTypeName().equals("gameElements.Sprite")) {
 			return properties;
 		}
@@ -224,6 +225,7 @@ public class VisualFactory {
 			} else if (fClass.isAssignableFrom(String.class)) {
 				System.out.println("HI IM A STRING");
 				// THIS PROBABLY REFERS TO IMAGE FILES..............
+				// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 				return properties;
 			} else {
 				// IT'S A JAVA CLASS
@@ -234,12 +236,14 @@ public class VisualFactory {
 					System.out.println(pType + " \n" + pName);
 					properties.addAll(makePropertyBoxes(pType, pName, properties));
 					return properties;
-					//ParameterizedType pt = (ParameterizedType) f.getGenericType();
-					//Type paramType = pt.getActualTypeArguments()[0];
-					//Field listField = new Field();
-					//System.out.println(paramType.getTypeName());
 				} else if (fClass.isAssignableFrom(Map.class)) {
 					System.out.println("Map");
+					Type pType1 = ((ParameterizedType) fType).getActualTypeArguments()[0];
+					Type pType2 = ((ParameterizedType) fType).getActualTypeArguments()[1];
+					//String pName = pType.getTypeName();
+					//System.out.println(pType + " \n" + pName);
+					//properties.addAll(makePropertyBoxes(pType, pName, properties));
+					//return properties;
 				} else {
 					System.out.println("FOOOOOOOOOOOOOOOOOOK");
 				}
