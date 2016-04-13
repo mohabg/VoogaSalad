@@ -27,6 +27,7 @@ public class Sprite {
 	public Sprite() {
 		myHealth = new Health();
 		myCollisions = new ArrayList<Collision>();
+		myProperties = new SpriteProperties();
 	}
 
 	public Sprite(String ref) {
@@ -134,5 +135,13 @@ public class Sprite {
 
 	public List<Collision> getCollisions() {
 		return myCollisions;
+	}
+	
+	public void setMySpriteProperties(SpriteProperties sp){
+		myProperties = sp;
+	}
+	
+	public SpriteProperties getSpriteProperties(){
+		return myProperties;
 	}
 }
