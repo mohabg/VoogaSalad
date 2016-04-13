@@ -126,7 +126,7 @@ public class VisualFactory {
 		Tab myTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
-		myBox.getChildren().addAll(makePropertyBoxes(f), new ArrayList<Node>());
+		myBox.getChildren().addAll(makePropertyBoxes(f, new ArrayList<Node>()));
 		//myBox.getChildren().add(oneSpinner(f, mySprite));
 		// Field[] properties = f.getType().getDeclaredFields();
 		// for (Field p: properties){
@@ -139,20 +139,43 @@ public class VisualFactory {
 	}
 	
 	private List<Node> makePropertyBoxes(Field f, List<Node> properties) {
+		// if the field is a number property, make the box i.e. return
+		// if the field is a boolean property, make the box i.e. return
+		// if it's anything else, look for subclasses and recurse
+		// constructor with most parameters
+			// are instances are set in the constructor, and if so, exclude from rest of instance vars
+		// also the instance variables
+		
 		Constructor<?>[] fieldConstructors = f.getType().getConstructors();
 		// sorting comparator
 		Comparator<Constructor> byParamNumber= 
 				(Constructor c1, Constructor c2) -> c1.getParameterCount() >= c2.getParameterCount() ? 1:-1;
+		//Arrays.sort(fieldConstructors, byParamNumber);
+		System.out.println(f.getName());
+		System.out.println(f.getGenericType());
+		
+		for(Constructor c : fieldConstructors) {
+			System.out.println(c.getParameterCount());
+			Class<?>[] paramClasses = c.getParameterTypes();
+			for(Class<?> param : paramClasses) {
+				System.out.println(param.getName());
+			}
+		}
+		
+		
+		// DoubleProperty, BooleanProperty, Integer
+		//System.out.println(fieldConstructors[0].getParameterCount());
+		//System.out.println(fieldConstructors[fieldConstructors.length-1].getParameterCount());
 //		Arrays.sort(fieldConstructors, (Constructor c1, Constructor c2) -> {
 //			return a.getParameterCount() > b.getParameterCount();
 //		});
 		
 		
-		properties.addAll(Arrays.asList(type.getDeclaredFields()));
+		//properties.addAll(Arrays.asList(type.getDeclaredFields()));
 
-	    if (type.getSuperclass() != null) {
-	        fields = getAllFields(fields, type.getSuperclass());
-	    }
+//	    if (type.getSuperclass() != null) {
+//	        fields = getAllFields(fields, type.getSuperclass());
+//	    }
 
 	    return properties;
 	}

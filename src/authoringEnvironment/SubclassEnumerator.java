@@ -18,23 +18,23 @@ public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
 	public static final String PACKAGE_NAME = "gameElements";
 	
-//	public static void main(String[] args) {
-//		List<Class<?>> test = new ArrayList<Class<?>>();
-//		
-//		try {
-//			test = getClasses(PACKAGE_NAME);
-//		} catch (ClassNotFoundException | IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		System.out.println(test);
-//		findSubclasses(test, Collision.class);
-//		for (Class<?> c : test) {
-//			//System.out.println(c.getName());
-//		}
-//		
-//		getSubclasses(PACKAGE_NAME, Collision.class);
-//	}
+	public static void main(String[] args) {
+		List<Class<?>> test = new ArrayList<Class<?>>();
+		
+		try {
+			test = getClasses(PACKAGE_NAME);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(test);
+		//findSubclasses(test, Collision.class);
+		for (Class<?> c : test) {
+			//System.out.println(c.getName());
+		}
+		
+		getSubclasses(PACKAGE_NAME, Behavior.class);
+	}
 	
 	
 	public static Map<String, Class<?>> getSubclasses(String packageName, Class<?> superclass) {
