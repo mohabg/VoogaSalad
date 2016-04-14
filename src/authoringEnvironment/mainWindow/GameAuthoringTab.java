@@ -27,12 +27,12 @@ public class GameAuthoringTab implements ITab{
 	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
-	
+
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
-	
+
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -49,14 +49,14 @@ public class GameAuthoringTab implements ITab{
 
 
             // update x, update y with newTranslate
-			dragSource.setTranslateX(newTranslateX);
-			dragSource.setTranslateX(newTranslateY);
+			dragSource.setX(newTranslateX);
+			dragSource.setY(newTranslateY);
 //            dragSource.getMySpriteProperties().setMyX(newTranslateX);
 //            dragSource.getMySpriteProperties().setMyY(newTranslateY);
 
         }
 	};
-	
+
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -70,12 +70,12 @@ public class GameAuthoringTab implements ITab{
 			updateSettingsPane((ViewSprite) mySprite);
 		}
 	};
-	
+
 	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
 		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
-		
+
 		initArea();
 	}
 
@@ -89,7 +89,7 @@ public class GameAuthoringTab implements ITab{
 		setTabContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
 	}
-	
+
 	private void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
@@ -114,7 +114,7 @@ public class GameAuthoringTab implements ITab{
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		((Pane) getTabContent()).getChildren().addAll(sprite);
 	}
-	
+
 	public Map<ViewSprite, Sprite> getMap(){
 		return mySpriteMap;
 	}
@@ -123,16 +123,16 @@ public class GameAuthoringTab implements ITab{
 	public Tab getTab() {
 		return myTab;
 	}
-	
+
 	@Override
 	public Node getTabContent() {
 		return myTab.getContent();
 	}
-	
+
 	@Override
 	public void setTabContent(Node content) {
 		myTab.setContent(content);
-		
+
 	}
 
 	@Override
@@ -151,10 +151,10 @@ public class GameAuthoringTab implements ITab{
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		//TODO: MAKE BETTER CONSTRUCTOR
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-		
+
 		SpriteProperties sp = copy.getMySpriteProperties();
         //created here
-		
+
 //		mCopy.setHeight(sp.getMyHeight());
 //		mCopy.setWidth(sp.getMyWidth());
 //		mCopy.setX(sp.getMyX());
