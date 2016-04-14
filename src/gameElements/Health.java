@@ -8,23 +8,23 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Health {
 	
 	private DoubleProperty value = new SimpleDoubleProperty();
-	private boolean isMortal;	
-	
+	private BooleanProperty isMortal;	
 	public Health(){
-		isMortal = false;
+		isMortal = new SimpleBooleanProperty();
+		isMortal.set(false);
 	}
 	public Health(double myHealth){
 		this.value.set(myHealth);
-		isMortal = true;
+		isMortal.set(true);
 	}
 	private void changeHealth(double val){
-		if(isMortal){
+		if(isMortal.getValue()){
 			value.add(val);
 		}
 	}
 	public void setHealth(double health){
 		this.value.set(health);
-		isMortal = true;
+		isMortal.set(true);
 	}
 	public double getHealthValue(){
 		return value.doubleValue();
@@ -36,7 +36,7 @@ public class Health {
 		changeHealth(val);
 	}
 	public boolean isDead(){
-		if(!isMortal){
+		if(!isMortal.getValue()){
 			return false;
 		}
 		return value.doubleValue() <= 0;

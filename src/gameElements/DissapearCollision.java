@@ -8,7 +8,7 @@ public class DissapearCollision extends Collision{
 	}
 
 	@Override
-	protected void handleCollision(Collision other){
+	protected void handleCollision(Collision other, LevelProperties levelProperties){
 		Sprite mySprite = getSprite();
 		//Set Alpha to zero
 	}
