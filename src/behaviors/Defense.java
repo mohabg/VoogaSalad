@@ -14,8 +14,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * Deals with an array of behaviors having to do with how Sprites defend themselves. The enabled boolean lets one know if the 
- * sprite currently has the ability to defend itself. Behavior conditions refers to an array of properties that help determine if the 
- * Sprite is eligible for defending itself. 
+ * sprite currently has this defense enabled. Behavior conditions refers to an array of properties that help determine if the 
+ * Sprite is eligible for defending itself. It is only used for enemy sprites.
  * @see ApplyBehaviorConditions
  */
 

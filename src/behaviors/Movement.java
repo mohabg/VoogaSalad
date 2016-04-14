@@ -31,6 +31,9 @@ public abstract class Movement implements Behavior{
 	public double getValue(){
 		return value.doubleValue();
 	}
+	/**
+	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly
+	 */
 	@Override
 	public void apply(Sprite sprite) {
 		if(sprite.canMove()){

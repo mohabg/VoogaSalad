@@ -48,7 +48,10 @@ public class Health {
 	public void incrementHealth(double val) {
 		changeHealth(val);
 	}
-
+	/**
+	 * If the sprite is mortal, check if its health is zero
+	 * @return
+	 */
 	public boolean isDead() {
 		if (!isMortal.getValue()) {
 			return false;

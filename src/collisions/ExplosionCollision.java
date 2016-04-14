@@ -2,7 +2,7 @@ package collisions;
 
 public class ExplosionCollision extends Collision{
 	/**
-	 * Causes explosoin on collision
+	 * Causes explosion on collision
 	 */
 
 	

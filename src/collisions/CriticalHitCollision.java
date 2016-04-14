@@ -4,8 +4,10 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- * Describes dealing a "critical hit" in a sprite. The DoubleProperty informs the class of exactly how much damage to deal the
- * sprite should the "critical hit" take. 
+ * Describes dealing a "critical hit" in a sprite.
+ *  The DoubleProperty informs the class of exactly how much damage to deal the
+ * sprite should the "critical hit" take. The probability of dealing the hit comes from the
+ * DoubleProperty in the superclass.
  */
 
 
