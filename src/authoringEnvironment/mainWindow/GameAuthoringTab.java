@@ -42,21 +42,28 @@ public class GameAuthoringTab implements ITab{
 			double newTranslateY = orgTranslateY + offsetY;
 
 			ViewSprite dragSource = (ViewSprite) t.getSource();
-            dragSource.getMySpriteProperties().setMyX(newTranslateX);
-            dragSource.getMySpriteProperties().setMyY(newTranslateY);
+            System.out.println("MY TRANSLATE X: "+newTranslateX);
+            System.out.println("MY TRANSLATE Y: "+dragSource.getMySpriteProperties().getMyX());
+            System.out.println("MY TRANSLATE X: "+dragSource.getMySpriteProperties().getMyY());
+
+
+
             // update x, update y with newTranslate
-			dragSource.setX(newTranslateX);
-			dragSource.setY(newTranslateY);
-		}
+			dragSource.setTranslateX(newTranslateX);
+			dragSource.setTranslateX(newTranslateY);
+//            dragSource.getMySpriteProperties().setMyX(newTranslateX);
+//            dragSource.getMySpriteProperties().setMyY(newTranslateY);
+
+        }
 	};
 	
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
 			ImageView mySprite = ((ViewSprite) (t.getSource()));
-			orgTranslateX = mySprite.getTranslateX();
-			orgTranslateY = mySprite.getTranslateY();
-			
+			orgTranslateX = mySprite.getX();
+			orgTranslateY = mySprite.getY();
+
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
 
