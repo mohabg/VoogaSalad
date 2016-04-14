@@ -96,7 +96,7 @@ The Authoring Environment is currently split up as so:
 >	- It also contains, as previously mentioned, a list of levels, and it has an integer representing the current level of the game
 > - The GameEditor class holds a Game object as an instance field, and it has the ability to edit essentially all of the different aspects of a game, such as adding, changing, and removing goals to updating key press results.
 > - The GameEngine class is the primary class of the Game Engine, as this contains the methods that the front end is able to access as well as the game loop through which a Game is run
->	- This is the class that the front end can access, as it encapsulates a GameEditor, so it can perform any of the important commands that the GameEditor can
+>	- This is the class that the front end can access, as it encapsulates a GameEditor, so it can perform any of the important commands that the GameEditor can perform
 
 **Level**
 > - The level class contains the previous/next level, sprites, goals, time, score, and keyboard mappings for the relevant level which the user has authored in the environment.
