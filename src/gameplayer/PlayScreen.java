@@ -76,8 +76,10 @@ public class PlayScreen implements IScreen {
 			Level newLevel = makeNewLevel(lm);
 			engine.addLevel(i, newLevel);
 			
-			setLevel(newLevel);
 		}
+		engine.setCurrentLevel(0);
+		setLevel(engine.getCurrentLevel());
+
 		engine.gameLoop();
 		// TODO GIVE MODELS TO BACKEND
 		
