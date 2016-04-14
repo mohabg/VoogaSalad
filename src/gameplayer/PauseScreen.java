@@ -12,7 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+/**
+ * IScreen that is displayed when the game is paused. Has buttons for navigation.
+ * @author Huijia
+ *
+ */
 public class PauseScreen implements IScreen {
 	private Pane myPane;
 	private Scene myScene;

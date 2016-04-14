@@ -4,8 +4,9 @@ import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
-import gameElements.Behavior;
-import gameElements.Collision;
+import behaviors.Behavior;
+import behaviors.MoveVertically;
+import collisions.Collision;
 import gameElements.Health;
 import gameElements.Sprite;
 import interfaces.ITabPane;
@@ -43,11 +44,11 @@ public class ItemWindow {
 	}
 
 	private Tab makeTab(String type) {
-        System.out.println(type);
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
+			System.out.println("made it");
 			tab.setTabTitle(type);
 			return tab.getTab();
 		} catch (Exception e) {
@@ -66,28 +67,23 @@ public class ItemWindow {
 	private ViewSprite makeViewSprite(String key) {
 		try {
 			Class c = Class.forName(ItemWindowData.VIEWSPRITE);
-			ViewSprite sprite = (ViewSprite) c.newInstance();
-
-			sprite.setImage(ItemWindowData.SpriteImages.getString(key));
+			ViewSprite viewsprite = (ViewSprite) c.newInstance();
 
             String p = ItemWindowData.SpriteImages.getString(key);
+            viewsprite.setImage(p);
             
-            //TODO: also change this
-            Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), new RefObject(p));
-           
+            Sprite newS = new Sprite(new RefObject(p));
+            //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
+            //newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
+            //sprite.setMySpriteProperties(newS.getSpriteProperties());
+
+            mySpritesAndModels.put(viewsprite, newS);
             
-            //TODO: move this stuff to sprite class
-            System.out.println(sprite.getHeight());
-            newS.setHeight(new SimpleDoubleProperty(sprite.getHeight()));
-            newS.setWidth(new SimpleDoubleProperty(sprite.getWidth()));
-
-			mySpritesAndModels.put(sprite, newS);
-
-			sprite.setOnMouseClicked(e -> {
-				myGameTabPane.getCurrentTab().setTabContent(sprite, mySpritesAndModels.get(sprite));
-			});
-
-			return sprite;
+			viewsprite.setOnMouseClicked(e -> {
+				myGameTabPane.getCurrentTab().setTabContent(viewsprite, newS);
+			});	
+		
+			return viewsprite;
 		} catch (Exception e) {
 
         }

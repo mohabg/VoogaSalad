@@ -2,7 +2,7 @@ package exampledata;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import gameElements.LevelProperties;
+import level.LevelProperties;
 import gameElements.Time;
 
 public class Level {

@@ -7,7 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+/**
+ * The game file screen for editing games. Extends gamefilescreen.
+ * @author Huijia
+ *
+ */
 public class GameEditingFileScreen extends GameFileScreen {
 	private final String DEFAULT_PICTURE = "pictures/cipher.png";
 
