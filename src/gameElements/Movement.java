@@ -4,7 +4,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Movement implements Behavior{
+public abstract class Movement implements Behavior{
 		//New movement with list of movements
 		//run each movement a specified number of times before going to next
 	
@@ -25,10 +25,7 @@ public class Movement implements Behavior{
 			}
 		}
 		
-		public void move(Sprite sprite) {
-			//set x to zero when up/down is pressed
-			
-		}
+		public abstract void move(Sprite sprite);
 
 		public DoubleProperty toDoubleProperty(DoubleBinding value){
 			DoubleProperty doubleValue=new SimpleDoubleProperty(value.doubleValue());
