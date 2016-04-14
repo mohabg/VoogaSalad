@@ -8,6 +8,14 @@ import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.IntegerProperty;
 
+/**
+ * Describes attacking behavior of Sprites. Has the amount of ammunition(IntegerProperty ammunition), how long the 
+ * bullets take to charge(IntegerProperty chargeTime), and ApplyBehavior conditions, which has attributes that help
+ * determine whether a Sprite is eligible to shoot
+ * @see ApplyBehaviorConditions
+ */
+
+
 public abstract class Attack extends Sprite implements Behavior {
 	
 	private IntegerProperty ammunition;

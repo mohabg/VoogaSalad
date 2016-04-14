@@ -13,6 +13,11 @@ import javafx.event.EventHandler;
 import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
+ * 
+ */
+
 public class Engine {
 	
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS

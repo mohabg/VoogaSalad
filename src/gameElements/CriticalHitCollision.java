@@ -3,6 +3,12 @@ package gameElements;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * Describes dealing a "critical hit" in a sprite. The DoubleProperty informs the class of exactly how much damage to deal the
+ * sprite should the "critical hit" take. 
+ */
+
+
 public class CriticalHitCollision extends DamageCollision{
 	
 	private DoubleProperty criticalHitDamage;

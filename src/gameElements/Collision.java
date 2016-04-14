@@ -1,9 +1,13 @@
 package gameElements;
 
 import java.lang.reflect.Method;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+/**
+ * Describes the different behaviors of collision. Has the sprite that is colliding as an instance variable, 
+ * @see applyEffects
+ * @see handleCollision
+ */
 
 public abstract class Collision{
 	
@@ -36,6 +40,8 @@ public abstract class Collision{
 		applyEffects(other, this);
 	}
 
+	
+	
 	private void applyEffects(Collision one, Collision two) {
 		Method methodToInvoke = getCollisionEffects(one, two);
 		if(methodToInvoke != null){

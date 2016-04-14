@@ -9,6 +9,8 @@ import authoringEnvironment.SpriteProperties;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+
+
 public class Actor extends Sprite{
 	
 	private Map<String, Behavior> allBehaviors;

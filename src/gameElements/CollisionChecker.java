@@ -2,6 +2,11 @@ package gameElements;
 
 import java.awt.Rectangle;
 
+/**
+ * Checks if a collision occurs using the areColliding method
+ * @see areColliding
+ */
+
 public class CollisionChecker {
 	public CollisionChecker(){
 		

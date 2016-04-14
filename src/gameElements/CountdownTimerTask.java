@@ -3,6 +3,11 @@ package gameElements;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Has the countdown timer for the game
+ */
+
+
 public class CountdownTimerTask extends TimerTask {
    private int myCount;
    //private Runnable doWhenDone;

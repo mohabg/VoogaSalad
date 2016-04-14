@@ -2,6 +2,11 @@ package gameElements;
 
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * Refers to methods that damage the health of a Sprite upon collision. The handleCollision in this method deals the damage. 
+ */
+
+
 public class DamageCollision extends Collision{
 	
 	public DamageCollision(double value) {

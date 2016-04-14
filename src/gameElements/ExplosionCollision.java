@@ -1,7 +1,10 @@
 package gameElements;
 
 public class ExplosionCollision extends Collision{
-	
+	/**
+	 * Causes explosoin on collision
+	 */
+
 	
 	public ExplosionCollision(double value) {
 		super(value);

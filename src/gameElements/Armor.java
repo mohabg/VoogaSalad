@@ -6,6 +6,11 @@ import java.util.Map;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 
+/**
+ * A subclass of Defense, this describes armor that could go over a sprite.
+ */
+
+
 public class Armor extends Defense{
 
 	public Armor(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,

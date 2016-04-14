@@ -7,6 +7,10 @@ import java.util.Map;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 
+/**
+ * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 
+ */
+
 public class Bullet extends Attack{
 
    

@@ -2,6 +2,9 @@ package gameElements;
 
 import java.lang.reflect.Method;
 
+/**
+ * Handles overall collisions 
+ */
 public class CollisionHandler {
 	
 	public CollisionHandler(){
@@ -11,7 +14,7 @@ public class CollisionHandler {
 	
 	/**
 	 * @param one triggers the handleCollision methods of Collisions one and two
-	 * @see haveCOllisionEffects
+	 * @see haveCollisionEffects
 	 * @see handleCollision
 	 */
 	public void applyCollision(Collision one, Collision two){
