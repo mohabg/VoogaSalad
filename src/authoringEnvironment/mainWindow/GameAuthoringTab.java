@@ -38,23 +38,17 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			double offsetX = t.getSceneX() - orgSceneX;
-			double offsetY = t.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
+            double offsetX = t.getSceneX() - orgSceneX;
+            double offsetY = t.getSceneY() - orgSceneY;
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
 
-			ViewSprite dragSource = (ViewSprite) t.getSource();
-            System.out.println("MY TRANSLATE X: "+newTranslateX);
-            System.out.println("MY TRANSLATE Y: "+dragSource.getMySpriteProperties().getMyX());
-            System.out.println("MY TRANSLATE X: "+dragSource.getMySpriteProperties().getMyY());
-
-
+            ViewSprite dragSource = (ViewSprite) t.getSource();
             // update x, update y with newTranslate
-			dragSource.setX(newTranslateX);
-			dragSource.setY(newTranslateY);
-			dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
-//            dragSource.getMySpriteProperties().setMyX(newTranslateX);
-//            dragSource.getMySpriteProperties().setMyY(newTranslateY);
+            dragSource.setTranslateX(newTranslateX);
+            dragSource.setTranslateY(newTranslateY);
+//            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
+//            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
 
         }
 	};
@@ -62,15 +56,13 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			System.out.println("moving poo " + mySpriteMap.size());
-			ImageView mySprite = ((ViewSprite) (t.getSource()));
-			orgTranslateX = mySprite.getX();
-			orgTranslateY = mySprite.getY();
+            ImageView mySprite = ((ViewSprite) (t.getSource()));
+            orgTranslateX = mySprite.getTranslateX();
+            orgTranslateY = mySprite.getTranslateY();
+            orgSceneX = t.getSceneX();
+            orgSceneY = t.getSceneY();
 
-			orgSceneX = t.getSceneX();
-			orgSceneY = t.getSceneY();
-
-			updateSettingsPane((ViewSprite) mySprite);
+            updateSettingsPane((ViewSprite) mySprite);
 		}
 	};
 
