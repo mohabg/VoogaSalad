@@ -4,7 +4,11 @@ import java.util.Collection;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-
+/**
+ * Abstract class for screens.
+ * @author Huijia
+ *
+ */
 public abstract class Screen {
 	private Pane myPane;
 
