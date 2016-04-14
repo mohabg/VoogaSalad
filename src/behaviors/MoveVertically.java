@@ -17,7 +17,7 @@ public class MoveVertically extends Movement{
 	}
 	
 	public MoveVertically(double value) {
-		super();
+		super(value);
 	}
 
 	/**
