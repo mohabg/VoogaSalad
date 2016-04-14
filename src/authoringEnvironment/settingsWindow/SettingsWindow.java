@@ -13,6 +13,7 @@ public class SettingsWindow {
 	private VBox myDisplay;
     private VisualFactory myVisualFactory;
 
+    
 	public SettingsWindow(){
         myVisualFactory = new VisualFactory();
 		myDisplay = new VBox();
@@ -25,7 +26,12 @@ public class SettingsWindow {
 		myTempBox.getChildren().addAll(myLabel, mySlider);
 		myDisplay.getChildren().add(myTempBox);
 	}
-
+	
+	/**
+     * @param mySpriteBox is a VBox that contains all of the of the editable properties
+     * that a user can change in the settings window. The VBox is filled with HBoxes
+     * that have been created in the VisualFactor.
+     */
 	public void setContent(VBox mySpriteBox){
         myDisplay.getChildren().clear();
         myDisplay.getChildren().add(mySpriteBox);
