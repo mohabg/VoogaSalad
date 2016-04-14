@@ -196,7 +196,6 @@ public class Level implements ILevel {
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
-		System.out.println("KEYBOARD?");
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
 
