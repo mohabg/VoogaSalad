@@ -15,6 +15,10 @@ public abstract class Attack extends Sprite implements Behavior {
 	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
 	
+	public Attack(RefObject myRef){
+		super(myRef);
+	}
+	
 	public Attack(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		super(myProperties, myHealth, myCollisions, myBehaviors, myRef);

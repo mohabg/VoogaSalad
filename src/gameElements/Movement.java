@@ -9,15 +9,21 @@ public abstract class Movement implements Behavior{
 		//run each movement a specified number of times before going to next
 	
 		private Sprite mySprite;
+		private DoubleProperty value;
 		
-		public Movement(Sprite sprite){
-			this.mySprite = sprite;
+		public Movement(){
+			this(0);
+		}
+		public Movement(double value){
+			this.value = new SimpleDoubleProperty(value);
 		}
 		
 		public Sprite getSpriteProperties(){
 			return mySprite;
 		}
-
+		public double getValue(){
+			return value.doubleValue();
+		}
 		@Override
 		public void apply(Sprite sprite) {
 			if(sprite.canMove()){

@@ -17,8 +17,8 @@ public class MoveExpand extends Movement{
 		this.expandX = expandX;
 	}
 
-	public MoveExpand(Actor sprite) {
-		super(sprite);
+	public MoveExpand() {
+		super();
 	}
 
 	@Override
