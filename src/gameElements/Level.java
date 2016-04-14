@@ -24,7 +24,13 @@ public class Level implements ILevel {
 	private boolean isFinished;
 
 	public Level() {
+		levelProperties=new LevelProperties();
+		spriteMap=new HashMap<>();
+		goalMap=new HashMap<>();
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
+		goalFactory= new GoalFactory();
+		goalCount=0;
+		isFinished=false;
 
 	}
 
@@ -145,7 +151,7 @@ public class Level implements ILevel {
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo);
+							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo, getLevelProperties());
 
 						}
 
