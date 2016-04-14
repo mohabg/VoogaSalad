@@ -269,7 +269,7 @@ public class VisualFactory {
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
-
+		// poo
 		// p.getType().asSubclass(Property.class)
 		// System.out.println("----" + p.getType().toGenericString());
 
