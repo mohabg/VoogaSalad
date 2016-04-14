@@ -13,34 +13,43 @@ import authoringEnvironment.RefObject;
 
 public class Sprite {
 
-	private DoubleProperty x;
-	private DoubleProperty y;
-	private DoubleProperty width;
-	private DoubleProperty height;
-	private DoubleProperty angle;
+//	private DoubleProperty x;
+//	private DoubleProperty y;
+//	private DoubleProperty width;
+//	private DoubleProperty height;
+//	private DoubleProperty angle;
+	private SpriteProperties myProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
 	private Map<String, Behavior> myBehaviors;
 	private RefObject myRef;
-
-	public Sprite() {
-		myHealth = new Health();
-		myCollisions = new ArrayList<Collision>();
-	}
-
-	public Sprite(String ref) {
-		this();
-		myRef = new RefObject(ref);
-		DoubleProperty property=new SimpleDoubleProperty(0.0);
+	private boolean isUserControlled;
+	private boolean canMove;
 	
-		setX(property);
-		setY(property);
-		setAngle(property);
-		// myRef.setMyRef(ref);
+	
+	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+			Map<String, Behavior> myBehaviors, RefObject myRef) {
+		super();
+		this.myProperties = myProperties;
+		this.myHealth = myHealth;
+		this.myCollisions = myCollisions;
+		this.myBehaviors = myBehaviors;
+		this.myRef = myRef;
+		this.isUserControlled = false;
+		canMove = true;
 	}
-
-
-
+	
+	public void update(){
+		for(Behavior behavior : myBehaviors.values()){
+			behavior.apply(this);
+		}
+	}
+	public Map<String, Behavior> getBehaviors(){
+		return myBehaviors;
+	}
+	public String getMyRef() {
+		return myRef.getMyRef();
+	}
 	public void setMyRef(RefObject myRef) {
 		this.myRef = myRef;
 	}
@@ -67,62 +76,62 @@ public class Sprite {
 	}
 
 	public DoubleProperty getWidth() {
-		return width;
+		return myProperties.getMyWidth();
 	}
 
 	public void setWidth(DoubleProperty width) {
-		this.width = width;
+		myProperties.setMyWidthProperty( width);
 	}
 
 
 	public DoubleProperty getHeight() {
-		return height;
+		return myProperties.getMyHeight();
 	}
 
 	public void setHeight(DoubleProperty height) {
-		this.height = height;
+		myProperties.setMyHeightProperty(height);
 	}
 
 
 	public DoubleProperty getX() {
-		return x;
+		return myProperties.getMyX();
 	}
 
 	public void setCoord(DoubleProperty x, DoubleProperty y) {
-		setX(x);
-		setY(y);
+		myProperties.setMyXProperty(x);
+		myProperties.setMyYProperty(y);
 	}
 
 	public void setX(DoubleProperty x) {
-		this.x = x;
+		myProperties.setMyXProperty(x);
 	}
 
 	public DoubleProperty getY() {
-		return y;
+		return myProperties.getMyY();
 	}
 
 	public void setY(DoubleProperty y) {
-		this.y = y;
+		myProperties.setMyYProperty(y);
 	}
 
 	public DoubleProperty getAngle() {
-		return angle;
+		return myProperties.myAngleProperty();
 	}
 
 	public double getDistance(Sprite otherVect) {
-		return Math.sqrt((Math.pow(x.doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(y.doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
+		return Math.sqrt((Math.pow(myProperties.getMyX().doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(myProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
 	}
 
 	public void setAngle(DoubleProperty angle) {
-		this.angle = angle;
+		myProperties.setMyAngleProperty(angle);;
 	}
 
 	public Health getHealth() {
 		return myHealth;
 	}
 
-	public void setHealth(Health myHealth) {
-		this.myHealth = myHealth;
+	public void setHealth(double myHealth) {
+		this.myHealth.setHealth(myHealth);
 	}
 
 	public void addCollision(Collision collision) {
@@ -131,5 +140,25 @@ public class Sprite {
 
 	public List<Collision> getCollisions() {
 		return myCollisions;
+	}
+	
+	public void setMySpriteProperties(SpriteProperties sp){
+		myProperties = sp;
+	}
+	
+	public SpriteProperties getSpriteProperties(){
+		return myProperties;
+	}
+	public boolean isUserControlled(){
+		return isUserControlled;
+	}
+	public void setUserControlled(boolean userControlled){
+		isUserControlled = userControlled;
+	}
+	public boolean canMove() {
+		return canMove;
+	}
+	public void stopMovement(){
+		canMove = false;
 	}
 }

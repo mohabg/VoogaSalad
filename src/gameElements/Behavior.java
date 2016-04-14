@@ -1,9 +1,6 @@
 package gameElements;
 
 public interface Behavior {
-
+	public void apply(Sprite spriteProperties);
 	
-
-	public void apply(Sprite sprite);
-	public boolean ready();
 }
