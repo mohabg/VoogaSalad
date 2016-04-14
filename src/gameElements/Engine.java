@@ -82,6 +82,8 @@ public class Engine {
                     myEditor.updateGame();
                 }
             }); 
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        
         gameLoop.getKeyFrames().add(keyFrame);
         gameLoop.play();
     }

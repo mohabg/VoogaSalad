@@ -152,7 +152,7 @@ public class Sprite {
 		return myProperties.getMyY();
 	}
 
-	public void setY(DoubleProperty y) {
+	public void setY(double y) {
 		myProperties.setMyYProperty(y);
 	}
 
