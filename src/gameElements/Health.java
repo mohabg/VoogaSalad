@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class Health {
+
 	
 	private DoubleProperty value;
 	private BooleanProperty isMortal;	
@@ -16,28 +17,35 @@ public class Health {
 	public Health(double myHealth){
 		this.value = new SimpleDoubleProperty();
 		this.value.set(myHealth);
+		isMortal = new SimpleBooleanProperty();
 		isMortal.set(true);
 	}
-	private void changeHealth(double val){
-		if(isMortal.getValue()){
+
+	private void changeHealth(double val) {
+		if (isMortal.getValue()) {
 			value.add(val);
 		}
 	}
-	public void setHealth(double health){
+
+	public void setHealth(double health) {
 		this.value.set(health);
 		isMortal.set(true);
 	}
-	public double getHealthValue(){
+
+	public double getHealthValue() {
 		return value.doubleValue();
 	}
-	public void decrementHealth(double damage){
+
+	public void decrementHealth(double damage) {
 		changeHealth(damage * -1);
 	}
-	public void incrementHealth(double val){
+
+	public void incrementHealth(double val) {
 		changeHealth(val);
 	}
-	public boolean isDead(){
-		if(!isMortal.getValue()){
+
+	public boolean isDead() {
+		if (!isMortal.getValue()) {
 			return false;
 		}
 		return value.doubleValue() <= 0;

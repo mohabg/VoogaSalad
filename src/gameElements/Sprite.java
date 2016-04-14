@@ -32,20 +32,29 @@ public class Sprite {
 	
 	public Sprite(RefObject myRef){
 		this.myRef = myRef;
-		myProperties = new SpriteProperties(0, 0, 10 ,10 ,0);
+		myProperties = new SpriteProperties();
 		myHealth = new Health(100);
+		
 		myCollisions = new ArrayList<Collision>();
 		myCollisions.add(new EnemyCollision());
+		
 		myBehaviors = new HashMap<String, Behavior>();
 		Behavior defaultUpMovement = new MoveVertically(5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);
 		userBehaviors.put(KeyCode.UP, defaultUpMovement);
 		Behavior defaultDownMovement = new MoveVertically(-5);
 		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
+		
+		isUserControlled = new SimpleBooleanProperty(false);
+		canMove = new SimpleBooleanProperty(true);
 	}
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
+
 		super();
+		
+		userBehaviors = new HashMap<KeyCode, Behavior>();
+		
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myCollisions = myCollisions;
@@ -54,7 +63,11 @@ public class Sprite {
 		this.isUserControlled = new SimpleBooleanProperty(false);
 		this.canMove = new SimpleBooleanProperty(true);
 	}
-	
+
+	public Sprite(String ref) {
+		myRef = new RefObject(ref);
+		DoubleProperty property=new SimpleDoubleProperty(0.0);
+	}
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			behavior.apply(this);
@@ -72,7 +85,10 @@ public class Sprite {
 	}
 	public Map<String, Behavior> getBehaviors(){
 		return myBehaviors;
+
 	}
+
+
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -156,8 +172,8 @@ public class Sprite {
 		return myHealth;
 	}
 
-	public void setHealth(double myHealth) {
-		this.myHealth.setHealth(myHealth);
+	public void setHealth(Health myHealth) {
+		this.myHealth = myHealth;
 	}
 
 	public void addCollision(Collision collision) {
@@ -175,6 +191,7 @@ public class Sprite {
 	public SpriteProperties getSpriteProperties(){
 		return myProperties;
 	}
+	
 	public boolean isUserControlled(){
 		return isUserControlled.getValue();
 	}
@@ -219,5 +236,11 @@ public class Sprite {
 	}
 	public void enableMovement(){
 		canMove.set(true);
+	}
+
+	public Behavior getBehavior(KeyEvent key) {
+
+		userBehaviors.get(key);
+		return null;
 	}
 }

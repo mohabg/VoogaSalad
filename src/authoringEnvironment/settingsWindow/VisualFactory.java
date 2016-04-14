@@ -261,11 +261,11 @@ public class VisualFactory {
 
 		return cb;
 	}
+
 	
 	private TextField makeTextField(StringProperty sp) {
 		TextField textField = new TextField(sp.toString());
 		textField.textProperty().bindBidirectional(sp);
 		return textField;
 	}
-
 }
