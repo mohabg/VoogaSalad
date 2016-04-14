@@ -2,29 +2,26 @@ package gameElements;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import authoringEnvironment.RefObject;
-
 public class Sprite {
+    
+    //	private DoubleProperty x;
+    //	private IntegerProperty y;
+    //	private BooleanProperty width;
+    //	private DoubleProperty height;
+    //	private DoubleProperty angle;
+    private SpriteProperties myProperties;
+    private Health myHealth;
+    private List<Collision> myCollisions;
+    private Map<String, Behavior> myBehaviors;
+    private RefObject myRef;
 
-//	private DoubleProperty x;
-//	private IntegerProperty y;
-//	private BooleanProperty width;
-//	private DoubleProperty height;
-//	private DoubleProperty angle;
-	private SpriteProperties myProperties;
-	private Health myHealth;
-	private List<Collision> myCollisions;
-	private Map<String, Behavior> myBehaviors;
-	private RefObject myRef;
 
 	public Sprite() {
 		myHealth = new Health();
