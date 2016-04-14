@@ -59,6 +59,10 @@ public class Level implements ILevel {
 		return currentSpriteID;
 	}
 
+	/**
+	 * @param newSprite gets newSprite and adds it to the sprite map(adding it to the current level)
+	 */
+	
 	public void addSprite(Sprite newSprite) {
 		Integer newSpriteID = newSpriteID(spriteMap);
 		getSpriteMap().put(newSpriteID, newSprite);
@@ -67,6 +71,11 @@ public class Level implements ILevel {
 		// through the states pattern
 	}
 
+	
+	/**
+	 * @param newSprite Sprite who's id you want to update
+	 * @param spriteID the new ID you want your sprite to be considered
+	 */
 	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
 		getSpriteMap().put(spriteID, newSprite);
 	}

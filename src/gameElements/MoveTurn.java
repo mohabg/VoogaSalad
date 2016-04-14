@@ -14,6 +14,10 @@ public class MoveTurn extends Movement {
 			super(sprite);
 		}
 		
+		/**
+		 * @param sprite Gets the sprite and turns the sprite a certain number of degrees(turns the sprite)
+		 */
+		
 		@Override
 		public void move(Sprite sprite) {
 			sprite.setAngle(toDoubleProperty(sprite.getAngle().add(degree)));	

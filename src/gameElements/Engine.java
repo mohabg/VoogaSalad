@@ -67,6 +67,8 @@ public class Engine {
         myEditor.setUserSprite(userSprite);
     }
     
+    
+    
     public void gameLoop() {
     	Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE );

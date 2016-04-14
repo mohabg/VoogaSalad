@@ -20,7 +20,11 @@ public class MoveExpand extends Movement{
 	public MoveExpand(Actor sprite) {
 		super(sprite);
 	}
-
+	
+	/**
+	 * @param sprite The method takes a sprite, which will then be expanded by altering the width and the height of the sprite
+	 */
+	
 	@Override
 	public void move(Sprite sprite) {
 		sprite.setWidth( toDoubleProperty(sprite.getWidth().add(expandX)));

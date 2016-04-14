@@ -17,6 +17,9 @@ public class CriticalHitCollision extends DamageCollision{
 		return criticalHitDamage.doubleValue();
 	}
 	
+	/**
+	 * @param collision The automated sprite that the user controlled sprite is colliding into
+	 **/
 	@Override
 	protected void handleCollision(EnemyCollision collision){
 		if(collision.isCollidingWithUser(this)){
@@ -25,6 +28,9 @@ public class CriticalHitCollision extends DamageCollision{
 			}
 		}
 	}
+	/**
+	 * @param collision Human controlled sprite that is colliding
+	 */
 	@Override
 	protected void handleCollision(ActorCollision collision){
 		if( !(collision.isCollidingWithUser(this)) ){

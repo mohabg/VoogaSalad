@@ -30,6 +30,11 @@ public class Shield extends Defense{
 		rechargeTime.subtract(decrement);
 	}
 
+	
+	/**
+	 * @param sprite The method takes a sprite, which determines whether the isUsercontrolled is true
+	 * @see isUserControlled
+	 */
 	@Override
 	public boolean readyToDefend(Sprite sprite) {
 		if(sprite.isUserControlled()){

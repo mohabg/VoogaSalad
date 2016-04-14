@@ -17,6 +17,11 @@ public class DamageCollision extends Collision{
 			causeDamage(collision.getSprite(), getValue());
 		}
 	}
+	
+	/**
+	 * @param spriteToDamage Sprite that the damage will be inflicted upon
+	 * @param damage Double that indicates how much damage will be inflicted on spriteToDamage
+	 */
 	protected void causeDamage(Sprite spriteToDamage, double damage) {
 		
 		//Damage defense before health
