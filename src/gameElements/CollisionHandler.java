@@ -8,12 +8,12 @@ public class CollisionHandler {
 		//Should have some way to access time and score
 	}
 	
-	public void applyCollision(Collision one, Collision two){
+	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
 		if(haveCollisionEffects(one, two)){
-			one.handleCollision(two);
+			one.handleCollision(two, levelProperties);
 		}
 		if(haveCollisionEffects(two, one)){
-			two.handleCollision(one);
+			two.handleCollision(one, levelProperties);
 		}
 	}
 
