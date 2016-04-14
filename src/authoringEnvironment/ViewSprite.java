@@ -1,5 +1,7 @@
 package authoringEnvironment;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
@@ -8,7 +10,7 @@ import javafx.scene.image.ImageView;
 
 public class ViewSprite extends ImageView {
 
-	private String myRef;
+	private StringProperty myRef;
 	// private List<NumProperty> myPropertiesList;
 	// private Health myHealth;
 	// private Attack myAttack;
@@ -17,6 +19,7 @@ public class ViewSprite extends ImageView {
 
 	public ViewSprite() {
 		super();
+		myRef = new SimpleStringProperty();
 		mySpriteProperties = new SpriteProperties();
 		// myHealth = new Health();
 		// myAttack = new Attack();
@@ -37,7 +40,7 @@ public class ViewSprite extends ImageView {
 	}
 
 	public void setImage(String imagePath) {
-		myRef = imagePath;
+		myRef.set(imagePath);
 		Image image = new Image(imagePath);
 		setImage(image);
 	}
@@ -51,7 +54,7 @@ public class ViewSprite extends ImageView {
 	// }
 
 	public String getMyImage() {
-		return myRef;
+		return myRef.getValue();
 	}
 
 	public double getHeight() {
