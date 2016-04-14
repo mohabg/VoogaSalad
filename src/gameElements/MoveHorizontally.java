@@ -2,6 +2,10 @@ package gameElements;
 
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * Moves a pre-defined sprite horizontally by an amount defined by the instance variable moveX
+ */
+
 public class MoveHorizontally extends Movement{
 	
 	private DoubleProperty moveX;

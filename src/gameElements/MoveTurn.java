@@ -2,6 +2,10 @@ package gameElements;
 
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * A subclass of Movement that is used by the game authoring environment to move the angle of the sprite by some number of units. 
+ * Has the moveY attribute to determine how much the sprite should move 
+ */
 public class MoveTurn extends Movement {
 	
 	private DoubleProperty degree;

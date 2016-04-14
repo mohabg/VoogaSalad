@@ -7,6 +7,10 @@ import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * A sprite that acts as a shield to an actor--is usually used in the defense attributes of sprites 
+ */
+
 public class Shield extends Defense{
 	
 	private DoubleProperty rechargeTime;

@@ -1,5 +1,10 @@
 package gameElements;
 
+/**
+ * A collision that causes one or both of the colliders to gain 
+ * some power up, such as more health, more weapons, more lives, a bonus level, etc 
+ */
+
 public class PowerUpCollision {
 	
 	

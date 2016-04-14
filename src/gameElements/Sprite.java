@@ -11,6 +11,11 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 
+/**
+ * Anything that is on the screen is described by this class. Has behaviors(such as movements), health, collision attributes, properties, 
+ * and a boolean that determines whether or not it is controlled by the user. 
+ */
+
 public class Sprite {
 
 //	private DoubleProperty x;
@@ -39,6 +44,10 @@ public class Sprite {
 		canMove = true;
 	}
 	
+	
+	/**
+	 * @return
+	 */
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			behavior.apply(this);
