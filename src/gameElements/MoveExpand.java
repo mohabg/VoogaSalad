@@ -1,6 +1,8 @@
 package gameElements;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class MoveExpand extends Movement{
 	
@@ -21,8 +23,8 @@ public class MoveExpand extends Movement{
 
 	@Override
 	public void move(Sprite sprite) {
-        sprite.getSpriteProperties().setMyWidth((sprite.getWidth().doubleValue() + getValue()));
-        sprite.getSpriteProperties().setMyHeight((sprite.getHeight().doubleValue() + getValue()));
+		sprite.setWidth( toDoubleProperty(sprite.getWidth().add(expandX)));
+		sprite.setHeight(toDoubleProperty(sprite.getWidth().add(expandY)));
 		
 	}
 	

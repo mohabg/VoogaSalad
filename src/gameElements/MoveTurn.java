@@ -9,7 +9,7 @@ public class MoveTurn extends Movement {
 
 		@Override
 		public void move(Sprite sprite) {
-            sprite.getSpriteProperties().setMyAngle((sprite.getAngle().doubleValue() + getValue()));
+			sprite.setAngle(toDoubleProperty(sprite.getAngle().add(getValue())));	
 		}
 
 	}

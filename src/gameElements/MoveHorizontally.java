@@ -9,7 +9,7 @@ public class MoveHorizontally extends Movement{
 
 	@Override
 	public void move(Sprite sprite) {
-        sprite.getSpriteProperties().setMyX((sprite.getX().doubleValue() + getValue()));
+		sprite.setX(toDoubleProperty(sprite.getX().add(getValue())));
 		
 	}
 
