@@ -4,6 +4,10 @@ import javafx.beans.property.DoubleProperty;
 
 public class DamageCollision extends Collision{
 	
+	public DamageCollision() {
+		
+	}
+	
 	public DamageCollision(double value) {
 		super(value);
 	}
