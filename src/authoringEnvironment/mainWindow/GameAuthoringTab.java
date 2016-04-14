@@ -47,7 +47,7 @@ public class GameAuthoringTab implements ITab{
     // update x, update y with newTranslate
     dragSource.setX(newTranslateX);
     dragSource.setY(newTranslateY);
-    dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
+    //dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
     //            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
     //            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
     
