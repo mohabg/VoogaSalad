@@ -180,7 +180,7 @@ public class Level implements ILevel {
 		// check if sprites are dead
 		// health has isDead method
 		// remove sprite
-
+		
 	}
 
 	/**
