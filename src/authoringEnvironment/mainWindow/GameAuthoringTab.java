@@ -7,6 +7,8 @@ import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -47,10 +49,10 @@ public class GameAuthoringTab implements ITab{
             System.out.println("MY TRANSLATE X: "+dragSource.getMySpriteProperties().getMyY());
 
 
-
             // update x, update y with newTranslate
 			dragSource.setX(newTranslateX);
 			dragSource.setY(newTranslateY);
+			dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
 //            dragSource.getMySpriteProperties().setMyX(newTranslateX);
 //            dragSource.getMySpriteProperties().setMyY(newTranslateY);
 
@@ -151,6 +153,7 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		//TODO: MAKE BETTER CONSTRUCTOR
+
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
 
 		SpriteProperties sp = copy.getMySpriteProperties();
@@ -160,9 +163,10 @@ public class GameAuthoringTab implements ITab{
 //		mCopy.setWidth(sp.getMyWidth());
 //		mCopy.setX(sp.getMyX());
 //		mCopy.setY(sp.getMyY());
-       // mCopy.setMySpriteProperties(cop.getMySpriteProperties());
+//        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
         copy.xProperty().bindBidirectional(mCopy.getX());
         copy.yProperty().bindBidirectional(mCopy.getY());
+        copy.rotateProperty().bindBidirectional(mCopy.getAngle());
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}

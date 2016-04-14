@@ -99,11 +99,13 @@ public class PlayScreen implements IScreen {
 		
 		for(ViewSprite vs : spriteList.keySet()) {
 			Sprite s = spriteList.get(vs);
+			System.out.println("SPRITE  "+s.getX().doubleValue()+"  "+s.getY().doubleValue());
+			
 //			s.setAsUserControlled();
-			s.getX().bindBidirectional(vs.xProperty());
-			s.getY().bindBidirectional(vs.yProperty());
-//		    vs.xProperty().bindBidirectional(s.getX());
-//		    vs.yProperty().bindBidirectional(s.getY());
+//			s.getX().bindBidirectional(vs.xProperty());
+//			s.getY().bindBidirectional(vs.yProperty());
+		    vs.xProperty().bindBidirectional(s.getX());
+		    vs.yProperty().bindBidirectional(s.getY());
 		    
 		    levelViewSprites.add(vs);
 			newLevel.addSprite(s);
@@ -116,8 +118,8 @@ public class PlayScreen implements IScreen {
 		myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
 		myPane.setOnKeyReleased(key-> { newLevel.handleKeyRelease(key);
 		for(ViewSprite vs:myViewSprites.get(newLevel)){
-			System.out.println(vs.getX());
-			System.out.println(vs.getY());
+			System.out.println(vs.xProperty().doubleValue());
+			System.out.println(vs.yProperty().doubleValue());
 		}
 		});
 		
