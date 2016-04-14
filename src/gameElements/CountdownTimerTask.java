@@ -17,7 +17,6 @@ public class CountdownTimerTask extends TimerTask {
       myCount--;
       int min = myCount/60;
       int sec = myCount%60;
-      System.out.println("Time Remaining: " + min + ":" + sec);
       if (myCount == 0) {
          cancel();
          //doWhenDone.run();

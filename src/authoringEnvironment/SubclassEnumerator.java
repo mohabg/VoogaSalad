@@ -27,7 +27,6 @@ public class SubclassEnumerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(test);
 		//findSubclasses(test, Collision.class);
 		for (Class<?> c : test) {
 			//System.out.println(c.getName());
@@ -78,7 +77,6 @@ public class SubclassEnumerator {
 		List<Class<?>> subclasses = new ArrayList<Class<?>>();
 		for (Class<?> candidateClass : classes) {
 		    if (superclass.isAssignableFrom(candidateClass)) {
-		        System.out.println(candidateClass);
 		        subclasses.add(candidateClass);
 		    }
 		}

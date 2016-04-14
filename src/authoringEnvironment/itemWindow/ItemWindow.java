@@ -43,7 +43,6 @@ public class ItemWindow {
 	}
 
 	private Tab makeTab(String type) {
-        System.out.println(type);
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
@@ -77,7 +76,6 @@ public class ItemWindow {
            
             
             //TODO: move this stuff to sprite class
-            System.out.println(sprite.getHeight());
             newS.setHeight(new SimpleDoubleProperty(sprite.getHeight()));
             newS.setWidth(new SimpleDoubleProperty(sprite.getWidth()));
 

@@ -74,7 +74,6 @@ public class LevelProperties {
 	}
 	
 	public KeyboardActions getKeyboardAction(KeyCode key){
-		System.out.println(key);
 		if(!keyMapping.keySet().contains(key)) return KeyboardActions.Default;
 		return keyMapping.get(key);
 	}
