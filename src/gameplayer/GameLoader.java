@@ -4,15 +4,18 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import exampledata.XStreamHandlers.FXConverters;
 import gameElements.Sprite;
 import interfaces.ITab;
 import interfaces.ITabPane;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +46,8 @@ public class GameLoader {
 	// TODO MIGHT WANT TO ASK FOR FILENAME HERE
 	public static void saveGame(String saveFileDir, List<LevelModel> gameLevels) {
 		FXConverters.configure(xstream);
+		BufferedOutputStream stdout = new BufferedOutputStream(System.out);
+		xstream.marshal(gameLevels, new PrettyPrintWriter(new OutputStreamWriter(stdout)));
 		String xml = xstream.toXML(gameLevels);
 
 		FileWriter fw;

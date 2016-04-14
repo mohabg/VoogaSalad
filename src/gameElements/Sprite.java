@@ -5,8 +5,12 @@ import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -148,6 +152,14 @@ public class Sprite {
 		return myProperties.getMyX();
 	}
 
+	public StringProperty getMyStringRef() {
+		return myRef.getMyStringRef();
+	}
+	
+	public ObjectProperty<Image> getMyImageProp() {
+		return new SimpleObjectProperty<Image>(new Image(myRef.getMyStringRef().getValue()));
+	}
+	
 	public void setCoord(DoubleProperty x, DoubleProperty y) {
 		myProperties.setMyXProperty(x);
 		myProperties.setMyYProperty(y);

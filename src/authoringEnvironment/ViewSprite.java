@@ -1,5 +1,7 @@
 package authoringEnvironment;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 /**
@@ -16,7 +18,8 @@ public class ViewSprite extends ImageView {
 	// private Attack myAttack;
 	// private Defense myDefense;
 	private SpriteProperties mySpriteProperties;
-
+	private ObjectProperty<Image> imageProp;
+	
 	public ViewSprite() {
 		super();
 		myRef = new SimpleStringProperty();
@@ -25,12 +28,23 @@ public class ViewSprite extends ImageView {
 	
 	public ViewSprite(String imagePath) {
 		this();
+		myRef.set(imagePath);
 		setImage(imagePath);
+		imageProp = new SimpleObjectProperty<Image>(new Image(myRef.getValue()));
+		this.imageProperty().bindBidirectional(imageProp);
 	}
 	
 	public ViewSprite(String imagePath, SpriteProperties newProps) {
 		this(imagePath);
 		mySpriteProperties = newProps;
+	}
+	
+	public ObjectProperty<Image> getMyImageProp(StringProperty sp) {
+		return new SimpleObjectProperty<Image>(new Image(sp.getValue()));
+	}
+	
+	public StringProperty stringRefProperty() {
+		return myRef;
 	}
 	
 	public SpriteProperties getMySpriteProperties() {

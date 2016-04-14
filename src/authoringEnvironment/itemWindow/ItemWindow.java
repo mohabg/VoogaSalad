@@ -74,8 +74,8 @@ public class ItemWindow {
             viewsprite.setImage(p);
             
             Sprite newS = new Sprite(new RefObject(p));
-            newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
-            newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
+            //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
+            //newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
             //sprite.setMySpriteProperties(newS.getSpriteProperties());
             
             mySpritesAndModels.put(viewsprite, newS);

@@ -154,6 +154,8 @@ public class GameAuthoringTab implements ITab{
         copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
         copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
         copy.rotateProperty().bindBidirectional(mCopy.getAngle());
+        copy.stringRefProperty().bindBidirectional(mCopy.getMyStringRef());
+        copy.imageProperty().bindBidirectional(mCopy.getMyImageProp());
         
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
