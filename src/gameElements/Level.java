@@ -175,7 +175,7 @@ public class Level implements ILevel {
 		System.out.println("X:   " + currentSprite.getX().doubleValue());
 		System.out.println("Y:   " + currentSprite.getY().doubleValue());
 		if (currentSprite.isUserControlled()) {
-			Behavior behavior = currentSprite.getBehavior(key);
+			Behavior behavior = currentSprite.getBehavior(key.getCode());
 			if (behavior != null) {
 				behavior.apply(currentSprite);
 			}

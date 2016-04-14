@@ -14,17 +14,16 @@ public class SpriteProperties {
     private DoubleProperty myAngle;
 
     public SpriteProperties(){
-        myX = new SimpleDoubleProperty();
-        myY = new SimpleDoubleProperty();
-        myWidth = new SimpleDoubleProperty();
-        myHeight = new SimpleDoubleProperty();
-        myAngle = new SimpleDoubleProperty();
-        myX.set(0);
-        myY.set(0);
-        myWidth.set(0);
-        myHeight.set(0);
-        myAngle.set(0);
-
+        myX = new SimpleDoubleProperty(0);
+        myY = new SimpleDoubleProperty(0);
+        myWidth = new SimpleDoubleProperty(0);
+        myHeight = new SimpleDoubleProperty(0);
+        myAngle = new SimpleDoubleProperty(0);
+//        myX.set(0);
+//        myY.set(0);
+//        myWidth.set(0);
+//        myHeight.set(0);
+//        myAngle.set(0);
     }
 
     public SpriteProperties(double x, double y, double width, double height, double angle){
@@ -80,6 +79,7 @@ public class SpriteProperties {
     }
 
     public void setMyY(double myY) {
+    	System.out.println("setting " + myY);
         this.myY.set(myY);
     }
 
