@@ -23,7 +23,7 @@ import keyboard.KeyboardActionFactory;
 import keyboard.IKeyboardAction.KeyboardActions;
 
 /**
- * This is the class for level in teh game. It has spriteMap, which is a map of Integer(spriteIDs) to Sprites. Any time someone wants
+ * This is the class for level in the game. It has spriteMap, which is a map of Integer(spriteIDs) to Sprites. Any time someone wants
  * the program to know a sprite in a level exists, it must be added to spriteMap
  * GoalMap is similar, whenever a goal for a level is set for a level, it must be added to the goalMap(which also is a map of Integer
  * (goalIDs) to Goals. The CurrentSpriteID is the Sprite that will be currently affected by actions of the program. The goalCount is 

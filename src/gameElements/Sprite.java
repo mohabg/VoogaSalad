@@ -30,7 +30,8 @@ import java.util.Map;
 import authoringEnvironment.RefObject;
 
 /**
- * Anything that is on the screen is described by this class. Has behaviors(such as movements), health, collision attributes, properties, 
+ * Anything that is on the screen is described by this class. 
+ * Has behaviors(Movement, Attack, Defense, etc.), health, collision attributes, properties, 
  * and a boolean that determines whether or not it is controlled by the user. 
  */
 
@@ -94,6 +95,9 @@ public class Sprite {
 	public Sprite(String ref) {
 		this(new RefObject(ref));
 	}
+	/**
+	 * Updates the sprite frame by frame
+	 */
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			//behavior.apply(this);
@@ -229,6 +233,9 @@ public class Sprite {
 	public boolean isUserControlled(){
 		return isUserControlled.getValue();
 	}
+	/**
+	 * Sets this sprite as being controlled by the user
+	 */
 	public void setAsUserControlled(){
 		isUserControlled.set(true);
 		setActorCollision();
@@ -272,7 +279,11 @@ public class Sprite {
 	public void enableMovement(){
 		canMove.set(true);
 	}
-
+/**
+ * 
+ * @param keyCode Checks if the KeyCode corresponds to an action
+ * @return
+ */
 	public Behavior getBehavior(KeyCode keyCode) {
 		return userBehaviors.get(keyCode);
 	}
