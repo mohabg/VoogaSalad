@@ -30,7 +30,7 @@ public abstract class Collision{
 	public boolean isCollidingWithUser(Collision other){
 		return other.getSprite().isUserControlled();
 	}
-	protected void handleCollision(Collision other){
+	protected void handleCollision(Collision other, LevelProperties levelProperties){
 		//Subclasses should overload this method 
 		applyEffects(this, other);
 		applyEffects(other, this);

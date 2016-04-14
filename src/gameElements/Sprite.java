@@ -5,9 +5,15 @@ import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,40 +21,74 @@ import authoringEnvironment.RefObject;
 
 public class Sprite {
 
-//	private DoubleProperty x;
-//	private IntegerProperty y;
-//	private BooleanProperty width;
-//	private DoubleProperty height;
-//	private DoubleProperty angle;
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
 	private Map<String, Behavior> myBehaviors;
+	private Map<KeyCode, Behavior> userBehaviors;
 	private RefObject myRef;
-	private boolean isUserControlled;
-	private boolean canMove;
+	private BooleanProperty isUserControlled;
+	private BooleanProperty canMove;
 	
-	
+	public Sprite(RefObject myRef){
+		this.myRef = myRef;
+		myProperties = new SpriteProperties();
+		myHealth = new Health(100);
+		
+		myCollisions = new ArrayList<Collision>();
+		myCollisions.add(new EnemyCollision());
+		
+		myBehaviors = new HashMap<String, Behavior>();
+		Behavior defaultUpMovement = new MoveVertically(5);
+		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);
+		userBehaviors.put(KeyCode.UP, defaultUpMovement);
+		Behavior defaultDownMovement = new MoveVertically(-5);
+		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
+		
+		isUserControlled = new SimpleBooleanProperty(false);
+		canMove = new SimpleBooleanProperty(true);
+	}
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
+
 		super();
+		
+		userBehaviors = new HashMap<KeyCode, Behavior>();
+		
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myCollisions = myCollisions;
 		this.myBehaviors = myBehaviors;
 		this.myRef = myRef;
-		this.isUserControlled = false;
-		canMove = true;
+		this.isUserControlled = new SimpleBooleanProperty(false);
+		this.canMove = new SimpleBooleanProperty(true);
 	}
-	
+
+	public Sprite(String ref) {
+		myRef = new RefObject(ref);
+		DoubleProperty property=new SimpleDoubleProperty(0.0);
+	}
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			behavior.apply(this);
 		}
 	}
+	public Map<KeyCode, Behavior> getUserBehaviors() {
+		return userBehaviors;
+	}
+
+	public void setUserBehaviors(Map<KeyCode, Behavior> userBehaviors) {
+		this.userBehaviors = userBehaviors;
+	}
+	public void addUserBehavior(KeyCode key, Behavior behavior){
+		this.userBehaviors.put(key, behavior);
+	}
 	public Map<String, Behavior> getBehaviors(){
 		return myBehaviors;
+
 	}
+
+
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -132,8 +172,8 @@ public class Sprite {
 		return myHealth;
 	}
 
-	public void setHealth(double myHealth) {
-		this.myHealth.setHealth(myHealth);
+	public void setHealth(Health myHealth) {
+		this.myHealth = myHealth;
 	}
 
 	public void addCollision(Collision collision) {
@@ -151,16 +191,56 @@ public class Sprite {
 	public SpriteProperties getSpriteProperties(){
 		return myProperties;
 	}
+	
 	public boolean isUserControlled(){
-		return isUserControlled;
+		return isUserControlled.getValue();
 	}
-	public void setUserControlled(boolean userControlled){
-		isUserControlled = userControlled;
+	public void setAsUserControlled(){
+		isUserControlled.set(true);;
+		setActorCollision();
+		setUserControlledBehaviors();
 	}
+
+	private void setActorCollision() {
+		//Remove enemy and add actor collision
+		Collision actorCollision = new ActorCollision();
+		Iterator<Collision> it = getCollisions().iterator();
+		while(it.hasNext()){
+			Collision collision = it.next();
+			if(collision instanceof EnemyCollision){
+				it.remove();
+			}
+		}
+		this.addCollision(actorCollision);
+	}
+	private void setUserControlledBehaviors() {
+		//Should not create infinite loop because a behavior that is also a sprite does not have behaviors
+		for(Behavior behavior : this.userBehaviors.values()){
+			Class behaviorClass = behavior.getClass();
+			try{
+				Method method = behaviorClass.getMethod("setAsUserControlled", null);
+				method.invoke(behavior, null);
+			}
+			catch(Exception e){
+				
+			}
+		}
+		
+	}
+
 	public boolean canMove() {
-		return canMove;
+		return canMove.getValue();
 	}
-	public void stopMovement(){
-		canMove = false;
+	public void disableMovement(){
+		canMove.set(false);
+	}
+	public void enableMovement(){
+		canMove.set(true);
+	}
+
+	public Behavior getBehavior(KeyEvent key) {
+
+		userBehaviors.get(key);
+		return null;
 	}
 }

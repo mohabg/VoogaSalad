@@ -13,7 +13,7 @@ public interface IKeyboardAction {
 		NewGame,
 		Default
 	};
-	public void enableKeyboardAction(Actor actor);
-	public void disableKeyboardAction(Actor actor);
+	public void enableKeyboardAction(Sprite currentSprite);
+	public void disableKeyboardAction(Sprite currentSprite);
 
 }

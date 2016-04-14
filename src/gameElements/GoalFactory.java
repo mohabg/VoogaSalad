@@ -3,6 +3,8 @@ package gameElements;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import gameElements.Goal.Goals;
+
 public class GoalFactory {
 	private String path = "";
 	
@@ -25,7 +27,10 @@ public class GoalFactory {
 		} catch (ClassNotFoundException exception){
 			exception.printStackTrace();
 		}
-		
+		if(goal==null){
+			GoalProperties property=new GoalProperties(Goals.PointsGoal);
+			goal=new PointsGoal(property);
+		}
 		return goal;
 	}
 

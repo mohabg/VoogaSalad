@@ -1,9 +1,13 @@
 package gameElements;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyEvent;
@@ -17,9 +21,17 @@ public class Level implements ILevel {
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
+	private boolean isFinished;
 
 	public Level() {
+
+		levelProperties=new LevelProperties();
+		spriteMap=new HashMap<>();
+		goalMap=new HashMap<>();
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
+		goalFactory= new GoalFactory();
+		goalCount=0;
+		isFinished=false;
 
 	}
 
@@ -29,6 +41,14 @@ public class Level implements ILevel {
 
 	public LevelProperties getLevelProperties() {
 		return levelProperties;
+	}
+
+	public void setisFinished(boolean finished) {
+		isFinished = finished;
+	}
+
+	public boolean getisFinished() {
+		return isFinished;
 	}
 
 	public void setLevelProperties(LevelProperties levelProperties) {
@@ -93,18 +113,19 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
-		GoalChecker goalChecker = new GoalChecker(this);
-		for (Goal goal : goalMap.values()) {
-			goal.acceptVisitor(goalChecker);
-			if (goal.isFinished())
-				goalCount++;
-		}
-		return goalCount >= getLevelProperties().getNumGoals();
+		// GoalChecker goalChecker = new GoalChecker(this);
+		// for (Goal goal : goalMap.values()) {
+		// goal.acceptVisitor(goalChecker);
+		// if (goal.isFinished())
+		// goalCount++;
+		// }
+		// return goalCount >= getLevelProperties().getNumGoals();
+		return false;
 	}
 
 	private void updateSprites() {
 		for (Sprite sprite : spriteMap.values()) {
-			// sprite.update();
+			 sprite.update();
 			removeDeadSprite(sprite);
 		}
 	}
@@ -116,19 +137,25 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
+
 		CollisionHandler collisionHandler = new CollisionHandler();
 		CollisionChecker checker = new CollisionChecker();
-		List<Sprite> spriteList = (ArrayList<Sprite>) spriteMap.values();
+		Collection<Sprite> spriteSet = spriteMap.values();
+		Sprite[] spriteArr = new Sprite[spriteSet.size()];
+		int index = 0;
+		for (Sprite sprite : spriteSet) {
+			spriteArr[index] = sprite;
+			index++;
+		}
 
-		for (int i = 0; i < spriteMap.values().size(); i++) {
-			for (int j = i + 1; j < spriteMap.values().size(); j++) {
+		for (int i = 0; i < spriteSet.size(); i++) {
+			for (int j = i + 1; j < spriteSet.size(); j++) {
+				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
 
-				if (checker.areColliding(spriteList.get(i), spriteList.get(j))) {
+					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
+						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
-					for (Collision collisionSpriteOne : spriteList.get(i).getCollisions()) {
-						for (Collision collisionSpriteTwo : spriteList.get(j).getCollisions()) {
-
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo);
+							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo, getLevelProperties());
 
 						}
 
@@ -142,12 +169,16 @@ public class Level implements ILevel {
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
-		
-		Actor currentSprite = (Actor) getSpriteMap().get(currentSpriteID);
 
-		Behavior behavior = currentSprite.getBehavior(key);
-		if (behavior != null) {
-			behavior.apply(currentSprite);
+		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
+		System.out.println("X:   " + currentSprite.getX().doubleValue());
+		System.out.println("Y:   " + currentSprite.getY().doubleValue());
+		if (currentSprite.isUserControlled()) {
+			Behavior behavior = currentSprite.getBehavior(key);
+			if (behavior != null) {
+				behavior.apply(currentSprite);
+			}
+
 		} else {
 			if (keyboardAction == null) {
 				keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
@@ -163,7 +194,6 @@ public class Level implements ILevel {
 			}
 
 		}
-
 	}
 
 	@Override
@@ -171,14 +201,8 @@ public class Level implements ILevel {
 		updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
-			// TODO : win level
-			// TODO : go 2 next level
+			setisFinished(true);
 		}
-		// iterate through sprites and update them
-
-		// check if sprites are dead
-		// health has isDead method
-		// remove sprite
 
 	}
 
