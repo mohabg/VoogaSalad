@@ -28,7 +28,7 @@ public class Actor extends Sprite{
 	private void setUserControlledBehaviors() {
 		for(Behavior behavior : this.userBehaviors.values()){
 			if(behavior instanceof Sprite){
-				((Sprite) behavior).setUserControlled(true);
+				((Sprite) behavior).setAsUserControlled();
 			}
 		}
 	}
@@ -37,7 +37,7 @@ public class Actor extends Sprite{
     public void update(){
     	for(Behavior behavior: allBehaviors.values()){
     		if(behavior instanceof Sprite){
-    			((Sprite) behavior).setUserControlled(true);
+    			((Sprite) behavior).setAsUserControlled();
     		}
     		if(automaticBehaviors.containsKey(behavior.getClass().getName())){
     			behavior.apply(this);

@@ -6,7 +6,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.input.KeyEvent;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class Sprite {
 	private Health myHealth;
 	private List<Collision> myCollisions;
 	private Map<String, Behavior> myBehaviors;
+	private Map<KeyEvent, Behavior> userBehaviors;
 	private RefObject myRef;
 	private boolean isUserControlled;
 	private boolean canMove;
@@ -154,13 +157,34 @@ public class Sprite {
 	public boolean isUserControlled(){
 		return isUserControlled;
 	}
-	public void setUserControlled(boolean userControlled){
-		isUserControlled = userControlled;
+	public void setAsUserControlled(){
+		isUserControlled = true;
+		Collision actorCollision = new ActorCollision();
+		this.addCollision(actorCollision);
+		setUserControlledBehaviors();
 	}
+	private void setUserControlledBehaviors() {
+		//Should not create infinite loop because a behavior that is also a sprite does not have behaviors
+		for(Behavior behavior : this.userBehaviors.values()){
+			Class behaviorClass = behavior.getClass();
+			try{
+				Method method = behaviorClass.getMethod("setAsUserControlled", null);
+				method.invoke(behavior, null);
+			}
+			catch(Exception e){
+				
+			}
+		}
+		
+	}
+
 	public boolean canMove() {
 		return canMove;
 	}
-	public void stopMovement(){
+	public void disableMovement(){
 		canMove = false;
+	}
+	public void enableMovement(){
+		canMove = true;
 	}
 }

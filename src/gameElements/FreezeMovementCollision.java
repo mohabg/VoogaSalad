@@ -7,6 +7,6 @@ public class FreezeMovementCollision extends Collision{
 	}
 
 	protected void handleCollision(EnemyCollision other) {
-		other.getSprite().stopMovement();
+		other.getSprite().disableMovement();
 	}
 }
