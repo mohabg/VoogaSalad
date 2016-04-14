@@ -5,6 +5,8 @@ import javafx.util.Duration;
 
 import java.util.Map;
 
+import game.GameInfo;
+import game.IGameEditor;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;

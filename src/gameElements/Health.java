@@ -10,6 +10,7 @@ public class Health {
 	
 	private DoubleProperty value;
 	private BooleanProperty isMortal;	
+	
 	public Health(){
 		isMortal = new SimpleBooleanProperty();
 		isMortal.set(false);

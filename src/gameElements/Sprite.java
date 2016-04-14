@@ -2,6 +2,11 @@ package gameElements;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
+import behaviors.Behavior;
+import behaviors.MoveVertically;
+import collisions.ActorCollision;
+import collisions.Collision;
+import collisions.EnemyCollision;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -39,6 +44,7 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 		
 		myBehaviors = new HashMap<String, Behavior>();
+		userBehaviors = new HashMap<KeyCode, Behavior>();
 		Behavior defaultUpMovement = new MoveVertically(5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);
 		userBehaviors.put(KeyCode.UP, defaultUpMovement);

@@ -9,7 +9,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import behaviors.Behavior;
+import collisions.Collision;
+import collisions.CollisionChecker;
+import collisions.CollisionHandler;
 import gameElements.IKeyboardAction.KeyboardActions;
+import goals.Goal;
+import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
 
 public class Level implements ILevel {
