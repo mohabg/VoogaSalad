@@ -1,5 +1,11 @@
 package gameElements;
 
+
+/**
+ * Keeps track of the time of each level. Used by the level class to display the time in the game. 
+ * @see level
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,7 +51,6 @@ public class Time {
 				count++;
 				int min = count/60;
 			    int sec = count%60;
-				System.out.println("Time: " + min + ":" + sec);
 			}
 		};
 		myTimer.schedule(task, myDelay);

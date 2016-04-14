@@ -4,10 +4,10 @@ import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
-import gameElements.Behavior;
-import gameElements.Collision;
+import behaviors.Behavior;
+import behaviors.MoveVertically;
+import collisions.Collision;
 import gameElements.Health;
-import gameElements.MoveVertically;
 import gameElements.Sprite;
 import interfaces.ITabPane;
 import javafx.beans.property.DoubleProperty;
@@ -44,7 +44,6 @@ public class ItemWindow {
 	}
 
 	private Tab makeTab(String type) {
-        System.out.println(type);
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
@@ -77,7 +76,7 @@ public class ItemWindow {
             //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
             //newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
             //sprite.setMySpriteProperties(newS.getSpriteProperties());
-            
+
             mySpritesAndModels.put(viewsprite, newS);
             
 			viewsprite.setOnMouseClicked(e -> {

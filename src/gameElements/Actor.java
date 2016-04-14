@@ -6,8 +6,13 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
+import behaviors.Behavior;
+import collisions.ActorCollision;
+import collisions.Collision;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+
 
 public class Actor extends Sprite{
 	

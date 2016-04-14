@@ -28,7 +28,6 @@ public class ViewSpriteConverter implements Converter {
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		reader.moveDown();
 		String[] imageData = reader.getValue().split(" ");
-		System.out.println(reader.getValue());
 		ViewSprite vs = new ViewSprite(imageData[0]);
 		vs.setTranslateX(Double.parseDouble(imageData[1]));
 		vs.setTranslateY(Double.parseDouble(imageData[2]));
