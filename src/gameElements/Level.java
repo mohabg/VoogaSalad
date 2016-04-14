@@ -1,9 +1,13 @@
 package gameElements;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyEvent;
@@ -126,15 +130,20 @@ public class Level implements ILevel {
 	private void checkCollisions() {
 		CollisionHandler collisionHandler = new CollisionHandler();
 		CollisionChecker checker = new CollisionChecker();
-		List<Sprite> spriteList = (ArrayList<Sprite>) spriteMap.values();
+		Collection<Sprite> spriteSet= spriteMap.values();
+		Sprite[] spriteArr = new Sprite[spriteSet.size()];
+		int index=0;
+		for(Sprite sprite: spriteSet){
+			spriteArr[index]=sprite;
+			index++;
+		}
 
-		for (int i = 0; i < spriteMap.values().size(); i++) {
-			for (int j = i + 1; j < spriteMap.values().size(); j++) {
+		for (int i = 0; i < spriteSet.size(); i++) {
+			for (int j = i + 1; j < spriteSet.size(); j++) {
+				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
 
-				if (checker.areColliding(spriteList.get(i), spriteList.get(j))) {
-
-					for (Collision collisionSpriteOne : spriteList.get(i).getCollisions()) {
-						for (Collision collisionSpriteTwo : spriteList.get(j).getCollisions()) {
+					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
+						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
 							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo);
 
