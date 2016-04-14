@@ -28,10 +28,13 @@ public class Game {
     public void setGameInfo(GameInfo newInfo) {
         myInfo = newInfo;
     }
+    
+    public int getNumLevels() {
+    	return myGameLevels.size();
+    }
 	
-	public Level nextLevel(int nextLevelNum) {
+	public void nextLevel(int nextLevelNum) {
 		currLevelNum = nextLevelNum;
-		return myGameLevels.get(nextLevelNum);
 	}
 	
 	public void setCurrentLevel(int index) {
@@ -57,6 +60,10 @@ public class Game {
         levelProperties.setLevelID(levelID);
         newLevel.setLevelProperties(levelProperties);
     	myGameLevels.add(levelID, newLevel);
+	}
+	
+	public void addLevel(int levelID, Level level) {
+		myGameLevels.add(levelID, level);
 	}
 	
 	public Level restartGame() {

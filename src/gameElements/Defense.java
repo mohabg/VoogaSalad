@@ -1,32 +1,52 @@
 package gameElements;
 
+import java.util.List;
+import java.util.Map;
+
+import authoringEnvironment.RefObject;
+import authoringEnvironment.SpriteProperties;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public abstract class Defense extends Sprite implements Behavior {
-	private Health myHealth;
+
+	private BooleanProperty enabled;
 	private ApplyBehaviorConditions behaviorConditions;
 
-	public Defense(Health health) {
-		myHealth = health;
-		behaviorConditions = new ApplyBehaviorConditions();
+	public Defense(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+			Map<String, Behavior> myBehaviors, RefObject myRef,  ApplyBehaviorConditions behaviorConditions) {
+		
+		super(myProperties, myHealth, myCollisions, myBehaviors, myRef);
+		this.behaviorConditions = behaviorConditions;
+		this.enabled = new SimpleBooleanProperty();
 	}
-
-	public boolean readytoDefend(Sprite sprite) {
-		behaviorConditions.setCurrentDuration(behaviorConditions.getCurrentDuration() - 1);
-		if (behaviorConditions.getCurrentDuration() <= 0) {
-			if (Math.random() < behaviorConditions.getShootingProbability()) {
-				if (behaviorConditions.getMaxDuration() > 0) {
-					return true;
-				}
-			}
+	public boolean isEnabled(){
+		return enabled.get();
+	}
+	public void enableDefense(){
+		enabled.set(true);
+		//enable image
+	}
+	public void disableDefense(){
+		enabled.set(false);
+		//disable image
+	}
+	public void takeDamage(double damage){
+		this.getHealth().decrementHealth(damage);
+	}
+	public ApplyBehaviorConditions getBehaviorConditions(){
+		return behaviorConditions;
+	}
+	@Override
+	public void apply(Sprite sprite){
+		if(readyToDefend(sprite)){
+			enableDefense();
+			this.setCoord(sprite.getX(), sprite.getY());
 		}
-		return false;
+		else{
+			disableDefense();
+		}
 	}
-
-	public Health getHealth() {
-		return this.myHealth;
-	}
-
-	public void setHealth(Health health) {
-		this.myHealth = health;
-	}
+	public abstract boolean readyToDefend(Sprite sprite);
 
 }

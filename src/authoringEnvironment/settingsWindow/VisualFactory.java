@@ -40,7 +40,7 @@ public class VisualFactory {
 	private Settings mySettings;
 	private ResourcesReader myReader;
 	private int poo;
-	
+
 	public VisualFactory() {
 		mySettings = new Settings();
 	}
@@ -50,59 +50,19 @@ public class VisualFactory {
 		return "";
 	}
 
-//	public static void main(String[] args) {
-//		System.out.println("sps");
-//		Field[] poo = SimpleDoubleProperty.class.getDeclaredFields();
-//		System.out.println(poo.length);
-//		for (Field p : poo) {
-//			p.setAccessible(true);
-//			System.out.println(p.getGenericType().getTypeName());
-//		}
-//		
-//		List<Field> ls = getAllFields(new ArrayList<Field>(), SimpleDoubleProperty.class);
-//		System.out.println(ls.size());
-//	}
-
 	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
-	    fields.addAll(Arrays.asList(type.getDeclaredFields()));
+		fields.addAll(Arrays.asList(type.getDeclaredFields()));
 
-	    if (type.getSuperclass() != null) {
-	        fields = getAllFields(fields, type.getSuperclass());
-	    }
+		if (type.getSuperclass() != null) {
+			fields = getAllFields(fields, type.getSuperclass());
+		}
 
-	    return fields;
+		return fields;
 	}
-	
+
 	public Constructor[] getConstructors(Class myClass) {
 		return myClass.getConstructors();
 	}
-
-	// public HBox makeNewSpinner(Parameter myParam){
-	// HBox myBox = new HBox(8);
-	// myBox.setPadding(new Insets(20,20,20,20));
-	// Label myLabel = new Label(myParam.getName());
-	// Spinner mySpinner = new Spinner();
-	// SpinnerValueFactory factory = new
-	// SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
-	// mySpinner.setValueFactory(factory);
-	// mySpinner.setEditable(true);
-	// //TODO: Possibly use param to bind spinner to?
-	// factory.valueProperty().bindBidirectional(mySprite.getMySpriteProperties().getMyY());
-	//
-	//
-	// myBox.getChildren().addAll(myLabel,mySpinner);
-	// return myBox;
-	//
-	//
-	// Spinner mySpinner2 = new Spinner();
-	// SpinnerValueFactory factory2 = new
-	// SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0 );
-	// mySpinner2.setValueFactory(factory2);
-	// mySpinner2.setEditable(true);
-	//
-	//
-	//
-	// }
 
 	public static HBox makeTextInputBox(Parameter myParam, Field f) {
 		Label label1 = new Label("This:");
@@ -272,37 +232,37 @@ public class VisualFactory {
 		}
 		return propHBox;
 	}
-	
+
 	private Spinner makeDoubleSpinner(DoubleProperty dp) {
 		Spinner mySpinner = new Spinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
 		factory.valueProperty().bindBidirectional(dp);
-		
+
 		return mySpinner;
 	}
-	
+
 	private Spinner makeIntegerSpinner(IntegerProperty ip) {
 		Spinner mySpinner = new Spinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
-		
+
 		factory.valueProperty().bindBidirectional(ip);
-		
+
 		return mySpinner;
 	}
-	
-	
+
 	private CheckBox makeBooleanCheckbox(BooleanProperty bp) {
 		CheckBox cb = new CheckBox("True/False");
 		cb.setIndeterminate(false);
-		
+
 		cb.selectedProperty().bindBidirectional(bp);
-	    
-	    return cb;
+
+		return cb;
 	}
+
 	private Spinner oneSpinner(Field p, Sprite mySprite) {
 		p.setAccessible(true);
 		Spinner mySpinner = new Spinner();
@@ -311,54 +271,51 @@ public class VisualFactory {
 		mySpinner.setEditable(true);
 
 		// p.getType().asSubclass(Property.class)
-//			System.out.println("----" + p.getType().toGenericString());
+		// System.out.println("----" + p.getType().toGenericString());
 
-//			try {
-//				Property thisproperty = (Property) p.get(Object);
-//				factory.valueProperty().bindBidirectional(thisproperty);
-//			} catch (Exception e){
-////				e.printStackTrace();
-//			}
-		
+		// try {
+		// Property thisproperty = (Property) p.get(Object);
+		// factory.valueProperty().bindBidirectional(thisproperty);
+		// } catch (Exception e){
+		//// e.printStackTrace();
+		// }
+
 		return mySpinner;
 
 	}
-	
 
-	
-//	Constructor<?>[] fieldConstructors = f.getType().getConstructors();
-//	// sorting comparator
-//	Comparator<Constructor> byParamNumber= 
-//			(Constructor c1, Constructor c2) -> c1.getParameterCount() >= c2.getParameterCount() ? 1:-1;
-	//Arrays.sort(fieldConstructors, byParamNumber);
-	//System.out.println(f.getName());
-	//System.out.println(f.getGenericType());
-	
+	// Constructor<?>[] fieldConstructors = f.getType().getConstructors();
+	// // sorting comparator
+	// Comparator<Constructor> byParamNumber=
+	// (Constructor c1, Constructor c2) -> c1.getParameterCount() >=
+	// c2.getParameterCount() ? 1:-1;
+	// Arrays.sort(fieldConstructors, byParamNumber);
+	// System.out.println(f.getName());
+	// System.out.println(f.getGenericType());
+
 	// finding constructors and their params
-//	for(Constructor c : fieldConstructors) {
-//		System.out.println(c.getParameterCount());
-//		Class<?>[] paramClasses = c.getParameterTypes();
-//		for(Class<?> param : paramClasses) {
-//			System.out.println(param.getName());
-//		}
-//	}
-	
-	
+	// for(Constructor c : fieldConstructors) {
+	// System.out.println(c.getParameterCount());
+	// Class<?>[] paramClasses = c.getParameterTypes();
+	// for(Class<?> param : paramClasses) {
+	// System.out.println(param.getName());
+	// }
+	// }
+
 	// DoubleProperty, BooleanProperty, Integer
-	//System.out.println(fieldConstructors[0].getParameterCount());
-	//System.out.println(fieldConstructors[fieldConstructors.length-1].getParameterCount());
-//	Arrays.sort(fieldConstructors, (Constructor c1, Constructor c2) -> {
-//		return a.getParameterCount() > b.getParameterCount();
-//	});
-	
-	
-	//properties.addAll(Arrays.asList(type.getDeclaredFields()));
+	// System.out.println(fieldConstructors[0].getParameterCount());
+	// System.out.println(fieldConstructors[fieldConstructors.length-1].getParameterCount());
+	// Arrays.sort(fieldConstructors, (Constructor c1, Constructor c2) -> {
+	// return a.getParameterCount() > b.getParameterCount();
+	// });
 
-//    if (type.getSuperclass() != null) {
-//        fields = getAllFields(fields, type.getSuperclass());
-//    }
+	// properties.addAll(Arrays.asList(type.getDeclaredFields()));
 
-    //return properties;
+	// if (type.getSuperclass() != null) {
+	// fields = getAllFields(fields, type.getSuperclass());
+	// }
+
+	// return properties;
 
 	// it's a user-made class (most likely)
 	
