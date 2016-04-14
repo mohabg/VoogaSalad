@@ -217,7 +217,6 @@ public class VisualFactory {
 		if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;			
 			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
-			System.out.println("i made it here");
 		} else if (myProp instanceof IntegerProperty) {
 			IntegerProperty ip = (IntegerProperty) myProp;
 			propHBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
@@ -225,10 +224,10 @@ public class VisualFactory {
 			BooleanProperty bp = (BooleanProperty) myProp;
 			propHBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
 		} else if (myProp instanceof StringProperty) {
-			System.out.println("HI IM A STRING");
 			// THIS PROBABLY REFERS TO IMAGE FILES..............
 			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
-			// TODO MAKE STRING BOX
+			StringProperty sp = (StringProperty) myProp;
+			propHBox.getChildren().addAll(propLabelName, makeTextField(sp));
 		}
 		return propHBox;
 	}
@@ -263,125 +262,10 @@ public class VisualFactory {
 		return cb;
 	}
 
-	private Spinner oneSpinner(Field p, Sprite mySprite) {
-		p.setAccessible(true);
-		Spinner mySpinner = new Spinner();
-		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
-		mySpinner.setValueFactory(factory);
-		mySpinner.setEditable(true);
-		// poo
-		// p.getType().asSubclass(Property.class)
-		// System.out.println("----" + p.getType().toGenericString());
-
-		// try {
-		// Property thisproperty = (Property) p.get(Object);
-		// factory.valueProperty().bindBidirectional(thisproperty);
-		// } catch (Exception e){
-		//// e.printStackTrace();
-		// }
-
-		return mySpinner;
-
+	
+	private TextField makeTextField(StringProperty sp) {
+		TextField textField = new TextField(sp.toString());
+		textField.textProperty().bindBidirectional(sp);
+		return textField;
 	}
-
-	// Constructor<?>[] fieldConstructors = f.getType().getConstructors();
-	// // sorting comparator
-	// Comparator<Constructor> byParamNumber=
-	// (Constructor c1, Constructor c2) -> c1.getParameterCount() >=
-	// c2.getParameterCount() ? 1:-1;
-	// Arrays.sort(fieldConstructors, byParamNumber);
-	// System.out.println(f.getName());
-	// System.out.println(f.getGenericType());
-
-	// finding constructors and their params
-	// for(Constructor c : fieldConstructors) {
-	// System.out.println(c.getParameterCount());
-	// Class<?>[] paramClasses = c.getParameterTypes();
-	// for(Class<?> param : paramClasses) {
-	// System.out.println(param.getName());
-	// }
-	// }
-
-	// DoubleProperty, BooleanProperty, Integer
-	// System.out.println(fieldConstructors[0].getParameterCount());
-	// System.out.println(fieldConstructors[fieldConstructors.length-1].getParameterCount());
-	// Arrays.sort(fieldConstructors, (Constructor c1, Constructor c2) -> {
-	// return a.getParameterCount() > b.getParameterCount();
-	// });
-
-	// properties.addAll(Arrays.asList(type.getDeclaredFields()));
-
-	// if (type.getSuperclass() != null) {
-	// fields = getAllFields(fields, type.getSuperclass());
-	// }
-
-	// return properties;
-
-	// it's a user-made class (most likely)
-	
-	//f.setAccessible(true);
-	//Class<?> fClass = f.getType();
-//	Class<?> fClass = Object.class;
-//	if (fType instanceof ParameterizedType) {
-//		try {
-//			fClass = Class.forName(((ParameterizedType) fType).getRawType().getTypeName());
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	} else {
-//		try {
-//			fClass = Class.forName(fType.getTypeName());
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-	
-//	String fName = .getName();
-//	//String fParamName = f.getName();
-//	System.out.println("STARTTTT " + fName);
-//	
-//	List<String> projClasses = SubclassEnumerator.getReadableClasses("gameElements");
-//	projClasses.addAll(SubclassEnumerator.getReadableClasses("authoringEnvironment"));
-//	
-//	if (!projClasses.contains(fName)) {
-//		 else {
-//			// IT'S A JAVA CLASS
-//			// it's a list
-//			if (fClass.isAssignableFrom(List.class)) {
-//				Type pType = ((ParameterizedType) fType).getActualTypeArguments()[0];
-//				String pName = pType.getTypeName();
-//				System.out.println(pType + " \n" + pName);
-//				properties.addAll(makePropertyBoxes(pType, pName, properties));
-//				return properties;
-//			} else if (fClass.isAssignableFrom(Map.class)) {
-//				System.out.println("Map");
-//				Type pType1 = ((ParameterizedType) fType).getActualTypeArguments()[0];
-//				Type pType2 = ((ParameterizedType) fType).getActualTypeArguments()[1];
-//				//String pName = pType.getTypeName();
-//				//System.out.println(pType + " \n" + pName);
-//				//properties.addAll(makePropertyBoxes(pType, pName, properties));
-//				//return properties;
-//			} else {
-//				System.out.println("FOOOOOOOOOOOOOOOOOOK");
-//			}
-//			
-//			
-//			// it's a map
-//			return properties;
-//		}
-//		
-//	} else {
-//		// recurse
-//		System.out.println("RECURSE " + fClass.getName());
-//		Field[] fields = fClass.getDeclaredFields();
-//
-//		for (Field field : fields) {
-//			System.out.println(field.getName());
-//			properties.addAll(makePropertyBoxes(field.getGenericType(), field.getName(), properties));
-//		}
-//		System.out.println("done with recurse");
-//		return properties;
-//	}
 }

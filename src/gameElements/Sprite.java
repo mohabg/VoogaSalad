@@ -5,6 +5,7 @@ import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.ArrayList;
@@ -25,15 +26,22 @@ public class Sprite {
 	private List<Collision> myCollisions;
 	private Map<String, Behavior> myBehaviors;
 	private RefObject myRef;
-
-	public Sprite() {
-		myHealth = new Health();
-		myCollisions = new ArrayList<Collision>();
-		myProperties = new SpriteProperties();
+	private BooleanProperty isUserControlled;
+	private BooleanProperty canMove;
+	
+	
+	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors, RefObject myRef) {
+		super();
+		this.myProperties = myProperties;
+		this.myHealth = myHealth;
+		this.myCollisions = myCollisions;
+		this.myBehaviors = myBehaviors;
+		this.myRef = myRef;
+		this.isUserControlled = new SimpleBooleanProperty(false);
+		this.canMove = new SimpleBooleanProperty(true);
 	}
 
 	public Sprite(String ref) {
-		this();
 		myRef = new RefObject(ref);
 		DoubleProperty property=new SimpleDoubleProperty(0.0);
 	
@@ -145,5 +153,39 @@ public class Sprite {
 	
 	public SpriteProperties getSpriteProperties(){
 		return myProperties;
+	}
+	
+	public boolean isUserControlled(){
+		return isUserControlled.getValue();
+	}
+	public void setAsUserControlled(){
+		isUserControlled.set(true);
+		Collision actorCollision = new ActorCollision();
+		this.addCollision(actorCollision);
+		setUserControlledBehaviors();
+	}
+	private void setUserControlledBehaviors() {
+		//Should not create infinite loop because a behavior that is also a sprite does not have behaviors
+		for(Behavior behavior : this.userBehaviors.values()){
+			Class behaviorClass = behavior.getClass();
+			try{
+				Method method = behaviorClass.getMethod("setAsUserControlled", null);
+				method.invoke(behavior, null);
+			}
+			catch(Exception e){
+				
+			}
+		}
+		
+	}
+
+	public boolean canMove() {
+		return canMove.getValue();
+	}
+	public void disableMovement(){
+		canMove.set(false);
+	}
+	public void enableMovement(){
+		canMove.set(true);
 	}
 }
