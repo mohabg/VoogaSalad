@@ -3,8 +3,11 @@ package gameplayer;
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import gameElements.Actor;
+import gameElements.Behavior;
 import gameElements.Engine;
 import gameElements.GameEditor;
 import gameElements.IGameEditor;
@@ -28,8 +31,8 @@ import java.util.Map;
 
 public class PlayScreen implements IScreen {
 	private Pane myPane;
-	private Map<Level, Group> myViewSprites;
-
+	private Map<Level, List<ViewSprite>> myViewSprites;
+	private Engine myEngine; 
 	private Scene myScene;
 	private HeadsUpDisplay myHUD;
 	
@@ -42,7 +45,7 @@ public class PlayScreen implements IScreen {
 		gameFile = newGameFile;
 		myPane = new Pane();
 		Settings.setGamePlayingSettings(myPane);
-		myViewSprites = new HashMap<Level, Group>();
+		myViewSprites = new HashMap<Level, List<ViewSprite>>();
 
 		myScene = new Scene(myPane);
 		myHUD = new HeadsUpDisplay(myScene.getWidth(), myScene.getHeight());
@@ -67,74 +70,58 @@ public class PlayScreen implements IScreen {
 	
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		IGameEditor myGameEditor = new GameEditor();
-		Engine engine = new Engine(myGameEditor);
+		 myEngine = new Engine(myGameEditor);
 		for (int i=0; i<gameLevels.size();i++) {
 			LevelModel lm = gameLevels.get(i);
-			Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
+			Level newLevel = makeNewLevel(lm);
+			myEngine.addLevel(i, newLevel);
 			
-			Level newLevel= new Level();
-
-			newLevel.setSpriteMap(new HashMap<Integer, Sprite>());
-			newLevel.setLevelProperties( new LevelProperties());
-			newLevel.setCurrentSpriteID(0);
-			Group levelViewSprites = new Group();
-			for(ViewSprite vs : spriteList.keySet()) {
-				Sprite s = spriteList.get(vs);
-		        vs.xProperty().bindBidirectional(s.getX());
-		        vs.yProperty().bindBidirectional(s.getY());
-		        
-		        levelViewSprites.getChildren().add(vs);
-				newLevel.addSprite(s);
-			}
-			myViewSprites.put(newLevel, levelViewSprites);
-			
-//			engine.addLevel(levelIndex, levelProperties);
-			engine.addLevel(i, newLevel);
-			setLevel(newLevel);
 		}
-		
-		
-		
-//		List<Level> levelList = new ArrayList<Level>();
-//
-//		for (int i=0; i<gameLevels.size();i++) {
-//			LevelModel lm = gameLevels.get(i);
-//			Level newLevel= new Level();
-//			Group levelViewSprites = new Group();
-//
-//
-//			newLevel.setSpriteMap(new HashMap<Integer, Sprite>());
-//			newLevel.setLevelProperties( new LevelProperties());
-//			newLevel.setCurrentSpriteID(0);
-//			Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
-//			for(ViewSprite vs : spriteList.keySet()) {
-//				Sprite s = spriteList.get(vs);
-//		        vs.xProperty().bindBidirectional(s.getX());
-//		        vs.yProperty().bindBidirectional(s.getY());
-//		        
-//		        levelViewSprites.getChildren().add(vs);
-//
-//				newLevel.addSprite(s);
-//			}
-//			myViewSprites.put(newLevel, levelViewSprites);
-//			//add level to game
-////			newLevel.setLevelProperties(levelProperties);
-//			levelList.add(newLevel);
-//			
-//			
-//		}
-//		setLevel(levelList.get(0));
-//
-//		
+		myEngine.setCurrentLevel(0);
+		setLevel(myEngine.getCurrentLevel());
+
+		myEngine.gameLoop();
 		// TODO GIVE MODELS TO BACKEND
 		
 		
 		// bind image-specific attributes
 	}
+
+	private Level makeNewLevel(LevelModel lm) {
+		Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
+		
+		Level newLevel= new Level();
+
+		newLevel.setSpriteMap(new HashMap<Integer, Sprite>());
+		newLevel.setLevelProperties( new LevelProperties());
+		newLevel.setCurrentSpriteID(0);
+		List<ViewSprite> levelViewSprites = new ArrayList<ViewSprite>();
+		
+		for(ViewSprite vs : spriteList.keySet()) {
+			Sprite s = spriteList.get(vs);
+//			s.setAsUserControlled();
+			s.getX().bindBidirectional(vs.xProperty());
+			s.getY().bindBidirectional(vs.yProperty());
+//		    vs.xProperty().bindBidirectional(s.getX());
+//		    vs.yProperty().bindBidirectional(s.getY());
+		    
+		    levelViewSprites.add(vs);
+			newLevel.addSprite(s);
+		}
+		myViewSprites.put(newLevel, levelViewSprites);
+		return newLevel;
+	}
 	private void setLevel(Level newLevel){
+		System.out.println(myPane.getChildren().toString());
 		myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
-		myPane.setOnKeyReleased(key-> newLevel.handleKeyRelease(key));
-		myPane.getChildren().add(myViewSprites.get(newLevel));
+		myPane.setOnKeyReleased(key-> { newLevel.handleKeyRelease(key);
+		for(ViewSprite vs:myViewSprites.get(newLevel)){
+			System.out.println(vs.getX());
+			System.out.println(vs.getY());
+		}
+		});
+		
+		myPane.getChildren().addAll(myViewSprites.get(newLevel));
 
 	}
 	

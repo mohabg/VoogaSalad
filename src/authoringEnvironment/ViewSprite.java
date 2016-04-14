@@ -68,6 +68,9 @@ public class ViewSprite extends ImageView {
 
 	}
 
+	public void setMySpriteProperties(SpriteProperties sp) {
+		mySpriteProperties = sp;
+	}
 	// public ImageView getImageView(){
 	// return imageview;
 	// }
