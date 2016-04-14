@@ -68,7 +68,8 @@ public class PlayScreen implements IScreen {
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		IGameEditor myGameEditor = new GameEditor();
 		Engine engine = new Engine(myGameEditor);
-		for (LevelModel lm: gameLevels) {
+		for (int i=0; i<gameLevels.size();i++) {
+			LevelModel lm = gameLevels.get(i);
 			Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
 			
 			Level newLevel= new Level();
@@ -88,6 +89,8 @@ public class PlayScreen implements IScreen {
 			myViewSprites.put(newLevel, levelViewSprites);
 			
 //			engine.addLevel(levelIndex, levelProperties);
+			engine.addLevel(i, newLevel);
+			setLevel(newLevel);
 		}
 		
 		
