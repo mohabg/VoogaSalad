@@ -101,13 +101,14 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
-		GoalChecker goalChecker = new GoalChecker(this);
-		for (Goal goal : goalMap.values()) {
-			goal.acceptVisitor(goalChecker);
-			if (goal.isFinished())
-				goalCount++;
-		}
-		return goalCount >= getLevelProperties().getNumGoals();
+//		GoalChecker goalChecker = new GoalChecker(this);
+//		for (Goal goal : goalMap.values()) {
+//			goal.acceptVisitor(goalChecker);
+//			if (goal.isFinished())
+//				goalCount++;
+//		}
+//		return goalCount >= getLevelProperties().getNumGoals();
+		return false;
 	}
 
 	private void updateSprites() {
@@ -153,6 +154,8 @@ public class Level implements ILevel {
 		Integer currentSpriteID = getCurrentSpriteID();
 		
 		Actor currentSprite = (Actor) getSpriteMap().get(currentSpriteID);
+		System.out.println("X:   "+currentSprite.getX().doubleValue());
+		System.out.println("Y:   "+currentSprite.getY().doubleValue());
 
 		Behavior behavior = currentSprite.getBehavior(key);
 		if (behavior != null) {

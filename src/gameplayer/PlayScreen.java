@@ -32,7 +32,7 @@ import java.util.Map;
 public class PlayScreen implements IScreen {
 	private Pane myPane;
 	private Map<Level, Group> myViewSprites;
-
+	private Engine myEngine; 
 	private Scene myScene;
 	private HeadsUpDisplay myHUD;
 	
@@ -70,17 +70,17 @@ public class PlayScreen implements IScreen {
 	
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		IGameEditor myGameEditor = new GameEditor();
-		Engine engine = new Engine(myGameEditor);
+		 myEngine = new Engine(myGameEditor);
 		for (int i=0; i<gameLevels.size();i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel = makeNewLevel(lm);
-			engine.addLevel(i, newLevel);
+			myEngine.addLevel(i, newLevel);
 			
 		}
-		engine.setCurrentLevel(0);
-		setLevel(engine.getCurrentLevel());
+		myEngine.setCurrentLevel(0);
+		setLevel(myEngine.getCurrentLevel());
 
-		engine.gameLoop();
+		myEngine.gameLoop();
 		// TODO GIVE MODELS TO BACKEND
 		
 		
