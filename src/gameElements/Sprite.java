@@ -44,13 +44,21 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 		
 		
-		Behavior defaultUpMovement = new MoveVertically(5);
+		Behavior defaultUpMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);	
 		userBehaviors.put(KeyCode.UP, defaultUpMovement);
 		
-		Behavior defaultDownMovement = new MoveVertically(-5);
+		Behavior defaultDownMovement = new MoveVertically(5);
 		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
-		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultDownMovement);	
+		myBehaviors.put(defaultDownMovement.getClass().getName(), defaultDownMovement);	
+		
+		Behavior defaultLeftMovement = new MoveHorizontally(-5);
+		userBehaviors.put(KeyCode.LEFT, defaultLeftMovement);
+		myBehaviors.put(defaultLeftMovement.getClass().getName(), defaultLeftMovement);
+		
+		Behavior defaultRightMovement = new MoveHorizontally(5);
+		userBehaviors.put(KeyCode.RIGHT, defaultRightMovement);
+		myBehaviors.put(defaultRightMovement.getClass().getName(), defaultRightMovement);
 	}
 	
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
