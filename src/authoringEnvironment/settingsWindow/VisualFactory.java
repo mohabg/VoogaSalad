@@ -98,13 +98,13 @@ public class VisualFactory {
 		Tab myTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
-		System.out.println(f.getGenericType());
+		// System.out.println(f.getGenericType());
 		Field[] fChildren = f.getType().getDeclaredFields();
 		
 		// if one of the first fields is just a Property
 		// TODO DOESNT WORK YET
 //		if (isAProperty(f, mySprite)) {
-//			System.out.println("im hereeee");
+//			// System.out.println("im hereeee");
 //			try {
 //				//Property pObject = (Property) p.get(parent);
 //				//String pObjectName = p.getName();				
@@ -112,10 +112,10 @@ public class VisualFactory {
 //				
 //				Property fObject = (Property) f.get(mySprite);
 //				String fObjectName = f.getName();		
-//				System.out.println("pass2");
+//				// System.out.println("pass2");
 //				Set<HBox> props = makePropertyBoxes(f, fObject, fObjectName, new HashSet<HBox>());
 //				//props.add(makeSettingsObject(pObject, pObjectName));
-//				System.out.println("pass3444");
+//				// System.out.println("pass3444");
 //				myBox.getChildren().addAll(props);
 //			} catch (IllegalArgumentException | IllegalAccessException e) {}
 //		}
@@ -125,7 +125,7 @@ public class VisualFactory {
 					// o is the actual instance of f in the sprite
 					Object o = f.get(mySprite);
 					String parentName = f.getName();
-					System.out.println("parent name " + parentName);
+					// System.out.println("parent name " + parentName);
 					p.setAccessible(true);
 					Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
 					myBox.getChildren().addAll(props);
@@ -150,10 +150,10 @@ public class VisualFactory {
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
-			System.out.println("pass2323");
+			// System.out.println("pass2323");
 			HBox settingsHBox = makeSettingsObject(parent, parentName);
 			properties.add(settingsHBox);
-			//System.out.println("GOT TO FIRST THING");
+			//// System.out.println("GOT TO FIRST THING");
 			return properties;
 		} else if (parent instanceof List) {
 			
@@ -169,7 +169,7 @@ public class VisualFactory {
 		
 		if (isProperty) {
 			try {
-				//System.out.println("IS A PROPERTY PASSED");
+				//// System.out.println("IS A PROPERTY PASSED");
 				Property pObject = (Property) p.get(parent);
 				String pObjectName = p.getName();				
 				properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
@@ -185,29 +185,24 @@ public class VisualFactory {
 				try {
 					o = otherField.get(p);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					System.out.println("wtf just happened");
+					// System.out.println("wtf just happened");
 					e.printStackTrace();
 				}
 				String pName = otherField.getName();
 				properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
 			}
-			System.out.println("THIS DIDNT HAVE ANY FIELDS");
+			// System.out.println("THIS DIDNT HAVE ANY FIELDS");
 		}
 		
 		return properties;
 	}
 	
 	private boolean isAProperty(Field p, Object o) {
-		System.out.println(p.getType().getName());
+		// System.out.println(p.getType().getName());
 		if (Property.class.isAssignableFrom(p.getType())) {
-			System.out.println("im a porpppp");
+			// System.out.println("im a porpppp");
 			return true;
 		}
-//		try {
-//			Property pClass = (Property) p.get(o);
-//			return true;
-//		} catch (IllegalAccessException e) {
-//		} 
 		return false;
 	}
 	
