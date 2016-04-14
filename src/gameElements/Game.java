@@ -28,6 +28,10 @@ public class Game {
     public void setGameInfo(GameInfo newInfo) {
         myInfo = newInfo;
     }
+    
+    public int getNumLevels() {
+    	return myGameLevels.size();
+    }
 	
 	public Level nextLevel(int nextLevelNum) {
 		currLevelNum = nextLevelNum;

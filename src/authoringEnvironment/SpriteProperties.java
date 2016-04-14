@@ -28,6 +28,7 @@ public class SpriteProperties {
     }
 
     public SpriteProperties(double x, double y, double width, double height, double angle){
+    	this();
         myX.set(x);
         myY.set(y);
         myWidth.set(width);

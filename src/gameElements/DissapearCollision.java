@@ -2,6 +2,11 @@ package gameElements;
 
 public class DissapearCollision extends Collision{
 	
+	public DissapearCollision(double value) {
+		super(value);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	protected void handleCollision(Collision other){
 		Sprite mySprite = getSprite();

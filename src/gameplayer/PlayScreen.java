@@ -6,6 +6,7 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import gameElements.Level;
+import gameElements.LevelProperties;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +66,8 @@ public class PlayScreen implements IScreen {
 		for (int i=0; i<gameLevels.size();i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel= new Level();
+			newLevel.setSpriteMap(new HashMap<Integer, Sprite>());
+			newLevel.setLevelProperties( new LevelProperties());
 			Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
 			for(ViewSprite vs : spriteList.keySet()) {
 				Sprite s = spriteList.get(vs);

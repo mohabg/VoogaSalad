@@ -1,20 +1,34 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+
 public class DamageCollision extends Collision{
 	
-	private double damage;
-	
-	public DamageCollision(double damageVal){
-		damage=damageVal;
+	public DamageCollision(double value) {
+		super(value);
 	}
-	public void setDamage(double damage){
-		this.damage = damage;
+	protected void handleCollision(EnemyCollision collision){
+		if(collision.isCollidingWithUser(this)){
+			causeDamage(collision.getSprite(), getValue());
+		}
 	}
-	public double getDaamage(){
-		return damage;
+	protected void handleCollision(ActorCollision collision){
+		if( !(collision.isCollidingWithUser(this)) ){
+			causeDamage(collision.getSprite(), getValue());
+		}
 	}
-	protected void handleCollision(TakeDamageCollision collision){
-		Sprite spriteToDamage = collision.getSprite();
+	protected void causeDamage(Sprite spriteToDamage, double damage) {
+		
+		//Damage defense before health
+		for(Behavior behavior : spriteToDamage.getBehaviors().values()){
+			if(behavior instanceof Defense){
+				Defense defense = (Defense) behavior;
+				if(defense.isEnabled()){
+					defense.takeDamage(damage);
+					return;
+				}
+			}
+		}
 		spriteToDamage.getHealth().decrementHealth(damage);
 	}
 }

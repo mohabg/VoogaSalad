@@ -25,25 +25,30 @@ public class Sprite {
 	private List<Collision> myCollisions;
 	private Map<String, Behavior> myBehaviors;
 	private RefObject myRef;
-
-	public Sprite() {
-		myHealth = new Health();
-		myCollisions = new ArrayList<Collision>();
-		myProperties = new SpriteProperties();
-	}
-
-	public Sprite(String ref) {
-		this();
-		myRef = new RefObject(ref);
-		DoubleProperty property=new SimpleDoubleProperty(0.0);
+	private boolean isUserControlled;
+	private boolean canMove;
 	
-		setX(property);
-		setY(property);
-		setAngle(property);
-		// myRef.setMyRef(ref);
+	
+	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+			Map<String, Behavior> myBehaviors, RefObject myRef) {
+		super();
+		this.myProperties = myProperties;
+		this.myHealth = myHealth;
+		this.myCollisions = myCollisions;
+		this.myBehaviors = myBehaviors;
+		this.myRef = myRef;
+		this.isUserControlled = false;
+		canMove = true;
 	}
-
-
+	
+	public void update(){
+		for(Behavior behavior : myBehaviors.values()){
+			behavior.apply(this);
+		}
+	}
+	public Map<String, Behavior> getBehaviors(){
+		return myBehaviors;
+	}
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -127,8 +132,8 @@ public class Sprite {
 		return myHealth;
 	}
 
-	public void setHealth(Health myHealth) {
-		this.myHealth = myHealth;
+	public void setHealth(double myHealth) {
+		this.myHealth.setHealth(myHealth);
 	}
 
 	public void addCollision(Collision collision) {
@@ -145,5 +150,17 @@ public class Sprite {
 	
 	public SpriteProperties getSpriteProperties(){
 		return myProperties;
+	}
+	public boolean isUserControlled(){
+		return isUserControlled;
+	}
+	public void setUserControlled(boolean userControlled){
+		isUserControlled = userControlled;
+	}
+	public boolean canMove() {
+		return canMove;
+	}
+	public void stopMovement(){
+		canMove = false;
 	}
 }

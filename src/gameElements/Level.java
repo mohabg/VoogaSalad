@@ -83,15 +83,14 @@ public class Level implements ILevel {
 		this.goalFactory = goalFactory;
 	}
 
-
 	public void deleteGoal(Integer goalID) {
 		goalMap.remove(goalID);
 		if (levelProperties.getNumGoals() > goalMap.size()) {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
-	
-	private boolean completeGoals(){
+
+	private boolean completeGoals() {
 		GoalChecker goalChecker = new GoalChecker(this);
 		for (Goal goal : goalMap.values()) {
 			goal.acceptVisitor(goalChecker);
