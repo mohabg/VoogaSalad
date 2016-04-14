@@ -160,7 +160,7 @@ public class GameAuthoringTab implements ITab{
 //		mCopy.setWidth(sp.getMyWidth());
 //		mCopy.setX(sp.getMyX());
 //		mCopy.setY(sp.getMyY());
-        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+       // mCopy.setMySpriteProperties(cop.getMySpriteProperties());
         copy.xProperty().bindBidirectional(mCopy.getX());
         copy.yProperty().bindBidirectional(mCopy.getY());
 		mySpriteMap.put(copy, mCopy);
