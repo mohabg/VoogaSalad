@@ -124,26 +124,26 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-		CollisionHandler collisionHandler = new CollisionHandler();
-		CollisionChecker checker = new CollisionChecker();
-		List<Sprite> spriteList = (ArrayList<Sprite>) spriteMap.values();
-
-		for (int i = 0; i < spriteMap.values().size(); i++) {
-			for (int j = i + 1; j < spriteMap.values().size(); j++) {
-
-				if (checker.areColliding(spriteList.get(i), spriteList.get(j))) {
-
-					for (Collision collisionSpriteOne : spriteList.get(i).getCollisions()) {
-						for (Collision collisionSpriteTwo : spriteList.get(j).getCollisions()) {
-
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo);
-
-						}
-
-					}
-				}
-			}
-		}
+//		CollisionHandler collisionHandler = new CollisionHandler();
+//		CollisionChecker checker = new CollisionChecker();
+//		List<Sprite> spriteList = (ArrayList<Sprite>) spriteMap.values();
+//
+//		for (int i = 0; i < spriteMap.values().size(); i++) {
+//			for (int j = i + 1; j < spriteMap.values().size(); j++) {
+//
+//				if (checker.areColliding(spriteList.get(i), spriteList.get(j))) {
+//
+//					for (Collision collisionSpriteOne : spriteList.get(i).getCollisions()) {
+//						for (Collision collisionSpriteTwo : spriteList.get(j).getCollisions()) {
+//
+//							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo);
+//
+//						}
+//
+//					}
+//				}
+//			}
+//		}
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
