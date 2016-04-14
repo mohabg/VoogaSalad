@@ -48,17 +48,15 @@ public class Sprite {
 		
 		myCollisions.add(new EnemyCollision());
 		
-<<<<<<< HEAD
+
 		myBehaviors = new HashMap<String, Behavior>();
 		userBehaviors = new HashMap<KeyCode, Behavior>();
-=======
-		
->>>>>>> fa38a2fc25f741a99f12e61cbc9fdce2132e1f55
-		Behavior defaultUpMovement = new MoveVertically(5);
+
+		Behavior defaultUpMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);	
 		userBehaviors.put(KeyCode.UP, defaultUpMovement);
 		
-		Behavior defaultDownMovement = new MoveVertically(-5);
+		Behavior defaultDownMovement = new MoveVertically(5);
 		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultDownMovement);	
 	}
