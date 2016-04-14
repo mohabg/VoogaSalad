@@ -7,6 +7,10 @@ public class CriticalHitCollision extends DamageCollision{
 	
 	private DoubleProperty criticalHitDamage;
 	
+	public CriticalHitCollision() {
+		criticalHitDamage = new SimpleDoubleProperty();
+	}
+	
 	public CriticalHitCollision(double value, double criticalHitDamage){
 		super(value);
 		this.criticalHitDamage = new SimpleDoubleProperty();

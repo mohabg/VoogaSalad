@@ -34,5 +34,4 @@ public abstract class Movement implements Behavior{
 		}
 		
 		public abstract void move(Sprite sprite);
-
 }

@@ -13,10 +13,10 @@ public abstract class Collision{
 	private DoubleProperty value;
 	
 	public Collision(){
-		this(0);
+		value = new SimpleDoubleProperty();
 	}
 	public Collision(double value){
-		this.value = new SimpleDoubleProperty();
+		this();
 		this.value.set(value);
 	}
 	public Sprite getSprite() {
