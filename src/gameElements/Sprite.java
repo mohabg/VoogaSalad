@@ -3,6 +3,7 @@ package gameElements;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 import behaviors.Behavior;
+import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import collisions.ActorCollision;
 import collisions.Collision;
@@ -10,8 +11,12 @@ import collisions.EnemyCollision;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -58,7 +63,15 @@ public class Sprite {
 		
 		Behavior defaultDownMovement = new MoveVertically(5);
 		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
-		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultDownMovement);	
+		myBehaviors.put(defaultDownMovement.getClass().getName(), defaultDownMovement);	
+		
+		Behavior defaultLeftMovement = new MoveHorizontally(-5);
+		userBehaviors.put(KeyCode.LEFT, defaultLeftMovement);
+		myBehaviors.put(defaultLeftMovement.getClass().getName(), defaultLeftMovement);
+		
+		Behavior defaultRightMovement = new MoveHorizontally(5);
+		userBehaviors.put(KeyCode.RIGHT, defaultRightMovement);
+		myBehaviors.put(defaultRightMovement.getClass().getName(), defaultRightMovement);
 	}
 	
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
@@ -148,6 +161,14 @@ public class Sprite {
 		return myProperties.getMyX();
 	}
 
+	public StringProperty getMyStringRef() {
+		return myRef.getMyStringRef();
+	}
+	
+	public ObjectProperty<Image> getMyImageProp() {
+		return new SimpleObjectProperty<Image>(new Image(myRef.getMyStringRef().getValue()));
+	}
+	
 	public void setCoord(DoubleProperty x, DoubleProperty y) {
 		myProperties.setMyXProperty(x);
 		myProperties.setMyYProperty(y);

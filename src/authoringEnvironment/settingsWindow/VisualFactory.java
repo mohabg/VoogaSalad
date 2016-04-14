@@ -203,11 +203,6 @@ public class VisualFactory {
 			// System.out.println("im a porpppp");
 			return true;
 		}
-//		try {
-//			Property pClass = (Property) p.get(o);
-//			return true;
-//		} catch (IllegalAccessException e) {
-//		} 
 		return false;
 	}
 	
