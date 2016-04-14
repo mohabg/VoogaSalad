@@ -24,7 +24,7 @@ public class Level implements ILevel {
 	private boolean isFinished;
 
 	public Level() {
-		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
+		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 
 	}
 
@@ -35,11 +35,12 @@ public class Level implements ILevel {
 	public LevelProperties getLevelProperties() {
 		return levelProperties;
 	}
-	
-	public void setisFinished(boolean finished){
-		isFinished=finished;
+
+	public void setisFinished(boolean finished) {
+		isFinished = finished;
 	}
-	public boolean getisFinished(){
+
+	public boolean getisFinished() {
 		return isFinished;
 	}
 
@@ -105,19 +106,19 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
-//		GoalChecker goalChecker = new GoalChecker(this);
-//		for (Goal goal : goalMap.values()) {
-//			goal.acceptVisitor(goalChecker);
-//			if (goal.isFinished())
-//				goalCount++;
-//		}
-//		return goalCount >= getLevelProperties().getNumGoals();
+		// GoalChecker goalChecker = new GoalChecker(this);
+		// for (Goal goal : goalMap.values()) {
+		// goal.acceptVisitor(goalChecker);
+		// if (goal.isFinished())
+		// goalCount++;
+		// }
+		// return goalCount >= getLevelProperties().getNumGoals();
 		return false;
 	}
 
 	private void updateSprites() {
 		for (Sprite sprite : spriteMap.values()) {
-			// sprite.update();
+			 sprite.update();
 			removeDeadSprite(sprite);
 		}
 	}
@@ -132,11 +133,11 @@ public class Level implements ILevel {
 
 		CollisionHandler collisionHandler = new CollisionHandler();
 		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet= spriteMap.values();
+		Collection<Sprite> spriteSet = spriteMap.values();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
-		int index=0;
-		for(Sprite sprite: spriteSet){
-			spriteArr[index]=sprite;
+		int index = 0;
+		for (Sprite sprite : spriteSet) {
+			spriteArr[index] = sprite;
 			index++;
 		}
 
@@ -162,14 +163,16 @@ public class Level implements ILevel {
 		System.out.println("KEYBOARD?");
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
-		
-		Actor currentSprite = (Actor) getSpriteMap().get(currentSpriteID);
-		System.out.println("X:   "+currentSprite.getX().doubleValue());
-		System.out.println("Y:   "+currentSprite.getY().doubleValue());
 
-		Behavior behavior = currentSprite.getBehavior(key);
-		if (behavior != null) {
-			behavior.apply(currentSprite);
+		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
+		System.out.println("X:   " + currentSprite.getX().doubleValue());
+		System.out.println("Y:   " + currentSprite.getY().doubleValue());
+		if (currentSprite.isUserControlled()) {
+			Behavior behavior = currentSprite.getBehavior(key);
+			if (behavior != null) {
+				behavior.apply(currentSprite);
+			}
+
 		} else {
 			if (keyboardAction == null) {
 				keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
@@ -185,7 +188,6 @@ public class Level implements ILevel {
 			}
 
 		}
-
 	}
 
 	@Override
@@ -195,7 +197,7 @@ public class Level implements ILevel {
 		if (completeGoals()) {
 			setisFinished(true);
 		}
-		
+
 	}
 
 	/**

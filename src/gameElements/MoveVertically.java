@@ -8,8 +8,9 @@ public class MoveVertically extends Movement{
 		this.moveY=moveY;
 	}
 	
-	public MoveVertically(Actor sprite) {
-		super(sprite);
+	public MoveVertically() {
+		super();
+		moveY = 1;
 	}
 
 	@Override

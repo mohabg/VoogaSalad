@@ -8,8 +8,8 @@ public class MoveHorizontally extends Movement{
 		this.moveX=moveX;
 	}
 	
-	public MoveHorizontally(Actor sprite) {
-		super(sprite);
+	public MoveHorizontally() {
+		super();
 	}
 
 	@Override

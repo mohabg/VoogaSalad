@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class PlayScreen implements IScreen {
 	private Pane myPane;
-	private Map<Level, Group> myViewSprites;
+	private Map<Level, List<ViewSprite>> myViewSprites;
 	private Engine myEngine; 
 	private Scene myScene;
 	private HeadsUpDisplay myHUD;
@@ -45,7 +45,7 @@ public class PlayScreen implements IScreen {
 		gameFile = newGameFile;
 		myPane = new Pane();
 		Settings.setGamePlayingSettings(myPane);
-		myViewSprites = new HashMap<Level, Group>();
+		myViewSprites = new HashMap<Level, List<ViewSprite>>();
 
 		myScene = new Scene(myPane);
 		myHUD = new HeadsUpDisplay(myScene.getWidth(), myScene.getHeight());
@@ -95,22 +95,33 @@ public class PlayScreen implements IScreen {
 		newLevel.setSpriteMap(new HashMap<Integer, Sprite>());
 		newLevel.setLevelProperties( new LevelProperties());
 		newLevel.setCurrentSpriteID(0);
-		Group levelViewSprites = new Group();
+		List<ViewSprite> levelViewSprites = new ArrayList<ViewSprite>();
+		
 		for(ViewSprite vs : spriteList.keySet()) {
 			Sprite s = spriteList.get(vs);
-		    vs.xProperty().bindBidirectional(s.getX());
-		    vs.yProperty().bindBidirectional(s.getY());
+//			s.setAsUserControlled();
+			s.getX().bindBidirectional(vs.xProperty());
+			s.getY().bindBidirectional(vs.yProperty());
+//		    vs.xProperty().bindBidirectional(s.getX());
+//		    vs.yProperty().bindBidirectional(s.getY());
 		    
-		    levelViewSprites.getChildren().add(vs);
+		    levelViewSprites.add(vs);
 			newLevel.addSprite(s);
 		}
 		myViewSprites.put(newLevel, levelViewSprites);
 		return newLevel;
 	}
 	private void setLevel(Level newLevel){
+		System.out.println(myPane.getChildren().toString());
 		myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
-		myPane.setOnKeyReleased(key-> newLevel.handleKeyRelease(key));
-		myPane.getChildren().add(myViewSprites.get(newLevel));
+		myPane.setOnKeyReleased(key-> { newLevel.handleKeyRelease(key);
+		for(ViewSprite vs:myViewSprites.get(newLevel)){
+			System.out.println(vs.getX());
+			System.out.println(vs.getY());
+		}
+		});
+		
+		myPane.getChildren().addAll(myViewSprites.get(newLevel));
 
 	}
 	

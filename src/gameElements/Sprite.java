@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,9 @@ public class Sprite {
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		super();
+		
+		userBehaviors = new HashMap<KeyEvent, Behavior>();
+		
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myCollisions = myCollisions;
@@ -186,5 +190,11 @@ public class Sprite {
 	}
 	public void enableMovement(){
 		canMove = true;
+	}
+
+	public Behavior getBehavior(KeyEvent key) {
+
+		userBehaviors.get(key);
+		return null;
 	}
 }

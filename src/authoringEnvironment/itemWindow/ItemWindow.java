@@ -7,6 +7,7 @@ import authoringEnvironment.ViewSprite;
 import gameElements.Behavior;
 import gameElements.Collision;
 import gameElements.Health;
+import gameElements.MoveVertically;
 import gameElements.Sprite;
 import interfaces.ITabPane;
 import javafx.beans.property.DoubleProperty;
@@ -73,7 +74,9 @@ public class ItemWindow {
             String p = ItemWindowData.SpriteImages.getString(key);
             
             //TODO: also change this
-            Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), new RefObject(p));
+            HashMap<String, Behavior> testMap = new HashMap<String, Behavior>();
+            testMap.put("a", new MoveVertically());
+            Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), testMap, new RefObject(p));
            
             
             //TODO: move this stuff to sprite class

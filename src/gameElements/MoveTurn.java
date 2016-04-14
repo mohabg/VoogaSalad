@@ -8,8 +8,8 @@ public class MoveTurn extends Movement {
 		this.degree = degree;
 	}
 
-		public MoveTurn(Actor sprite) {
-			super(sprite);
+		public MoveTurn() {
+			super();
 		}
 		
 		@Override
