@@ -53,9 +53,13 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
+			System.out.println("moving poo " + mySpriteMap.size());
 			ImageView mySprite = ((ViewSprite) (t.getSource()));
 			orgTranslateX = mySprite.getTranslateX();
 			orgTranslateY = mySprite.getTranslateY();
+			
+			System.out.println("pooo0  " + orgTranslateX);
+			System.out.println("pooo1 " + orgTranslateX);
 			
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
@@ -141,22 +145,23 @@ public class GameAuthoringTab implements ITab{
      */
 	@Override
 	public void setTabContent(ViewSprite view, Sprite sprite) {
-		ViewSprite copy = new ViewSprite(view.getMyImage());
-		//TODO: MAKE BETTER CONSTRUCTOR
-		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-		
-		SpriteProperties sp = copy.getMySpriteProperties();
-        //created here
-		
-//		mCopy.setHeight(sp.getMyHeight());
-//		mCopy.setWidth(sp.getMyWidth());
-//		mCopy.setX(sp.getMyX());
-//		mCopy.setY(sp.getMyY());
-        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
-        copy.xProperty().bindBidirectional(mCopy.getX());
-        copy.yProperty().bindBidirectional(mCopy.getY());
-		mySpriteMap.put(copy, mCopy);
-		addWithClicking(copy);
+			ViewSprite copy = new ViewSprite(view.getMyImage());
+			copy.setMySpriteProperties(sprite.getSpriteProperties());
+			//TODO: MAKE BETTER CONSTRUCTOR
+			Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
+			
+			//SpriteProperties sp = copy.getMySpriteProperties();
+	        //created here
+			System.out.println("im hereeeeee");
+//			mCopy.setHeight(sp.getMyHeight());
+//			mCopy.setWidth(sp.getMyWidth());
+//			mCopy.setX(sp.getMyX());
+//			mCopy.setY(sp.getMyY());
+	        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+	        copy.xProperty().bindBidirectional(mCopy.getX());
+	        copy.yProperty().bindBidirectional(mCopy.getY());
+			mySpriteMap.put(copy, mCopy);
+			addWithClicking(copy);
 	}
 
 }

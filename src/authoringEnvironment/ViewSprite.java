@@ -17,7 +17,7 @@ public class ViewSprite extends ImageView {
 
 	public ViewSprite() {
 		super();
-		mySpriteProperties = new SpriteProperties();
+		//mySpriteProperties = new SpriteProperties();
 		// myHealth = new Health();
 		// myAttack = new Attack();
 		// myDefense = new Defense();
@@ -65,6 +65,9 @@ public class ViewSprite extends ImageView {
 
 	}
 
+	public void setMySpriteProperties(SpriteProperties sp) {
+		mySpriteProperties = sp;
+	}
 	// public ImageView getImageView(){
 	// return imageview;
 	// }

@@ -76,8 +76,9 @@ public class ItemWindow {
             //TODO: also change this
             HashMap<String, Behavior> testMap = new HashMap<String, Behavior>();
             testMap.put("a", new MoveVertically());
+            
             Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), testMap, new RefObject(p));
-           
+            sprite.setMySpriteProperties(newS.getSpriteProperties());
             
             //TODO: move this stuff to sprite class
             System.out.println(sprite.getHeight());
