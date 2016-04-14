@@ -16,15 +16,14 @@ public class Health {
 	
 	private DoubleProperty value;
 	private BooleanProperty isMortal;	
+	
 	public Health(){
-		isMortal = new SimpleBooleanProperty();
-		isMortal.set(false);
+		value = new SimpleDoubleProperty(0);
+		isMortal = new SimpleBooleanProperty(false);
 	}
 	public Health(double myHealth){
-		this.value = new SimpleDoubleProperty();
+		this();
 		this.value.set(myHealth);
-		isMortal = new SimpleBooleanProperty();
-		isMortal.set(true);
 	}
 
 	private void changeHealth(double val) {
