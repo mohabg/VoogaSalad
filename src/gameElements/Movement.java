@@ -33,9 +33,4 @@ public abstract class Movement implements Behavior{
 		}
 		
 		public abstract void move(Sprite sprite);
-
-		public DoubleProperty toDoubleProperty(DoubleBinding value){
-			DoubleProperty doubleValue=new SimpleDoubleProperty(value.doubleValue());
-			return doubleValue;
-		}
 }

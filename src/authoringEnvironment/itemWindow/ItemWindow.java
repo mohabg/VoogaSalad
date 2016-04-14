@@ -49,6 +49,7 @@ public class ItemWindow {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
+			System.out.println("made it");
 			tab.setTabTitle(type);
 			return tab.getTab();
 		} catch (Exception e) {
@@ -67,12 +68,12 @@ public class ItemWindow {
 	private ViewSprite makeViewSprite(String key) {
 		try {
 			Class c = Class.forName(ItemWindowData.VIEWSPRITE);
-			ViewSprite sprite = (ViewSprite) c.newInstance();
-
-			sprite.setImage(ItemWindowData.SpriteImages.getString(key));
+			ViewSprite viewsprite = (ViewSprite) c.newInstance();
 
             String p = ItemWindowData.SpriteImages.getString(key);
+            viewsprite.setImage(p);
             
+<<<<<<< HEAD
             //TODO: also change this
             HashMap<String, Behavior> testMap = new HashMap<String, Behavior>();
 <<<<<<< HEAD
@@ -88,19 +89,20 @@ public class ItemWindow {
             Sprite newS = new Sprite( new RefObject(p));
 
 >>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
+=======
+            Sprite newS = new Sprite(new RefObject(p));
+            //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
+            //newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
+            //sprite.setMySpriteProperties(newS.getSpriteProperties());
             
-            //TODO: move this stuff to sprite class
-            System.out.println(sprite.getHeight());
-            newS.setHeight(new SimpleDoubleProperty(sprite.getHeight()));
-            newS.setWidth(new SimpleDoubleProperty(sprite.getWidth()));
-
-			mySpritesAndModels.put(sprite, newS);
-
-			sprite.setOnMouseClicked(e -> {
-				myGameTabPane.getCurrentTab().setTabContent(sprite, mySpritesAndModels.get(sprite));
-			});
-
-			return sprite;
+            mySpritesAndModels.put(viewsprite, newS);
+>>>>>>> master
+            
+			viewsprite.setOnMouseClicked(e -> {
+				myGameTabPane.getCurrentTab().setTabContent(viewsprite, newS);
+			});	
+		
+			return viewsprite;
 		} catch (Exception e) {
 
         }
