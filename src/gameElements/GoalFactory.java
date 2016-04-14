@@ -3,6 +3,11 @@ package gameElements;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Uses reflection to create a goal with information from the GoalProperties class.  
+ */
+
+
 public class GoalFactory {
 	private String path = "";
 	

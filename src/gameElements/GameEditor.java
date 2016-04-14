@@ -2,6 +2,11 @@ package gameElements;
 import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * Used for editing the game. Can edit/set/remove goals, game info, current level, keys,the user sprite, and Level Characteristics
+ */
+
+
 public class GameEditor implements IGameEditor {
 	
 	private Game myGame;

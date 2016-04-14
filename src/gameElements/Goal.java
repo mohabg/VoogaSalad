@@ -1,7 +1,12 @@
 package gameElements;
 
-public abstract class Goal implements IGoal{
+/**
+ * Describes the goals for the level. 
+ */
 
+
+public abstract class Goal implements IGoal{
+	
 	public enum Goals{
 		PointsGoal
 	}

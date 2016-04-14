@@ -2,6 +2,12 @@ package gameElements;
 
 import javafx.beans.property.DoubleProperty;
 
+/**
+ * A class that describes the health of each sprite, which usually determines when a sprite will disappear from a level and be
+ * removed from spriteMap. Most classes use this class to check and update health of certain sprites on the screen 
+ */
+
+
 public class Health {
 	
 	private DoubleProperty value;

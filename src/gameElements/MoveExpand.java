@@ -4,6 +4,11 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * Expands a pre-defined sprite by amounts specified by the instance variables expandY and expandX 
+ */
+
+
 public class MoveExpand extends Movement{
 	
 	private DoubleProperty expandY;

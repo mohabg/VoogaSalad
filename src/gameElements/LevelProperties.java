@@ -6,6 +6,11 @@ import java.util.Map;
 import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyCode;
 
+/**
+ * Holds all of the information a level has, which is then applied as a parameter to the constructor for Level. 
+ */
+
+
 public class LevelProperties {
 	private Integer levelID;
 	private String levelName;

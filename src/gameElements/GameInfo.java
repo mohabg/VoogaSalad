@@ -2,6 +2,11 @@ package gameElements;
 
 import java.util.Date;
 
+/**
+ * Describes the information of the game, including the date the game was created, the game author, and the game title. 
+ */
+
+
 public class GameInfo {
 	
 	private static String DEFAULT_TITLE = "New Game";

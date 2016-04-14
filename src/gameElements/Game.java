@@ -3,6 +3,12 @@ package gameElements;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Can get/set information about the game in this class, including what the current level is and game info. One can create and 
+ * delete levels and restart the game. 
+ */
+
+
 public class Game {
 	
 	private GameInfo myInfo;

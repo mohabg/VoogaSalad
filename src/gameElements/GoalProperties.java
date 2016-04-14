@@ -2,6 +2,12 @@ package gameElements;
 
 import gameElements.Goal.Goals;
 
+/**
+ * The GoalProperties class is fed to the GoalFactory to create a new goal. This class will provide the information to determine
+ * when/if a level is and should be finished. 
+ */
+
+
 public class GoalProperties {
 	private String goalName;
 	private Goals myGoal;

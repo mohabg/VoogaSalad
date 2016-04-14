@@ -1,5 +1,11 @@
 package gameElements;
 
+/**
+ * This class has methods to determine if a goal has been met for a specific level .The level instance variable is taken in the visit 
+ *  method and compared to the amount of points one should get in this level to pass. 
+ */
+
+
 public class GoalChecker implements IGoalVisitor{
 	
 	private Level level;
