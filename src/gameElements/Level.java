@@ -143,6 +143,7 @@ public class Level implements ILevel {
 		System.out.println("KEYBOARD?");
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
+		
 		Actor currentSprite = (Actor) getSpriteMap().get(currentSpriteID);
 
 		Behavior behavior = currentSprite.getBehavior(key);
