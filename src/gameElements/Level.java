@@ -122,7 +122,7 @@ public class Level implements ILevel {
 
 	private void updateSprites() {
 		for (Sprite sprite : spriteMap.values()) {
-			// sprite.update();
+			sprite.update();
 			removeDeadSprite(sprite);
 		}
 	}
