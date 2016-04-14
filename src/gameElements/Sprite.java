@@ -21,11 +21,6 @@ import authoringEnvironment.RefObject;
 
 public class Sprite {
 
-//	private DoubleProperty x;
-//	private IntegerProperty y;
-//	private BooleanProperty width;
-//	private DoubleProperty height;
-//	private DoubleProperty angle;
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
@@ -44,12 +39,12 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 		
 		myBehaviors = new HashMap<String, Behavior>();
-		Behavior defaultMovement = new MoveVertically(5);
-		myBehaviors.put(defaultMovement.getClass().getName(), defaultMovement);
+		Behavior defaultUpMovement = new MoveVertically(5);
+		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);
+		userBehaviors.put(KeyCode.UP, defaultUpMovement);
+		Behavior defaultDownMovement = new MoveVertically(-5);
+		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
 		
-		userBehaviors = new HashMap<KeyCode, Behavior>();
-		userBehaviors.put(KeyCode.DOWN, defaultMovement);
-		userBehaviors.put(KeyCode.UP, defaultMovement);
 		isUserControlled = new SimpleBooleanProperty(false);
 		canMove = new SimpleBooleanProperty(true);
 	}

@@ -7,17 +7,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Health {
 
+	
 	private DoubleProperty value;
-	private BooleanProperty isMortal;
-
-	public Health() {
+	private BooleanProperty isMortal;	
+	public Health(){
 		isMortal = new SimpleBooleanProperty();
 		isMortal.set(false);
 	}
-
-	public Health(double myHealth) {
-		value = new SimpleDoubleProperty();
-		value.set(myHealth);
+	public Health(double myHealth){
+		this.value = new SimpleDoubleProperty();
+		this.value.set(myHealth);
 		isMortal = new SimpleBooleanProperty();
 		isMortal.set(true);
 	}
