@@ -21,11 +21,6 @@ import authoringEnvironment.RefObject;
 
 public class Sprite {
 
-//	private DoubleProperty x;
-//	private IntegerProperty y;
-//	private BooleanProperty width;
-//	private DoubleProperty height;
-//	private DoubleProperty angle;
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
@@ -42,10 +37,11 @@ public class Sprite {
 		myCollisions = new ArrayList<Collision>();
 		myCollisions.add(new EnemyCollision());
 		myBehaviors = new HashMap<String, Behavior>();
-		Behavior defaultMovement = new MoveVertically(5);
-		myBehaviors.put(defaultMovement.getClass().getName(), defaultMovement);
-		userBehaviors.put(KeyCode.DOWN, defaultMovement);
-		userBehaviors.put(KeyCode.UP, defaultMovement);
+		Behavior defaultUpMovement = new MoveVertically(5);
+		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);
+		userBehaviors.put(KeyCode.UP, defaultUpMovement);
+		Behavior defaultDownMovement = new MoveVertically(-5);
+		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
 	}
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
