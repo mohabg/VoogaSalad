@@ -91,7 +91,12 @@ The Authoring Environment is currently split up as so:
 
 #### Game Engine Design Details
 **Game**
-> - 
+> - The Game class encapsulates a list of levels, and it cycles through those levels based on the current level's goals to effectively simulate a game.
+>	- This class contains a GameInfo object, which contains important general information about the Game (author, title, date created, date modified), as an instance variable
+>	- It also contains, as previously mentioned, a list of levels, and it has an integer representing the current level of the game
+> - The GameEditor class holds a Game object as an instance field, and it has the ability to edit essentially all of the different aspects of a game, such as adding, changing, and removing goals to updating key press results.
+> - The GameEngine class is the primary class of the Game Engine, as this contains the methods that the front end is able to access as well as the game loop through which a Game is run
+>	- This is the class that the front end can access, as it encapsulates a GameEditor, so it can perform any of the important commands that the GameEditor can
 
 **Level**
 > - The level class contains the previous/next level, sprites, goals, time, score, and keyboard mappings for the relevant level which the user has authored in the environment.
@@ -152,17 +157,33 @@ The Authoring Environment is currently split up as so:
 > 	- The goal class defines the Goals enumeration and has an instance of goalProperties.
 > 		- The design of this class mirrors the purpose of the visitor design pattern; the goal object itself does not contain a lot of data--it delegates checking functionality to Visitors.
 > 	- The Goals enumeration contains the various kinds of goals implemented based on the variety of sub-classes to the goal class.
-
-> 	- The IGoal interface defines an acceptVisitor() method for goals which accept a GoalChecker object as a parameter.
 	
 > 	- IGoalVisitor & Goal Visitor
-> 		- The IGoalVisitor interface defines a visit() method which accepts the multitude of goals (defines by the GoalTypes enumeration). It has a visit(Goal goal) and visit(PointsGoal goal).
-> 		- The GoalVisitor class has an instance of the Level class and the visit methods defined by the IGoalVisitor interface.
-> 			- The visit(PointsGoal) method compares the goal's required points to the user's current number of points in the level.
 > 	- GoalFactory
-> 		- The GoalFactory contains a makeGoal method which constructs a Goal object from a GoalProperties object utilizing reflection. 
 > - There is currently one concrete goals class: points goal.
 
+
+
+
+The implementation proceeds as follows. Create a Visitor class hierarchy that defines a pure virtual visit() method in the abstract base class for each concrete derived class in the aggregate node hierarchy. Each visit() method accepts a single argument - a pointer or reference to an original Element derived class.
+
+Each operation to be supported is modelled with a concrete derived class of the Visitor hierarchy. The visit() methods declared in the Visitor base class are now defined in each derived subclass by allocating the "type query and cast" code in the original implementation to the appropriate overloaded visit() method.
+
+Add a single pure virtual accept() method to the base class of the Element hierarchy.  accept() is defined to receive a single argument - a pointer or reference to the abstract base class of the Visitor hierarchy.
+
+Each concrete derived class of the Element hierarchy implements the accept() method by simply calling the visit() method on the concrete derived instance of the Visitor hierarchy that it was passed, passing its "this" pointer as the sole argument.
+
+Everything for "elements" and "visitors" is now set-up. When the client needs an operation to be performed, (s)he creates an instance of the Vistor object, calls the accept() method on each Element object, and passes the Visitor object.
+
+The accept() method causes flow of control to find the correct Element subclass. Then when the visit() method is invoked, flow of control is vectored to the correct Visitor subclass. accept() dispatch plus visit() dispatch equals double dispatch.
+
+The Visitor pattern makes adding new operations (or utilities) easy - simply add a new Visitor derived class. But, if the subclasses in the aggregate node hierarchy are not stable, keeping the Visitor subclasses in sync requires a prohibitive amount of effort.
+
+An acknowledged objection to the Visitor pattern is that is represents a regression to functional decomposition - separate the algorithms from the data structures. While this is a legitimate interpretation, perhaps a better perspective/rationale is the goal of promoting non-traditional behavior to full object status.
+
+
+
+When the required number of goals are fulfilled, the Level class sets the isFinished boolean instance to true. We demonstrated an implementation of the visitor design pattern in both goal and keyboard action functionality; rather than having an unreasonable number of conditional statements to determine whether the level's goal has been finished, the design pattern allows the level to call the object's (goal) accept method. 
 **Keyboard Actions**
 > -
  
