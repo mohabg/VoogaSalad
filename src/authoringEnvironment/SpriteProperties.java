@@ -113,6 +113,11 @@ public class SpriteProperties {
     	myHeight = height;
     }
 
+	public void setMyYProperty(double y) {
+		myY.set(y);
+		
+	}
+
 
 
 }

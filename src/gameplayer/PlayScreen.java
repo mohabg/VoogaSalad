@@ -101,7 +101,7 @@ public class PlayScreen implements IScreen {
 			Sprite s = spriteList.get(vs);
 			System.out.println("SPRITE  "+s.getX().doubleValue()+"  "+s.getY().doubleValue());
 			
-//			s.setAsUserControlled();
+			s.setAsUserControlled();
 //			s.getX().bindBidirectional(vs.xProperty());
 //			s.getY().bindBidirectional(vs.yProperty());
 		    vs.xProperty().bindBidirectional(s.getX());
@@ -109,6 +109,7 @@ public class PlayScreen implements IScreen {
 		    
 		    levelViewSprites.add(vs);
 			newLevel.addSprite(s);
+			newLevel.setCurrentSpriteID(0);
 		}
 		myViewSprites.put(newLevel, levelViewSprites);
 		return newLevel;
