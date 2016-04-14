@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 public class MainVooga extends Application {
 
 	public static void main(String[] args) {
-
 		launch();
 	}
 

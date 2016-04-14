@@ -143,7 +143,7 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		//TODO: MAKE BETTER CONSTRUCTOR
-		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
+		Sprite mCopy = new Sprite( new RefObject(sprite.getMyRef()));
 		
 		SpriteProperties sp = copy.getMySpriteProperties();
         //created here
@@ -152,7 +152,7 @@ public class GameAuthoringTab implements ITab{
 //		mCopy.setWidth(sp.getMyWidth());
 //		mCopy.setX(sp.getMyX());
 //		mCopy.setY(sp.getMyY());
-        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+//        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
         copy.xProperty().bindBidirectional(mCopy.getX());
         copy.yProperty().bindBidirectional(mCopy.getY());
 		mySpriteMap.put(copy, mCopy);

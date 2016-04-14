@@ -13,8 +13,8 @@ public class Health {
 		isMortal = new SimpleBooleanProperty();
 		isMortal.set(false);
 	}
-	public Health(DoubleProperty myHealth){
-		this.value = myHealth;
+	public Health(double myHealth){
+		this.value.set(myHealth);
 		isMortal.set(true);
 	}
 	private void changeHealth(double val){
