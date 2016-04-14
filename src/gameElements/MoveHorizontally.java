@@ -2,27 +2,15 @@ package gameElements;
 
 public class MoveHorizontally extends Movement{
 	
-	private double moveX;
-	
-	public void setMoveX(double moveX){
-		this.moveX=moveX;
-	}
-	
-	public MoveHorizontally(Actor sprite) {
-		super(sprite);
+	public MoveHorizontally(double value) {
+		super(value);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void apply(Sprite sprite) {
-		sprite.setX(toDoubleProperty(sprite.getX().add(moveX)));
+	public void move(Sprite sprite) {
+		sprite.setX(toDoubleProperty(sprite.getX().add(getValue())));
 		
 	}
-
-	@Override
-	public boolean ready() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 }

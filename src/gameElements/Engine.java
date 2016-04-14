@@ -1,55 +1,103 @@
 package gameElements;
 
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
+
+import java.util.Map;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
+import gameElements.IKeyboardAction.KeyboardActions;
+import javafx.scene.input.KeyEvent;
+
 public class Engine {
 	
-	private Game myGame;
+	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
+	
+	//private Game myGame;
+	private Level currentLevel;
+	private IGameEditor myEditor;
+	private double myGameTime;
 
 	public Engine() {
-		myGame = new Game();
+		//myGame = new Game();
+		myGameTime = 0;
 	}
 	
-	public GameInfo gameInfo() {
-		return myGame.getGameInfo();
-	}
-	
-	public void setGameInfo(GameInfo newInfo) {
-		myGame.setGameInfo(newInfo);
-	}
-	
-	public void addLevel(int index, LevelProperties levelProperties) {
-		myGame.createLevel(index, levelProperties);
-	}
-	
-	public void setCurrentLevel(int index){
-		myGame.setCurrentLevel(index);
+	public Engine(IGameEditor editor) {
+		this();
+		myEditor = editor;
 	}
 
-	public Level getCurrentLevel(){
-		return myGame.getCurrentLevel();
-	}
+	public void setGameInfo(GameInfo gameInfo) {
+        myEditor.setGameInfo(gameInfo);
+    }
 	
-/*	public int addGoal(GoalProperties newGoal) {
-		return myGame.getCurrentLevel().setGoal(newGoal);
-	}
+	public Map<Integer, Sprite> getSpriteMap(){
+        return myEditor.getCurrentLevel().getSpriteMap();
+    }
+    public LevelProperties LevelProperties(){
+        return myEditor.getCurrentLevel().getLevelProperties();
+    }
 
-	public void updateGoal(Integer goalID, GoalProperties newGoal) {
-	    myGame.getCurrentLevel().updateGoal(goalID, newGoal);
-	}
-*/
-	public void deleteGoal(Integer goalID) {
-	    myGame.getCurrentLevel().deleteGoal(goalID);
-	}
-	
-	public void setLevelCharacteristics(LevelProperties levelProperties) {  
-		myGame.getCurrentLevel().setLevelProperties(levelProperties);
-	}
-	
-	public Integer getUserSprite() {
-		return myGame.getCurrentLevel().getCurrentSpriteID();
-	}
+    public Level getCurrentLevel() {
+        return myEditor.getCurrentLevel();
+    }
 
-	public void setUserSprite(Integer spriteID) {
-		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
-	}
-	
+    public void createLevel(Integer levelIndex, LevelProperties levelProperties) {
+        myEditor.createLevel(levelIndex, levelProperties);
+    }
+    
+    public void addLevel(Integer levelIndex, Level level) {
+    	myEditor.addLevel(levelIndex, level);
+    }
+
+    public void setCurrentLevel(int levelIndex) {
+        myEditor.setCurrentLevel(levelIndex);
+    }
+
+    public void getNumLevels() {
+        myEditor.getGame().getNumLevels();
+    }
+    
+    public Integer getUserSprite() {
+        return myEditor.getUserSprite();
+    }
+
+    public void setUserSprite(Integer userSprite) {
+        myEditor.setUserSprite(userSprite);
+    }
+    
+    public void gameLoop() {
+    	Timeline gameLoop = new Timeline();
+        gameLoop.setCycleCount(Timeline.INDEFINITE );
+        double startTime = System.currentTimeMillis();
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
+            new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    myGameTime = (System.currentTimeMillis() - startTime)/1000.0;
+                    myEditor.updateGame();
+                }
+            }); 
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        
+        gameLoop.getKeyFrames().add(keyFrame);
+        gameLoop.play();
+    }
+    
+    public double getGameTimeInSeconds() {
+    	return myGameTime;
+    }
+    
+    public void setResultForKeyPress(KeyEvent event) {
+    	myEditor.setResultForKeyPress(event);
+    }
+    
+    public void setResultForKeyRelease(KeyEvent event) {
+    	myEditor.setResultForKeyRelease(event);
+    }
+
 }

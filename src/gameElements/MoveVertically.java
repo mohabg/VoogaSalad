@@ -2,19 +2,14 @@ package gameElements;
 
 public class MoveVertically extends Movement{
 
-	private double moveY;
-	
-	public void getMoveY(double moveY){
-		this.moveY=moveY;
-	}
-	
-	public MoveVertically(Actor sprite) {
-		super(sprite);
+	public MoveVertically(double value) {
+		super(value);
 	}
 
 	@Override
-	public void apply(Sprite sprite) {
-		sprite.setY(toDoubleProperty(sprite.getY().add(moveY)));
+	public void move(Sprite sprite) {
+		sprite.getSpriteProperties().setMyY((sprite.getY().doubleValue() + getValue()));
+				
 		
 	}
 

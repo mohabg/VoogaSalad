@@ -2,12 +2,11 @@ package gameElements;
 
 public class FreezeMovementCollision extends Collision{
 
-	@Override
-	protected void handleCollision(Collision other) {
-		Sprite sprite = other.getSprite();
-		//Stop movement
+	public FreezeMovementCollision(double value) {
+		super(value);
 	}
 
-	
-
+	protected void handleCollision(EnemyCollision other) {
+		other.getSprite().disableMovement();
+	}
 }

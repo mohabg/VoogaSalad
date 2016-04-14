@@ -2,10 +2,21 @@ package gameElements;
 
 import java.lang.reflect.Method;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public abstract class Collision{
 	
 	private Sprite sprite; 
+	private DoubleProperty value;
 	
+	public Collision(){
+		this(0);
+	}
+	public Collision(double value){
+		this.value = new SimpleDoubleProperty();
+		this.value.set(value);
+	}
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -13,8 +24,13 @@ public abstract class Collision{
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-	
-	protected void handleCollision(Collision other){
+	public double getValue(){
+		return this.value.doubleValue();
+	}
+	public boolean isCollidingWithUser(Collision other){
+		return other.getSprite().isUserControlled();
+	}
+	protected void handleCollision(Collision other, LevelProperties levelProperties){
 		//Subclasses should overload this method 
 		applyEffects(this, other);
 		applyEffects(other, this);
@@ -40,7 +56,7 @@ public abstract class Collision{
 			return method;
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			
 		}
 		return null;
 	}

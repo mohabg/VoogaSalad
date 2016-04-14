@@ -1,41 +1,30 @@
 
 package gameElements;
 
+import java.util.List;
+import java.util.Map;
+
+import authoringEnvironment.RefObject;
+import authoringEnvironment.SpriteProperties;
+
 public class Bullet extends Attack{
 
-    private Actor mySprite;
-    private double numberOfBullets;
-    private double rechargeTime;
+   
+	public Bullet(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+			Map<String, Behavior> myBehaviors, RefObject myRef, int ammunition, int chargeTime,
+			ApplyBehaviorConditions behaviorConditions, Movement movement) {
+		
+		super(myProperties, myHealth, myCollisions, myBehaviors, myRef, ammunition, chargeTime, behaviorConditions, movement);
 
-    public Bullet(double numBullets, double rechargeTime){
-      
-    }
-    public Bullet(Actor sprite){
-        mySprite = sprite;
-    }
-    public double getNumberOfBullets() {
-        return numberOfBullets;
-    }
-    public void setNumberOfBullets(double numberOfBullets) {
-        this.numberOfBullets = numberOfBullets;
-    }
-    public double getRechargeTime() {
-        return rechargeTime;
-    }
-    public void setRechargeTime(double rechargeTime) {
-        this.rechargeTime = rechargeTime;
-    }
-    public void decrementRechargeTime(double decrement){
-        this.rechargeTime -= decrement;
-    }
+	}
+	
     @Override
     public void apply(Sprite sprite) {
-        if(ready()){
-            this.setCoord(mySprite.getX(), mySprite.getY());
+        if(readyToShoot(sprite)){
+        	//Keep instance of sprite?
+            this.setCoord(sprite.getX(), sprite.getY());
             getMovement().apply(this);
+            setAmmunition(getAmmunition() - 1);
         }
-    }
-    public boolean ready(){
-        return numberOfBullets > 0 && rechargeTime <= 0;
     }
 }

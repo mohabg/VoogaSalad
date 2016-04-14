@@ -1,5 +1,7 @@
 package authoringEnvironment;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
@@ -8,36 +10,37 @@ import javafx.scene.image.ImageView;
 
 public class ViewSprite extends ImageView {
 
-	private String myRef;
+	private StringProperty myRef;
 	// private List<NumProperty> myPropertiesList;
 	// private Health myHealth;
 	// private Attack myAttack;
 	// private Defense myDefense;
-    private SpriteProperties mySpriteProperties;
+	private SpriteProperties mySpriteProperties;
 
-    public ViewSprite() {
-        super();
-        mySpriteProperties = new SpriteProperties();
-//        myHealth = new Health();
-//        myAttack = new Attack();
-//        myDefense = new Defense();
-//        myPropertiesList = new ArrayList<>();
-//        myPropertiesList.add(myHealth);
-//        myPropertiesList.add(myAttack);
-//        myPropertiesList.add(myDefense);
-    }
+	public ViewSprite() {
+		super();
+		myRef = new SimpleStringProperty();
+		mySpriteProperties = new SpriteProperties();
+		// myHealth = new Health();
+		// myAttack = new Attack();
+		// myDefense = new Defense();
+		// myPropertiesList = new ArrayList<>();
+		// myPropertiesList.add(myHealth);
+		// myPropertiesList.add(myAttack);
+		// myPropertiesList.add(myDefense);
+	}
 
-    public SpriteProperties getMySpriteProperties(){
-        return mySpriteProperties;
-    }
-    
-    public ViewSprite(String imagePath) {
-        this();
-        setImage(imagePath);
-    }
+	public SpriteProperties getMySpriteProperties() {
+		return mySpriteProperties;
+	}
+
+	public ViewSprite(String imagePath) {
+		this();
+		setImage(imagePath);
+	}
 
 	public void setImage(String imagePath) {
-		myRef = imagePath;
+		myRef.set(imagePath);
 		Image image = new Image(imagePath);
 		setImage(image);
 	}
@@ -50,17 +53,28 @@ public class ViewSprite extends ImageView {
 	// return myHealth.getMyValue();
 	// }
 
-    public String getMyImage(){
-        return myRef;
-    }
+	public String getMyImage() {
+		return myRef.getValue();
+	}
 
-//    public ImageView getImageView(){
-//        return imageview;
-//    }
+	public double getHeight() {
+		// TODO Auto-generated method stub
+		return getImage().getHeight();
+	}
 
-//    public List<NumProperty> getMyProperties(){
-//        return myPropertiesList;
-//    }
+	public double getWidth() {
+		// TODO Auto-generated method stub
+		return getImage().getWidth();
+
+	}
+
+	// public ImageView getImageView(){
+	// return imageview;
+	// }
+
+	// public List<NumProperty> getMyProperties(){
+	// return myPropertiesList;
+	// }
 
 	// public ImageView getImageView(){
 	// return imageview;
