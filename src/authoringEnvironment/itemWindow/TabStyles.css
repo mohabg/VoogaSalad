@@ -77,3 +77,10 @@
     -fx-text-fill: #96b946;
     -fx-background-color: #3c3c3c;
 }
+
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #96b946;
+}

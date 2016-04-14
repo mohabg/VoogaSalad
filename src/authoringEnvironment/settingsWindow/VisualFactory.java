@@ -3,6 +3,8 @@ package authoringEnvironment.settingsWindow;
 import authoringEnvironment.Settings;
 import gameElements.Sprite;
 import javafx.beans.property.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -191,8 +193,11 @@ public class VisualFactory {
 	
 	private HBox makeSettingsObject(Object myProp, String propName) {
 		HBox propHBox = new HBox();
+        propHBox.setPadding(new Insets(20,20,20,20));
 		Label propLabelName = new Label(propName);
-		if (myProp instanceof DoubleProperty) {
+        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        propLabelName.setAlignment(Pos.CENTER);
+        if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;			
 			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
 		} else if (myProp instanceof IntegerProperty) {
