@@ -28,7 +28,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * IScreen for playing the game. Has a HUD. 
+ * This class also has an instance of Engine, which runs the game loop 
+ * @author Huijia
+ *
+ */
 public class PlayScreen implements IScreen {
 	private Pane myPane;
 	private Map<Level, List<ViewSprite>> myViewSprites;
