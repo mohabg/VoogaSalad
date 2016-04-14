@@ -98,12 +98,11 @@ public class PlayScreen implements IScreen {
 		Group levelViewSprites = new Group();
 		for(ViewSprite vs : spriteList.keySet()) {
 			Sprite s = spriteList.get(vs);
-			Actor a = new Actor(s.getSpriteProperties(), s.getHealth(), s.getCollisions(), s.getBehaviors(), new RefObject(s.getMyRef()), new HashMap<KeyEvent, Behavior>());
-		    vs.xProperty().bindBidirectional(a.getX());
-		    vs.yProperty().bindBidirectional(a.getY());
+		    vs.xProperty().bindBidirectional(s.getX());
+		    vs.yProperty().bindBidirectional(s.getY());
 		    
 		    levelViewSprites.getChildren().add(vs);
-			newLevel.addSprite(a);
+			newLevel.addSprite(s);
 		}
 		myViewSprites.put(newLevel, levelViewSprites);
 		return newLevel;
