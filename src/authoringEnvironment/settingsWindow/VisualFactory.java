@@ -67,6 +67,7 @@ public class VisualFactory {
 	//
 	// }
 
+	
 	public static HBox makeTextInputBox(Parameter myParam, Field f) {
 		Label label1 = new Label("This:");
 		TextField textField = new TextField(f.toString());
