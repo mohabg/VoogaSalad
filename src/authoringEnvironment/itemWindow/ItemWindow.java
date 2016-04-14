@@ -74,9 +74,11 @@ public class ItemWindow {
             String p = ItemWindowData.SpriteImages.getString(key);
             
             //TODO: also change this
-//            HashMap<String, Behavior> testMap = new HashMap<String, Behavior>();
-//            testMap.put("a", new MoveVertically(1));
+            HashMap<String, Behavior> testMap = new HashMap<String, Behavior>();
+            testMap.put("a", new MoveVertically(1));
 //            Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), testMap, new RefObject(p));
+//            Sprite newS = new Sprite(new SpriteProperties(), new Health(1), new ArrayList<Collision>(), testMap, new RefObject(p));
+
             Sprite newS = new Sprite( new RefObject(p));
 
             

@@ -55,6 +55,7 @@ public class Sprite {
 	}
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
+
 		super();
 		
 		userBehaviors = new HashMap<KeyCode, Behavior>();
@@ -67,7 +68,11 @@ public class Sprite {
 		this.isUserControlled = new SimpleBooleanProperty(false);
 		this.canMove = new SimpleBooleanProperty(true);
 	}
-	
+
+	public Sprite(String ref) {
+		myRef = new RefObject(ref);
+		DoubleProperty property=new SimpleDoubleProperty(0.0);
+	}
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			behavior.apply(this);
@@ -85,7 +90,10 @@ public class Sprite {
 	}
 	public Map<String, Behavior> getBehaviors(){
 		return myBehaviors;
+
 	}
+
+
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -169,8 +177,8 @@ public class Sprite {
 		return myHealth;
 	}
 
-	public void setHealth(double myHealth) {
-		this.myHealth.setHealth(myHealth);
+	public void setHealth(Health myHealth) {
+		this.myHealth = myHealth;
 	}
 
 	public void addCollision(Collision collision) {
@@ -188,6 +196,7 @@ public class Sprite {
 	public SpriteProperties getSpriteProperties(){
 		return myProperties;
 	}
+	
 	public boolean isUserControlled(){
 		return isUserControlled.getValue();
 	}
