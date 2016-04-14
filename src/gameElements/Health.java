@@ -1,12 +1,14 @@
 package gameElements;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Health {
 	
-	private DoubleProperty value;
-	private boolean isMortal;
-	
+	private DoubleProperty value = new SimpleDoubleProperty();
+	private boolean isMortal;	
 	public Health(){
 		isMortal = false;
 	}
