@@ -68,7 +68,7 @@ public class GameEditor implements IGameEditor {
 	
 	public void updateGame() {
     	myGame.getCurrentLevel().update();
-    	if ( myGame.getCurrentLevel().isFinished())
+    	if ( myGame.getCurrentLevel().getisFinished())
     		myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
     }
 	
