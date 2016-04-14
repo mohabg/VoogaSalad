@@ -44,7 +44,7 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 		
 		myBehaviors = new HashMap<String, Behavior>();
-		Behavior defaultMovement = new MoveHorizontally(5);
+		Behavior defaultMovement = new MoveVertically(5);
 		myBehaviors.put(defaultMovement.getClass().getName(), defaultMovement);
 		
 		userBehaviors = new HashMap<KeyCode, Behavior>();
@@ -157,7 +157,7 @@ public class Sprite {
 		return myProperties.getMyY();
 	}
 
-	public void setY(DoubleProperty y) {
+	public void setY(double y) {
 		myProperties.setMyYProperty(y);
 	}
 
