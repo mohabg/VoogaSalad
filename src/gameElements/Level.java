@@ -17,6 +17,7 @@ public class Level implements ILevel {
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
+	private boolean isFinished;
 
 	public Level() {
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
@@ -29,6 +30,13 @@ public class Level implements ILevel {
 
 	public LevelProperties getLevelProperties() {
 		return levelProperties;
+	}
+	
+	public void setisFinished(boolean finished){
+		isFinished=finished;
+	}
+	public boolean getisFinished(){
+		return isFinished;
 	}
 
 	public void setLevelProperties(LevelProperties levelProperties) {
@@ -172,14 +180,8 @@ public class Level implements ILevel {
 		updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
-			// TODO : win level
-			// TODO : go 2 next level
+			setisFinished(true);
 		}
-		// iterate through sprites and update them
-
-		// check if sprites are dead
-		// health has isDead method
-		// remove sprite
 		
 	}
 
