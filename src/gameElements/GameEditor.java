@@ -26,8 +26,12 @@ public class GameEditor implements IGameEditor {
 		myGame.setGameInfo(newInfo);
 	}
 	
-	public void addLevel(int index, LevelProperties levelProperties) {
+	public void createLevel(int index, LevelProperties levelProperties) {
 		myGame.createLevel(index, levelProperties);
+	}
+	
+	public void addLevel(int index, Level level) {
+		myGame.addLevel(index, level);
 	}
 	
 	public void setCurrentLevel(int index){
@@ -50,7 +54,7 @@ public class GameEditor implements IGameEditor {
 	    myGame.getCurrentLevel().deleteGoal(goalID);
 	}
 	
-	public void setLevelCharacteristics(LevelProperties levelProperties) {  
+	public void setLevelProperties(LevelProperties levelProperties) {  
 		myGame.getCurrentLevel().setLevelProperties(levelProperties);
 	}
 	
@@ -64,6 +68,8 @@ public class GameEditor implements IGameEditor {
 	
 	public void updateGame() {
     	myGame.getCurrentLevel().update();
+    	if ( myGame.getCurrentLevel().isFinished())
+    		myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
     }
 	
 	public void setResultForKeyPress(KeyEvent event) {

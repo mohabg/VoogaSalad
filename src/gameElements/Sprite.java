@@ -2,7 +2,9 @@ package gameElements;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyEvent;
 
@@ -16,8 +18,8 @@ import authoringEnvironment.RefObject;
 public class Sprite {
 
 //	private DoubleProperty x;
-//	private DoubleProperty y;
-//	private DoubleProperty width;
+//	private IntegerProperty y;
+//	private BooleanProperty width;
 //	private DoubleProperty height;
 //	private DoubleProperty angle;
 	private SpriteProperties myProperties;
