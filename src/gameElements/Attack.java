@@ -7,6 +7,7 @@ import java.util.Random;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * Describes attacking behavior of Sprites. Has the amount of ammunition(IntegerProperty ammunition), how long the 
@@ -22,6 +23,13 @@ public abstract class Attack extends Sprite implements Behavior {
 	private IntegerProperty chargeTime;
 	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
+	
+	public Attack(RefObject myRef){
+		super(myRef);
+		this.ammunition = new SimpleIntegerProperty(1);
+		this.chargeTime = new SimpleIntegerProperty(0);
+		behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
+	}
 	
 	public Attack(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
@@ -49,11 +57,12 @@ public abstract class Attack extends Sprite implements Behavior {
 		else{
 			//AI controlled
 			double frameDelay = behaviorConditions.getFrameDelay();
-			double framesPassed = behaviorConditions.getFramesPassed();
+			int framesPassed = behaviorConditions.getFramesPassed();
 			double probability = behaviorConditions.getProbability();
 			if (frameDelay > 0 && probability > 0) {
 				if (framesPassed >= frameDelay) {
 					if (Math.random() < probability) {
+						behaviorConditions.setFramesPassed(framesPassed + 1);
 						return true;
 						}
 				}

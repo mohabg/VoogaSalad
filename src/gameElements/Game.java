@@ -39,9 +39,8 @@ public class Game {
     	return myGameLevels.size();
     }
 	
-	public Level nextLevel(int nextLevelNum) {
+	public void nextLevel(int nextLevelNum) {
 		currLevelNum = nextLevelNum;
-		return myGameLevels.get(nextLevelNum);
 	}
 	
 	public void setCurrentLevel(int index) {
@@ -77,6 +76,10 @@ public class Game {
 	/**
 	 * returns the original level of the game 
 	 */
+
+	public void addLevel(int levelID, Level level) {
+		myGameLevels.add(levelID, level);
+	}
 	
 	public Level restartGame() {
         return myGameLevels.get(0);

@@ -15,6 +15,6 @@ public class FreezeMovementCollision extends Collision{
 	 * @param other The Sprite that you want to stop from moving
 	 */	
 	protected void handleCollision(EnemyCollision other) {
-		other.getSprite().stopMovement();
+		other.getSprite().disableMovement();
 	}
 }

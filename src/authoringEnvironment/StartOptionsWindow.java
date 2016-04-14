@@ -62,11 +62,14 @@ public class StartOptionsWindow implements IScreen {
 		myPane.setCenter(startWindowBox);
 	}
 
+	/**
+	 * @param screen is an IScreen that represents the screen, which contains a Scene,
+	 * that is use to set the scene of the stage.
+	 */
 	public void switchScene(IScreen screen) {
 		// ((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
 		myStage.setScene(screen.getScene());
 		myStage.show();
-
     }
 
 	public void setParentScreen(IScreen screen) {

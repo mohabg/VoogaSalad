@@ -14,8 +14,8 @@ public class MoveVertically extends Movement{
 		this.moveY=moveY;
 	}
 	
-	public MoveVertically(Actor sprite) {
-		super(sprite);
+	public MoveVertically(double value) {
+		super();
 	}
 
 	/**
@@ -25,7 +25,7 @@ public class MoveVertically extends Movement{
 	
 	@Override
 	public void move(Sprite sprite) {
-		sprite.setY(toDoubleProperty(sprite.getY().add(moveY)));
+		sprite.setY(toDoubleProperty(sprite.getY().add(getValue())));
 		
 	}
 

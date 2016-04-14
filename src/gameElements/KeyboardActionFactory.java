@@ -14,13 +14,13 @@ public class KeyboardActionFactory {
 			return new IKeyboardAction() {
 
 				@Override
-				public void enableKeyboardAction(Actor actor) {
+				public void enableKeyboardAction(Sprite actor) {
 					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
-				public void disableKeyboardAction(Actor actor) {
+				public void disableKeyboardAction(Sprite actor) {
 					// TODO Auto-generated method stub
 					
 				}
@@ -32,13 +32,13 @@ public class KeyboardActionFactory {
 			return new IKeyboardAction() {
 
 				@Override
-				public void enableKeyboardAction(Actor actor) {
+				public void enableKeyboardAction(Sprite actor) {
 					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
-				public void disableKeyboardAction(Actor actor) {
+				public void disableKeyboardAction(Sprite actor) {
 					// TODO Auto-generated method stub
 					
 				}

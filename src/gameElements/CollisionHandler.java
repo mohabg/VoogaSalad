@@ -11,18 +11,18 @@ public class CollisionHandler {
 		//Should have some way to access time and score
 	}
 	
-	
+
 	/**
 	 * @param one triggers the handleCollision methods of Collisions one and two
 	 * @see haveCollisionEffects
 	 * @see handleCollision
 	 */
-	public void applyCollision(Collision one, Collision two){
+	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
 		if(haveCollisionEffects(one, two)){
-			one.handleCollision(two);
+			one.handleCollision(two, levelProperties);
 		}
 		if(haveCollisionEffects(two, one)){
-			two.handleCollision(one);
+			two.handleCollision(one, levelProperties);
 		}
 	}
 	

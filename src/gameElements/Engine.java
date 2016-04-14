@@ -42,18 +42,22 @@ public class Engine {
     }
 	
 	public Map<Integer, Sprite> getSpriteMap(){
-        return currentLevel.getSpriteMap();
+        return myEditor.getCurrentLevel().getSpriteMap();
     }
     public LevelProperties LevelProperties(){
-        return currentLevel.getLevelProperties();
+        return myEditor.getCurrentLevel().getLevelProperties();
     }
 
     public Level getCurrentLevel() {
-        return currentLevel;
+        return myEditor.getCurrentLevel();
     }
 
-    public void addLevel(Integer levelIndex, LevelProperties levelProperties) {
-        myEditor.addLevel(levelIndex, levelProperties);
+    public void createLevel(Integer levelIndex, LevelProperties levelProperties) {
+        myEditor.createLevel(levelIndex, levelProperties);
+    }
+    
+    public void addLevel(Integer levelIndex, Level level) {
+    	myEditor.addLevel(levelIndex, level);
     }
 
     public void setCurrentLevel(int levelIndex) {

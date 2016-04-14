@@ -15,7 +15,7 @@ public class MoveTurn extends Movement {
 	}
 
 		public MoveTurn(Actor sprite) {
-			super(sprite);
+			super();
 		}
 		
 		/**
@@ -24,9 +24,8 @@ public class MoveTurn extends Movement {
 		
 		@Override
 		public void move(Sprite sprite) {
-			sprite.setAngle(toDoubleProperty(sprite.getAngle().add(degree)));	
+			sprite.setAngle(toDoubleProperty(sprite.getAngle().add(getValue())));	
 		}
-
 
 	}
 
