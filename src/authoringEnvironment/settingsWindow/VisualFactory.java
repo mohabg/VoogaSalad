@@ -125,7 +125,8 @@ public class VisualFactory {
 		// }
 		// TODO I HAVE TO FIGURE OUT HOW I WOULD KNOW IT'S SPRITEPROPERTIES
 		myPane.getChildren().add(myBox);
-		myTab.setContent(myPane);
+        myPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myTab.setContent(myPane);
 		return myTab;
 	}
 	
