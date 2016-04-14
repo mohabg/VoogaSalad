@@ -1,7 +1,7 @@
 package collisions;
 
-import gameElements.LevelProperties;
 import gameElements.Sprite;
+import level.LevelProperties;
 
 public class DissapearCollision extends Collision{
 	

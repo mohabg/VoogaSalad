@@ -1,6 +1,6 @@
 package goals;
 
-import gameElements.Level;
+import level.Level;
 
 public class GoalChecker implements IGoalVisitor{
 	

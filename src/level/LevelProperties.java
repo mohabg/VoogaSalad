@@ -1,10 +1,11 @@
-package gameElements;
+package level;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import gameElements.IKeyboardAction.KeyboardActions;
+import gameElements.Time;
 import javafx.scene.input.KeyCode;
+import keyboard.IKeyboardAction.KeyboardActions;
 
 public class LevelProperties {
 	private Integer levelID;

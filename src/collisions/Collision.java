@@ -2,10 +2,10 @@ package collisions;
 
 import java.lang.reflect.Method;
 
-import gameElements.LevelProperties;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.LevelProperties;
 
 public abstract class Collision{
 	

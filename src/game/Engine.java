@@ -1,18 +1,18 @@
-package gameElements;
+package game;
 
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import keyboard.IKeyboardAction.KeyboardActions;
+import level.Level;
+import level.LevelProperties;
 
 import java.util.Map;
 
-import game.GameInfo;
-import game.IGameEditor;
+import gameElements.Sprite;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
-import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyEvent;
 
 public class Engine {

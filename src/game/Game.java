@@ -2,8 +2,8 @@ package game;
 
 import java.util.List;
 
-import gameElements.Level;
-import gameElements.LevelProperties;
+import level.Level;
+import level.LevelProperties;
 
 import java.util.ArrayList;
 

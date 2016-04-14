@@ -1,4 +1,6 @@
-package gameElements;
+package keyboard;
+
+import gameElements.Sprite;
 
 public interface IKeyboardAction {
 

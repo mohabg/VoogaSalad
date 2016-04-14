@@ -1,6 +1,7 @@
-package gameElements;
+package keyboard;
 
-import gameElements.IKeyboardAction.KeyboardActions;
+import gameElements.Sprite;
+import keyboard.IKeyboardAction.KeyboardActions;
 
 public class KeyboardActionChecker {
 

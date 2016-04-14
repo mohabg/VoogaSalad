@@ -2,7 +2,7 @@ package collisions;
 
 import java.lang.reflect.Method;
 
-import gameElements.LevelProperties;
+import level.LevelProperties;
 
 public class CollisionHandler {
 	

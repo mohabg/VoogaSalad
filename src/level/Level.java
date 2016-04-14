@@ -1,4 +1,4 @@
-package gameElements;
+package level;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,10 +13,14 @@ import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
-import gameElements.IKeyboardAction.KeyboardActions;
+import gameElements.Sprite;
 import goals.Goal;
 import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
+import keyboard.IKeyboardAction;
+import keyboard.KeyboardActionChecker;
+import keyboard.KeyboardActionFactory;
+import keyboard.IKeyboardAction.KeyboardActions;
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;

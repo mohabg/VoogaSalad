@@ -1,8 +1,8 @@
 package game;
-import gameElements.Level;
-import gameElements.LevelProperties;
-import gameElements.IKeyboardAction.KeyboardActions;
 import javafx.scene.input.KeyEvent;
+import keyboard.IKeyboardAction.KeyboardActions;
+import level.Level;
+import level.LevelProperties;
 
 public interface IGameEditor {
 	
