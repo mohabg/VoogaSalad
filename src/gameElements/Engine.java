@@ -47,8 +47,12 @@ public class Engine {
         return currentLevel;
     }
 
-    public void addLevel(Integer levelIndex, LevelProperties levelProperties) {
-        myEditor.addLevel(levelIndex, levelProperties);
+    public void createLevel(Integer levelIndex, LevelProperties levelProperties) {
+        myEditor.createLevel(levelIndex, levelProperties);
+    }
+    
+    public void addLevel(Integer levelIndex, Level level) {
+    	myEditor.addLevel(levelIndex, level);
     }
 
     public void setCurrentLevel(int levelIndex) {

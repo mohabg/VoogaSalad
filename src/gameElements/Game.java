@@ -63,6 +63,10 @@ public class Game {
     	myGameLevels.add(levelID, newLevel);
 	}
 	
+	public void addLevel(int levelID, Level level) {
+		myGameLevels.add(levelID, level);
+	}
+	
 	public Level restartGame() {
         return myGameLevels.get(0);
     }
