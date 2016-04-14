@@ -7,7 +7,10 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -36,8 +39,32 @@ public class Sprite {
 	private BooleanProperty isUserControlled;
 	private BooleanProperty canMove;
 	
+<<<<<<< HEAD
 	
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors, RefObject myRef) {
+=======
+	public Sprite(RefObject myRef){
+		this.myRef = myRef;
+		myProperties = new SpriteProperties();
+		myHealth = new Health(100);
+		
+		myCollisions = new ArrayList<Collision>();
+		myCollisions.add(new EnemyCollision());
+		
+		myBehaviors = new HashMap<String, Behavior>();
+		Behavior defaultMovement = new MoveVertically(5);
+		myBehaviors.put(defaultMovement.getClass().getName(), defaultMovement);
+		
+		userBehaviors = new HashMap<KeyCode, Behavior>();
+		userBehaviors.put(KeyCode.DOWN, defaultMovement);
+		userBehaviors.put(KeyCode.UP, defaultMovement);
+		isUserControlled = new SimpleBooleanProperty(false);
+		canMove = new SimpleBooleanProperty(true);
+	}
+	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+			Map<String, Behavior> myBehaviors, RefObject myRef) {
+
+>>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
 		super();
 		
 		userBehaviors = new HashMap<KeyCode, Behavior>();
@@ -55,7 +82,10 @@ public class Sprite {
 		myRef = new RefObject(ref);
 		DoubleProperty property=new SimpleDoubleProperty(0.0);
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			behavior.apply(this);
@@ -73,6 +103,10 @@ public class Sprite {
 	}
 	public Map<String, Behavior> getBehaviors(){
 		return myBehaviors;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
 	}
 
 
