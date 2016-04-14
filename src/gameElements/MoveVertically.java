@@ -1,10 +1,12 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+
 public class MoveVertically extends Movement{
 
-	private double moveY;
+	private DoubleProperty moveY;
 	
-	public void getMoveY(double moveY){
+	public void getMoveY(DoubleProperty moveY){
 		this.moveY=moveY;
 	}
 	

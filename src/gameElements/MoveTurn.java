@@ -1,10 +1,12 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+
 public class MoveTurn extends Movement {
 	
-	private double degree;
+	private DoubleProperty degree;
 	
-		public void setDegree(double degree) {
+		public void setDegree(DoubleProperty degree) {
 		this.degree = degree;
 	}
 

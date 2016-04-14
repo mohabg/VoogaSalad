@@ -1,10 +1,12 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+
 public class MoveHorizontally extends Movement{
 	
-	private double moveX;
+	private DoubleProperty moveX;
 	
-	public void setMoveX(double moveX){
+	public void setMoveX(DoubleProperty moveX){
 		this.moveX=moveX;
 	}
 	
