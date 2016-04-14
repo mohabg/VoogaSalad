@@ -44,7 +44,7 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 		
 		myBehaviors = new HashMap<String, Behavior>();
-		Behavior defaultMovement = new MoveVertically(5);
+		Behavior defaultMovement = new MoveHorizontally(5);
 		myBehaviors.put(defaultMovement.getClass().getName(), defaultMovement);
 		
 		userBehaviors = new HashMap<KeyCode, Behavior>();

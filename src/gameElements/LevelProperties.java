@@ -22,6 +22,7 @@ public class LevelProperties {
 		setNextLevel(-1);
 		setPreviousLevel(-1);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
+		keyMapping.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 	}
 	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel) {
 		setLevelID(levelID);
