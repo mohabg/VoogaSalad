@@ -25,7 +25,8 @@ import java.util.Map;
 
 public class PlayScreen implements IScreen {
 	private Pane myPane;
-	private Group myViewSprites;
+	private Map<Level, Group> myViewSprites;
+
 	private Scene myScene;
 	private HeadsUpDisplay myHUD;
 	
@@ -38,7 +39,8 @@ public class PlayScreen implements IScreen {
 		gameFile = newGameFile;
 		myPane = new Pane();
 		Settings.setGamePlayingSettings(myPane);
-		myViewSprites = new Group();
+		myViewSprites = new HashMap<Level, Group>();
+
 		myScene = new Scene(myPane);
 		myHUD = new HeadsUpDisplay(myScene.getWidth(), myScene.getHeight());
 		initHUD();
@@ -66,31 +68,42 @@ public class PlayScreen implements IScreen {
 		for (int i=0; i<gameLevels.size();i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel= new Level();
+			Group levelViewSprites = new Group();
+
+
 			newLevel.setSpriteMap(new HashMap<Integer, Sprite>());
 			newLevel.setLevelProperties( new LevelProperties());
+			newLevel.setCurrentSpriteID(0);
 			Map<ViewSprite, Sprite> spriteList = lm.getMyMap();
 			for(ViewSprite vs : spriteList.keySet()) {
 				Sprite s = spriteList.get(vs);
 		        vs.xProperty().bindBidirectional(s.getX());
 		        vs.yProperty().bindBidirectional(s.getY());
 		        
-				myViewSprites.getChildren().add(vs);
+		        levelViewSprites.getChildren().add(vs);
+
 				newLevel.addSprite(s);
 			}
+			myViewSprites.put(newLevel, levelViewSprites);
 			//add level to game
 //			newLevel.setLevelProperties(levelProperties);
-			myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
-			myPane.setOnKeyReleased(key-> newLevel.handleKeyRelease(key));
 			levelList.add(newLevel);
 			
 			
 		}
-		myPane.getChildren().add(myViewSprites);
+		setLevel(levelList.get(0));
+
 		
 		// TODO GIVE MODELS TO BACKEND
 		
 		
 		// bind image-specific attributes
+	}
+	private void setLevel(Level newLevel){
+		myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
+		myPane.setOnKeyReleased(key-> newLevel.handleKeyRelease(key));
+		myPane.getChildren().add(myViewSprites.get(newLevel));
+
 	}
 
 	public File getGameFile() {
