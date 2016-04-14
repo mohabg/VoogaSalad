@@ -18,6 +18,9 @@ public class Bullet extends Attack{
 
 	}
 	
+	/**
+	 * @param sprite The Sprite who's weapon you want to activate
+	 */
     @Override
     public void apply(Sprite sprite) {
         if(readyToShoot(sprite)){

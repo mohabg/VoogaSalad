@@ -8,6 +8,12 @@ public class CollisionHandler {
 		//Should have some way to access time and score
 	}
 	
+	
+	/**
+	 * @param one triggers the handleCollision methods of Collisions one and two
+	 * @see haveCOllisionEffects
+	 * @see handleCollision
+	 */
 	public void applyCollision(Collision one, Collision two){
 		if(haveCollisionEffects(one, two)){
 			one.handleCollision(two);
@@ -16,6 +22,10 @@ public class CollisionHandler {
 			two.handleCollision(one);
 		}
 	}
+	
+	/**
+	 * @param one determines whether Collision one or two have a handleCollision method, if they do not the method returns false
+	 */
 
 	private boolean haveCollisionEffects(Collision one, Collision two) {
 		Class CollisionOneClass = one.getClass();

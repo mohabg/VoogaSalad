@@ -30,7 +30,9 @@ public abstract class Attack extends Sprite implements Behavior {
 		this.movement = movement;
 	}
 
-
+	/**
+	 * @param sprite The sprite who's elibility to shoot you want to determine
+	 */
 
 	public boolean readyToShoot(Sprite sprite) {
 		if(sprite.isUserControlled()){

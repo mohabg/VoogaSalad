@@ -7,11 +7,19 @@ public class DamageCollision extends Collision{
 	public DamageCollision(double value) {
 		super(value);
 	}
+	
+	/**
+	 * @param collision The Enemy sprite that you want to cause damage to
+	 */
 	protected void handleCollision(EnemyCollision collision){
 		if(collision.isCollidingWithUser(this)){
 			causeDamage(collision.getSprite(), getValue());
 		}
 	}
+	
+	/**
+	 * @param collision The Actor sprite that you want to cause damage to
+	 */
 	protected void handleCollision(ActorCollision collision){
 		if( !(collision.isCollidingWithUser(this)) ){
 			causeDamage(collision.getSprite(), getValue());

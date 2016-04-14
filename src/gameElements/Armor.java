@@ -15,6 +15,9 @@ public class Armor extends Defense{
 		super(myProperties, myHealth, myCollisions, myBehaviors, myRef, behaviorConditions);
 	}
 
+	/**
+	 * @param sprite Determines whether the sprite is eligible to use its defense
+	 */
 	@Override
 	public boolean readyToDefend(Sprite sprite) {
 		for(Behavior behavior : sprite.getBehaviors().values()){

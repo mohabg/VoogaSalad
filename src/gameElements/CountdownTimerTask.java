@@ -12,6 +12,9 @@ public class CountdownTimerTask extends TimerTask {
       //this.doWhenDone = doWhenDone;
    }
 
+   /**
+    * Starts the time
+	*/
    @Override
    public void run() {
       myCount--;

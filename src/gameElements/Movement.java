@@ -26,7 +26,6 @@ public class Movement implements Behavior{
 		}
 		
 		public void move(Sprite sprite) {
-			//set x to zero when up/down is pressed
 			
 		}
 
