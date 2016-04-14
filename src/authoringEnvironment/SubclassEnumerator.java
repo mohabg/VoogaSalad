@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import gameElements.Behavior;
-import gameElements.Collision;
+import behaviors.Behavior;
+import collisions.Collision;
 import gameElements.Sprite;
 
 public class SubclassEnumerator {

@@ -17,4 +17,7 @@ public class RefObject {
     public void setMyRef(String ref){
         myRef.set(ref);
     }
+    public StringProperty getMyStringRef() {
+    	return myRef;
+    }
 }

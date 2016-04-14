@@ -38,23 +38,18 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			double offsetX = t.getSceneX() - orgSceneX;
-			double offsetY = t.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
+            double offsetX = t.getSceneX() - orgSceneX;
+            double offsetY = t.getSceneY() - orgSceneY;
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
 
-			ViewSprite dragSource = (ViewSprite) t.getSource();
-            System.out.println("MY TRANSLATE X: "+newTranslateX);
-            System.out.println("MY TRANSLATE Y: "+dragSource.getMySpriteProperties().getMyX());
-            System.out.println("MY TRANSLATE X: "+dragSource.getMySpriteProperties().getMyY());
-
-
+            ViewSprite dragSource = (ViewSprite) t.getSource();
             // update x, update y with newTranslate
-			dragSource.setX(newTranslateX);
-			dragSource.setY(newTranslateY);
-			dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
-//            dragSource.getMySpriteProperties().setMyX(newTranslateX);
-//            dragSource.getMySpriteProperties().setMyY(newTranslateY);
+            dragSource.setX(newTranslateX);
+            dragSource.setY(newTranslateY);
+            //dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
+//            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
+//            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
 
         }
 	};
@@ -62,14 +57,14 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			ImageView mySprite = ((ViewSprite) (t.getSource()));
-			orgTranslateX = mySprite.getX();
-			orgTranslateY = mySprite.getY();
+            ImageView mySprite = ((ViewSprite) (t.getSource()));
+            orgTranslateX = mySprite.getX();
+            orgTranslateY = mySprite.getY();
+            
+            orgSceneX = t.getSceneX();
+            orgSceneY = t.getSceneY();
 
-			orgSceneX = t.getSceneX();
-			orgSceneY = t.getSceneY();
-
-			updateSettingsPane((ViewSprite) mySprite);
+            updateSettingsPane((ViewSprite) mySprite);
 		}
 	};
 
@@ -110,6 +105,7 @@ public class GameAuthoringTab implements ITab{
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
+		
 		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
@@ -151,21 +147,16 @@ public class GameAuthoringTab implements ITab{
 	@Override
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
-		//TODO: MAKE BETTER CONSTRUCTOR
-
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-
-		SpriteProperties sp = copy.getMySpriteProperties();
-        //created here
-
-//		mCopy.setHeight(sp.getMyHeight());
-//		mCopy.setWidth(sp.getMyWidth());
-//		mCopy.setX(sp.getMyX());
-//		mCopy.setY(sp.getMyY());
-//        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
+		
         copy.xProperty().bindBidirectional(mCopy.getX());
         copy.yProperty().bindBidirectional(mCopy.getY());
+        copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
+        copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
         copy.rotateProperty().bindBidirectional(mCopy.getAngle());
+        copy.stringRefProperty().bindBidirectional(mCopy.getMyStringRef());
+        copy.imageProperty().bindBidirectional(mCopy.getMyImageProp());
+        
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}

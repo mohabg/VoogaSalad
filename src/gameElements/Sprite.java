@@ -2,11 +2,21 @@ package gameElements;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
+import behaviors.Behavior;
+import behaviors.MoveHorizontally;
+import behaviors.MoveVertically;
+import collisions.ActorCollision;
+import collisions.Collision;
+import collisions.EnemyCollision;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -18,6 +28,11 @@ import java.util.List;
 import java.util.Map;
 
 import authoringEnvironment.RefObject;
+
+/**
+ * Anything that is on the screen is described by this class. Has behaviors(such as movements), health, collision attributes, properties, 
+ * and a boolean that determines whether or not it is controlled by the user. 
+ */
 
 public class Sprite {
 
@@ -33,28 +48,40 @@ public class Sprite {
 	public Sprite(RefObject myRef){
 		this.myRef = myRef;
 		myProperties = new SpriteProperties();
-		myHealth = new Health(100);
-		
 		myCollisions = new ArrayList<Collision>();
-		myCollisions.add(new EnemyCollision());
-		
 		myBehaviors = new HashMap<String, Behavior>();
-		Behavior defaultUpMovement = new MoveVertically(5);
-		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);
-		userBehaviors.put(KeyCode.UP, defaultUpMovement);
-		Behavior defaultDownMovement = new MoveVertically(-5);
-		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
-		
+		userBehaviors = new HashMap<KeyCode, Behavior>();
 		isUserControlled = new SimpleBooleanProperty(false);
 		canMove = new SimpleBooleanProperty(true);
+		myHealth = new Health(100);
+		
+		
+		myCollisions.add(new EnemyCollision());
+		
+
+		myBehaviors = new HashMap<String, Behavior>();
+		userBehaviors = new HashMap<KeyCode, Behavior>();
+
+		Behavior defaultUpMovement = new MoveVertically(-5);
+		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);	
+		userBehaviors.put(KeyCode.UP, defaultUpMovement);
+		
+		Behavior defaultDownMovement = new MoveVertically(5);
+		userBehaviors.put(KeyCode.DOWN, defaultDownMovement);
+		myBehaviors.put(defaultDownMovement.getClass().getName(), defaultDownMovement);	
+		
+		Behavior defaultLeftMovement = new MoveHorizontally(-5);
+		userBehaviors.put(KeyCode.LEFT, defaultLeftMovement);
+		myBehaviors.put(defaultLeftMovement.getClass().getName(), defaultLeftMovement);
+		
+		Behavior defaultRightMovement = new MoveHorizontally(5);
+		userBehaviors.put(KeyCode.RIGHT, defaultRightMovement);
+		myBehaviors.put(defaultRightMovement.getClass().getName(), defaultRightMovement);
 	}
+	
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
-
-		super();
-		
-		userBehaviors = new HashMap<KeyCode, Behavior>();
-		
+		this(myRef);
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myCollisions = myCollisions;
@@ -65,12 +92,11 @@ public class Sprite {
 	}
 
 	public Sprite(String ref) {
-		myRef = new RefObject(ref);
-		DoubleProperty property=new SimpleDoubleProperty(0.0);
+		this(new RefObject(ref));
 	}
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
-			behavior.apply(this);
+			//behavior.apply(this);
 		}
 	}
 	public Map<KeyCode, Behavior> getUserBehaviors() {
@@ -139,6 +165,14 @@ public class Sprite {
 		return myProperties.getMyX();
 	}
 
+	public StringProperty getMyStringRef() {
+		return myRef.getMyStringRef();
+	}
+	
+	public ObjectProperty<Image> getMyImageProp() {
+		return new SimpleObjectProperty<Image>(new Image(myRef.getMyStringRef().getValue()));
+	}
+	
 	public void setCoord(DoubleProperty x, DoubleProperty y) {
 		myProperties.setMyXProperty(x);
 		myProperties.setMyYProperty(y);
@@ -152,7 +186,7 @@ public class Sprite {
 		return myProperties.getMyY();
 	}
 
-	public void setY(DoubleProperty y) {
+	public void setY(double y) {
 		myProperties.setMyYProperty(y);
 	}
 
@@ -196,7 +230,7 @@ public class Sprite {
 		return isUserControlled.getValue();
 	}
 	public void setAsUserControlled(){
-		isUserControlled.set(true);;
+		isUserControlled.set(true);
 		setActorCollision();
 		setUserControlledBehaviors();
 	}
@@ -213,9 +247,10 @@ public class Sprite {
 		}
 		this.addCollision(actorCollision);
 	}
+	
 	private void setUserControlledBehaviors() {
 		//Should not create infinite loop because a behavior that is also a sprite does not have behaviors
-		for(Behavior behavior : this.userBehaviors.values()){
+		for(Behavior behavior : userBehaviors.values()){
 			Class behaviorClass = behavior.getClass();
 			try{
 				Method method = behaviorClass.getMethod("setAsUserControlled", null);
@@ -238,9 +273,7 @@ public class Sprite {
 		canMove.set(true);
 	}
 
-	public Behavior getBehavior(KeyEvent key) {
-
-		userBehaviors.get(key);
-		return null;
+	public Behavior getBehavior(KeyCode keyCode) {
+		return userBehaviors.get(keyCode);
 	}
 }
