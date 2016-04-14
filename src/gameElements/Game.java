@@ -56,12 +56,21 @@ public class Game {
         myGameLevels.add(levelID, level);
     }
 	
+	/**
+	 * @param levelID The ID that you want your level to have 
+	 * @param levelProperties the method uses the properties defined here to create a new level 
+	 */
+	
 	public void createLevel(int levelID, LevelProperties levelProperties) {
 		Level newLevel = new Level();
         levelProperties.setLevelID(levelID);
         newLevel.setLevelProperties(levelProperties);
     	myGameLevels.add(levelID, newLevel);
 	}
+	
+	/**
+	 * returns the original level of the game 
+	 */
 	
 	public Level restartGame() {
         return myGameLevels.get(0);

@@ -67,7 +67,9 @@ public class Engine {
         myEditor.setUserSprite(userSprite);
     }
     
-    
+    /**
+	 * Starts the game loop
+	 */
     
     public void gameLoop() {
     	Timeline gameLoop = new Timeline();

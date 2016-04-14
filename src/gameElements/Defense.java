@@ -20,6 +20,7 @@ public abstract class Defense extends Sprite implements Behavior {
 		this.behaviorConditions = behaviorConditions;
 		this.enabled = new SimpleBooleanProperty();
 	}
+	
 	public boolean isEnabled(){
 		return enabled.get();
 	}
@@ -37,6 +38,11 @@ public abstract class Defense extends Sprite implements Behavior {
 	public ApplyBehaviorConditions getBehaviorConditions(){
 		return behaviorConditions;
 	}
+	
+	/**
+	 * @param sprite Enables the defense of a sprite, provided the readyToDefend boolean is on
+	 * @see readyToDefend
+	 */
 	@Override
 	public void apply(Sprite sprite){
 		if(readyToDefend(sprite)){
