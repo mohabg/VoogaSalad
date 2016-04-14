@@ -10,6 +10,10 @@ public class GoalProperties {
 
 	public GoalProperties(Goals goal){
 		setMyGoal(goal);
+		setGoalName(goal.toString());
+		setIsFinished(false);
+		totalPoints=0;
+		
 	}
 	
 	public String getGoalName() {

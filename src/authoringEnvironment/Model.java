@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by davidyan on 4/7/16.
+ * @author David Yan, Joe Jacob
  */
 public class Model {
     private String myRef;

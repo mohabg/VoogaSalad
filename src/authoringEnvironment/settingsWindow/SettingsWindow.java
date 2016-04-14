@@ -5,6 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+/**
+ * @author David Yan
+ */
 public class SettingsWindow {
 	private VBox myDisplay;
     private VisualFactory myVisualFactory;

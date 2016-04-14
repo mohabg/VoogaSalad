@@ -1,15 +1,19 @@
 package gameElements;
 
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class MoveExpand extends Movement{
 	
-	private double expandY;
-	private double expandX;
+	private DoubleProperty expandY;
+	private DoubleProperty expandX;
 	
-	public void setExpandY(double expandY) {
+	public void setExpandY(DoubleProperty expandY) {
 		this.expandY = expandY;
 	}
 
-	public void setExpandX(double expandX) {
+	public void setExpandX(DoubleProperty expandX) {
 		this.expandX = expandX;
 	}
 
@@ -19,11 +23,11 @@ public class MoveExpand extends Movement{
 
 	@Override
 	public void apply(Sprite sprite) {
-		sprite.setWidth(expandX+sprite.getWidth());
-		sprite.setHeight(expandY+sprite.getWidth());
+		sprite.setWidth( toDoubleProperty(sprite.getWidth().add(expandX)));
+		sprite.setHeight(toDoubleProperty(sprite.getWidth().add(expandY)));
 		
 	}
-
+	
 	@Override
 	public boolean ready() {
 		// TODO Auto-generated method stub

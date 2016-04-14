@@ -4,6 +4,11 @@ public class GoalChecker implements IGoalVisitor{
 	
 	private Level level;
 	
+	public GoalChecker(Level myLevel){
+		setLevel(myLevel);
+	}
+	
+	
 	@Override
 	public boolean visit(Goal goal) {
 		// TODO Auto-generated method stub
@@ -12,7 +17,7 @@ public class GoalChecker implements IGoalVisitor{
 
 	@Override
 	public boolean visit(PointsGoal goal) {
-		return goal.getNumPoints()<getLevel().getCurrentPoints();
+		return goal.getNumPoints() < getLevel().getCurrentPoints();
 	}
 
 	public Level getLevel() {

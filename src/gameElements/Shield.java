@@ -1,44 +1,45 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+
 public class Shield extends Defense{
-	private Sprite myProperties;
-	private Double shieldValue;
-	private Double rechargeTime;
+	private DoubleProperty shieldValue;
+	private DoubleProperty rechargeTime;
+
+	public Shield(Health health, DoubleProperty recharge) {
+		super(health);
+		shieldValue = getHealth().getHealth();
+		rechargeTime = recharge;
+	}
 	
-	public Shield(){
-		shieldValue=getHealth().getHealth();
-	}
-	public Sprite getMyProperties() {
-		return myProperties;
-	}
-	public void setMyProperties(Sprite myProperties) {
-		this.myProperties = myProperties;
-	}
-	public Double getShieldValue() {
+	
+
+	public DoubleProperty getShieldValue() {
 		return shieldValue;
 	}
-	public void setShieldValue(Double shieldValue) {
-		this.shieldValue = shieldValue;
+
+	public void setShieldValue(DoubleProperty shieldValue) {
+		this.shieldValue=shieldValue;
 	}
-	public Double getRechargeTime() {
+
+	public DoubleProperty getRechargeTime() {
 		return rechargeTime;
 	}
-	public void setRechargeTime(Double rechargeTime) {
-		this.rechargeTime = rechargeTime;
+
+	public void setRechargeTime(DoubleProperty rechargeTime) {
+		this.rechargeTime=rechargeTime;
+	}
+	public void decrementRechargeTime(DoubleProperty decrement){
+		rechargeTime.subtract(decrement);
 	}
 	
-	public void decrementRechargeTime(Double decrement){
-		setRechargeTime(getRechargeTime()-decrement);
-	}
-	
-	public void decrementShieldValue(Double decrement){
-		setShieldValue(getShieldValue()-decrement);
+	public void decrementShieldValue(DoubleProperty decrement){
+		shieldValue.subtract(decrement);
 	}
 	
 	@Override
-	public void apply(Sprite spriteProperties) {
-		getMyProperties().setX(spriteProperties.getX());
-		getMyProperties().setY(spriteProperties.getY());
+	public void apply(Sprite sprite) {
+		this.setCoord(sprite.getX(), sprite.getY());
 
 	}
 
