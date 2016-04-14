@@ -1,6 +1,7 @@
 package gameElements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class Level implements ILevel {
 	private int goalCount;
 
 	public Level() {
+		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
 
 	}
 
@@ -83,15 +85,14 @@ public class Level implements ILevel {
 		this.goalFactory = goalFactory;
 	}
 
-
 	public void deleteGoal(Integer goalID) {
 		goalMap.remove(goalID);
 		if (levelProperties.getNumGoals() > goalMap.size()) {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
-	
-	private boolean completeGoals(){
+
+	private boolean completeGoals() {
 		GoalChecker goalChecker = new GoalChecker(this);
 		for (Goal goal : goalMap.values()) {
 			goal.acceptVisitor(goalChecker);
@@ -139,9 +140,10 @@ public class Level implements ILevel {
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
-
+		System.out.println("KEYBOARD?");
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
+		
 		Actor currentSprite = (Actor) getSpriteMap().get(currentSpriteID);
 
 		Behavior behavior = currentSprite.getBehavior(key);
