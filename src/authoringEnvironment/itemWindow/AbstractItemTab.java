@@ -16,8 +16,11 @@ import java.util.List;
  *
  */
 public abstract class AbstractItemTab implements ITab{
+	
 	private Tab myTab;
     private TilePane myTilePane;
+    
+    private static double IMAGE_HEIGHT;
 
     public AbstractItemTab() {
         myTab = new Tab();
@@ -29,7 +32,10 @@ public abstract class AbstractItemTab implements ITab{
      */
     public void populateTab(List<ViewSprite> viewSprites){
         Settings.setTilePaneSettings(myTilePane);
+        IMAGE_HEIGHT = myTilePane.getTileHeight() - 50;
         for(ViewSprite sprite : viewSprites){
+        	sprite.setFitHeight(IMAGE_HEIGHT);
+        	sprite.setPreserveRatio(true);
             myTilePane.getChildren().add(sprite);
         }
         setTabContent(myTilePane);

@@ -1,6 +1,7 @@
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.Settings;
+import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
@@ -99,6 +100,8 @@ public class GameAuthoringTab implements ITab{
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
+		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
+		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		((Pane) getTabContent()).getChildren().addAll(sprite);
@@ -139,10 +142,17 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getMyRef());
+		
+		SpriteProperties sp = copy.getMySpriteProperties();
         //created here
+		
+//		mCopy.setHeight(sp.getMyHeight());
+//		mCopy.setWidth(sp.getMyWidth());
+//		mCopy.setX(sp.getMyX());
+//		mCopy.setY(sp.getMyY());
         mCopy.setMySpriteProperties(copy.getMySpriteProperties());
-        copy.xProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyX());
-        copy.yProperty().bindBidirectional(mCopy.getMySpriteProperties().getMyY());
+        copy.xProperty().bindBidirectional(mCopy.getX());
+        copy.yProperty().bindBidirectional(mCopy.getY());
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}

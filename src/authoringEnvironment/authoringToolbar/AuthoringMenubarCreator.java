@@ -3,6 +3,7 @@ package authoringEnvironment.authoringToolbar;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.StartOptionsWindow;
 import gameplayer.GameLoader;
+import gameplayer.GamePlayingFileScreen;
 import interfaces.ITabPane;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
@@ -29,6 +30,9 @@ public class AuthoringMenubarCreator {
 
 	private final String MENU_BACK = "Back";
 	private final String MENU_ITEM_BACK = "Back";
+	
+	private final String MENU_PLAY = "Play";
+	private final String MENU_ITEM_PLAY = "Play";
 
 	public AuthoringMenubarCreator() {
 		myMenuBar = new MenuBar();
@@ -59,22 +63,32 @@ public class AuthoringMenubarCreator {
 		myBackMenu.setNewAction(MENU_ITEM_BACK, e -> {
 			setStartStage();
 		});
+		
+		PlayMenu myPlayMenu	= new PlayMenu(MENU_PLAY);
+		myPlayMenu.setNewAction(MENU_ITEM_PLAY, e-> {
+			playMyGame(window);
+		});
 
 		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
-				myBackMenu.getMenu());
+				myBackMenu.getMenu(), myPlayMenu.getMenu());
 	}
 
 	private void setStartStage() {
 		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
         myStage.setScene(new StartOptionsWindow(myStage).getScene());
         myStage.centerOnScreen();
-;
-
 	}
 
 	private void saveMyGame(ITabPane tabLevels) {
 		List<LevelModel> levelModels = GameLoader.levelTabsToModels(tabLevels);
 		GameLoader.saveGame(levelModels);
+	}
+	
+	private void playMyGame(ITabPane tabLevels) {
+		saveMyGame(tabLevels);
+		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
+        myStage.setScene(new GamePlayingFileScreen().getScene());
+        myStage.centerOnScreen();
 	}
 
 	public MenuBar getMenuBar() {

@@ -15,19 +15,19 @@ public class Health {
 		isMortal = true;
 	}
 	private void changeHealth(double val){
-		if(!isMortal){
+		if(isMortal){
 			value.add(val);
 		}
 	}
-	public void setHealth(DoubleProperty health){
-		this.value = health;
+	public void setHealth(double health){
+		this.value.set(health);
 		isMortal = true;
 	}
-	public DoubleProperty getHealth(){
-		return value;
+	public double getHealthValue(){
+		return value.doubleValue();
 	}
-	public void decrementHealth(double val){
-		changeHealth(val * -1);
+	public void decrementHealth(double damage){
+		changeHealth(damage * -1);
 	}
 	public void incrementHealth(double val){
 		changeHealth(val);

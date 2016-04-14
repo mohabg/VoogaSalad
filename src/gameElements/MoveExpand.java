@@ -22,17 +22,12 @@ public class MoveExpand extends Movement{
 	}
 
 	@Override
-	public void apply(Sprite sprite) {
+	public void move(Sprite sprite) {
 		sprite.setWidth( toDoubleProperty(sprite.getWidth().add(expandX)));
 		sprite.setHeight(toDoubleProperty(sprite.getWidth().add(expandY)));
 		
 	}
 	
-	@Override
-	public boolean ready() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
 
