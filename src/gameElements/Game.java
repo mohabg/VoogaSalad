@@ -33,9 +33,8 @@ public class Game {
     	return myGameLevels.size();
     }
 	
-	public Level nextLevel(int nextLevelNum) {
+	public void nextLevel(int nextLevelNum) {
 		currLevelNum = nextLevelNum;
-		return myGameLevels.get(nextLevelNum);
 	}
 	
 	public void setCurrentLevel(int index) {

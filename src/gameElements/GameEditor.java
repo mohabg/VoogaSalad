@@ -68,6 +68,8 @@ public class GameEditor implements IGameEditor {
 	
 	public void updateGame() {
     	myGame.getCurrentLevel().update();
+    	if ( myGame.getCurrentLevel().isFinished())
+    		myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
     }
 	
 	public void setResultForKeyPress(KeyEvent event) {
