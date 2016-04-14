@@ -11,6 +11,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -138,10 +139,43 @@ public class VisualFactory {
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
 		System.out.println(f.getGenericType());
-		Set<HBox> props = makePropertyBoxes(f.getGenericType(), f.getName(), new HashSet<HBox>());
-		System.out.println("me poops " + props);
+		Field[] fChildren = f.getType().getDeclaredFields();
 		
-		myBox.getChildren().addAll(props);
+		// if one of the first fields is just a Property
+		// TODO DOESNT WORK YET
+//		if (isAProperty(f, mySprite)) {
+//			System.out.println("im hereeee");
+//			try {
+//				//Property pObject = (Property) p.get(parent);
+//				//String pObjectName = p.getName();				
+//				//properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
+//				
+//				Property fObject = (Property) f.get(mySprite);
+//				String fObjectName = f.getName();		
+//				System.out.println("pass2");
+//				Set<HBox> props = makePropertyBoxes(f, fObject, fObjectName, new HashSet<HBox>());
+//				//props.add(makeSettingsObject(pObject, pObjectName));
+//				System.out.println("pass3444");
+//				myBox.getChildren().addAll(props);
+//			} catch (IllegalArgumentException | IllegalAccessException e) {}
+//		}
+		
+		for (Field p : fChildren) {
+				try {
+					// o is the actual instance of f in the sprite
+					Object o = f.get(mySprite);
+					String parentName = f.getName();
+					System.out.println("parent name " + parentName);
+					p.setAccessible(true);
+					Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
+					myBox.getChildren().addAll(props);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		
+		
 		//myBox.getChildren().add(oneSpinner(f, mySprite));
 		// Field[] properties = f.getType().getDeclaredFields();
 		// for (Field p: properties){
@@ -153,118 +187,90 @@ public class VisualFactory {
 		return myTab;
 	}
 	
-	private Set<HBox> makePropertyBoxes(Type fType, String fParamName, Set<HBox> properties) {
-		System.out.println(fType.getTypeName());
-		// prevents infinite recursion problem with Collision
-		if(fType.getTypeName().equals("gameElements.Sprite")) {
+	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
+		if (parent instanceof Property) {
+			// the parent is a Property, we can make a settings element
+			System.out.println("pass2323");
+			HBox settingsHBox = makeSettingsObject(parent, parentName);
+			properties.add(settingsHBox);
+			//System.out.println("GOT TO FIRST THING");
 			return properties;
-		}
-		System.out.println("POOOOO");
-		//f.setAccessible(true);
-		//Class<?> fClass = f.getType();
-		Class<?> fClass = Object.class;
-		if (fType instanceof ParameterizedType) {
-			try {
-				fClass = Class.forName(((ParameterizedType) fType).getRawType().getTypeName());
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				fClass = Class.forName(fType.getTypeName());
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		String fName = fClass.getName();
-		//String fParamName = f.getName();
-		System.out.println("STARTTTT " + fName);
-		
-		List<String> projClasses = SubclassEnumerator.getReadableClasses("gameElements");
-		projClasses.addAll(SubclassEnumerator.getReadableClasses("authoringEnvironment"));
-		
-		if (!projClasses.contains(fName)) {
-			if (fClass.isAssignableFrom(DoubleProperty.class)) {
-				DoubleProperty dp = new SimpleDoubleProperty();
-				//System.out.println(fClass.getName());
-//				try {
-//					dp = (DoubleProperty) fClass.newInstance();
-//				} catch (InstantiationException | IllegalAccessException e) {
-//					e.printStackTrace();
-//				}
-				HBox propHBox = new HBox();
-				propHBox.getChildren().addAll(new Label(fParamName), makeDoubleSpinner(dp));
-				properties.add(propHBox);
-				return properties;
-			} else if (fClass.isAssignableFrom(IntegerProperty.class)) {
-				IntegerProperty ip = new SimpleIntegerProperty();
-//				try {
-//					ip = (IntegerProperty) fClass.newInstance();
-//				} catch (InstantiationException | IllegalAccessException e) {
-//					e.printStackTrace();
-//				}
-	
-				HBox propHBox = new HBox();
-				propHBox.getChildren().addAll(new Label(fParamName), makeIntegerSpinner(ip));
-				properties.add(propHBox);
-				return properties;
-			} else if (fClass.isAssignableFrom(BooleanProperty.class)) {
-				BooleanProperty bp = new SimpleBooleanProperty();
-//				try {
-//					bp = (BooleanProperty) fClass.newInstance();
-//				} catch (InstantiationException | IllegalAccessException e) {
-//					e.printStackTrace();
-//				}
-				HBox propHBox = new HBox();
-				propHBox.getChildren().addAll(new Label(fParamName), makeBooleanCheckbox(bp));
-				properties.add(propHBox);
-				return properties;
-			} else if (fClass.isAssignableFrom(String.class)) {
-				System.out.println("HI IM A STRING");
-				// THIS PROBABLY REFERS TO IMAGE FILES..............
-				// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
-				return properties;
-			} else {
-				// IT'S A JAVA CLASS
-				// it's a list
-				if (fClass.isAssignableFrom(List.class)) {
-					Type pType = ((ParameterizedType) fType).getActualTypeArguments()[0];
-					String pName = pType.getTypeName();
-					System.out.println(pType + " \n" + pName);
-					properties.addAll(makePropertyBoxes(pType, pName, properties));
-					return properties;
-				} else if (fClass.isAssignableFrom(Map.class)) {
-					System.out.println("Map");
-					Type pType1 = ((ParameterizedType) fType).getActualTypeArguments()[0];
-					Type pType2 = ((ParameterizedType) fType).getActualTypeArguments()[1];
-					//String pName = pType.getTypeName();
-					//System.out.println(pType + " \n" + pName);
-					//properties.addAll(makePropertyBoxes(pType, pName, properties));
-					//return properties;
-				} else {
-					System.out.println("FOOOOOOOOOOOOOOOOOOK");
-				}
-				
-				
-				// it's a map
-				return properties;
-			}
+		} else if (parent instanceof List) {
 			
-		} else {
-			// recurse
-			System.out.println("RECURSE " + fClass.getName());
-			Field[] fields = fClass.getDeclaredFields();
-
-			for (Field field : fields) {
-				System.out.println(field.getName());
-				properties.addAll(makePropertyBoxes(field.getGenericType(), field.getName(), properties));
-			}
-			System.out.println("done with recurse");
+		} else if (parent instanceof Map) {
+			
+		} else if (parent instanceof gameElements.Sprite) {
+			// results in infinite recursion for collision right now 
 			return properties;
 		}
+		
+		// is Field p a Property????
+		boolean isProperty = isAProperty(p, parent);
+		
+		if (isProperty) {
+			try {
+				//System.out.println("IS A PROPERTY PASSED");
+				Property pObject = (Property) p.get(parent);
+				String pObjectName = p.getName();				
+				properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			Field[] pFields = p.getType().getDeclaredFields();
+			for (Field otherField : pFields) {
+				otherField.setAccessible(true);
+				Object o = new Object();
+				try {
+					o = otherField.get(p);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					System.out.println("wtf just happened");
+					e.printStackTrace();
+				}
+				String pName = otherField.getName();
+				properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
+			}
+			System.out.println("THIS DIDNT HAVE ANY FIELDS");
+		}
+		
+		return properties;
+	}
+	
+	private boolean isAProperty(Field p, Object o) {
+		System.out.println(p.getType().getName());
+		if (Property.class.isAssignableFrom(p.getType())) {
+			System.out.println("im a porpppp");
+			return true;
+		}
+//		try {
+//			Property pClass = (Property) p.get(o);
+//			return true;
+//		} catch (IllegalAccessException e) {
+//		} 
+		return false;
+	}
+	
+	private HBox makeSettingsObject(Object myProp, String propName) {
+		HBox propHBox = new HBox();
+		Label propLabelName = new Label(propName);
+		if (myProp instanceof DoubleProperty) {
+			DoubleProperty dp = (DoubleProperty) myProp;			
+			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
+			System.out.println("i made it here");
+		} else if (myProp instanceof IntegerProperty) {
+			IntegerProperty ip = (IntegerProperty) myProp;
+			propHBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
+		} else if (myProp instanceof BooleanProperty) {
+			BooleanProperty bp = (BooleanProperty) myProp;
+			propHBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
+		} else if (myProp instanceof StringProperty) {
+			System.out.println("HI IM A STRING");
+			// THIS PROBABLY REFERS TO IMAGE FILES..............
+			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
+			// TODO MAKE STRING BOX
+		}
+		return propHBox;
 	}
 	
 	private Spinner makeDoubleSpinner(DoubleProperty dp) {
@@ -354,4 +360,71 @@ public class VisualFactory {
 
     //return properties;
 
+	// it's a user-made class (most likely)
+	
+	//f.setAccessible(true);
+	//Class<?> fClass = f.getType();
+//	Class<?> fClass = Object.class;
+//	if (fType instanceof ParameterizedType) {
+//		try {
+//			fClass = Class.forName(((ParameterizedType) fType).getRawType().getTypeName());
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	} else {
+//		try {
+//			fClass = Class.forName(fType.getTypeName());
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
+//	String fName = .getName();
+//	//String fParamName = f.getName();
+//	System.out.println("STARTTTT " + fName);
+//	
+//	List<String> projClasses = SubclassEnumerator.getReadableClasses("gameElements");
+//	projClasses.addAll(SubclassEnumerator.getReadableClasses("authoringEnvironment"));
+//	
+//	if (!projClasses.contains(fName)) {
+//		 else {
+//			// IT'S A JAVA CLASS
+//			// it's a list
+//			if (fClass.isAssignableFrom(List.class)) {
+//				Type pType = ((ParameterizedType) fType).getActualTypeArguments()[0];
+//				String pName = pType.getTypeName();
+//				System.out.println(pType + " \n" + pName);
+//				properties.addAll(makePropertyBoxes(pType, pName, properties));
+//				return properties;
+//			} else if (fClass.isAssignableFrom(Map.class)) {
+//				System.out.println("Map");
+//				Type pType1 = ((ParameterizedType) fType).getActualTypeArguments()[0];
+//				Type pType2 = ((ParameterizedType) fType).getActualTypeArguments()[1];
+//				//String pName = pType.getTypeName();
+//				//System.out.println(pType + " \n" + pName);
+//				//properties.addAll(makePropertyBoxes(pType, pName, properties));
+//				//return properties;
+//			} else {
+//				System.out.println("FOOOOOOOOOOOOOOOOOOK");
+//			}
+//			
+//			
+//			// it's a map
+//			return properties;
+//		}
+//		
+//	} else {
+//		// recurse
+//		System.out.println("RECURSE " + fClass.getName());
+//		Field[] fields = fClass.getDeclaredFields();
+//
+//		for (Field field : fields) {
+//			System.out.println(field.getName());
+//			properties.addAll(makePropertyBoxes(field.getGenericType(), field.getName(), properties));
+//		}
+//		System.out.println("done with recurse");
+//		return properties;
+//	}
 }

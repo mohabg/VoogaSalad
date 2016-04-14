@@ -15,7 +15,7 @@ import authoringEnvironment.RefObject;
 
 public class Sprite {
 
-//	private DoubleProperty x;
+	private DoubleProperty x;
 //	private IntegerProperty y;
 //	private BooleanProperty width;
 //	private DoubleProperty height;
