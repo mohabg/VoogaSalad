@@ -104,11 +104,16 @@ public class PlayScreen implements IScreen {
 			s.setAsUserControlled();
 //			s.getX().bindBidirectional(vs.xProperty());
 //			s.getY().bindBidirectional(vs.yProperty());
+			vs.setMySpriteProperties(s.getSpriteProperties());
 		    vs.xProperty().bindBidirectional(s.getX());
 		    vs.yProperty().bindBidirectional(s.getY());
+		    vs.fitHeightProperty().bindBidirectional(s.getHeight());
+		    vs.fitWidthProperty().bindBidirectional(s.getWidth());
+		    vs.rotateProperty().bindBidirectional(s.getAngle());
 		    
 		    levelViewSprites.add(vs);
 			newLevel.addSprite(s);
+			// TODO DO WE NEED THIS
 			newLevel.setCurrentSpriteID(0);
 		}
 		myViewSprites.put(newLevel, levelViewSprites);
@@ -117,15 +122,15 @@ public class PlayScreen implements IScreen {
 	private void setLevel(Level newLevel){
 		System.out.println(myPane.getChildren().toString());
 		myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
-		myPane.setOnKeyReleased(key-> { newLevel.handleKeyRelease(key);
-		for(ViewSprite vs:myViewSprites.get(newLevel)){
-			System.out.println(vs.xProperty().doubleValue());
-			System.out.println(vs.yProperty().doubleValue());
-		}
+		myPane.setOnKeyReleased(key-> { 
+			newLevel.handleKeyRelease(key);		
+			for(ViewSprite vs : myViewSprites.get(newLevel)) {
+				System.out.println(vs.xProperty().doubleValue());
+				System.out.println(vs.yProperty().doubleValue());
+			}
 		});
 		
 		myPane.getChildren().addAll(myViewSprites.get(newLevel));
-
 	}
 	
 //	private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){

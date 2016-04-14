@@ -21,23 +21,22 @@ public class ViewSprite extends ImageView {
 		super();
 		myRef = new SimpleStringProperty();
 		mySpriteProperties = new SpriteProperties();
-		// myHealth = new Health();
-		// myAttack = new Attack();
-		// myDefense = new Defense();
-		// myPropertiesList = new ArrayList<>();
-		// myPropertiesList.add(myHealth);
-		// myPropertiesList.add(myAttack);
-		// myPropertiesList.add(myDefense);
 	}
-
-	public SpriteProperties getMySpriteProperties() {
-		return mySpriteProperties;
-	}
-
+	
 	public ViewSprite(String imagePath) {
 		this();
 		setImage(imagePath);
 	}
+	
+	public ViewSprite(String imagePath, SpriteProperties newProps) {
+		this(imagePath);
+		mySpriteProperties = newProps;
+	}
+	
+	public SpriteProperties getMySpriteProperties() {
+		return mySpriteProperties;
+	}
+
 
 	public void setImage(String imagePath) {
 		myRef.set(imagePath);
