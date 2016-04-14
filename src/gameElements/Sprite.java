@@ -5,6 +5,7 @@ import authoringEnvironment.SpriteProperties;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyEvent;
 
@@ -29,8 +30,8 @@ public class Sprite {
 	private Map<String, Behavior> myBehaviors;
 	private Map<KeyEvent, Behavior> userBehaviors;
 	private RefObject myRef;
-	private boolean isUserControlled;
-	private boolean canMove;
+	private BooleanProperty isUserControlled;
+	private BooleanProperty canMove;
 	
 	
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
@@ -44,8 +45,8 @@ public class Sprite {
 		this.myCollisions = myCollisions;
 		this.myBehaviors = myBehaviors;
 		this.myRef = myRef;
-		this.isUserControlled = false;
-		canMove = true;
+		this.isUserControlled = new SimpleBooleanProperty(false);
+		this.canMove = new SimpleBooleanProperty(true);
 	}
 	
 	public void update(){
@@ -159,10 +160,10 @@ public class Sprite {
 		return myProperties;
 	}
 	public boolean isUserControlled(){
-		return isUserControlled;
+		return isUserControlled.getValue();
 	}
 	public void setAsUserControlled(){
-		isUserControlled = true;
+		isUserControlled.set(true);
 		Collision actorCollision = new ActorCollision();
 		this.addCollision(actorCollision);
 		setUserControlledBehaviors();
@@ -183,13 +184,13 @@ public class Sprite {
 	}
 
 	public boolean canMove() {
-		return canMove;
+		return canMove.getValue();
 	}
 	public void disableMovement(){
-		canMove = false;
+		canMove.set(false);
 	}
 	public void enableMovement(){
-		canMove = true;
+		canMove.set(true);
 	}
 
 	public Behavior getBehavior(KeyEvent key) {
