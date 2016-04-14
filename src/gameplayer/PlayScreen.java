@@ -6,13 +6,11 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import behaviors.Behavior;
+import game.Engine;
+import game.GameEditor;
+import game.IGameEditor;
 import gameElements.Actor;
-import gameElements.Behavior;
-import gameElements.Engine;
-import gameElements.GameEditor;
-import gameElements.IGameEditor;
-import gameElements.Level;
-import gameElements.LevelProperties;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -22,13 +20,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import level.Level;
+import level.LevelProperties;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * IScreen for playing the game. Has a HUD. 
+ * This class also has an instance of Engine, which runs the game loop 
+ * @author Huijia
+ *
+ */
 public class PlayScreen implements IScreen {
 	private Pane myPane;
 	private Map<Level, List<ViewSprite>> myViewSprites;
@@ -100,14 +105,7 @@ public class PlayScreen implements IScreen {
 		for(ViewSprite vs : spriteList.keySet()) {
 			Sprite s = spriteList.get(vs);
 			System.out.println("SPRITE  "+s.getX().doubleValue()+"  "+s.getY().doubleValue());
-			
-<<<<<<< HEAD
-//			s.setAsUserControlled();
-//			s.getX().bindBidirectional(vs.xProperty());
-//			s.getY().bindBidirectional(vs.yProperty());
-		    vs.xProperty().bindBidirectional(s.getX());
-		    vs.yProperty().bindBidirectional(s.getY());
-=======
+
 			s.setAsUserControlled();
 //			s.getX().bindBidirectional(vs.xProperty());
 //			s.getY().bindBidirectional(vs.yProperty());
@@ -117,7 +115,6 @@ public class PlayScreen implements IScreen {
 		    vs.fitHeightProperty().bindBidirectional(s.getHeight());
 		    vs.fitWidthProperty().bindBidirectional(s.getWidth());
 		    vs.rotateProperty().bindBidirectional(s.getAngle());
->>>>>>> master
 		    
 		    levelViewSprites.add(vs);
 			newLevel.addSprite(s);
@@ -130,20 +127,12 @@ public class PlayScreen implements IScreen {
 	private void setLevel(Level newLevel){
 		System.out.println(myPane.getChildren().toString());
 		myPane.setOnKeyPressed(key-> newLevel.handleKeyPress(key));
-<<<<<<< HEAD
-		myPane.setOnKeyReleased(key-> { newLevel.handleKeyRelease(key);
-		for(ViewSprite vs:myViewSprites.get(newLevel)){
-			System.out.println(vs.xProperty().doubleValue());
-			System.out.println(vs.yProperty().doubleValue());
-		}
-=======
 		myPane.setOnKeyReleased(key-> { 
 			newLevel.handleKeyRelease(key);		
 			for(ViewSprite vs : myViewSprites.get(newLevel)) {
 				System.out.println(vs.xProperty().doubleValue());
 				System.out.println(vs.yProperty().doubleValue());
 			}
->>>>>>> master
 		});
 		
 		myPane.getChildren().addAll(myViewSprites.get(newLevel));

@@ -4,10 +4,10 @@ import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
-import gameElements.Behavior;
-import gameElements.Collision;
+import behaviors.Behavior;
+import behaviors.MoveVertically;
+import collisions.Collision;
 import gameElements.Health;
-import gameElements.MoveVertically;
 import gameElements.Sprite;
 import interfaces.ITabPane;
 import javafx.beans.property.DoubleProperty;
@@ -44,7 +44,6 @@ public class ItemWindow {
 	}
 
 	private Tab makeTab(String type) {
-        System.out.println(type);
 		try {
 			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
@@ -73,30 +72,12 @@ public class ItemWindow {
             String p = ItemWindowData.SpriteImages.getString(key);
             viewsprite.setImage(p);
             
-<<<<<<< HEAD
-            //TODO: also change this
-            HashMap<String, Behavior> testMap = new HashMap<String, Behavior>();
-<<<<<<< HEAD
-            testMap.put("a", new MoveVertically(5));
-            
-            Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), testMap, new RefObject(p));
-            sprite.setMySpriteProperties(newS.getSpriteProperties());
-=======
-            testMap.put("a", new MoveVertically(1));
-//            Sprite newS = new Sprite(new SpriteProperties(), new Health(), new ArrayList<Collision>(), testMap, new RefObject(p));
-//            Sprite newS = new Sprite(new SpriteProperties(), new Health(1), new ArrayList<Collision>(), testMap, new RefObject(p));
-
-            Sprite newS = new Sprite( new RefObject(p));
-
->>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
-=======
             Sprite newS = new Sprite(new RefObject(p));
             //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
             //newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
             //sprite.setMySpriteProperties(newS.getSpriteProperties());
-            
+
             mySpritesAndModels.put(viewsprite, newS);
->>>>>>> master
             
 			viewsprite.setOnMouseClicked(e -> {
 				myGameTabPane.getCurrentTab().setTabContent(viewsprite, newS);

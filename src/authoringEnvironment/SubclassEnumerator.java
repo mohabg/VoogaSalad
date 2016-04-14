@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import gameElements.Behavior;
-import gameElements.Collision;
+import behaviors.Behavior;
+import collisions.Collision;
 import gameElements.Sprite;
 
 public class SubclassEnumerator {
@@ -27,7 +27,6 @@ public class SubclassEnumerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(test);
 		//findSubclasses(test, Collision.class);
 		for (Class<?> c : test) {
 			//System.out.println(c.getName());
@@ -78,7 +77,6 @@ public class SubclassEnumerator {
 		List<Class<?>> subclasses = new ArrayList<Class<?>>();
 		for (Class<?> candidateClass : classes) {
 		    if (superclass.isAssignableFrom(candidateClass)) {
-		        System.out.println(candidateClass);
 		        subclasses.add(candidateClass);
 		    }
 		}

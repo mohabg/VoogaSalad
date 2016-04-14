@@ -147,27 +147,8 @@ public class GameAuthoringTab implements ITab{
 	@Override
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
-<<<<<<< HEAD
-		//TODO: MAKE BETTER CONSTRUCTOR
-
-		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-
-		SpriteProperties sp = copy.getMySpriteProperties();
-        //created here
-
-//		mCopy.setHeight(sp.getMyHeight());
-//		mCopy.setWidth(sp.getMyWidth());
-//		mCopy.setX(sp.getMyX());
-//		mCopy.setY(sp.getMyY());
-<<<<<<< HEAD
-       // mCopy.setMySpriteProperties(cop.getMySpriteProperties());
-=======
-//        mCopy.setMySpriteProperties(copy.getMySpriteProperties());
->>>>>>> 65398fd930c8113a233faf86becbc8e53c08fa85
-=======
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
 		
->>>>>>> master
         copy.xProperty().bindBidirectional(mCopy.getX());
         copy.yProperty().bindBidirectional(mCopy.getY());
         copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
