@@ -2,13 +2,10 @@ package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
-import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -51,112 +48,112 @@ public class GameAuthoringTab implements ITab{
     //            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
     //            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
     
-}
-};
+        }
+    };
 
-private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
-@Override
-public void handle(MouseEvent t) {
-ImageView mySprite = ((ViewSprite) (t.getSource()));
-orgTranslateX = mySprite.getX();
-orgTranslateY = mySprite.getY();
+    private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+    @Override
+        public void handle(MouseEvent t) {
+            ImageView mySprite = ((ViewSprite) (t.getSource()));
+            orgTranslateX = mySprite.getX();
+            orgTranslateY = mySprite.getY();
 
-orgSceneX = t.getSceneX();
-orgSceneY = t.getSceneY();
+            orgSceneX = t.getSceneX();
+            orgSceneY = t.getSceneY();
 
-updateSettingsPane((ViewSprite) mySprite);
-}
-};
+            updateSettingsPane((ViewSprite) mySprite);
+        }
+    };
 
-public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
-myTab = new Tab(title);
-mySpriteMap = spriteMap;
-myWindow = window;
+    public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
+        myTab = new Tab(title);
+        mySpriteMap = spriteMap;
+        myWindow = window;
 
-initArea();
-}
+        initArea();
+    }
 
-private void initArea() {
-ScrollPane myNewGameArea = new ScrollPane();
-Settings.setGameAreaSettings(myNewGameArea);
+    private void initArea() {
+        ScrollPane myNewGameArea = new ScrollPane();
+        Settings.setGameAreaSettings(myNewGameArea);
 
-AnchorPane myNewGamePane = new AnchorPane();
-Settings.setGamePaneSettings(myNewGamePane);
+        AnchorPane myNewGamePane = new AnchorPane();
+        Settings.setGamePaneSettings(myNewGamePane);
 
-setTabContent(myNewGamePane);
-mySpriteMap.keySet().forEach(c-> addWithClicking(c));
-}
+        setTabContent(myNewGamePane);
+        mySpriteMap.keySet().forEach(c-> addWithClicking(c));
+    }
 
-private void updateSettingsPane(ViewSprite clickedSprite) {
-myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
-}
+    private void updateSettingsPane(ViewSprite clickedSprite) {
+        myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
+    }
 
-/**
- * @param spriteModel model used to generate visual elements that
- * are added to a new VBox and displayed in the Settings Window
- */
+    /**
+     * @param spriteModel model used to generate visual elements that
+     * are added to a new VBox and displayed in the Settings Window
+     */
 
-public VBox setSettingsContent(Sprite spriteModel) {
-VBox myBox = new VBox(VBOX_SPACING);
-TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-myBox.getChildren().addAll(propertiesList);
-return myBox;
-}
+    public VBox setSettingsContent(Sprite spriteModel) {
+        VBox myBox = new VBox(VBOX_SPACING);
+        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
+        myBox.getChildren().addAll(propertiesList);
+        return myBox;
+    }
 
-private void addWithClicking(ViewSprite sprite){
-sprite.setCursor(Cursor.HAND);
+    private void addWithClicking(ViewSprite sprite){
+        sprite.setCursor(Cursor.HAND);
 
-sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
-sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
-sprite.setOnMousePressed(circleOnMousePressedEventHandler);
-sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-((Pane) getTabContent()).getChildren().addAll(sprite);
-}
+        sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
+        sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
+        sprite.setOnMousePressed(circleOnMousePressedEventHandler);
+        sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+        ((Pane) getTabContent()).getChildren().addAll(sprite);
+    }
 
-public Map<ViewSprite, Sprite> getMap(){
-return mySpriteMap;
-}
+    public Map<ViewSprite, Sprite> getMap(){
+    return mySpriteMap;
+    }
 
-@Override
-public Tab getTab() {
-return myTab;
-}
+    @Override
+    public Tab getTab() {
+    return myTab;
+    }
 
-@Override
-public Node getTabContent() {
-return myTab.getContent();
-}
+    @Override
+    public Node getTabContent() {
+    return myTab.getContent();
+    }
 
-@Override
-public void setTabContent(Node content) {
-myTab.setContent(content);
+    @Override
+    public void setTabContent(Node content) {
+    myTab.setContent(content);
 
-}
+    }
 
-@Override
-public void setTabTitle(String tabTitle) {
-myTab.setText(tabTitle);
-}
+    @Override
+    public void setTabTitle(String tabTitle) {
+    myTab.setText(tabTitle);
+    }
 
-/**
- * @param view is a ViewSprite that's going to be copied and get its properties set between the
- * Sprite properties.
- * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
- * change is made, the other knows of the change
- */
-@Override
-public void setTabContent(ViewSprite view, Sprite sprite) {
-ViewSprite copy = new ViewSprite(view.getMyImage());
-Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
+    /**
+     * @param view is a ViewSprite that's going to be copied and get its properties set between the
+     * Sprite properties.
+     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+     * change is made, the other knows of the change
+     */
+    @Override
+    public void setTabContent(ViewSprite view, Sprite sprite) {
+        ViewSprite copy = new ViewSprite(view.getMyImage());
+        Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
 
-copy.xProperty().bindBidirectional(mCopy.getX());
-copy.yProperty().bindBidirectional(mCopy.getY());
-copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
-copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
-copy.rotateProperty().bindBidirectional(mCopy.getAngle());
+        copy.xProperty().bindBidirectional(mCopy.getX());
+        copy.yProperty().bindBidirectional(mCopy.getY());
+        copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
+        copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
+        copy.rotateProperty().bindBidirectional(mCopy.getAngle());
 
-mySpriteMap.put(copy, mCopy);
-addWithClicking(copy);
-}
+        mySpriteMap.put(copy, mCopy);
+        addWithClicking(copy);
+    }
 
 }
