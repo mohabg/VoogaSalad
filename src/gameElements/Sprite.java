@@ -61,9 +61,6 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 		
 
-		myBehaviors = new HashMap<String, Behavior>();
-		userBehaviors = new HashMap<KeyCode, Behavior>();
-
 		Behavior defaultUpMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);	
 		userBehaviors.put(KeyCode.UP, defaultUpMovement);

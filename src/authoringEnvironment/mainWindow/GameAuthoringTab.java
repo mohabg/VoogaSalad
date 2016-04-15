@@ -2,13 +2,10 @@ package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
-import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -129,7 +126,8 @@ public class GameAuthoringTab implements ITab{
 
 	@Override
 	public void setTabContent(Node content) {
-		myTab.setContent(content);
+        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
+        myTab.setContent(content);
 
 	}
 

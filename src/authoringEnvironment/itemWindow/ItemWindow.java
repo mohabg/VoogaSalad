@@ -2,20 +2,12 @@ package authoringEnvironment.itemWindow;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
-import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
-import behaviors.Behavior;
-import behaviors.MoveVertically;
-import collisions.Collision;
-import gameElements.Health;
 import gameElements.Sprite;
 import interfaces.ITabPane;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +24,7 @@ public class ItemWindow {
 	public ItemWindow(ITabPane window) {
 		myGameTabPane = window;
 		myTabPane = new TabPane();
+        myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 		mySpritesAndModels = new HashMap<ViewSprite, Sprite>();
 		initTabPane();
 	}
