@@ -82,7 +82,8 @@ public class VisualFactory {
 		Tab myTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
-		// System.out.println(f.getGenericType());
+        myPane.setStyle("-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;");
+        // System.out.println(f.getGenericType());
 		Field[] fChildren = f.getType().getDeclaredFields();
 		
 		// if one of the first fields is just a Property
