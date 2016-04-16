@@ -7,6 +7,7 @@ import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import collisions.ActorCollision;
 import collisions.Collision;
+import collisions.DamageCollision;
 import collisions.EnemyCollision;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -57,8 +58,8 @@ public class Sprite {
 		canMove = new SimpleBooleanProperty(true);
 		myHealth = new Health(100);
 		
-		
-		myCollisions.add(new EnemyCollision());
+		myCollisions.add(new DamageCollision(this));
+		myCollisions.add(new EnemyCollision(this));
 		
 
 		Behavior defaultUpMovement = new MoveVertically(-5);
@@ -242,7 +243,7 @@ public class Sprite {
 
 	private void setActorCollision() {
 		//Remove enemy and add actor collision
-		Collision actorCollision = new ActorCollision();
+		Collision actorCollision = new ActorCollision(this);
 		Iterator<Collision> it = getCollisions().iterator();
 		while(it.hasNext()){
 			Collision collision = it.next();

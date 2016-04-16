@@ -10,7 +10,6 @@ import behaviors.Behavior;
 import game.Engine;
 import game.GameEditor;
 import game.IGameEditor;
-import gameElements.Actor;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
