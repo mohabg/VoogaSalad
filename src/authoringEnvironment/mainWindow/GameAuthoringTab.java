@@ -9,6 +9,8 @@ import interfaces.ITab;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -62,6 +64,14 @@ public class GameAuthoringTab implements ITab{
             orgSceneY = t.getSceneY();
 
             updateSettingsPane((ViewSprite) mySprite);
+            
+            if(t.isSecondaryButtonDown()){
+				ContextMenu contextMenu = new ContextMenu();
+				MenuItem delete = new MenuItem("Delete");
+				contextMenu.getItems().add(delete);
+				System.out.println("delete");
+				//TO DO: make the delete option actually appear
+			}
 		}
 	};
 

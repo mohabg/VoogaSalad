@@ -5,7 +5,9 @@ import authoringEnvironment.StartOptionsWindow;
 import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import interfaces.ITabPane;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -33,6 +35,9 @@ public class AuthoringMenubarCreator {
 	
 	private final String MENU_PLAY = "Play";
 	private final String MENU_ITEM_PLAY = "Play";
+	
+	private final String MENU_GAME = "Game";
+	private final String MENU_ITEM_GAME = "Game Settings";
 
 	public AuthoringMenubarCreator() {
 		myMenuBar = new MenuBar();
@@ -68,9 +73,20 @@ public class AuthoringMenubarCreator {
 		myPlayMenu.setNewAction(MENU_ITEM_PLAY, e-> {
 			playMyGame(window);
 		});
+		
+		GameMenu myGameMenu = new GameMenu(MENU_GAME);
+		myGameMenu.setNewAction(MENU_ITEM_GAME, e-> {
+			// needs some obvious refactoring
+			FlowPane gameSettingsPane = new FlowPane();
+			Scene gameSettingsScene = new Scene(gameSettingsPane, 200, 200);
+			Stage gameSettingsStage = new Stage();
+			gameSettingsStage.setScene(gameSettingsScene);
+			gameSettingsStage.show();
+		});
+		
         myMenuBar.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
-				myBackMenu.getMenu(), myPlayMenu.getMenu());
+				myBackMenu.getMenu(), myPlayMenu.getMenu(), myGameMenu.getMenu());
 	}
 
 	private void setStartStage() {
