@@ -13,11 +13,12 @@ public class MoveHorizontally extends Movement{
 		super(value);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public void move(Sprite sprite) {
-        sprite.getSpriteProperties().setMyX((sprite.getX().doubleValue() + getValue()));
-		
+     // sprite.getSpriteProperties().setMyX((sprite.getX().doubleValue() + getValue()));
+      sprite.getSpriteProperties().setMyXvel(getValue());
+
 	}
 
 }
