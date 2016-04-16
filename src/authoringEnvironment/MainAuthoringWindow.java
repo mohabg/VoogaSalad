@@ -23,6 +23,7 @@ public class MainAuthoringWindow implements IScreen{
 
 	public MainAuthoringWindow(){
 		myPane = new BorderPane();
+        myPane.setStyle("-fx-background-color: #434343;");
 
 		myGameMakerWindow = new GameMakerWindow();
 		myItemWindow = new ItemWindow(myGameMakerWindow);

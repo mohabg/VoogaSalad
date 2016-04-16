@@ -37,7 +37,10 @@ public abstract class AbstractItemTab implements ITab{
         	sprite.setFitHeight(IMAGE_HEIGHT);
         	sprite.setPreserveRatio(true);
             myTilePane.getChildren().add(sprite);
+
         }
+        myTilePane.setId("TilePane");
+        myTilePane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
         setTabContent(myTilePane);
     }
 

@@ -1,21 +1,10 @@
 package gameplayer;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import authoringEnvironment.LevelModel;
-import exampledata.XStreamHandlers.FXConverters;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-
 import javafx.stage.Stage;
+
+import java.util.Map;
 
 /**
  * Wrapper for gameplayer screens. Implements IScreen.
@@ -60,7 +49,6 @@ public class GameWindow implements IScreen {
 	public Scene getScene() {
 		return myPane.getScene();
 		// Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
-		// myRetScene.getStylesheets().add("resources/styles.css");
 		// return myRetScene;
 	}
 

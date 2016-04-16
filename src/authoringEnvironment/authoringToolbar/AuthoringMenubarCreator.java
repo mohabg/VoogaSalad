@@ -68,7 +68,7 @@ public class AuthoringMenubarCreator {
 		myPlayMenu.setNewAction(MENU_ITEM_PLAY, e-> {
 			playMyGame(window);
 		});
-
+        myMenuBar.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
 				myBackMenu.getMenu(), myPlayMenu.getMenu());
 	}

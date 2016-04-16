@@ -19,8 +19,10 @@ public class SettingsWindow {
 		myDisplay = new VBox();
 		Settings.setSettingsDisplaySettings(myDisplay);
 
+
 		HBox myTempBox = new HBox();
 		Label myLabel = new Label("Example Property:");
+        myLabel.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 		Slider mySlider = new Slider(0,100,50);
 		Settings.setSliderSettings(mySlider);
 		myTempBox.getChildren().addAll(myLabel, mySlider);

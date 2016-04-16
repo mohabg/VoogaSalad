@@ -7,6 +7,7 @@ import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import collisions.ActorCollision;
 import collisions.Collision;
+import collisions.DamageCollision;
 import collisions.EnemyCollision;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -46,6 +47,7 @@ public class Sprite {
 	private BooleanProperty isUserControlled;
 	private BooleanProperty canMove;
 	
+
 	public Sprite(RefObject myRef){
 		this.myRef = myRef;
 		myProperties = new SpriteProperties();
@@ -56,12 +58,9 @@ public class Sprite {
 		canMove = new SimpleBooleanProperty(true);
 		myHealth = new Health(100);
 		
+		myCollisions.add(new DamageCollision(this));
+		myCollisions.add(new EnemyCollision(this));
 		
-		myCollisions.add(new EnemyCollision());
-		
-
-		myBehaviors = new HashMap<String, Behavior>();
-		userBehaviors = new HashMap<KeyCode, Behavior>();
 
 		Behavior defaultUpMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);	
@@ -95,6 +94,7 @@ public class Sprite {
 	public Sprite(String ref) {
 		this(new RefObject(ref));
 	}
+
 	/**
 	 * Updates the sprite frame by frame
 	 */
@@ -115,7 +115,6 @@ public class Sprite {
 	}
 	public Map<String, Behavior> getBehaviors(){
 		return myBehaviors;
-
 	}
 
 
@@ -244,7 +243,7 @@ public class Sprite {
 
 	private void setActorCollision() {
 		//Remove enemy and add actor collision
-		Collision actorCollision = new ActorCollision();
+		Collision actorCollision = new ActorCollision(this);
 		Iterator<Collision> it = getCollisions().iterator();
 		while(it.hasNext()){
 			Collision collision = it.next();

@@ -9,8 +9,6 @@ import javafx.beans.property.DoubleProperty;
  */
 
 public class MoveHorizontally extends Movement{
-
-
 	public MoveHorizontally(double value) {
 		super(value);
 		// TODO Auto-generated constructor stub
