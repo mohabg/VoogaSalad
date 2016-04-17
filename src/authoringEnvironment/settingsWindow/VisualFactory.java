@@ -36,39 +36,6 @@ public class VisualFactory {
 		mySettings = new Settings();
 	}
 
-	public String reflectionTest(Sprite mySprite) {
-
-		return "";
-	}
-
-	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
-		fields.addAll(Arrays.asList(type.getDeclaredFields()));
-
-		if (type.getSuperclass() != null) {
-			fields = getAllFields(fields, type.getSuperclass());
-		}
-
-		return fields;
-	}
-
-	public Constructor[] getConstructors(Class myClass) {
-		return myClass.getConstructors();
-	}
-
-	public static HBox makeTextInputBox(Parameter myParam, Field f) {
-		Label label1 = new Label("This:");
-		TextField textField = new TextField(f.toString());
-		HBox hb = new HBox();
-		hb.getChildren().addAll(label1, textField);
-		hb.setSpacing(10);
-		// TODO: Bind this to parameter if possible
-		return hb;
-	}
-
-	private <T> List<T> makeList(Class<T> type) {
-		List<T> pp = new ArrayList<T>();
-		return new ArrayList<T>();
-	}
 
 	// TODO: Binding and figuring out list of objects in reflection
 	// TODO: CAN WE GET WRAPAROUND FOR TABS
@@ -106,36 +73,29 @@ public class VisualFactory {
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
 			Type[] params = pt.getActualTypeArguments();
 			for (Type p : params) {
-				//if(!f.getName().equalsIgnoreCase("myCollisions")) {
-					// populate pulldown with all subclasses
-					Class<?> clazz = null;
-					try {
-						clazz = Class.forName(p.getTypeName());
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					ComboBox<String> subclassBox = makeSubclassComboBox(clazz);
-					myBox.getChildren().add(subclassBox);
-					System.out.println(p.getTypeName());
-					Type boxType = null;
-					try {
-						System.out.println("boxType " + subclassBox.getValue());
-						if (subclassBox.getValue().equalsIgnoreCase("MoveVertically")) {
-							boxType = Class.forName("behaviors." + subclassBox.getValue());
-						} else {
-							boxType = Class.forName(subclassBox.getValue());
-						}
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					//Type boxType = Class.forName(subclassBox.getValue()).
-					
-					
-					VBox fieldVBox = makeOtherPropBoxes(boxType);
-					myH.getChildren().add(fieldVBox);
-				//}
+				// populate pulldown with all subclasses
+				Class<?> clazz = null;
+				try {
+					clazz = Class.forName(p.getTypeName());
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}		
+				ComboBox<String> subclassBox = makeSubclassComboBox(clazz);
+				myBox.getChildren().add(subclassBox);
+				
+				System.out.println(p.getTypeName());
+				
+				// populate panel with combobox value's instance vars
+				Type boxType = null;
+				try {
+					System.out.println("boxType " + subclassBox.getValue());
+					boxType = Class.forName(subclassBox.getValue());
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+
+				VBox fieldVBox = makeOtherPropBoxes(boxType);
+				myH.getChildren().add(fieldVBox);
 			}
 			// TODO gravity needs to take into account angle
 			myBox.getChildren().add(myH);
@@ -172,14 +132,15 @@ public class VisualFactory {
 		Map<String, Class<?>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 		
+		// remove interfaces because they dont have instance vars
 		for (String subName : allSubclasses.keySet()) {
 			Class<?> sub = allSubclasses.get(subName);
 			if (sub.isInterface()) {
 				toRemove.add(subName);
-				System.out.println(subName);
 			}
 		}
 		
+		// in separate for loop to avoid concurrency issues
 		for (String remove : toRemove) {
 			allSubclasses.remove(remove);
 		}
@@ -188,6 +149,7 @@ public class VisualFactory {
 		List<String> allSubKeyset = new ArrayList<String>();
 		allSubKeyset.addAll(allSubclasses.keySet());
 		subclassBox.getItems().addAll(allSubKeyset);
+		
 		if (allSubKeyset.size() > 0) {
 			subclassBox.setValue(allSubKeyset.get(0));
 		} else {
@@ -195,10 +157,6 @@ public class VisualFactory {
 		}
 		// TODO MAKE A CAMELCASE CONVERTER SO INSTANCE VARIABLES LOOK NICE ON SETTINGS PANE
 		
-//		System.out.println("canonical " + allSubclasses.get(allSubKeyset.get(0)).getCanonicalName());
-//		System.out.println("simple " + allSubclasses.get(allSubKeyset.get(0)).getSimpleName());
-//		System.out.println("typename " + allSubclasses.get(allSubKeyset.get(0)).getTypeName());
-//		System.out.println("tostring " + allSubclasses.get(allSubKeyset.get(0)).toString());
 		
 		return subclassBox;
 	}
@@ -211,18 +169,19 @@ public class VisualFactory {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		Object tClassInstance = new Object();
-
-		
+	
 		Field[] tFields = tClass.getDeclaredFields();
-		//System.out.println(t.getTypeName());
 		Set<HBox> myFields = new HashSet<HBox>();
 		
 		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
 		
+		
+		Object tClassInstance = new Object();
+		
+		Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
+		
 		if (myProjectClassNames.contains(tClass.getName())) {
-			for (Field k : tFields) {
+			for (Field k : testtFields) {
 				k.setAccessible(true);
 				System.out.println(k.getName());
 				try {
@@ -243,6 +202,16 @@ public class VisualFactory {
 		newV.getChildren().addAll(myFields);
 		
 		return newV;
+	}
+	
+	private Set<Field> getAllFields(Set<Field> fields, Class<?> type, List<String> allProjectClasses) {
+		fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+		if (type.getSuperclass() != null && allProjectClasses.contains(type.getSuperclass().getTypeName())) {
+			fields = getAllFields(fields, type.getSuperclass(), allProjectClasses);
+		}
+
+		return fields;
 	}
 	
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
@@ -279,17 +248,20 @@ public class VisualFactory {
 			}
 		} else {
 			Field[] pFields = p.getType().getDeclaredFields();
-			for (Field otherField : pFields) {
-				otherField.setAccessible(true);
-				Object o = new Object();
-				try {
-					o = otherField.get(p);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					// System.out.println("wtf just happened");
-					e.printStackTrace();
+			if (parent != null) {
+				for (Field otherField : pFields) {
+					otherField.setAccessible(true);
+					Object o = new Object();
+					System.out.println(p.getGenericType() + " "  + otherField.getGenericType());
+					try {
+						o = otherField.get(parent);
+					} catch (IllegalArgumentException | IllegalAccessException e) {
+						// System.out.println("wtf just happened");
+						e.printStackTrace();
+					}
+					String pName = otherField.getName();
+					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
 				}
-				String pName = otherField.getName();
-				properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
 			}
 			// System.out.println("THIS DIDNT HAVE ANY FIELDS");
 		}

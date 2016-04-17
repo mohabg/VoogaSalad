@@ -15,6 +15,27 @@ public class SpriteProperties {
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
 
+    public SpriteProperties(){
+        myX = new SimpleDoubleProperty(0);
+        myY = new SimpleDoubleProperty(0);
+        myXvel = new SimpleDoubleProperty(0);
+        myYvel = new SimpleDoubleProperty(0);
+        myWidth = new SimpleDoubleProperty(0);
+        myHeight = new SimpleDoubleProperty(0);
+        myAngle = new SimpleDoubleProperty(0);
+    }
+    
+    public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle){
+    	this();
+        myX.set(x);
+        myY.set(y);
+        myXvel.set(xVel);
+        myYvel.set(yVel);
+        myWidth.set(width);
+        myHeight.set(height);
+        myAngle.set(angle);
+    }
+    
     public void updatePos(){
     	myX.setValue(myX.getValue()+ myXvel.getValue());
     	myY.setValue(myY.getValue()+ myYvel.getValue());
@@ -43,31 +64,6 @@ public class SpriteProperties {
 		this.myYvel = myYvel;
 	}
 
-
-
-    public SpriteProperties(){
-        myX = new SimpleDoubleProperty(0);
-        myY = new SimpleDoubleProperty(0);
-        myXvel = new SimpleDoubleProperty(0);
-        myYvel = new SimpleDoubleProperty(0);
-        myWidth = new SimpleDoubleProperty(0);
-        myHeight = new SimpleDoubleProperty(0);
-        myAngle = new SimpleDoubleProperty(0);
-//        myX.set(0);
-//        myY.set(0);
-//        myWidth.set(0);
-//        myHeight.set(0);
-//        myAngle.set(0);
-    }
-
-    public SpriteProperties(double x, double y, double width, double height, double angle){
-    	this();
-        myX.set(x);
-        myY.set(y);
-        myWidth.set(width);
-        myHeight.set(height);
-        myAngle.set(angle);
-    }
 
     public double getMyAngle() {
         return myAngle.get();

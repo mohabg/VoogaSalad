@@ -1,5 +1,7 @@
 package behaviors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -29,21 +31,21 @@ public abstract class Attack extends Sprite implements Behavior {
 	private Movement movement;
 	
 	public Attack(RefObject myRef){
-		super(myRef);
-		this.ammunition = new SimpleIntegerProperty(1);
-		this.chargeTime = new SimpleIntegerProperty(0);
-		behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
+		this (new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
 	}
 	
 	public Attack(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		super(myProperties, myHealth, myCollisions, myBehaviors, myRef);
+		this.ammunition = new SimpleIntegerProperty(1);
+		this.chargeTime = new SimpleIntegerProperty(0);
+		behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
 		
 	}
 	public Attack(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef, int ammunition, int chargeTime,
 			ApplyBehaviorConditions behaviorConditions, Movement movement) {
-		super(myProperties, myHealth, myCollisions, myBehaviors, myRef);
+		this(myProperties, myHealth, myCollisions, myBehaviors, myRef);		
 		this.ammunition.set(ammunition);
 		this.chargeTime.set(chargeTime);
 		this.behaviorConditions = behaviorConditions;
