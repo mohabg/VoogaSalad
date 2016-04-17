@@ -15,6 +15,8 @@ import javafx.scene.control.TextInputDialog;
 import level.Level;
 import level.LevelProperties;
 
+import javafx.scene.control.TextInputDialog;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
@@ -41,6 +43,8 @@ public class GameLoader {
 			+ "/SavedGameData/SavedGames/my-file.xml";
 	private static final String SAVED_FOLDER_DIRECTORY = System.getProperty("user.dir")
 			+ "/SavedGameData/SavedGames/%s.xml";
+
+	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
 
 	public GameLoader() {
 		FXConverters.configure(xstream);
@@ -81,7 +85,6 @@ public class GameLoader {
 
 		result.ifPresent(name -> saveGame(String.format(SAVED_FOLDER_DIRECTORY, name), gameLevels));
 
-		// saveGame(SAVED_DIRECTORY, gameLevels);
 	}
 
 	/**

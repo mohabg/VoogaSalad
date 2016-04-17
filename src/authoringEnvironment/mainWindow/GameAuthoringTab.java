@@ -126,15 +126,23 @@ public class GameAuthoringTab implements ITab{
 
 	@Override
 	public void setTabContent(Node content) {
+
         content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
         myTab.setContent(content);
+    }
 
-	}
+    @Override
+    public void setTabTitle(String tabTitle) {
+        myTab.setText(tabTitle);
+    }
 
-	@Override
-	public void setTabTitle(String tabTitle) {
-		myTab.setText(tabTitle);
-	}
+/**
+ * @param view is a ViewSprite that's going to be copied and get its properties set between the
+ * Sprite properties.
+ * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+ * change is made, the other knows of the change
+ */
+
 
     /**
      * @param view is a ViewSprite that's going to be copied and get its properties set between the
@@ -151,4 +159,6 @@ public class GameAuthoringTab implements ITab{
 		addWithClicking(copy);
 	}
 
-}
+
+
+    }
