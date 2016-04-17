@@ -155,6 +155,11 @@ public class Level implements ILevel {
 	private void updateSprites() {
 		for (Sprite sprite : spriteMap.values()) {
 			 sprite.update();
+			 
+			 if( !sprite.isUserControlled() && sprite.getBehaviors().get("default")!= null ){
+				 sprite.getBehaviors().get("default").apply(sprite);
+			 }
+
 			removeDeadSprite(sprite);
 		}
 	}
