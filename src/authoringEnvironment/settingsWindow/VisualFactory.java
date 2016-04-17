@@ -100,16 +100,11 @@ public class VisualFactory {
 			for (Field p : fChildren) {
 				p.setAccessible(true);
 				System.out.print(p.getName() + "  ");
-				try {
-					// o is the actual instance of f in the sprite
-					Object o = f.get(mySprite);
-					String parentName = f.getName();					
-					Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
-					myBox.getChildren().addAll(props);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
+				Object o = fieldGetObject(f, mySprite);
+				String parentName = f.getName();					
+				Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
+				myBox.getChildren().addAll(props);
 			}
 		}
 		System.out.println();
@@ -185,11 +180,12 @@ public class VisualFactory {
 				try {
 					// o is the actual instance of f in the sprite
 					tClassInstance = tClass.newInstance();
-					Object o = k.get(tClassInstance);
+					Object o = fieldGetObject(k, tClassInstance);
+					
 					String parentName = tClass.getTypeName();
 					Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());			
 					myFields.addAll(props);
-				} catch (IllegalArgumentException | IllegalAccessException | InstantiationException e) {
+				} catch (InstantiationException | IllegalAccessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -248,11 +244,7 @@ public class VisualFactory {
 					otherField.setAccessible(true);
 					Object o = fieldGetObject(otherField, parent);
 					System.out.println(p.getGenericType() + " "  + otherField.getGenericType());
-					try {
-						o = otherField.get(parent);
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						e.printStackTrace();
-					}
+						
 					String pName = otherField.getName();
 					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
 				}
