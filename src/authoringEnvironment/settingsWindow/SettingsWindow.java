@@ -1,11 +1,11 @@
 package authoringEnvironment.settingsWindow;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.Settings;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import resources.FrontEndData;
 
 /**
  * @author David Yan

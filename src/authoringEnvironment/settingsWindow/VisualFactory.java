@@ -78,14 +78,26 @@ public class VisualFactory {
 			
 			for (Type p : params) {
 				// populate pulldown with all subclasses
-				Class<?> clazz = getClass(p.getTypeName());
+				Class<?> clazz = null;
+				try {
+					clazz = Class.forName(p.getTypeName());
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				
 				ComboBox<String> subclassBox = makeSubclassComboBox(clazz);
 				myBox.getChildren().add(subclassBox);
 				
 				System.out.println(p.getTypeName());
 				
 				// populate panel with combobox value's instance vars
-				Type boxType = getClass(subclassBox.getValue());
+				Type boxType = null;
+				try {
+					boxType = Class.forName(subclassBox.getValue());
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				
 				VBox fieldVBox = makeParameterPropBoxes(boxType);
 				myH.getChildren().add(fieldVBox);
 			}
@@ -100,11 +112,16 @@ public class VisualFactory {
 			for (Field p : fChildren) {
 				p.setAccessible(true);
 				System.out.print(p.getName() + "  ");
-				
-				Object o = fieldGetObject(f, mySprite);
-				String parentName = f.getName();					
-				Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
-				myBox.getChildren().addAll(props);
+				try {
+					// o is the actual instance of f in the sprite
+					Object o = f.get(mySprite);
+					String parentName = f.getName();					
+					Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
+					myBox.getChildren().addAll(props);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		System.out.println();
@@ -161,31 +178,43 @@ public class VisualFactory {
 	}
 	
 	private VBox makeParameterPropBoxes(Type t) {
-		Class<?> tClass = getClass(t.getTypeName());
+		Class<?> tClass= null;
+		try {
+			tClass = Class.forName(t.getTypeName());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	
 		Set<HBox> myFields = new HashSet<HBox>();
 		
 		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
 		
 		
-		Object tClassInstance = new Object();
 		
-		//Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
-		Field[] tFields = t.getClass().getDeclaredFields();
+		Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
+		Field[] tFields = tClass.getDeclaredFields();
 		
 		if (myProjectClassNames.contains(tClass.getName())) {
-			for (Field k : tFields) {
+			Object tClassInstance = new Object();
+			try {
+				tClassInstance = tClass.newInstance();
+			} catch (InstantiationException | IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			for (Field k : testtFields) {
 				k.setAccessible(true);
 				System.out.println(k.getName());
+				System.out.println("poooooo " + tClass.getName());
 				try {
 					// o is the actual instance of f in the sprite
-					tClassInstance = tClass.newInstance();
-					Object o = fieldGetObject(k, tClassInstance);
 					
+					Object o = k.get(tClassInstance);
 					String parentName = tClass.getTypeName();
 					Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());			
 					myFields.addAll(props);
-				} catch (InstantiationException | IllegalAccessException e) {
+				} catch (IllegalArgumentException | IllegalAccessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -237,14 +266,18 @@ public class VisualFactory {
 			}
 		} else {
 			List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
-			Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType(), myProjectClassNames);
-			//Field[] pFields = p.getType().getDeclaredFields();
-			if (parent != null) {
+	
+			if (parent != null && myProjectClassNames.contains(p.getType().getName())) {
+				Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType(), myProjectClassNames);
 				for (Field otherField : allFields) {
 					otherField.setAccessible(true);
-					Object o = fieldGetObject(otherField, parent);
+					Object o = new Object();
 					System.out.println(p.getGenericType() + " "  + otherField.getGenericType());
-						
+					try {
+						o = otherField.get(parent);
+					} catch (IllegalArgumentException | IllegalAccessException e) {
+						e.printStackTrace();
+					}
 					String pName = otherField.getName();
 					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
 				}
@@ -303,13 +336,13 @@ public class VisualFactory {
 	}
 
 	private String convertCamelCase(String camelCaseString) {
-		String[] words = camelCaseString.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
+		String[] words = camelCaseString.split("(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])");
 		String converted = "";
 		for (String word : words) {
 			String convertedWord = Character.toUpperCase(word.charAt(0)) + word.substring(1);
-			converted.concat(convertedWord + " ");
+			converted = converted + convertedWord + " ";
 		}
-		
+		System.out.println("CONVERTED " + words.length + " " + camelCaseString + " " +  converted);
 		return converted;
 	}
 	

@@ -3,7 +3,6 @@ package gameplayer;
 import java.io.File;
 import java.util.List;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import javafx.geometry.Pos;
@@ -15,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import resources.FrontEndData;
 
 /**
  * IScreen that is displayed when the game is paused. Has buttons for

@@ -11,12 +11,12 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import resources.FrontEndData;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.Settings;
 
 /**

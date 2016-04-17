@@ -2,7 +2,6 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -16,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import level.Level;
 import level.LevelProperties;
+import resources.FrontEndData;
 
 import java.io.File;
 import java.util.ArrayList;
