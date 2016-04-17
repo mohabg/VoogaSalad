@@ -1,5 +1,6 @@
 package authoringEnvironment.authoringToolbar;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.MainAuthoringWindow;
 import authoringEnvironment.StartOptionsWindow;
@@ -22,20 +23,7 @@ public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
 
 	// TODO SWITCH TO REFLECTION
-	private final String MENU_FILE = "File";
-	private final String MENU_ITEM_NEW_FILE = "New File";
 
-	private final String MENU_ADD = "Add";
-	private final String MENU_ITEM_NEW_LEVEL = "Add New Level";
-
-	private final String MENU_SAVE = "Save Game";
-	private final String MENU_ITEM_SAVE_GAME = "Save Current Game";
-
-	private final String MENU_BACK = "Back";
-	private final String MENU_ITEM_BACK = "Back";
-
-	private final String MENU_PLAY = "Play";
-	private final String MENU_ITEM_PLAY = "Play";
 
 	public AuthoringMenubarCreator() {
 		myMenuBar = new MenuBar();
@@ -50,32 +38,43 @@ public class AuthoringMenubarCreator {
 	 * @param window
 	 */
 	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, ITabPane window) {
-		FileMenu myFileMenuMaker = new FileMenu(MENU_FILE);
-		myFileMenuMaker.setNewAction(MENU_ITEM_NEW_FILE, e -> {
+				
+		
+		FileMenu myFileMenuMaker = new FileMenu();
+//		myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString(myFileMenuMaker.getClass().getName();
+		myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
+		myFileMenuMaker.setNewAction("FileMenu1", e -> {
 			System.out.println("NOT IMPLEMENTED");
 		});
 
-		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu(MENU_ADD);
-		myNewLevelMaker.setNewAction(MENU_ITEM_NEW_LEVEL, e -> {
+		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu();
+		
+		myNewLevelMaker.setNewAction(FrontEndData.ButtonLabels.getString("AddNewLevelMenu1"), e -> {
 			window.addNewTab();
 		});
 
-		SaveGameMenu mySaveGameMenu = new SaveGameMenu(MENU_SAVE);
-		mySaveGameMenu.setNewAction(MENU_ITEM_SAVE_GAME, e -> {
+		SaveGameMenu mySaveGameMenu = new SaveGameMenu();
+		mySaveGameMenu.setName(FrontEndData.ButtonLabels.getString("SaveGameMenu"));
+
+		mySaveGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
 			saveMyGame(window);
 		});
 
-		BackMenu myBackMenu = new BackMenu(MENU_BACK);
-		myBackMenu.setNewAction(MENU_ITEM_BACK, e -> {
+		BackMenu myBackMenu = new BackMenu();
+		myBackMenu.setName(FrontEndData.ButtonLabels.getString("BackMenu"));
+
+		myBackMenu.setNewAction(FrontEndData.ButtonLabels.getString("BackMenu1"), e -> {
 			mainAuthoringWindow.returnToParentScreen();
 
 		});
 
-		PlayMenu myPlayMenu = new PlayMenu(MENU_PLAY);
-		myPlayMenu.setNewAction(MENU_ITEM_PLAY, e -> {
+		PlayMenu myPlayMenu = new PlayMenu();
+		myPlayMenu.setName(FrontEndData.ButtonLabels.getString("PlayMenu"));
+
+		myPlayMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
 			playMyGame(window);
 		});
-		myMenuBar.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myMenuBar.getStylesheets().add(FrontEndData.STYLESHEET);
 		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
 				myBackMenu.getMenu(), myPlayMenu.getMenu());
 	}

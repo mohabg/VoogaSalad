@@ -1,11 +1,11 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.FrontEndData;
 /**
  * @author: David Yan, Joe Jacob, Huijia Yu
  */
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.itemWindow.ItemWindowData;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
@@ -29,7 +29,7 @@ public class GameMakerWindow implements ITabPane {
 
 	public void init(SettingsWindow window) {
 		myTabPane = new TabPane();
-		myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		myWindow = window;
 
@@ -42,7 +42,7 @@ public class GameMakerWindow implements ITabPane {
 	 */
 
 	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
-		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
+		String tabName = FrontEndData.TAB + (myTabPane.getTabs().size() + 1);
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
 		myGameTabs.put(myTab.getTab(), myTab);
 

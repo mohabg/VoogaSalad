@@ -2,6 +2,7 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
@@ -43,8 +44,6 @@ public class PlayScreen extends Screen {
 	private List<LevelModel> gameLevels;
 	private File gameFile;
 
-	private final String PAUSE = "Pause";
-
 	public PlayScreen(File newGameFile) {
 		super();
 		gameFile = newGameFile;
@@ -63,7 +62,7 @@ public class PlayScreen extends Screen {
 	}
 
 	private Button makePauseButton() {
-		return ButtonFactory.makeButton(PAUSE, a -> {
+		return ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("pause"), a -> {
 			PauseScreen ps = new PauseScreen(this);
 			ps.initBorderPane(gameLevels);
 			switchScene(ps);

@@ -13,7 +13,6 @@ import javafx.stage.Stage;
  *
  */
 public class GameEditingFileScreen extends GameFileScreen {
-	private final String DEFAULT_PICTURE = "pictures/cipher.png";
 
 	public GameEditingFileScreen() {
 		super();

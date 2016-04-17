@@ -3,6 +3,7 @@ package gameplayer;
 import java.io.File;
 import java.util.List;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import javafx.geometry.Pos;
@@ -25,13 +26,6 @@ import javafx.stage.Stage;
 public class PauseScreen extends Screen {
 
 	private GameLoader myGameLoader;
-	private final String CONTINUE_GAME = "Continue Game";
-	private final String RESTART_GAME = "Restart Game";
-	private final String SWITCH_GAME = "Switch Games";
-	private final String SAVE_GAME = "Save Current Game";
-	private final String CHANGE_SETTINGS = "Edit Game Settings";
-	private final String BACK = "Back to Start";
-
 
 	public PauseScreen(Screen parent) {
 		super(parent);
@@ -47,29 +41,31 @@ public class PauseScreen extends Screen {
 	private VBox makePauseScreenButtons(List<LevelModel> gameLevels) {
 		VBox box = new VBox();
 
-		Button cont = ButtonFactory.makeButton(CONTINUE_GAME, a -> {
+		Button cont = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("continuegame"), a -> {
 			switchScene(parentScreen);
 		});
 
-		Button restart = ButtonFactory.makeButton(RESTART_GAME, a -> {
+		Button restart = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("restartgame"), a -> {
 			File currGameFile = ((PlayScreen) parentScreen).getGameFile();
 			switchScene(myGameLoader.newGame(currGameFile));
 
 		});
 
-		Button switchgame = ButtonFactory.makeButton(SWITCH_GAME, a -> {
+		Button switchgame = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("switchgame"), a -> {
 			switchScene(new GamePlayingFileScreen());
 		});
 
-		Button save = ButtonFactory.makeButton(SAVE_GAME, a -> {
+		Button save = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("savegame"), a -> {
 			myGameLoader.saveGame(gameLevels);
 		});
 
-		Button settings = ButtonFactory.makeButton(CHANGE_SETTINGS, a -> {
+		Button settings = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("changesettings"), a -> {
 			switchScene(new SettingsScreen());
 		});
-		
-		Button back = ButtonFactory.makeButton(BACK, a-> {returnToStart();});
+
+		Button back = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("backtostart"), a -> {
+			returnToStart();
+		});
 
 		box.getChildren().addAll(cont, restart, switchgame, save, settings, back);
 

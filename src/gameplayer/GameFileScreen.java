@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.Settings;
 
 /**
@@ -28,14 +29,6 @@ public abstract class GameFileScreen extends Screen {
 	private File myGameFile;
 	private TabPane tabPane;
 
-	private final File DEFAULT_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/DefaultGames");
-	private final File SAVED_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/SavedGames");
-
-	private final String FILE_TYPE = ".xml";
-	private final String DEFAULT_PICTURE = "pictures/cipher.png";
-	private final String DEFAULT_GAMES = "Default Games";
-	private final String SAVED_GAMES = "Saved Games";
-	private static final String BACK = "back";
 
 
 	private GameLoader myGameLoader;
@@ -49,10 +42,10 @@ public abstract class GameFileScreen extends Screen {
 	}
 
 	private void initTabs() {
-		tabPane.getTabs().add(addTab(DEFAULT_GAMES, DEFAULT_DIRECTORY));
-		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
+		tabPane.getTabs().add(addTab(FrontEndData.ButtonLabels.getString("defaultgames"), FrontEndData.DEFAULT_DIRECTORY));
+		tabPane.getTabs().add(addTab(FrontEndData.ButtonLabels.getString("savedgames"), FrontEndData.SAVED_DIRECTORY));
 		BorderPane pane = new BorderPane();
-		pane.setTop(ButtonFactory.makeButton(BACK, a-> {returnToStart();}));
+		pane.setTop(ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("backtostart"), a-> {returnToStart();}));
 		myPane.getChildren().add(tabPane);
 	}
 
@@ -71,7 +64,7 @@ public abstract class GameFileScreen extends Screen {
 	}
 
 	private File[] getGames(File directory) {
-		return directory.listFiles(f -> f.getName().endsWith(FILE_TYPE));
+		return directory.listFiles(f -> f.getName().endsWith(FrontEndData.FILE_TYPE));
 	}
 
 	/**
@@ -85,7 +78,7 @@ public abstract class GameFileScreen extends Screen {
 	public VBox makeDisplay(File file) {
 		ImageView imageview = new ImageView();
 		// TODO have this pull the saved game's picture
-		imageview.setImage(new Image(DEFAULT_PICTURE));
+		imageview.setImage(new Image(FrontEndData.DEFAULT_IMAGE));
 		imageview.setOnMouseClicked((event) -> {
 			setOnMouseClick(file);
 		});

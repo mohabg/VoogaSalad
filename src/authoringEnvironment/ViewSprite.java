@@ -14,10 +14,6 @@ import javafx.scene.image.ImageView;
 public class ViewSprite extends ImageView {
 
 	private StringProperty myRef;
-	// private List<NumProperty> myPropertiesList;
-	// private Health myHealth;
-	// private Attack myAttack;
-	// private Defense myDefense;
 	private SpriteProperties mySpriteProperties;
 	private ObjectProperty<Image> imageProp;
 	

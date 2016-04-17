@@ -1,5 +1,6 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -23,7 +24,6 @@ import java.util.Map;
  * @author David Yan, Huijia Yu, Joe Jacob
  */
 public class GameAuthoringTab implements ITab{
-	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 
@@ -94,7 +94,7 @@ public class GameAuthoringTab implements ITab{
      */
 
 	public VBox setSettingsContent(Sprite spriteModel) {
-		VBox myBox = new VBox(VBOX_SPACING);
+		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;

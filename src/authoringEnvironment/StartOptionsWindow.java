@@ -1,5 +1,7 @@
 package authoringEnvironment;
 
+import java.util.ResourceBundle;
+
 import gameplayer.ButtonFactory;
 import gameplayer.GameEditingFileScreen;
 import gameplayer.GamePlayingFileScreen;
@@ -18,12 +20,7 @@ public class StartOptionsWindow extends Screen {
 
 	private Stage myStage;
 	private VBox startWindowBox;
-
-	private final String CREATE_GAME = "Create A New Game";
-	private final String EDIT_GAME = "Edit An Existing Game";
-	private final String PLAY_GAME = "Play a Game";
-
-	private final String DEFAULT_IMAGE = "pictures/gaming.png";
+	
 
 	public StartOptionsWindow(Stage currStage) {
 		super();
@@ -37,19 +34,19 @@ public class StartOptionsWindow extends Screen {
 
 	private void makeAndSetStartBox() {
 		// TODO CHANGE THIS TO USE REFLECTION
-		ImageView myLogo = new ImageView(DEFAULT_IMAGE);
+		ImageView myLogo = new ImageView(FrontEndData.DEFAULT_IMAGE);
 
-		Button createNewButton = ButtonFactory.makeButton(CREATE_GAME, (e -> {
+		Button createNewButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("new"), (e -> {
 			switchScene(new MainAuthoringWindow(this));
 			myStage.centerOnScreen();
 		}));
 
-		Button editButton = ButtonFactory.makeButton(EDIT_GAME, (e -> {
+		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {
 
 			switchScene((Screen) new GameEditingFileScreen());
 		}));
 
-		Button playButton = ButtonFactory.makeButton(PLAY_GAME, (e -> {
+		Button playButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("play"), (e -> {
 			switchScene((Screen) new GamePlayingFileScreen());
 		}));
 
