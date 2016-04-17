@@ -19,6 +19,7 @@ public class SettingsWindow {
 		myDisplay = new VBox();
 		Settings.setSettingsDisplaySettings(myDisplay);
 
+
 		HBox myTempBox = new HBox();
 		Label myLabel = new Label("Example Property:");
         myLabel.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");

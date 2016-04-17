@@ -4,6 +4,7 @@ import behaviors.Behavior;
 import behaviors.Defense;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
+import level.LevelProperties;
 
 /**
  * Refers to methods that damage the health of a Sprite upon collision. 
@@ -13,18 +14,18 @@ import javafx.beans.property.DoubleProperty;
 
 public class DamageCollision extends Collision{
 	
-	public DamageCollision() {
-		super();
+	public DamageCollision(Sprite sprite) {
+		super(sprite);
 	}
 	
-	public DamageCollision(double value) {
-		super(value);
+	public DamageCollision(Sprite sprite, double value) {
+		super(sprite, value);
 	}
 	
 	/**
 	 * @param collision The Enemy sprite that you want to cause damage to
 	 */
-	protected void handleCollision(EnemyCollision collision){
+	public void handleCollision(EnemyCollision collision, LevelProperties levelPropertiess){
 		if(collision.isCollidingWithUser(this)){
 			causeDamage(collision.getSprite(), getValue());
 		}
@@ -33,7 +34,7 @@ public class DamageCollision extends Collision{
 	/**
 	 * @param collision The Actor sprite that you want to cause damage to
 	 */
-	protected void handleCollision(ActorCollision collision){
+	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
 		if( !(collision.isCollidingWithUser(this)) ){
 			causeDamage(collision.getSprite(), getValue());
 		}

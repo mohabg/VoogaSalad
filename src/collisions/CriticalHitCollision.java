@@ -1,7 +1,9 @@
 package collisions;
 
+import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.LevelProperties;
 
 /**
  * Describes dealing a "critical hit" in a sprite.
@@ -15,12 +17,13 @@ public class CriticalHitCollision extends DamageCollision{
 	
 	private DoubleProperty criticalHitDamage;
 	
-	public CriticalHitCollision() {
+	public CriticalHitCollision(Sprite sprite) {
+		super(sprite);
 		criticalHitDamage = new SimpleDoubleProperty();
 	}
 	
-	public CriticalHitCollision(double value, double criticalHitDamage){
-		super(value);
+	public CriticalHitCollision(Sprite sprite, double value, double criticalHitDamage){
+		super(sprite, value);
 		this.criticalHitDamage = new SimpleDoubleProperty();
 		this.criticalHitDamage.set(criticalHitDamage);
 	}
@@ -32,8 +35,8 @@ public class CriticalHitCollision extends DamageCollision{
 	/**
 	 * @param collision The automated sprite that the user controlled sprite is colliding into
 	 **/
-	@Override
-	protected void handleCollision(EnemyCollision collision){
+
+	public void handleCollision(EnemyCollision collision, LevelProperties levelPrpperties){
 		if(collision.isCollidingWithUser(this)){
 			if(Math.random() < getValue()){
 				causeDamage(collision.getSprite(), getCriticalHitDamage());
@@ -43,8 +46,8 @@ public class CriticalHitCollision extends DamageCollision{
 	/**
 	 * @param collision Human controlled sprite that is colliding
 	 */
-	@Override
-	protected void handleCollision(ActorCollision collision){
+	
+	public void handleCollision(ActorCollision collision){
 		if( !(collision.isCollidingWithUser(this)) ){
 			if(Math.random() < getValue()){
 				causeDamage(collision.getSprite(), getCriticalHitDamage());
