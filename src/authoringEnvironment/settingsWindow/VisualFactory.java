@@ -17,6 +17,7 @@ import resources.ResourcesReader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -96,26 +97,9 @@ public class VisualFactory {
 		Field[] fChildren = f.getType().getDeclaredFields();
 		
 		
+		// TODO make it work for single properties in Sprite
 		
-		// if one of the first fields is just a Property
-		// TODO DOESNT WORK YET
-//		if (isAProperty(f, mySprite)) {
-//			// System.out.println("im hereeee");
-//			try {
-//				//Property pObject = (Property) p.get(parent);
-//				//String pObjectName = p.getName();				
-//				//properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
-//				
-//				Property fObject = (Property) f.get(mySprite);
-//				String fObjectName = f.getName();		
-//				// System.out.println("pass2");
-//				Set<HBox> props = makePropertyBoxes(f, fObject, fObjectName, new HashSet<HBox>());
-//				//props.add(makeSettingsObject(pObject, pObjectName));
-//				// System.out.println("pass3444");
-//				myBox.getChildren().addAll(props);
-//			} catch (IllegalArgumentException | IllegalAccessException e) {}
-//		}
-		
+		// this is for things like Lists and Maps
 		if (f.getGenericType() instanceof ParameterizedType) {
 			HBox myH = new HBox();
 			System.out.println("parameterized type " + f.getName());
@@ -134,10 +118,26 @@ public class VisualFactory {
 					ComboBox<String> subclassBox = makeSubclassComboBox(clazz);
 					myBox.getChildren().add(subclassBox);
 					System.out.println(p.getTypeName());
-					VBox fieldVBox = makeOtherPropBoxes(p);
-					//myH.getChildren().add(fieldVBox);
+					Type boxType = null;
+					try {
+						System.out.println("boxType " + subclassBox.getValue());
+						if (subclassBox.getValue().equalsIgnoreCase("MoveVertically")) {
+							boxType = Class.forName("behaviors." + subclassBox.getValue());
+						} else {
+							boxType = Class.forName(subclassBox.getValue());
+						}
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//Type boxType = Class.forName(subclassBox.getValue()).
+					
+					
+					VBox fieldVBox = makeOtherPropBoxes(boxType);
+					myH.getChildren().add(fieldVBox);
 				}
 			}
+			// TODO gravity needs to take into account angle
 			myBox.getChildren().add(myH);
 		} else {
 			// populate pulldown with all subclasses
@@ -161,12 +161,6 @@ public class VisualFactory {
 		}
 		System.out.println();
 		
-		//myBox.getChildren().add(oneSpinner(f, mySprite));
-		// Field[] properties = f.getType().getDeclaredFields();
-		// for (Field p: properties){
-		// myBox.getChildren().add(oneSpinner(p));
-		// }
-		// TODO I HAVE TO FIGURE OUT HOW I WOULD KNOW IT'S SPRITEPROPERTIES
 		
 		myPane.getChildren().add(myBox);
         myPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
@@ -176,8 +170,30 @@ public class VisualFactory {
 	
 	private ComboBox<String> makeSubclassComboBox(Class<?> clazz) {
 		Map<String, Class<?>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		List<String> toRemove = new ArrayList<String>();
+		
+		for (String subName : allSubclasses.keySet()) {
+			Class<?> sub = allSubclasses.get(subName);
+			if (sub.isInterface() || Modifier.isAbstract( sub.getModifiers())) {
+				toRemove.add(subName);
+				System.out.println(subName);
+			}
+		}
+		
+		for (String remove : toRemove) {
+			allSubclasses.remove(remove);
+		}
+		
 		ComboBox<String> subclassBox = new ComboBox<String>();
-		subclassBox.getItems().addAll(allSubclasses.keySet());
+		List<String> allSubKeyset = new ArrayList<String>();
+		allSubKeyset.addAll(allSubclasses.keySet());
+		subclassBox.getItems().addAll(allSubKeyset);
+		if (allSubKeyset.size() > 0) {
+			subclassBox.setValue(allSubKeyset.get(0));
+		} else {
+			subclassBox.setValue(clazz.getName());
+		}
+		
 		return subclassBox;
 	}
 	
