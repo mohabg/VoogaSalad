@@ -17,6 +17,10 @@ public class CriticalHitCollision extends DamageCollision{
 	
 	private DoubleProperty criticalHitDamage;
 	
+	public CriticalHitCollision() {
+		this(new Sprite(""));
+	}
+	
 	public CriticalHitCollision(Sprite sprite) {
 		super(sprite);
 		criticalHitDamage = new SimpleDoubleProperty();

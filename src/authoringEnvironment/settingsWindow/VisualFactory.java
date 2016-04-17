@@ -106,7 +106,7 @@ public class VisualFactory {
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
 			Type[] params = pt.getActualTypeArguments();
 			for (Type p : params) {
-				if(!f.getName().equalsIgnoreCase("myCollisions")) {
+				//if(!f.getName().equalsIgnoreCase("myCollisions")) {
 					// populate pulldown with all subclasses
 					Class<?> clazz = null;
 					try {
@@ -135,7 +135,7 @@ public class VisualFactory {
 					
 					VBox fieldVBox = makeOtherPropBoxes(boxType);
 					myH.getChildren().add(fieldVBox);
-				}
+				//}
 			}
 			// TODO gravity needs to take into account angle
 			myBox.getChildren().add(myH);
@@ -174,7 +174,7 @@ public class VisualFactory {
 		
 		for (String subName : allSubclasses.keySet()) {
 			Class<?> sub = allSubclasses.get(subName);
-			if (sub.isInterface() || Modifier.isAbstract( sub.getModifiers())) {
+			if (sub.isInterface()) {
 				toRemove.add(subName);
 				System.out.println(subName);
 			}
@@ -193,6 +193,12 @@ public class VisualFactory {
 		} else {
 			subclassBox.setValue(clazz.getName());
 		}
+		// TODO MAKE A CAMELCASE CONVERTER SO INSTANCE VARIABLES LOOK NICE ON SETTINGS PANE
+		
+//		System.out.println("canonical " + allSubclasses.get(allSubKeyset.get(0)).getCanonicalName());
+//		System.out.println("simple " + allSubclasses.get(allSubKeyset.get(0)).getSimpleName());
+//		System.out.println("typename " + allSubclasses.get(allSubKeyset.get(0)).getTypeName());
+//		System.out.println("tostring " + allSubclasses.get(allSubKeyset.get(0)).toString());
 		
 		return subclassBox;
 	}
@@ -224,8 +230,8 @@ public class VisualFactory {
 					tClassInstance = Class.forName(t.getTypeName()).newInstance();
 					Object o = k.get(tClassInstance);
 					String parentName = tClass.getTypeName();
-					//Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());			
-					//myFields.addAll(props);
+					Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());			
+					myFields.addAll(props);
 				} catch (IllegalArgumentException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					System.out.println(k.getName());
