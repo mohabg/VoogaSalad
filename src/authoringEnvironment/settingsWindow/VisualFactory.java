@@ -30,7 +30,7 @@ public class VisualFactory {
 	private static final int HBOX_INSET = 10;
 	private Settings mySettings;
 	private ResourcesReader myReader;
-	private int poo;
+	private final String SCROLL_PANE_CSS = "-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;";
 
 	public VisualFactory() {
 		mySettings = new Settings();
@@ -47,21 +47,24 @@ public class VisualFactory {
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
 		for (Field f : fields) {
+			f.setAccessible(true);
 			myTabs.getTabs().add(getOneTab(f, mySprite));
 		}
 		//
 		return myTabs;
 	}
-
+	
 	private Tab getOneTab(Field f, Sprite mySprite) {
-		f.setAccessible(true);
 		String tabName = f.getName();
 		Tab myTab = new Tab(tabName);
+		
 		VBox myBox = new VBox();
-		AnchorPane myPane = new AnchorPane();
-        myPane.setStyle("-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;");
-        // System.out.println(f.getGenericType());
-		Field[] fChildren = f.getType().getDeclaredFields();
+		ScrollPane myScrollPane = new ScrollPane();
+		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		
+        AnchorPane myAnchorPane = new AnchorPane();
+        
 		
 		
 		// TODO make it work for single properties in Sprite
@@ -72,45 +75,35 @@ public class VisualFactory {
 			System.out.println("parameterized type " + f.getName());
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
 			Type[] params = pt.getActualTypeArguments();
+			
 			for (Type p : params) {
 				// populate pulldown with all subclasses
-				Class<?> clazz = null;
-				try {
-					clazz = Class.forName(p.getTypeName());
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}		
+				Class<?> clazz = getClass(p.getTypeName());
 				ComboBox<String> subclassBox = makeSubclassComboBox(clazz);
 				myBox.getChildren().add(subclassBox);
 				
 				System.out.println(p.getTypeName());
 				
 				// populate panel with combobox value's instance vars
-				Type boxType = null;
-				try {
-					System.out.println("boxType " + subclassBox.getValue());
-					boxType = Class.forName(subclassBox.getValue());
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-
-				VBox fieldVBox = makeOtherPropBoxes(boxType);
+				Type boxType = getClass(subclassBox.getValue());
+				VBox fieldVBox = makeParameterPropBoxes(boxType);
 				myH.getChildren().add(fieldVBox);
 			}
-			// TODO gravity needs to take into account angle
+			
 			myBox.getChildren().add(myH);
 		} else {
 			// populate pulldown with all subclasses
 			ComboBox<String> subclassBox = makeSubclassComboBox(f.getType());
 			myBox.getChildren().add(subclassBox);
+			Field[] fChildren = f.getType().getDeclaredFields();
+			
 			for (Field p : fChildren) {
+				p.setAccessible(true);
 				System.out.print(p.getName() + "  ");
 				try {
 					// o is the actual instance of f in the sprite
 					Object o = f.get(mySprite);
-					String parentName = f.getName();
-					// System.out.println("parent name " + parentName);
-					p.setAccessible(true);
+					String parentName = f.getName();					
 					Set<HBox> props = makePropertyBoxes(p, o, parentName, new HashSet<HBox>());
 					myBox.getChildren().addAll(props);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -121,11 +114,23 @@ public class VisualFactory {
 		}
 		System.out.println();
 		
-		
-		myPane.getChildren().add(myBox);
-        myPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-        myTab.setContent(myPane);
+		myAnchorPane.getChildren().add(myBox);
+		myScrollPane.setContent(myAnchorPane);
+        myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        
+        myTab.setContent(myScrollPane);
 		return myTab;
+	}
+	
+	private Class<?> getClass(String className) {
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return clazz;
 	}
 	
 	private ComboBox<String> makeSubclassComboBox(Class<?> clazz) {
@@ -133,6 +138,7 @@ public class VisualFactory {
 		List<String> toRemove = new ArrayList<String>();
 		
 		// remove interfaces because they dont have instance vars
+		// TODO might need to change this in the future
 		for (String subName : allSubclasses.keySet()) {
 			Class<?> sub = allSubclasses.get(subName);
 			if (sub.isInterface()) {
@@ -155,22 +161,13 @@ public class VisualFactory {
 		} else {
 			subclassBox.setValue(clazz.getName());
 		}
-		// TODO MAKE A CAMELCASE CONVERTER SO INSTANCE VARIABLES LOOK NICE ON SETTINGS PANE
-		
 		
 		return subclassBox;
 	}
 	
-	private VBox makeOtherPropBoxes(Type t) {
-		Class<?> tClass = null;
-		try {
-			tClass = Class.forName(t.getTypeName());
-		} catch (SecurityException | ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	private VBox makeParameterPropBoxes(Type t) {
+		Class<?> tClass = getClass(t.getTypeName());
 	
-		Field[] tFields = tClass.getDeclaredFields();
 		Set<HBox> myFields = new HashSet<HBox>();
 		
 		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
@@ -178,26 +175,27 @@ public class VisualFactory {
 		
 		Object tClassInstance = new Object();
 		
-		Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
+		//Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
+		Field[] tFields = t.getClass().getDeclaredFields();
 		
 		if (myProjectClassNames.contains(tClass.getName())) {
-			for (Field k : testtFields) {
+			for (Field k : tFields) {
 				k.setAccessible(true);
 				System.out.println(k.getName());
 				try {
 					// o is the actual instance of f in the sprite
-					tClassInstance = Class.forName(t.getTypeName()).newInstance();
+					tClassInstance = tClass.newInstance();
 					Object o = k.get(tClassInstance);
 					String parentName = tClass.getTypeName();
 					Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());			
 					myFields.addAll(props);
-				} catch (IllegalArgumentException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+				} catch (IllegalArgumentException | IllegalAccessException | InstantiationException e) {
 					// TODO Auto-generated catch block
-					System.out.println(k.getName());
 					e.printStackTrace();
 				}
 			}
 		}
+		
 		VBox newV = new VBox();
 		newV.getChildren().addAll(myFields);
 		
@@ -215,13 +213,10 @@ public class VisualFactory {
 	}
 	
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
-		//System.out.println(p.getName());
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
-			// System.out.println("pass2323");
 			HBox settingsHBox = makeSettingsObject(parent, parentName);
 			properties.add(settingsHBox);
-			//// System.out.println("GOT TO FIRST THING");
 			return properties;
 		} else if (parent instanceof List) {
 			System.out.println("LIST");
@@ -238,35 +233,42 @@ public class VisualFactory {
 		
 		if (isProperty) {
 			try {
-				//// System.out.println("IS A PROPERTY PASSED");
 				Property pObject = (Property) p.get(parent);
 				String pObjectName = p.getName();				
 				properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
-			Field[] pFields = p.getType().getDeclaredFields();
+			List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
+			Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType(), myProjectClassNames);
+			//Field[] pFields = p.getType().getDeclaredFields();
 			if (parent != null) {
-				for (Field otherField : pFields) {
+				for (Field otherField : allFields) {
 					otherField.setAccessible(true);
-					Object o = new Object();
+					Object o = fieldGetObject(otherField, parent);
 					System.out.println(p.getGenericType() + " "  + otherField.getGenericType());
 					try {
 						o = otherField.get(parent);
 					} catch (IllegalArgumentException | IllegalAccessException e) {
-						// System.out.println("wtf just happened");
 						e.printStackTrace();
 					}
 					String pName = otherField.getName();
 					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
 				}
 			}
-			// System.out.println("THIS DIDNT HAVE ANY FIELDS");
 		}
-		
 		return properties;
+	}
+	
+	private Object fieldGetObject(Field childField, Object parentObject) {
+		Object o = null;
+		try {
+			o = childField.get(parentObject);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return o;
 	}
 	
 	private boolean isAProperty(Field p) {
@@ -279,9 +281,12 @@ public class VisualFactory {
 	private HBox makeSettingsObject(Object myProp, String propName) {
 		HBox propHBox = new HBox();
         propHBox.setPadding(new Insets(20,20,20,20));
-		Label propLabelName = new Label(propName);
+        String labelText = convertCamelCase(propName);
+		Label propLabelName = new Label(labelText);
+		
         propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
         propLabelName.setAlignment(Pos.CENTER);
+        
         if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;			
 			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
@@ -305,6 +310,17 @@ public class VisualFactory {
 		return propHBox;
 	}
 
+	private String convertCamelCase(String camelCaseString) {
+		String[] words = camelCaseString.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
+		String converted = "";
+		for (String word : words) {
+			String convertedWord = Character.toUpperCase(word.charAt(0)) + word.substring(1);
+			converted.concat(convertedWord + " ");
+		}
+		
+		return converted;
+	}
+	
 	private Spinner makeDoubleSpinner(DoubleProperty dp) {
 		Spinner mySpinner = new Spinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);

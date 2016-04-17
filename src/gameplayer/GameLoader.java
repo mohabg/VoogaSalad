@@ -6,7 +6,8 @@ import authoringEnvironment.mainWindow.GameAuthoringTab;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-import exampledata.XStreamHandlers.FXConverters;
+
+import XStreamHandlers.FXConverters;
 import gameElements.Sprite;
 import interfaces.ITab;
 import interfaces.ITabPane;
