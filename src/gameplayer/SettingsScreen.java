@@ -9,29 +9,11 @@ import javafx.stage.Stage;
  * @author Huijia
  *
  */
-public class SettingsScreen implements IScreen {
-	private Pane myPane;
-	private Scene myScene;
-	private IScreen parentScreen;
+public class SettingsScreen extends Screen {
 	
 	public SettingsScreen() {
-		myPane = new Pane();
-		myScene = new Scene(myPane);
+		super();
 	}
 	
-	@Override
-	public Scene getScene() {
-		return myPane.getScene();
-	}
-
-	@Override
-	public void switchScene(IScreen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());	
-	}
-
-	@Override
-	public void setParentScreen(IScreen screen) {
-		parentScreen = screen;	
-	}
 
 }
