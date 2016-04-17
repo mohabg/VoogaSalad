@@ -24,12 +24,13 @@ public class GameMakerWindow implements ITabPane {
 	private SettingsWindow myWindow;
 
 	public GameMakerWindow() {
-		myTabPane = new TabPane();
-		myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
+
 	}
 
 	public void init(SettingsWindow window) {
+		myTabPane = new TabPane();
+		myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		myWindow = window;
 
 	}
@@ -56,8 +57,12 @@ public class GameMakerWindow implements ITabPane {
 	 */
 
 	public void setGameTabs(List<LevelModel> gameLevels) {
-
+		myTabPane.getTabs().clear();
+		;
+		// myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		for (LevelModel lm : gameLevels) {
+			System.out.println("new tab");
 			createNewTab(lm.getMyMap());
 		}
 	}
@@ -81,8 +86,8 @@ public class GameMakerWindow implements ITabPane {
 	@Override
 	public List<ITab> getITabs() {
 		List<ITab> myITabsList = new ArrayList<ITab>();
-		myGameTabs.values().stream().forEach(e -> {
-			myITabsList.add((ITab) e);
+		myTabPane.getTabs().forEach(e -> {
+			myITabsList.add((ITab) myGameTabs.get(e));
 		});
 		return myITabsList;
 	}

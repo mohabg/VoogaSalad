@@ -119,14 +119,14 @@ public class GameLoader {
 	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
 	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
 		// FXConverters.configure(xstream);
-		System.out.println("number of tabs:" + levels.getTabPane().getTabs().size());
-		System.out.println("number of itabs: " + levels.getITabs().size());
+
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (ITab levelTab : levels.getITabs()) {
-			System.out.println("level" + levelTab.toString());
+
 			Map<ViewSprite, Sprite> spriteModels = ((GameAuthoringTab) levelTab).getMap();
 			LevelModel newLM = new LevelModel(spriteModels);
 			levelModelList.add(newLM);
+			System.out.println("items in tab: " + spriteModels.size());
 		}
 		return levelModelList;
 	}
@@ -142,7 +142,7 @@ public class GameLoader {
 		return (List<LevelModel>) xstream.fromXML(file);
 	}
 
-	//TODO: TALK ABOUT STATIC IN GAMELOADER????
+	// TODO: TALK ABOUT STATIC IN GAMELOADER????
 	public static Map<Level, List<ViewSprite>> makeLevelViewSpriteMap(List<LevelModel> gameLevels) {
 		Map<Level, List<ViewSprite>> myViewSprites = new HashMap<Level, List<ViewSprite>>();
 

@@ -6,6 +6,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -34,6 +35,8 @@ public abstract class GameFileScreen extends Screen {
 	private final String DEFAULT_PICTURE = "pictures/cipher.png";
 	private final String DEFAULT_GAMES = "Default Games";
 	private final String SAVED_GAMES = "Saved Games";
+	private static final String BACK = "back";
+
 
 	private GameLoader myGameLoader;
 
@@ -48,6 +51,8 @@ public abstract class GameFileScreen extends Screen {
 	private void initTabs() {
 		tabPane.getTabs().add(addTab(DEFAULT_GAMES, DEFAULT_DIRECTORY));
 		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
+		BorderPane pane = new BorderPane();
+		pane.setTop(ButtonFactory.makeButton(BACK, a-> {returnToStart();}));
 		myPane.getChildren().add(tabPane);
 	}
 
