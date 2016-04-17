@@ -234,7 +234,7 @@ public class VisualFactory {
 		}
 		
 		// is Field p a Property????
-		boolean isProperty = isAProperty(p, parent);
+		boolean isProperty = isAProperty(p);
 		
 		if (isProperty) {
 			try {
@@ -269,10 +269,8 @@ public class VisualFactory {
 		return properties;
 	}
 	
-	private boolean isAProperty(Field p, Object o) {
-		// System.out.println(p.getType().getName());
+	private boolean isAProperty(Field p) {
 		if (Property.class.isAssignableFrom(p.getType())) {
-			// System.out.println("im a porpppp");
 			return true;
 		}
 		return false;
