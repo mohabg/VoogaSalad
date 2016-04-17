@@ -10,6 +10,7 @@ import exampledata.XStreamHandlers.FXConverters;
 import gameElements.Sprite;
 import interfaces.ITab;
 import interfaces.ITabPane;
+import javafx.scene.control.TextInputDialog;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -19,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Class for saving and loading from files. Uses xstream.
@@ -33,6 +35,9 @@ public class GameLoader {
 			+ "/SavedGameData/DefaultGames/my-file.xml";
 	private static final String SAVED_DIRECTORY = System.getProperty("user.dir")
 			+ "/SavedGameData/SavedGames/my-file.xml";
+
+    private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir")
+            + "/SavedGameData/SavedGames/";
 
 	public GameLoader() {
 		FXConverters.configure(xstream);
@@ -60,7 +65,16 @@ public class GameLoader {
 	 */
 	public static void saveGame(List<LevelModel> gameLevels) {
 		FXConverters.configure(xstream);
-		saveGame(SAVED_DIRECTORY, gameLevels);
+        TextInputDialog dialog = new TextInputDialog("walter");
+        dialog.setTitle("Save Game");
+        dialog.setHeaderText("Save Game As");
+        dialog.setContentText("Game File Name:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> saveGame(SAVED_DIRECTORY2+name+".xml",gameLevels));
+
+        //saveGame(SAVED_DIRECTORY, gameLevels);
 	}
 
 	/**
