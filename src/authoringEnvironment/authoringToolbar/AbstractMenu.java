@@ -11,8 +11,7 @@ import javafx.scene.control.MenuItem;
 public abstract class AbstractMenu {
 	private Menu myMenu;
 	
-	public AbstractMenu(String menuName) {
-		myMenu = new Menu(menuName);
+	public AbstractMenu() {
 	}
 	
 	/** 
@@ -21,6 +20,10 @@ public abstract class AbstractMenu {
 	 * @param action is the action set for this item
 	 */
 	
+	public void setName(String menuName){
+		myMenu = new Menu(menuName);
+
+	}
 	public void setNewAction(String itemName, EventHandler<ActionEvent> action) {
 		MenuItem myNewFile = new MenuItem(itemName);
         myNewFile.setOnAction(action);
