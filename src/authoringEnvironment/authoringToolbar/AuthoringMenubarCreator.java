@@ -1,6 +1,7 @@
 package authoringEnvironment.authoringToolbar;
 
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.MainAuthoringWindow;
 import authoringEnvironment.StartOptionsWindow;
 import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
@@ -9,9 +10,11 @@ import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
 
 import java.util.List;
-/** 
- * This is the creator for the menubar, which allows the user to select new files,
- *  add a level, save, or return to the start screen
+
+/**
+ * This is the creator for the menubar, which allows the user to select new
+ * files, add a level, save, or return to the start screen
+ * 
  * @author Huijia, David Yan, Joe Jacob
  *
  */
@@ -30,20 +33,23 @@ public class AuthoringMenubarCreator {
 
 	private final String MENU_BACK = "Back";
 	private final String MENU_ITEM_BACK = "Back";
-	
+
 	private final String MENU_PLAY = "Play";
 	private final String MENU_ITEM_PLAY = "Play";
 
 	public AuthoringMenubarCreator() {
 		myMenuBar = new MenuBar();
 	}
-	/** 
-	 * This method initializes the menubar using the tabpane (to set the add tab action). 
-	 * We made this to eliminate dependencies.
+
+	/**
+	 * This method initializes the menubar using the tabpane (to set the add tab
+	 * action). We made this to eliminate dependencies.
+	 * 
+	 * @param mainAuthoringWindow
 	 * 
 	 * @param window
 	 */
-	public void initMenuBar(ITabPane window) {
+	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, ITabPane window) {
 		FileMenu myFileMenuMaker = new FileMenu(MENU_FILE);
 		myFileMenuMaker.setNewAction(MENU_ITEM_NEW_FILE, e -> {
 			System.out.println("NOT IMPLEMENTED");
@@ -61,34 +67,28 @@ public class AuthoringMenubarCreator {
 
 		BackMenu myBackMenu = new BackMenu(MENU_BACK);
 		myBackMenu.setNewAction(MENU_ITEM_BACK, e -> {
-			setStartStage();
+			mainAuthoringWindow.returnToParentScreen();
+
 		});
-		
-		PlayMenu myPlayMenu	= new PlayMenu(MENU_PLAY);
-		myPlayMenu.setNewAction(MENU_ITEM_PLAY, e-> {
+
+		PlayMenu myPlayMenu = new PlayMenu(MENU_PLAY);
+		myPlayMenu.setNewAction(MENU_ITEM_PLAY, e -> {
 			playMyGame(window);
 		});
-        myMenuBar.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myMenuBar.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
 				myBackMenu.getMenu(), myPlayMenu.getMenu());
 	}
 
-	private void setStartStage() {
-		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
-        myStage.setScene(new StartOptionsWindow(myStage).getScene());
-        myStage.centerOnScreen();
+	private void saveMyGame(ITabPane tabLevels) {
+		GameLoader.saveGame(tabLevels);
 	}
 
-	private void saveMyGame(ITabPane tabLevels) {
-		List<LevelModel> levelModels = GameLoader.levelTabsToModels(tabLevels);
-		GameLoader.saveGame(levelModels);
-	}
-	
 	private void playMyGame(ITabPane tabLevels) {
 		saveMyGame(tabLevels);
 		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
-        myStage.setScene(new GamePlayingFileScreen().getScene());
-        myStage.centerOnScreen();
+		myStage.setScene(new GamePlayingFileScreen().getScene());
+		myStage.centerOnScreen();
 	}
 
 	public MenuBar getMenuBar() {

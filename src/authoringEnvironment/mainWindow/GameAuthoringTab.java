@@ -146,15 +146,7 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-		
-        copy.xProperty().bindBidirectional(mCopy.getX());
-        copy.yProperty().bindBidirectional(mCopy.getY());
-        copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
-        copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
-        copy.rotateProperty().bindBidirectional(mCopy.getAngle());
-        copy.stringRefProperty().bindBidirectional(mCopy.getMyStringRef());
-        copy.imageProperty().bindBidirectional(mCopy.getMyImageProp());
-        
+		copy.bindToSprite(mCopy);
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}

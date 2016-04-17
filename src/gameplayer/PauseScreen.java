@@ -1,7 +1,9 @@
 package gameplayer;
 
 import java.io.File;
+import java.util.List;
 
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,85 +14,66 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 /**
- * IScreen that is displayed when the game is paused. Has buttons for navigation.
+ * IScreen that is displayed when the game is paused. Has buttons for
+ * navigation.
+ * 
  * @author Huijia
  *
  */
-public class PauseScreen implements IScreen {
-	private Pane myPane;
-	private Scene myScene;
-	private IScreen parentScreen;
-	
+public class PauseScreen extends Screen {
+
 	private GameLoader myGameLoader;
 	private final String CONTINUE_GAME = "Continue Game";
 	private final String RESTART_GAME = "Restart Game";
 	private final String SWITCH_GAME = "Switch Games";
 	private final String SAVE_GAME = "Save Current Game";
 	private final String CHANGE_SETTINGS = "Edit Game Settings";
-	
-	
-	
-	public PauseScreen() {
-		myPane = new Pane();
-		Settings.setGamePlayingSettings(myPane);
+	private final String BACK = "Back to Start";
 
-		myScene = new Scene(myPane);
+
+	public PauseScreen(Screen parent) {
+		super(parent);
 		myGameLoader = new GameLoader();
-		initBorderPane();
 	}
-	
-	private void initBorderPane() {
-		VBox buttons = makePauseScreenButtons();
+
+	public void initBorderPane(List<LevelModel> gameLevels) {
+		VBox buttons = makePauseScreenButtons(gameLevels);
 		Settings.setStartWindowSettings(buttons);
 		myPane.getChildren().add(buttons);
 	}
-	
-	private VBox makePauseScreenButtons() {
+
+	private VBox makePauseScreenButtons(List<LevelModel> gameLevels) {
 		VBox box = new VBox();
-		
+
 		Button cont = ButtonFactory.makeButton(CONTINUE_GAME, a -> {
 			switchScene(parentScreen);
 		});
-		
+
 		Button restart = ButtonFactory.makeButton(RESTART_GAME, a -> {
 			File currGameFile = ((PlayScreen) parentScreen).getGameFile();
-			IScreen playScreen = myGameLoader.restartGame(currGameFile);
-			switchScene(playScreen);
-			
+			switchScene(myGameLoader.newGame(currGameFile));
+
 		});
-		
+
 		Button switchgame = ButtonFactory.makeButton(SWITCH_GAME, a -> {
 			switchScene(new GamePlayingFileScreen());
 		});
-		
+
 		Button save = ButtonFactory.makeButton(SAVE_GAME, a -> {
-//			myGameLoader.saveGame();
+			myGameLoader.saveGame(gameLevels);
 		});
-		
+
 		Button settings = ButtonFactory.makeButton(CHANGE_SETTINGS, a -> {
 			switchScene(new SettingsScreen());
 		});
-
-		box.getChildren().addAll(cont, restart, switchgame, save, settings);
 		
+		Button back = ButtonFactory.makeButton(BACK, a-> {returnToStart();});
+
+		box.getChildren().addAll(cont, restart, switchgame, save, settings, back);
+
 		return box;
-	}
-
-	@Override
-	public Scene getScene() {
-		return myPane.getScene();
-		//return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
-	}
-
-	@Override
-	public void switchScene(IScreen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());	
-	}
-
-	@Override
-	public void setParentScreen(IScreen screen) {
-		parentScreen = screen;	
 	}
 
 }

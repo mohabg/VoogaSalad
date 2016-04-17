@@ -1,5 +1,6 @@
 package authoringEnvironment;
 
+import gameElements.Sprite;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -99,5 +100,13 @@ public class ViewSprite extends ImageView {
 	// public List<NumProperty> getMyProperties(){
 	// return myPropertiesList;
 	// }
+	public void bindToSprite(Sprite s){
+		setMySpriteProperties(s.getSpriteProperties());
+		xProperty().bindBidirectional(s.getX());
+		yProperty().bindBidirectional(s.getY());
+		fitHeightProperty().bindBidirectional(s.getHeight());
+		fitWidthProperty().bindBidirectional(s.getWidth());
+		rotateProperty().bindBidirectional(s.getAngle());
+	}
 
 }
