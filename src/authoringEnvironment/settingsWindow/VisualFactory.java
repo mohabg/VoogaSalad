@@ -1,25 +1,32 @@
 package authoringEnvironment.settingsWindow;
 
 import authoringEnvironment.Settings;
+import authoringEnvironment.SubclassEnumerator;
 import gameElements.Sprite;
 import javafx.beans.property.*;
 import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import resources.ResourcesReader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class VisualFactory {
+	private static final int HBOX_INSET = 10;
 	private Settings mySettings;
 	private ResourcesReader myReader;
 	private int poo;
@@ -63,8 +70,10 @@ public class VisualFactory {
 	}
 
 	// TODO: Binding and figuring out list of objects in reflection
+	// TODO: CAN WE GET WRAPAROUND FOR TABS
 	public TabPane getMyTabs(Sprite mySprite) {
 		TabPane myTabs = new TabPane();
+		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
         myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 
 		Field[] fields = mySprite.getClass().getDeclaredFields();
@@ -86,6 +95,8 @@ public class VisualFactory {
         // System.out.println(f.getGenericType());
 		Field[] fChildren = f.getType().getDeclaredFields();
 		
+		
+		
 		// if one of the first fields is just a Property
 		// TODO DOESNT WORK YET
 //		if (isAProperty(f, mySprite)) {
@@ -105,7 +116,35 @@ public class VisualFactory {
 //			} catch (IllegalArgumentException | IllegalAccessException e) {}
 //		}
 		
-		for (Field p : fChildren) {
+		if (f.getGenericType() instanceof ParameterizedType) {
+			HBox myH = new HBox();
+			System.out.println("parameterized type " + f.getName());
+			ParameterizedType pt = (ParameterizedType) f.getGenericType();
+			Type[] params = pt.getActualTypeArguments();
+			for (Type p : params) {
+				if(!f.getName().equalsIgnoreCase("myCollisions")) {
+					// populate pulldown with all subclasses
+					Class<?> clazz = null;
+					try {
+						clazz = Class.forName(p.getTypeName());
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					ComboBox<String> subclassBox = makeSubclassComboBox(clazz);
+					myBox.getChildren().add(subclassBox);
+					System.out.println(p.getTypeName());
+					VBox fieldVBox = makeOtherPropBoxes(p);
+					//myH.getChildren().add(fieldVBox);
+				}
+			}
+			myBox.getChildren().add(myH);
+		} else {
+			// populate pulldown with all subclasses
+			ComboBox<String> subclassBox = makeSubclassComboBox(f.getType());
+			myBox.getChildren().add(subclassBox);
+			for (Field p : fChildren) {
+				System.out.print(p.getName() + "  ");
 				try {
 					// o is the actual instance of f in the sprite
 					Object o = f.get(mySprite);
@@ -118,8 +157,9 @@ public class VisualFactory {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
 		}
-		
+		System.out.println();
 		
 		//myBox.getChildren().add(oneSpinner(f, mySprite));
 		// Field[] properties = f.getType().getDeclaredFields();
@@ -127,13 +167,64 @@ public class VisualFactory {
 		// myBox.getChildren().add(oneSpinner(p));
 		// }
 		// TODO I HAVE TO FIGURE OUT HOW I WOULD KNOW IT'S SPRITEPROPERTIES
+		
 		myPane.getChildren().add(myBox);
         myPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
         myTab.setContent(myPane);
 		return myTab;
 	}
 	
+	private ComboBox<String> makeSubclassComboBox(Class<?> clazz) {
+		Map<String, Class<?>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		ComboBox<String> subclassBox = new ComboBox<String>();
+		subclassBox.getItems().addAll(allSubclasses.keySet());
+		return subclassBox;
+	}
+	
+	private VBox makeOtherPropBoxes(Type t) {
+		Class<?> tClass = null;
+		try {
+			tClass = Class.forName(t.getTypeName());
+		} catch (SecurityException | ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Object tClassInstance = new Object();
+
+		
+		Field[] tFields = tClass.getDeclaredFields();
+		//System.out.println(t.getTypeName());
+		Set<HBox> myFields = new HashSet<HBox>();
+		
+		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
+		
+		if (myProjectClassNames.contains(tClass.getName())) {
+			for (Field k : tFields) {
+				k.setAccessible(true);
+				System.out.println(k.getName());
+				try {
+					// o is the actual instance of f in the sprite
+					tClassInstance = Class.forName(t.getTypeName()).newInstance();
+					Object o = k.get(tClassInstance);
+					String parentName = tClass.getTypeName();
+					//Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());			
+					//myFields.addAll(props);
+				} catch (IllegalArgumentException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					System.out.println(k.getName());
+					e.printStackTrace();
+				}
+			}
+		}
+		VBox newV = new VBox();
+		newV.getChildren().addAll(myFields);
+		
+		return newV;
+	}
+	
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
+		//System.out.println(p.getName());
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
 			// System.out.println("pass2323");
@@ -142,7 +233,8 @@ public class VisualFactory {
 			//// System.out.println("GOT TO FIRST THING");
 			return properties;
 		} else if (parent instanceof List) {
-			
+			System.out.println("LIST");
+			System.out.println(p.getName());
 		} else if (parent instanceof Map) {
 			
 		} else if (parent instanceof gameElements.Sprite) {
@@ -211,6 +303,11 @@ public class VisualFactory {
 			// THIS PROBABLY REFERS TO IMAGE FILES..............
 			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
+			HBox textHBox = new HBox();
+			textHBox.getChildren().addAll(propLabelName, makeTextField(sp));
+			HBox.setHgrow(textHBox, Priority.ALWAYS);
+			VBox.setVgrow(textHBox, Priority.ALWAYS);
+			
 			propHBox.getChildren().addAll(propLabelName, makeTextField(sp));
 		}
 		return propHBox;
@@ -250,6 +347,10 @@ public class VisualFactory {
 	private TextField makeTextField(StringProperty sp) {
 		TextField textField = new TextField(sp.toString());
 		textField.textProperty().bindBidirectional(sp);
+		VBox.setVgrow(textField, Priority.ALWAYS);
+		HBox.setHgrow(textField, Priority.ALWAYS);
+		textField.autosize();
+		
 		return textField;
 	}
 }

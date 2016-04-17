@@ -98,7 +98,7 @@ public class PlayScreen implements IScreen {
 		for(ViewSprite vs : spriteList.keySet()) {
 			Sprite s = spriteList.get(vs);
 			System.out.println("SPRITE  "+s.getX().doubleValue()+"  "+s.getY().doubleValue());
-			
+
 			s.setAsUserControlled();
 //			s.getX().bindBidirectional(vs.xProperty());
 //			s.getY().bindBidirectional(vs.yProperty());

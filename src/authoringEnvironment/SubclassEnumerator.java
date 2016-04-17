@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,37 @@ public class SubclassEnumerator {
 		}
 		getReadableClasses(PACKAGE_NAME);
 		//getSubclasses(PACKAGE_NAME, Behavior.class);
+		
+		List<String> g = getAllReadableClasses();
+		//System.out.println(g);
+	}
+	
+	public static Map<String, Class<?>> getAllSubclasses(Class<?> clazz) {
+		List<String> allPackageNames = new ArrayList<String>();
+		allPackageNames.addAll(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+				"spriteProperties"));
+		Map<String, Class<?>> allSubclasses = new HashMap<String, Class<?>>();
+		
+		for (String p : allPackageNames) {
+			allSubclasses.putAll(getSubclasses(p, clazz));
+		}
+		
+		return allSubclasses;
+	}
+	
+	public static List<String> getAllReadableClasses() {
+		List<String> allClassNames = new ArrayList<String>();
+		List<String> allPackageNames = new ArrayList<String>();
+		allPackageNames.addAll(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+				"spriteProperties"));
+		
+		for (String p : allPackageNames) {
+			allClassNames.addAll(getReadableClasses(p));
+		}
+		
+		return allClassNames;
 	}
 	
 	public static List<String> getReadableClasses(String packageName) {

@@ -19,11 +19,12 @@ public abstract class Collision{
 	private Sprite sprite; 
 	private DoubleProperty value;
 	
-	public Collision(){
+	public Collision(Sprite sprite){
 		value = new SimpleDoubleProperty();
+		setSprite(sprite);
 	}
-	public Collision(double value){
-		this();
+	public Collision(Sprite sprite, double value){
+		this(sprite);
 		this.value.set(value);
 	}
 	public Sprite getSprite() {
@@ -39,31 +40,34 @@ public abstract class Collision{
 	public boolean isCollidingWithUser(Collision other){
 		return other.getSprite().isUserControlled();
 	}
-	protected void handleCollision(Collision other, LevelProperties levelProperties){
+	protected void handleCollision(Collision other, LevelProperties levelProperties, LevelProperties levelProperties2){
 		//Subclasses should overload this method 
-		applyEffects(this, other);
-		applyEffects(other, this);
+		applyEffects(this, other, levelProperties);
+		applyEffects(other, this, levelProperties);
 	}
 
 	
 	
-	private void applyEffects(Collision one, Collision two) {
-		Method methodToInvoke = getCollisionEffects(one, two);
+	private void applyEffects(Collision one, Collision two, LevelProperties levelProperties) {
+		Method methodToInvoke = getCollisionEffects(one, two, levelProperties);
 		if(methodToInvoke != null){
 			try{
-				methodToInvoke.invoke(one, two);
+				Object[] params = new Object[2];
+				params[0] = two;
+				params[1] = levelProperties;
+				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		}
 	}
 	
-	protected Method getCollisionEffects(Collision one, Collision two) {
+	protected Method getCollisionEffects(Collision one, Collision two, LevelProperties levelProperties) {
 		Class CollisionOneClass = one.getClass();
 		Class CollisionTwoClass = two.getClass();
 		try{
-			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass);
+			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 			return method;
 		}
 		catch(Exception e){

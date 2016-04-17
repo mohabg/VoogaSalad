@@ -1,5 +1,7 @@
 package collisions;
 
+import gameElements.Sprite;
+
 /**
  * When an Actor collides
  */
@@ -7,8 +9,8 @@ package collisions;
 
 public class ActorCollision extends Collision{
 	
-	public ActorCollision() {
-		super();
+	public ActorCollision(Sprite sprite) {
+		super(sprite);
 	}
 	
 }
