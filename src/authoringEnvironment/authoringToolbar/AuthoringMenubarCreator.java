@@ -43,12 +43,13 @@ public class AuthoringMenubarCreator {
 		FileMenu myFileMenuMaker = new FileMenu();
 //		myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString(myFileMenuMaker.getClass().getName();
 		myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
-		myFileMenuMaker.setNewAction("FileMenu1", e -> {
+		myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("FileMenu1"), e -> {
 			System.out.println("NOT IMPLEMENTED");
 		});
 
 		AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu();
-		
+		myNewLevelMaker.setName(FrontEndData.ButtonLabels.getString("AddNewLevelMenu"));
+
 		myNewLevelMaker.setNewAction(FrontEndData.ButtonLabels.getString("AddNewLevelMenu1"), e -> {
 			window.addNewTab();
 		});
