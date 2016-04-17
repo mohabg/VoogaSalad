@@ -1,19 +1,10 @@
 package authoringEnvironment.settingsWindow;
 
 import authoringEnvironment.Settings;
-import authoringEnvironment.SubclassEnumerator;
 import gameElements.Sprite;
-import javafx.beans.binding.NumberExpressionBase;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -23,15 +14,7 @@ import resources.ResourcesReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
@@ -82,6 +65,7 @@ public class VisualFactory {
 	// TODO: Binding and figuring out list of objects in reflection
 	public TabPane getMyTabs(Sprite mySprite) {
 		TabPane myTabs = new TabPane();
+        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
@@ -98,7 +82,8 @@ public class VisualFactory {
 		Tab myTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		AnchorPane myPane = new AnchorPane();
-		// System.out.println(f.getGenericType());
+        myPane.setStyle("-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;");
+        // System.out.println(f.getGenericType());
 		Field[] fChildren = f.getType().getDeclaredFields();
 		
 		// if one of the first fields is just a Property
@@ -143,7 +128,8 @@ public class VisualFactory {
 		// }
 		// TODO I HAVE TO FIGURE OUT HOW I WOULD KNOW IT'S SPRITEPROPERTIES
 		myPane.getChildren().add(myBox);
-		myTab.setContent(myPane);
+        myPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myTab.setContent(myPane);
 		return myTab;
 	}
 	
@@ -203,18 +189,16 @@ public class VisualFactory {
 			// System.out.println("im a porpppp");
 			return true;
 		}
-//		try {
-//			Property pClass = (Property) p.get(o);
-//			return true;
-//		} catch (IllegalAccessException e) {
-//		} 
 		return false;
 	}
 	
 	private HBox makeSettingsObject(Object myProp, String propName) {
 		HBox propHBox = new HBox();
+        propHBox.setPadding(new Insets(20,20,20,20));
 		Label propLabelName = new Label(propName);
-		if (myProp instanceof DoubleProperty) {
+        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        propLabelName.setAlignment(Pos.CENTER);
+        if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;			
 			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
 		} else if (myProp instanceof IntegerProperty) {

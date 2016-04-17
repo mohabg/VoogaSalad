@@ -2,11 +2,21 @@ package gameElements;
 
 import authoringEnvironment.RefObject;
 import authoringEnvironment.SpriteProperties;
+import behaviors.Behavior;
+import behaviors.MoveHorizontally;
+import behaviors.MoveVertically;
+import collisions.ActorCollision;
+import collisions.Collision;
+import collisions.EnemyCollision;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -18,6 +28,12 @@ import java.util.List;
 import java.util.Map;
 
 import authoringEnvironment.RefObject;
+
+/**
+ * Anything that is on the screen is described by this class. 
+ * Has behaviors(Movement, Attack, Defense, etc.), health, collision attributes, properties, 
+ * and a boolean that determines whether or not it is controlled by the user. 
+ */
 
 public class Sprite {
 
@@ -43,7 +59,10 @@ public class Sprite {
 		
 		myCollisions.add(new EnemyCollision());
 		
-		
+
+		myBehaviors = new HashMap<String, Behavior>();
+		userBehaviors = new HashMap<KeyCode, Behavior>();
+
 		Behavior defaultUpMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpMovement.getClass().getName(), defaultUpMovement);	
 		userBehaviors.put(KeyCode.UP, defaultUpMovement);
@@ -76,7 +95,9 @@ public class Sprite {
 	public Sprite(String ref) {
 		this(new RefObject(ref));
 	}
-	
+	/**
+	 * Updates the sprite frame by frame
+	 */
 	public void update(){
 		for(Behavior behavior : myBehaviors.values()){
 			//behavior.apply(this);
@@ -148,6 +169,14 @@ public class Sprite {
 		return myProperties.getMyX();
 	}
 
+	public StringProperty getMyStringRef() {
+		return myRef.getMyStringRef();
+	}
+	
+	public ObjectProperty<Image> getMyImageProp() {
+		return new SimpleObjectProperty<Image>(new Image(myRef.getMyStringRef().getValue()));
+	}
+	
 	public void setCoord(DoubleProperty x, DoubleProperty y) {
 		myProperties.setMyXProperty(x);
 		myProperties.setMyYProperty(y);
@@ -204,6 +233,9 @@ public class Sprite {
 	public boolean isUserControlled(){
 		return isUserControlled.getValue();
 	}
+	/**
+	 * Sets this sprite as being controlled by the user
+	 */
 	public void setAsUserControlled(){
 		isUserControlled.set(true);
 		setActorCollision();
@@ -247,7 +279,11 @@ public class Sprite {
 	public void enableMovement(){
 		canMove.set(true);
 	}
-
+/**
+ * 
+ * @param keyCode Checks if the KeyCode corresponds to an action
+ * @return
+ */
 	public Behavior getBehavior(KeyCode keyCode) {
 		return userBehaviors.get(keyCode);
 	}

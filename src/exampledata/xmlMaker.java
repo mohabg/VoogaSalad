@@ -48,12 +48,7 @@ public class xmlMaker {
 
 		// File fi = new
 		// File("voogasalad_TheDuballers/src/exampledata/myLevelTest.xml");
-		System.out.println(xml);
 		Level readLevel = (Level) xstream.fromXML(xml);
-		System.out.println(myLevel.character.health);
-		System.out.println(readLevel.character.health);
-		System.out.println(readLevel.testList.get(0));
-		System.out.println(myLevel.testList.get(0));
 
 	}
 

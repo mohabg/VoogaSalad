@@ -6,13 +6,11 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import behaviors.Behavior;
+import game.Engine;
+import game.GameEditor;
+import game.IGameEditor;
 import gameElements.Actor;
-import gameElements.Behavior;
-import gameElements.Engine;
-import gameElements.GameEditor;
-import gameElements.IGameEditor;
-import gameElements.Level;
-import gameElements.LevelProperties;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -22,13 +20,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import level.Level;
+import level.LevelProperties;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * IScreen for playing the game. Has a HUD. 
+ * This class also has an instance of Engine, which runs the game loop 
+ * @author Huijia
+ *
+ */
 public class PlayScreen implements IScreen {
 	private Pane myPane;
 	private Map<Level, List<ViewSprite>> myViewSprites;

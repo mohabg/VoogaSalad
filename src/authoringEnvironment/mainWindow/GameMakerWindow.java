@@ -25,7 +25,9 @@ public class GameMakerWindow implements ITabPane{
 
 	public GameMakerWindow() {
 		myTabPane = new TabPane();
-		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
+        myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myGameTabs = new HashMap<Tab, GameAuthoringTab>();
+
 	}
 
 	public void init(SettingsWindow window) {

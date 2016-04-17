@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * @author Huijia Yu
  */
-public  class Settings {
+public class Settings {
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private static final double ITEM_WINDOW_WIDTH = SCREEN_WIDTH * 0.25;

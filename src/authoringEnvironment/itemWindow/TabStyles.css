@@ -1,0 +1,86 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+    -fx-border-width: 1 1 1 1; -fx-border-color: white white transparent white ;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #3c3c3c;
+
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #3c3c3c;
+    -fx-text-fill: #96b946;
+
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
+}
+
+
+#TilePane {
+    -fx-background-color: #3c3c3c;
+    -fx-border-width: 1 2 3 4; -fx-border-color: white ;
+
+}
+
+#GameTab{
+    -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;
+
+}
+
+
+.menu-bar{
+    -fx-background-color: #3c3c3c;
+    -fx-border-color:  #3c3c3c;
+    -fx-border-width: 2;
+
+}
+
+.menu-bar .label {
+    -fx-font-size: 14 pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: #dedede;
+
+}
+
+
+.menu:hover {
+    -fx-background-color: #96b946;
+}
+
+.menu-item .label{
+    -fx-font-size: 14 pt;
+    -fx-label-line-length: 8;
+    -fx-text-fill: #96b946;
+    -fx-background-color: #3c3c3c;
+}
+
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #96b946;
+}

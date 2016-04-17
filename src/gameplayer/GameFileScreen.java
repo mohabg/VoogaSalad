@@ -13,7 +13,11 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import authoringEnvironment.Settings;
-
+/**
+ * Abstract class implementing IScreen, used to display available/saved games
+ * @author Huijia
+ *
+ */
 public abstract class GameFileScreen implements IScreen {
 	private File myGameFile;
 
@@ -44,7 +48,6 @@ public abstract class GameFileScreen implements IScreen {
 	private void initTabs() {
 		tabPane.getTabs().add(addTab(DEFAULT_GAMES, DEFAULT_DIRECTORY));
 		tabPane.getTabs().add(addTab(SAVED_GAMES, SAVED_DIRECTORY));
-		System.out.println("here");
 		myPane.getChildren().add(tabPane);
 	}
 
@@ -65,7 +68,12 @@ public abstract class GameFileScreen implements IScreen {
 	private File[] getGames(File directory) {
 		return directory.listFiles(f -> f.getName().endsWith(FILE_TYPE));
 	}
-
+	/**
+	 * Creates an Imageview for a file, setting its onclick action
+	 *  to load it in the player or in the environment depending on the subclass.
+	 * @param file
+	 * @return
+	 */
 	public abstract ImageView makeDisplay(File file); 
 	//TODO: MAKE THE ACTUAL EVENTS abstract, not this whole method 
 

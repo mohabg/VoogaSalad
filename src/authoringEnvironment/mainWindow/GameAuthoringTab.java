@@ -48,20 +48,20 @@ public class GameAuthoringTab implements ITab{
     //            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
     //            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
     
-        }
+    }
     };
 
     private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
     @Override
-        public void handle(MouseEvent t) {
-            ImageView mySprite = ((ViewSprite) (t.getSource()));
-            orgTranslateX = mySprite.getX();
-            orgTranslateY = mySprite.getY();
+    public void handle(MouseEvent t) {
+        ImageView mySprite = ((ViewSprite) (t.getSource()));
+        orgTranslateX = mySprite.getX();
+        orgTranslateY = mySprite.getY();
 
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
+        orgSceneX = t.getSceneX();
+        orgSceneY = t.getSceneY();
 
-            updateSettingsPane((ViewSprite) mySprite);
+        updateSettingsPane((ViewSprite) mySprite);
         }
     };
 
@@ -88,10 +88,10 @@ public class GameAuthoringTab implements ITab{
         myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
     }
 
-    /**
-     * @param spriteModel model used to generate visual elements that
-     * are added to a new VBox and displayed in the Settings Window
-     */
+/**
+ * @param spriteModel model used to generate visual elements that
+ * are added to a new VBox and displayed in the Settings Window
+ */
 
     public VBox setSettingsContent(Sprite spriteModel) {
         VBox myBox = new VBox(VBOX_SPACING);
@@ -111,36 +111,36 @@ public class GameAuthoringTab implements ITab{
     }
 
     public Map<ViewSprite, Sprite> getMap(){
-    return mySpriteMap;
+        return mySpriteMap;
     }
 
     @Override
     public Tab getTab() {
-    return myTab;
+        return myTab;
     }
 
     @Override
     public Node getTabContent() {
-    return myTab.getContent();
+        return myTab.getContent();
     }
 
     @Override
     public void setTabContent(Node content) {
-    myTab.setContent(content);
-
+        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
+        myTab.setContent(content);
     }
 
     @Override
     public void setTabTitle(String tabTitle) {
-    myTab.setText(tabTitle);
+        myTab.setText(tabTitle);
     }
 
-    /**
-     * @param view is a ViewSprite that's going to be copied and get its properties set between the
-     * Sprite properties.
-     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
-     * change is made, the other knows of the change
-     */
+/**
+ * @param view is a ViewSprite that's going to be copied and get its properties set between the
+ * Sprite properties.
+ * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+ * change is made, the other knows of the change
+ */
     @Override
     public void setTabContent(ViewSprite view, Sprite sprite) {
         ViewSprite copy = new ViewSprite(view.getMyImage());
@@ -151,9 +151,11 @@ public class GameAuthoringTab implements ITab{
         copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
         copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
         copy.rotateProperty().bindBidirectional(mCopy.getAngle());
+        copy.stringRefProperty().bindBidirectional(mCopy.getMyStringRef());
+        copy.imageProperty().bindBidirectional(mCopy.getMyImageProp());
 
         mySpriteMap.put(copy, mCopy);
         addWithClicking(copy);
-    }
+        }
 
-}
+    }
