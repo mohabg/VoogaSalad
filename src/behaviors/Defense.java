@@ -1,5 +1,7 @@
 package behaviors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,10 @@ public abstract class Defense extends Sprite implements Behavior {
 	private BooleanProperty enabled;
 	private ApplyBehaviorConditions behaviorConditions;
 
+	public Defense(){
+		this(new RefObject());
+	}
+	
 	public Defense(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef,  ApplyBehaviorConditions behaviorConditions) {
 		
@@ -33,6 +39,15 @@ public abstract class Defense extends Sprite implements Behavior {
 		this.enabled = new SimpleBooleanProperty();
 	}
 	
+	public Defense(RefObject refObject) {
+		this (new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), refObject);
+	}
+
+	public Defense(SpriteProperties spriteProperties, Health health, ArrayList<Collision> collisions,
+			HashMap<String, Behavior> behaviors, RefObject refObject) {
+		this(spriteProperties,health, collisions, behaviors, refObject, new ApplyBehaviorConditions());
+	}
+
 	public boolean isEnabled(){
 		return enabled.get();
 	}

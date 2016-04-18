@@ -30,9 +30,10 @@ import java.util.Map;
 import authoringEnvironment.RefObject;
 
 /**
- * Anything that is on the screen is described by this class.
- * Has behaviors(Movement, Attack, Defense, etc.), health, collision attributes, properties,
- * and a boolean that determines whether or not it is controlled by the user.
+ * Anything that is on the screen is described by this class. Has
+ * behaviors(Movement, Attack, Defense, etc.), health, collision attributes,
+ * properties, and a boolean that determines whether or not it is controlled by
+ * the user.
  */
 
 public class Sprite {
@@ -47,16 +48,15 @@ public class Sprite {
 	private BooleanProperty isUserControlled;
 	private BooleanProperty canMove;
 
-
 	public Sprite() {
 		this("");
 	}
-	
+
 	public Sprite(String ref) {
 		this(new RefObject(ref));
 	}
-	
-	public Sprite(RefObject myRef){
+
+	public Sprite(RefObject myRef) {
 		this.myRef = myRef;
 		myProperties = new SpriteProperties();
 		myCollisions = new ArrayList<Collision>();
@@ -67,7 +67,7 @@ public class Sprite {
 		canMove = new SimpleBooleanProperty(true);
 		myHealth = new Health(100);
 
-		myCollisions.add(new DamageCollision(this));
+		myCollisions.add(new DamageCollision(this,100));
 		myCollisions.add(new EnemyCollision(this));
 
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
@@ -109,17 +109,17 @@ public class Sprite {
 		this.canMove = new SimpleBooleanProperty(true);
 	}
 
-
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update(){
+	public void update() {
 		myProperties.updatePos();
-		for(Behavior behavior : myBehaviors.values()){
-			//behavior.apply(this);
+		for (Behavior behavior : myBehaviors.values()) {
+//			 behavior.apply(this);
 		}
 
 	}
+
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {
 		return userPressBehaviors;
 	}
@@ -127,26 +127,31 @@ public class Sprite {
 	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
 		this.userPressBehaviors = userBehaviors;
 	}
-	public void addUserPressBehavior(KeyCode key, Behavior behavior){
+
+	public void addUserPressBehavior(KeyCode key, Behavior behavior) {
 		this.userPressBehaviors.put(key, behavior);
 	}
+
 	public Map<KeyCode, Behavior> getUserReleaseBehaviors() {
 		return userReleaseBehaviors;
 	}
+
 	public void setUserReleaseBehaviors(Map<KeyCode, Behavior> userBehaviors) {
 		this.userReleaseBehaviors = userBehaviors;
 	}
-	public void addUserReleaseBehavior(KeyCode key, Behavior behavior){
+
+	public void addUserReleaseBehavior(KeyCode key, Behavior behavior) {
 		this.userReleaseBehaviors.put(key, behavior);
 	}
-	public Map<String, Behavior> getBehaviors(){
+
+	public Map<String, Behavior> getBehaviors() {
 		return myBehaviors;
 	}
-
 
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
+
 	public void setMyRef(RefObject myRef) {
 		this.myRef = myRef;
 	}
@@ -167,7 +172,6 @@ public class Sprite {
 		this.myCollisions = myCollisions;
 	}
 
-
 	public boolean isDead() {
 		return myHealth.isDead();
 	}
@@ -177,9 +181,8 @@ public class Sprite {
 	}
 
 	public void setWidth(DoubleProperty width) {
-		myProperties.setMyWidthProperty( width);
+		myProperties.setMyWidthProperty(width);
 	}
-
 
 	public DoubleProperty getHeight() {
 		return myProperties.getMyHeight();
@@ -188,7 +191,6 @@ public class Sprite {
 	public void setHeight(DoubleProperty height) {
 		myProperties.setMyHeightProperty(height);
 	}
-
 
 	public DoubleProperty getX() {
 		return myProperties.getMyX();
@@ -224,11 +226,14 @@ public class Sprite {
 	}
 
 	public double getDistance(Sprite otherVect) {
-		return Math.sqrt((Math.pow(myProperties.getMyX().doubleValue(), 2) - Math.pow(otherVect.getX().doubleValue(), 2)) + (Math.pow(myProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
+		return Math.sqrt((Math.pow(myProperties.getMyX().doubleValue(), 2)
+				- Math.pow(otherVect.getX().doubleValue(), 2))
+				+ (Math.pow(myProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
 	}
 
 	public void setAngle(DoubleProperty angle) {
-		myProperties.setMyAngleProperty(angle);;
+		myProperties.setMyAngleProperty(angle);
+		;
 	}
 
 	public Health getHealth() {
@@ -247,46 +252,46 @@ public class Sprite {
 		return myCollisions;
 	}
 
-	public void setMySpriteProperties(SpriteProperties sp){
+	public void setMySpriteProperties(SpriteProperties sp) {
 		myProperties = sp;
 	}
 
-	public SpriteProperties getSpriteProperties(){
+	public SpriteProperties getSpriteProperties() {
 		return myProperties;
 	}
 
-	public boolean isUserControlled(){
+	public boolean isUserControlled() {
 		return isUserControlled.getValue();
 	}
+
 	/**
 	 * Sets this sprite as being controlled by the user
 	 */
-	public void setAsUserControlled(){
+	public void setAsUserControlled() {
 		isUserControlled.set(true);
 		setActorCollision();
-		setUserControlledBehaviors();
+		invokeMethodInBehaviors("setAsUserControlled", null, null);
 	}
 
 	private void setActorCollision() {
-		//Remove enemy and add actor collision
+		// Remove enemy and add actor collision
 		Collision actorCollision = new ActorCollision(this);
 		Iterator<Collision> it = getCollisions().iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Collision collision = it.next();
-			if(collision instanceof EnemyCollision){
+			if (collision instanceof EnemyCollision) {
 				it.remove();
 			}
 		}
 		this.addCollision(actorCollision);
 	}
 
-	private void setUserControlledBehaviors() {
-		//Should not create infinite loop because a behavior that is also a sprite does not have behaviors
-		for(Behavior behavior : userPressBehaviors.values()){
+	public void invokeMethodInBehaviors(String methodName, Class[] parameters, Object[] objects) {
+		for (Behavior behavior : userPressBehaviors.values()) {
 			Class behaviorClass = behavior.getClass();
 			try{
-				Method method = behaviorClass.getDeclaredMethod("setAsUserControlled");
-				method.invoke(behavior);
+				Method method = behaviorClass.getDeclaredMethod(methodName, parameters);
+				method.invoke(behavior, objects);
 			}
 			catch(Exception e){
 				
@@ -298,20 +303,25 @@ public class Sprite {
 	public boolean canMove() {
 		return canMove.getValue();
 	}
-	public void disableMovement(){
+
+	public void disableMovement() {
 		canMove.set(false);
 	}
-	public void enableMovement(){
+
+	public void enableMovement() {
 		canMove.set(true);
 	}
-/**
- *
- * @param keyCode Checks if the KeyCode corresponds to an action
- * @return
- */
+
+	/**
+	 *
+	 * @param keyCode
+	 *            Checks if the KeyCode corresponds to an action
+	 * @return
+	 */
 	public Behavior getUserPressBehavior(KeyCode keyCode) {
 		return userPressBehaviors.get(keyCode);
 	}
+
 	public Behavior getUserReleaseBehavior(KeyCode keyCode) {
 		return userReleaseBehaviors.get(keyCode);
 	}

@@ -1,4 +1,6 @@
 package game;
+import java.util.List;
+
 import goals.Goal;
 import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +23,11 @@ public interface IGameEditor {
 	public void setLevelProperties(LevelProperties levelProperties);
 	public Integer getUserSprite();
 	public void setUserSprite(Integer spriteID);
-	public void updateGame();
+	
+	//TODO: suggestions for better implementation?
+	public List<Integer> updateGame();
+	
+	
 	public void setResultForKeyPress(KeyEvent event);
 	public void setResultForKeyRelease(KeyEvent event);
 }

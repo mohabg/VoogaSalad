@@ -22,13 +22,13 @@ public class Health {
 		isMortal = new SimpleBooleanProperty(false);
 	}
 	public Health(double myHealth){
-		this();
-		this.healthValue.set(myHealth);
+		healthValue = new SimpleDoubleProperty(myHealth);
+		isMortal = new SimpleBooleanProperty(true);
 	}
 
 	private void changeHealth(double val) {
 		if (isMortal.getValue()) {
-			healthValue.add(val);
+			healthValue.set(healthValue.doubleValue() + val);
 		}
 	}
 

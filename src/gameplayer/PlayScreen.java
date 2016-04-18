@@ -37,6 +37,7 @@ public class PlayScreen extends Screen {
 
 	private List<LevelModel> gameLevels;
 	private File gameFile;
+	private Level currentLevel;
 
 	public PlayScreen(File newGameFile) {
 		super();
@@ -60,17 +61,18 @@ public class PlayScreen extends Screen {
 			PauseScreen ps = new PauseScreen(this);
 			ps.initBorderPane(gameLevels);
 			switchScene(ps);
+			myEngine.pauseGameLoop();
 		});
 	}
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		this.gameLevels = gameLevels;
-		myEngine = new Engine(new GameEditor());
-		
+		myEngine = new Engine(this, new GameEditor());
+
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
-		
-		//TODO: go through loop
-		myViewSprites.keySet().forEach(level->myEngine.addLevel(0, level));
+
+		// TODO: go through loop
+		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
 		setLevel(myEngine.getCurrentLevel());
 
 		myEngine.gameLoop();
@@ -79,8 +81,8 @@ public class PlayScreen extends Screen {
 		// bind image-specific attributes
 	}
 
-
 	private void setLevel(Level newLevel) {
+		currentLevel = newLevel;
 		System.out.println(myPane.getChildren().toString());
 		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel));
 		newLevel.setSpriteFactory(sf);
@@ -92,10 +94,9 @@ public class PlayScreen extends Screen {
 				System.out.println(vs.yProperty().doubleValue());
 			}
 		});
-//		myPane.getChildren().
+		// myPane.getChildren().
 		myPane.getChildren().addAll(myViewSprites.get(newLevel).values());
 	}
-	
 
 	// private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){
 	//
@@ -104,6 +105,17 @@ public class PlayScreen extends Screen {
 
 	public File getGameFile() {
 		return gameFile;
+	}
+
+	public void play() {
+		myEngine.playGameLoop();
+	}
+
+	public void removeSprites(List<Integer> deadSprites) {
+		deadSprites.forEach(s -> {
+			System.out.println(s);
+			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
+		});
 	}
 
 }
