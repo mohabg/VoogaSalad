@@ -1,23 +1,16 @@
 package gameplayer;
 
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import resources.FrontEndData;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import authoringEnvironment.Settings;
 
 /**
  * Abstract class implementing IScreen, used to display available/saved games
@@ -76,14 +69,22 @@ public abstract class GameFileScreen extends Screen {
      */
     
     public VBox makeDisplay(File file) {
-        ImageView imageview = new ImageView();
-        // TODO have this pull the saved game's picture
-        imageview.setImage(new Image(FrontEndData.DEFAULT_IMAGE));
-        imageview.setOnMouseClicked((event) -> {
+//        ImageView imageview = new ImageView();
+//        // TODO have this pull the saved game's picture
+//        imageview.setImage(new Image(FrontEndData.DEFAULT_IMAGE));
+//        imageview.setOnMouseClicked((event) -> {
+//            setOnMouseClick(file);
+//        });
+//        Label label = new Label(file.getName().replace(".xml", ""));
+        Button myButton = new Button(file.getName().replace(".xml",""));
+        myButton.setOnMouseClicked((event) -> {
             setOnMouseClick(file);
         });
-        Label label = new Label(file.getName().replace(".xml", ""));
-        return new VBox(imageview, label);
+        myButton.setPrefHeight(FrontEndData.BUTTON_SIZE);
+        myButton.setPrefWidth(FrontEndData.BUTTON_SIZE);
+        myButton.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myButton.setId("button-style");
+        return new VBox(myButton);
         
     }
     
