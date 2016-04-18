@@ -146,32 +146,34 @@ public class GameLoader {
 	}
 
 	// TODO: TALK ABOUT STATIC IN GAMELOADER????
-	public static Map<Level, List<ViewSprite>> makeLevelViewSpriteMap(List<LevelModel> gameLevels) {
-		Map<Level, List<ViewSprite>> myViewSprites = new HashMap<Level, List<ViewSprite>>();
+	public static Map<Level, Map<Integer, ViewSprite>> makeLevelViewSpriteMap(List<LevelModel> gameLevels) {
+		Map<Level, Map<Integer, ViewSprite>> myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
 
 		gameLevels.forEach(lm -> {
 			Level newLevel = new Level();
 			newLevel.setLevelProperties(new LevelProperties());
 			// TODO????FIGURE OUT ACTOR/USERCONTROLLED STUFF
-			newLevel.setCurrentSpriteID(0);
+//			newLevel.setCurrentSpriteID(0);
 			myViewSprites.put(newLevel, setLevelSprites(newLevel, lm.getMyMap()));
 		});
 		return myViewSprites;
 
 	}
 
-	private static List<ViewSprite> setLevelSprites(Level newLevel, Map<ViewSprite, Sprite> spriteList) {
-		List<ViewSprite> levelViewSprites = new ArrayList<ViewSprite>();
+	private static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, Map<ViewSprite, Sprite> spriteList) {
+		Map<Integer, ViewSprite> levelViewSprites = new HashMap<Integer, ViewSprite>();
 		spriteList.keySet().forEach(vs -> {
 			Sprite s = spriteList.get(vs);
 			// System.out.println("SPRITE " + s.getX().doubleValue() + " " +
 			// s.getY().doubleValue());
 			// TODO: THIS NEEDS TO BE SOMEWHERE ELSE????
-			// s.setAsUserControlled();
+			 s.setAsUserControlled();
 			vs.bindToSprite(s);
+			
 
-			levelViewSprites.add(vs);
 			newLevel.addSprite(s);
+			levelViewSprites.put(newLevel.getCurrentSpriteID(), vs);
+
 		});
 		return levelViewSprites;
 	}
