@@ -20,13 +20,15 @@ public abstract class Collision{
 	private DoubleProperty value;
 	
 	public Collision(Sprite sprite){
-		value = new SimpleDoubleProperty();
-		setSprite(sprite);
+		value = new SimpleDoubleProperty(0);
+		this.sprite = sprite;
 	}
+	
 	public Collision(Sprite sprite, double value){
 		this(sprite);
 		this.value.set(value);
 	}
+	
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -58,7 +60,6 @@ public abstract class Collision{
 				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-				System.out.println(e.getMessage());
 			}
 		}
 	}

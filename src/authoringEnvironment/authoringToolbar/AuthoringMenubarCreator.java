@@ -1,6 +1,5 @@
 package authoringEnvironment.authoringToolbar;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.MainAuthoringWindow;
 import authoringEnvironment.StartOptionsWindow;
@@ -9,6 +8,7 @@ import gameplayer.GamePlayingFileScreen;
 import interfaces.ITabPane;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
+import resources.FrontEndData;
 
 import java.util.List;
 

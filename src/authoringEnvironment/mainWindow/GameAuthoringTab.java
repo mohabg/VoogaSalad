@@ -1,6 +1,5 @@
 package authoringEnvironment.mainWindow;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -14,10 +13,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import resources.FrontEndData;
 
 import java.util.Map;
 /**
@@ -29,6 +30,7 @@ public class GameAuthoringTab implements ITab{
 
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
+	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
 
@@ -54,14 +56,17 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-            ImageView mySprite = ((ViewSprite) (t.getSource()));
+            ViewSprite mySprite = ((ViewSprite) (t.getSource()));
             orgTranslateX = mySprite.getX();
             orgTranslateY = mySprite.getY();
 
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
 
-            updateSettingsPane((ViewSprite) mySprite);
+            if (mySprite != currentSprite) {
+            	currentSprite = (ViewSprite) mySprite;
+            	updateSettingsPane(mySprite);
+            }
 		}
 	};
 
@@ -107,7 +112,17 @@ public class GameAuthoringTab implements ITab{
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		((Pane) getTabContent()).getChildren().addAll(sprite);
+        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    ((Pane) getTabContent()).getChildren().remove(sprite);
+                }
+                e.consume();
+            }
+        });
+
+        ((Pane) getTabContent()).getChildren().addAll(sprite);
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
@@ -135,13 +150,6 @@ public class GameAuthoringTab implements ITab{
     public void setTabTitle(String tabTitle) {
         myTab.setText(tabTitle);
     }
-
-/**
- * @param view is a ViewSprite that's going to be copied and get its properties set between the
- * Sprite properties.
- * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
- * change is made, the other knows of the change
- */
 
 
     /**

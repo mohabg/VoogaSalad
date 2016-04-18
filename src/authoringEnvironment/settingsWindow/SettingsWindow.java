@@ -1,11 +1,13 @@
 package authoringEnvironment.settingsWindow;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.Settings;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import resources.FrontEndData;
 
 /**
  * @author David Yan
@@ -18,14 +20,18 @@ public class SettingsWindow {
 	public SettingsWindow(){
         myVisualFactory = new VisualFactory();
 		myDisplay = new VBox();
+        myDisplay.setPadding(new Insets(FrontEndData.VBOX_SPACING,FrontEndData.VBOX_SPACING,FrontEndData.VBOX_SPACING,FrontEndData.VBOX_SPACING));
 		Settings.setSettingsDisplaySettings(myDisplay);
 
 		HBox myTempBox = new HBox();
+        myTempBox.setPadding(new Insets(FrontEndData.VBOX_SPACING,FrontEndData.VBOX_SPACING,FrontEndData.VBOX_SPACING,FrontEndData.VBOX_SPACING));
 		Label myLabel = new Label("Example Property:");
         myLabel.getStylesheets().add(FrontEndData.STYLESHEET);
 		Slider mySlider = new Slider(0,100,50);
 		Settings.setSliderSettings(mySlider);
 		myTempBox.getChildren().addAll(myLabel, mySlider);
+        myTempBox.setAlignment(Pos.CENTER);
+
 		myDisplay.getChildren().add(myTempBox);
 	}
 

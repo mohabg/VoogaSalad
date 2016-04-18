@@ -32,6 +32,7 @@ public class ApplyBehaviorConditions {
 		maxDuration = new SimpleDoubleProperty(0);
 		currentDuration = new SimpleDoubleProperty(0);
 	}
+	
 	public ApplyBehaviorConditions(double probability, int frameDelay, double distFromUser, double maxDuration){
 		this();
 		this.probability.set(probability);

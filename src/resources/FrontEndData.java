@@ -1,4 +1,4 @@
-package authoringEnvironment;
+package resources;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +32,10 @@ public class FrontEndData {
 
 	public static String FILE_TYPE = ".xml";
 	
-	public  static String DEFAULT_IMAGE = "pictures/gaming.png";
+	public static String DEFAULT_IMAGE = "pictures/gaming.png";
+
 	public final static double VBOX_SPACING = 8;
+
+    public final static double BUTTON_SIZE = 200;
 
 }

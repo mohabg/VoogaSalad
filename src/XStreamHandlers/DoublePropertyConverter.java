@@ -1,31 +1,31 @@
-package exampledata.XStreamHandlers;
+package XStreamHandlers;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.mapper.Mapper;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.WritableValue;
 
 /**
- * Created at 17/09/11 11:17.<br>
+ * Created at 17/09/11 11:12.<br>
  *
  * @author Antoine Mischler <antoine@dooapp.com>
  */
-public class LongPropertyConverter extends AbstractPropertyConverter<Number> implements Converter {
+public class DoublePropertyConverter extends AbstractPropertyConverter<Number> implements Converter {
 
-    public LongPropertyConverter(Mapper mapper) {
-        super(LongProperty.class, mapper);
+    public DoublePropertyConverter(Mapper mapper) {
+        super(DoubleProperty.class, mapper);
     }
 
     @Override
     protected WritableValue<Number> createProperty() {
-        return new SimpleLongProperty();
+        return new SimpleDoubleProperty();
     }
 
     @Override
     protected Class<? extends Number> readType(HierarchicalStreamReader reader) {
-        return Long.class;
+        return Double.class;
     }
 }

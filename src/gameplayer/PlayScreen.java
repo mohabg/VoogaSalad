@@ -2,7 +2,6 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -16,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import level.Level;
 import level.LevelProperties;
+import resources.FrontEndData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,18 +36,19 @@ import java.util.Map;
  *
  */
 public class PlayScreen extends Screen {
-	private Map<Level, List<ViewSprite>> myViewSprites;
+	private Map<Level, Map<Integer, ViewSprite>> myViewSprites;
 	private Engine myEngine;
 
 	private HeadsUpDisplay myHUD;
 
 	private List<LevelModel> gameLevels;
 	private File gameFile;
+	private Level currentLevel;
 
 	public PlayScreen(File newGameFile) {
 		super();
 		gameFile = newGameFile;
-		myViewSprites = new HashMap<Level, List<ViewSprite>>();
+		myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
 
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 		initHUD();
@@ -66,21 +67,19 @@ public class PlayScreen extends Screen {
 			PauseScreen ps = new PauseScreen(this);
 			ps.initBorderPane(gameLevels);
 			switchScene(ps);
+			myEngine.pauseGameLoop();
 		});
 	}
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		this.gameLevels = gameLevels;
-		IGameEditor myGameEditor = new GameEditor();
 
-		myEngine = new Engine(myGameEditor);
+		myEngine = new Engine(this, new GameEditor());
+
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 
-		//TODO: FIND BETTER WAY TO CONNECT--also this doesn't work but will fix soon
-		myViewSprites.keySet().forEach(level->myEngine.addLevel(0, level));
-		//should be default?
-//		myEngine.setCurrentLevel(0);
-
+		// TODO: go through loop
+		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
 		setLevel(myEngine.getCurrentLevel());
 
 		myEngine.gameLoop();
@@ -90,18 +89,22 @@ public class PlayScreen extends Screen {
 		// bind image-specific attributes
 	}
 
-
 	private void setLevel(Level newLevel) {
+		try{
+		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
+		}
+		catch (Exception e){
+
+		}
+		currentLevel = newLevel;
 		System.out.println(myPane.getChildren().toString());
+		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel));
+		newLevel.setSpriteFactory(sf);
 		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
 		myPane.setOnKeyReleased(key -> {
 			newLevel.handleKeyRelease(key);
-			//boolean noUserControl = true;//Flag to make only one sprite user controlled.
-			for (ViewSprite vs : myViewSprites.get(newLevel)) {
-				/*if(noUserControl){
-					vs.setAsUserControlled();
-					noUserControl = false;
-				}*/
+
+			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
 
 				System.out.println(vs.xProperty().doubleValue());
 				System.out.println(vs.yProperty().doubleValue());
@@ -109,7 +112,9 @@ public class PlayScreen extends Screen {
 		});
 
 //		myPane.getChildren().
-		myPane.getChildren().addAll(myViewSprites.get(newLevel));
+	// myPane.getChildren().
+		myPane.getChildren().addAll(myViewSprites.get(newLevel).values());
+
 	}
 
 	// private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){
@@ -121,5 +126,17 @@ public class PlayScreen extends Screen {
 		return gameFile;
 	}
 
+
+	public void play() {
+		myEngine.playGameLoop();
+	}
+
+	public void removeSprites(List<Integer> deadSprites) {
+		deadSprites.forEach(s -> {
+			System.out.println(s);
+			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
+			myViewSprites.get(currentLevel).remove(s);
+		});
+	}
 
 }
