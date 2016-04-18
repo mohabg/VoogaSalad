@@ -379,6 +379,7 @@ public class VisualFactory {
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
 		factory.valueProperty().bindBidirectional(dp);
+		//factory.va
 
 		return mySpinner;
 	}
