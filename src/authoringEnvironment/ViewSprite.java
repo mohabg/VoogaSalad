@@ -1,5 +1,6 @@
 package authoringEnvironment;
 
+import gameElements.SpriteProperties;
 import gameElements.Sprite;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

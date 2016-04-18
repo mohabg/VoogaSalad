@@ -1,7 +1,6 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
 import behaviors.Behavior;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
@@ -271,7 +270,7 @@ public class Sprite {
 	public void setAsUserControlled() {
 		isUserControlled.set(true);
 		setActorCollision();
-		setUserControlledBehaviors();
+		invokeMethodInBehaviors("setAsUserControlled", null, null);
 	}
 
 	private void setActorCollision() {
@@ -287,16 +286,15 @@ public class Sprite {
 		this.addCollision(actorCollision);
 	}
 
-	private void setUserControlledBehaviors() {
-		// Should not create infinite loop because a behavior that is also a
-		// sprite does not have behaviors
+	public void invokeMethodInBehaviors(String methodName, Class[] parameters, Object[] objects) {
 		for (Behavior behavior : userPressBehaviors.values()) {
 			Class behaviorClass = behavior.getClass();
-			try {
-				Method method = behaviorClass.getMethod("setAsUserControlled", null);
-				method.invoke(behavior, null);
-			} catch (Exception e) {
-
+			try{
+				Method method = behaviorClass.getDeclaredMethod(methodName, parameters);
+				method.invoke(behavior, objects);
+			}
+			catch(Exception e){
+				
 			}
 		}
 

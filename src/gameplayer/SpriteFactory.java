@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
+import gameElements.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
 import collisions.Collision;
