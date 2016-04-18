@@ -5,6 +5,11 @@ import java.util.LinkedList;
 
 public class CircularQueue<T> extends LinkedList<T> {
 
+
+	/**
+	 *
+	 */
+
 	private static final long serialVersionUID = -3863020733937496042L;
 
 	private int index;
@@ -16,7 +21,7 @@ public class CircularQueue<T> extends LinkedList<T> {
 	public CircularQueue(Collection<? extends T> arg0) {
 		super(arg0);
 	}
-	public Object getNext(){
+	public T getNext(){
 		index++;
 		if(this.size() <= index)
 			index = 0;
@@ -31,4 +36,6 @@ public class CircularQueue<T> extends LinkedList<T> {
 		this.index = index;
 	}
 
+
 }
+

@@ -59,7 +59,7 @@ public class GameAuthoringTab implements ITab{
             ViewSprite mySprite = ((ViewSprite) (t.getSource()));
             orgTranslateX = mySprite.getX();
             orgTranslateY = mySprite.getY();
-            
+
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
 
@@ -107,7 +107,7 @@ public class GameAuthoringTab implements ITab{
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
-		
+
 		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
@@ -162,6 +162,7 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
+
 		copy.bindToSprite(mCopy);
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);

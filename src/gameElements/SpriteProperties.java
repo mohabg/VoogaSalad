@@ -1,6 +1,8 @@
 package gameElements;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
@@ -14,7 +16,7 @@ public class SpriteProperties {
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
-
+    private BooleanProperty myUserControlled;
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
         myY = new SimpleDoubleProperty(0);
@@ -23,6 +25,7 @@ public class SpriteProperties {
         myWidth = new SimpleDoubleProperty(0);
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
+        myUserControlled = new SimpleBooleanProperty(false);
 //        myX.set(0);
 //        myY.set(0);
 //        myWidth.set(0);
@@ -35,7 +38,7 @@ public class SpriteProperties {
         myX.set(x);
         myY.set(y);
     }
-    
+
     public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle){
     	this();
         myX.set(x);
@@ -156,6 +159,23 @@ public class SpriteProperties {
 	public void setMyYProperty(double y) {
 		myY.set(y);
 
+	}
+
+
+	public boolean isUserControlled() {
+		return myUserControlled.getValue();
+	}
+
+	public void setUserControlled(boolean userControlled) {
+		this.myUserControlled.setValue(userControlled);
+	}
+
+	public BooleanProperty getUserControlled() {
+		return myUserControlled;
+	}
+
+	public void setUserControlled(BooleanProperty userControlled) {
+		this.myUserControlled = userControlled;
 	}
 
 

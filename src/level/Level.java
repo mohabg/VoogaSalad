@@ -32,7 +32,7 @@ import keyboard.IKeyboardAction.KeyboardActions;
  * goalMap(which also is a map of Integer (goalIDs) to Goals. The
  * CurrentSpriteID is the Sprite that will be currently affected by actions of
  * the program. The goalCount is describing how many goals for a level exist.
- * 
+ *
  * @see LevelProperties
  */
 
@@ -147,7 +147,7 @@ public class Level implements ILevel {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
-	
+
 	public void addGoal(Goal goal){
 		goalList.add(goal);
 	}
@@ -163,6 +163,7 @@ public class Level implements ILevel {
 	}
 
 	private List<Integer> updateSprites() {
+
 		List<Integer> spriteList= new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.keySet());
 		if(spriteMap.isEmpty()){
@@ -170,6 +171,12 @@ public class Level implements ILevel {
 		}
 		for (Integer spriteID : spriteIDList) {
 			spriteMap.get(spriteID).update();
+			 if( !spriteMap.get(spriteID).isUserControlled()
+			     && spriteMap.get(spriteID).getBehaviors().get("default")!= null ){
+				 spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID));
+			 }
+		//	 }
+
 			removeDeadSprite(spriteID, spriteList);
 		}
 		return spriteList;
@@ -235,6 +242,7 @@ public class Level implements ILevel {
 			}
 			if (behavior != null) {
 				behavior.apply(currentSprite);
+			//	System.out.println(behavior.getClass().getName());
 			}
 
 		} else {
@@ -264,7 +272,7 @@ public class Level implements ILevel {
 		return deadSprites;
 
 	}
-	
+
 	private void setFactoryInSprites(){
 		for(Sprite sprite : spriteMap.values()){
 			Class[] params = new Class[1];
@@ -274,7 +282,7 @@ public class Level implements ILevel {
 			sprite.invokeMethodInBehaviors("setSpriteFactory", params, objs);
 		}
 	}
-	
+
 	/**
 	 * This method handles Key Press Events.
 	 */
