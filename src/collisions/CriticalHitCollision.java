@@ -17,15 +17,17 @@ public class CriticalHitCollision extends DamageCollision{
 	
 	private DoubleProperty criticalHitDamage;
 	
+	public CriticalHitCollision() {
+		this(new Sprite(""));
+	}
+	
 	public CriticalHitCollision(Sprite sprite) {
-		super(sprite);
-		criticalHitDamage = new SimpleDoubleProperty();
+		this(sprite, 0, 0);
 	}
 	
 	public CriticalHitCollision(Sprite sprite, double value, double criticalHitDamage){
 		super(sprite, value);
-		this.criticalHitDamage = new SimpleDoubleProperty();
-		this.criticalHitDamage.set(criticalHitDamage);
+		this.criticalHitDamage = new SimpleDoubleProperty(criticalHitDamage);
 	}
 	
 	public double getCriticalHitDamage(){

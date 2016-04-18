@@ -7,7 +7,11 @@ public class ExplosionCollision extends Collision{
 	/**
 	 * Causes explosion on collision
 	 */
-
+	
+	public ExplosionCollision() {
+		this(new Sprite());
+	}
+	
 	public ExplosionCollision(Sprite sprite){
 		super(sprite);
 	}

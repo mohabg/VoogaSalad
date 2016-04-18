@@ -4,8 +4,8 @@ package authoringEnvironment.authoringToolbar;
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class AddNewLevelMenu extends AbstractMenu{
-    public AddNewLevelMenu(String menuName) {
-    	super(menuName);
+    public AddNewLevelMenu() {
+    	super();
     }
 
 }

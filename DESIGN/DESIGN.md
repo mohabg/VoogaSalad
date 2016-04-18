@@ -203,11 +203,6 @@ the apply(Sprite sprite) method, which is how the Sprite executes the behavior. 
 this method, without needing to know anything about what kind of action it is. In addition, all you need to do to add a new Behavior
 is implement the apply method. As a result, both Collisions and Behaviors abide by the Open/Closed Principle.
 
-**Collision**
-> -
-
-**Behavior**
-> -
 
 
 #### Game Data Design Details

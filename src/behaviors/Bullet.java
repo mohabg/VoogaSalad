@@ -1,6 +1,8 @@
 
 package behaviors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +19,11 @@ import gameElements.SpriteProperties;
 
 public class Bullet extends Attack{
 
-   
+   public Bullet() {
+	   this(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(),
+			   new RefObject(""), 0, 0, new ApplyBehaviorConditions(), null);
+   }
+	
 	public Bullet(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef, int ammunition, int chargeTime,
 			ApplyBehaviorConditions behaviorConditions, Movement movement) {

@@ -1,5 +1,7 @@
 package behaviors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,11 @@ import gameElements.SpriteProperties;
 
 public class Armor extends Defense{
 
+	public Armor() {
+		this(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), 
+				new RefObject(), new Health(), new ApplyBehaviorConditions());
+	}
+	
 	public Armor(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef, Health myHealth2,
 			ApplyBehaviorConditions behaviorConditions) {

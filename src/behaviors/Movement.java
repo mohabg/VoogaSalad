@@ -22,6 +22,7 @@ public abstract class Movement implements Behavior{
 	}
 	public Movement(double value){
 		this.value = new SimpleDoubleProperty(value);
+		//mySprite = new Sprite("");
 	}
 	
 	public Sprite getSpriteProperties(){

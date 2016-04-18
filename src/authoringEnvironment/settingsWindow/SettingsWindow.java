@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import resources.FrontEndData;
 
 /**
  * @author David Yan
@@ -19,10 +20,10 @@ public class SettingsWindow {
 		myDisplay = new VBox();
 		Settings.setSettingsDisplaySettings(myDisplay);
 
-
+//TODO: this
 		HBox myTempBox = new HBox();
 		Label myLabel = new Label("Example Property:");
-        myLabel.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myLabel.getStylesheets().add(FrontEndData.STYLESHEET);
 		Slider mySlider = new Slider(0,100,50);
 		Settings.setSliderSettings(mySlider);
 		myTempBox.getChildren().addAll(myLabel, mySlider);
