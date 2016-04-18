@@ -1,5 +1,6 @@
 package authoringEnvironment.itemWindow;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import gameElements.Sprite;
@@ -37,7 +38,10 @@ public abstract class AbstractItemTab implements ITab{
         	sprite.setFitHeight(IMAGE_HEIGHT);
         	sprite.setPreserveRatio(true);
             myTilePane.getChildren().add(sprite);
+
         }
+        myTilePane.setId(FrontEndData.TILEPANE);
+        myTilePane.getStylesheets().add(FrontEndData.STYLESHEET);
         setTabContent(myTilePane);
     }
 

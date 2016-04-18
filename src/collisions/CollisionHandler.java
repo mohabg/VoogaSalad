@@ -10,6 +10,8 @@ import level.LevelProperties;
 
 public class CollisionHandler {
 	
+	private Method method;
+
 	public CollisionHandler(){
 		//Should have some way to access time and score
 	}
@@ -21,27 +23,29 @@ public class CollisionHandler {
 	 * @see handleCollision
 	 */
 	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
-		if(haveCollisionEffects(one, two)){
-			one.handleCollision(two, levelProperties);
+		if(haveCollisionEffects(one, two, levelProperties)){
+			one.handleCollision(two, levelProperties, levelProperties);
 		}
-		if(haveCollisionEffects(two, one)){
-			two.handleCollision(one, levelProperties);
+		if(haveCollisionEffects(two, one, levelProperties)){
+			two.handleCollision(one, levelProperties, levelProperties);
 		}
 	}
 	
 	/**
 	 * @param one determines whether Collision one or two have a handleCollision method, if they do not the method returns false
+	 * @param levelProperties 
 	 */
 
-	private boolean haveCollisionEffects(Collision one, Collision two) {
-		Class CollisionOneClass = one.getClass();
-		Class CollisionTwoClass = two.getClass();
+	private boolean haveCollisionEffects(Collision one, Collision two, LevelProperties levelProperties) {
+		Class<? extends Collision> CollisionOneClass = one.getClass();
+		Class<? extends Collision> CollisionTwoClass = two.getClass();
 		try{
-			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass);
+			Method[] methods = CollisionOneClass.getMethods();
+			method = CollisionOneClass.getDeclaredMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 			return true;
 		}
-		catch(Exception e){
-			//e.printStackTrace();
+		catch(NoSuchMethodException e){
+			System.out.println(e.getMessage());
 		}
 		return false;
 	}

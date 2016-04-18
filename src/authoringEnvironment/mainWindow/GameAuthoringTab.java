@@ -1,14 +1,12 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
-import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -26,7 +24,6 @@ import java.util.Map;
  * @author David Yan, Huijia Yu, Joe Jacob
  */
 public class GameAuthoringTab implements ITab{
-	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 
@@ -97,7 +94,7 @@ public class GameAuthoringTab implements ITab{
      */
 
 	public VBox setSettingsContent(Sprite spriteModel) {
-		VBox myBox = new VBox(VBOX_SPACING);
+		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
@@ -129,14 +126,23 @@ public class GameAuthoringTab implements ITab{
 
 	@Override
 	public void setTabContent(Node content) {
-		myTab.setContent(content);
 
-	}
+        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
+        myTab.setContent(content);
+    }
 
-	@Override
-	public void setTabTitle(String tabTitle) {
-		myTab.setText(tabTitle);
-	}
+    @Override
+    public void setTabTitle(String tabTitle) {
+        myTab.setText(tabTitle);
+    }
+
+/**
+ * @param view is a ViewSprite that's going to be copied and get its properties set between the
+ * Sprite properties.
+ * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
+ * change is made, the other knows of the change
+ */
+
 
     /**
      * @param view is a ViewSprite that's going to be copied and get its properties set between the
@@ -148,17 +154,11 @@ public class GameAuthoringTab implements ITab{
 	public void setTabContent(ViewSprite view, Sprite sprite) {
 		ViewSprite copy = new ViewSprite(view.getMyImage());
 		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-		
-        copy.xProperty().bindBidirectional(mCopy.getX());
-        copy.yProperty().bindBidirectional(mCopy.getY());
-        copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
-        copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
-        copy.rotateProperty().bindBidirectional(mCopy.getAngle());
-        copy.stringRefProperty().bindBidirectional(mCopy.getMyStringRef());
-        copy.imageProperty().bindBidirectional(mCopy.getMyImageProp());
-        
+		copy.bindToSprite(mCopy);
 		mySpriteMap.put(copy, mCopy);
 		addWithClicking(copy);
 	}
 
-}
+
+
+    }

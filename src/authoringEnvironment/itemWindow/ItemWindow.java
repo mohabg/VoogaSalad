@@ -1,21 +1,14 @@
 package authoringEnvironment.itemWindow;
 
+import authoringEnvironment.FrontEndData;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
-import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
-import behaviors.Behavior;
-import behaviors.MoveVertically;
-import collisions.Collision;
-import gameElements.Health;
 import gameElements.Sprite;
 import interfaces.ITabPane;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,20 +25,21 @@ public class ItemWindow {
 	public ItemWindow(ITabPane window) {
 		myGameTabPane = window;
 		myTabPane = new TabPane();
+        myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
 		mySpritesAndModels = new HashMap<ViewSprite, Sprite>();
 		initTabPane();
 	}
 
 	private void initTabPane() {
 		 Settings.setTabPaneSettings(myTabPane);
-		 myTabPane.getTabs().addAll(ItemWindowData.TabTypes.stream()
+		 myTabPane.getTabs().addAll(FrontEndData.TabTypes.stream()
 				 .map(t -> makeTab(t))
 				 .collect(Collectors.toList()));
 	}
 
 	private Tab makeTab(String type) {
 		try {
-			Class c = Class.forName(ItemWindowData.ItemPaths.getString(type));
+			Class c = Class.forName(FrontEndData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
 			System.out.println("made it");
@@ -58,7 +52,7 @@ public class ItemWindow {
 	}
 
 	private List<ViewSprite> fillSprites(String type) {
-		return ItemWindowData.SpriteImages.keySet().stream()
+		return FrontEndData.SpriteImages.keySet().stream()
 				.filter(s -> s.startsWith(type))
 				.map(k -> makeViewSprite(k))
 				.collect(Collectors.toList());
@@ -66,10 +60,10 @@ public class ItemWindow {
 
 	private ViewSprite makeViewSprite(String key) {
 		try {
-			Class c = Class.forName(ItemWindowData.VIEWSPRITE);
+			Class c = Class.forName(FrontEndData.VIEWSPRITE);
 			ViewSprite viewsprite = (ViewSprite) c.newInstance();
 
-            String p = ItemWindowData.SpriteImages.getString(key);
+            String p = FrontEndData.SpriteImages.getString(key);
             viewsprite.setImage(p);
             
             Sprite newS = new Sprite(new RefObject(p));

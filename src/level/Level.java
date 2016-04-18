@@ -26,8 +26,8 @@ import keyboard.IKeyboardAction.KeyboardActions;
  * This is the class for level in the game. It has spriteMap, which is a map of Integer(spriteIDs) to Sprites. Any time someone wants
  * the program to know a sprite in a level exists, it must be added to spriteMap
  * GoalMap is similar, whenever a goal for a level is set for a level, it must be added to the goalMap(which also is a map of Integer
- * (goalIDs) to Goals. The CurrentSpriteID is the Sprite that will be currently affected by actions of the program. The goalCount is 
- * describing how many goals for a level exist. 
+ * (goalIDs) to Goals. The CurrentSpriteID is the Sprite that will be currently affected by actions of the program. The goalCount is
+ * describing how many goals for a level exist.
  * @see LevelProperties
  */
 
@@ -104,7 +104,7 @@ public class Level implements ILevel {
 	/**
 	 * @param newSprite gets newSprite and adds it to the sprite map(adding it to the current level)
 	 */
-	
+
 	public void addSprite(Sprite newSprite) {
 		Integer newSpriteID = newSpriteID(spriteMap);
 		getSpriteMap().put(newSpriteID, newSprite);
@@ -113,7 +113,7 @@ public class Level implements ILevel {
 		// through the states pattern
 	}
 
-	
+
 	/**
 	 * @param newSprite Sprite who's id you want to update
 	 * @param spriteID the new ID you want your sprite to be considered
@@ -203,7 +203,13 @@ public class Level implements ILevel {
 		System.out.println("X:   " + currentSprite.getX().doubleValue());
 		System.out.println("Y:   " + currentSprite.getY().doubleValue());
 		if (currentSprite.isUserControlled()) {
-			Behavior behavior = currentSprite.getBehavior(key.getCode());
+			Behavior behavior;
+			if(enable){
+				behavior = currentSprite.getUserPressBehavior(key.getCode());
+			}
+			else{
+				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
+			}
 			if (behavior != null) {
 				behavior.apply(currentSprite);
 			}
