@@ -18,7 +18,6 @@ public abstract class Movement implements Behavior{
 	private DoubleProperty value;
 	
 	public Movement(){
-
 		this(0);
 	}
 	public Movement(double value){

@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
 import collisions.Collision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
 
 /**
  * A subclass of Defense, this describes armor that could go over a sprite.

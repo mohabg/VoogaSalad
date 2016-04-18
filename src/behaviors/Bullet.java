@@ -1,18 +1,15 @@
 
-package authoringEnvironment.settingsWindow;
+package behaviors;
 
 import java.util.List;
 import java.util.Map;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
-import behaviors.Attack;
-import behaviors.Behavior;
-import behaviors.Movement;
 import collisions.Collision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
 
 /**
  * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 

@@ -1,7 +1,6 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
 import behaviors.Behavior;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
@@ -281,11 +280,11 @@ public class Sprite {
 		for(Behavior behavior : userPressBehaviors.values()){
 			Class behaviorClass = behavior.getClass();
 			try{
-				Method method = behaviorClass.getMethod("setAsUserControlled", null);
-				method.invoke(behavior, null);
+				Method method = behaviorClass.getDeclaredMethod("setAsUserControlled");
+				method.invoke(behavior);
 			}
 			catch(Exception e){
-
+				
 			}
 		}
 
