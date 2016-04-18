@@ -24,6 +24,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
+import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
+
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
@@ -67,6 +69,7 @@ public class VisualFactory {
         AnchorPane myAnchorPane = new AnchorPane();
         
 		// this is for things like Lists and Maps
+        
 		if (f.getGenericType() instanceof ParameterizedType) {
 			// TODO make instance of the actual type (bind it) i.e. List, Map, etc.
 			HBox myH = new HBox();
@@ -131,6 +134,7 @@ public class VisualFactory {
 	private VBox makeParamTypeVBox(Type p, ComboBox<String> subclassBox) {
 		VBox myV = new VBox();
 		// populate pulldown with all subclasses
+		
 		Class<?> clazz = getClass(p.getTypeName());
 		
 		if (subclassBox == null) {
@@ -156,7 +160,7 @@ public class VisualFactory {
 		// remove interfaces because they dont have instance vars
 		for (String subName : allSubclasses.keySet()) {
 			Class<?> sub = allSubclasses.get(subName);
-			if (sub.isInterface()) {
+			if (sub.isInterface() || Modifier.isAbstract(sub.getModifiers())) {
 				toRemove.add(subName);
 			}
 		}
@@ -313,6 +317,19 @@ public class VisualFactory {
 		}
 		
 		return null;
+	}
+	
+	private Class<?> getSubclassWithoutInstance(Class<?> clazz) {
+		// find an available subclass otherwise print an exception
+				Map<String, Class<?>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+				// make sure the picked class isn't abstract
+				for (Class<?> sub : parentSubclasses.values()) {
+					if (!Modifier.isAbstract(sub.getModifiers())) {
+						return sub;
+					}
+				}
+				
+				return null;
 	}
 	
 	private Object fieldGetObject(Field childField, Object parentObject) {

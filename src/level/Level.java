@@ -38,7 +38,6 @@ import keyboard.IKeyboardAction.KeyboardActions;
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
-	private SpriteFactory spriteFactory;
 	private Map<Integer, Sprite> spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
@@ -265,7 +264,17 @@ public class Level implements ILevel {
 		return deadSprites;
 
 	}
-
+	
+	private void setFactoryInSprites(){
+		for(Sprite sprite : spriteMap.values()){
+			Class[] params = new Class[1];
+			params[0] = mySpriteFactory.getClass();
+			Object[] objs = new Object[1];
+			objs[0] = mySpriteFactory;
+			sprite.invokeMethodInBehaviors("setSpriteFactory", params, objs);
+		}
+	}
+	
 	/**
 	 * This method handles Key Press Events.
 	 */
@@ -282,5 +291,6 @@ public class Level implements ILevel {
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory){
 		this.mySpriteFactory = mySpriteFactory;
+		setFactoryInSprites();
 	}
 }

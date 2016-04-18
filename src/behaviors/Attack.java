@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Random;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
 import collisions.Collision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
+import gameplayer.SpriteFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -29,6 +30,8 @@ public abstract class Attack extends Sprite implements Behavior {
 	private IntegerProperty chargeTime;
 	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
+	private SpriteProperties target;
+	private SpriteFactory mySpriteFactory;
 	
 	public Attack() {
 		this(new RefObject());
@@ -83,6 +86,14 @@ public abstract class Attack extends Sprite implements Behavior {
 	}
 
 	
+	public SpriteFactory getMySpriteFactory() {
+		return mySpriteFactory;
+	}
+
+	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
+		this.mySpriteFactory = mySpriteFactory;
+	}
+
 	public Movement getMovement() {
 		return movement;
 	}
