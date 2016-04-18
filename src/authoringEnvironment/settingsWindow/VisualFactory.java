@@ -27,6 +27,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
+import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
+
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
@@ -38,8 +40,8 @@ public class VisualFactory {
 
 	public VisualFactory() {
 		mySettings = new Settings();
+		
 	}
-
 
 	// TODO: Binding and figuring out list of objects in reflection
 	// TODO: CAN WE GET WRAPAROUND FOR TABS
@@ -72,44 +74,51 @@ public class VisualFactory {
         AnchorPane myAnchorPane = new AnchorPane();
         
 		// this is for things like Lists and Maps
+        
 		if (f.getGenericType() instanceof ParameterizedType) {
-			
-			// TODO make instance of the actual type (bind it) i.e. List, Map, etc.
 			HBox myH = new HBox();
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
+			
 			Type[] params = pt.getActualTypeArguments();
-			System.out.println("OSODJAOSDJAIOJD");
-			System.out.println(pt.getTypeName());
 			
-			
-			Property ptObject = (Property) fieldGetObject(f, mySprite);
-			String ptObjectName = f.getName();	
-			HBox paramSettingsObj = makeSettingsObject(ptObject, ptObjectName);
-			for (Field oo : ptObject.getClass().getDeclaredFields()) {
-				System.out.println(oo.getType().getName());
-			}
-			Constructor[] crcs = pt.getClass().getConstructors();
-			for(Constructor cr : crcs) {
-				System.out.println(cr.toString());
-			}
-			
-			System.out.println("IHHIHI");
-			TableView tv = new TableView();
-			
-			for (Node n : paramSettingsObj.getChildren()) {
-				if (n instanceof TableView) {
-					tv = (TableView) n;
+			System.out.println("I SPY A PARAMTYPE");
+				
+			// handle parameterized property object types
+			System.out.println(pt.getRawType().getTypeName());
+			Class<?> rawTypeClass = getClass(pt.getRawType().getTypeName());
+			if (Property.class.isAssignableFrom(rawTypeClass)) {
+				System.out.println("THIS PARAM TYPE IS A PROPERTY");
+				Property ptProperty = (Property) fieldGetObject(f, mySprite);
+				if(params.length == 1) {
+					// single param catch (most likely List)
+					Class<?> paramClass0 = getClass(params[0].getTypeName());
+					singleParamType(paramClass0, ptProperty);
+				} else if (params.length == 2) {
+					// double param catch (most likely Map)
+					Class<?> paramClass0 = getClass(params[0].getTypeName());
+					Class<?> paramClass1 = getClass(params[1].getTypeName());
+					doubleParamType(paramClass0, paramClass1, ptProperty);
 				}
+				
 			}
-			myBox.getChildren().add(paramSettingsObj);
-			for (int i=0; i<params.length; i++) {
-				Type p = params[i];
-				VBox myV = makeParamTypeVBox(p, null);
-				myH.getChildren().add(myV);
-				//tv.row
-			}
+
 			
-			myBox.getChildren().add(myH); 
+			String ptObjectName = f.getName();	
+			//HBox paramSettingsObj = makeSettingsObject(ptObject, ptObjectName);
+//			for (Field oo : ptObject.getClass().getDeclaredFields()) {
+//				System.out.println(oo.getType().getName());
+//			}
+//
+//			
+//			myBox.getChildren().add(paramSettingsObj);
+//			for (int i=0; i<params.length; i++) {
+//				Type p = params[i];
+//				VBox myV = makeParamTypeVBox(p, null);
+//				myH.getChildren().add(myV);
+//				//tv.row
+//			}
+//			
+//			myBox.getChildren().add(myH); 
 		} else if (isAProperty(f)) {
 			Property fObject = (Property) fieldGetObject(f, mySprite);
 			String fObjectName = f.getName();				
@@ -132,6 +141,32 @@ public class VisualFactory {
 	}
 
 
+	private <R> void singleParamType(Class<R> rType, Property prop) {
+		if(prop instanceof ListProperty) {
+			ListProperty<R> lpr = (ListProperty<R>) prop;
+			try {
+				lpr.add(rType.newInstance());
+				System.out.println("LIST WORKED");
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private <R, T> void doubleParamType(Class<R> rType, Class<T> tType, Property prop) {
+		if(prop instanceof MapProperty) {
+			MapProperty<R,T> mprt = (MapProperty<R,T>) prop;
+			try {
+				mprt.put(rType.newInstance(), tType.newInstance());
+				System.out.println("MAP WORKED");
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private VBox makeFieldVBox(Field f, Object parentObj, ComboBox<String> subclassBox) {
 		VBox fieldVBox = new VBox();	
 		VBox propVBox = new VBox();
@@ -162,6 +197,7 @@ public class VisualFactory {
 	private VBox makeParamTypeVBox(Type p, ComboBox<String> subclassBox) {
 		VBox myV = new VBox();
 		// populate pulldown with all subclasses
+		
 		Class<?> clazz = getClass(p.getTypeName());
 		
 		if (subclassBox == null) {
@@ -345,6 +381,19 @@ public class VisualFactory {
 		}
 		
 		return null;
+	}
+	
+	private Class<?> getSubclassWithoutInstance(Class<?> clazz) {
+		// find an available subclass otherwise print an exception
+				Map<String, Class<?>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+				// make sure the picked class isn't abstract
+				for (Class<?> sub : parentSubclasses.values()) {
+					if (!Modifier.isAbstract(sub.getModifiers())) {
+						return sub;
+					}
+				}
+				
+				return null;
 	}
 	
 	private Object fieldGetObject(Field childField, Object parentObject) {

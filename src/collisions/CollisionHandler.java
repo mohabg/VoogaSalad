@@ -45,7 +45,6 @@ public class CollisionHandler {
 			return true;
 		}
 		catch(NoSuchMethodException e){
-			System.out.println(e.getMessage());
 		}
 		return false;
 	}

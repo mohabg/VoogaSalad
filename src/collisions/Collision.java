@@ -60,7 +60,6 @@ public abstract class Collision{
 				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-				System.out.println(e.getMessage());
 			}
 		}
 	}
