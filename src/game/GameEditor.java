@@ -1,5 +1,7 @@
 package game;
 
+import java.util.List;
+
 import goals.Goal;
 import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
@@ -72,10 +74,11 @@ public class GameEditor implements IGameEditor {
 		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
 	}
 
-	public void updateGame() {
-		myGame.getCurrentLevel().update();
+	public List<Integer> updateGame() {
+		List<Integer> dead = myGame.getCurrentLevel().update();
 		if (myGame.getCurrentLevel().getisFinished())
 			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
+		return dead;
 	}
 
 	public void setResultForKeyPress(KeyEvent event) {
