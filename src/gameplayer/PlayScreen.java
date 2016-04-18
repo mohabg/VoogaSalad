@@ -82,6 +82,12 @@ public class PlayScreen extends Screen {
 	}
 
 	private void setLevel(Level newLevel) {
+		try{
+		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
+		}
+		catch (Exception e){
+			
+		}
 		currentLevel = newLevel;
 		System.out.println(myPane.getChildren().toString());
 		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel));
@@ -115,6 +121,7 @@ public class PlayScreen extends Screen {
 		deadSprites.forEach(s -> {
 			System.out.println(s);
 			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
+			myViewSprites.get(currentLevel).remove(s);
 		});
 	}
 
