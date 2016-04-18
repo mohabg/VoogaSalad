@@ -49,6 +49,14 @@ public class Sprite {
 	private BooleanProperty canMove;
 
 
+	public Sprite() {
+		this("");
+	}
+	
+	public Sprite(String ref) {
+		this(new RefObject(ref));
+	}
+	
 	public Sprite(RefObject myRef){
 		this.myRef = myRef;
 		myProperties = new SpriteProperties();
@@ -102,9 +110,6 @@ public class Sprite {
 		this.canMove = new SimpleBooleanProperty(true);
 	}
 
-	public Sprite(String ref) {
-		this(new RefObject(ref));
-	}
 
 	/**
 	 * Updates the sprite frame by frame

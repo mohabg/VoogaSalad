@@ -93,6 +93,11 @@ public class VisualFactory {
 			}
 			
 			myBox.getChildren().add(myH);
+		} else if (isAProperty(f)) {
+			Property fObject = (Property) fieldGetObject(f, mySprite);
+			String fObjectName = f.getName();				
+			Set<HBox> props = makePropertyBoxes(f, fObject, fObjectName, new HashSet<HBox>());
+			myBox.getChildren().addAll(props);
 		} else {
 			// populate pulldown with all subclasses
 			ComboBox<String> subclassBox = makeSubclassComboBox(f.getType());
@@ -235,6 +240,7 @@ public class VisualFactory {
 		} else {
 			List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
 	
+			// prevents us from trying to initialize java classes
 			if (parent != null && myProjectClassNames.contains(p.getType().getName())) {
 				Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType(), myProjectClassNames);
 				for (Field otherField : allFields) {
@@ -337,7 +343,6 @@ public class VisualFactory {
 
 		return cb;
 	}
-
 	
 	private TextField makeTextField(StringProperty sp) {
 		TextField textField = new TextField(sp.toString());
