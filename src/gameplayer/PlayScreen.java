@@ -65,7 +65,7 @@ public class PlayScreen extends Screen {
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		this.gameLevels = gameLevels;
-		myEngine = new Engine(new GameEditor(), new SpriteFactory(myPane, myViewSprites));
+		myEngine = new Engine(new GameEditor());
 		
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 		
@@ -82,6 +82,8 @@ public class PlayScreen extends Screen {
 
 	private void setLevel(Level newLevel) {
 		System.out.println(myPane.getChildren().toString());
+		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel));
+		newLevel.setSpriteFactory(sf);
 		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
 		myPane.setOnKeyReleased(key -> {
 			newLevel.handleKeyRelease(key);

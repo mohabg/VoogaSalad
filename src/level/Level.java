@@ -14,6 +14,7 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.Sprite;
+import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
@@ -45,6 +46,7 @@ public class Level implements ILevel {
 	private GoalFactory goalFactory;
 	private int goalCount;
 	private boolean isFinished;
+	private SpriteFactory mySpriteFactory;
 
 	public Level() {
 
@@ -261,4 +263,7 @@ public class Level implements ILevel {
 		handleKeyboardAction(key, false);
 	}
 
+	public void setSpriteFactory(SpriteFactory mySpriteFactory){
+		this.mySpriteFactory = mySpriteFactory;
+	}
 }
