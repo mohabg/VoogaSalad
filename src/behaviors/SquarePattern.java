@@ -1,12 +1,10 @@
 package behaviors;
 
-import gameElements.CircularQueue;
 import behaviors.PatternMovement;
 import gameElements.Vector;
 
 public class SquarePattern extends PatternMovement {
 
-	CircularQueue<Vector> pattern;
 	private static final double DEFAULT_SIZE = 5;
 
 	public SquarePattern() {
