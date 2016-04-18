@@ -378,9 +378,13 @@ public class VisualFactory {
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
+		
+		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
+		mySpinner.getEditor().setTextFormatter(formatter);
+		
 		factory.valueProperty().bindBidirectional(dp);
-		//factory.va
-
+		factory.valueProperty().bindBidirectional(formatter.valueProperty());
+		
 		return mySpinner;
 	}
 
@@ -390,8 +394,12 @@ public class VisualFactory {
 		mySpinner.setValueFactory(factory);
 		mySpinner.setEditable(true);
 
+		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
+		mySpinner.getEditor().setTextFormatter(formatter);
+		
 		factory.valueProperty().bindBidirectional(ip);
-
+		factory.valueProperty().bindBidirectional(formatter.valueProperty());
+		
 		return mySpinner;
 	}
 
@@ -406,7 +414,13 @@ public class VisualFactory {
 	
 	private TextField makeTextField(StringProperty sp) {
 		TextField textField = new TextField(sp.toString());
+		
+		TextFormatter formatter = new TextFormatter(TextFormatter.IDENTITY_STRING_CONVERTER);
+		textField.setTextFormatter(formatter);
+		
 		textField.textProperty().bindBidirectional(sp);
+		textField.textProperty().bindBidirectional(formatter.valueProperty());
+		
 		VBox.setVgrow(textField, Priority.ALWAYS);
 		HBox.setHgrow(textField, Priority.ALWAYS);
 		textField.autosize();
