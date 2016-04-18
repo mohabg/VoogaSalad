@@ -70,11 +70,11 @@ public class Game {
 	 * @param levelProperties the method uses the properties defined here to create a new level 
 	 */
 	
-	public void createLevel(int levelID, LevelProperties levelProperties) {
+	public void createLevel(Integer levelID, LevelProperties levelProperties) {
 		Level newLevel = new Level();
-        levelProperties.setLevelID(levelID);
+
         newLevel.setLevelProperties(levelProperties);
-    	myGameLevels.add(levelID, newLevel);
+    	myGameLevels.add(newLevel);
 	}
 	
 	/**
