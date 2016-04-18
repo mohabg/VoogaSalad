@@ -21,11 +21,13 @@ public class SpriteFactory {
 		this.myViewSprites = myViewSprites;
 	}
 
-	public Sprite makeSprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef, Integer ID) {
-		
-		Sprite s = new Sprite(myProperties, myHealth, myCollisions, myBehaviors, myRef);
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
+		SpriteProperties sp = vs.getMySpriteProperties();
+		sp.setMyX(x);
+		sp.setMyY(y);
+		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
 		myPane.getChildren().add(vs);
 		myViewSprites.put(ID, vs);
