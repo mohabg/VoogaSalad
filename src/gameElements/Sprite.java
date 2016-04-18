@@ -1,7 +1,9 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import behaviors.Attack;
 import behaviors.Behavior;
+import behaviors.Bullet;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import collisions.ActorCollision;
@@ -70,6 +72,9 @@ public class Sprite {
 		myCollisions.add(new DamageCollision(this,100));
 		myCollisions.add(new EnemyCollision(this));
 
+		Attack bullet = new Bullet();
+		userPressBehaviors.put(KeyCode.SPACE, bullet);
+		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpPressMovement.getClass().getName(), defaultUpPressMovement);
 		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
