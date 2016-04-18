@@ -3,6 +3,7 @@ package authoringEnvironment.itemWindow;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import behaviors.SquarePattern;
 import gameElements.Sprite;
 import interfaces.ITabPane;
 import javafx.scene.control.Tab;
@@ -65,21 +66,24 @@ public class ItemWindow {
 
             String p = FrontEndData.SpriteImages.getString(key);
             viewsprite.setImage(p);
-            
+
             Sprite newS = new Sprite(new RefObject(p));
+            newS.addBehavior("default", new SquarePattern(100,20));
+           // Sprite newS = new Sprite(new RefObject(p),new SquareMovement(100,20));
+
             //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));
             //newS.setWidth(new SimpleDoubleProperty(viewsprite.getWidth()));
             //sprite.setMySpriteProperties(newS.getSpriteProperties());
 
             mySpritesAndModels.put(viewsprite, newS);
-            
+
 			viewsprite.setOnMouseClicked(e -> {
 				myGameTabPane.getCurrentTab().setTabContent(viewsprite, newS);
-			});	
-		
+			});
+
 			return viewsprite;
 		} catch (Exception e) {
-
+			e.printStackTrace();
         }
 		return null;
 	}

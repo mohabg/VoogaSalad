@@ -4,6 +4,7 @@ import authoringEnvironment.RefObject;
 import behaviors.Behavior;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
+import behaviors.SquarePattern;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.DamageCollision;
@@ -95,6 +96,25 @@ public class Sprite {
 		userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
 		myBehaviors.put(defaultHorizReleaseMovement.getClass().getName(), defaultHorizReleaseMovement);
+
+		myBehaviors.put("default", new SquarePattern(10, 20));
+
+	}
+
+	public Sprite(RefObject myRef, Behavior behave){
+		this.myRef = myRef;
+		myProperties = new SpriteProperties();
+		myCollisions = new ArrayList<Collision>();
+		myBehaviors = new HashMap<String, Behavior>();
+		userPressBehaviors = new HashMap<KeyCode, Behavior>();
+		userReleaseBehaviors = new HashMap<KeyCode, Behavior>();
+		isUserControlled = new SimpleBooleanProperty(false);
+		canMove = new SimpleBooleanProperty(true);
+		myHealth = new Health(100);
+
+		myCollisions.add(new DamageCollision(this));
+		myCollisions.add(new EnemyCollision(this));
+
 	}
 
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
@@ -122,6 +142,10 @@ public class Sprite {
 
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {
 		return userPressBehaviors;
+	}
+
+	public void addBehavior(String key, Behavior behavior){
+		myBehaviors.put(key, behavior);
 	}
 
 	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
@@ -261,7 +285,8 @@ public class Sprite {
 	}
 
 	public boolean isUserControlled() {
-		return isUserControlled.getValue();
+		//return isUserControlled.getValue();
+		return myProperties.isUserControlled();
 	}
 
 	/**
@@ -294,7 +319,7 @@ public class Sprite {
 				method.invoke(behavior, objects);
 			}
 			catch(Exception e){
-				
+
 			}
 		}
 
