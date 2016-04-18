@@ -168,11 +168,7 @@ public class GameLoader {
 			// System.out.println("SPRITE " + s.getX().doubleValue() + " " +
 			// s.getY().doubleValue());
 			// TODO: THIS NEEDS TO BE SOMEWHERE ELSE????
-<<<<<<< HEAD
-			s.setAsUserControlled();
-=======
 			 s.setAsUserControlled();
->>>>>>> afc6d2eeef41a31318408c8a1f9f8316385ce29f
 			vs.bindToSprite(s);
 			
 
