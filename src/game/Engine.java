@@ -9,6 +9,7 @@ import level.LevelProperties;
 import java.util.Map;
 
 import gameElements.Sprite;
+import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -24,14 +25,16 @@ public class Engine {
 	
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
 	
-	//private Game myGame;
+	private Timeline myGameLoop;
 	private Level currentLevel;
 	private IGameEditor myEditor;
 	private double myGameTime;
+	private boolean isPaused;
 
 	public Engine() {
-		//myGame = new Game();
+		myGameLoop = new Timeline();
 		myGameTime = 0;
+		isPaused = false;
 	}
 	
 	public Engine(IGameEditor editor) {
@@ -78,13 +81,20 @@ public class Engine {
         myEditor.setUserSprite(userSprite);
     }
     
+    public void addGoal(Goal goal) {
+    	myEditor.addGoal(goal);
+    }
+    
+    public void deleteGoal(Goal goal) {
+    	myEditor.deleteGoal(goal);
+    }
+    
     /**
 	 * Starts the game loop
 	 */
     
     public void gameLoop() {
-    	Timeline gameLoop = new Timeline();
-        gameLoop.setCycleCount(Timeline.INDEFINITE );
+    	myGameLoop.setCycleCount(Timeline.INDEFINITE );
         double startTime = System.currentTimeMillis();
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
             new EventHandler<ActionEvent>() {
@@ -93,10 +103,21 @@ public class Engine {
                     myEditor.updateGame();
                 }
             }); 
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-        
-        gameLoop.getKeyFrames().add(keyFrame);
-        gameLoop.play();
+        myGameLoop.setCycleCount(Timeline.INDEFINITE);  
+        myGameLoop.getKeyFrames().add(keyFrame);
+        playGameLoop();
+        if ( isPaused )
+        	pauseGameLoop();
+    }
+    
+    public void pauseGameLoop() {
+    	isPaused = true;
+    	myGameLoop.pause();
+    }
+    
+    public void playGameLoop() {
+    	isPaused = false;
+    	myGameLoop.play();
     }
     
     public double getGameTimeInSeconds() {

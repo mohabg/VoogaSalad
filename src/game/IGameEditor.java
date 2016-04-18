@@ -1,4 +1,6 @@
 package game;
+import goals.Goal;
+import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -14,9 +16,8 @@ public interface IGameEditor {
 	public void addLevel(int index, Level level);
 	public void setCurrentLevel(int index);
 	public Level getCurrentLevel();
-	//public int addGoal(GoalProperties newGoal);
-	//public void updateGoal(Integer goalID, GoalProperties newGoal);
-	public void deleteGoal(Integer goalID);
+	public void addGoal(Goal newGoal);
+	public void deleteGoal(Goal goal);
 	public void setLevelProperties(LevelProperties levelProperties);
 	public Integer getUserSprite();
 	public void setUserSprite(Integer spriteID);
