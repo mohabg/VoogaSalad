@@ -3,6 +3,7 @@ package behaviors;
 import gameElements.Sprite;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 /**
  * A subclass of Movement that is used by the game authoring environment to move the sprite vertically by some number of units.
  * Has the moveY attribute to determine how much the sprite should move
@@ -12,12 +13,10 @@ public class MoveVertically extends Movement{
 
 	private DoubleProperty moveY;
 
-	public void getMoveY(DoubleProperty moveY){
-		this.moveY=moveY;
-	}
 
 	public MoveVertically(double value) {
 		super(value);
+		moveY = new SimpleDoubleProperty(0);
 	}
 
 	/**
@@ -33,6 +32,8 @@ public class MoveVertically extends Movement{
 
 	}
 
-
+	public void getMoveY(DoubleProperty moveY){
+		this.moveY=moveY;
+	}
 
 }
