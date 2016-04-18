@@ -7,6 +7,7 @@ import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
+import resources.FrontEndData;
 
 import java.util.List;
 /** 
@@ -39,8 +40,8 @@ public abstract class AbstractItemTab implements ITab{
             myTilePane.getChildren().add(sprite);
 
         }
-        myTilePane.setId("TilePane");
-        myTilePane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myTilePane.setId(FrontEndData.TILEPANE);
+        myTilePane.getStylesheets().add(FrontEndData.STYLESHEET);
         setTabContent(myTilePane);
     }
 

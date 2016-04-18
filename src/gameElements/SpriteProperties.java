@@ -1,4 +1,4 @@
-package authoringEnvironment;
+package gameElements;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -9,6 +9,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class SpriteProperties {
     private DoubleProperty myX;
     private DoubleProperty myY;
+    private DoubleProperty myXvel;
+    private DoubleProperty myYvel;
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
@@ -16,6 +18,8 @@ public class SpriteProperties {
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
         myY = new SimpleDoubleProperty(0);
+        myXvel = new SimpleDoubleProperty(0);
+        myYvel = new SimpleDoubleProperty(0);
         myWidth = new SimpleDoubleProperty(0);
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
@@ -30,10 +34,46 @@ public class SpriteProperties {
     	this();
         myX.set(x);
         myY.set(y);
+    }
+    
+    public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle){
+    	this();
+        myX.set(x);
+        myY.set(y);
+        myXvel.set(xVel);
+        myYvel.set(yVel);
         myWidth.set(width);
         myHeight.set(height);
         myAngle.set(angle);
     }
+
+    public void updatePos(){
+    	myX.setValue(myX.getValue()+ myXvel.getValue());
+    	myY.setValue(myY.getValue()+ myYvel.getValue());
+    }
+
+    public DoubleProperty getMyXvel() {
+		return myXvel;
+	}
+
+	public void setMyXvel(double Xvel) {
+		myXvel.set(Xvel);
+	}
+
+	public void setMyXvelProperty(DoubleProperty myXvel) {
+		this.myXvel = myXvel;
+	}
+
+	public DoubleProperty getMyYvel() {
+		return myYvel;
+	}
+
+	public void setMyYvel(double Yvel) {
+		myYvel.setValue(Yvel);
+	}
+	public void setMyYvelProperty(DoubleProperty myYvel) {
+		this.myYvel = myYvel;
+	}
 
     public double getMyAngle() {
         return myAngle.get();
@@ -61,7 +101,7 @@ public class SpriteProperties {
     public void setMyX(double myX) {
         this.myX.set(myX);
     }
-    
+
     public void setMyXProperty(DoubleProperty X){
     	myX = X;
     }
@@ -69,7 +109,7 @@ public class SpriteProperties {
     public void setMyYProperty(DoubleProperty Y){
     	myY = Y;
     }
-    
+
     public DoubleProperty getMyY() {
         return myY;
     }
@@ -115,7 +155,7 @@ public class SpriteProperties {
 
 	public void setMyYProperty(double y) {
 		myY.set(y);
-		
+
 	}
 
 
