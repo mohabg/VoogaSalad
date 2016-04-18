@@ -2,7 +2,6 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -16,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import level.Level;
 import level.LevelProperties;
+import resources.FrontEndData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,11 +67,11 @@ public class PlayScreen extends Screen {
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		this.gameLevels = gameLevels;
 		myEngine = new Engine(new GameEditor());
-		
+
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
-		
-		//TODO: go through loop
-		myViewSprites.keySet().forEach(level->myEngine.addLevel(0, level));
+
+		// TODO: go through loop
+		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
 		setLevel(myEngine.getCurrentLevel());
 
 		myEngine.gameLoop();
@@ -79,7 +79,6 @@ public class PlayScreen extends Screen {
 
 		// bind image-specific attributes
 	}
-
 
 	private void setLevel(Level newLevel) {
 		System.out.println(myPane.getChildren().toString());
@@ -93,10 +92,9 @@ public class PlayScreen extends Screen {
 				System.out.println(vs.yProperty().doubleValue());
 			}
 		});
-//		myPane.getChildren().
+		// myPane.getChildren().
 		myPane.getChildren().addAll(myViewSprites.get(newLevel).values());
 	}
-	
 
 	// private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){
 	//
@@ -106,9 +104,12 @@ public class PlayScreen extends Screen {
 	public File getGameFile() {
 		return gameFile;
 	}
-	
-	public void play(){
+
+	public void play() {
 		myEngine.playGameLoop();
+	}
+	public void removeSprites(Level level, List<Integer> deadSprites){
+		deadSprites.forEach(s->myPane.getChildren().remove(myViewSprites.get(level).get(s)));
 	}
 
 }

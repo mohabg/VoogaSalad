@@ -1,6 +1,5 @@
 package authoringEnvironment.mainWindow;
 
-import authoringEnvironment.FrontEndData;
 /**
  * @author: David Yan, Joe Jacob, Huijia Yu
  */
@@ -12,6 +11,7 @@ import interfaces.ITab;
 import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import resources.FrontEndData;
 
 import java.util.ArrayList;
 import java.util.HashMap;

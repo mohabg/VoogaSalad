@@ -14,31 +14,31 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Health {
 
 	
-	private DoubleProperty value;
+	private DoubleProperty healthValue;
 	private BooleanProperty isMortal;	
 	
 	public Health(){
-		value = new SimpleDoubleProperty(0);
+		healthValue = new SimpleDoubleProperty(0);
 		isMortal = new SimpleBooleanProperty(false);
 	}
 	public Health(double myHealth){
 		this();
-		this.value.set(myHealth);
+		this.healthValue.set(myHealth);
 	}
 
 	private void changeHealth(double val) {
 		if (isMortal.getValue()) {
-			value.add(val);
+			healthValue.add(val);
 		}
 	}
 
 	public void setHealth(double health) {
-		this.value.set(health);
+		this.healthValue.set(health);
 		isMortal.set(true);
 	}
 
 	public double getHealthValue() {
-		return value.doubleValue();
+		return healthValue.doubleValue();
 	}
 
 	public void decrementHealth(double damage) {
@@ -56,6 +56,6 @@ public class Health {
 		if (!isMortal.getValue()) {
 			return false;
 		}
-		return value.doubleValue() <= 0;
+		return healthValue.doubleValue() <= 0;
 	}
 }
