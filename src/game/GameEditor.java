@@ -1,4 +1,6 @@
 package game;
+import goals.Goal;
+import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -49,16 +51,13 @@ public class GameEditor implements IGameEditor {
 		return myGame.getCurrentLevel();
 	}
 	
-/*	public int addGoal(GoalProperties newGoal) {
-		return myGame.getCurrentLevel().setGoal(newGoal);
+	public void addGoal(Goal newGoal) {
+		myGame.getCurrentLevel().addGoal(newGoal);
 	}
 
-	public void updateGoal(Integer goalID, GoalProperties newGoal) {
-	    myGame.getCurrentLevel().updateGoal(goalID, newGoal);
-	}
-*/
-	public void deleteGoal(Integer goalID) {
-	    myGame.getCurrentLevel().deleteGoal(goalID);
+
+	public void deleteGoal(Goal goal) {
+	    myGame.getCurrentLevel().deleteGoal(goal);
 	}
 	
 	public void setLevelProperties(LevelProperties levelProperties) {  
