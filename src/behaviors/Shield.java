@@ -1,14 +1,16 @@
 package behaviors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
 import collisions.Collision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
 
 /**
@@ -19,6 +21,10 @@ public class Shield extends Defense{
 	
 	private DoubleProperty rechargeTime;
 
+	public Shield(){
+		this(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), 
+				new RefObject(), new Health(), new ApplyBehaviorConditions(), 0);
+	}
 	public Shield(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef, Health myHealth2,
 			ApplyBehaviorConditions behaviorConditions, double rechargeTime) {
