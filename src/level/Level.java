@@ -163,16 +163,19 @@ public class Level implements ILevel {
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
-	private void updateSprites() {
+	private List<Sprite> updateSprites() {
+		List<Sprite> spriteList= new ArrayList<Sprite>();
 		for (Sprite sprite : spriteMap.values()) {
 			sprite.update();
-			removeDeadSprite(sprite);
+			removeDeadSprite(sprite, spriteList);
 		}
+		return spriteList;
 	}
 
-	private void removeDeadSprite(Sprite sprite) {
+	private void removeDeadSprite(Sprite sprite, List<Sprite> deadSpriteList) {
 		if (sprite.isDead())
 			spriteMap.remove(sprite);
+			deadSpriteList.add(sprite);
 
 	}
 
@@ -244,7 +247,7 @@ public class Level implements ILevel {
 
 	@Override
 	public void update() {
-		updateSprites();
+		List<Sprite> deadSprites=updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
 			setisFinished(true);
