@@ -92,7 +92,7 @@ public class VisualFactory {
 				myH.getChildren().add(fieldVBox);
 			}
 			
-			myBox.getChildren().add(myH);
+			myBox.getChildren().add(myH); 
 		} else if (isAProperty(f)) {
 			Property fObject = (Property) fieldGetObject(f, mySprite);
 			String fObjectName = f.getName();				
@@ -171,9 +171,7 @@ public class VisualFactory {
 	
 		Set<HBox> myFields = new HashSet<HBox>();
 		
-		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
-		
-		
+		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();		
 		
 		Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
 		
@@ -217,7 +215,7 @@ public class VisualFactory {
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
-			HBox settingsHBox = makeSettingsObject(parent, parentName);
+			HBox settingsHBox = makeSettingsObject(parent, p.getName());
 			properties.add(settingsHBox);
 			return properties;
 		} else if (parent instanceof List) {

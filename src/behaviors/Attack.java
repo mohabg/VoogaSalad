@@ -30,6 +30,10 @@ public abstract class Attack extends Sprite implements Behavior {
 	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
 	
+	public Attack() {
+		this(new RefObject());
+	}
+	
 	public Attack(RefObject myRef){
 		this (new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
 	}
