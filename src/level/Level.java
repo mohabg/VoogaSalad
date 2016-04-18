@@ -58,6 +58,7 @@ public class Level implements ILevel {
 		goalFactory = new GoalFactory();
 		goalCount = 0;
 		isFinished = false;
+		currentSpriteID = 0;
 
 	}
 
@@ -112,6 +113,7 @@ public class Level implements ILevel {
 
 	public void addSprite(Sprite newSprite) {
 		Integer newSpriteID = newSpriteID(spriteMap);
+		setCurrentSpriteID(newSpriteID);
 		getSpriteMap().put(newSpriteID, newSprite);
 		// return new ID??
 		// checking for whether it is the main character-->should be done

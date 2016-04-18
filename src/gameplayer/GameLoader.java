@@ -153,7 +153,7 @@ public class GameLoader {
 			Level newLevel = new Level();
 			newLevel.setLevelProperties(new LevelProperties());
 			// TODO????FIGURE OUT ACTOR/USERCONTROLLED STUFF
-//			newLevel.setCurrentSpriteID(0);
+			// newLevel.setCurrentSpriteID(0);
 			myViewSprites.put(newLevel, setLevelSprites(newLevel, lm.getMyMap()));
 		});
 		return myViewSprites;
@@ -167,9 +167,8 @@ public class GameLoader {
 			// System.out.println("SPRITE " + s.getX().doubleValue() + " " +
 			// s.getY().doubleValue());
 			// TODO: THIS NEEDS TO BE SOMEWHERE ELSE????
-			 s.setAsUserControlled();
+			s.setAsUserControlled();
 			vs.bindToSprite(s);
-			
 
 			newLevel.addSprite(s);
 			levelViewSprites.put(newLevel.getCurrentSpriteID(), vs);

@@ -60,6 +60,7 @@ public class PlayScreen extends Screen {
 			PauseScreen ps = new PauseScreen(this);
 			ps.initBorderPane(gameLevels);
 			switchScene(ps);
+			myEngine.pauseGameLoop();
 		});
 	}
 
@@ -104,6 +105,10 @@ public class PlayScreen extends Screen {
 
 	public File getGameFile() {
 		return gameFile;
+	}
+	
+	public void play(){
+		myEngine.playGameLoop();
 	}
 
 }

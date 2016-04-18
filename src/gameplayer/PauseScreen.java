@@ -43,6 +43,7 @@ public class PauseScreen extends Screen {
 
 		Button cont = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("continuegame"), a -> {
 			switchScene(parentScreen);
+			((PlayScreen) parentScreen).play();
 		});
 
 		Button restart = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("restartgame"), a -> {
