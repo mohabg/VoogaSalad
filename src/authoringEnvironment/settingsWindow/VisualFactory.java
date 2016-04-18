@@ -68,11 +68,13 @@ public class VisualFactory {
         
 		// this is for things like Lists and Maps
 		if (f.getGenericType() instanceof ParameterizedType) {
+			
 			// TODO make instance of the actual type (bind it) i.e. List, Map, etc.
 			HBox myH = new HBox();
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
 			Type[] params = pt.getActualTypeArguments();
-			
+			System.out.println("OSODJAOSDJAIOJD");
+			System.out.println(pt.getTypeName());
 			for (Type p : params) {
 				VBox myV = makeParamTypeVBox(p, null);
 				myH.getChildren().add(myV);
