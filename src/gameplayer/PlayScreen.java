@@ -31,7 +31,7 @@ import java.util.Map;
  *
  */
 public class PlayScreen extends Screen {
-	private Map<Level, List<ViewSprite>> myViewSprites;
+	private Map<Level, Map<Integer, ViewSprite>> myViewSprites;
 	private Engine myEngine;
 	private HeadsUpDisplay myHUD;
 
@@ -41,7 +41,7 @@ public class PlayScreen extends Screen {
 	public PlayScreen(File newGameFile) {
 		super();
 		gameFile = newGameFile;
-		myViewSprites = new HashMap<Level, List<ViewSprite>>();
+		myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
 
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 		initHUD();
@@ -65,14 +65,12 @@ public class PlayScreen extends Screen {
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		this.gameLevels = gameLevels;
-		IGameEditor myGameEditor = new GameEditor();
-		myEngine = new Engine(myGameEditor);
+		myEngine = new Engine(new GameEditor(), new SpriteFactory(myPane, myViewSprites));
+		
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 		
-		//TODO: FIND BETTER WAY TO CONNECT--also this doesn't work but will fix soon
+		//TODO: go through loop
 		myViewSprites.keySet().forEach(level->myEngine.addLevel(0, level));
-		//should be default?
-//		myEngine.setCurrentLevel(0);
 		setLevel(myEngine.getCurrentLevel());
 
 		myEngine.gameLoop();
@@ -87,14 +85,15 @@ public class PlayScreen extends Screen {
 		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
 		myPane.setOnKeyReleased(key -> {
 			newLevel.handleKeyRelease(key);
-			for (ViewSprite vs : myViewSprites.get(newLevel)) {
+			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
 				System.out.println(vs.xProperty().doubleValue());
 				System.out.println(vs.yProperty().doubleValue());
 			}
 		});
 //		myPane.getChildren().
-		myPane.getChildren().addAll(myViewSprites.get(newLevel));
+		myPane.getChildren().addAll(myViewSprites.get(newLevel).values());
 	}
+	
 
 	// private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){
 	//
