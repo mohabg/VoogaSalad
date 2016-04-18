@@ -167,7 +167,7 @@ public class GameLoader {
 			// System.out.println("SPRITE " + s.getX().doubleValue() + " " +
 			// s.getY().doubleValue());
 			// TODO: THIS NEEDS TO BE SOMEWHERE ELSE????
-			// s.setAsUserControlled();
+			 s.setAsUserControlled();
 			vs.bindToSprite(s);
 
 			levelViewSprites.add(vs);

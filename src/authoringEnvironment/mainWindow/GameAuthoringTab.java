@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -107,7 +108,17 @@ public class GameAuthoringTab implements ITab{
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		((Pane) getTabContent()).getChildren().addAll(sprite);
+        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    ((Pane) getTabContent()).getChildren().remove(sprite);
+                }
+                e.consume();
+            }
+        });
+
+        ((Pane) getTabContent()).getChildren().addAll(sprite);
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
