@@ -13,52 +13,42 @@ import keyboard.IKeyboardAction.KeyboardActions;
 
 
 public class LevelProperties {
-	private Integer levelID;
 	private String levelName;
-	private Integer nextLevel;
-	private Integer previousLevel;
+	private Level nextLevel;
+	private Level previousLevel;
 	private Integer currentPoints;
 	private Time time;
 	private Integer numGoals;
 	private HashMap<KeyCode, KeyboardActions> keyMapping;
 	
 	public LevelProperties(){
-		setLevelID(null);
 		setLevelName("");
-		setNextLevel(-1);
-		setPreviousLevel(-1);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 		keyMapping.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 	}
-	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel) {
-		setLevelID(levelID);
+	public LevelProperties(Integer levelID, String levelName, Level nextLevel, Level previousLevel) {
 		setLevelName(levelName);
 		setNextLevel(nextLevel);
 		setPreviousLevel(previousLevel);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 	}
-	public Integer getLevelID() {
-		return levelID;
-	}
-	public void setLevelID(Integer levelID) {
-		this.levelID = levelID;
-	}
+	
 	public String getLevelName() {
 		return levelName;
 	}
 	public void setLevelName(String levelName) {
 		this.levelName = levelName;
 	}
-	public Integer getNextLevel() {
+	public Level getNextLevel() {
 		return nextLevel;
 	}
-	public void setNextLevel(Integer nextLevel) {
+	public void setNextLevel(Level nextLevel) {
 		this.nextLevel = nextLevel;
 	}
-	public Integer getPreviousLevel() {
+	public Level getPreviousLevel() {
 		return previousLevel;
 	}
-	public void setPreviousLevel(Integer previousLevel) {
+	public void setPreviousLevel(Level previousLevel) {
 		this.previousLevel = previousLevel;
 	}
 	public Integer getCurrentPoints() {
