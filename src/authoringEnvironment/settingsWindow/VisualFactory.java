@@ -4,9 +4,12 @@ import authoringEnvironment.Settings;
 import authoringEnvironment.SubclassEnumerator;
 import gameElements.Sprite;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.AnchorPane;
@@ -48,8 +51,10 @@ public class VisualFactory {
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
 		for (Field f : fields) {
-			f.setAccessible(true);
-			myTabs.getTabs().add(getOneTab(f, mySprite));
+			if(!f.getName().equalsIgnoreCase("myCollisionsNoob") && !f.getName().equalsIgnoreCase("myBehaviorsNoob") && !f.getName().equalsIgnoreCase("userPressBehaviorsNoob") && !f.getName().equalsIgnoreCase("userReleaseBehaviorsNoob")) {
+				f.setAccessible(true);
+				myTabs.getTabs().add(getOneTab(f, mySprite));
+			}
 		}
 		//
 		return myTabs;
@@ -75,9 +80,33 @@ public class VisualFactory {
 			Type[] params = pt.getActualTypeArguments();
 			System.out.println("OSODJAOSDJAIOJD");
 			System.out.println(pt.getTypeName());
-			for (Type p : params) {
+			
+			
+			Property ptObject = (Property) fieldGetObject(f, mySprite);
+			String ptObjectName = f.getName();	
+			HBox paramSettingsObj = makeSettingsObject(ptObject, ptObjectName);
+			for (Field oo : ptObject.getClass().getDeclaredFields()) {
+				System.out.println(oo.getType().getName());
+			}
+			Constructor[] crcs = pt.getClass().getConstructors();
+			for(Constructor cr : crcs) {
+				System.out.println(cr.toString());
+			}
+			
+			System.out.println("IHHIHI");
+			TableView tv = new TableView();
+			
+			for (Node n : paramSettingsObj.getChildren()) {
+				if (n instanceof TableView) {
+					tv = (TableView) n;
+				}
+			}
+			myBox.getChildren().add(paramSettingsObj);
+			for (int i=0; i<params.length; i++) {
+				Type p = params[i];
 				VBox myV = makeParamTypeVBox(p, null);
 				myH.getChildren().add(myV);
+				//tv.row
 			}
 			
 			myBox.getChildren().add(myH); 
@@ -158,7 +187,7 @@ public class VisualFactory {
 		// remove interfaces because they dont have instance vars
 		for (String subName : allSubclasses.keySet()) {
 			Class<?> sub = allSubclasses.get(subName);
-			if (sub.isInterface()) {
+			if (sub.isInterface() || Modifier.isAbstract(sub.getModifiers())) {
 				toRemove.add(subName);
 			}
 		}
@@ -201,6 +230,7 @@ public class VisualFactory {
 		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();		
 		
 		Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
+		
 		
 		if (myProjectClassNames.contains(tClass.getName())) {
 			Object tClassInstance = null;
@@ -269,7 +299,7 @@ public class VisualFactory {
 				for (Field otherField : allFields) {
 					otherField.setAccessible(true);
 					Object o = fieldGetObject(otherField, parent);
-					System.out.println(p.getGenericType() + " "  + otherField.getGenericType());
+					//System.out.println(p.getGenericType() + " "  + otherField.getGenericType());
 		
 					String pName = otherField.getName();
 					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));		
@@ -353,12 +383,13 @@ public class VisualFactory {
 			// THIS PROBABLY REFERS TO IMAGE FILES..............
 			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
-			HBox textHBox = new HBox();
-			textHBox.getChildren().addAll(propLabelName, makeTextField(sp));
-			HBox.setHgrow(textHBox, Priority.ALWAYS);
-			VBox.setVgrow(textHBox, Priority.ALWAYS);
-			
 			propHBox.getChildren().addAll(propLabelName, makeTextField(sp));
+		} else if (myProp instanceof ListProperty) {
+			ListProperty lp = (ListProperty) myProp;
+			propHBox.getChildren().addAll(propLabelName, makeTableView(lp));
+		} else if (myProp instanceof MapProperty) {
+			MapProperty mp = (MapProperty) myProp;
+			//propHBox.getChildren().addAll(propLabelName, makeTableView(mp));
 		}
 		return propHBox;
 	}
@@ -428,5 +459,37 @@ public class VisualFactory {
 		textField.autosize();
 		
 		return textField;
+	}
+	
+	private TableView makeTableView(ListProperty lp) {
+		// TODO ALLOW US TO ADD AND REMOVE COLLISIONS
+		TableView tv = new TableView<>(lp);
+		tv.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		
+		TableColumn myCol = new TableColumn();
+		myCol.setSortable(false);
+		tv.getColumns().setAll(myCol);
+		tv.itemsProperty().bindBidirectional(lp);
+		
+		tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		
+		return tv;
+	}
+	
+	private TableView makeTableView(MapProperty mp) {
+		// TODO ALLOW US TO ADD AND REMOVE COLLISIONS
+		ObservableSet os = FXCollections.observableSet(mp.entrySet());
+		SetProperty sp = new SimpleSetProperty(os);
+		
+		TableView tv = new TableView();
+		TableColumn myCol1 = new TableColumn();
+		myCol1.setSortable(false);
+		TableColumn myCol2 = new TableColumn();
+		myCol2.setSortable(false);
+
+		tv.getColumns().setAll(myCol1, myCol2);
+		tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+		return tv;
 	}
 }

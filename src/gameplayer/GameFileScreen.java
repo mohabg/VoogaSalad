@@ -2,6 +2,7 @@ package gameplayer;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
@@ -52,7 +53,13 @@ public abstract class GameFileScreen extends Screen {
 	private Tab addTab(String title, File directory) {
 		Tab tab = new Tab();
 		tab.setText(title);
-		tab.setContent(makeFlowPane(directory));
+		
+		ScrollPane myScrollPane = new ScrollPane();
+		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		myScrollPane.setContent(makeFlowPane(directory));
+	
+		tab.setContent(myScrollPane);
 		return tab;
 	}
 
