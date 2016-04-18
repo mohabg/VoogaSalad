@@ -55,10 +55,6 @@ public class Level implements ILevel {
 
 	}
 
-	public Integer getLevelID() {
-		return getLevelProperties().getLevelID();
-	}
-
 	public LevelProperties getLevelProperties() {
 		return levelProperties;
 	}
