@@ -15,6 +15,7 @@ import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.Sprite;
 import goals.Goal;
+import goals.GoalChecker;
 import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -23,19 +24,21 @@ import keyboard.KeyboardActionFactory;
 import keyboard.IKeyboardAction.KeyboardActions;
 
 /**
- * This is the class for level in the game. It has spriteMap, which is a map of Integer(spriteIDs) to Sprites. Any time someone wants
- * the program to know a sprite in a level exists, it must be added to spriteMap
- * GoalMap is similar, whenever a goal for a level is set for a level, it must be added to the goalMap(which also is a map of Integer
- * (goalIDs) to Goals. The CurrentSpriteID is the Sprite that will be currently affected by actions of the program. The goalCount is
- * describing how many goals for a level exist.
+ * This is the class for level in the game. It has spriteMap, which is a map of
+ * Integer(spriteIDs) to Sprites. Any time someone wants the program to know a
+ * sprite in a level exists, it must be added to spriteMap GoalMap is similar,
+ * whenever a goal for a level is set for a level, it must be added to the
+ * goalMap(which also is a map of Integer (goalIDs) to Goals. The
+ * CurrentSpriteID is the Sprite that will be currently affected by actions of
+ * the program. The goalCount is describing how many goals for a level exist.
+ * 
  * @see LevelProperties
  */
-
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
 	private Map<Integer, Sprite> spriteMap;
-	private Map<Integer, Goal> goalMap;
+	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
 
 	private Integer currentSpriteID;
@@ -45,19 +48,20 @@ public class Level implements ILevel {
 
 	public Level() {
 
-		levelProperties=new LevelProperties();
-		spriteMap=new HashMap<>();
-		goalMap=new HashMap<>();
-		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
-		goalFactory= new GoalFactory();
-		goalCount=0;
-		isFinished=false;
+		levelProperties = new LevelProperties();
+		spriteMap = new HashMap<>();
+		goalList= new ArrayList<Goal>();
+		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
+		goalFactory = new GoalFactory();
+		goalCount = 0;
+		isFinished = false;
 
 	}
 
 	public LevelProperties getLevelProperties() {
 		return levelProperties;
 	}
+
 
 	public void setisFinished(boolean finished) {
 		isFinished = finished;
@@ -98,7 +102,9 @@ public class Level implements ILevel {
 	}
 
 	/**
-	 * @param newSprite gets newSprite and adds it to the sprite map(adding it to the current level)
+	 * @param newSprite
+	 *            gets newSprite and adds it to the sprite map(adding it to the
+	 *            current level)
 	 */
 
 	public void addSprite(Sprite newSprite) {
@@ -109,10 +115,11 @@ public class Level implements ILevel {
 		// through the states pattern
 	}
 
-
 	/**
-	 * @param newSprite Sprite who's id you want to update
-	 * @param spriteID the new ID you want your sprite to be considered
+	 * @param newSprite
+	 *            Sprite who's id you want to update
+	 * @param spriteID
+	 *            the new ID you want your sprite to be considered
 	 */
 	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
 		getSpriteMap().put(spriteID, newSprite);
@@ -130,27 +137,30 @@ public class Level implements ILevel {
 		this.goalFactory = goalFactory;
 	}
 
-	public void deleteGoal(Integer goalID) {
-		goalMap.remove(goalID);
-		if (levelProperties.getNumGoals() > goalMap.size()) {
+	public void deleteGoal(Goal goal) {
+		goalList.remove(goal);
+		if (levelProperties.getNumGoals() > goalList.size()) {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
+	
+	public void addGoal(Goal goal){
+		goalList.add(goal);
+	}
 
 	private boolean completeGoals() {
-		// GoalChecker goalChecker = new GoalChecker(this);
-		// for (Goal goal : goalMap.values()) {
-		// goal.acceptVisitor(goalChecker);
-		// if (goal.isFinished())
-		// goalCount++;
-		// }
-		// return goalCount >= getLevelProperties().getNumGoals();
-		return false;
+		GoalChecker goalChecker = new GoalChecker(this);
+		for (Goal goal : goalList) {
+			goal.acceptVisitor(goalChecker);
+			if (goal.isFinished())
+				goalCount++;
+		}
+		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
 	private void updateSprites() {
 		for (Sprite sprite : spriteMap.values()) {
-			 sprite.update();
+			sprite.update();
 			removeDeadSprite(sprite);
 		}
 	}
@@ -180,7 +190,8 @@ public class Level implements ILevel {
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo, getLevelProperties());
+							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
+									getLevelProperties());
 
 						}
 
@@ -200,10 +211,9 @@ public class Level implements ILevel {
 		System.out.println("Y:   " + currentSprite.getY().doubleValue());
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior;
-			if(enable){
+			if (enable) {
 				behavior = currentSprite.getUserPressBehavior(key.getCode());
-			}
-			else{
+			} else {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
