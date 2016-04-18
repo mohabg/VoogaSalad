@@ -1,6 +1,5 @@
 package authoringEnvironment.itemWindow;
 
-import authoringEnvironment.FrontEndData;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import gameElements.Sprite;
@@ -8,6 +7,7 @@ import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
+import resources.FrontEndData;
 
 import java.util.List;
 /** 

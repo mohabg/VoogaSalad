@@ -27,15 +27,18 @@ public class LevelProperties {
 		setLevelName("");
 		setNextLevel(-1);
 		setPreviousLevel(-1);
+		setNumGoals(1);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 		keyMapping.put(KeyCode.DOWN, KeyboardActions.MoveDown);
+		
 	}
-	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel) {
+	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel, Integer numberOfGoals) {
 		setLevelID(levelID);
 		setLevelName(levelName);
 		setNextLevel(nextLevel);
 		setPreviousLevel(previousLevel);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
+		numGoals=numberOfGoals;
 	}
 	public Integer getLevelID() {
 		return levelID;

@@ -1,4 +1,4 @@
-package exampledata.XStreamHandlers;
+package XStreamHandlers;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 import com.thoughtworks.xstream.converters.Converter;

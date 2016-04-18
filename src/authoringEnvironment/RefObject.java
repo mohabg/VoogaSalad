@@ -8,6 +8,11 @@ import javafx.beans.property.StringProperty;
  */
 public class RefObject {
     private StringProperty myRef;
+    
+    public RefObject() {
+    	this("");
+    }
+    
     public RefObject(String ref){
     	myRef = new SimpleStringProperty(ref);
     }

@@ -1,4 +1,4 @@
-package authoringEnvironment;
+	package authoringEnvironment;
 
 import java.io.File;
 import java.io.IOException;
@@ -97,9 +97,9 @@ public class SubclassEnumerator {
 		List<Class<?>> subclasses = findSubclasses(packageClasses, superclass);
 		
 		for (Class<?> subclass : subclasses) {
-			String subclassName = subclass.getName();
-			String readableName = subclassName.substring(subclassName.indexOf(".")+1);
-			subclassNameMap.put(readableName, subclass);
+			String subclassName = subclass.getTypeName();
+			//String readableName = subclassName.substring(subclassName.indexOf(".")+1);
+			subclassNameMap.put(subclassName, subclass);
 		}
 		
 		return subclassNameMap;
