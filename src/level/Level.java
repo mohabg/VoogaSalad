@@ -221,6 +221,8 @@ public class Level implements ILevel {
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
+		System.out.println(key.getCode()+key.getCharacter());
+
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
@@ -229,9 +231,9 @@ public class Level implements ILevel {
 		if(currentSprite == null){
 			return;
 		}
-		System.out.println("X:   " + currentSprite.getX().doubleValue());
-		System.out.println("Y:   " + currentSprite.getY().doubleValue());
-		System.out.println("HEALTH: "+currentSprite.getHealth().getHealthValue());
+//		System.out.println("X:   " + currentSprite.getX().doubleValue());
+//		System.out.println("Y:   " + currentSprite.getY().doubleValue());
+//		System.out.println("HEALTH: "+currentSprite.getHealth().getHealthValue());
 
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior;
