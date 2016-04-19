@@ -71,7 +71,7 @@ public class PlayScreen extends Screen {
 	private Button makePauseButton() {
 		return ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("pause"), a -> {
 			PauseScreen ps = new PauseScreen(this);
-			ps.initBorderPane(gameLevels);
+			ps.initBorderPane(myViewSprites.keySet());
 			switchScene(ps);
 			myEngine.pauseGameLoop();
 		});
@@ -87,8 +87,8 @@ public class PlayScreen extends Screen {
 		// TODO: go through loop
 		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
 		setLevel(myEngine.getCurrentLevel());
-
 		myEngine.gameLoop();
+
 		// TODO GIVE MODELS TO BACKEND
 
 

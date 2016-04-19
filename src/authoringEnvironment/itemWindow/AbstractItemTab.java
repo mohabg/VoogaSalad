@@ -59,12 +59,6 @@ public abstract class AbstractItemTab implements ITab{
     	myTab.setContent(content);
     }
 
-	@Override
-	public void setTabContent(ViewSprite view, Sprite sprite) {
-		// TODO Auto-generated method stub
-		// poo
-		return;
-	}
 
 	@Override
 	public Node getTabContent() {
