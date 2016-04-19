@@ -123,31 +123,14 @@ public class Sprite {
 		Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
 		userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
-<<<<<<< HEAD
+
 		myBehaviors.put(new SimpleStringProperty(defaultHorizReleaseMovement.getClass().getName()), defaultHorizReleaseMovement);
-=======
-		myBehaviors.put(defaultHorizReleaseMovement.getClass().getName(), defaultHorizReleaseMovement);
 
-		myBehaviors.put("default", new SquarePattern(10, 20));
-
-	}
-
-	public Sprite(RefObject myRef, Behavior behave){
-		this.myRef = myRef;
-		myProperties = new SpriteProperties();
-		myCollisions = new ArrayList<Collision>();
-		myBehaviors = new HashMap<String, Behavior>();
-		userPressBehaviors = new HashMap<KeyCode, Behavior>();
-		userReleaseBehaviors = new HashMap<KeyCode, Behavior>();
-		isUserControlled = new SimpleBooleanProperty(false);
-		canMove = new SimpleBooleanProperty(true);
-		myHealth = new Health(100);
-
+		myBehaviors.put(new SimpleStringProperty("default"), new SquarePattern(10, 20));
 		myCollisions.add(new DamageCollision(this));
 		myCollisions.add(new EnemyCollision(this));
-
->>>>>>> 940e663f0cc9b4abcd428ab62e240a1d05f5c0b9
 	}
+	
 
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
@@ -187,7 +170,7 @@ public class Sprite {
 	}
 
 	public void addBehavior(String key, Behavior behavior){
-		myBehaviors.put(key, behavior);
+		myBehaviors.put(new SimpleStringProperty(key), behavior);
 	}
 
 	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {

@@ -148,26 +148,26 @@ public class VisualFactory {
 	private <R> void singleParamType(Class<R> rType, Property prop) {
 		if(prop instanceof ListProperty) {
 			ListProperty<R> lpr = (ListProperty<R>) prop;
-			try {
-				lpr.add(rType.newInstance());
-				System.out.println("LIST WORKED");
-			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				lpr.add(rType.newInstance());
+//				System.out.println("LIST WORKED");
+//			} catch (InstantiationException | IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 	}
 	
 	private <R, T> void doubleParamType(Class<R> rType, Class<T> tType, Property prop) {
 		if(prop instanceof MapProperty) {
 			MapProperty<R,T> mprt = (MapProperty<R,T>) prop;
-			try {
-				mprt.put(rType.newInstance(), tType.newInstance());
-				System.out.println("MAP WORKED");
-			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				mprt.put(rType.newInstance(), tType.newInstance());
+//				System.out.println("MAP WORKED");
+//			} catch (InstantiationException | IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 	}
 	
