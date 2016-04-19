@@ -11,6 +11,7 @@ import game.IGameEditor;
 import gameElements.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import level.Level;
@@ -58,7 +59,12 @@ public class PlayScreen extends Screen {
 
 	private void initHUD() {
 		Button pauseButton = makePauseButton();
+		System.out.println(pauseButton.getOnKeyPressed());
+		System.out.println(getScene().getOnKeyPressed());
+		
+		System.out.println(myPane.getOnKeyPressed());
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
+		System.out.println(myPane.getOnKeyPressed());
 		myPane.getChildren().add(myHUD.getHUD());
 	}
 
@@ -100,16 +106,20 @@ public class PlayScreen extends Screen {
 		System.out.println(myPane.getChildren().toString());
 		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel), newLevel.getSpriteMap());
 		newLevel.setSpriteFactory(sf);
-		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
-		myPane.setOnKeyReleased(key -> {
-			newLevel.handleKeyRelease(key);
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> newLevel.handleKeyPress(key));
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> newLevel.handleKeyRelease(key));
+//
+//		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
+//		myPane.setOnKeyReleased(key -> {
+//			System.out.println(key.getCode());
+//			newLevel.handleKeyRelease(key);
 
-			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
-
-				System.out.println(vs.xProperty().doubleValue());
-				System.out.println(vs.yProperty().doubleValue());
-			}
-		});
+//			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
+//
+//				System.out.println(vs.xProperty().doubleValue());
+//				System.out.println(vs.yProperty().doubleValue());
+//			}
+//		});
 
 //		myPane.getChildren().
 	// myPane.getChildren().
