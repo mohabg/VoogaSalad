@@ -90,12 +90,8 @@ public class ServerUtility {
     }
 
     public void getFile(String fileName) throws SftpException, IOException {
-        InputStream myStream = mySftp.get(fileName);
-        byte[] buffer = new byte[myStream.available()];
-        myStream.read(buffer);
-        File targetFile = new File("src/main/resources/targetFile.tmp");
-        OutputStream outStream = new FileOutputStream(targetFile);
-        outStream.write(buffer);
+        mySftp.get(fileName+".xml","SavedGameData/SavedGames/j.xml");
+        endSession();
     }
 
 
