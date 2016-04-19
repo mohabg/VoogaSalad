@@ -90,7 +90,7 @@ public class PlayScreen extends Screen {
 		}
 		currentLevel = newLevel;
 		System.out.println(myPane.getChildren().toString());
-		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel));
+		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel), newLevel.getSpriteMap());
 		newLevel.setSpriteFactory(sf);
 		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
 		myPane.setOnKeyReleased(key -> {

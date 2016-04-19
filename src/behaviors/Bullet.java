@@ -12,6 +12,7 @@ import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
+import gameplayer.SpriteFactory;
 
 /**
  * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 
@@ -29,9 +30,9 @@ public class Bullet extends Attack{
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void apply(Sprite sprite) {
+    public void apply(Sprite sprite, SpriteFactory spriteFactory) {
         if(readyToShoot(sprite)){
-        	//Keep instance of sprite?
+        	spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
             setAmmunition(getAmmunition() - 1);
         }
     }

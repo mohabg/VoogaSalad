@@ -234,7 +234,7 @@ public class Level implements ILevel {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
-				behavior.apply(currentSprite);
+				behavior.apply(currentSprite, null);
 			}
 
 		} else {

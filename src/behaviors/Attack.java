@@ -30,15 +30,15 @@ public abstract class Attack implements Behavior {
 	private IntegerProperty chargeTime;
 	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
+	private RefObject myRef;
 	private SpriteProperties target;
-	private SpriteFactory mySpriteFactory;
 	
 	public Attack() {
 		this(new RefObject());
 	}
 	
 	public Attack(RefObject myRef){
-		this (myRef, 1 ,0);
+		this(myRef, 1 ,0);
 	}
 
 	public Attack(RefObject myRef, int ammunition, int chargeTime) {	
@@ -46,6 +46,7 @@ public abstract class Attack implements Behavior {
 		this.chargeTime = new SimpleIntegerProperty(chargeTime);
 		this.behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
 		this.movement = movement;
+		this.myRef = myRef;
 	}
 
 	/**
@@ -73,13 +74,8 @@ public abstract class Attack implements Behavior {
 		return false;
 	}
 
-	
-	public SpriteFactory getMySpriteFactory() {
-		return mySpriteFactory;
-	}
-
-	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
-		this.mySpriteFactory = mySpriteFactory;
+	public RefObject getMyRef(){
+		return myRef;
 	}
 
 	public Movement getMovement() {
