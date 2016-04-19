@@ -82,20 +82,16 @@ public class VisualFactory {
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
 			
 			Type[] params = pt.getActualTypeArguments();
-
 			
-			System.out.println("I SPY A PARAMTYPE");
-				
 			// handle parameterized property object types
 			System.out.println(pt.getRawType().getTypeName());
 			Class<?> rawTypeClass = getClass(pt.getRawType().getTypeName());
 			if (Property.class.isAssignableFrom(rawTypeClass)) {
-				System.out.println("THIS PARAM TYPE IS A PROPERTY");
 				Property ptProperty = (Property) fieldGetObject(f, mySprite);
 				if(params.length == 1) {
 					// single param catch (most likely List)
 					Class<?> paramClass0 = getClass(params[0].getTypeName());
-					singleParamType(paramClass0, ptProperty);
+					myH.getChildren().add(singleParamType(paramClass0, ptProperty));
 				} else if (params.length == 2) {
 					// double param catch (most likely Map)
 					Class<?> paramClass0 = getClass(params[0].getTypeName());
@@ -104,9 +100,10 @@ public class VisualFactory {
 				}
 				
 			}
-
 			
-			String ptObjectName = f.getName();	
+			myBox.getChildren().add(myH);
+			
+			//String ptObjectName = f.getName();	
 			//HBox paramSettingsObj = makeSettingsObject(ptObject, ptObjectName);
 //			for (Field oo : ptObject.getClass().getDeclaredFields()) {
 //				System.out.println(oo.getType().getName());
@@ -116,6 +113,7 @@ public class VisualFactory {
 //			myBox.getChildren().add(paramSettingsObj);
 //			for (int i=0; i<params.length; i++) {
 //				Type p = params[i];
+			// TODO CHANGE THIS
 //				VBox myV = makeParamTypeVBox(p, null);
 //				myH.getChildren().add(myV);
 //				//tv.row
@@ -135,6 +133,7 @@ public class VisualFactory {
 		System.out.println();
 
 
+		// TODO: might want to move this very up
 		myAnchorPane.getChildren().add(myBox);
 		myScrollPane.setContent(myAnchorPane);
         myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
@@ -145,18 +144,68 @@ public class VisualFactory {
 	}
 
 
-	private <R> void singleParamType(Class<R> rType, Property prop) {
+	private <R> VBox singleParamType(Class<R> rType, Property prop) {
+		VBox singleParamVBox = new VBox();
+		
 		if(prop instanceof ListProperty) {
 			ListProperty<R> lpr = (ListProperty<R>) prop;
-//			try {
-//				lpr.add(rType.newInstance());
-//				System.out.println("LIST WORKED");
-//			} catch (InstantiationException | IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			R rObj = null;
+			ComboBox<String> mySubclassBox = new ComboBox<String>();
+			Set<Field> rAllFields = new HashSet<Field>();
+			Set<HBox> paramProps = new HashSet<HBox>();
+			List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
+			
+			// display any items already in the list
+			for (R rListElement : lpr) {
+				rAllFields = getAllFields(new HashSet<Field>(), rListElement.getClass(), myProjectClassNames);
+				mySubclassBox = makeSubclassComboBox(rListElement.getClass());
+				
+				// bind and get fields
+				for (Field rField : rAllFields) {
+					rField.setAccessible(true);
+					Object rFieldObj = fieldGetObject(rField, rListElement);	
+					String rFieldObjName = rField.getName();
+					System.out.println(rFieldObjName);
+					
+					paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
+				}
+				singleParamVBox.getChildren().add(mySubclassBox);
+				singleParamVBox.getChildren().addAll(paramProps);
+				paramProps.clear();
+			}
+			
+				// get a proper subclass of R if necessary
+				if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
+					Class<? extends R> rSubclass = (Class<? extends R>) getSubclassWithoutInstance(rType);
+					rObj = (R) newClassInstance(rSubclass);
+					mySubclassBox = makeSubclassComboBox(rSubclass);
+					rAllFields = getAllFields(new HashSet<Field>(), rSubclass, myProjectClassNames);
+				} else {
+					rObj = (R) newClassInstance(rType);
+					mySubclassBox = makeSubclassComboBox(rType);
+					rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
+				}
+				
+				// add the first element
+				lpr.add(rObj);
+			
+			// bind and get fields
+			for (Field rField : rAllFields) {
+				rField.setAccessible(true);
+				Object rFieldObj = fieldGetObject(rField, rObj);	
+				String rFieldObjName = rField.getName();
+				System.out.println(rFieldObjName);
+				
+				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
+			}
+			
+			singleParamVBox.getChildren().add(mySubclassBox);
+			singleParamVBox.getChildren().addAll(paramProps);
 		}
+		
+		return singleParamVBox;
 	}
+	
 	
 	private <R, T> void doubleParamType(Class<R> rType, Class<T> tType, Property prop) {
 		if(prop instanceof MapProperty) {
@@ -198,6 +247,9 @@ public class VisualFactory {
 		return propVBox;
 	}
 
+
+	
+	
 	private VBox makeParamTypeVBox(Type p, ComboBox<String> subclassBox) {
 		VBox myV = new VBox();
 		// populate pulldown with all subclasses
@@ -222,6 +274,7 @@ public class VisualFactory {
 
 
 	private ComboBox<String> makeSubclassComboBox(Class<?> clazz) {
+		// TODO CHANGE TO GET ALL SUPERCLASSES TOO
 		Map<String, Class<?>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 
@@ -244,11 +297,12 @@ public class VisualFactory {
 		allSubKeyset.addAll(allSubclasses.keySet());
 		subclassBox.getItems().addAll(allSubKeyset);
 
-		if (allSubKeyset.size() > 0) {
-			subclassBox.setValue(allSubKeyset.get(0));
-		} else {
+		
+		if (!isAbstractOrInterface(clazz) || allSubKeyset.size() == 0) {
 			subclassBox.setValue(clazz.getName());
-		}
+		} else if (allSubKeyset.size() > 0) {
+			subclassBox.setValue(allSubKeyset.get(0));
+		} 
 
 		subclassBox.setOnAction(event -> {
 			// change the corresponding prop boxes
@@ -258,12 +312,14 @@ public class VisualFactory {
 			myGrandParent.getChildren().remove(myComboBoxParent);
 			String newClassName = subclassBox.getValue();
 			Class<?> newClass = getClass(newClassName);
-			myGrandParent.getChildren().add(makeParamTypeVBox(newClass, subclassBox));
+			// TODO CHANGE THIS
+			//myGrandParent.getChildren().add(makeParamTypeVBox(newClass, subclassBox));
 		});
 
 		return subclassBox;
 	}
 
+	
 	private VBox makeParameterPropBoxes(Type t) {
 		Class<?> tClass= getClass(t.getTypeName());
 
@@ -364,7 +420,16 @@ public class VisualFactory {
 
 		return fields;
 	}
-
+	
+	private Object newClassInstance(Class<?> clazz) {
+		try {
+			return clazz.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	private Class<?> getClass(String className) {
 		Class<?> clazz = null;
 		try {
@@ -396,17 +461,21 @@ public class VisualFactory {
 
 	private Class<?> getSubclassWithoutInstance(Class<?> clazz) {
 		// find an available subclass otherwise print an exception
-				Map<String, Class<?>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
-				// make sure the picked class isn't abstract
-				for (Class<?> sub : parentSubclasses.values()) {
-					if (!Modifier.isAbstract(sub.getModifiers())) {
-						return sub;
-					}
-				}
+		Map<String, Class<?>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		// make sure the picked class isn't abstract
+		for (Class<?> sub : parentSubclasses.values()) {
+			if (!sub.isInterface() && !Modifier.isAbstract(sub.getModifiers())) {
+				return sub;
+			}
+		}
 
-				return null;
+		return null;
 	}
 
+	private boolean isAbstractOrInterface(Class<?> clazz) {
+		return clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers());
+	}
+	
 	private Object fieldGetObject(Field childField, Object parentObject) {
 		Object o = null;
 		try {
