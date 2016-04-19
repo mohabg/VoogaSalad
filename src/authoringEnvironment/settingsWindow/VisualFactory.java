@@ -3,6 +3,7 @@ package authoringEnvironment.settingsWindow;
 import authoringEnvironment.Settings;
 import authoringEnvironment.SubclassEnumerator;
 import gameElements.Sprite;
+import gameplayer.ButtonFactory;
 import behaviors.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -150,7 +151,6 @@ public class VisualFactory {
 		
 		if(prop instanceof ListProperty) {
 			ListProperty<R> lpr = (ListProperty<R>) prop;
-			R rObj = null;
 			ComboBox<String> mySubclassBox = new ComboBox<String>();
 			Set<Field> rAllFields = new HashSet<Field>();
 			Set<HBox> paramProps = new HashSet<HBox>();
@@ -161,17 +161,8 @@ public class VisualFactory {
 				rAllFields = getAllFields(new HashSet<Field>(), rListElement.getClass(), myProjectClassNames);
 				mySubclassBox = makeSubclassComboBox(rListElement.getClass());
 				
-				// bind and get fields
-				for (Field rField : rAllFields) {
-					rField.setAccessible(true);
-					Object rFieldObj = fieldGetObject(rField, rListElement);	
-					String rFieldObjName = rField.getName();
-					System.out.println(rFieldObjName);
-					
-					paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
-				}
 				singleParamVBox.getChildren().add(mySubclassBox);
-				singleParamVBox.getChildren().addAll(paramProps);
+				singleParamVBox.getChildren().addAll(makeBoxesAndBindFields(rListElement, rAllFields));
 				paramProps.clear();
 			}
 			
@@ -182,23 +173,25 @@ public class VisualFactory {
 				// CHANGE EVERY TIME A NEW COMBOBOX VALUE IS CHOSEN
 			// MAKE A BUTTON THAT IS LINKED TO AN ADDSINGLEPARAM-ESQUE METHOD
 			// MAYBE ALLOW PEOPLE TO REMOVE STUFF
-				// THIS WILL REQUIRE ME ACTUALLY PUTTING MAP/LIST IN THEIR OWN GUI OBJECTX
+				// THIS WILL REQUIRE ME ACTUALLY PUTTING MAP/LIST IN THEIR OWN GUI OBJECT
 			// MAKE LISTPROPERTY AND MAPPROPERTY CONVERTERS FOR XSTREAM
 			// MAYBE REFACTOR THE REST OF THE CLASS 
 			// ORDER INSTANCE VARS INTELLIGIBLY AND HAVE A PULLDOWN MENU FOR EACH INSTANCE VAR'S 
 				// CONRETE SUBCLASSES (IF APPLICABLE) 
 			
-			mySubclassBox = andSingleParameter(rType, lpr);
+			Button addButton = ButtonFactory.makeButton("Add", e -> {
+				singleParamVBox.getChildren().add(singleParamVBox.getChildren().size()-1, andSingleParameter(rType, lpr));
+			});
 			
-			singleParamVBox.getChildren().add(mySubclassBox);
-			singleParamVBox.getChildren().addAll(paramProps);
+			singleParamVBox.getChildren().add(addButton);
+			
 		}
 		
 		return singleParamVBox;
 	}
 
-	private <R> ComboBox<String> andSingleParameter(Class<R> rType, ListProperty<R> lpr) {
-		Set<HBox> paramProps = new HashSet<HBox>();
+	private <R> VBox andSingleParameter(Class<R> rType, ListProperty<R> lpr) {
+		VBox retVBox = new VBox();
 		R rObj = null;
 		ComboBox<String> mySubclassBox = new ComboBox<String>();
 		Set<Field> rAllFields = new HashSet<Field>();
@@ -214,12 +207,17 @@ public class VisualFactory {
 			mySubclassBox = makeSubclassComboBox(rType);
 			rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
 		}
-		
-		
-		// add the element
+			
 		lpr.add(rObj);
 		
-		// bind and get fields
+		retVBox.getChildren().add(mySubclassBox);
+		retVBox.getChildren().addAll(makeBoxesAndBindFields(rObj, rAllFields));
+		
+		return retVBox;
+	}
+
+	private <R> Set<HBox> makeBoxesAndBindFields(R rObj, Set<Field> rAllFields) {
+		Set<HBox> paramProps = new HashSet<HBox>();
 		for (Field rField : rAllFields) {
 			rField.setAccessible(true);
 			Object rFieldObj = fieldGetObject(rField, rObj);	
@@ -228,7 +226,7 @@ public class VisualFactory {
 			
 			paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
 		}
-		return mySubclassBox;
+		return paramProps;
 	}
 	
 	
