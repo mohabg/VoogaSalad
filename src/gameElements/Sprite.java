@@ -1,9 +1,12 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import behaviors.Attack;
 import behaviors.Behavior;
+import behaviors.Bullet;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
+import behaviors.SquarePattern;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.DamageCollision;
@@ -70,6 +73,9 @@ public class Sprite {
 		myCollisions.add(new DamageCollision(this,100));
 		myCollisions.add(new EnemyCollision(this));
 
+		Attack bullet = new Bullet();
+		userPressBehaviors.put(KeyCode.SPACE, bullet);
+		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpPressMovement.getClass().getName(), defaultUpPressMovement);
 		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
@@ -95,6 +101,9 @@ public class Sprite {
 		userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
 		myBehaviors.put(defaultHorizReleaseMovement.getClass().getName(), defaultHorizReleaseMovement);
+
+		//myBehaviors.put("default", new SpaceInvadersPattern(100,6, 30));
+
 	}
 
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
@@ -122,6 +131,10 @@ public class Sprite {
 
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {
 		return userPressBehaviors;
+	}
+
+	public void addBehavior(String key, Behavior behavior){
+		myBehaviors.put(key, behavior);
 	}
 
 	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
@@ -261,14 +274,15 @@ public class Sprite {
 	}
 
 	public boolean isUserControlled() {
-		return isUserControlled.getValue();
+		//return isUserControlled.getValue();
+		return myProperties.isUserControlled();
 	}
 
 	/**
 	 * Sets this sprite as being controlled by the user
 	 */
 	public void setAsUserControlled() {
-		isUserControlled.set(true);
+		myProperties.setUserControlled(true);
 		setActorCollision();
 		invokeMethodInBehaviors("setAsUserControlled", null, null);
 	}
@@ -294,7 +308,7 @@ public class Sprite {
 				method.invoke(behavior, objects);
 			}
 			catch(Exception e){
-				
+
 			}
 		}
 

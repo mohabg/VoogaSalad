@@ -11,12 +11,12 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class MoveVertically extends Movement{
 
-	private DoubleProperty moveY;
-
+	public MoveVertically() {
+		super();
+	}
 
 	public MoveVertically(double value) {
 		super(value);
-		moveY = new SimpleDoubleProperty(0);
 	}
 
 	/**
@@ -32,8 +32,5 @@ public class MoveVertically extends Movement{
 
 	}
 
-	public void getMoveY(DoubleProperty moveY){
-		this.moveY=moveY;
-	}
 
 }
