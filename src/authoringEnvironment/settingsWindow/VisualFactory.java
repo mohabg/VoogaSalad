@@ -38,10 +38,11 @@ public class VisualFactory {
 	private Settings mySettings;
 	private ResourcesReader myReader;
 	private final String SCROLL_PANE_CSS = "-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;";
-
+	private List<String> myProjectClassNames;
+	
 	public VisualFactory() {
 		mySettings = new Settings();
-		
+		myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
 	}
 
 	// TODO: Binding and figuring out list of objects in reflection
@@ -153,7 +154,7 @@ public class VisualFactory {
 			ComboBox<String> mySubclassBox = new ComboBox<String>();
 			Set<Field> rAllFields = new HashSet<Field>();
 			Set<HBox> paramProps = new HashSet<HBox>();
-			List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
+			
 			
 			// display any items already in the list
 			for (R rListElement : lpr) {
@@ -174,36 +175,60 @@ public class VisualFactory {
 				paramProps.clear();
 			}
 			
-				// get a proper subclass of R if necessary
-				if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
-					Class<? extends R> rSubclass = (Class<? extends R>) getSubclassWithoutInstance(rType);
-					rObj = (R) newClassInstance(rSubclass);
-					mySubclassBox = makeSubclassComboBox(rSubclass);
-					rAllFields = getAllFields(new HashSet<Field>(), rSubclass, myProjectClassNames);
-				} else {
-					rObj = (R) newClassInstance(rType);
-					mySubclassBox = makeSubclassComboBox(rType);
-					rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
-				}
-				
-				// add the first element
-				lpr.add(rObj);
+			// GOT TO REFACTOR SINGLEPROP
+			// IMPLEMENT MULTIPLE PROP
+			// FIX SUBCLASSBOX IMPLEMENTATION (FOR A SINGLE INSTANCE VAR, ONLY SHOW THE INSTANCE
+				// VARS' CONCRETE CLASS (IF IT IS) AND ALL CONCRETE SUBCLASSES) SO THAT IT DOESNT
+				// CHANGE EVERY TIME A NEW COMBOBOX VALUE IS CHOSEN
+			// MAKE A BUTTON THAT IS LINKED TO AN ADDSINGLEPARAM-ESQUE METHOD
+			// MAYBE ALLOW PEOPLE TO REMOVE STUFF
+				// THIS WILL REQUIRE ME ACTUALLY PUTTING MAP/LIST IN THEIR OWN GUI OBJECTX
+			// MAKE LISTPROPERTY AND MAPPROPERTY CONVERTERS FOR XSTREAM
+			// MAYBE REFACTOR THE REST OF THE CLASS 
+			// ORDER INSTANCE VARS INTELLIGIBLY AND HAVE A PULLDOWN MENU FOR EACH INSTANCE VAR'S 
+				// CONRETE SUBCLASSES (IF APPLICABLE) 
 			
-			// bind and get fields
-			for (Field rField : rAllFields) {
-				rField.setAccessible(true);
-				Object rFieldObj = fieldGetObject(rField, rObj);	
-				String rFieldObjName = rField.getName();
-				System.out.println(rFieldObjName);
-				
-				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
-			}
+			mySubclassBox = andSingleParameter(rType, lpr);
 			
 			singleParamVBox.getChildren().add(mySubclassBox);
 			singleParamVBox.getChildren().addAll(paramProps);
 		}
 		
 		return singleParamVBox;
+	}
+
+	private <R> ComboBox<String> andSingleParameter(Class<R> rType, ListProperty<R> lpr) {
+		Set<HBox> paramProps = new HashSet<HBox>();
+		R rObj = null;
+		ComboBox<String> mySubclassBox = new ComboBox<String>();
+		Set<Field> rAllFields = new HashSet<Field>();
+		
+		// get a proper subclass of R if necessary
+		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
+			Class<? extends R> rSubclass = (Class<? extends R>) getSubclassWithoutInstance(rType);
+			rObj = (R) newClassInstance(rSubclass);
+			mySubclassBox = makeSubclassComboBox(rSubclass);
+			rAllFields = getAllFields(new HashSet<Field>(), rSubclass, myProjectClassNames);
+		} else {
+			rObj = (R) newClassInstance(rType);
+			mySubclassBox = makeSubclassComboBox(rType);
+			rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
+		}
+		
+		
+		// add the element
+		lpr.add(rObj);
+		
+		// bind and get fields
+		for (Field rField : rAllFields) {
+			rField.setAccessible(true);
+			Object rFieldObj = fieldGetObject(rField, rObj);	
+			String rFieldObjName = rField.getName();
+			System.out.println(rFieldObjName);
+			
+			paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
+		}
+		return mySubclassBox;
 	}
 	
 	
