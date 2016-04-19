@@ -1,15 +1,12 @@
 package authoringEnvironment;
 
 import com.jcraft.jsch.*;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Vector;
 
 /**
  * Created by davidyan on 4/18/16.
@@ -28,7 +25,7 @@ public class ServerUtility {
 
 
     public ServerUtility(){
-        signInDialog();
+        signInDialog("dwy3","Davidspassword");
         ssh = new JSch();
         myConfig = new Properties();
         myConfig.put("StrictHostKeyChecking","no");
@@ -148,52 +145,52 @@ public class ServerUtility {
     }
 
 
-    private void signInDialog(){
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Login Dialog");
-        dialog.setHeaderText("Look, a Custom Login Dialog");
+    private void signInDialog(String user, String pass){
+//        Dialog<Pair<String, String>> dialog = new Dialog<Pair<String,String>>();
+//        dialog.setTitle("Login Dialog");
+//        dialog.setHeaderText("Look, a Custom Login Dialog");
+//
+//        ButtonType loginButtonType = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
+//        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+//
+//        GridPane grid = new GridPane();
+//        grid.setHgap(10);
+//        grid.setVgap(10);
+//        grid.setPadding(new Insets(20, 150, 10, 10));
+//
+//        TextField username = new TextField();
+//        username.setPromptText("Username");
+//        PasswordField password = new PasswordField();
+//        password.setPromptText("Password");
+//
+//        grid.add(new Label("Username:"), 0, 0);
+//        grid.add(username, 1, 0);
+//        grid.add(new Label("Password:"), 0, 1);
+//        grid.add(password, 1, 1);
+//
+//        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+//        loginButton.setDisable(true);
+//
+//        username.textProperty().addListener((observable, oldValue, newValue) -> {
+//            loginButton.setDisable(newValue.trim().isEmpty());
+//        });
+//
+//        dialog.getDialogPane().setContent(grid);
+//
+//        Platform.runLater(() -> username.requestFocus());
+//
+//        dialog.setResultConverter(dialogButton -> {
+//            if (dialogButton == loginButtonType) {
+//                return new Pair<>(username.getText(), password.getText());
+//            }
+//            return null;
+//        });
+//
+//        Optional<Pair<String,String>> result = dialog.showAndWait();
 
-        ButtonType loginButtonType = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-
-        TextField username = new TextField();
-        username.setPromptText("Username");
-        PasswordField password = new PasswordField();
-        password.setPromptText("Password");
-
-        grid.add(new Label("Username:"), 0, 0);
-        grid.add(username, 1, 0);
-        grid.add(new Label("Password:"), 0, 1);
-        grid.add(password, 1, 1);
-
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
-        loginButton.setDisable(true);
-
-        username.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
-        });
-
-        dialog.getDialogPane().setContent(grid);
-
-        Platform.runLater(() -> username.requestFocus());
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
-                return new Pair<>(username.getText(), password.getText());
-            }
-            return null;
-        });
-
-        Optional<Pair<String,String>> result = dialog.showAndWait();
-
-        result.ifPresent(usernamePassword -> {
-            myUsername = usernamePassword.getKey();
-            myPassword = usernamePassword.getValue();
-        });
+//        result.ifPresent(usernamePassword -> {
+            myUsername = user;
+            myPassword = pass;
+//        });
     }
 }
