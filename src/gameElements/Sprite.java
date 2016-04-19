@@ -1,7 +1,9 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import behaviors.Attack;
 import behaviors.Behavior;
+import behaviors.Bullet;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import behaviors.SquarePattern;
@@ -99,6 +101,9 @@ public class Sprite {
 		myCollisions.add(new DamageCollision(this,100));
 		myCollisions.add(new EnemyCollision(this));
 
+		Attack bullet = new Bullet();
+		userPressBehaviors.put(KeyCode.SPACE, bullet);
+		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
 		myBehaviors.put(new SimpleStringProperty(defaultUpPressMovement.getClass().getName()), defaultUpPressMovement);
 		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
@@ -124,11 +129,13 @@ public class Sprite {
 		userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
 
+
 		myBehaviors.put(new SimpleStringProperty(defaultHorizReleaseMovement.getClass().getName()), defaultHorizReleaseMovement);
 
 		myBehaviors.put(new SimpleStringProperty("default"), new SquarePattern(10, 20));
 		myCollisions.add(new DamageCollision(this));
 		myCollisions.add(new EnemyCollision(this));
+
 	}
 	
 
@@ -324,7 +331,7 @@ public class Sprite {
 	 * Sets this sprite as being controlled by the user
 	 */
 	public void setAsUserControlled() {
-		isUserControlled.set(true);
+		myProperties.setUserControlled(true);
 		setActorCollision();
 		invokeMethodInBehaviors("setAsUserControlled", null, null);
 	}

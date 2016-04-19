@@ -17,6 +17,7 @@ public class SpriteProperties {
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
     private BooleanProperty myUserControlled;
+    
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
         myY = new SimpleDoubleProperty(0);

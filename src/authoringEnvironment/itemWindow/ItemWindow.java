@@ -68,7 +68,7 @@ public class ItemWindow {
             viewsprite.setImage(p);
 
             Sprite newS = new Sprite(new RefObject(p));
-            newS.addBehavior("default", new SquarePattern(100,20));
+          //  newS.addBehavior("default", new SquarePattern(100,20));
            // Sprite newS = new Sprite(new RefObject(p),new SquareMovement(100,20));
 
             //newS.setHeight(new SimpleDoubleProperty(viewsprite.getHeight()));

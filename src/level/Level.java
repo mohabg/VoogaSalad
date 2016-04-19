@@ -173,7 +173,7 @@ public class Level implements ILevel {
 			spriteMap.get(spriteID).update();
 			 if( !spriteMap.get(spriteID).isUserControlled()
 			     && spriteMap.get(spriteID).getBehaviors().get("default")!= null ){
-				 spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID));
+				 spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID), mySpriteFactory);
 			 }
 		//	 }
 
@@ -241,8 +241,7 @@ public class Level implements ILevel {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
-				behavior.apply(currentSprite);
-			//	System.out.println(behavior.getClass().getName());
+				behavior.apply(currentSprite, mySpriteFactory);
 			}
 
 		} else {

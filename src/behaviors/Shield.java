@@ -12,6 +12,7 @@ import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * A sprite that acts as a shield to an actor--is usually used in the defense attributes of sprites 
@@ -20,19 +21,16 @@ import javafx.beans.property.DoubleProperty;
 public class Shield extends Defense{
 	
 	private DoubleProperty rechargeTime;
-
+	
 	public Shield(){
-		this(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), 
-				new RefObject(), new Health(), new ApplyBehaviorConditions(), 0);
+		this(new RefObject(), 0);
 	}
-	public Shield(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef, Health myHealth2,
-			ApplyBehaviorConditions behaviorConditions, double rechargeTime) {
-		super(myProperties, myHealth, myCollisions, myBehaviors, myRef, behaviorConditions);
-
-		this.rechargeTime.set(rechargeTime);
+	
+	public Shield(RefObject myRef, double rechargeTime){
+		super(myRef);
+		this.rechargeTime = new SimpleDoubleProperty(rechargeTime);
 	}
-
+	
 	public DoubleProperty getRechargeTime() {
 		return rechargeTime;
 	}
