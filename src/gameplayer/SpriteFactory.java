@@ -47,7 +47,8 @@ public class SpriteFactory {
 		vs.bindToSprite(s);
 		myPane.getChildren().add(vs);
 		myViewSprites.put(ID, vs);
-		spriteMap.put(ID, s);
+		//ID?
+		//spriteMap.put(ID, s);
 		
 		return s;
 

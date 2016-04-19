@@ -74,7 +74,7 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision(this));
 
 		Attack bullet = new Bullet();
-		userPressBehaviors.put(KeyCode.SPACE, bullet);
+		userPressBehaviors.put(KeyCode.A, bullet);
 		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
 		myBehaviors.put(defaultUpPressMovement.getClass().getName(), defaultUpPressMovement);
@@ -102,7 +102,7 @@ public class Sprite {
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
 		myBehaviors.put(defaultHorizReleaseMovement.getClass().getName(), defaultHorizReleaseMovement);
 
-		//myBehaviors.put("default", new SpaceInvadersPattern(100,6, 30));
+		myBehaviors.put("default", new SquarePattern());
 
 	}
 
@@ -124,7 +124,7 @@ public class Sprite {
 	public void update() {
 		myProperties.updatePos();
 		for (Behavior behavior : myBehaviors.values()) {
-//			 behavior.apply(this);
+				//behavior.apply(this);
 		}
 
 	}

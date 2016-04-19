@@ -4,6 +4,7 @@ import gameElements.CircularQueue;
 import gameElements.Sprite;
 import gameElements.Vector;
 import behaviors.Movement;
+
 public class PatternMovement extends Movement {
 	protected static final int DEFAULT_PERIOD = 10;
 	protected int callCount;
@@ -47,7 +48,7 @@ public class PatternMovement extends Movement {
 	@Override
 	public void move(Sprite sprite) {
 		callCount ++;
-		if(callCount%period == 0){
+		if(callCount % period == 0){
 			Vector nextVector = pattern.getNext();
 			sprite.getSpriteProperties().setMyXvel(nextVector.getxVel());
 			sprite.getSpriteProperties().setMyYvel(nextVector.getyVel());

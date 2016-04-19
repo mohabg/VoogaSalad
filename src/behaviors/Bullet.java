@@ -21,7 +21,7 @@ import gameplayer.SpriteFactory;
 public class Bullet extends Attack{
 
 	public Bullet(){
-		super();
+		this(new RefObject("pictures/galaga_enemy_3.png"));
 	}
 	public Bullet(RefObject myRef){
 		super(myRef);
@@ -31,9 +31,9 @@ public class Bullet extends Attack{
 	 */
     @Override
     public void apply(Sprite sprite, SpriteFactory spriteFactory) {
-        if(readyToShoot(sprite)){
+       
         	spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
             setAmmunition(getAmmunition() - 1);
-        }
+        
     }
 }
