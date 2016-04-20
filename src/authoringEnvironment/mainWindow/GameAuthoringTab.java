@@ -1,7 +1,6 @@
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.AESpriteFactory;
-import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -174,8 +173,6 @@ public class GameAuthoringTab implements ITab{
     /**
      * @param view is a ViewSprite that's going to be copied and get its properties set between the
      * Sprite properties.
-     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
-     * change is made, the other knows of the change
      */
 	@Override
 	public void setTabContent(ViewSprite view) {
