@@ -147,10 +147,7 @@ public class VisualFactory {
 		
 		if(prop instanceof ListProperty) {
 			ListProperty<R> lpr = (ListProperty<R>) prop;
-			//ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = new ComboBox<SimpleEntry<Class<R>, R>>();
-			
-		
-			
+
 			
 			// display any items already in the list
 			for (R rListElement : lpr) {
@@ -203,18 +200,6 @@ public class VisualFactory {
 				
 			}
 			
-			// check GOT TO REFACTOR SINGLEPROP
-			// IMPLEMENT MULTIPLE PROP
-			// FIX SUBCLASSBOX IMPLEMENTATION (FOR A SINGLE INSTANCE VAR, ONLY SHOW THE INSTANCE
-				// VARS' CONCRETE CLASS (IF IT IS) AND ALL CONCRETE SUBCLASSES) SO THAT IT DOESNT
-				// CHANGE EVERY TIME A NEW COMBOBOX VALUE IS CHOSEN
-			
-			// MAYBE ALLOW PEOPLE TO REMOVE STUFF
-				// THIS WILL REQUIRE ME ACTUALLY PUTTING MAP/LIST IN THEIR OWN GUI OBJECT
-			// MAKE LISTPROPERTY AND MAPPROPERTY CONVERTERS FOR XSTREAM
-			// MAYBE REFACTOR THE REST OF THE CLASS 
-			// ORDER INSTANCE VARS INTELLIGIBLY AND HAVE A PULLDOWN MENU FOR EACH INSTANCE VAR'S 
-				// CONRETE SUBCLASSES (IF APPLICABLE) 
 			
 			Button addButton = ButtonFactory.makeButton("Add", e -> {
 				singleParamVBox.getChildren().add(singleParamVBox.getChildren().size()-1, addSingleParameter(rType, lpr));
@@ -406,23 +391,20 @@ public class VisualFactory {
 		return doubleParamVBox;
 	}
 	
-	private <R,T> HBox addDoubleParameter(Class<R> rType, Class<T> tType, MapProperty<R, T> mprt) {
+	private <R,T> HBox addDoubleParameter(Class<R> rType, Class<T> tType, MapProperty<R,T> mprt) {
 		HBox retHBox = new HBox();
 		R rListElement = null;
 		T tListElement = null;
 
-		// get a proper subclass of R if necessary
-		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
-			rType = (Class<R>) getSubclassWithoutInstance(rType);	
-		}
-		rListElement = (R) newClassInstance(rType);
-
-		// get a proper subclass of R if necessary
-		if (tType.isInterface() || Modifier.isAbstract(tType.getModifiers())) {
-			tType = (Class<T>) getSubclassWithoutInstance(tType);	
-		}
-		tListElement = (T) newClassInstance(tType);
 				
+		if (rType == null) {
+			System.out.println(" RRRRRR NULLL");
+		}
+		
+		if (rType == null) {
+			System.out.println("TTTTTT NULLL");
+		}
+		
 		VBox elementBoxKey = new VBox();
 		
 		final ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKey = makeSubclassComboBox(rType);
@@ -449,8 +431,14 @@ public class VisualFactory {
 			myComboBoxParent.getChildren().setAll(mySubclassBoxKey);
 			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
 		};	
-		mySubclassBoxKey.valueProperty().addListener(boxChangeListenerKey);				
+		mySubclassBoxKey.getSelectionModel().selectedItemProperty().addListener(boxChangeListenerKey);				
 		elementBoxKey.getChildren().add(mySubclassBoxKey);
+		
+		// get a proper subclass of R if necessary
+				if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
+					rType = (Class<R>) getSubclassWithoutInstance(rType);	
+				}
+				rListElement = (R) newClassInstance(rType);
 		
 		List<SimpleEntry<Class<R>, R>> boxItemsKey = mySubclassBoxKey.getItems();
 		SimpleEntry<Class<R>, R> rBoxItemKey = null;				
@@ -489,8 +477,14 @@ public class VisualFactory {
 			myComboBoxParent.getChildren().setAll(mySubclassBoxValue);
 			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
 		};	
-		mySubclassBoxValue.valueProperty().addListener(boxChangeListenerValue);				
+		mySubclassBoxValue.getSelectionModel().selectedItemProperty().addListener(boxChangeListenerValue);				
 		elementBoxValue.getChildren().add(mySubclassBoxValue);
+		
+		// get a proper subclass of T if necessary
+		if (tType.isInterface() || Modifier.isAbstract(tType.getModifiers())) {
+			tType = (Class<T>) getSubclassWithoutInstance(tType);	
+		}
+		tListElement = (T) newClassInstance(tType);
 		
 		List<SimpleEntry<Class<T>, T>> boxItemsValue = mySubclassBoxValue.getItems();
 		SimpleEntry<Class<T>, T> tBoxItemValue = null;				
@@ -644,7 +638,7 @@ public class VisualFactory {
 		return fields;
 	}
 	
-	private Object newClassInstance(Class<?> clazz) {
+	private <R> R newClassInstance(Class<R> clazz) {
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -692,8 +686,8 @@ public class VisualFactory {
 				return sub;
 			}
 		}
-
-		return null;
+		// default
+		return clazz;
 	}
 
 	private boolean isAbstractOrInterface(Class<?> clazz) {

@@ -101,7 +101,7 @@ public class Sprite {
 		canMove = new SimpleBooleanProperty(true);
 		myHealth = new Health(100);
 
-		myCollisions.add(new EnemyCollision());
+		//myCollisions.add(new EnemyCollision());
 
 		Attack bullet = new Bullet();
 		userPressBehaviors.put(KeyCode.SPACE, bullet);
