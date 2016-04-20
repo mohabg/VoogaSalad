@@ -8,7 +8,9 @@ package goals;
 public abstract class Goal implements IGoal{
 	
 	public enum Goals{
-		PointsGoal
+		PointsGoal,
+		StayAliveGoal,
+		KillBossGoal
 	}
 	
 	private GoalProperties goalProperties;

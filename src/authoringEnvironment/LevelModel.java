@@ -22,7 +22,7 @@ public class LevelModel {
 		// TODO Auto-generated constructor stub
 		AESpriteFactory sf= new AESpriteFactory();
 		 Map<ViewSprite, Sprite> map = new HashMap<ViewSprite, Sprite>();
-		l.getSpriteMap().values().forEach(sprite->
+		l.getSpriteMap().getSpriteMap().values().forEach(sprite->
 		{
 			map.put(sf.makeViewSprite(sprite), sprite);
 		});

@@ -1,5 +1,6 @@
 package goals;
 
+import gameElements.Sprite;
 import level.Level;
 
 /**
@@ -27,7 +28,29 @@ public class GoalChecker implements IGoalVisitor{
 	public boolean visit(PointsGoal goal) {
 		return goal.getNumPoints() < getLevel().getCurrentPoints();
 	}
-
+	
+	public boolean visit(StayAliveGoal goal){
+		boolean enemyBoolean=true;
+		for(Sprite sprite: level.getSpriteMap().getSprites()){
+			if(!sprite.isUserControlled()){
+				enemyBoolean=false;
+				break;
+			}
+		}
+		return enemyBoolean;
+	}
+	
+	public boolean visit(KillBossGoal goal){
+		boolean bossBoolean=true;
+		for(Integer integer: goal.getBossIDList()){
+			if(getLevel().getSpriteMap().getSpriteIDList().contains(integer)){
+				bossBoolean=false;
+				break;
+			}
+		}
+		return bossBoolean;
+		
+	}
 	public Level getLevel() {
 		return level;
 	}

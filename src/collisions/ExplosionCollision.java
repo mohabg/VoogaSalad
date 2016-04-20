@@ -9,15 +9,11 @@ public class ExplosionCollision extends Collision{
 	 */
 	
 	public ExplosionCollision() {
-		this(new Sprite());
+		this(0);
 	}
 	
-	public ExplosionCollision(Sprite sprite){
-		super(sprite);
-	}
-	public ExplosionCollision(Sprite sprite, double value) {
-		super(sprite, value);
-		// TODO Auto-generated constructor stub
+	public ExplosionCollision(double value) {
+		super(value);
 	}
 
 	public void handleCollision(EnemyCollision other, LevelProperties levelProperties){

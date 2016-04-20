@@ -8,6 +8,9 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 import collisions.Collision;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.PointsCollision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
@@ -21,7 +24,7 @@ import gameplayer.SpriteFactory;
 public class Bullet extends Attack{
 
 	public Bullet(){
-		super();
+		this(new RefObject("pictures/galaga_enemy_3.png"));
 	}
 	public Bullet(RefObject myRef){
 		super(myRef);
@@ -31,9 +34,14 @@ public class Bullet extends Attack{
 	 */
     @Override
     public void apply(Sprite sprite, SpriteFactory spriteFactory) {
-        if(readyToShoot(sprite)){
-        	spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), new RefObject("pictures/alien_ship.png"));
-            setAmmunition(getAmmunition() - 1);
-        }
+       
+        	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
+            bullet.setAsUserControlled();
+        	Behavior movement = new MoveVertically(-3);
+            bullet.addBehavior(movement.getClass().getName(), movement);
+            bullet.addCollision(new DamageCollision(10));
+            bullet.addCollision(new DissapearCollision());
+            bullet.addCollision(new PointsCollision(10));
+        	setAmmunition(getAmmunition() - 1);
     }
 }

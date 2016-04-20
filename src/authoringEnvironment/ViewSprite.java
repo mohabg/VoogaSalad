@@ -6,6 +6,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.TabPane;
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
@@ -29,6 +30,10 @@ public class ViewSprite extends ImageView {
 		myRef.set(imagePath);
 		setImage(imagePath);
 		imageProp = new SimpleObjectProperty<Image>(new Image(myRef.getValue()));
+		double imageWidth = imageProp.get().getWidth();
+		double imageHeight = imageProp.get().getHeight();
+		this.mySpriteProperties.setMyWidth(imageWidth);
+		this.mySpriteProperties.setMyHeight(imageHeight);
 		this.imageProperty().bindBidirectional(imageProp);
 	}
 	
@@ -82,21 +87,7 @@ public class ViewSprite extends ImageView {
 	public void setMySpriteProperties(SpriteProperties sp) {
 		mySpriteProperties = sp;
 	}
-	// public ImageView getImageView(){
-	// return imageview;
-	// }
 
-	// public List<NumProperty> getMyProperties(){
-	// return myPropertiesList;
-	// }
-
-	// public ImageView getImageView(){
-	// return imageview;
-	// }
-
-	// public List<NumProperty> getMyProperties(){
-	// return myPropertiesList;
-	// }
 	public void bindToSprite(Sprite s){
 		setMySpriteProperties(s.getSpriteProperties());
 		xProperty().bindBidirectional(s.getX());
@@ -105,5 +96,6 @@ public class ViewSprite extends ImageView {
 		fitWidthProperty().bindBidirectional(s.getWidth());
 		rotateProperty().bindBidirectional(s.getAngle());
 	}
+
 
 }
