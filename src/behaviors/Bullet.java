@@ -10,6 +10,7 @@ import authoringEnvironment.RefObject;
 import collisions.Collision;
 import collisions.DamageCollision;
 import collisions.DissapearCollision;
+import collisions.PointsCollision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
@@ -40,6 +41,7 @@ public class Bullet extends Attack{
             bullet.addBehavior(movement.getClass().getName(), movement);
             bullet.addCollision(new DamageCollision(10));
             bullet.addCollision(new DissapearCollision());
+            bullet.addCollision(new PointsCollision(10));
         	setAmmunition(getAmmunition() - 1);
     }
 }
