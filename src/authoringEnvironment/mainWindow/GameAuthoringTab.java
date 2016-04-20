@@ -34,8 +34,10 @@ public class GameAuthoringTab implements ITab{
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
     private LevelProperties myLevelProperties;
+    private AnchorPane myNewGamePane = new AnchorPane();
 
-	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+
+    private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
             double offsetX = t.getSceneX() - orgSceneX;
@@ -53,6 +55,10 @@ public class GameAuthoringTab implements ITab{
 
         }
 	};
+
+    public Pane getmyPane(){
+        return myNewGamePane;
+    }
 
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -84,14 +90,16 @@ public class GameAuthoringTab implements ITab{
 		ScrollPane myNewGameArea = new ScrollPane();
 //		Settings.setGameAreaSettings(myNewGameArea);
 
-		AnchorPane myNewGamePane = new AnchorPane();
+        myNewGamePane.setPrefHeight(Settings.getScreenHeight()+600);
+        myNewGameArea.setContent(myNewGamePane);
 		Settings.setGamePaneSettings(myNewGamePane);
+
 //        myNewGamePane.setOnMouseClicked(e->{
 //            updateSettingsPane(this.myLevelProperties);
 //        });
 
 
-		setTabContent(myNewGamePane);
+		setTabContent(myNewGameArea);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
 	}
 

@@ -1,18 +1,13 @@
 package authoringEnvironment.itemWindow;
 
-import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
-import behaviors.SquarePattern;
-import gameElements.Sprite;
 import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import resources.FrontEndData;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -41,7 +36,6 @@ public class ItemWindow {
 			Class c = Class.forName(FrontEndData.ItemPaths.getString(type));
 			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
 			tab.populateTab(fillSprites(type));
-			System.out.println("made it");
 			tab.setTabTitle(type);
 			return tab.getTab();
 		} catch (Exception e) {
