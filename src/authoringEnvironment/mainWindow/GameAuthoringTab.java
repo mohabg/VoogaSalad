@@ -105,7 +105,7 @@ public class GameAuthoringTab implements ITab{
 	}
 
     private void updateSettingsPane(LevelProperties clickedSprite) {
-        myWindow.setContent(setSettingsContent(clickedSprite));
+        myWindow.setContent(myWindow.setSettingsContent(clickedSprite));
     }
 
 //    private void updateSettingsPane(LevelProperties clickedSprite) {
@@ -131,13 +131,13 @@ public class GameAuthoringTab implements ITab{
 	}
 
 
-    public VBox setSettingsContent(LevelProperties spriteModel) {
-        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-        TabPane propertiesPane = new TabPane();
-        propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-        myBox.getChildren().addAll(propertiesPane);
-        return myBox;
-    }
+//    public VBox setSettingsContent(LevelProperties spriteModel) {
+//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+//        TabPane propertiesPane = new TabPane();
+//        propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
+//        myBox.getChildren().addAll(propertiesPane);
+//        return myBox;
+//    }
 
 //    public VBox setSettingsContent(LevelProperties myLevelProperties) {
 //        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
