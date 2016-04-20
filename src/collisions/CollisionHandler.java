@@ -24,10 +24,10 @@ public class CollisionHandler {
 	 */
 	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
 		if(haveCollisionEffects(one, two, levelProperties)){
-			one.handleCollision(two, levelProperties, levelProperties);
+			one.handleCollision(two, levelProperties);
 		}
 		if(haveCollisionEffects(two, one, levelProperties)){
-			two.handleCollision(one, levelProperties, levelProperties);
+			two.handleCollision(one, levelProperties);
 		}
 	}
 	

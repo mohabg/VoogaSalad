@@ -12,7 +12,6 @@
 // * Created by davidyan on 4/18/16.
 // */
 //public class ServerUtility {
-//    private static final String CS_SERVER = "login.cs.duke.edu";
 //    private static final String DIRECTORY = "VoogaSalad";
 //    private static final  String HOSTNAME = "login.cs.duke.edu";
 //    private String myUsername;
@@ -108,7 +107,7 @@
 ////
 ////        java.util.Properties config = new java.util.Properties();
 ////        config.put("StrictHostKeyChecking", "no");
-//
+////
 ////        JSch ssh = new JSch();
 ////        Session session = ssh.getSession(login, hostname, 22);
 ////        session.setConfig(config);
@@ -116,14 +115,14 @@
 ////        session.connect();
 ////        Channel channel = session.openChannel("sftp");
 ////        channel.connect();
-//
+////
 ////        ChannelSftp sftp = (ChannelSftp) channel;
 ////        sftp.mkdir("newfolder");
 ////        sftp.cd(directory);
 ////        Vector files = sftp.ls("*");
 ////        System.out.printf("Found %d files in dir %s%n", files.size(), directory);
 ////        ArrayList<ChannelSftp.LsEntry> list = new ArrayList<>(files);
-//
+////
 ////        for (ChannelSftp.LsEntry file : list) {
 ////            if (file.getAttrs().isDir()) {
 ////                continue;
@@ -190,3 +189,4 @@
 ////        });
 //    }
 //}
+

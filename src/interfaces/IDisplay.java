@@ -5,7 +5,7 @@ import javafx.scene.control.Tab;
 
 public interface IDisplay {
 	
-	public List<Tab> createLevelsTabPane(int numberLevels);
+	List<Tab> createLevelsTabPane(int numberLevels);
 	
 	
 }

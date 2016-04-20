@@ -10,18 +10,28 @@ import level.LevelProperties;
 
 public class DissapearCollision extends Collision{
 	
-	public DissapearCollision(Sprite sprite){
-		super(sprite);
+	public DissapearCollision(){
+		this(0);
 	}
-	public DissapearCollision(Sprite sprite, double value) {
-		super(sprite, value);
-		// TODO Auto-generated constructor stub
+	public DissapearCollision(double value) {
+		super(value);
 	}
 
-
-	public void handleCollision(Collision other, LevelProperties levelProperties){
-		Sprite mySprite = getSprite();
-		//Set Alpha to zero
-		//Remove from sprite map
+	
+	public void handleCollision(EnemyCollision other, LevelProperties levelProperties){
+		killThisSprite(other, levelProperties);
+	}
+	
+	public void handleCollision(ActorCollision other, LevelProperties levelProperties){
+		killThisSprite(other,levelProperties);
+	}
+	
+	private void killThisSprite(Collision other, LevelProperties levelProperties) {
+		Sprite thisSprite = levelProperties.getSpriteForCollision(this);
+		Sprite collidingSprite = levelProperties.getSpriteForCollision(other);
+		
+		if(thisSprite.isUserControlled() != collidingSprite.isUserControlled()){
+			thisSprite.kill();
+		}
 	}
 }

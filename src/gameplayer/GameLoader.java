@@ -169,7 +169,6 @@ public class GameLoader {
         return myViewSprites;
         
     }
-
 	private static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, Map<ViewSprite, Sprite> spriteList) {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
 		AESpriteFactory sf = new AESpriteFactory();
@@ -178,6 +177,7 @@ public class GameLoader {
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
 
 		});
+        newLevel.getSpriteMap().get(newLevel.getCurrentSpriteID()).setAsUserControlled();
 		return viewsprites;
 	}
 }

@@ -38,6 +38,9 @@ public class SpriteProperties {
     	this();
         myX.set(x);
         myY.set(y);
+        myWidth.set(width);
+        myHeight.set(height);
+        myAngle.set(angle);
     }
 
     public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle){
@@ -52,8 +55,8 @@ public class SpriteProperties {
     }
 
     public void updatePos(){
-    	myX.setValue(myX.getValue()+ myXvel.getValue());
-    	myY.setValue(myY.getValue()+ myYvel.getValue());
+    	myX.setValue(myX.getValue() + myXvel.getValue());
+    	myY.setValue(myY.getValue() + myYvel.getValue());
     }
 
     public DoubleProperty getMyXvel() {

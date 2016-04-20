@@ -12,26 +12,23 @@ import behaviors.Behavior;
 import collisions.Collision;
 import gameElements.Health;
 import gameElements.Sprite;
+import gameElements.SpriteMap;
 import javafx.scene.layout.Pane;
 
 public class SpriteFactory {
 	private Pane myPane;
 	private Map<Integer, ViewSprite> myViewSprites;
-	private Map<Integer, Sprite> spriteMap;
+	private SpriteMap spriteMap;
 	
-	public SpriteFactory(){
-		
-	}
-	
-	public SpriteFactory(Pane myPane,Map<Integer, ViewSprite> myViewSprites, Map<Integer, Sprite> mySpriteMap ) {
+	public SpriteFactory(Pane myPane,Map<Integer, ViewSprite> myViewSprites, SpriteMap mySpriteMap ) {
 		this.myPane = myPane; 
 		this.myViewSprites = myViewSprites;
 		this.spriteMap = mySpriteMap;
 	}
-	public Map<Integer, Sprite> getSpriteMap() {
+	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
-	public void setSpriteMap(Map<Integer, Sprite> spriteMap) {
+	public void setSpriteMap(SpriteMap spriteMap) {
 		this.spriteMap = spriteMap;
 	}
 	public Sprite makeSprite(double x, double y, RefObject myRef){
@@ -46,11 +43,8 @@ public class SpriteFactory {
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
 		myPane.getChildren().add(vs);
-		int ID =spriteMap.size();
-		while(spriteMap.putIfAbsent(ID, s) != null){
-			ID++;
-		}
-		myViewSprites.put(ID, vs);
+		spriteMap.addSprite(s);
+		myViewSprites.put(spriteMap.getLastSpriteID(), vs);
 		
 		return s;
 
