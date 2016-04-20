@@ -4,30 +4,16 @@ package gameplayer;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-public class SettingsScreen implements IScreen {
-	private Pane myPane;
-	private Scene myScene;
-	private IScreen parentScreen;
+/**
+ * IScreen for changing game settings.
+ * @author Huijia
+ *
+ */
+public class SettingsScreen extends Screen {
 	
 	public SettingsScreen() {
-		myPane = new Pane();
-		myScene = new Scene(myPane);
+		super();
 	}
 	
-	@Override
-	public Scene getScene() {
-		return myPane.getScene();
-	}
-
-	@Override
-	public void switchScene(IScreen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());	
-	}
-
-	@Override
-	public void setParentScreen(IScreen screen) {
-		parentScreen = screen;	
-	}
 
 }

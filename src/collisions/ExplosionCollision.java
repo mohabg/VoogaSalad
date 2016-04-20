@@ -1,17 +1,22 @@
 package collisions;
 
+import gameElements.Sprite;
+import level.LevelProperties;
+
 public class ExplosionCollision extends Collision{
 	/**
-	 * Causes explosoin on collision
+	 * Causes explosion on collision
 	 */
-
+	
+	public ExplosionCollision() {
+		this(0);
+	}
 	
 	public ExplosionCollision(double value) {
 		super(value);
-		// TODO Auto-generated constructor stub
 	}
 
-	public void handleCollision(EnemyCollision other){
+	public void handleCollision(EnemyCollision other, LevelProperties levelProperties){
 		//Explode
 	}
 }

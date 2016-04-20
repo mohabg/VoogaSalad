@@ -9,59 +9,66 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import behaviors.Attack;
 import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.Sprite;
+import gameElements.SpriteMap;
+import gameplayer.SpriteFactory;
 import goals.Goal;
+import goals.GoalChecker;
 import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
+import keyboard.IKeyboardAction.KeyboardActions;
 import keyboard.KeyboardActionChecker;
 import keyboard.KeyboardActionFactory;
-import keyboard.IKeyboardAction.KeyboardActions;
+
+import java.util.*;
 
 /**
- * This is the class for level in teh game. It has spriteMap, which is a map of Integer(spriteIDs) to Sprites. Any time someone wants
- * the program to know a sprite in a level exists, it must be added to spriteMap
- * GoalMap is similar, whenever a goal for a level is set for a level, it must be added to the goalMap(which also is a map of Integer
- * (goalIDs) to Goals. The CurrentSpriteID is the Sprite that will be currently affected by actions of the program. The goalCount is 
- * describing how many goals for a level exist. 
+ * This is the class for level in the game. It has spriteMap, which is a map of
+ * Integer(spriteIDs) to Sprites. Any time someone wants the program to know a
+ * sprite in a level exists, it must be added to spriteMap GoalMap is similar,
+ * whenever a goal for a level is set for a level, it must be added to the
+ * goalMap(which also is a map of Integer (goalIDs) to Goals. The
+ * CurrentSpriteID is the Sprite that will be currently affected by actions of
+ * the program. The goalCount is describing how many goals for a level exist.
+ *
  * @see LevelProperties
  */
 
-
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
-	private Map<Integer, Sprite> spriteMap;
-	private Map<Integer, Goal> goalMap;
+	private SpriteMap spriteMap;
+	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
 
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
 	private boolean isFinished;
+	private SpriteFactory mySpriteFactory;
 
 	public Level() {
 
-		levelProperties=new LevelProperties();
-		spriteMap=new HashMap<>();
-		goalMap=new HashMap<>();
-		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction> ();
-		goalFactory= new GoalFactory();
-		goalCount=0;
-		isFinished=false;
+		levelProperties = new LevelProperties();
+		spriteMap = new SpriteMap();
+		goalList= new ArrayList<Goal>();
+		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
+		goalFactory = new GoalFactory();
+		goalCount = 0;
+		isFinished = false;
+		currentSpriteID = 0;
 
-	}
-
-	public Integer getLevelID() {
-		return getLevelProperties().getLevelID();
 	}
 
 	public LevelProperties getLevelProperties() {
 		return levelProperties;
 	}
+
 
 	public void setisFinished(boolean finished) {
 		isFinished = finished;
@@ -75,12 +82,12 @@ public class Level implements ILevel {
 		this.levelProperties = levelProperties;
 	}
 
-	public Map<Integer, Sprite> getSpriteMap() {
+	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
 
 	public void setSpriteMap(Map<Integer, Sprite> spriteMap) {
-		this.spriteMap = spriteMap;
+		this.spriteMap.setSpriteMap(spriteMap);
 	}
 
 	public Integer getCurrentSpriteID() {
@@ -95,31 +102,41 @@ public class Level implements ILevel {
 		getSpriteMap().remove(spriteID);
 	}
 
-	public Integer newSpriteID(Map spriteMap) {
-		while (spriteMap.keySet().contains(currentSpriteID))
+	public Integer newSpriteID(SpriteMap spriteMap2) {
+		while (spriteMap2.getSpriteMap().keySet().contains(currentSpriteID)){
 			currentSpriteID++;
+		}
 		return currentSpriteID;
 	}
 
 	/**
-	 * @param newSprite gets newSprite and adds it to the sprite map(adding it to the current level)
+	 * @param newSprite
+	 *            gets newSprite and adds it to the sprite map(adding it to the
+	 *            current level)
 	 */
-	
+
 	public void addSprite(Sprite newSprite) {
-		Integer newSpriteID = newSpriteID(spriteMap);
+		/*Integer newSpriteID = newSpriteID(spriteMap);
+		setCurrentSpriteID(newSpriteID);
 		getSpriteMap().put(newSpriteID, newSprite);
+		*/
+
+		spriteMap.addSprite(newSprite);
+		setCurrentSpriteID(spriteMap.getLastSpriteID());
+		
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
 	}
 
-	
 	/**
-	 * @param newSprite Sprite who's id you want to update
-	 * @param spriteID the new ID you want your sprite to be considered
+	 * @param newSprite
+	 *            Sprite who's id you want to update
+	 * @param spriteID
+	 *            the new ID you want your sprite to be considered
 	 */
 	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
-		getSpriteMap().put(spriteID, newSprite);
+		getSpriteMap().getSpriteMap().put(spriteID, newSprite);
 	}
 
 	public int getCurrentPoints() {
@@ -134,34 +151,51 @@ public class Level implements ILevel {
 		this.goalFactory = goalFactory;
 	}
 
-	public void deleteGoal(Integer goalID) {
-		goalMap.remove(goalID);
-		if (levelProperties.getNumGoals() > goalMap.size()) {
+	public void deleteGoal(Goal goal) {
+		goalList.remove(goal);
+		if (levelProperties.getNumGoals() > goalList.size()) {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
 
+	public void addGoal(Goal goal){
+		goalList.add(goal);
+	}
+
 	private boolean completeGoals() {
-		// GoalChecker goalChecker = new GoalChecker(this);
-		// for (Goal goal : goalMap.values()) {
-		// goal.acceptVisitor(goalChecker);
-		// if (goal.isFinished())
-		// goalCount++;
-		// }
-		// return goalCount >= getLevelProperties().getNumGoals();
-		return false;
-	}
-
-	private void updateSprites() {
-		for (Sprite sprite : spriteMap.values()) {
-			 sprite.update();
-			removeDeadSprite(sprite);
+		GoalChecker goalChecker = new GoalChecker(this);
+		for (Goal goal : goalList) {
+			goal.acceptVisitor(goalChecker);
+			if (goal.isFinished())
+				goalCount++;
 		}
+		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
-	private void removeDeadSprite(Sprite sprite) {
-		if (sprite.isDead())
-			spriteMap.remove(sprite);
+	private List<Integer> updateSprites() {
+
+		List<Integer> spriteList= new ArrayList<Integer>();
+		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
+		if(spriteMap.getSpriteMap().isEmpty()){
+			System.out.println();
+		}
+		for (Integer spriteID : spriteIDList) {
+			spriteMap.get(spriteID).update(this.mySpriteFactory);
+			 if( !spriteMap.get(spriteID).isUserControlled()
+			     && spriteMap.get(spriteID).getBehaviors().get("default")!= null ){
+				 spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID), mySpriteFactory);
+			 }
+
+			removeDeadSprite(spriteID, spriteList);
+		}
+		return spriteList;
+	}
+
+	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
+		if (spriteMap.get(spriteID).isDead()){
+			spriteMap.remove(spriteID);
+			deadSpriteList.add(spriteID);
+		}
 
 	}
 
@@ -169,7 +203,7 @@ public class Level implements ILevel {
 
 		CollisionHandler collisionHandler = new CollisionHandler();
 		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.values();
+		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
 		int index = 0;
 		for (Sprite sprite : spriteSet) {
@@ -180,11 +214,14 @@ public class Level implements ILevel {
 		for (int i = 0; i < spriteSet.size(); i++) {
 			for (int j = i + 1; j < spriteSet.size(); j++) {
 				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
-
+					
+					getLevelProperties().setCollidingSprites(spriteArr[i], spriteArr[j]);
+					
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo, getLevelProperties());
+							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
+									getLevelProperties());
 
 						}
 
@@ -195,18 +232,32 @@ public class Level implements ILevel {
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
+		System.out.println(key.getCode()+key.getCharacter());
+
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
-		System.out.println("KEYBOARD?");
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
 
 		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
-		System.out.println("X:   " + currentSprite.getX().doubleValue());
-		System.out.println("Y:   " + currentSprite.getY().doubleValue());
+		if(currentSprite == null){
+			return;
+		}
+//		System.out.println("X:   " + currentSprite.getX().doubleValue());
+//		System.out.println("Y:   " + currentSprite.getY().doubleValue());
+//		System.out.println("HEALTH: "+currentSprite.getHealth().getHealthValue());
+
 		if (currentSprite.isUserControlled()) {
-			Behavior behavior = currentSprite.getBehavior(key.getCode());
+			Behavior behavior;
+			if (enable) {
+				behavior = currentSprite.getUserPressBehavior(key.getCode());
+			} else {
+				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
+			}
 			if (behavior != null) {
-				behavior.apply(currentSprite);
+				if(behavior instanceof Attack){
+					int x = -1;
+				}
+				behavior.apply(currentSprite, mySpriteFactory);
 			}
 
 		} else {
@@ -227,12 +278,13 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	public void update() {
-		updateSprites();
+	public List<Integer> update() {
+		List<Integer> deadSprites= updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
 			setisFinished(true);
 		}
+		return deadSprites;
 
 	}
 
@@ -250,4 +302,7 @@ public class Level implements ILevel {
 		handleKeyboardAction(key, false);
 	}
 
+	public void setSpriteFactory(SpriteFactory mySpriteFactory){
+		this.mySpriteFactory = mySpriteFactory;
+	}
 }

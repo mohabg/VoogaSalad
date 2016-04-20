@@ -51,7 +51,6 @@ public class Time {
 				count++;
 				int min = count/60;
 			    int sec = count%60;
-				System.out.println("Time: " + min + ":" + sec);
 			}
 		};
 		myTimer.schedule(task, myDelay);

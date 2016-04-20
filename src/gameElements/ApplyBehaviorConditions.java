@@ -9,7 +9,8 @@ import javafx.beans.property.SimpleIntegerProperty;
  * Has information and methods to determine whether a sprite is eligible to defend or shoot at a given time. Probability describes
  * the probability that a sprite(usually an automated one) will shoot, the framedelay will determine how often a sprite is supposed to 
  * do a certain behavior. distFromUser describes how far an automated sprite is from the user, which may be useful(depending on the settings)
- * on whether the sprite is eligible to do a certain behavior. Durations descrive how long the behavior is supposed to last. 
+ * on whether the sprite is eligible to do a certain behavior. Durations descrive how long the behavior is supposed to last. This is used
+ * for enemy behaviors. 
  */
 
 
@@ -31,6 +32,7 @@ public class ApplyBehaviorConditions {
 		maxDuration = new SimpleDoubleProperty(0);
 		currentDuration = new SimpleDoubleProperty(0);
 	}
+	
 	public ApplyBehaviorConditions(double probability, int frameDelay, double distFromUser, double maxDuration){
 		this();
 		this.probability.set(probability);

@@ -1,21 +1,20 @@
 package exampledata;
 
+import XStreamHandlers.FXConverters;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import org.xml.sax.InputSource;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
-
-import org.xml.sax.InputSource;
-
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import exampledata.XStreamHandlers.FXConverters;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class xmlMaker {
 
@@ -48,12 +47,7 @@ public class xmlMaker {
 
 		// File fi = new
 		// File("voogasalad_TheDuballers/src/exampledata/myLevelTest.xml");
-		System.out.println(xml);
 		Level readLevel = (Level) xstream.fromXML(xml);
-		System.out.println(myLevel.character.health);
-		System.out.println(readLevel.character.health);
-		System.out.println(readLevel.testList.get(0));
-		System.out.println(myLevel.testList.get(0));
 
 	}
 

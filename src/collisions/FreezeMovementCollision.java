@@ -1,5 +1,8 @@
 package collisions;
 
+import gameElements.Sprite;
+import level.LevelProperties;
+
 /**
  * Stops the movement of a sprite on collision
  */
@@ -7,14 +10,14 @@ package collisions;
 
 public class FreezeMovementCollision extends Collision{
 
-	public FreezeMovementCollision(double value) {
-		super(value);
+	public FreezeMovementCollision() {
+		super();
 	}
 
 	/**
 	 * @param other The Sprite that you want to stop from moving
 	 */	
-	protected void handleCollision(EnemyCollision other) {
-		other.getSprite().disableMovement();
+	public void handleCollision(EnemyCollision other, LevelProperties levelProperties) {
+		levelProperties.getSpriteForCollision(other).disableMovement();
 	}
 }

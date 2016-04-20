@@ -7,6 +7,7 @@ import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.TilePane;
+import resources.FrontEndData;
 
 import java.util.List;
 /** 
@@ -37,7 +38,10 @@ public abstract class AbstractItemTab implements ITab{
         	sprite.setFitHeight(IMAGE_HEIGHT);
         	sprite.setPreserveRatio(true);
             myTilePane.getChildren().add(sprite);
+
         }
+        myTilePane.setId(FrontEndData.TILEPANE);
+        myTilePane.getStylesheets().add(FrontEndData.STYLESHEET);
         setTabContent(myTilePane);
     }
 
@@ -55,12 +59,6 @@ public abstract class AbstractItemTab implements ITab{
     	myTab.setContent(content);
     }
 
-	@Override
-	public void setTabContent(ViewSprite view, Sprite sprite) {
-		// TODO Auto-generated method stub
-		// poo
-		return;
-	}
 
 	@Override
 	public Node getTabContent() {

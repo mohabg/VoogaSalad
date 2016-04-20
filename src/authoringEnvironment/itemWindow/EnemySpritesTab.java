@@ -12,8 +12,10 @@ public class EnemySpritesTab extends AbstractItemTab {
 		super();
 	}
 
-    @Override
-    public void setTabContent(ViewSprite view, Sprite mySprite) {
 
-    }
+	@Override
+	public void setTabContent(ViewSprite view) {
+		// TODO Auto-generated method stub
+		
+	}
 }

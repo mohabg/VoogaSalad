@@ -1,7 +1,10 @@
 package collisions;
 
 import java.lang.reflect.Method;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 /**
  * Describes the different behaviors of collision. Has the sprite that is colliding as an instance variable, 
@@ -16,54 +19,53 @@ import level.LevelProperties;
 
 public abstract class Collision{
 	
-	private Sprite sprite; 
 	private DoubleProperty value;
 	
 	public Collision(){
-		value = new SimpleDoubleProperty();
+		this(0);
 	}
+	
 	public Collision(double value){
-		this();
-		this.value.set(value);
-	}
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+		this.value = new SimpleDoubleProperty(value);
 	}
 	public double getValue(){
 		return this.value.doubleValue();
 	}
-	public boolean isCollidingWithUser(Collision other){
-		return other.getSprite().isUserControlled();
+	public boolean isCollidingWithUser(LevelProperties levelProperties){
+		for(Sprite sprite : levelProperties.getCollidingSprites()){
+			if(!sprite.getCollisions().contains(this)){
+				return sprite.isUserControlled();
+			}
+		}
+		return false;
 	}
-	protected void handleCollision(Collision other, LevelProperties levelProperties){
+	public void handleCollision(Collision other, LevelProperties levelProperties){
 		//Subclasses should overload this method 
-		applyEffects(this, other);
-		applyEffects(other, this);
+		applyEffects(this, other, levelProperties);
+		applyEffects(other, this, levelProperties);
 	}
 
 	
 	
-	private void applyEffects(Collision one, Collision two) {
-		Method methodToInvoke = getCollisionEffects(one, two);
+	private void applyEffects(Collision one, Collision two, LevelProperties levelProperties) {
+		Method methodToInvoke = getCollisionEffects(one, two, levelProperties);
 		if(methodToInvoke != null){
 			try{
-				methodToInvoke.invoke(one, two);
+				Object[] params = new Object[2];
+				params[0] = two;
+				params[1] = levelProperties;
+				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-				e.printStackTrace();
 			}
 		}
 	}
 	
-	protected Method getCollisionEffects(Collision one, Collision two) {
+	protected Method getCollisionEffects(Collision one, Collision two, LevelProperties levelProperties) {
 		Class CollisionOneClass = one.getClass();
 		Class CollisionTwoClass = two.getClass();
 		try{
-			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass);
+			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 			return method;
 		}
 		catch(Exception e){

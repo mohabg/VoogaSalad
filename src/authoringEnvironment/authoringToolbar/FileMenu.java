@@ -4,7 +4,7 @@ package authoringEnvironment.authoringToolbar;
  */
 
 public class FileMenu extends AbstractMenu{
-    public FileMenu(String menuName){
-    	super(menuName);
+    public FileMenu( ){
+    	super();
     }
 }

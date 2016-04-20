@@ -1,4 +1,8 @@
 package game;
+import java.util.List;
+
+import goals.Goal;
+import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -6,21 +10,24 @@ import level.LevelProperties;
 
 public interface IGameEditor {
 	
-	public Game getGame();
-	public void setGame(Game newGame);
-	public GameInfo getGameInfo();
-	public void setGameInfo(GameInfo newInfo);
-	public void createLevel(int index, LevelProperties levelProperties);
-	public void addLevel(int index, Level level);
-	public void setCurrentLevel(int index);
-	public Level getCurrentLevel();
-	//public int addGoal(GoalProperties newGoal);
-	//public void updateGoal(Integer goalID, GoalProperties newGoal);
-	public void deleteGoal(Integer goalID);
-	public void setLevelProperties(LevelProperties levelProperties);
-	public Integer getUserSprite();
-	public void setUserSprite(Integer spriteID);
-	public void updateGame();
-	public void setResultForKeyPress(KeyEvent event);
-	public void setResultForKeyRelease(KeyEvent event);
+	Game getGame();
+	void setGame(Game newGame);
+	GameInfo getGameInfo();
+	void setGameInfo(GameInfo newInfo);
+	void createLevel(int index, LevelProperties levelProperties);
+	void addLevel(int index, Level level);
+	void setCurrentLevel(int index);
+	Level getCurrentLevel();
+	void addGoal(Goal newGoal);
+	void deleteGoal(Goal goal);
+	void setLevelProperties(LevelProperties levelProperties);
+	Integer getUserSprite();
+	void setUserSprite(Integer spriteID);
+	
+	//TODO: suggestions for better implementation?
+    List<Integer> updateGame();
+	
+	
+	void setResultForKeyPress(KeyEvent event);
+	void setResultForKeyRelease(KeyEvent event);
 }

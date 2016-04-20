@@ -1,15 +1,22 @@
 package collisions;
 
+import gameElements.Sprite;
+import level.LevelProperties;
+
 /**
- * A collision that gives points to an Enemy
+ * A collision that gives points to the User
  */
+
 public class PointsCollision extends Collision{
 
-	/**
-	 * Gives t points to an enemy sprite on collision
-	 */
-	protected void handleCollision(EnemyCollision enemy){
-		//Add points to score
-		//Need to get score from CollisionHandler and store in Collision
+	public PointsCollision(){
+		this(0);
+	}
+	public PointsCollision(double value){
+		super(value);
+	}
+	public void handleCollision(EnemyCollision enemy, LevelProperties levelProperties){
+		Integer newScore = (int) (levelProperties.getCurrentPoints() + getValue());
+		levelProperties.setCurrentPoints(newScore);
 	}
 }

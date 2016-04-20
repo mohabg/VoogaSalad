@@ -2,25 +2,65 @@ package gameplayer;
 
 import java.util.Collection;
 
+import authoringEnvironment.Settings;
+import authoringEnvironment.StartOptionsWindow;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+/**
+ * Abstract class for screens.
+ * 
+ * @author Huijia
+ *
+ */
 public abstract class Screen {
-	private Pane myPane;
+	protected Pane myPane;
+	protected Screen parentScreen;
 
-	public Screen(){
+	public Screen() {
 		myPane = new Pane();
-	}
-
-	public void add(Node node){
-		myPane.getChildren().add(node);
+		Settings.setGamePlayingSettings(myPane);
 
 	}
-	public Pane getPane(){
-		return myPane;
+
+	public Screen(Screen parent) {
+		this();
+		parentScreen = parent;
 	}
-	public void addAll(Collection<Node> c) {
-		c.forEach(n -> add(n));
+	//
+	// public void add(Node node){
+	// myPane.getChildren().add(node);
+	//
+	// }
+	// public Pane getPane(){
+	// return myPane;
+	// }
+	// public void addAll(Collection<Node> c) {
+	// c.forEach(n -> add(n));
+	// }
+
+	public Scene getScene() {
+		try {
+			return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
+		}
+
+		catch (Exception e) {
+			return myPane.getScene();
+
+		}
+	}
+
+	public void switchScene(Screen screen) {
+		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
+	}
+
+	public void returnToParentScreen() {
+		switchScene(parentScreen);
+	}
+	public void returnToStart(){
+		switchScene(new StartOptionsWindow((Stage) myPane.getScene().getWindow()));
 	}
 
 }

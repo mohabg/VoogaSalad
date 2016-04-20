@@ -1,39 +1,40 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
-import authoringEnvironment.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import level.LevelProperties;
+import resources.FrontEndData;
 
 import java.util.Map;
 /**
  * @author David Yan, Huijia Yu, Joe Jacob
  */
 public class GameAuthoringTab implements ITab{
-	private final double VBOX_SPACING = 8;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
 
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
+	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
+    private LevelProperties myLevelProperties;
 
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -57,14 +58,17 @@ public class GameAuthoringTab implements ITab{
 	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-            ImageView mySprite = ((ViewSprite) (t.getSource()));
+            ViewSprite mySprite = ((ViewSprite) (t.getSource()));
             orgTranslateX = mySprite.getX();
             orgTranslateY = mySprite.getY();
-            
+
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
 
-            updateSettingsPane((ViewSprite) mySprite);
+            if (mySprite != currentSprite) {
+            	currentSprite = mySprite;
+            	updateSettingsPane(mySprite);
+            }
 		}
 	};
 
@@ -72,16 +76,21 @@ public class GameAuthoringTab implements ITab{
 		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
+        myLevelProperties = new LevelProperties();
 
 		initArea();
 	}
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
-		Settings.setGameAreaSettings(myNewGameArea);
+//		Settings.setGameAreaSettings(myNewGameArea);
 
 		AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
+//        myNewGamePane.setOnMouseClicked(e->{
+//            updateSettingsPane(this.myLevelProperties);
+//        });
+
 
 		setTabContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
@@ -91,26 +100,48 @@ public class GameAuthoringTab implements ITab{
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 
+//    private void updateSettingsPane(LevelProperties clickedSprite) {
+//        myWindow.setContent(setSettingsContent(clickedSprite));
+//    }
+
     /**
      * @param spriteModel model used to generate visual elements that
      * are added to a new VBox and displayed in the Settings Window
      */
 
 	public VBox setSettingsContent(Sprite spriteModel) {
-		VBox myBox = new VBox(VBOX_SPACING);
+		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
 
+//    public VBox setSettingsContent(LevelProperties myLevelProperties) {
+//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+//        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
+//        myBox.getChildren().addAll(propertiesList);
+//        return myBox;
+//    }
+
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
-		
+
 		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		((Pane) getTabContent()).getChildren().addAll(sprite);
+        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    ((Pane) getTabContent()).getChildren().remove(sprite);
+                }
+                e.consume();
+            }
+        });
+
+        ((Pane) getTabContent()).getChildren().addAll(sprite);
+        
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
@@ -129,14 +160,16 @@ public class GameAuthoringTab implements ITab{
 
 	@Override
 	public void setTabContent(Node content) {
-		myTab.setContent(content);
 
-	}
+        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
+        myTab.setContent(content);
+    }
 
-	@Override
-	public void setTabTitle(String tabTitle) {
-		myTab.setText(tabTitle);
-	}
+    @Override
+    public void setTabTitle(String tabTitle) {
+        myTab.setText(tabTitle);
+    }
+
 
     /**
      * @param view is a ViewSprite that's going to be copied and get its properties set between the
@@ -145,20 +178,13 @@ public class GameAuthoringTab implements ITab{
      * change is made, the other knows of the change
      */
 	@Override
-	public void setTabContent(ViewSprite view, Sprite sprite) {
-		ViewSprite copy = new ViewSprite(view.getMyImage());
-		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-		
-        copy.xProperty().bindBidirectional(mCopy.getX());
-        copy.yProperty().bindBidirectional(mCopy.getY());
-        copy.fitHeightProperty().bindBidirectional(mCopy.getHeight());
-        copy.fitWidthProperty().bindBidirectional(mCopy.getWidth());
-        copy.rotateProperty().bindBidirectional(mCopy.getAngle());
-        copy.stringRefProperty().bindBidirectional(mCopy.getMyStringRef());
-        copy.imageProperty().bindBidirectional(mCopy.getMyImageProp());
-        
-		mySpriteMap.put(copy, mCopy);
+	public void setTabContent(ViewSprite view) {
+		AESpriteFactory sf = new AESpriteFactory();
+		ViewSprite copy = sf.clone(view);
+		mySpriteMap.put(copy, sf.makeSprite(copy));
 		addWithClicking(copy);
 	}
 
-}
+
+
+    }

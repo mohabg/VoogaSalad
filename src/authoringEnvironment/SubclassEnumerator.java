@@ -1,10 +1,11 @@
-package authoringEnvironment;
+	package authoringEnvironment;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -27,13 +28,43 @@ public class SubclassEnumerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(test);
 		//findSubclasses(test, Collision.class);
 		for (Class<?> c : test) {
 			//System.out.println(c.getName());
 		}
 		getReadableClasses(PACKAGE_NAME);
 		//getSubclasses(PACKAGE_NAME, Behavior.class);
+		
+		List<String> g = getAllReadableClasses();
+		//System.out.println(g);
+	}
+	
+	public static Map<String, Class<?>> getAllSubclasses(Class<?> clazz) {
+		List<String> allPackageNames = new ArrayList<String>();
+		allPackageNames.addAll(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+				"spriteProperties"));
+		Map<String, Class<?>> allSubclasses = new HashMap<String, Class<?>>();
+		
+		for (String p : allPackageNames) {
+			allSubclasses.putAll(getSubclasses(p, clazz));
+		}
+		
+		return allSubclasses;
+	}
+	
+	public static List<String> getAllReadableClasses() {
+		List<String> allClassNames = new ArrayList<String>();
+		List<String> allPackageNames = new ArrayList<String>();
+		allPackageNames.addAll(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+				"spriteProperties"));
+		
+		for (String p : allPackageNames) {
+			allClassNames.addAll(getReadableClasses(p));
+		}
+		
+		return allClassNames;
 	}
 	
 	public static List<String> getReadableClasses(String packageName) {
@@ -66,9 +97,9 @@ public class SubclassEnumerator {
 		List<Class<?>> subclasses = findSubclasses(packageClasses, superclass);
 		
 		for (Class<?> subclass : subclasses) {
-			String subclassName = subclass.getName();
-			String readableName = subclassName.substring(subclassName.indexOf(".")+1);
-			subclassNameMap.put(readableName, subclass);
+			String subclassName = subclass.getTypeName();
+			//String readableName = subclassName.substring(subclassName.indexOf(".")+1);
+			subclassNameMap.put(subclassName, subclass);
 		}
 		
 		return subclassNameMap;
@@ -78,7 +109,6 @@ public class SubclassEnumerator {
 		List<Class<?>> subclasses = new ArrayList<Class<?>>();
 		for (Class<?> candidateClass : classes) {
 		    if (superclass.isAssignableFrom(candidateClass)) {
-		        System.out.println(candidateClass);
 		        subclasses.add(candidateClass);
 		    }
 		}

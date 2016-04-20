@@ -4,37 +4,42 @@ import behaviors.Behavior;
 import behaviors.Defense;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
+import level.LevelProperties;
 
 /**
- * Refers to methods that damage the health of a Sprite upon collision. The handleCollision in this method deals the damage. 
+ * Refers to methods that damage the health of a Sprite upon collision. 
+ * The handleCollision in this method deals the damage.
  */
 
 
 public class DamageCollision extends Collision{
 	
 	public DamageCollision() {
-		
+		this(0);
 	}
 	
 	public DamageCollision(double value) {
 		super(value);
 	}
 	
+	
 	/**
 	 * @param collision The Enemy sprite that you want to cause damage to
 	 */
-	protected void handleCollision(EnemyCollision collision){
-		if(collision.isCollidingWithUser(this)){
-			causeDamage(collision.getSprite(), getValue());
+	public void handleCollision(EnemyCollision collision, LevelProperties levelProperties){
+		if(collision.isCollidingWithUser(levelProperties)){
+			Sprite collidingSprite = levelProperties.getSpriteForCollision(collision);
+			causeDamage(collidingSprite, getValue());
 		}
 	}
 	
 	/**
 	 * @param collision The Actor sprite that you want to cause damage to
 	 */
-	protected void handleCollision(ActorCollision collision){
-		if( !(collision.isCollidingWithUser(this)) ){
-			causeDamage(collision.getSprite(), getValue());
+	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
+		if( !(collision.isCollidingWithUser(levelProperties)) ){
+			Sprite collidingSprite = levelProperties.getSpriteForCollision(collision);
+			causeDamage(collidingSprite, getValue());
 		}
 	}
 	

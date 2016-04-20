@@ -1,5 +1,7 @@
 package collisions;
 
+import gameElements.Sprite;
+
 /**
  * When an Actor collides
  */
