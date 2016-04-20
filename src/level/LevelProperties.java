@@ -63,7 +63,10 @@ public class LevelProperties {
 		numGoals.set(numberOfGoals);
 		collidingSprites = new Sprite[2];
 	}
-
+	
+	private void defaultLevelPropertyInit(){
+		collidingSprites = new Sprite[2];
+	}
 	public void setCollidingSprites(Sprite one, Sprite two) {
 		collidingSprites[0] = one;
 		collidingSprites[1] = two;

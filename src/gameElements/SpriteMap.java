@@ -1,7 +1,9 @@
 package gameElements;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class SpriteMap{
 	
@@ -30,5 +32,13 @@ public class SpriteMap{
 	}
 	public void remove(int id){
 		spriteMap.remove(id);
+	}
+	
+	public Collection<Sprite> getSprites(){
+		return spriteMap.values();
+	}
+	
+	public Set<Integer> getSpriteIDList(){
+		return spriteMap.keySet();
 	}
 }
