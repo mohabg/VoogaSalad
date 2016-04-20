@@ -59,10 +59,10 @@ public class Sprite {
 	private MapProperty<KeyCode, Behavior> userReleaseBehaviors;
 	
 	// not observable
-	private List<Collision> myCollisionsNoob;
-	private Map<StringProperty, Behavior> automaticBehaviorsNoob;
-	private Map<KeyCode, Behavior> userPressBehaviorsNoob;
-	private Map<KeyCode, Behavior> userReleaseBehaviorsNoob;
+//	private List<Collision> myCollisionsNoob;
+//	private Map<StringProperty, Behavior> automaticBehaviorsNoob;
+//	private Map<KeyCode, Behavior> userPressBehaviorsNoob;
+//	private Map<KeyCode, Behavior> userReleaseBehaviorsNoob;
 
 	private RefObject myRef;
 	private BooleanProperty canMove;
@@ -79,21 +79,21 @@ public class Sprite {
 		this.myRef = myRef;
 		myProperties = new SpriteProperties();
 
-		myCollisionsNoob = new ArrayList<Collision>();
-		automaticBehaviorsNoob = new HashMap<StringProperty, Behavior>();
-		userPressBehaviorsNoob = new HashMap<KeyCode, Behavior>();
-		userReleaseBehaviorsNoob = new HashMap<KeyCode, Behavior>();
+//		myCollisionsNoob = new ArrayList<Collision>();
+//		automaticBehaviorsNoob = new HashMap<StringProperty, Behavior>();
+//		userPressBehaviorsNoob = new HashMap<KeyCode, Behavior>();
+//		userReleaseBehaviorsNoob = new HashMap<KeyCode, Behavior>();
 		
-		ObservableList<Collision> ol = FXCollections.observableList(myCollisionsNoob);
+		ObservableList<Collision> ol = FXCollections.observableList(new ArrayList<Collision>());
 		myCollisions = new SimpleListProperty<Collision>(ol);
 		
-		ObservableMap<StringProperty, Behavior> om1 = FXCollections.observableMap(automaticBehaviorsNoob);
+		ObservableMap<StringProperty, Behavior> om1 = FXCollections.observableMap(new HashMap<StringProperty, Behavior>());
 		automaticBehaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 		
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(userPressBehaviorsNoob);
+		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
 		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om2);
 		
-		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(userReleaseBehaviorsNoob);
+		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
 		userReleaseBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om3);
 		
 		
@@ -107,14 +107,12 @@ public class Sprite {
 		userPressBehaviors.put(KeyCode.SPACE, bullet);
 		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
-		automaticBehaviors.put(new SimpleStringProperty(defaultUpPressMovement.getClass().getName()), defaultUpPressMovement);
-
+		//automaticBehaviors.put(new SimpleStringProperty(defaultUpPressMovement.getClass().getName()), defaultUpPressMovement);
 		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
 
 		Behavior defaultDownPressMovement = new MoveVertically(5);
 		userPressBehaviors.put(KeyCode.DOWN, defaultDownPressMovement);
-
-		automaticBehaviors.put(new SimpleStringProperty(defaultDownPressMovement.getClass().getName()), defaultDownPressMovement);
+		//automaticBehaviors.put(new SimpleStringProperty(defaultDownPressMovement.getClass().getName()), defaultDownPressMovement);
 
 
 		Behavior defaultVertReleaseMovement = new MoveVertically(0);
@@ -168,7 +166,7 @@ public class Sprite {
 	}
 
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {
-		return userPressBehaviorsNoob;
+		return userPressBehaviors;
 		//return userPressBehaviors;
 	}
 
@@ -187,7 +185,7 @@ public class Sprite {
 	}
 
 	public Map<KeyCode, Behavior> getUserReleaseBehaviors() {
-		return userReleaseBehaviorsNoob;
+		return userReleaseBehaviors;
 		//return userReleaseBehaviors.getValue();
 	}
 
@@ -203,8 +201,8 @@ public class Sprite {
 
 	public Map<String, Behavior> getBehaviors(){
 		Map<String, Behavior> fakeB = new HashMap<String, Behavior>();
-		for (StringProperty s : automaticBehaviorsNoob.keySet()) {
-			fakeB.put(s.getValue(), automaticBehaviorsNoob.get(s));
+		for (StringProperty s : automaticBehaviors.keySet()) {
+			fakeB.put(s.getValue(), automaticBehaviors.get(s));
 		}
 		
 		return fakeB;
@@ -306,11 +304,19 @@ public class Sprite {
 	}
 
 	public void addCollision(Collision collision) {
+		if (collision == null) {
+			System.out.println("NULLLLLLL");
+		} 
+		if (myCollisions == null) {
+			System.out.println("COLL NULL");
+		}
+	
+		
 		myCollisions.add(collision);
 	}
 
-	public List<Collision> getCollisions() {
-		return myCollisionsNoob;
+	public ListProperty<Collision> getCollisions() {
+		return myCollisions;
 	}
 
 	public void setMySpriteProperties(SpriteProperties sp) {
