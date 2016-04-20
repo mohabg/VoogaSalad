@@ -38,10 +38,6 @@ public class GameAuthoringTab implements ITab{
     private LevelProperties myLevelProperties;
     private AnchorPane myNewGamePane = new AnchorPane();
 
-
-
-
-
     private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -95,9 +91,9 @@ public class GameAuthoringTab implements ITab{
 		Settings.setGamePaneSettings(myNewGamePane);
 
         myNewGameArea.setContent(myNewGamePane);
-//        myNewGamePane.setOnMouseClicked(e->{
-//            updateSettingsPane(this.myLevelProperties);
-//        });
+        myNewGamePane.setOnMouseClicked(e->{
+            updateSettingsPane(this.myLevelProperties);
+        });
 
 
 		setTabContent(myNewGameArea);
@@ -107,6 +103,10 @@ public class GameAuthoringTab implements ITab{
 	private void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
+
+    private void updateSettingsPane(LevelProperties clickedSprite) {
+        myWindow.setContent(setSettingsContent(clickedSprite));
+    }
 
 //    private void updateSettingsPane(LevelProperties clickedSprite) {
 //        myWindow.setContent(setSettingsContent(clickedSprite));
@@ -129,6 +129,20 @@ public class GameAuthoringTab implements ITab{
 		myBox.getChildren().addAll(propertiesPane);
 		return myBox;
 	}
+
+
+    public VBox setSettingsContent(LevelProperties spriteModel) {
+        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+        TabPane propertiesPane = new TabPane();
+        if (mySpriteTabPanes.get(spriteModel) != null) {
+            //propertiesPane = mySpriteTabPanes.get(spriteModel);
+        } else {
+            propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
+            //mySpriteTabPanes.put(spriteModel, propertiesPane);
+        }
+        myBox.getChildren().addAll(propertiesPane);
+        return myBox;
+    }
 
 //    public VBox setSettingsContent(LevelProperties myLevelProperties) {
 //        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
