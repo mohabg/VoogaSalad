@@ -1,6 +1,7 @@
 package gameplayer;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import authoringEnvironment.LevelModel;
@@ -14,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import level.Level;
 import resources.FrontEndData;
 
 /**
@@ -32,17 +34,18 @@ public class PauseScreen extends Screen {
 		myGameLoader = new GameLoader();
 	}
 
-	public void initBorderPane(List<LevelModel> gameLevels) {
+	public void initBorderPane(Collection<Level> gameLevels) {
 		VBox buttons = makePauseScreenButtons(gameLevels);
 		Settings.setStartWindowSettings(buttons);
 		myPane.getChildren().add(buttons);
 	}
 
-	private VBox makePauseScreenButtons(List<LevelModel> gameLevels) {
+	private VBox makePauseScreenButtons(Collection<Level> gameLevels) {
 		VBox box = new VBox();
 
 		Button cont = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("continuegame"), a -> {
 			switchScene(parentScreen);
+			((PlayScreen) parentScreen).play();
 		});
 
 		Button restart = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("restartgame"), a -> {
@@ -56,7 +59,7 @@ public class PauseScreen extends Screen {
 		});
 
 		Button save = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("savegame"), a -> {
-			myGameLoader.saveGame(gameLevels);
+			GameLoader.savePlayedGame(gameLevels);
 		});
 
 		Button settings = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("changesettings"), a -> {

@@ -9,8 +9,8 @@ import gameElements.Sprite;
 
 public class ActorCollision extends Collision{
 	
-	public ActorCollision(Sprite sprite) {
-		super(sprite);
+	public ActorCollision() {
+		super();
 	}
 	
 }

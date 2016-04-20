@@ -9,6 +9,7 @@ import level.LevelProperties;
 import java.util.Map;
 
 import gameElements.Sprite;
+import gameplayer.PlayScreen;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,15 +31,18 @@ public class Engine {
 	private IGameEditor myEditor;
 	private double myGameTime;
 	private boolean isPaused;
+    private PlayScreen myGameScreen;
 
-	public Engine() {
+
+	public Engine(PlayScreen myGameScreen) {
+		this.myGameScreen = myGameScreen;
 		myGameLoop = new Timeline();
 		myGameTime = 0;
 		isPaused = false;
 	}
 	
-	public Engine(IGameEditor editor) {
-		this();
+	public Engine(PlayScreen myGameScreen, IGameEditor editor) {
+		this(myGameScreen);
 		myEditor = editor;
 	}
 
@@ -47,7 +51,7 @@ public class Engine {
     }
 	
 	public Map<Integer, Sprite> getSpriteMap(){
-        return myEditor.getCurrentLevel().getSpriteMap();
+        return myEditor.getCurrentLevel().getSpriteMap().getSpriteMap();
     }
     public LevelProperties LevelProperties(){
         return myEditor.getCurrentLevel().getLevelProperties();
@@ -100,7 +104,10 @@ public class Engine {
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     myGameTime = (System.currentTimeMillis() - startTime)/1000.0;
-                    myEditor.updateGame();
+					myGameScreen.removeSprites(myEditor.updateGame());
+					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
+						myGameScreen.setLevel(myEditor.getCurrentLevel());
+					}
                 }
             }); 
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  

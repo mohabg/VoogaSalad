@@ -1,5 +1,6 @@
 package gameplayer;
 
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
@@ -24,14 +25,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Class for saving and loading from files. Uses xstream.
- * 
+ *
  * @author Huijia
  *
  */
@@ -53,7 +56,7 @@ public class GameLoader {
 
 	/**
 	 * makes new game playscreen and starts it with the elements from the file,
-	 * 
+	 *
 	 * @param file
 	 *            the file containing the game
 	 * @return the screen with the game
@@ -68,13 +71,18 @@ public class GameLoader {
 
 	/**
 	 * saves a list of levelmodels to a default directory
-	 * 
+	 *
 	 * @param gameLevels
 	 */
 
 	public static void saveGame(ITabPane tabLevels) {
 		saveGame(levelTabsToModels(tabLevels));
 
+	}
+	public static void savePlayedGame(Collection<Level> levels){
+		List<LevelModel> gameLevels = levels.stream()
+				.map(l->new LevelModel(l)).collect(Collectors.toList());
+		saveGame(gameLevels);
 	}
 
 	public static void saveGame(List<LevelModel> gameLevels) {
@@ -90,7 +98,7 @@ public class GameLoader {
 
 	/**
 	 * saves levelmodels to a user defined directory
-	 * 
+	 *
 	 * @param saveFileDir
 	 * @param gameLevels
 	 */
@@ -115,7 +123,7 @@ public class GameLoader {
 
 	/**
 	 * creates list of LevelModel from tabs in authoring environment
-	 * 
+	 *
 	 * @param levels
 	 *            implement ITabPane
 	 * @return list of LevelModel
@@ -137,7 +145,7 @@ public class GameLoader {
 
 	/**
 	 * parses with xstream
-	 * 
+	 *
 	 * @param file
 	 *            xml file
 	 * @return list of LevelModel
@@ -148,34 +156,28 @@ public class GameLoader {
 
 	// TODO: TALK ABOUT STATIC IN GAMELOADER????
 	public static Map<Level, Map<Integer, ViewSprite>> makeLevelViewSpriteMap(List<LevelModel> gameLevels) {
-		Map<Level, Map<Integer, ViewSprite>> myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
+        Map<Level, Map<Integer, ViewSprite>> myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
+       
+        gameLevels.forEach(lm -> {
+            Level newLevel = new Level();
+//            newLevel.setLevelProperties(lm.getMyProperties);
 
-		gameLevels.forEach(lm -> {
-			Level newLevel = new Level();
-			newLevel.setLevelProperties(new LevelProperties());
-			// TODO????FIGURE OUT ACTOR/USERCONTROLLED STUFF
-//			newLevel.setCurrentSpriteID(0);
-			myViewSprites.put(newLevel, setLevelSprites(newLevel, lm.getMyMap()));
-		});
-		return myViewSprites;
-
-	}
-
+            newLevel.setLevelProperties(new LevelProperties());
+            
+            myViewSprites.put(newLevel,setLevelSprites(newLevel, lm.getMyMap()) );
+        });
+        return myViewSprites;
+        
+    }
 	private static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, Map<ViewSprite, Sprite> spriteList) {
-		Map<Integer, ViewSprite> levelViewSprites = new HashMap<Integer, ViewSprite>();
-		spriteList.keySet().forEach(vs -> {
-			Sprite s = spriteList.get(vs);
-			// System.out.println("SPRITE " + s.getX().doubleValue() + " " +
-			// s.getY().doubleValue());
-			// TODO: THIS NEEDS TO BE SOMEWHERE ELSE????
-			 s.setAsUserControlled();
-			vs.bindToSprite(s);
-			
-
+		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
+		AESpriteFactory sf = new AESpriteFactory();
+		spriteList.values().forEach(s -> {
 			newLevel.addSprite(s);
-			levelViewSprites.put(newLevel.getCurrentSpriteID(), vs);
+			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
 
 		});
-		return levelViewSprites;
+        newLevel.getSpriteMap().get(newLevel.getCurrentSpriteID()).setAsUserControlled();
+		return viewsprites;
 	}
 }

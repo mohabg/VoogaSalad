@@ -1,6 +1,7 @@
 package behaviors;
 
 import gameElements.Sprite;
+import gameplayer.SpriteFactory;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -35,7 +36,7 @@ public abstract class Movement implements Behavior{
 	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly
 	 */
 	@Override
-	public void apply(Sprite sprite) {
+	public void apply(Sprite sprite, SpriteFactory spriteFactory) {
 		if(sprite.canMove()){
 			move(sprite);
 		}

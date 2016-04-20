@@ -1,7 +1,10 @@
 package collisions;
 
 import java.lang.reflect.Method;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 /**
  * Describes the different behaviors of collision. Has the sprite that is colliding as an instance variable, 
@@ -16,33 +19,27 @@ import level.LevelProperties;
 
 public abstract class Collision{
 	
-	private Sprite sprite; 
 	private DoubleProperty value;
 	
-	public Collision(Sprite sprite){
-		value = new SimpleDoubleProperty(0);
-		this.sprite = sprite;
+	public Collision(){
+		this(0);
 	}
 	
-	public Collision(Sprite sprite, double value){
-		this(sprite);
-		this.value.set(value);
-	}
-	
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public Collision(double value){
+		this.value = new SimpleDoubleProperty(value);
 	}
 	public double getValue(){
 		return this.value.doubleValue();
 	}
-	public boolean isCollidingWithUser(Collision other){
-		return other.getSprite().isUserControlled();
+	public boolean isCollidingWithUser(LevelProperties levelProperties){
+		for(Sprite sprite : levelProperties.getCollidingSprites()){
+			if(!sprite.getCollisions().contains(this)){
+				return sprite.isUserControlled();
+			}
+		}
+		return false;
 	}
-	protected void handleCollision(Collision other, LevelProperties levelProperties, LevelProperties levelProperties2){
+	public void handleCollision(Collision other, LevelProperties levelProperties){
 		//Subclasses should overload this method 
 		applyEffects(this, other, levelProperties);
 		applyEffects(other, this, levelProperties);
@@ -60,7 +57,6 @@ public abstract class Collision{
 				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-				System.out.println(e.getMessage());
 			}
 		}
 	}

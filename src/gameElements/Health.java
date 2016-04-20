@@ -22,13 +22,13 @@ public class Health {
 		isMortal = new SimpleBooleanProperty(false);
 	}
 	public Health(double myHealth){
-		this();
-		this.healthValue.set(myHealth);
+		healthValue = new SimpleDoubleProperty(myHealth);
+		isMortal = new SimpleBooleanProperty(true);
 	}
 
 	private void changeHealth(double val) {
 		if (isMortal.getValue()) {
-			healthValue.add(val);
+			healthValue.set(healthValue.doubleValue() + val);
 		}
 	}
 
@@ -47,6 +47,11 @@ public class Health {
 
 	public void incrementHealth(double val) {
 		changeHealth(val);
+	}
+	
+	public void kill(){
+		isMortal.set(true);
+		healthValue.set(0);
 	}
 	/**
 	 * If the sprite is mortal, check if its health is zero

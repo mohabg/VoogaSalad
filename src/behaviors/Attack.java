@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Random;
 
 import authoringEnvironment.RefObject;
-import authoringEnvironment.SpriteProperties;
 import collisions.Collision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
+import gameplayer.SpriteFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -23,38 +24,29 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 
 
-public abstract class Attack extends Sprite implements Behavior {
+public abstract class Attack implements Behavior {
 	
 	private IntegerProperty ammunition;
 	private IntegerProperty chargeTime;
 	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
+	private RefObject myRef;
+	private SpriteProperties target;
 	
 	public Attack() {
 		this(new RefObject());
 	}
 	
 	public Attack(RefObject myRef){
-		this (new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
+		this(myRef, 1 ,0);
 	}
-	
-	public Attack(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef) {
-		super(myProperties, myHealth, myCollisions, myBehaviors, myRef);
-		ammunition = new SimpleIntegerProperty(1);
-		chargeTime = new SimpleIntegerProperty(0);
-		behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
-		movement = null;
-		
-	}
-	public Attack(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef, int ammunition, int chargeTime,
-			ApplyBehaviorConditions behaviorConditions, Movement movement) {
-		this(myProperties, myHealth, myCollisions, myBehaviors, myRef);		
-		this.ammunition.set(ammunition);
-		this.chargeTime.set(chargeTime);
-		this.behaviorConditions = behaviorConditions;
+
+	public Attack(RefObject myRef, int ammunition, int chargeTime) {	
+		this.ammunition = new SimpleIntegerProperty(ammunition);
+		this.chargeTime = new SimpleIntegerProperty(chargeTime);
+		this.behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
 		this.movement = movement;
+		this.myRef = myRef;
 	}
 
 	/**
@@ -82,7 +74,10 @@ public abstract class Attack extends Sprite implements Behavior {
 		return false;
 	}
 
-	
+	public RefObject getMyRef(){
+		return myRef;
+	}
+
 	public Movement getMovement() {
 		return movement;
 	}
@@ -94,16 +89,16 @@ public abstract class Attack extends Sprite implements Behavior {
 	}
 
 	public void setChargeTime(int chargeTime) {
-		this.chargeTime.set(chargeTime);;
-	}
+		this.chargeTime.set(chargeTime);
+    }
 
 	public int getAmmunition() {
 		return ammunition.get();
 	}
 
 	public void setAmmunition(int ammunition) {
-		this.ammunition.set(ammunition);;
-	}
+		this.ammunition.set(ammunition);
+    }
 
 	public boolean hasAmmunitionLeft() {
 		return ammunition.get() > 0;

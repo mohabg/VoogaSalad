@@ -9,7 +9,7 @@ import gameElements.Sprite;
 public class EnemyCollision extends Collision{
 
 
-	public EnemyCollision(Sprite sprite) {
-		super(sprite);
+	public EnemyCollision() {
+		super();
 	}
 }
