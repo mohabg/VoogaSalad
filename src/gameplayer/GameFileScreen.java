@@ -1,7 +1,9 @@
 package gameplayer;
 
 
+import authoringEnvironment.Settings;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -46,7 +48,9 @@ public abstract class GameFileScreen extends Screen {
     private Tab addTab(String title, File directory) {
         Tab tab = new Tab();
         tab.setText(title);
-        tab.setContent(makeFlowPane(directory));
+        ScrollPane myScroller = new ScrollPane();
+        myScroller.setContent(makeFlowPane(directory));
+        tab.setContent(myScroller);
         return tab;
     }
     
@@ -54,6 +58,8 @@ public abstract class GameFileScreen extends Screen {
         FlowPane flowPane = new FlowPane();
         flowPane.getChildren()
         .addAll(Arrays.stream(getGames(flowDirectory)).map(f -> makeDisplay(f)).collect(Collectors.toList()));
+        flowPane.setPrefHeight(Settings.getScreenHeight());
+        flowPane.setPrefWidth(0.4*Settings.getScreenWidth());
         return flowPane;
     }
     

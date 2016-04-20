@@ -2,7 +2,6 @@ package authoringEnvironment.itemWindow;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
-import gameElements.Sprite;
 import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -22,6 +21,7 @@ public abstract class AbstractItemTab implements ITab{
     private TilePane myTilePane;
     
     private static double IMAGE_HEIGHT;
+    private static double OFFSET = 50;
 
     public AbstractItemTab() {
         myTab = new Tab();
@@ -33,13 +33,12 @@ public abstract class AbstractItemTab implements ITab{
      */
     public void populateTab(List<ViewSprite> viewSprites){
         Settings.setTilePaneSettings(myTilePane);
-        IMAGE_HEIGHT = myTilePane.getTileHeight() - 50;
-        for(ViewSprite sprite : viewSprites){
-        	sprite.setFitHeight(IMAGE_HEIGHT);
-        	sprite.setPreserveRatio(true);
-            myTilePane.getChildren().add(sprite);
-
-        }
+        IMAGE_HEIGHT = myTilePane.getTileHeight() - OFFSET;
+        viewSprites.forEach(viewSprite -> {
+            viewSprite.setFitHeight(IMAGE_HEIGHT);
+            viewSprite.setPreserveRatio(true);
+            myTilePane.getChildren().add(viewSprite);
+        });
         myTilePane.setId(FrontEndData.TILEPANE);
         myTilePane.getStylesheets().add(FrontEndData.STYLESHEET);
         setTabContent(myTilePane);
