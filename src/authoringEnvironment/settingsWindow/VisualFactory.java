@@ -60,10 +60,10 @@ public class VisualFactory {
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
 		for (Field f : fields) {
-			if(!f.getName().equalsIgnoreCase("myCollisionsNoob") && !f.getName().equalsIgnoreCase("myBehaviorsNoob") && !f.getName().equalsIgnoreCase("userPressBehaviorsNoob") && !f.getName().equalsIgnoreCase("userReleaseBehaviorsNoob")) {
+		//	if(!f.getName().equalsIgnoreCase("myCollisionsNoob") && !f.getName().equalsIgnoreCase("myBehaviorsNoob") && !f.getName().equalsIgnoreCase("userPressBehaviorsNoob") && !f.getName().equalsIgnoreCase("userReleaseBehaviorsNoob")) {
 				f.setAccessible(true);
 				myTabs.getTabs().add(getOneTab(f, mySprite));
-			}
+			//}
 		}
 		//
 		return myTabs;
@@ -71,27 +71,24 @@ public class VisualFactory {
 
 
 	private Tab getOneTab(Field f, Object mySprite) {
-
 		String tabName = f.getName();
 		Tab myTab = new Tab(tabName);
-
-
 		VBox myBox = new VBox();
 		ScrollPane myScrollPane = new ScrollPane();
+		AnchorPane myAnchorPane = new AnchorPane();
+		 
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 
-        AnchorPane myAnchorPane = new AnchorPane();
-
-		myBox = makePropBoxForFieldTab(f, mySprite);
-		//system.out.println();
-
-
-		// TODO: might want to move this very up
-		myAnchorPane.getChildren().add(myBox);
+	    myBox = makePropBoxForFieldTab(f, mySprite);
+	    
+        myAnchorPane.getChildren().add(myBox);
 		myScrollPane.setContent(myAnchorPane);
-        myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-        myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+       
+        
+		
 
         myTab.setContent(myScrollPane);
 		return myTab;
@@ -270,18 +267,16 @@ public class VisualFactory {
 
 	private <R> Set<HBox> makeBoxesAndBindFields(R rObj, Class<R> rType) {
 		Set<HBox> paramProps = new HashSet<HBox>();
-		Set<Field> rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
-		//system.out.println(rType.getName());
+		Set<Field> rAllFields = getAllFields(new HashSet<Field>(), rType);
+		
 		for (Field rField : rAllFields) {			
 				rField.setAccessible(true);
-				//system.out.println("FIELD NAME " + rField.getType().getName());
 				Object rFieldObj = fieldGetObject(rField, rObj);	
 				String rFieldObjName = rField.getName();
-				//system.out.println(rField.getType().getName());
 				
-				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
-			
+				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));			
 		}
+		
 		return paramProps;
 	}
 	
@@ -530,13 +525,15 @@ public class VisualFactory {
 
 
 	private <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Class<R> clazz) {
+		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = new ComboBox<SimpleEntry<Class<R>, R>>();
+		
 		Map<String, Class<R>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 		
 		// remove interfaces because they dont have instance vars
 		for (String subName : allSubclasses.keySet()) {
 			Class<?> sub = allSubclasses.get(subName);
-			if (sub.isInterface() || Modifier.isAbstract(sub.getModifiers())) {
+			if (isAbstractOrInterface(sub)) {
 				toRemove.add(subName);
 			}
 		}
@@ -546,17 +543,23 @@ public class VisualFactory {
 			allSubclasses.remove(remove);
 		}
 
-		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = new ComboBox<SimpleEntry<Class<R>, R>>();
 		
+		// init combo box with values
 		List<SimpleEntry<Class<R>, R>> allSubKeyset = new ArrayList<SimpleEntry<Class<R>, R>>();
 		for (Class<R> rClass : allSubclasses.values()) {
-			SimpleEntry<Class<R>, R> classPair = new SimpleEntry<Class<R>, R>(rClass, null);
-			allSubKeyset.add(classPair);
-		}
-		
+			SimpleEntry<Class<R>, R> classEntry = new SimpleEntry<Class<R>, R>(rClass, null);
+			allSubKeyset.add(classEntry);
+		}		
 		subclassBox.getItems().addAll(allSubKeyset);
 
 		
+		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = makeNewComboBoxStrConverter(clazz);
+		subclassBox.setConverter(comboBoxConverter);
+		
+		return subclassBox;
+	}
+	
+	private <R> StringConverter<SimpleEntry<Class<R>, R>> makeNewComboBoxStrConverter(Class<R> rClass) {
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = new StringConverter<SimpleEntry<Class<R>, R>>() {
 			@Override
 			public String toString(SimpleEntry<Class<R>, R> object) {
@@ -570,25 +573,17 @@ public class VisualFactory {
 				return null;
 			}			
 		};	
-		subclassBox.setConverter(comboBoxConverter);
 		
-
-		return subclassBox;
+		return comboBoxConverter;
 	}
 	
-
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
 			HBox settingsHBox = makeSettingsObject(parent, p.getName());
 			properties.add(settingsHBox);
 			return properties;
-		} else if (parent instanceof List) {
-			//system.out.println("LIST");
-			//system.out.println(p.getName());
-		} else if (parent instanceof Map) {
-
-		} else if (parent instanceof gameElements.Sprite) {
+		}  else if (parent instanceof gameElements.Sprite) {
 			// results in infinite recursion for collision right now
 			return properties;
 		}
@@ -602,25 +597,21 @@ public class VisualFactory {
 			String pObjectName = p.getName();
 			properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
 		} else {
-			List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
-
 			// prevents us from trying to initialize java classes
 			if (myProjectClassNames.contains(p.getType().getName())) {
-				Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType(), myProjectClassNames);
+				Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType());
 				// parent is probably an abstract class and therefore
 
 				// impossible to make an instance
 				if (parent == null) {
 					parent = getSubclass(p.getType());
 				}
-
+				
 				for (Field otherField : allFields) {
 					otherField.setAccessible(true);
 					Object o = fieldGetObject(otherField, parent);
-					////system.out.println(p.getGenericType() + " "  + otherField.getGenericType());
-		
-
 					String pName = otherField.getName();
+					
 					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));
 				}
 			}
@@ -628,11 +619,11 @@ public class VisualFactory {
 		return properties;
 	}
 
-	private Set<Field> getAllFields(Set<Field> fields, Class<?> type, List<String> allProjectClasses) {
+	private Set<Field> getAllFields(Set<Field> fields, Class<?> type) {
 		fields.addAll(Arrays.asList(type.getDeclaredFields()));
 
-		if (type.getSuperclass() != null && allProjectClasses.contains(type.getSuperclass().getTypeName())) {
-			fields = getAllFields(fields, type.getSuperclass(), allProjectClasses);
+		if (type.getSuperclass() != null && myProjectClassNames.contains(type.getSuperclass().getTypeName())) {
+			fields = getAllFields(fields, type.getSuperclass());
 		}
 
 		return fields;
@@ -659,22 +650,8 @@ public class VisualFactory {
 	}
 
 	private <R> Object getSubclass(Class<R> clazz) {
-		// find an available subclass otherwise print an exception
-		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
-		// make sure the picked class isn't abstract
-		for (Class<?> sub : parentSubclasses.values()) {
-			if (!Modifier.isAbstract(sub.getModifiers())) {
-				try {
-					return sub.newInstance();
-				} catch (InstantiationException | IllegalAccessException e) {
-					// TODO throw exception saying that there are no abstract subclasses
-					e.printStackTrace();
-				}
-
-			}
-		}
-
-		return null;
+		Class<R> sub = getSubclassWithoutInstance(clazz);
+		return newClassInstance(sub);
 	}
 
 	private <R> Class<R> getSubclassWithoutInstance(Class<R> clazz) {
@@ -682,12 +659,12 @@ public class VisualFactory {
 		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		// make sure the picked class isn't abstract
 		for (Class<R> sub : parentSubclasses.values()) {
-			if (!sub.isInterface() && !Modifier.isAbstract(sub.getModifiers())) {
+			if (!isAbstractOrInterface(sub)) {
 				return sub;
 			}
 		}
 		// default
-		return clazz;
+		return null;
 	}
 
 	private boolean isAbstractOrInterface(Class<?> clazz) {
@@ -809,20 +786,6 @@ public class VisualFactory {
 		return textField;
 	}
 	
-	private TableView makeTableView(ListProperty lp) {
-		// TODO ALLOW US TO ADD AND REMOVE COLLISIONS
-		TableView tv = new TableView<>(lp);
-		tv.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-		
-		TableColumn myCol = new TableColumn();
-		myCol.setSortable(false);
-		tv.getColumns().setAll(myCol);
-		tv.itemsProperty().bindBidirectional(lp);
-		
-		tv.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		
-		return tv;
-	}
 	
 
 }
