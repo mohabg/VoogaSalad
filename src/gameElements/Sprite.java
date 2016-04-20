@@ -239,8 +239,7 @@ public class Sprite {
 
 	public void setAngle(DoubleProperty angle) {
 		myProperties.setMyAngleProperty(angle);
-		;
-	}
+    }
 
 	public Health getHealth() {
 		return myHealth;

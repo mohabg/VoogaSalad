@@ -59,7 +59,7 @@ public class PauseScreen extends Screen {
 		});
 
 		Button save = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("savegame"), a -> {
-			myGameLoader.savePlayedGame(gameLevels);
+			GameLoader.savePlayedGame(gameLevels);
 		});
 
 		Button settings = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("changesettings"), a -> {

@@ -89,16 +89,16 @@ public abstract class Attack implements Behavior {
 	}
 
 	public void setChargeTime(int chargeTime) {
-		this.chargeTime.set(chargeTime);;
-	}
+		this.chargeTime.set(chargeTime);
+    }
 
 	public int getAmmunition() {
 		return ammunition.get();
 	}
 
 	public void setAmmunition(int ammunition) {
-		this.ammunition.set(ammunition);;
-	}
+		this.ammunition.set(ammunition);
+    }
 
 	public boolean hasAmmunitionLeft() {
 		return ammunition.get() > 0;

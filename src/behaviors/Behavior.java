@@ -9,6 +9,6 @@ import gameplayer.SpriteFactory;
  */
 public interface Behavior {
 	
-	public void apply(Sprite spriteProperties, SpriteFactory spriteFactory);
+	void apply(Sprite spriteProperties, SpriteFactory spriteFactory);
 	
 }

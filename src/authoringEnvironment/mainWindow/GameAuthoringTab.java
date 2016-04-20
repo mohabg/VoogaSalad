@@ -66,7 +66,7 @@ public class GameAuthoringTab implements ITab{
             orgSceneY = t.getSceneY();
 
             if (mySprite != currentSprite) {
-            	currentSprite = (ViewSprite) mySprite;
+            	currentSprite = mySprite;
             	updateSettingsPane(mySprite);
             }
 		}
