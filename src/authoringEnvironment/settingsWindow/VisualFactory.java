@@ -3,29 +3,19 @@ package authoringEnvironment.settingsWindow;
 import authoringEnvironment.Settings;
 import authoringEnvironment.SubclassEnumerator;
 import gameElements.Sprite;
-import behaviors.*;
 import javafx.beans.property.*;
 import javafx.geometry.Insets;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import resources.ResourcesReader;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-
-import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
 
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
@@ -57,6 +47,21 @@ public class VisualFactory {
 		//
 		return myTabs;
 	}
+
+//    public TabPane getMyTabs(LevelProperties mySprite) {
+//        TabPane myTabs = new TabPane();
+//        myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
+//        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//
+//        Field[] fields = mySprite.getClass().getDeclaredFields();
+//
+//        for (Field f : fields) {
+//            f.setAccessible(true);
+//            myTabs.getTabs().add(getOneTab(f, mySprite));
+//        }
+//        //
+//        return myTabs;
+//    }
 
 	private Tab getOneTab(Field f, Sprite mySprite) {
 		String tabName = f.getName();
@@ -105,6 +110,55 @@ public class VisualFactory {
         myTab.setContent(myScrollPane);
 		return myTab;
 	}
+
+
+//    private Tab getOneTab(Field f, LevelProperties mySprite) {
+//        String tabName = f.getName();
+//        Tab myTab = new Tab(tabName);
+//
+//
+//        VBox myBox = new VBox();
+//        ScrollPane myScrollPane = new ScrollPane();
+//        myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//        myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//
+//        AnchorPane myAnchorPane = new AnchorPane();
+//
+//        // this is for things like Lists and Maps
+//
+//        if (f.getGenericType() instanceof ParameterizedType) {
+//            // TODO make instance of the actual type (bind it) i.e. List, Map, etc.
+//            HBox myH = new HBox();
+//            ParameterizedType pt = (ParameterizedType) f.getGenericType();
+//            Type[] params = pt.getActualTypeArguments();
+//
+//            for (Type p : params) {
+//                VBox myV = makeParamTypeVBox(p, null);
+//                myH.getChildren().add(myV);
+//            }
+//
+//            myBox.getChildren().add(myH);
+//        } else if (isAProperty(f)) {
+//            Property fObject = (Property) fieldGetObject(f, mySprite);
+//            String fObjectName = f.getName();
+//            Set<HBox> props = makePropertyBoxes(f, fObject, fObjectName, new HashSet<HBox>());
+//            myBox.getChildren().addAll(props);
+//        } else {
+//            // populate pulldown with all subclasses
+//            VBox propVBox = makeFieldVBox(f, mySprite, null);
+//            myBox.getChildren().addAll(propVBox);
+//        }
+//        System.out.println();
+//
+//
+//        myAnchorPane.getChildren().add(myBox);
+//        myScrollPane.setContent(myAnchorPane);
+//        myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//        myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//
+//        myTab.setContent(myScrollPane);
+//        return myTab;
+//    }
 
 
 	private VBox makeFieldVBox(Field f, Object parentObj, ComboBox<String> subclassBox) {

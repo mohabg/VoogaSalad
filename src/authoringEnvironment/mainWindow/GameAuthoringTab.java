@@ -1,5 +1,6 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -12,12 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import level.LevelProperties;
 import resources.FrontEndData;
 
 import java.util.Map;
@@ -33,6 +34,7 @@ public class GameAuthoringTab implements ITab{
 	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
+    private LevelProperties myLevelProperties;
 
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -74,16 +76,21 @@ public class GameAuthoringTab implements ITab{
 		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
+        myLevelProperties = new LevelProperties();
 
 		initArea();
 	}
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
-		Settings.setGameAreaSettings(myNewGameArea);
+//		Settings.setGameAreaSettings(myNewGameArea);
 
 		AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
+//        myNewGamePane.setOnMouseClicked(e->{
+//            updateSettingsPane(this.myLevelProperties);
+//        });
+
 
 		setTabContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
@@ -92,6 +99,10 @@ public class GameAuthoringTab implements ITab{
 	private void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
+
+//    private void updateSettingsPane(LevelProperties clickedSprite) {
+//        myWindow.setContent(setSettingsContent(clickedSprite));
+//    }
 
     /**
      * @param spriteModel model used to generate visual elements that
@@ -104,6 +115,13 @@ public class GameAuthoringTab implements ITab{
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
+
+//    public VBox setSettingsContent(LevelProperties myLevelProperties) {
+//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+//        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
+//        myBox.getChildren().addAll(propertiesList);
+//        return myBox;
+//    }
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
@@ -123,6 +141,7 @@ public class GameAuthoringTab implements ITab{
         });
 
         ((Pane) getTabContent()).getChildren().addAll(sprite);
+        
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
@@ -159,12 +178,10 @@ public class GameAuthoringTab implements ITab{
      * change is made, the other knows of the change
      */
 	@Override
-	public void setTabContent(ViewSprite view, Sprite sprite) {
-		ViewSprite copy = new ViewSprite(view.getMyImage());
-		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-
-		copy.bindToSprite(mCopy);
-		mySpriteMap.put(copy, mCopy);
+	public void setTabContent(ViewSprite view) {
+		AESpriteFactory sf = new AESpriteFactory();
+		ViewSprite copy = sf.clone(view);
+		mySpriteMap.put(copy, sf.makeSprite(copy));
 		addWithClicking(copy);
 	}
 

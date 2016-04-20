@@ -1,21 +1,20 @@
 package exampledata;
 
+import XStreamHandlers.FXConverters;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import org.xml.sax.InputSource;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
-
-import org.xml.sax.InputSource;
-
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import exampledata.XStreamHandlers.FXConverters;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class xmlMaker {
 

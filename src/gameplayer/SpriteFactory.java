@@ -45,6 +45,7 @@ public class SpriteFactory {
 		myPane.getChildren().add(vs);
 		spriteMap.addSprite(s);
 		myViewSprites.put(spriteMap.getLastSpriteID(), vs);
+		
 		return s;
 
 	}

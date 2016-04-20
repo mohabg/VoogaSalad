@@ -22,9 +22,11 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
+import keyboard.IKeyboardAction.KeyboardActions;
 import keyboard.KeyboardActionChecker;
 import keyboard.KeyboardActionFactory;
-import keyboard.IKeyboardAction.KeyboardActions;
+
+import java.util.*;
 
 /**
  * This is the class for level in the game. It has spriteMap, which is a map of

@@ -41,6 +41,5 @@ public class Bullet extends Attack{
             bullet.addCollision(new DamageCollision(10));
             bullet.addCollision(new DissapearCollision());
         	setAmmunition(getAmmunition() - 1);
-        
     }
 }

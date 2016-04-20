@@ -115,7 +115,7 @@ public class Sprite {
 	public void update(SpriteFactory spriteFactory) {
 		myProperties.updatePos();
 		for (Behavior behavior : automaticBehaviors.values()) {
-				behavior.apply(this, spriteFactory);
+			 behavior.apply(this, spriteFactory);
 		}
 
 	}
