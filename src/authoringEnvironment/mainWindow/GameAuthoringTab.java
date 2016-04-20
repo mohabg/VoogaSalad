@@ -134,12 +134,7 @@ public class GameAuthoringTab implements ITab{
     public VBox setSettingsContent(LevelProperties spriteModel) {
         VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
         TabPane propertiesPane = new TabPane();
-        if (mySpriteTabPanes.get(spriteModel) != null) {
-            //propertiesPane = mySpriteTabPanes.get(spriteModel);
-        } else {
-            propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-            //mySpriteTabPanes.put(spriteModel, propertiesPane);
-        }
+        propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
         myBox.getChildren().addAll(propertiesPane);
         return myBox;
     }
