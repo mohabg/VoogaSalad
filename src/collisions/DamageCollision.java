@@ -14,6 +14,10 @@ import level.LevelProperties;
 
 public class DamageCollision extends Collision{
 	
+	public DamageCollision() {
+		this(new Sprite());
+	}
+	
 	public DamageCollision(Sprite sprite) {
 		super(sprite);
 	}

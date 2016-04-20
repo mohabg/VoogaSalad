@@ -6,10 +6,10 @@ import gameElements.Sprite;
 import gameplayer.ButtonFactory;
 import behaviors.*;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.geometry.Insets;
-
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -19,8 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
+import javafx.util.StringConverter;
 import resources.ResourcesReader;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -28,8 +29,10 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
+
 
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
@@ -48,7 +51,7 @@ public class VisualFactory {
 
 	// TODO: Binding and figuring out list of objects in reflection
 	// TODO: CAN WE GET WRAPAROUND FOR TABS
-	public TabPane getMyTabs(Sprite mySprite) {
+	public TabPane getMyTabs(Object mySprite) {
 		TabPane myTabs = new TabPane();
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
         myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
@@ -65,7 +68,7 @@ public class VisualFactory {
 		return myTabs;
 	}
 
-	private Tab getOneTab(Field f, Sprite mySprite) {
+	private Tab getOneTab(Field f, Object mySprite) {
 		String tabName = f.getName();
 		Tab myTab = new Tab(tabName);
 
@@ -77,8 +80,23 @@ public class VisualFactory {
 
         AnchorPane myAnchorPane = new AnchorPane();
 
-		// this is for things like Lists and Maps
+		myBox = makePropBoxForFieldTab(f, mySprite);
+		System.out.println();
 
+
+		// TODO: might want to move this very up
+		myAnchorPane.getChildren().add(myBox);
+		myScrollPane.setContent(myAnchorPane);
+        myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+
+        myTab.setContent(myScrollPane);
+		return myTab;
+	}
+
+	private VBox makePropBoxForFieldTab(Field f, Object mySprite) {
+		VBox myBox = new VBox();
+		// this is for things like Lists and Maps
 		if (f.getGenericType() instanceof ParameterizedType) {
 			HBox myH = new HBox();
 			ParameterizedType pt = (ParameterizedType) f.getGenericType();
@@ -104,24 +122,8 @@ public class VisualFactory {
 			}
 			
 			myBox.getChildren().add(myH);
+
 			
-			//String ptObjectName = f.getName();	
-			//HBox paramSettingsObj = makeSettingsObject(ptObject, ptObjectName);
-//			for (Field oo : ptObject.getClass().getDeclaredFields()) {
-//				System.out.println(oo.getType().getName());
-//			}
-//
-//			
-//			myBox.getChildren().add(paramSettingsObj);
-//			for (int i=0; i<params.length; i++) {
-//				Type p = params[i];
-			// TODO CHANGE THIS
-//				VBox myV = makeParamTypeVBox(p, null);
-//				myH.getChildren().add(myV);
-//				//tv.row
-//			}
-//			
-//			myBox.getChildren().add(myH); 
 		} else if (isAProperty(f)) {
 			Property fObject = (Property) fieldGetObject(f, mySprite);
 			String fObjectName = f.getName();
@@ -132,46 +134,80 @@ public class VisualFactory {
 			VBox propVBox = makeFieldVBox(f, mySprite, null);
 			myBox.getChildren().addAll(propVBox);
 		}
-		System.out.println();
-
-
-		// TODO: might want to move this very up
-		myAnchorPane.getChildren().add(myBox);
-		myScrollPane.setContent(myAnchorPane);
-        myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-        myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-
-        myTab.setContent(myScrollPane);
-		return myTab;
+		
+		return myBox;
 	}
 
 
-	private <R> VBox singleParamType(Class<R> rType, Property prop) {
+	private <R> VBox singleParamType(Class<R> rType, Object prop) {
 		VBox singleParamVBox = new VBox();
 		
 		if(prop instanceof ListProperty) {
 			ListProperty<R> lpr = (ListProperty<R>) prop;
-			ComboBox<String> mySubclassBox = new ComboBox<String>();
-			Set<Field> rAllFields = new HashSet<Field>();
-			Set<HBox> paramProps = new HashSet<HBox>();
+			//ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = new ComboBox<SimpleEntry<Class<R>, R>>();
 			
+		
+			Set<HBox> paramProps = new HashSet<HBox>();
 			
 			// display any items already in the list
 			for (R rListElement : lpr) {
-				rAllFields = getAllFields(new HashSet<Field>(), rListElement.getClass(), myProjectClassNames);
-				mySubclassBox = makeSubclassComboBox(rListElement.getClass());
+				VBox elementBox = new VBox();
 				
-				singleParamVBox.getChildren().add(mySubclassBox);
-				singleParamVBox.getChildren().addAll(makeBoxesAndBindFields(rListElement, rAllFields));
+				final ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = makeSubclassComboBoxTest(rType);
+				
+				ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
+					Pane myComboBoxParent = (Pane) mySubclassBox.getParent();
+
+					myComboBoxParent.getChildren().clear();
+					
+					// switch corresponding instances	
+					Class<R> newClassType = nv.getKey();
+					
+					if (nv.getValue() == null) {		
+						nv.setValue((R) newClassInstance(newClassType));
+						o.getValue().setValue(nv.getValue());
+					}
+					
+					if (ov != null) {
+						System.out.println("HIIII");
+						lpr.remove(ov.getValue());
+						lpr.add(o.getValue().getValue());
+					}
+					
+					
+					// populate combobox parent with new params
+					myComboBoxParent.getChildren().setAll(mySubclassBox);
+					myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
+				};
+				
+				mySubclassBox.valueProperty().addListener(boxChangeListener);
+				
+				elementBox.getChildren().add(mySubclassBox);
+				
+				List<SimpleEntry<Class<R>, R>> boxItems = mySubclassBox.getItems();
+				SimpleEntry<Class<R>, R> rBoxItem = null;
+				
+				for (SimpleEntry<Class<R>, R> item : boxItems) {
+					if (item.getKey().equals(rListElement.getClass())) {
+						rBoxItem = item;
+						rBoxItem.setValue(rListElement);
+					}
+				}
+				
+				mySubclassBox.setValue(rBoxItem);
+				
+				
+				singleParamVBox.getChildren().add(elementBox);
 				paramProps.clear();
+				
 			}
 			
-			// GOT TO REFACTOR SINGLEPROP
+			// check GOT TO REFACTOR SINGLEPROP
 			// IMPLEMENT MULTIPLE PROP
 			// FIX SUBCLASSBOX IMPLEMENTATION (FOR A SINGLE INSTANCE VAR, ONLY SHOW THE INSTANCE
 				// VARS' CONCRETE CLASS (IF IT IS) AND ALL CONCRETE SUBCLASSES) SO THAT IT DOESNT
 				// CHANGE EVERY TIME A NEW COMBOBOX VALUE IS CHOSEN
-			// MAKE A BUTTON THAT IS LINKED TO AN ADDSINGLEPARAM-ESQUE METHOD
+			
 			// MAYBE ALLOW PEOPLE TO REMOVE STUFF
 				// THIS WILL REQUIRE ME ACTUALLY PUTTING MAP/LIST IN THEIR OWN GUI OBJECT
 			// MAKE LISTPROPERTY AND MAPPROPERTY CONVERTERS FOR XSTREAM
@@ -180,7 +216,7 @@ public class VisualFactory {
 				// CONRETE SUBCLASSES (IF APPLICABLE) 
 			
 			Button addButton = ButtonFactory.makeButton("Add", e -> {
-				singleParamVBox.getChildren().add(singleParamVBox.getChildren().size()-1, andSingleParameter(rType, lpr));
+				singleParamVBox.getChildren().add(singleParamVBox.getChildren().size()-1, addSingleParameter(rType, lpr));
 			});
 			
 			singleParamVBox.getChildren().add(addButton);
@@ -190,41 +226,76 @@ public class VisualFactory {
 		return singleParamVBox;
 	}
 
-	private <R> VBox andSingleParameter(Class<R> rType, ListProperty<R> lpr) {
+	private <R> VBox addSingleParameter(Class<R> rType, ListProperty<R> lpr) {
 		VBox retVBox = new VBox();
 		R rObj = null;
-		ComboBox<String> mySubclassBox = new ComboBox<String>();
-		Set<Field> rAllFields = new HashSet<Field>();
+		
+		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = makeSubclassComboBoxTest(rType);
+		retVBox.getChildren().add(mySubclassBox);
+		
+		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
+			Pane myComboBoxParent = (Pane) mySubclassBox.getParent();
+
+			myComboBoxParent.getChildren().clear();
+			
+			// switch corresponding instances	
+			Class<R> newClassType = nv.getKey();
+			
+			if (nv.getValue() == null) {		
+				nv.setValue((R) newClassInstance(newClassType));
+				o.getValue().setValue(nv.getValue());
+			}
+			
+			if (ov != null) {
+				lpr.remove(ov.getValue());
+			}
+			
+			lpr.add(o.getValue().getValue());
+			
+			// populate combobox parent with new params
+			myComboBoxParent.getChildren().setAll(mySubclassBox);
+			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
+		};
+		
+		mySubclassBox.getSelectionModel().selectedItemProperty().addListener(boxChangeListener);
 		
 		// get a proper subclass of R if necessary
 		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
-			Class<? extends R> rSubclass = (Class<? extends R>) getSubclassWithoutInstance(rType);
-			rObj = (R) newClassInstance(rSubclass);
-			mySubclassBox = makeSubclassComboBox(rSubclass);
-			rAllFields = getAllFields(new HashSet<Field>(), rSubclass, myProjectClassNames);
-		} else {
-			rObj = (R) newClassInstance(rType);
-			mySubclassBox = makeSubclassComboBox(rType);
-			rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
+			rType = (Class<R>) getSubclassWithoutInstance(rType);	
 		}
-			
-		lpr.add(rObj);
 		
-		retVBox.getChildren().add(mySubclassBox);
-		retVBox.getChildren().addAll(makeBoxesAndBindFields(rObj, rAllFields));
+		rObj = (R) newClassInstance(rType);
+		
+		List<SimpleEntry<Class<R>, R>> boxItems = mySubclassBox.getItems();
+		SimpleEntry<Class<R>, R> rBoxItem = null;	
+		for (SimpleEntry<Class<R>, R> item : boxItems) {
+			if (item.getKey().equals(rType)) {
+				rBoxItem = item;
+				rBoxItem.setValue(rObj);
+				break;
+			}
+		}
+		mySubclassBox.setValue(rBoxItem);
+		
+		//lpr.add(rObj);
+
 		
 		return retVBox;
 	}
 
-	private <R> Set<HBox> makeBoxesAndBindFields(R rObj, Set<Field> rAllFields) {
+	private <R> Set<HBox> makeBoxesAndBindFields(R rObj, Class<R> rType) {
 		Set<HBox> paramProps = new HashSet<HBox>();
-		for (Field rField : rAllFields) {
-			rField.setAccessible(true);
-			Object rFieldObj = fieldGetObject(rField, rObj);	
-			String rFieldObjName = rField.getName();
-			System.out.println(rFieldObjName);
+		Set<Field> rAllFields = getAllFields(new HashSet<Field>(), rType, myProjectClassNames);
+		System.out.println(rType.getName());
+		for (Field rField : rAllFields) {			
+				rField.setAccessible(true);
+				System.out.println("FIELD NAME " + rField.getType().getName());
+				Object rFieldObj = fieldGetObject(rField, rObj);	
+				String rFieldObjName = rField.getName();
+				System.out.println(rField.getType().getName());
+				
+				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
 			
-			paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));
 		}
 		return paramProps;
 	}
@@ -270,35 +341,14 @@ public class VisualFactory {
 		return propVBox;
 	}
 
-
 	
 	
-	private VBox makeParamTypeVBox(Type p, ComboBox<String> subclassBox) {
-		VBox myV = new VBox();
-		// populate pulldown with all subclasses
-
-		Class<?> clazz = getClass(p.getTypeName());
-
-		if (subclassBox == null) {
-			subclassBox = makeSubclassComboBox(clazz);
-		}
-
-		myV.getChildren().add(subclassBox);
-
-		System.out.println(p.getTypeName());
-
-		// populate panel with combobox value's instance vars
-		Type boxType = getClass(subclassBox.getValue());
-
-		VBox fieldVBox = makeParameterPropBoxes(boxType);
-		myV.getChildren().add(fieldVBox);
-		return myV;
-	}
+	
 
 
-	private ComboBox<String> makeSubclassComboBox(Class<?> clazz) {
-		// TODO CHANGE TO GET ALL SUPERCLASSES TOO
-		Map<String, Class<?>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+
+	private <R> ComboBox<String> makeSubclassComboBox(Class<R> clazz) {
+		Map<String, Class<R>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 
 		// remove interfaces because they dont have instance vars
@@ -308,7 +358,7 @@ public class VisualFactory {
 				toRemove.add(subName);
 			}
 		}
-
+		
 		// in separate for loop to avoid concurrency issues
 		for (String remove : toRemove) {
 			allSubclasses.remove(remove);
@@ -331,56 +381,65 @@ public class VisualFactory {
 			// change the corresponding prop boxes
 			// should work for param
 			Pane myComboBoxParent = (Pane) subclassBox.getParent();
-			Pane myGrandParent = (Pane) myComboBoxParent.getParent();
-			myGrandParent.getChildren().remove(myComboBoxParent);
+			myComboBoxParent.getChildren().remove(1, myComboBoxParent.getChildren().size());
+			
 			String newClassName = subclassBox.getValue();
 			Class<?> newClass = getClass(newClassName);
-			// TODO CHANGE THIS
-			//myGrandParent.getChildren().add(makeParamTypeVBox(newClass, subclassBox));
+			
+			
+			
 		});
 
 		return subclassBox;
 	}
 
-	
-	private VBox makeParameterPropBoxes(Type t) {
-		Class<?> tClass= getClass(t.getTypeName());
-
-		Set<HBox> myFields = new HashSet<HBox>();
-
-		List<String> myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
-
-		Set<Field> testtFields = getAllFields(new HashSet<Field>(), tClass, myProjectClassNames);
-
-		if (myProjectClassNames.contains(tClass.getName())) {
-			Object tClassInstance = null;
-			try {
-				tClassInstance = tClass.newInstance();
-			} catch (InstantiationException | IllegalAccessException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			for (Field k : testtFields) {
-				k.setAccessible(true);
-				System.out.println(k.getName());
-
-				System.out.println("poooooo " + tClass.getName());
-				Object o = fieldGetObject(k, tClassInstance);
-
-				String parentName = tClass.getTypeName();
-				Set<HBox> props = makePropertyBoxes(k, o, parentName, new HashSet<HBox>());
-				myFields.addAll(props);
-
+	private <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBoxTest(Class<R> clazz) {
+		Map<String, Class<R>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		List<String> toRemove = new ArrayList<String>();
+		
+		// remove interfaces because they dont have instance vars
+		for (String subName : allSubclasses.keySet()) {
+			Class<?> sub = allSubclasses.get(subName);
+			if (sub.isInterface() || Modifier.isAbstract(sub.getModifiers())) {
+				toRemove.add(subName);
 			}
 		}
+		
+		// in separate for loop to avoid concurrency issues
+		for (String remove : toRemove) {
+			allSubclasses.remove(remove);
+		}
 
-		VBox newV = new VBox();
-		newV.getChildren().addAll(myFields);
+		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = new ComboBox<SimpleEntry<Class<R>, R>>();
+		
+		List<SimpleEntry<Class<R>, R>> allSubKeyset = new ArrayList<SimpleEntry<Class<R>, R>>();
+		for (Class<R> rClass : allSubclasses.values()) {
+			SimpleEntry<Class<R>, R> classPair = new SimpleEntry<Class<R>, R>(rClass, null);
+			allSubKeyset.add(classPair);
+		}
+		
+		subclassBox.getItems().addAll(allSubKeyset);
 
-		return newV;
+		
+		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = new StringConverter<SimpleEntry<Class<R>, R>>() {
+			@Override
+			public String toString(SimpleEntry<Class<R>, R> object) {
+				Class<R> clazz = object.getKey();
+				return clazz.getSimpleName();
+			}
+
+			@Override
+			public SimpleEntry<Class<R>, R> fromString(String string) {
+				// not editable
+				return null;
+			}			
+		};	
+		subclassBox.setConverter(comboBoxConverter);
+		
+
+		return subclassBox;
 	}
-
+	
 
 
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
@@ -463,9 +522,9 @@ public class VisualFactory {
 		return clazz;
 	}
 
-	private Object getSubclass(Class<?> clazz) {
+	private <R> Object getSubclass(Class<R> clazz) {
 		// find an available subclass otherwise print an exception
-		Map<String, Class<?>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		// make sure the picked class isn't abstract
 		for (Class<?> sub : parentSubclasses.values()) {
 			if (!Modifier.isAbstract(sub.getModifiers())) {
@@ -482,11 +541,11 @@ public class VisualFactory {
 		return null;
 	}
 
-	private Class<?> getSubclassWithoutInstance(Class<?> clazz) {
+	private <R> Class<R> getSubclassWithoutInstance(Class<R> clazz) {
 		// find an available subclass otherwise print an exception
-		Map<String, Class<?>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		// make sure the picked class isn't abstract
-		for (Class<?> sub : parentSubclasses.values()) {
+		for (Class<R> sub : parentSubclasses.values()) {
 			if (!sub.isInterface() && !Modifier.isAbstract(sub.getModifiers())) {
 				return sub;
 			}
