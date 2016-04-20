@@ -3,6 +3,7 @@ package level;
 import java.util.HashMap;
 import java.util.Map;
 
+import gameElements.Score;
 import gameElements.Time;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -17,7 +18,7 @@ public class LevelProperties {
 	private String levelName;
 	private Integer nextLevel;
 	private Integer previousLevel;
-	private Integer currentPoints;
+	private Score score;
 	private Time time;
 	private Integer numGoals;
 	private HashMap<KeyCode, KeyboardActions> keyMapping;
@@ -30,14 +31,15 @@ public class LevelProperties {
 		setNumGoals(1);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 		keyMapping.put(KeyCode.DOWN, KeyboardActions.MoveDown);
+		score=new Score();
 		
 	}
 	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel, Integer numberOfGoals) {
+		super();
 		setLevelID(levelID);
 		setLevelName(levelName);
 		setNextLevel(nextLevel);
 		setPreviousLevel(previousLevel);
-		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 		numGoals=numberOfGoals;
 	}
 	public Integer getLevelID() {
@@ -64,12 +66,7 @@ public class LevelProperties {
 	public void setPreviousLevel(Integer previousLevel) {
 		this.previousLevel = previousLevel;
 	}
-	public Integer getCurrentPoints() {
-		return currentPoints;
-	}
-	public void setCurrentPoints(Integer currentPoints) {
-		this.currentPoints = currentPoints;
-	}
+	
 	public Integer getNumGoals() {
 		return numGoals;
 	}
@@ -86,6 +83,12 @@ public class LevelProperties {
 	public KeyboardActions getKeyboardAction(KeyCode key){
 		if(!keyMapping.keySet().contains(key)) return KeyboardActions.Default;
 		return keyMapping.get(key);
+	}
+	public Score getScore() {
+		return score;
+	}
+	public void setScore(Score score) {
+		this.score = score;
 	}
 
 	

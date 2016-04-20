@@ -38,7 +38,6 @@ import keyboard.IKeyboardAction.KeyboardActions;
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
-	private SpriteFactory spriteFactory;
 	private Map<Integer, Sprite> spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
@@ -129,7 +128,7 @@ public class Level implements ILevel {
 	}
 
 	public int getCurrentPoints() {
-		return getLevelProperties().getCurrentPoints();
+		return getLevelProperties().getScore().getScoreValue().intValue();
 	}
 
 	public GoalFactory getGoalFactory() {

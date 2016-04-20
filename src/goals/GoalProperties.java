@@ -1,5 +1,8 @@
 package goals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import goals.Goal.Goals;
 
 /**
@@ -13,13 +16,15 @@ public class GoalProperties {
 	private Goals myGoal;
 	private boolean isFinished;
 	private int totalPoints;
+	private List<Integer> targetID;
 
+	
 	public GoalProperties(Goals goal){
 		setMyGoal(goal);
 		setGoalName(goal.toString());
 		setIsFinished(false);
 		totalPoints=0;
-		
+		targetID=new ArrayList<Integer>();
 	}
 	
 	public String getGoalName() {
@@ -30,6 +35,15 @@ public class GoalProperties {
 		this.goalName = goalName;
 	}
 
+	public List<Integer> getTargetID() {
+		return targetID;
+	}
+
+	public void setTargetID(List<Integer> targetID) {
+		this.targetID = targetID;
+	}
+
+	
 	public Goals getMyGoal() {
 		return myGoal;
 	}
