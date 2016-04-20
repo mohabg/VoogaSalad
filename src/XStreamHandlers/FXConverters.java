@@ -19,6 +19,9 @@ public class FXConverters {
         xStream.registerConverter(new LongPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new IntegerPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new ObservableListConverter(xStream.getMapper()));
+        xStream.registerConverter(new ObservableMapConverter(xStream.getMapper()));
+        xStream.registerConverter(new ListPropertyConverter(xStream.getMapper()));
+        xStream.registerConverter(new MapPropertyConverter(xStream.getMapper()));
         xStream.registerConverter(new ViewSpriteConverter());
     }
 
