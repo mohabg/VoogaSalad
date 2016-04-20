@@ -48,6 +48,11 @@ public class Health {
 	public void incrementHealth(double val) {
 		changeHealth(val);
 	}
+	
+	public void kill(){
+		isMortal.set(true);
+		healthValue.set(0);
+	}
 	/**
 	 * If the sprite is mortal, check if its health is zero
 	 * @return

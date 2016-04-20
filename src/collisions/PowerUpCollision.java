@@ -10,18 +10,18 @@ import level.LevelProperties;
 
 public class PowerUpCollision extends Collision{
 	
-	public PowerUpCollision(Sprite sprite){
-		super(sprite);
+	public PowerUpCollision(){
+		this(0);
 	}
-	public PowerUpCollision(Sprite sprite, double value) {
-		super(sprite, value);
+	public PowerUpCollision(double value) {
+		super(value);
 	}
 
 	/**
 	 * @param other Checks the behavior of the other sprite that this collided with, and implements that corresponding behavior
 	 */
 	public void handleCollision(Collision other, LevelProperties levelProperties){
-		Sprite collidingSprite = other.getSprite();
+		Sprite collidingSprite = levelProperties.getSpriteForCollision(other);
 		if(collidingSprite.isUserControlled()){
 			for(String className : collidingSprite.getBehaviors().keySet()){
 				if(className.equals("Attack")){

@@ -3,6 +3,8 @@ package level;
 import java.util.HashMap;
 import java.util.Map;
 
+import collisions.Collision;
+import gameElements.Sprite;
 import gameElements.Time;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -21,6 +23,7 @@ public class LevelProperties {
 	private Time time;
 	private Integer numGoals;
 	private HashMap<KeyCode, KeyboardActions> keyMapping;
+	private Sprite[] collidingSprites;
 	
 	public LevelProperties(){
 		setLevelID(null);
@@ -30,7 +33,7 @@ public class LevelProperties {
 		setNumGoals(1);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 		keyMapping.put(KeyCode.DOWN, KeyboardActions.MoveDown);
-		
+		collidingSprites = new Sprite[2];
 	}
 	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel, Integer numberOfGoals) {
 		setLevelID(levelID);
@@ -39,6 +42,22 @@ public class LevelProperties {
 		setPreviousLevel(previousLevel);
 		keyMapping=new HashMap<KeyCode, KeyboardActions>();
 		numGoals=numberOfGoals;
+		collidingSprites = new Sprite[2];
+	}
+	public void setCollidingSprites(Sprite one, Sprite two){
+		collidingSprites[0] = one;
+		collidingSprites[1] = two;
+	}
+	public Sprite[] getCollidingSprites(){
+		return collidingSprites;
+	}
+	public Sprite getSpriteForCollision(Collision collision){
+		for(Sprite sprite : collidingSprites){
+			if(sprite.getCollisions().contains(collision)){
+				return sprite;
+			}
+		}
+		return null;
 	}
 	public Integer getLevelID() {
 		return levelID;

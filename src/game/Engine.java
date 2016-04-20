@@ -51,7 +51,7 @@ public class Engine {
     }
 	
 	public Map<Integer, Sprite> getSpriteMap(){
-        return myEditor.getCurrentLevel().getSpriteMap();
+        return myEditor.getCurrentLevel().getSpriteMap().getSpriteMap();
     }
     public LevelProperties LevelProperties(){
         return myEditor.getCurrentLevel().getLevelProperties();

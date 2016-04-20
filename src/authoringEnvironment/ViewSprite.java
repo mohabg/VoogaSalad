@@ -29,6 +29,10 @@ public class ViewSprite extends ImageView {
 		myRef.set(imagePath);
 		setImage(imagePath);
 		imageProp = new SimpleObjectProperty<Image>(new Image(myRef.getValue()));
+		double imageWidth = imageProp.get().getWidth();
+		double imageHeight = imageProp.get().getHeight();
+		this.mySpriteProperties.setMyWidth(imageWidth);
+		this.mySpriteProperties.setMyHeight(imageHeight);
 		this.imageProperty().bindBidirectional(imageProp);
 	}
 	

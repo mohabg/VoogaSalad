@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import behaviors.Attack;
 import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.Sprite;
+import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
@@ -38,7 +40,7 @@ import keyboard.IKeyboardAction.KeyboardActions;
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
-	private Map<Integer, Sprite> spriteMap;
+	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
 
@@ -51,7 +53,7 @@ public class Level implements ILevel {
 	public Level() {
 
 		levelProperties = new LevelProperties();
-		spriteMap = new HashMap<>();
+		spriteMap = new SpriteMap();
 		goalList= new ArrayList<Goal>();
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
@@ -78,12 +80,12 @@ public class Level implements ILevel {
 		this.levelProperties = levelProperties;
 	}
 
-	public Map<Integer, Sprite> getSpriteMap() {
+	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
 
 	public void setSpriteMap(Map<Integer, Sprite> spriteMap) {
-		this.spriteMap = spriteMap;
+		this.spriteMap.setSpriteMap(spriteMap);
 	}
 
 	public Integer getCurrentSpriteID() {
@@ -98,9 +100,10 @@ public class Level implements ILevel {
 		getSpriteMap().remove(spriteID);
 	}
 
-	public Integer newSpriteID(Map spriteMap) {
-		while (spriteMap.keySet().contains(currentSpriteID))
+	public Integer newSpriteID(SpriteMap spriteMap2) {
+		while (spriteMap2.getSpriteMap().keySet().contains(currentSpriteID)){
 			currentSpriteID++;
+		}
 		return currentSpriteID;
 	}
 
@@ -111,9 +114,14 @@ public class Level implements ILevel {
 	 */
 
 	public void addSprite(Sprite newSprite) {
-		Integer newSpriteID = newSpriteID(spriteMap);
+		/*Integer newSpriteID = newSpriteID(spriteMap);
 		setCurrentSpriteID(newSpriteID);
 		getSpriteMap().put(newSpriteID, newSprite);
+		*/
+
+		spriteMap.addSprite(newSprite);
+		setCurrentSpriteID(spriteMap.getLastSpriteID());
+		
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
@@ -126,7 +134,7 @@ public class Level implements ILevel {
 	 *            the new ID you want your sprite to be considered
 	 */
 	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
-		getSpriteMap().put(spriteID, newSprite);
+		getSpriteMap().getSpriteMap().put(spriteID, newSprite);
 	}
 
 	public int getCurrentPoints() {
@@ -165,17 +173,16 @@ public class Level implements ILevel {
 	private List<Integer> updateSprites() {
 
 		List<Integer> spriteList= new ArrayList<Integer>();
-		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.keySet());
-		if(spriteMap.isEmpty()){
+		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
+		if(spriteMap.getSpriteMap().isEmpty()){
 			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
-			spriteMap.get(spriteID).update();
+			spriteMap.get(spriteID).update(this.mySpriteFactory);
 			 if( !spriteMap.get(spriteID).isUserControlled()
 			     && spriteMap.get(spriteID).getBehaviors().get("default")!= null ){
 				 spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID), mySpriteFactory);
 			 }
-		//	 }
 
 			removeDeadSprite(spriteID, spriteList);
 		}
@@ -194,7 +201,7 @@ public class Level implements ILevel {
 
 		CollisionHandler collisionHandler = new CollisionHandler();
 		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.values();
+		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
 		int index = 0;
 		for (Sprite sprite : spriteSet) {
@@ -205,7 +212,9 @@ public class Level implements ILevel {
 		for (int i = 0; i < spriteSet.size(); i++) {
 			for (int j = i + 1; j < spriteSet.size(); j++) {
 				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
-
+					
+					getLevelProperties().setCollidingSprites(spriteArr[i], spriteArr[j]);
+					
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
@@ -243,6 +252,9 @@ public class Level implements ILevel {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
+				if(behavior instanceof Attack){
+					int x = -1;
+				}
 				behavior.apply(currentSprite, mySpriteFactory);
 			}
 

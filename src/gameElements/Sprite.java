@@ -11,6 +11,7 @@ import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.DamageCollision;
 import collisions.EnemyCollision;
+import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -44,11 +45,10 @@ public class Sprite {
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private List<Collision> myCollisions;
-	private Map<String, Behavior> myBehaviors;
+	private Map<String, Behavior> automaticBehaviors;
 	private Map<KeyCode, Behavior> userPressBehaviors;
 	private Map<KeyCode, Behavior> userReleaseBehaviors;
 	private RefObject myRef;
-	private BooleanProperty isUserControlled;
 	private BooleanProperty canMove;
 
 	public Sprite() {
@@ -63,46 +63,38 @@ public class Sprite {
 		this.myRef = myRef;
 		myProperties = new SpriteProperties();
 		myCollisions = new ArrayList<Collision>();
-		myBehaviors = new HashMap<String, Behavior>();
+		automaticBehaviors = new HashMap<String, Behavior>();
 		userPressBehaviors = new HashMap<KeyCode, Behavior>();
 		userReleaseBehaviors = new HashMap<KeyCode, Behavior>();
-		isUserControlled = new SimpleBooleanProperty(false);
 		canMove = new SimpleBooleanProperty(true);
 		myHealth = new Health(100);
 
-		myCollisions.add(new DamageCollision(this,100));
-		myCollisions.add(new EnemyCollision(this));
+		myCollisions.add(new EnemyCollision());
 
 		Attack bullet = new Bullet();
-		userPressBehaviors.put(KeyCode.A, bullet);
+		userPressBehaviors.put(KeyCode.SPACE, bullet);
 		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
-		myBehaviors.put(defaultUpPressMovement.getClass().getName(), defaultUpPressMovement);
 		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
 
 		Behavior defaultDownPressMovement = new MoveVertically(5);
 		userPressBehaviors.put(KeyCode.DOWN, defaultDownPressMovement);
-		myBehaviors.put(defaultDownPressMovement.getClass().getName(), defaultDownPressMovement);
 
 		Behavior defaultVertReleaseMovement = new MoveVertically(0);
 		userReleaseBehaviors.put(KeyCode.UP, defaultVertReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.DOWN, defaultVertReleaseMovement);
-		myBehaviors.put(defaultVertReleaseMovement.getClass().getName(), defaultVertReleaseMovement);
 
 		Behavior defaultLeftPressMovement = new MoveHorizontally(-5);
 		userPressBehaviors.put(KeyCode.LEFT, defaultLeftPressMovement);
-		myBehaviors.put(defaultLeftPressMovement.getClass().getName(), defaultLeftPressMovement);
 
 		Behavior defaultRightPressMovement = new MoveHorizontally(5);
 		userPressBehaviors.put(KeyCode.RIGHT, defaultRightPressMovement);
-		myBehaviors.put(defaultRightPressMovement.getClass().getName(), defaultRightPressMovement);
 
 		Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
 		userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
-		myBehaviors.put(defaultHorizReleaseMovement.getClass().getName(), defaultHorizReleaseMovement);
 
-		myBehaviors.put("default", new SquarePattern());
+		//myBehaviors.put("default", new SquarePattern());
 
 	}
 
@@ -112,19 +104,18 @@ public class Sprite {
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myCollisions = myCollisions;
-		this.myBehaviors = myBehaviors;
+		this.automaticBehaviors = myBehaviors;
 		this.myRef = myRef;
-		this.isUserControlled = new SimpleBooleanProperty(false);
 		this.canMove = new SimpleBooleanProperty(true);
 	}
 
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update() {
+	public void update(SpriteFactory spriteFactory) {
 		myProperties.updatePos();
-		for (Behavior behavior : myBehaviors.values()) {
-				//behavior.apply(this);
+		for (Behavior behavior : automaticBehaviors.values()) {
+				behavior.apply(this, spriteFactory);
 		}
 
 	}
@@ -134,7 +125,7 @@ public class Sprite {
 	}
 
 	public void addBehavior(String key, Behavior behavior){
-		myBehaviors.put(key, behavior);
+		automaticBehaviors.put(key, behavior);
 	}
 
 	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
@@ -158,7 +149,7 @@ public class Sprite {
 	}
 
 	public Map<String, Behavior> getBehaviors() {
-		return myBehaviors;
+		return automaticBehaviors;
 	}
 
 	public String getMyRef() {
@@ -184,7 +175,9 @@ public class Sprite {
 	public void setMyCollisions(List<Collision> myCollisions) {
 		this.myCollisions = myCollisions;
 	}
-
+	public void kill(){
+		myHealth.kill();
+	}
 	public boolean isDead() {
 		return myHealth.isDead();
 	}
@@ -274,7 +267,7 @@ public class Sprite {
 	}
 
 	public boolean isUserControlled() {
-		//return isUserControlled.getValue();
+		
 		return myProperties.isUserControlled();
 	}
 
@@ -284,12 +277,11 @@ public class Sprite {
 	public void setAsUserControlled() {
 		myProperties.setUserControlled(true);
 		setActorCollision();
-		invokeMethodInBehaviors("setAsUserControlled", null, null);
 	}
 
 	private void setActorCollision() {
 		// Remove enemy and add actor collision
-		Collision actorCollision = new ActorCollision(this);
+		Collision actorCollision = new ActorCollision();
 		Iterator<Collision> it = getCollisions().iterator();
 		while (it.hasNext()) {
 			Collision collision = it.next();

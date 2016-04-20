@@ -8,6 +8,8 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 import collisions.Collision;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
@@ -32,8 +34,13 @@ public class Bullet extends Attack{
     @Override
     public void apply(Sprite sprite, SpriteFactory spriteFactory) {
        
-        	spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
-            setAmmunition(getAmmunition() - 1);
+        	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
+            bullet.setAsUserControlled();
+        	Behavior movement = new MoveVertically(-3);
+            bullet.addBehavior(movement.getClass().getName(), movement);
+            bullet.addCollision(new DamageCollision(10));
+            bullet.addCollision(new DissapearCollision());
+        	setAmmunition(getAmmunition() - 1);
         
     }
 }
