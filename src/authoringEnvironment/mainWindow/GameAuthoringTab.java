@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import level.LevelProperties;
 import resources.FrontEndData;
 
+import java.util.HashMap;
 import java.util.Map;
 /**
  * @author David Yan, Huijia Yu, Joe Jacob
@@ -30,6 +31,7 @@ public class GameAuthoringTab implements ITab{
 
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
+	private Map<Sprite, TabPane> mySpriteTabPanes;
 	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
@@ -76,7 +78,7 @@ public class GameAuthoringTab implements ITab{
 		mySpriteMap = spriteMap;
 		myWindow = window;
         myLevelProperties = new LevelProperties();
-
+        mySpriteTabPanes = new HashMap<Sprite, TabPane>();
 		initArea();
 	}
 
@@ -110,8 +112,14 @@ public class GameAuthoringTab implements ITab{
 
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-		myBox.getChildren().addAll(propertiesList);
+		TabPane propertiesPane = new TabPane();
+		if (mySpriteTabPanes.get(spriteModel) != null) {
+			propertiesPane = mySpriteTabPanes.get(spriteModel);
+		} else {
+			propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
+			mySpriteTabPanes.put(spriteModel, propertiesPane);
+		}
+		myBox.getChildren().addAll(propertiesPane);
 		return myBox;
 	}
 
