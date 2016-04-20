@@ -1,10 +1,13 @@
 package level;
 
 import gameElements.Time;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+import javafx.scene.input.KeyCode;
+import keyboard.IKeyboardAction.KeyboardActions;
+
+import java.util.HashMap;
 
 /**
  * Holds all of the information a level has, which is then applied as a parameter to the constructor for Level. 
@@ -19,7 +22,7 @@ public class LevelProperties {
 	private IntegerProperty currentPoints;
 	private Time time;
 	private IntegerProperty numGoals;
-	//private HashMap<KeyCode, KeyboardActions> keyMapping;
+	private MapProperty<KeyCode, KeyboardActions> keyMapping;
 	
 	public LevelProperties(){
         levelID = new SimpleIntegerProperty();
@@ -28,16 +31,19 @@ public class LevelProperties {
         previousLevel = new SimpleIntegerProperty();
         currentPoints = new SimpleIntegerProperty();
         numGoals = new SimpleIntegerProperty();
+        HashMap<KeyCode,KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
+        myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
+        ObservableMap<KeyCode,KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
+        keyMapping=new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
         setLevelID(0);
-		setLevelName("");
-		setNextLevel(-1);
-		setPreviousLevel(-1);
+        setLevelName("");
+        setNextLevel(-1);
+        setPreviousLevel(-1);
         setCurrentPoints(0);
-		setNumGoals(1);
-		//keyMapping=new HashMap<KeyCode, KeyboardActions>();
-		//keyMapping.put(KeyCode.DOWN, KeyboardActions.MoveDown);
-		
-	}
+        setNumGoals(1);
+
+
+    }
 	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel, Integer numberOfGoals) {
         this();
 		setLevelID(levelID);
@@ -91,10 +97,10 @@ public class LevelProperties {
 		this.time = time;
 	}
 	
-//	public KeyboardActions getKeyboardAction(KeyCode key){
-//		if(!keyMapping.keySet().contains(key)) return KeyboardActions.Default;
-//		return keyMapping.get(key);
-//	}
+	public KeyboardActions getKeyboardAction(KeyCode key){
+		if(!keyMapping.keySet().contains(key)) return KeyboardActions.Default;
+		return keyMapping.get(key);
+	}
 
 	
 }

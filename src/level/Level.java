@@ -1,14 +1,5 @@
 package level;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
@@ -20,9 +11,11 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
+import keyboard.IKeyboardAction.KeyboardActions;
 import keyboard.KeyboardActionChecker;
 import keyboard.KeyboardActionFactory;
-import keyboard.IKeyboardAction.KeyboardActions;
+
+import java.util.*;
 
 /**
  * This is the class for level in the game. It has spriteMap, which is a map of
@@ -246,20 +239,21 @@ public class Level implements ILevel {
                 behavior.apply(currentSprite, mySpriteFactory);
             }
             
-        } else {
+        }
+        else {
             if (keyboardAction == null) {
                 keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
                 keyboardActionMap.put(action, keyboardAction);
             }
-            
+
             KeyboardActionChecker keyboardActionChecker = new KeyboardActionChecker();
-            
+
             if (keyboardActionChecker.checkKeyboardAction(action, currentSprite) && enable) {
                 keyboardAction.enableKeyboardAction(currentSprite);
             } else {
                 keyboardAction.disableKeyboardAction(currentSprite);
             }
-            
+
         }
     }
     
