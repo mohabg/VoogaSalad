@@ -177,6 +177,9 @@ public class GameAuthoringTab implements ITab{
         myTab.setText(tabTitle);
     }
 
+    public void setCurrentSpriteNull() {
+    	currentSprite = null;
+    }
 
     /**
      * @param view is a ViewSprite that's going to be copied and get its properties set between the
