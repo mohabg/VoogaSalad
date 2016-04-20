@@ -86,9 +86,7 @@ public class VisualFactory {
 	    
         myAnchorPane.getChildren().add(myBox);
 		myScrollPane.setContent(myAnchorPane);
-       
-        
-		
+
 
         myTab.setContent(myScrollPane);
 		return myTab;
