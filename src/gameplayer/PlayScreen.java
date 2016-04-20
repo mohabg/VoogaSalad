@@ -89,7 +89,7 @@ public class PlayScreen extends Screen {
 		// TODO: go through loop
 		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
 		setLevel(myEngine.getCurrentLevel());
-		play();
+		myEngine.gameLoop();
 
 		// TODO GIVE MODELS TO BACKEND
 
