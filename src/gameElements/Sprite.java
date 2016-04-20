@@ -11,6 +11,7 @@ import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.DamageCollision;
 import collisions.EnemyCollision;
+import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -124,7 +125,7 @@ public class Sprite {
 	public void update() {
 		myProperties.updatePos();
 		for (Behavior behavior : myBehaviors.values()) {
-//			 behavior.apply(this);
+			 behavior.apply(this, new SpriteFactory());
 		}
 
 	}

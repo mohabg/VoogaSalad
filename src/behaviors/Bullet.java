@@ -32,7 +32,7 @@ public class Bullet extends Attack{
     @Override
     public void apply(Sprite sprite, SpriteFactory spriteFactory) {
         if(readyToShoot(sprite)){
-        	spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
+        	spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), new RefObject("pictures/alien_ship.png"));
             setAmmunition(getAmmunition() - 1);
         }
     }
