@@ -147,7 +147,7 @@ public class GameAuthoringTab implements ITab{
             }
         });
 
-        ((Pane) getmyPane()).getChildren().addAll(sprite);
+        ((Pane) getTabContent()).getChildren().addAll(sprite);
         
 	}
 
