@@ -83,13 +83,14 @@ public class GameAuthoringTab implements ITab{
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
-		Settings.setGameAreaSettings(myNewGameArea);
+//		Settings.setGameAreaSettings(myNewGameArea);
 
 		AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
 //        myNewGamePane.setOnMouseClicked(e->{
 //            updateSettingsPane(this.myLevelProperties);
 //        });
+
 
 		setTabContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
