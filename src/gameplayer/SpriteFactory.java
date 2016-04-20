@@ -35,10 +35,10 @@ public class SpriteFactory {
 		this.spriteMap = spriteMap;
 	}
 	public Sprite makeSprite(double x, double y, RefObject myRef){
-		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef, 0);
+		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
 	}
 	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef, Integer ID) {
+			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
 		SpriteProperties sp = vs.getMySpriteProperties();
 		sp.setMyX(x);
@@ -46,8 +46,11 @@ public class SpriteFactory {
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
 		myPane.getChildren().add(vs);
+		int ID =spriteMap.size();
+		while(spriteMap.putIfAbsent(ID, s) != null){
+			ID++;
+		}
 		myViewSprites.put(ID, vs);
-		spriteMap.put(ID, s);
 		
 		return s;
 

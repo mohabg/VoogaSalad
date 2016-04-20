@@ -1,5 +1,6 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -139,6 +140,7 @@ public class GameAuthoringTab implements ITab{
         });
 
         ((Pane) getTabContent()).getChildren().addAll(sprite);
+        
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
@@ -175,12 +177,10 @@ public class GameAuthoringTab implements ITab{
      * change is made, the other knows of the change
      */
 	@Override
-	public void setTabContent(ViewSprite view, Sprite sprite) {
-		ViewSprite copy = new ViewSprite(view.getMyImage());
-		Sprite mCopy = new Sprite(sprite.getSpriteProperties(), sprite.getHealth(), sprite.getCollisions(), sprite.getBehaviors(), new RefObject(sprite.getMyRef()));
-
-		copy.bindToSprite(mCopy);
-		mySpriteMap.put(copy, mCopy);
+	public void setTabContent(ViewSprite view) {
+		AESpriteFactory sf = new AESpriteFactory();
+		ViewSprite copy = sf.clone(view);
+		mySpriteMap.put(copy, sf.makeSprite(copy));
 		addWithClicking(copy);
 	}
 
