@@ -8,10 +8,7 @@ import authoringEnvironment.itemWindow.ItemWindow;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.Screen;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-
-import java.awt.*;
 
 public class MainAuthoringWindow extends Screen {
 	private ItemWindow myItemWindow;
@@ -22,6 +19,8 @@ public class MainAuthoringWindow extends Screen {
 	public MainAuthoringWindow(Screen parent) {
 		super(parent);
 		myPane = new BorderPane();
+        myPane.setPrefHeight(Settings.getScreenHeight());
+        myPane.setPrefWidth(Settings.getScreenWidth());
 		myPane.setStyle("-fx-background-color: #434343;");
 
 		myGameMakerWindow = new GameMakerWindow();
