@@ -13,8 +13,9 @@ public class PlayerSpritesTab extends AbstractItemTab {
 		super();
 	}
 
-    @Override
-    public void setTabContent(ViewSprite view, Sprite mySprite) {
 
-    }
+	public void setTabContent(ViewSprite view) {
+		// TODO Auto-generated method stub
+		
+	}
 }

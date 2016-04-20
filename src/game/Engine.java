@@ -105,6 +105,9 @@ public class Engine {
                 public void handle(ActionEvent event) {
                     myGameTime = (System.currentTimeMillis() - startTime)/1000.0;
 					myGameScreen.removeSprites(myEditor.updateGame());
+					if(!currentLevel.equals(myGameScreen.getCurrentLevel())){
+						myGameScreen.setLevel(currentLevel);
+					}
                 }
             }); 
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
