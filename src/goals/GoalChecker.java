@@ -31,7 +31,7 @@ public class GoalChecker implements IGoalVisitor{
 	
 	public boolean visit(StayAliveGoal goal){
 		boolean enemyBoolean=true;
-		for(Sprite sprite: level.getSpriteMap().values()){
+		for(Sprite sprite: level.getSpriteMap().getSprites()){
 			if(!sprite.isUserControlled()){
 				enemyBoolean=false;
 				break;
@@ -43,7 +43,7 @@ public class GoalChecker implements IGoalVisitor{
 	public boolean visit(KillBossGoal goal){
 		boolean bossBoolean=true;
 		for(Integer integer: goal.getBossIDList()){
-			if(getLevel().getSpriteMap().keySet().contains(integer)){
+			if(getLevel().getSpriteMap().getSpriteIDList().contains(integer)){
 				bossBoolean=false;
 				break;
 			}
