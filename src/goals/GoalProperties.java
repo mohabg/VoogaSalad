@@ -1,10 +1,9 @@
 package goals;
 
-import goals.Goal.Goals;
-import javafx.beans.property.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import goals.Goal.Goals;
 
 /**
  * The GoalProperties class is fed to the GoalFactory to create a new goal. This class will provide the information to determine
@@ -13,30 +12,27 @@ import java.util.List;
 
 
 public class GoalProperties {
-	private StringProperty goalName;
+	private String goalName;
 	private Goals myGoal;
-	private BooleanProperty isFinished;
-	private IntegerProperty totalPoints;
+	private boolean isFinished;
+	private int totalPoints;
 	private List<Integer> targetID;
 
 	
 	public GoalProperties(Goals goal){
-        isFinished = new SimpleBooleanProperty();
-        totalPoints = new SimpleIntegerProperty();
-        goalName = new SimpleStringProperty();
 		setMyGoal(goal);
 		setGoalName(goal.toString());
 		setIsFinished(false);
-		totalPoints.set(0);
+		totalPoints=0;
 		targetID=new ArrayList<Integer>();
 	}
 	
 	public String getGoalName() {
-		return goalName.getValue();
+		return goalName;
 	}
 
 	public void setGoalName(String goalName) {
-		this.goalName.set(goalName);
+		this.goalName = goalName;
 	}
 
 	public List<Integer> getTargetID() {
@@ -57,12 +53,12 @@ public class GoalProperties {
 	}
 	
 	public boolean isFinished() {
-		return isFinished.getValue();
+		return isFinished;
 	}
 	
 
 	public void setIsFinished(boolean isCompleted) {
-		this.isFinished.set(isCompleted);
+		this.isFinished = isCompleted;
 	}
 	
 	public void setFinished(){
@@ -74,11 +70,11 @@ public class GoalProperties {
 	}
 
 	public int getTotalPoints() {
-		return totalPoints.getValue();
+		return totalPoints;
 	}
 
 	public void setTotalPoints(int totalPoints) {
-		this.totalPoints.set(totalPoints);
+		this.totalPoints = totalPoints;
 	}
 	
 }

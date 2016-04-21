@@ -1,5 +1,6 @@
 package behaviors;
 
+import behaviors.PatternMovement;
 import gameElements.Vector;
 
 public class SquarePattern extends PatternMovement {
@@ -14,18 +15,18 @@ public class SquarePattern extends PatternMovement {
 	public SquarePattern(double size){
 		super(size);
 		setSquare(size, DEFAULT_PERIOD);
-		callCount.set(0);
+		callCount = 0;
 	}
 
 	public SquarePattern(double size, int period) {
 		super(size);
 		setSquare(size, period);
-		callCount.set(0);
+		callCount = 0;
 	}
 
 	public void setSquare(double size, int period){
 		setSize(size);
-		this.period.set(period);
+		this.period = period;
 	}
 
 	public void setSize(double size){
