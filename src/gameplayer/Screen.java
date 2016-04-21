@@ -53,13 +53,17 @@ public abstract class Screen {
 	}
 
 	public void switchScene(Screen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
+		Stage myStage = ((Stage) myPane.getScene().getWindow());
+		myStage.setScene(screen.getScene());
+		myStage.centerOnScreen();
+
 	}
 
 	public void returnToParentScreen() {
 		switchScene(parentScreen);
 	}
-	public void returnToStart(){
+
+	public void returnToStart() {
 		switchScene(new StartOptionsWindow((Stage) myPane.getScene().getWindow()));
 	}
 

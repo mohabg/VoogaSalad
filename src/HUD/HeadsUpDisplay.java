@@ -3,11 +3,15 @@ package HUD;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.Property;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.converter.NumberStringConverter;
 
 public class HeadsUpDisplay {
 	private BorderPane myHUD;
@@ -52,7 +56,15 @@ public class HeadsUpDisplay {
 				break;
 		}
 	}
+	public void addToHUDElement(HUDEnum loc, Property... items) {
+		for(Property item: items){
+			Label itemlabel = new Label();
+			Bindings.bindBidirectional(itemlabel.textProperty(), item, new NumberStringConverter());
+			addToHUDElement(loc, itemlabel);
+		}
 		
+		
+	}
 	
 	/**
 	 * 

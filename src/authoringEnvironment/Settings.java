@@ -41,16 +41,10 @@ public class Settings {
 		myTabPane.setPrefWidth(0.25 * SCREEN_WIDTH);
 	}
 
-	public static void setGameAreaSettings(AnchorPane myNewGameArea) {
-//		myNewGameArea.setFitToWidth(true);
-		myNewGameArea.setPrefWidth(0.45 * SCREEN_WIDTH);
-		myNewGameArea.setPrefHeight(SCREEN_HEIGHT);
-	}
-
 	public static void setGamePaneSettings(AnchorPane myNewGamePane) {
 		myNewGamePane.getStyleClass().add("pane");
 
-		myNewGamePane.setPrefWidth(0.3 * SCREEN_WIDTH);
+		myNewGamePane.setPrefWidth(0.45 * SCREEN_WIDTH);
 		myNewGamePane.setPrefHeight(SCREEN_HEIGHT);
 	}
 
