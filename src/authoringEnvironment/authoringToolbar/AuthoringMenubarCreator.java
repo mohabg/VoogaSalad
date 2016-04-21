@@ -25,19 +25,6 @@ public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
 
 	// TODO SWITCH TO REFLECTION
-
-<<<<<<< HEAD
-	private final String MENU_BACK = "Back";
-	private final String MENU_ITEM_BACK = "Back";
-	
-	private final String MENU_PLAY = "Play";
-	private final String MENU_ITEM_PLAY = "Play";
-	
-	private final String MENU_GAME = "Game";
-	private final String MENU_ITEM_GAME = "Game Settings";
-=======
->>>>>>> a3dbc981ce7722156b2fcbe7d1c68dd621256d6e
-
 	public AuthoringMenubarCreator() {
 		myMenuBar = new MenuBar();
 	}
@@ -88,22 +75,14 @@ public class AuthoringMenubarCreator {
 		myPlayMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
 			playMyGame(window);
 		});
-<<<<<<< HEAD
 		
-		GameMenu myGameMenu = new GameMenu(MENU_GAME);
-		myGameMenu.setNewAction(MENU_ITEM_GAME, e-> {
-			// needs some obvious refactoring
-			FlowPane gameSettingsPane = new FlowPane();
-			Scene gameSettingsScene = new Scene(gameSettingsPane, 200, 200);
-			Stage gameSettingsStage = new Stage();
-			gameSettingsStage.setScene(gameSettingsScene);
-			gameSettingsStage.show();
+		GameMenu myGameMenu = new GameMenu();
+		myGameMenu.setName(FrontEndData.ButtonLabels.getString("GameMenu"));
+		myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("GameMenu1"), e -> {
+			// to do: make game window pop up
 		});
 		
-        myMenuBar.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-=======
 		myMenuBar.getStylesheets().add(FrontEndData.STYLESHEET);
->>>>>>> a3dbc981ce7722156b2fcbe7d1c68dd621256d6e
 		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
 				myBackMenu.getMenu(), myPlayMenu.getMenu(), myGameMenu.getMenu());
 	}

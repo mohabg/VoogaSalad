@@ -6,18 +6,22 @@ import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import resources.FrontEndData;
@@ -34,6 +38,7 @@ public class GameAuthoringTab implements ITab{
 	private Map<ViewSprite, Sprite> mySpriteMap;
 	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
+	private ContextMenu contextMenu;
 	//private Map<ViewSprite, >
 
 	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
@@ -51,7 +56,6 @@ public class GameAuthoringTab implements ITab{
             //dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
 //            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
 //            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
-
         }
 	};
 
@@ -64,14 +68,9 @@ public class GameAuthoringTab implements ITab{
             
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
-
             
             if(t.isSecondaryButtonDown()){
-				ContextMenu contextMenu = new ContextMenu();
-				MenuItem delete = new MenuItem("Delete");
-				contextMenu.getItems().add(delete);
-				System.out.println("delete");
-				//TO DO: make the delete option actually appear
+				contextMenu.show(myTab.getContent(), t.getScreenX(), t.getScreenY());
 			}
             
             if (mySprite != currentSprite) {
@@ -80,24 +79,70 @@ public class GameAuthoringTab implements ITab{
             }
 		}
 	};
+	
+	private void createContextMenu(){
+		MenuItem delete = new MenuItem("delete");
+		contextMenu.getItems().add(delete);
+		delete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event){
+				((Pane) getTabContent()).getChildren().remove(currentSprite);
+				event.consume();
+			}
+		});
+		contextMenu.setAutoHide(true);
+	}
 
 	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
 		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
-
+		contextMenu = new ContextMenu();
+		createContextMenu();
 		initArea();
 	}
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
 		Settings.setGameAreaSettings(myNewGameArea);
-
+		myNewGameArea.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		myNewGameArea.setVvalue(myNewGameArea.getPrefHeight());
+		
 		AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
-
-		setTabContent(myNewGamePane);
+		
+		Button addButton = new Button();
+		addButton.setText("+");
+		addButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				myNewGamePane.setPrefHeight(myNewGamePane.getPrefHeight() + 100);
+			}
+		});
+		
+		Button minusButton = new Button();
+		minusButton.setText("-");
+		minusButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				myNewGamePane.setPrefHeight(myNewGamePane.getPrefHeight() - 100);
+			}
+		});
+		
+		HBox buttonHBox = new HBox();
+		buttonHBox.getChildren().addAll(minusButton, addButton);
+		
+		myNewGamePane.getChildren().add(buttonHBox);
+		myNewGameArea.setContent(myNewGamePane);
+		
+		setTabContent(myNewGameArea);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
+		
+		myTab.getContent().setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event){
+			}
+		});
 	}
 
 	private void updateSettingsPane(ViewSprite clickedSprite) {
@@ -118,22 +163,21 @@ public class GameAuthoringTab implements ITab{
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
-		
 		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                if (e.getButton() == MouseButton.SECONDARY) {
-                    ((Pane) getTabContent()).getChildren().remove(sprite);
-                }
-                e.consume();
-            }
-        });
-
-        ((Pane) getTabContent()).getChildren().addAll(sprite);
+//        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent e) {
+//                if (e.getButton() == MouseButton.SECONDARY) {
+//                    ((Pane) getTabContent()).getChildren().remove(sprite);
+//                }
+//                e.consume();
+//            }
+//        });
+		
+		((Pane) ((ScrollPane) getTabContent()).getContent()).getChildren().addAll(sprite);
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
