@@ -1,11 +1,12 @@
 package game;
 
-import java.util.List;
-
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import level.Level;
 import level.LevelProperties;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Can get/set information about the game in this class, including what the current level is and game info. One can create and 
@@ -17,17 +18,19 @@ public class Game {
 	
 	private GameInfo myInfo;
 	private List<Level> myGameLevels;
-	private int currLevelNum;
+	private IntegerProperty currLevelNum;
 
 	public Game(GameInfo gameInfo) {
 		myGameLevels = new ArrayList<Level>();
-		currLevelNum = 0;
+        currLevelNum = new SimpleIntegerProperty();
+		currLevelNum.set(0);
 		myInfo = gameInfo;
 	}
 	
 	public Game() {
 		myGameLevels = new ArrayList<Level>();
-		currLevelNum = 0;
+        currLevelNum = new SimpleIntegerProperty();
+        currLevelNum.set(0);
         myInfo = new GameInfo();
     }
 
@@ -44,7 +47,7 @@ public class Game {
     }
 	
 	public void nextLevel(int nextLevelNum) {
-		currLevelNum = nextLevelNum;
+		currLevelNum.set(nextLevelNum);
 	}
 	
 	public void setCurrentLevel(int index) {
@@ -54,11 +57,11 @@ public class Game {
         if(myGameLevels.get(index) == null) {
             myGameLevels.add(index, new Level());
         }
-        currLevelNum = index;
+        currLevelNum.set(index);
     }
 	
 	public Level getCurrentLevel() {
-    	return myGameLevels.get(currLevelNum);
+    	return myGameLevels.get(currLevelNum.getValue());
     }
 	
 	public void createLevel(int levelID, Level level) {

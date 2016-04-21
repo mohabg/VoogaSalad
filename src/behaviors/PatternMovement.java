@@ -3,12 +3,13 @@ package behaviors;
 import gameElements.CircularQueue;
 import gameElements.Sprite;
 import gameElements.Vector;
-import behaviors.Movement;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class PatternMovement extends Movement {
 	protected static final int DEFAULT_PERIOD = 10;
-	protected int callCount;
-	protected int period;
+	protected IntegerProperty callCount;
+	protected IntegerProperty period;
 	CircularQueue<Vector> pattern;
 
 	public PatternMovement() {
@@ -25,8 +26,10 @@ public class PatternMovement extends Movement {
 
 	public void init(){
 		pattern = new CircularQueue<Vector>();
-		callCount = 0;
-		period = DEFAULT_PERIOD;
+        callCount = new SimpleIntegerProperty();
+        period = new SimpleIntegerProperty();
+		callCount.set(0);
+		period.set(DEFAULT_PERIOD);
 	}
 
 
@@ -47,8 +50,8 @@ public class PatternMovement extends Movement {
 
 	@Override
 	public void move(Sprite sprite) {
-		callCount ++;
-		if(callCount % period == 0){
+		callCount.add(1);
+		if(callCount.intValue() % period.intValue() == 0){
 			Vector nextVector = pattern.getNext();
 			sprite.getSpriteProperties().setMyXvel(nextVector.getxVel());
 			sprite.getSpriteProperties().setMyYvel(nextVector.getyVel());

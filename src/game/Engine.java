@@ -1,21 +1,22 @@
 package game;
 
-import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
-import keyboard.IKeyboardAction.KeyboardActions;
-import level.Level;
-import level.LevelProperties;
-
-import java.util.Map;
-
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
+import level.Level;
+import level.LevelProperties;
+
+import java.util.Map;
 
 /**
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
@@ -29,16 +30,18 @@ public class Engine {
 	private Timeline myGameLoop;
 	private Level currentLevel;
 	private IGameEditor myEditor;
-	private double myGameTime;
-	private boolean isPaused;
+	private DoubleProperty myGameTime;
+	private BooleanProperty isPaused;
     private PlayScreen myGameScreen;
 
 
 	public Engine(PlayScreen myGameScreen) {
 		this.myGameScreen = myGameScreen;
 		myGameLoop = new Timeline();
-		myGameTime = 0;
-		isPaused = false;
+        myGameTime = new SimpleDoubleProperty();
+        isPaused = new SimpleBooleanProperty();
+		myGameTime.set(0);
+		isPaused.set(false);
 	}
 	
 	public Engine(PlayScreen myGameScreen, IGameEditor editor) {
@@ -103,7 +106,7 @@ public class Engine {
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    myGameTime = (System.currentTimeMillis() - startTime)/1000.0;
+                    myGameTime.set((System.currentTimeMillis() - startTime)/1000.0);
 					myGameScreen.removeSprites(myEditor.updateGame());
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
 						myGameScreen.setLevel(myEditor.getCurrentLevel());
@@ -113,22 +116,22 @@ public class Engine {
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
         myGameLoop.getKeyFrames().add(keyFrame);
         playGameLoop();
-        if ( isPaused )
+        if ( isPaused.getValue() )
         	pauseGameLoop();
     }
     
     public void pauseGameLoop() {
-    	isPaused = true;
+    	isPaused.set(true);
     	myGameLoop.pause();
     }
     
     public void playGameLoop() {
-    	isPaused = false;
+    	isPaused.set(false);
     	myGameLoop.play();
     }
     
     public double getGameTimeInSeconds() {
-    	return myGameTime;
+    	return myGameTime.doubleValue();
     }
     
     public void setResultForKeyPress(KeyEvent event) {

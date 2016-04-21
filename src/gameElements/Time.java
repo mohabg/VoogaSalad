@@ -6,8 +6,8 @@ package gameElements;
  * @see level
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,32 +15,34 @@ import java.util.TimerTask;
 
 public class Time {
 	
-	private int myDelay;
+	private IntegerProperty myDelay;
 	private Timer myTimer;
-	private int myInitialTime;
+	private IntegerProperty myInitialTime;
 
 	public Time() {
-		myDelay = 1000; //in milliseconds --> 1 second
+        myDelay = new SimpleIntegerProperty();
+        myInitialTime = new SimpleIntegerProperty();
+		myDelay.set(1000); //in milliseconds --> 1 second
 		myTimer = new Timer();
-		myInitialTime = 0;
+		myInitialTime.set(0);
 	}
 	
 	public Time(int initialTime) {
-		myDelay = 1000; //in milliseconds --> 1 second
+		myDelay.set(1000); //in milliseconds --> 1 second
 		myTimer = new Timer();
-		myInitialTime = initialTime;
+		myInitialTime.set(initialTime);
 	}
 	
 	public void startTime() {
-		if ( myInitialTime == 0)
+		if ( myInitialTime.getValue() == 0)
 			runRegularTimer();
 		else
-			runCountdownTimer(myInitialTime);
+			runCountdownTimer(myInitialTime.getValue());
 	}
 	
 	private void runCountdownTimer(int initialTime) {
 		CountdownTimerTask cdTimerTask = new CountdownTimerTask(initialTime);
-		myTimer.schedule(cdTimerTask, 0, myDelay);
+		myTimer.schedule(cdTimerTask, 0, myDelay.getValue());
 	}
 
 	private void runRegularTimer() {
@@ -53,7 +55,7 @@ public class Time {
 			    int sec = count%60;
 			}
 		};
-		myTimer.schedule(task, myDelay);
+		myTimer.schedule(task, myDelay.getValue());
 	}
 	
 	public void pauseTime() {
