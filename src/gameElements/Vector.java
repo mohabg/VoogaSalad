@@ -1,37 +1,42 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Vector {
 
-	private double xVel;
-	private double yVel;
+	private DoubleProperty xVel;
+	private DoubleProperty yVel;
 
 	public Vector() {
-		xVel = 0;
-		yVel = 0;
+        xVel = new SimpleDoubleProperty();
+        yVel = new SimpleDoubleProperty();
+        xVel.set(0);
+		yVel.set(0);
 	}
 
 	public Vector(double x, double y) {
 		set(x, y);
 	}
 	public double getxVel() {
-		return xVel;
+		return xVel.doubleValue();
 	}
 
 	public void setxVel(double xVel) {
-		this.xVel = xVel;
+		this.xVel.set(xVel);
 	}
 
 	public double getyVel() {
-		return yVel;
+		return yVel.doubleValue();
 	}
 
 	public void setyVel(double yVel) {
-		this.yVel = yVel;
+		this.yVel.set(yVel);
 	}
 
 	public void set(double x, double y){
-		xVel = x;
-		yVel = y;
+		xVel.set(x);
+		yVel.set(y);
 	}
 
 

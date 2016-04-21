@@ -1,6 +1,8 @@
 package gameElements;
 
-import java.util.Timer;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.TimerTask;
 
 /**
@@ -9,11 +11,12 @@ import java.util.TimerTask;
 
 
 public class CountdownTimerTask extends TimerTask {
-   private int myCount;
+   private IntegerProperty myCount;
    //private Runnable doWhenDone;
 
    public CountdownTimerTask(int count/*, Runnable doWhenDone*/) {
-      myCount = count;
+       myCount = new SimpleIntegerProperty();
+      myCount.set(count);
       //this.doWhenDone = doWhenDone;
    }
 
@@ -22,10 +25,10 @@ public class CountdownTimerTask extends TimerTask {
 	*/
    @Override
    public void run() {
-      myCount--;
-      int min = myCount/60;
-      int sec = myCount%60;
-      if (myCount == 0) {
+      myCount.add(-1);
+      int min = myCount.getValue()/60;
+      int sec = myCount.getValue()%60;
+      if (myCount.getValue() == 0) {
          cancel();
          //doWhenDone.run();
       }
