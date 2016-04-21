@@ -95,9 +95,9 @@ public class GameAuthoringTab implements ITab{
 		Settings.setGamePaneSettings(myNewGamePane);
 
         myNewGameArea.setContent(myNewGamePane);
-//        myNewGamePane.setOnMouseClicked(e->{
-//            updateSettingsPane(this.myLevelProperties);
-//        });
+        myNewGamePane.setOnMouseClicked(e->{
+            updateSettingsPane(this.myLevelProperties);
+        });
 
 
 		setTabContent(myNewGameArea);
@@ -108,9 +108,9 @@ public class GameAuthoringTab implements ITab{
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 
-//    private void updateSettingsPane(LevelProperties clickedSprite) {
-//        myWindow.setContent(setSettingsContent(clickedSprite));
-//    }
+    private void updateSettingsPane(LevelProperties clickedSprite) {
+        myWindow.setContent(setSettingsContent(clickedSprite));
+    }
 
     /**
      * @param spriteModel model used to generate visual elements that
@@ -130,12 +130,12 @@ public class GameAuthoringTab implements ITab{
 		return myBox;
 	}
 
-//    public VBox setSettingsContent(LevelProperties myLevelProperties) {
-//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-//        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
-//        myBox.getChildren().addAll(propertiesList);
-//        return myBox;
-//    }
+    public VBox setSettingsContent(LevelProperties myLevelProperties) {
+        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
+        myBox.getChildren().addAll(propertiesList);
+        return myBox;
+    }
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
