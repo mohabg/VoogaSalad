@@ -14,7 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -134,7 +134,7 @@ public class VisualFactory {
 	}
 
 
-	private <R> ChangeListener<SimpleEntry<Class<R>, R>> makeChangeCBListListener(ListProperty lpr) {
+	private <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBKeyListener(Property prop) {
 		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
 			ObjectProperty<SimpleEntry<Class<R>, R>> objProp = (ObjectProperty<SimpleEntry<Class<R>, R>>) o;
 			ComboBox subclassBox = (ComboBox) objProp.getBean();
@@ -151,13 +151,56 @@ public class VisualFactory {
 			}
 			
 			if (ov != null) {
-				lpr.remove(ov.getValue());
-				lpr.add(o.getValue().getValue());
+				if(prop instanceof ListProperty) {
+					ListProperty<R> lpr = (ListProperty<R>) prop;
+					lpr.remove(ov.getValue());
+					lpr.add(o.getValue().getValue());
+				} else if(prop instanceof MapProperty) {
+					MapProperty<R, T> mprt = (MapProperty<R, T>) prop;
+					T val = mprt.get(ov.getValue());
+					mprt.remove(ov.getValue());
+					mprt.put(o.getValue().getValue(), val);
+				}
+			}		
+
+			
+			// populate combobox parent with new params
+			myComboBoxParent.getChildren().setAll(subclassBox);
+			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), o.getValue().getKey()));			
+		};
+		
+		return boxChangeListener;
+	}
+	
+	private <R, T> ChangeListener<SimpleEntry<Class<T>, T>> makeCBValueListener(Property prop) {
+		ChangeListener<SimpleEntry<Class<T>, T>> boxChangeListener = (o, ov, nv) -> {
+			ObjectProperty<SimpleEntry<Class<T>, T>> objProp = (ObjectProperty<SimpleEntry<Class<T>, T>>) o;
+			ComboBox subclassBox = (ComboBox) objProp.getBean();
+			Pane myComboBoxParent = (Pane) subclassBox.getParent();
+
+			myComboBoxParent.getChildren().clear();
+			
+			// switch corresponding instances	
+			Class<T> newClassType = nv.getKey();
+			
+			if (nv.getValue() == null) {		
+				nv.setValue((T) newClassInstance(newClassType));
+				o.getValue().setValue(nv.getValue());
+			}
+			
+			if (ov != null) {
+				if(prop instanceof MapProperty) {
+					MapProperty<R, T> mprt = (MapProperty<R, T>) prop;
+					Pane myComboBoxGrandParent = (Pane) myComboBoxParent.getParent();
+					ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKeyCopy = (ComboBox<SimpleEntry<Class<R>, R>>) ((VBox) myComboBoxGrandParent.getChildren().get(0)).getChildren().get(0);
+					R key = mySubclassBoxKeyCopy.getValue().getValue();
+					mprt.put(key, o.getValue().getValue());		
+				}
 			}		
 					
 			// populate combobox parent with new params
 			myComboBoxParent.getChildren().setAll(subclassBox);
-			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
+			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), o.getValue().getKey()));			
 		};
 		
 		return boxChangeListener;
@@ -174,7 +217,7 @@ public class VisualFactory {
 				VBox elementBox = new VBox();
 				
 				ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = makeSubclassComboBox(rType);
-				ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeChangeCBListListener(lpr);
+				ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeCBKeyListener(lpr);
 				mySubclassBox.valueProperty().addListener(boxChangeListener);
 				elementBox.getChildren().add(mySubclassBox);
 				
@@ -202,19 +245,19 @@ public class VisualFactory {
 		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = makeSubclassComboBox(rType);
 		retVBox.getChildren().add(mySubclassBox);
 		
-		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeChangeCBListListener(lpr);
+		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeCBKeyListener(lpr);
 		
 		mySubclassBox.valueProperty().addListener(boxChangeListener);
 		
 		// get a proper subclass of R if necessary
 		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
-			rType = (Class<R>) getSubclassWithoutInstance(rType);	
+			rType = (Class<R>) getSubclass(rType);	
 		}
 		
 		rObj = (R) newClassInstance(rType);		
 		updateComboBoxValue(rType, rObj, mySubclassBox);
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
-
+		
 		
 		return retVBox;
 	}
@@ -237,12 +280,18 @@ public class VisualFactory {
 		Set<HBox> paramProps = new HashSet<HBox>();
 		Set<Field> rAllFields = getAllFields(new HashSet<Field>(), rType);
 		
+		// rObj is most likely a java object then (not user-made)
+		if (Property.class.isAssignableFrom(rType)) {
+			paramProps.add(new HBox(makeSettingsObject(rObj, rType.getSimpleName())));
+			return paramProps;
+		}
+		
 		for (Field rField : rAllFields) {			
-				rField.setAccessible(true);
-				Object rFieldObj = fieldGetObject(rField, rObj);	
-				String rFieldObjName = rField.getName();
+			rField.setAccessible(true);
+			Object rFieldObj = fieldGetObject(rField, rObj);	
+			String rFieldObjName = rField.getName();
 				
-				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));			
+			paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));			
 		}
 		
 		return paramProps;
@@ -259,85 +308,22 @@ public class VisualFactory {
 //			
 			// display any items already in the map
 			for (R rListElement : mprt.keySet()) {
-				VBox elementBoxKey = new VBox();
 				T tListElement = mprt.get(rListElement);
 				
-				final ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKey = makeSubclassComboBox(rType);
-				ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListenerKey = (o, ov, nv) -> {
-					Pane myComboBoxParent = (Pane) mySubclassBoxKey.getParent();
-
-					myComboBoxParent.getChildren().clear();
-					
-					// switch corresponding instances	
-					Class<R> newClassType = nv.getKey();
-					
-					if (nv.getValue() == null) {		
-						nv.setValue((R) newClassInstance(newClassType));
-						o.getValue().setValue(nv.getValue());
-					}
-					
-					if (ov != null) {
-						T val = mprt.get(ov.getValue());
-						mprt.remove(ov.getValue());
-						mprt.put(o.getValue().getValue(), val);
-					}			
-					
-					// populate combobox parent with new params
-					myComboBoxParent.getChildren().setAll(mySubclassBoxKey);
-					myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
-				};	
+				VBox elementBoxKey = new VBox();
+				ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKey = makeSubclassComboBox(rType);
+				ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListenerKey = makeCBKeyListener(prop);
 				mySubclassBoxKey.valueProperty().addListener(boxChangeListenerKey);				
-				elementBoxKey.getChildren().add(mySubclassBoxKey);
-				
-				List<SimpleEntry<Class<R>, R>> boxItemsKey = mySubclassBoxKey.getItems();
-				SimpleEntry<Class<R>, R> rBoxItemKey = null;				
-				for (SimpleEntry<Class<R>, R> item : boxItemsKey) {
-					if (item.getKey().equals(rListElement.getClass())) {
-						rBoxItemKey = item;
-						rBoxItemKey.setValue(rListElement);
-					}
-				}		
-				mySubclassBoxKey.setValue(rBoxItemKey);
+				elementBoxKey.getChildren().add(mySubclassBoxKey);				
+				updateComboBoxValue((Class<R>) rListElement.getClass(), rListElement, mySubclassBoxKey);
 				
 				
 				VBox elementBoxValue = new VBox();
-				final ComboBox<SimpleEntry<Class<T>, T>> mySubclassBoxValue = makeSubclassComboBox(tType);
-				ChangeListener<SimpleEntry<Class<T>, T>> boxChangeListenerValue = (o, ov, nv) -> {
-					Pane myComboBoxParent = (Pane) mySubclassBoxValue.getParent();
-
-					myComboBoxParent.getChildren().clear();
-					
-					// switch corresponding instances	
-					Class<T> newClassType = nv.getKey();
-					
-					if (nv.getValue() == null) {		
-						nv.setValue((T) newClassInstance(newClassType));
-						o.getValue().setValue(nv.getValue());
-					}
-					
-					if (ov != null) {
-						Pane myComboBoxGrandParent = (Pane) myComboBoxParent.getParent();
-						ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKeyCopy = (ComboBox<SimpleEntry<Class<R>, R>>) myComboBoxGrandParent.getChildren().get(0);
-						R key = mySubclassBoxKeyCopy.getValue().getValue();
-						mprt.put(key, o.getValue().getValue());		
-					}			
-					
-					// populate combobox parent with new params
-					myComboBoxParent.getChildren().setAll(mySubclassBoxValue);
-					myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
-				};	
+				ComboBox<SimpleEntry<Class<T>, T>> mySubclassBoxValue = makeSubclassComboBox(tType);
+				ChangeListener<SimpleEntry<Class<T>, T>> boxChangeListenerValue = makeCBValueListener(prop);
 				mySubclassBoxValue.valueProperty().addListener(boxChangeListenerValue);				
-				elementBoxValue.getChildren().add(mySubclassBoxValue);
-				
-				List<SimpleEntry<Class<T>, T>> boxItemsValue = mySubclassBoxValue.getItems();
-				SimpleEntry<Class<T>, T> tBoxItemValue = null;				
-				for (SimpleEntry<Class<T>, T> item : boxItemsValue) {
-					if (item.getKey().equals(tListElement.getClass())) {
-						tBoxItemValue = item;
-						tBoxItemValue.setValue(tListElement);
-					}
-				}		
-				mySubclassBoxValue.setValue(tBoxItemValue);
+				elementBoxValue.getChildren().add(mySubclassBoxValue);		
+				updateComboBoxValue((Class<T>) tListElement.getClass(), tListElement, mySubclassBoxValue);
 				
 				HBox keyval = new HBox(elementBoxKey, elementBoxValue);
 				doubleParamVBox.getChildren().add(keyval);
@@ -358,107 +344,36 @@ public class VisualFactory {
 		HBox retHBox = new HBox();
 		R rListElement = null;
 		T tListElement = null;
-
-				
-		if (rType == null) {
-			System.out.println(" RRRRRR NULLL");
-		}
 		
-		if (rType == null) {
-			System.out.println("TTTTTT NULLL");
-		}
-		
-		VBox elementBoxKey = new VBox();
-		
-		final ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKey = makeSubclassComboBox(rType);
-		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListenerKey = (o, ov, nv) -> {
-			Pane myComboBoxParent = (Pane) mySubclassBoxKey.getParent();
-
-			myComboBoxParent.getChildren().clear();
-			
-			// switch corresponding instances	
-			Class<R> newClassType = nv.getKey();
-			
-			if (nv.getValue() == null) {		
-				nv.setValue((R) newClassInstance(newClassType));
-				o.getValue().setValue(nv.getValue());
-			}
-			
-			if (ov != null) {
-				T val = mprt.get(ov.getValue());
-				mprt.remove(ov.getValue());
-				mprt.put(o.getValue().getValue(), val);
-			}			
-			
-			// populate combobox parent with new params
-			myComboBoxParent.getChildren().setAll(mySubclassBoxKey);
-			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
-		};	
-		mySubclassBoxKey.getSelectionModel().selectedItemProperty().addListener(boxChangeListenerKey);				
+		VBox elementBoxKey = new VBox();	
+		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKey = makeSubclassComboBox(rType);
+		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListenerKey = makeCBKeyListener(mprt);
+		mySubclassBoxKey.valueProperty().addListener(boxChangeListenerKey);				
 		elementBoxKey.getChildren().add(mySubclassBoxKey);
 		
 		// get a proper subclass of R if necessary
-				if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
-					rType = (Class<R>) getSubclassWithoutInstance(rType);	
-				}
-				rListElement = (R) newClassInstance(rType);
-		
-		List<SimpleEntry<Class<R>, R>> boxItemsKey = mySubclassBoxKey.getItems();
-		SimpleEntry<Class<R>, R> rBoxItemKey = null;				
-		for (SimpleEntry<Class<R>, R> item : boxItemsKey) {
-			if (item.getKey().equals(rListElement.getClass())) {
-				rBoxItemKey = item;
-				rBoxItemKey.setValue(rListElement);
-			}
-		}		
-		mySubclassBoxKey.setValue(rBoxItemKey);
+		if (isAbstractOrInterface(rType)) {
+			rType = (Class<R>) getSubclass(rType);	
+			System.out.println(rType.getName());
+		}
+		rListElement = (R) newClassInstance(rType);	
+		updateComboBoxValue((Class<R>) rListElement.getClass(), rListElement, mySubclassBoxKey);
 		
 		
 		VBox elementBoxValue = new VBox();
-		final ComboBox<SimpleEntry<Class<T>, T>> mySubclassBoxValue = makeSubclassComboBox(tType);
-		ChangeListener<SimpleEntry<Class<T>, T>> boxChangeListenerValue = (o, ov, nv) -> {
-			Pane myComboBoxParent = (Pane) mySubclassBoxValue.getParent();
-
-			myComboBoxParent.getChildren().clear();
-			
-			// switch corresponding instances	
-			Class<T> newClassType = nv.getKey();
-			
-			if (nv.getValue() == null) {		
-				nv.setValue((T) newClassInstance(newClassType));
-				o.getValue().setValue(nv.getValue());
-			}
-			
-			if (ov != null) {
-				Pane myComboBoxGrandParent = (Pane) myComboBoxParent.getParent();
-				ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKeyCopy = (ComboBox<SimpleEntry<Class<R>, R>>) myComboBoxGrandParent.getChildren().get(0);
-				R key = mySubclassBoxKeyCopy.getValue().getValue();
-				mprt.put(key, o.getValue().getValue());		
-			}			
-			
-			// populate combobox parent with new params
-			myComboBoxParent.getChildren().setAll(mySubclassBoxValue);
-			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), newClassType));			
-		};	
-		mySubclassBoxValue.getSelectionModel().selectedItemProperty().addListener(boxChangeListenerValue);				
+		ComboBox<SimpleEntry<Class<T>, T>> mySubclassBoxValue = makeSubclassComboBox(tType);
+		ChangeListener<SimpleEntry<Class<T>, T>> boxChangeListenerValue = makeCBValueListener(mprt);
+		mySubclassBoxValue.valueProperty().addListener(boxChangeListenerValue);				
 		elementBoxValue.getChildren().add(mySubclassBoxValue);
 		
 		// get a proper subclass of T if necessary
-		if (tType.isInterface() || Modifier.isAbstract(tType.getModifiers())) {
-			tType = (Class<T>) getSubclassWithoutInstance(tType);	
+		if (isAbstractOrInterface(tType)) {
+			tType = (Class<T>) getSubclass(tType);	
 		}
-		tListElement = (T) newClassInstance(tType);
+		tListElement = (T) newClassInstance(tType);		
+		updateComboBoxValue((Class<T>) tListElement.getClass(), tListElement, mySubclassBoxValue);
 		
-		List<SimpleEntry<Class<T>, T>> boxItemsValue = mySubclassBoxValue.getItems();
-		SimpleEntry<Class<T>, T> tBoxItemValue = null;				
-		for (SimpleEntry<Class<T>, T> item : boxItemsValue) {
-			if (item.getKey().equals(tListElement.getClass())) {
-				tBoxItemValue = item;
-				tBoxItemValue.setValue(tListElement);
-			}
-		}		
-		mySubclassBoxValue.setValue(tBoxItemValue);
-		
+		retHBox.getChildren().addAll(elementBoxKey, elementBoxValue);
 		return retHBox;
 	}
 
@@ -514,15 +429,33 @@ public class VisualFactory {
 		
 		// init combo box with values
 		List<SimpleEntry<Class<R>, R>> allSubKeyset = new ArrayList<SimpleEntry<Class<R>, R>>();
-		for (Class<R> rClass : allSubclasses.values()) {
-			SimpleEntry<Class<R>, R> classEntry = new SimpleEntry<Class<R>, R>(rClass, null);
-			allSubKeyset.add(classEntry);
-		}		
+		
+		// it's a java class
+		if (Property.class.isAssignableFrom(clazz)) {
+			clazz = (Class<R>) getPropertySubclass(clazz);
+			allSubKeyset.add(new SimpleEntry<Class<R>, R>(clazz, null));
+		} else if(KeyCode.class.isAssignableFrom(clazz)) {
+			KeyCode[] allCodes = KeyCode.values();
+			for (KeyCode k : allCodes) {
+				allSubKeyset.add(new SimpleEntry<Class<R>, R>((Class<R>)k.getClass(), (R) k));
+			}
+		} 
+		// user made class
+		else {
+			for (Class<R> rClass : allSubclasses.values()) {
+				allSubKeyset.add(new SimpleEntry<Class<R>, R>(rClass, null));
+			}	
+		}
+			
 		subclassBox.getItems().addAll(allSubKeyset);
-
 		
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = makeNewComboBoxStrConverter(clazz);
 		subclassBox.setConverter(comboBoxConverter);
+		
+		
+		if (allSubKeyset.size() == 0) {
+			
+		}
 		
 		return subclassBox;
 	}
@@ -531,8 +464,12 @@ public class VisualFactory {
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = new StringConverter<SimpleEntry<Class<R>, R>>() {
 			@Override
 			public String toString(SimpleEntry<Class<R>, R> object) {
-				Class<R> clazz = object.getKey();
-				return clazz.getSimpleName();
+				if (KeyCode.class.isAssignableFrom(object.getKey())) {
+					return object.getValue().toString();
+				} else {
+					Class<R> clazz = object.getKey();
+					return clazz.getSimpleName();
+				}
 			}
 
 			@Override
@@ -548,7 +485,7 @@ public class VisualFactory {
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
-			HBox settingsHBox = makeSettingsObject(parent, p.getName());
+			HBox settingsHBox = new HBox(makeSettingsObject(parent, p.getName()));
 			properties.add(settingsHBox);
 			return properties;
 		}  else if (parent instanceof gameElements.Sprite) {
@@ -572,7 +509,7 @@ public class VisualFactory {
 
 				// impossible to make an instance
 				if (parent == null) {
-					parent = getSubclass(p.getType());
+					parent = getSubclassInstance(p.getType());
 				}
 				
 				for (Field otherField : allFields) {
@@ -598,6 +535,10 @@ public class VisualFactory {
 	}
 	
 	private <R> R newClassInstance(Class<R> clazz) {
+		if (clazz.isEnum()) {
+			return (R) clazz;
+		}
+		
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -617,12 +558,22 @@ public class VisualFactory {
 		return clazz;
 	}
 
-	private <R> Object getSubclass(Class<R> clazz) {
-		Class<R> sub = getSubclassWithoutInstance(clazz);
+	private <R> Object getSubclassInstance(Class<R> clazz) {
+		Class<R> sub = getSubclass(clazz);
 		return newClassInstance(sub);
 	}
 
-	private <R> Class<R> getSubclassWithoutInstance(Class<R> clazz) {
+	private <R> Class<R> getSubclass(Class<R> clazz) {
+		// if it's not a user-made class, probably a java property
+		if (!myProjectClassNames.contains(clazz.getName())) {
+			if (Property.class.isAssignableFrom(clazz)) {
+				return (Class<R>) getPropertySubclass(clazz);
+			} else if(KeyCode.class.isAssignableFrom(clazz)) {
+				return clazz;
+			}
+			return clazz;
+		}
+		
 		// find an available subclass otherwise print an exception
 		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		// make sure the picked class isn't abstract
@@ -631,10 +582,26 @@ public class VisualFactory {
 				return sub;
 			}
 		}
-		// default
+		
 		return null;
 	}
 
+	private Class<?> getPropertySubclass(Class<?> clazz) {
+		if (clazz.isAssignableFrom(SimpleIntegerProperty.class)) {
+			return SimpleIntegerProperty.class;
+		} else if (clazz.isAssignableFrom(SimpleDoubleProperty.class)) {
+			return SimpleDoubleProperty.class;
+		} else if (clazz.isAssignableFrom(SimpleBooleanProperty.class)) {
+			return SimpleBooleanProperty.class;
+		} else if (clazz.isAssignableFrom(SimpleStringProperty.class)) {
+			return SimpleStringProperty.class;
+		} else if (clazz.isAssignableFrom(SimpleObjectProperty.class)) {
+			return SimpleObjectProperty.class;
+		}
+		// TODO throw error
+		return null;
+	}
+	
 	private boolean isAbstractOrInterface(Class<?> clazz) {
 		return clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers());
 	}
@@ -653,9 +620,9 @@ public class VisualFactory {
 		return Property.class.isAssignableFrom(p.getType());
 	}
 
-	private HBox makeSettingsObject(Object myProp, String propName) {
-		HBox propHBox = new HBox();
-        propHBox.setPadding(new Insets(20,20,20,20));
+	private VBox makeSettingsObject(Object myProp, String propName) {
+		VBox propVBox = new VBox();
+        propVBox.setPadding(new Insets(20,20,20,20));
         String labelText = convertCamelCase(propName);
 		Label propLabelName = new Label(labelText);
 
@@ -664,18 +631,18 @@ public class VisualFactory {
 
         if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
+			propVBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
 		} else if (myProp instanceof IntegerProperty) {
 			IntegerProperty ip = (IntegerProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
+			propVBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
 		} else if (myProp instanceof BooleanProperty) {
 			BooleanProperty bp = (BooleanProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
+			propVBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
 		} else if (myProp instanceof StringProperty) {
 			// THIS PROBABLY REFERS TO IMAGE FILES..............
 			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeTextField(sp));
+			propVBox.getChildren().addAll(propLabelName, makeTextField(sp));
 		} else if (myProp instanceof ListProperty) {
 			ListProperty lp = (ListProperty) myProp;
 			//propHBox.getChildren().addAll(propLabelName, makeTableView(lp));
@@ -683,7 +650,7 @@ public class VisualFactory {
 			MapProperty mp = (MapProperty) myProp;
 			//propHBox.getChildren().addAll(propLabelName, makeTableView(mp));
 		}
-		return propHBox;
+		return propVBox;
 	}
 
 	private String convertCamelCase(String camelCaseString) {

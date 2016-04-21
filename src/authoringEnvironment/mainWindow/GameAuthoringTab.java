@@ -39,9 +39,6 @@ public class GameAuthoringTab implements ITab{
     private AnchorPane myNewGamePane = new AnchorPane();
 
 
-
-
-
     private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -131,6 +128,7 @@ public class GameAuthoringTab implements ITab{
 	}
 
     public VBox setSettingsContent(LevelProperties myLevelProperties) {
+    	currentSprite = null;
         VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
         TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
         myBox.getChildren().addAll(propertiesList);
