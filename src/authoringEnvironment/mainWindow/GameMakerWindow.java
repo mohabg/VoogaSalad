@@ -32,6 +32,11 @@ public class GameMakerWindow implements ITabPane {
 		myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		myWindow = window;
+		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+			Tab selectedTab = myTabPane.getSelectionModel().getSelectedItem();
+			GameAuthoringTab gat = myGameTabs.get(selectedTab);
+			gat.setCurrentSpriteNull();
+		});
 
 	}
 
@@ -45,7 +50,7 @@ public class GameMakerWindow implements ITabPane {
 		String tabName = FrontEndData.TAB + (myTabPane.getTabs().size() + 1);
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
 		myGameTabs.put(myTab.getTab(), myTab);
-
+		
 		getTabPane().getTabs().add(myTab.getTab());
 		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
@@ -58,8 +63,7 @@ public class GameMakerWindow implements ITabPane {
 
 	public void setGameTabs(List<LevelModel> gameLevels) {
 		myTabPane.getTabs().clear();
-		;
-		// myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        // myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		for (LevelModel lm : gameLevels) {
 			System.out.println("new tab");
@@ -87,7 +91,7 @@ public class GameMakerWindow implements ITabPane {
 	public List<ITab> getITabs() {
 		List<ITab> myITabsList = new ArrayList<ITab>();
 		myTabPane.getTabs().forEach(e -> {
-			myITabsList.add((ITab) myGameTabs.get(e));
+			myITabsList.add(myGameTabs.get(e));
 		});
 		return myITabsList;
 	}

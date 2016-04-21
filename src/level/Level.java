@@ -9,20 +9,24 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import behaviors.Attack;
 import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.Sprite;
+import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
+import keyboard.IKeyboardAction.KeyboardActions;
 import keyboard.KeyboardActionChecker;
 import keyboard.KeyboardActionFactory;
-import keyboard.IKeyboardAction.KeyboardActions;
+
+import java.util.*;
 
 /**
  * This is the class for level in the game. It has spriteMap, which is a map of
@@ -32,13 +36,14 @@ import keyboard.IKeyboardAction.KeyboardActions;
  * goalMap(which also is a map of Integer (goalIDs) to Goals. The
  * CurrentSpriteID is the Sprite that will be currently affected by actions of
  * the program. The goalCount is describing how many goals for a level exist.
- * 
+ *
  * @see LevelProperties
  */
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
-	private Map<Integer, Sprite> spriteMap;
+
+	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
 
@@ -51,7 +56,7 @@ public class Level implements ILevel {
 	public Level() {
 
 		levelProperties = new LevelProperties();
-		spriteMap = new HashMap<>();
+		spriteMap = new SpriteMap();
 		goalList= new ArrayList<Goal>();
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
@@ -78,12 +83,12 @@ public class Level implements ILevel {
 		this.levelProperties = levelProperties;
 	}
 
-	public Map<Integer, Sprite> getSpriteMap() {
+	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
 
 	public void setSpriteMap(Map<Integer, Sprite> spriteMap) {
-		this.spriteMap = spriteMap;
+		this.spriteMap.setSpriteMap(spriteMap);
 	}
 
 	public Integer getCurrentSpriteID() {
@@ -98,9 +103,10 @@ public class Level implements ILevel {
 		getSpriteMap().remove(spriteID);
 	}
 
-	public Integer newSpriteID(Map spriteMap) {
-		while (spriteMap.keySet().contains(currentSpriteID))
+	public Integer newSpriteID(SpriteMap spriteMap2) {
+		while (spriteMap2.getSpriteMap().keySet().contains(currentSpriteID)){
 			currentSpriteID++;
+		}
 		return currentSpriteID;
 	}
 
@@ -111,9 +117,14 @@ public class Level implements ILevel {
 	 */
 
 	public void addSprite(Sprite newSprite) {
-		Integer newSpriteID = newSpriteID(spriteMap);
+		/*Integer newSpriteID = newSpriteID(spriteMap);
 		setCurrentSpriteID(newSpriteID);
 		getSpriteMap().put(newSpriteID, newSprite);
+		*/
+
+		spriteMap.addSprite(newSprite);
+		setCurrentSpriteID(spriteMap.getLastSpriteID());
+		
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
@@ -126,11 +137,11 @@ public class Level implements ILevel {
 	 *            the new ID you want your sprite to be considered
 	 */
 	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
-		getSpriteMap().put(spriteID, newSprite);
+		getSpriteMap().getSpriteMap().put(spriteID, newSprite);
 	}
 
 	public int getCurrentPoints() {
-		return getLevelProperties().getCurrentPoints();
+		return getLevelProperties().getScore().getScoreValue().intValue();
 	}
 
 	public GoalFactory getGoalFactory() {
@@ -147,7 +158,7 @@ public class Level implements ILevel {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
-	
+
 	public void addGoal(Goal goal){
 		goalList.add(goal);
 	}
@@ -163,13 +174,19 @@ public class Level implements ILevel {
 	}
 
 	private List<Integer> updateSprites() {
+
 		List<Integer> spriteList= new ArrayList<Integer>();
-		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.keySet());
-		if(spriteMap.isEmpty()){
+		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
+		if(spriteMap.getSpriteMap().isEmpty()){
 			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
-			spriteMap.get(spriteID).update();
+			spriteMap.get(spriteID).update(this.mySpriteFactory);
+			 if( !spriteMap.get(spriteID).isUserControlled()
+			     && spriteMap.get(spriteID).getBehaviors().get("default")!= null ){
+				 spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID), mySpriteFactory);
+			 }
+
 			removeDeadSprite(spriteID, spriteList);
 		}
 		return spriteList;
@@ -187,7 +204,7 @@ public class Level implements ILevel {
 
 		CollisionHandler collisionHandler = new CollisionHandler();
 		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.values();
+		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
 		int index = 0;
 		for (Sprite sprite : spriteSet) {
@@ -198,7 +215,9 @@ public class Level implements ILevel {
 		for (int i = 0; i < spriteSet.size(); i++) {
 			for (int j = i + 1; j < spriteSet.size(); j++) {
 				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
-
+					
+					getLevelProperties().setCollidingSprites(spriteArr[i], spriteArr[j]);
+					
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 
@@ -214,6 +233,8 @@ public class Level implements ILevel {
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
+		System.out.println(key.getCode()+key.getCharacter());
+
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
@@ -222,9 +243,9 @@ public class Level implements ILevel {
 		if(currentSprite == null){
 			return;
 		}
-		System.out.println("X:   " + currentSprite.getX().doubleValue());
-		System.out.println("Y:   " + currentSprite.getY().doubleValue());
-		System.out.println("HEALTH: "+currentSprite.getHealth().getHealthValue());
+//		System.out.println("X:   " + currentSprite.getX().doubleValue());
+//		System.out.println("Y:   " + currentSprite.getY().doubleValue());
+//		System.out.println("HEALTH: "+currentSprite.getHealth().getHealthValue());
 
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior;
@@ -234,7 +255,10 @@ public class Level implements ILevel {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
-				behavior.apply(currentSprite);
+				if(behavior instanceof Attack){
+					int x = -1;
+				}
+				behavior.apply(currentSprite, mySpriteFactory);
 			}
 
 		} else {
@@ -264,17 +288,7 @@ public class Level implements ILevel {
 		return deadSprites;
 
 	}
-	
-	private void setFactoryInSprites(){
-		for(Sprite sprite : spriteMap.values()){
-			Class[] params = new Class[1];
-			params[0] = mySpriteFactory.getClass();
-			Object[] objs = new Object[1];
-			objs[0] = mySpriteFactory;
-			sprite.invokeMethodInBehaviors("setSpriteFactory", params, objs);
-		}
-	}
-	
+
 	/**
 	 * This method handles Key Press Events.
 	 */
@@ -291,6 +305,5 @@ public class Level implements ILevel {
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory){
 		this.mySpriteFactory = mySpriteFactory;
-		setFactoryInSprites();
 	}
 }

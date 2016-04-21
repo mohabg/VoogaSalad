@@ -11,6 +11,7 @@ import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
+import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -22,30 +23,32 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 
 
-public abstract class Defense extends Sprite implements Behavior {
+public abstract class Defense implements Behavior {
 
 	private BooleanProperty enabled;
 	private ApplyBehaviorConditions behaviorConditions;
-
+	private RefObject myRef;
+	private Health health;
+	
 	public Defense(){
 		this(new RefObject());
 	}
 	
-	public Defense(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef,  ApplyBehaviorConditions behaviorConditions) {
-		
-		super(myProperties, myHealth, myCollisions, myBehaviors, myRef);
-		this.behaviorConditions = behaviorConditions;
-		this.enabled = new SimpleBooleanProperty();
+	public Defense(RefObject myRef){
+		this(myRef, false, new ApplyBehaviorConditions(), new Health());
 	}
-	
-	public Defense(RefObject refObject) {
-		this (new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), refObject);
+	public Defense(RefObject myRef, boolean enabled, ApplyBehaviorConditions behaviorConditions, Health myHealth){
+		this.myRef = myRef;
+		this.enabled = new SimpleBooleanProperty(enabled);
+		this.behaviorConditions = behaviorConditions;
+		this.health = health;
+	}
+	public RefObject getMyRef() {
+		return myRef;
 	}
 
-	public Defense(SpriteProperties spriteProperties, Health health, ArrayList<Collision> collisions,
-			HashMap<String, Behavior> behaviors, RefObject refObject) {
-		this(spriteProperties,health, collisions, behaviors, refObject, new ApplyBehaviorConditions());
+	public void setMyRef(RefObject myRef) {
+		this.myRef = myRef;
 	}
 
 	public boolean isEnabled(){
@@ -60,7 +63,7 @@ public abstract class Defense extends Sprite implements Behavior {
 		//disable image
 	}
 	public void takeDamage(double damage){
-		this.getHealth().decrementHealth(damage);
+		this.health.decrementHealth(damage);
 	}
 	public ApplyBehaviorConditions getBehaviorConditions(){
 		return behaviorConditions;
@@ -71,10 +74,10 @@ public abstract class Defense extends Sprite implements Behavior {
 	 * @see readyToDefend
 	 */
 	@Override
-	public void apply(Sprite sprite){
+	public void apply(Sprite sprite, SpriteFactory spriteFactory){
 		if(readyToDefend(sprite)){
 			enableDefense();
-			this.setCoord(sprite.getX(), sprite.getY());
+			spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), myRef);
 		}
 		else{
 			disableDefense();

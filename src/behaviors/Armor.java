@@ -19,18 +19,9 @@ import gameElements.SpriteProperties;
 
 public class Armor extends Defense{
 
-	public Armor() {
-		this(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), 
-				new RefObject(), new Health(), new ApplyBehaviorConditions());
+	public Armor(){
+		super();
 	}
-	
-	public Armor(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef, Health myHealth2,
-			ApplyBehaviorConditions behaviorConditions) {
-		
-		super(myProperties, myHealth, myCollisions, myBehaviors, myRef, behaviorConditions);
-	}
-
 	/**
 	 * @param sprite Determines whether the sprite is eligible to use its defense
 	 */

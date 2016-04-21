@@ -18,15 +18,11 @@ public class CriticalHitCollision extends DamageCollision{
 	private DoubleProperty criticalHitDamage;
 	
 	public CriticalHitCollision() {
-		this(new Sprite(""));
+		this(0, 0);
 	}
 	
-	public CriticalHitCollision(Sprite sprite) {
-		this(sprite, 0, 0);
-	}
-	
-	public CriticalHitCollision(Sprite sprite, double value, double criticalHitDamage){
-		super(sprite, value);
+	public CriticalHitCollision(double value, double criticalHitDamage){
+		super(value);
 		this.criticalHitDamage = new SimpleDoubleProperty(criticalHitDamage);
 	}
 	
@@ -38,10 +34,10 @@ public class CriticalHitCollision extends DamageCollision{
 	 * @param collision The automated sprite that the user controlled sprite is colliding into
 	 **/
 
-	public void handleCollision(EnemyCollision collision, LevelProperties levelPrpperties){
-		if(collision.isCollidingWithUser(this)){
+	public void handleCollision(EnemyCollision collision, LevelProperties levelProperties){
+		if(collision.isCollidingWithUser(levelProperties)){
 			if(Math.random() < getValue()){
-				causeDamage(collision.getSprite(), getCriticalHitDamage());
+				causeDamage(levelProperties.getSpriteForCollision(collision), getCriticalHitDamage());
 			}
 		}
 	}
@@ -49,11 +45,11 @@ public class CriticalHitCollision extends DamageCollision{
 	 * @param collision Human controlled sprite that is colliding
 	 */
 	
-	public void handleCollision(ActorCollision collision){
-		if( !(collision.isCollidingWithUser(this)) ){
+	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
+		if( !(collision.isCollidingWithUser(levelProperties)) ){
 			if(Math.random() < getValue()){
-				causeDamage(collision.getSprite(), getCriticalHitDamage());
-		}
+				causeDamage(levelProperties.getSpriteForCollision(collision), getCriticalHitDamage());
+			}
 		}
 	}
 }

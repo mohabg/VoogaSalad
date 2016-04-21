@@ -12,7 +12,7 @@ import goals.Goal.Goals;
 
 
 public class GoalFactory {
-	private String path = "";
+	private String path = "voogasalad_TheDuballers.src.goals.";
 	
 	
 	
@@ -40,7 +40,7 @@ public class GoalFactory {
 			exception.printStackTrace();
 		}
 		if(goal==null){
-			GoalProperties property=new GoalProperties(Goals.PointsGoal);
+			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
 			goal=new PointsGoal(property);
 		}
 		return goal;

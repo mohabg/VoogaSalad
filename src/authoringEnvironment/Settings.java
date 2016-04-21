@@ -2,7 +2,6 @@ package authoringEnvironment;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -11,26 +10,30 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
+
 /**
  * @author Huijia Yu
  */
 public class Settings {
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private static final double ITEM_WINDOW_WIDTH = SCREEN_WIDTH * 0.25;
-	private static final int mySpacing = 20;
-	
+    private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private static final double ITEM_WINDOW_WIDTH = SCREEN_WIDTH * 0.25;
+    private static final int mySpacing = 20;
+
+
+
+
 	// TODO: REPLACE THE CONSTANTS IN HERE
 	public Settings() {
 
 	}
 
 	public static void setTilePaneSettings(TilePane tilepane) {
-		tilepane.setPrefTileHeight(ITEM_WINDOW_WIDTH/3);
-		tilepane.setPrefTileWidth(ITEM_WINDOW_WIDTH/3);
-//		double inset = 5;
-//		tilepane.setPadding(new Insets(inset, inset, inset, inset));
-//		tilepane.setHgap(inset);
+		tilepane.setPrefTileHeight(ITEM_WINDOW_WIDTH / 3);
+		tilepane.setPrefTileWidth(ITEM_WINDOW_WIDTH / 3);
+		// double inset = 5;
+		// tilepane.setPadding(new Insets(inset, inset, inset, inset));
+		// tilepane.setHgap(inset);
 	}
 
 	public static void setTabPaneSettings(TabPane myTabPane) {
@@ -38,10 +41,10 @@ public class Settings {
 		myTabPane.setPrefWidth(0.25 * SCREEN_WIDTH);
 	}
 
-	public static void setGameAreaSettings(ScrollPane myNewGameArea) {
-		myNewGameArea.setFitToWidth(true);
+	public static void setGameAreaSettings(AnchorPane myNewGameArea) {
+//		myNewGameArea.setFitToWidth(true);
+		myNewGameArea.setPrefWidth(0.45 * SCREEN_WIDTH);
 		myNewGameArea.setPrefHeight(SCREEN_HEIGHT);
-		myNewGameArea.setPrefWidth(0.4 * SCREEN_WIDTH);
 	}
 
 	public static void setGamePaneSettings(AnchorPane myNewGamePane) {
@@ -56,20 +59,29 @@ public class Settings {
 		mySlider.setShowTickLabels(true);
 	}
 
-	public static void setSettingsDisplaySettings(VBox myDisplay){
-		myDisplay.setPrefWidth(SCREEN_WIDTH*0.3);
+	public static void setSettingsDisplaySettings(VBox myDisplay) {
+		myDisplay.setPrefWidth(SCREEN_WIDTH * 0.3);
 		myDisplay.setPrefHeight(SCREEN_HEIGHT);
 	}
 
-	public static void setStartWindowSettings(VBox startWindowBox){
-	startWindowBox.setPadding(new Insets(mySpacing, mySpacing, mySpacing, mySpacing));
-	startWindowBox.setSpacing(mySpacing);
-	startWindowBox.setAlignment(Pos.CENTER);
+	public static void setStartWindowSettings(VBox startWindowBox) {
+		startWindowBox.setPadding(new Insets(mySpacing, mySpacing, mySpacing, mySpacing));
+		startWindowBox.setSpacing(mySpacing);
+		startWindowBox.setAlignment(Pos.CENTER);
 	}
-	
-	public static void setGamePlayingSettings(Pane pane){
+
+	public static void setGamePlayingSettings(Pane pane) {
 		pane.setPrefHeight(SCREEN_HEIGHT);
 		pane.setPrefWidth(0.4 * SCREEN_WIDTH);
-		
+
 	}
+
+    public static int getScreenHeight() {
+        return SCREEN_HEIGHT;
+    }
+
+    public static int getScreenWidth() {
+        return SCREEN_WIDTH;
+    }
+
 }

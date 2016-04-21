@@ -9,8 +9,9 @@ import javafx.scene.layout.VBox;
 
 public class HUDElement {
 	private Pane myBox;
-	private enum BoxType {Vertical, Horizontal};
-	private BoxType myBoxType;
+	private enum BoxType {Vertical, Horizontal}
+
+    private BoxType myBoxType;
 	
 	private Priority ITEM_PRIORITY = Priority.ALWAYS;
 	private Pos CHILDREN_ALIGNMENT = Pos.CENTER;

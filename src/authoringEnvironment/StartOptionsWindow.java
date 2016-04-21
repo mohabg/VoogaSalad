@@ -44,11 +44,11 @@ public class StartOptionsWindow extends Screen {
 
 		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {
 
-			switchScene((Screen) new GameEditingFileScreen());
+			switchScene(new GameEditingFileScreen());
 		}));
 
 		Button playButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("play"), (e -> {
-			switchScene((Screen) new GamePlayingFileScreen());
+			switchScene(new GamePlayingFileScreen());
 		}));
 
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);

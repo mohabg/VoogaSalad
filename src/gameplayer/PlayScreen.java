@@ -11,6 +11,7 @@ import game.IGameEditor;
 import gameElements.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import level.Level;
@@ -24,18 +25,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
+<<<<<<< HEAD
+ * IScreen for playing the game. Has a HUD.
+ * This class also has an instance of Engine, which runs the game loop
+=======
  * IScreen for playing the game. Has a HUD. This class also has an instance of
  * Engine, which runs the game loop
- * 
+ *
+>>>>>>> origin/master
  * @author Huijia
  *
  */
 public class PlayScreen extends Screen {
 	private Map<Level, Map<Integer, ViewSprite>> myViewSprites;
 	private Engine myEngine;
+
 	private HeadsUpDisplay myHUD;
 
-	private List<LevelModel> gameLevels;
+//	private List<LevelModel> gameLevels;
 	private File gameFile;
 	private Level currentLevel;
 
@@ -52,21 +59,29 @@ public class PlayScreen extends Screen {
 
 	private void initHUD() {
 		Button pauseButton = makePauseButton();
+//		System.out.println(pauseButton.getOnKeyPressed());
+//		System.out.println(getScene().getOnKeyPressed());
+//		
+//		System.out.println(myPane.getOnKeyPressed());
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
+//		System.out.println(myPane.getOnKeyPressed());
+		
+//		myHUD.addToHUDElement(HUDEnum.Left, new Score);
 		myPane.getChildren().add(myHUD.getHUD());
 	}
 
 	private Button makePauseButton() {
 		return ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("pause"), a -> {
 			PauseScreen ps = new PauseScreen(this);
-			ps.initBorderPane(gameLevels);
+			ps.initBorderPane(myViewSprites.keySet());
 			switchScene(ps);
 			myEngine.pauseGameLoop();
 		});
 	}
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
-		this.gameLevels = gameLevels;
+//		this.gameLevels = gameLevels;
+
 		myEngine = new Engine(this, new GameEditor());
 
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
@@ -74,34 +89,44 @@ public class PlayScreen extends Screen {
 		// TODO: go through loop
 		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
 		setLevel(myEngine.getCurrentLevel());
-
 		myEngine.gameLoop();
+
 		// TODO GIVE MODELS TO BACKEND
+
 
 		// bind image-specific attributes
 	}
 
-	private void setLevel(Level newLevel) {
+	public void setLevel(Level newLevel) {
 		try{
 		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		}
 		catch (Exception e){
-			
+
 		}
 		currentLevel = newLevel;
 		System.out.println(myPane.getChildren().toString());
-		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel));
+		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel), newLevel.getSpriteMap());
 		newLevel.setSpriteFactory(sf);
-		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
-		myPane.setOnKeyReleased(key -> {
-			newLevel.handleKeyRelease(key);
-			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
-				System.out.println(vs.xProperty().doubleValue());
-				System.out.println(vs.yProperty().doubleValue());
-			}
-		});
-		// myPane.getChildren().
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> newLevel.handleKeyPress(key));
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> newLevel.handleKeyRelease(key));
+//
+//		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
+//		myPane.setOnKeyReleased(key -> {
+//			System.out.println(key.getCode());
+//			newLevel.handleKeyRelease(key);
+
+//			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
+//
+//				System.out.println(vs.xProperty().doubleValue());
+//				System.out.println(vs.yProperty().doubleValue());
+//			}
+//		});
+
+//		myPane.getChildren().
+	// myPane.getChildren().
 		myPane.getChildren().addAll(myViewSprites.get(newLevel).values());
+
 	}
 
 	// private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){
@@ -113,6 +138,7 @@ public class PlayScreen extends Screen {
 		return gameFile;
 	}
 
+
 	public void play() {
 		myEngine.playGameLoop();
 	}
@@ -123,6 +149,9 @@ public class PlayScreen extends Screen {
 			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
 			myViewSprites.get(currentLevel).remove(s);
 		});
+	}
+	public Level getCurrentLevel(){
+		return currentLevel;
 	}
 
 }

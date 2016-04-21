@@ -8,10 +8,14 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 import collisions.Collision;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.PointsCollision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
+import gameplayer.SpriteFactory;
 
 /**
  * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 
@@ -19,29 +23,25 @@ import gameElements.SpriteProperties;
 
 public class Bullet extends Attack{
 
-   public Bullet() {
-	   this(new SpriteProperties(), new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(),
-			   new RefObject(""), 0, 0, new ApplyBehaviorConditions(), null);
-   }
-	
-	public Bullet(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef, int ammunition, int chargeTime,
-			ApplyBehaviorConditions behaviorConditions, Movement movement) {
-		
-		super(myProperties, myHealth, myCollisions, myBehaviors, myRef, ammunition, chargeTime, behaviorConditions, movement);
-
+	public Bullet(){
+		this(new RefObject("pictures/galaga_enemy_3.png"));
 	}
-	
+	public Bullet(RefObject myRef){
+		super(myRef);
+	}
 	/**
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void apply(Sprite sprite) {
-        if(readyToShoot(sprite)){
-        	//Keep instance of sprite?
-            this.setCoord(sprite.getX(), sprite.getY());
-            getMovement().apply(this);
-            setAmmunition(getAmmunition() - 1);
-        }
+    public void apply(Sprite sprite, SpriteFactory spriteFactory) {
+       
+        	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
+            bullet.setAsUserControlled();
+        	Behavior movement = new MoveVertically(-3);
+            bullet.addBehavior(movement.getClass().getName(), movement);
+            bullet.addCollision(new DamageCollision(10));
+            bullet.addCollision(new DissapearCollision());
+            bullet.addCollision(new PointsCollision(10));
+        	setAmmunition(getAmmunition() - 1);
     }
 }
