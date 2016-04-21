@@ -38,6 +38,7 @@ public class GameAuthoringTab implements ITab{
     private LevelProperties myLevelProperties;
     private AnchorPane myNewGamePane = new AnchorPane();
 
+
     private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -105,12 +106,8 @@ public class GameAuthoringTab implements ITab{
 	}
 
     private void updateSettingsPane(LevelProperties clickedSprite) {
-        myWindow.setContent(myWindow.setSettingsContent(clickedSprite));
+        myWindow.setContent(setSettingsContent(clickedSprite));
     }
-
-//    private void updateSettingsPane(LevelProperties clickedSprite) {
-//        myWindow.setContent(setSettingsContent(clickedSprite));
-//    }
 
     /**
      * @param spriteModel model used to generate visual elements that
@@ -130,21 +127,13 @@ public class GameAuthoringTab implements ITab{
 		return myBox;
 	}
 
-
-//    public VBox setSettingsContent(LevelProperties spriteModel) {
-//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-//        TabPane propertiesPane = new TabPane();
-//        propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-//        myBox.getChildren().addAll(propertiesPane);
-//        return myBox;
-//    }
-
-//    public VBox setSettingsContent(LevelProperties myLevelProperties) {
-//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-//        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
-//        myBox.getChildren().addAll(propertiesList);
-//        return myBox;
-//    }
+    public VBox setSettingsContent(LevelProperties myLevelProperties) {
+    	currentSprite = null;
+        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
+        myBox.getChildren().addAll(propertiesList);
+        return myBox;
+    }
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
