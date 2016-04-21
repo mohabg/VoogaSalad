@@ -106,7 +106,8 @@ public class Engine {
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     myGameTime.set((System.currentTimeMillis() - startTime)/1000.0);
-					myGameScreen.removeSprites(myEditor.updateGame());
+                    myEditor.updateGame();
+//					myGameScreen.removeSprites(myEditor.updateGame());
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
 						myGameScreen.setLevel(myEditor.getCurrentLevel(), myGameScreen.getCurrentLevel());
 					}

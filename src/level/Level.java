@@ -23,6 +23,7 @@ import goals.Goal.Goals;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -155,7 +156,9 @@ public class Level implements ILevel {
 	}
 
 	public int getCurrentPoints() {
-		return getLevelProperties().getScore().getScoreValue().intValue();
+		return getLevelProperties().getScore().intValue();
+
+//		return getLevelProperties().getScore().getScoreValue().intValue();
 	}
 
 	public GoalFactory getGoalFactory() {
@@ -176,10 +179,12 @@ public class Level implements ILevel {
 	public void addGoal(Goal goal){
 		goalList.add(goal);
 	}
-	
-	public Score getScore(){
+	public IntegerProperty getScore(){
 		return levelProperties.getScore();
 	}
+//	public Score getScore(){
+//		return levelProperties.getScore();
+//	}
 
 	private boolean completeGoals() {
 		GoalChecker goalChecker = new GoalChecker(this);
@@ -188,7 +193,7 @@ public class Level implements ILevel {
 			if (goal.isFinished())
 				goalCount++;
 		}
-		System.out.println(goalCount+" "+getLevelProperties().getNumGoals());
+//		System.out.println(goalCount+" "+getLevelProperties().getNumGoals());
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
@@ -253,13 +258,15 @@ public class Level implements ILevel {
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		System.out.println(key.getCode()+key.getCharacter());
-		System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+ "  "+goalList.get(0).getGoal().name());
-		getScore().addScore(10);
+		
+//		System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+ "  "+goalList.get(0).getGoal().name());
+		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
 
 		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
+		System.out.println(currentSprite.getX().doubleValue());
 		if(currentSprite == null){
 			return;
 		}
