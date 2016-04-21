@@ -8,6 +8,7 @@ import level.LevelProperties;
 
 import java.util.Map;
 
+import authoringEnvironment.Project1;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
@@ -46,6 +47,10 @@ public class Engine {
 	public Engine(PlayScreen myGameScreen, IGameEditor editor) {
 		this(myGameScreen);
 		myEditor = editor;
+	}
+
+	public Engine(Project1 liveEditing, GameEditor gameEditor) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public void setGameInfo(GameInfo gameInfo) {

@@ -43,7 +43,12 @@ public class StartOptionsWindow extends Screen {
 			TextInputDialog dialog = new TextInputDialog("my-game");
 			dialog.setContentText("Please enter your game's name:");
 			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(r->switchScene(new MainAuthoringWindow(this, r)));
+			result.ifPresent(r->{
+				MainAuthoringWindow m = new MainAuthoringWindow(this, r);
+				switchScene(m);
+				m.setKeys();
+				
+			});
 		}));
 
 		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {

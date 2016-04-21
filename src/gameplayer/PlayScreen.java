@@ -77,9 +77,9 @@ public class PlayScreen extends Screen {
 //		System.out.println(myPane.getOnKeyPressed());
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
 //		System.out.println(myPane.getOnKeyPressed());
-//		myHUD.addToHUDElement(HUDEnum.Left, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
-//		Sprite user = myEngine.getCurrentLevel().getCurrentSprite();
-//		myHUD.addToHUDElement(HUDEnum.Right, user.getHealth().getProperty());
+		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
+		Sprite user = myEngine.getCurrentLevel().getCurrentSprite();
+		myHUD.addToHUDElement(HUDEnum.Up, user.getHealth().getProperty());
 //		myHUD.addToHUDElement(HUDEnum.Right, user.getCollisions());
 		myPane.getChildren().add(myHUD.getHUD());
 	}
@@ -117,20 +117,24 @@ public class PlayScreen extends Screen {
 		}
 		SpriteFactory sf = new SpriteFactory(myViewSprites.get(newLevel), newLevel.getSpriteMap());
 		newLevel.setSpriteFactory(sf);
-		activeSprites = newLevel.getSpriteMap().getActiveSprites();
-		activeSprites.addListener(new ListChangeListener<Integer>() {
-		      @Override
-		      public void onChanged(ListChangeListener.Change change) {
-		    	  setSprites();
-		      }});
-		System.out.println(activeSprites.get(0));
+//		activeSprites = newLevel.getSpriteMap().getActiveSprites();
+//		activeSprites.addListener(new ListChangeListener<Integer>() {
+//		      @Override
+//		      public void onChanged(ListChangeListener.Change change) {
+//		    	  setSprites();
+//		      }});
+//		System.out.println(activeSprites.get(0));
 //		myPane.removeEventFilter(KeyEvent.KEY_PRESSED, key -> oldLevel.handleKeyPress(key));
 //		myPane.removeEventFilter(KeyEvent.KEY_RELEASED, key -> oldLevel.handleKeyRelease(key));
 
 		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> newLevel.handleKeyPress(key));
 		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> newLevel.handleKeyRelease(key));
 		currentLevel = newLevel;
-		setSprites();
+		myPane.getChildren().addAll(myViewSprites.get(currentLevel).values());
+		currentLevel.setCurrentSpriteID(0);
+		currentLevel.getCurrentSprite().setAsUserControlled();
+		System.out.println(gameFile.getAbsolutePath());
+//		setSprites();
 		
 		
 
@@ -177,6 +181,23 @@ public class PlayScreen extends Screen {
 	}
 	public Level getCurrentLevel(){
 		return currentLevel;
+	}
+	
+	public Pane getPane(){
+		return myPane;
+	}
+	
+	public Map<Integer, Sprite> getSprites(){
+		return myEngine.getSpriteMap();
+	}
+	public Map <Integer, ViewSprite> getViewSprites(){
+		return myViewSprites.get(currentLevel);
+	}
+	public void setKeys(){
+
+		((Stage) myPane.getScene().getWindow()).addEventFilter(KeyEvent.KEY_PRESSED, key -> currentLevel.handleKeyPress(key));
+		((Stage) myPane.getScene().getWindow()).addEventFilter(KeyEvent.KEY_RELEASED, key -> currentLevel.handleKeyRelease(key));
+
 	}
 
 }

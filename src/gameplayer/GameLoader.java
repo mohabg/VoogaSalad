@@ -64,6 +64,7 @@ public class GameLoader {
 	 * @return the screen with the game
 	 */
 	public static Screen newGame(File file) {
+		System.out.println(file.getPath());
 		List<LevelModel> gameLevels = parseAndLoadGame(file);
 		PlayScreen ps = new PlayScreen(file);
 		ps.setGameLevels(gameLevels);

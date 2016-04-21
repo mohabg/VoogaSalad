@@ -12,12 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 import java.awt.*;
+import java.io.File;
 
 public class MainAuthoringWindow extends Screen {
 	private ItemWindow myItemWindow;
 	private AuthoringMenubarCreator myMenubar;
 	private GameMakerWindow myGameMakerWindow;
 	private SettingsWindow mySettingsWindow;
+	Project1 le;
 
 	public MainAuthoringWindow(Screen parent, String gameName) {
 		super(parent);
@@ -32,15 +34,23 @@ public class MainAuthoringWindow extends Screen {
 		// myItemWindow.init();
 		myGameMakerWindow.init(mySettingsWindow);
 		
-		((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
+		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
+		le = new Project1(new File(PATH), mySettingsWindow);
+		((BorderPane) myPane).setCenter(le.getPane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
 		((BorderPane) myPane).setRight(mySettingsWindow.getBox());
 		// mySettingsWindow.setContent();
+		
+		
 	}
 
 	public GameMakerWindow getGameMakerWindow() {
 		return myGameMakerWindow;
+	}
+	
+	public void setKeys(){
+		le.setKeys();
 	}
 
 }

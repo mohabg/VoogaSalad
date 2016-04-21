@@ -266,7 +266,7 @@ public class Level implements ILevel {
 		Integer currentSpriteID = getCurrentSpriteID();
 
 		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
-		System.out.println(currentSprite.getX().doubleValue());
+//		System.out.println(currentSprite.getX().doubleValue());
 		if(currentSprite == null){
 			return;
 		}
