@@ -10,6 +10,8 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import XStreamHandlers.FXConverters;
 import gameElements.Sprite;
+import goals.Goal.Goals;
+import goals.GoalProperties;
 import interfaces.ITab;
 import interfaces.ITabPane;
 import javafx.scene.control.TextField;
@@ -161,8 +163,9 @@ public class GameLoader {
         gameLevels.forEach(lm -> {
             Level newLevel = new Level();
 //            newLevel.setLevelProperties(lm.getMyProperties);
-
+//            newLevel.setGoalList(lm.getGoalList);
             newLevel.setLevelProperties(new LevelProperties());
+//            newLevel.addGoal(newLevel.getGoalFactory().makeGoal(new GoalProperties(Goals.PointsGoal)));
             
             myViewSprites.put(newLevel,setLevelSprites(newLevel, lm.getMyMap()) );
         });
@@ -177,7 +180,7 @@ public class GameLoader {
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
 
 		});
-        newLevel.getSpriteMap().get(newLevel.getCurrentSpriteID()).setAsUserControlled();
+//        newLevel.getSpriteMap().get(newLevel.getCurrentSpriteID()).setAsUserControlled();
 		return viewsprites;
 	}
 }

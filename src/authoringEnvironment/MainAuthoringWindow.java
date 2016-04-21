@@ -31,7 +31,6 @@ public class MainAuthoringWindow extends Screen {
 		mySettingsWindow = new SettingsWindow();
 		// myItemWindow.init();
 		myGameMakerWindow.init(mySettingsWindow);
-		myGameMakerWindow.addNewTab();
 		
 		((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());

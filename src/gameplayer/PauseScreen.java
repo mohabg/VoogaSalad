@@ -31,7 +31,7 @@ public class PauseScreen extends Screen {
 
 	public PauseScreen(Screen parent) {
 		super(parent);
-		myGameLoader = new GameLoader();
+//		myGameLoader = new GameLoader();
 	}
 
 	public void initBorderPane(Collection<Level> gameLevels) {
