@@ -192,7 +192,7 @@ public class VisualFactory {
 				if(prop instanceof MapProperty) {
 					MapProperty<R, T> mprt = (MapProperty<R, T>) prop;
 					Pane myComboBoxGrandParent = (Pane) myComboBoxParent.getParent();
-					ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKeyCopy = (ComboBox<SimpleEntry<Class<R>, R>>) myComboBoxGrandParent.getChildren().get(0);
+					ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKeyCopy = (ComboBox<SimpleEntry<Class<R>, R>>) ((VBox) myComboBoxGrandParent.getChildren().get(0)).getChildren().get(0);
 					R key = mySubclassBoxKeyCopy.getValue().getValue();
 					mprt.put(key, o.getValue().getValue());		
 				}
@@ -257,7 +257,7 @@ public class VisualFactory {
 		rObj = (R) newClassInstance(rType);		
 		updateComboBoxValue(rType, rObj, mySubclassBox);
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
-
+		
 		
 		return retVBox;
 	}
@@ -282,16 +282,16 @@ public class VisualFactory {
 		
 		// rObj is most likely a java object then (not user-made)
 		if (Property.class.isAssignableFrom(rType)) {
-			paramProps.add(makeSettingsObject(rObj, rType.getSimpleName()));
+			paramProps.add(new HBox(makeSettingsObject(rObj, rType.getSimpleName())));
 			return paramProps;
 		}
 		
 		for (Field rField : rAllFields) {			
-				rField.setAccessible(true);
-				Object rFieldObj = fieldGetObject(rField, rObj);	
-				String rFieldObjName = rField.getName();
+			rField.setAccessible(true);
+			Object rFieldObj = fieldGetObject(rField, rObj);	
+			String rFieldObjName = rField.getName();
 				
-				paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));			
+			paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));			
 		}
 		
 		return paramProps;
@@ -429,23 +429,32 @@ public class VisualFactory {
 		
 		// init combo box with values
 		List<SimpleEntry<Class<R>, R>> allSubKeyset = new ArrayList<SimpleEntry<Class<R>, R>>();
-		for (Class<R> rClass : allSubclasses.values()) {
-			SimpleEntry<Class<R>, R> classEntry = new SimpleEntry<Class<R>, R>(rClass, null);
-			allSubKeyset.add(classEntry);
-		}		
+		
+		// it's a java class
+		if (Property.class.isAssignableFrom(clazz)) {
+			clazz = (Class<R>) getPropertySubclass(clazz);
+			allSubKeyset.add(new SimpleEntry<Class<R>, R>(clazz, null));
+		} else if(KeyCode.class.isAssignableFrom(clazz)) {
+			KeyCode[] allCodes = KeyCode.values();
+			for (KeyCode k : allCodes) {
+				allSubKeyset.add(new SimpleEntry<Class<R>, R>((Class<R>)k.getClass(), (R) k));
+			}
+		} 
+		// user made class
+		else {
+			for (Class<R> rClass : allSubclasses.values()) {
+				allSubKeyset.add(new SimpleEntry<Class<R>, R>(rClass, null));
+			}	
+		}
+			
 		subclassBox.getItems().addAll(allSubKeyset);
 		
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = makeNewComboBoxStrConverter(clazz);
 		subclassBox.setConverter(comboBoxConverter);
 		
-		// it's a java class
+		
 		if (allSubKeyset.size() == 0) {
-			if (Property.class.isAssignableFrom(clazz)) {
-				clazz = (Class<R>) getPropertySubclass(clazz);
-				subclassBox.getItems().add(new SimpleEntry<Class<R>, R>(clazz, null));
-			} else if(KeyCode.class.isAssignableFrom(clazz)) {
-				
-			}
+			
 		}
 		
 		return subclassBox;
@@ -455,8 +464,12 @@ public class VisualFactory {
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = new StringConverter<SimpleEntry<Class<R>, R>>() {
 			@Override
 			public String toString(SimpleEntry<Class<R>, R> object) {
-				Class<R> clazz = object.getKey();
-				return clazz.getSimpleName();
+				if (KeyCode.class.isAssignableFrom(object.getKey())) {
+					return object.getValue().toString();
+				} else {
+					Class<R> clazz = object.getKey();
+					return clazz.getSimpleName();
+				}
 			}
 
 			@Override
@@ -472,7 +485,7 @@ public class VisualFactory {
 	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
-			HBox settingsHBox = makeSettingsObject(parent, p.getName());
+			HBox settingsHBox = new HBox(makeSettingsObject(parent, p.getName()));
 			properties.add(settingsHBox);
 			return properties;
 		}  else if (parent instanceof gameElements.Sprite) {
@@ -522,6 +535,10 @@ public class VisualFactory {
 	}
 	
 	private <R> R newClassInstance(Class<R> clazz) {
+		if (clazz.isEnum()) {
+			return (R) clazz;
+		}
+		
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -551,6 +568,8 @@ public class VisualFactory {
 		if (!myProjectClassNames.contains(clazz.getName())) {
 			if (Property.class.isAssignableFrom(clazz)) {
 				return (Class<R>) getPropertySubclass(clazz);
+			} else if(KeyCode.class.isAssignableFrom(clazz)) {
+				return clazz;
 			}
 			return clazz;
 		}
@@ -601,9 +620,9 @@ public class VisualFactory {
 		return Property.class.isAssignableFrom(p.getType());
 	}
 
-	private HBox makeSettingsObject(Object myProp, String propName) {
-		HBox propHBox = new HBox();
-        propHBox.setPadding(new Insets(20,20,20,20));
+	private VBox makeSettingsObject(Object myProp, String propName) {
+		VBox propVBox = new VBox();
+        propVBox.setPadding(new Insets(20,20,20,20));
         String labelText = convertCamelCase(propName);
 		Label propLabelName = new Label(labelText);
 
@@ -612,18 +631,18 @@ public class VisualFactory {
 
         if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
+			propVBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
 		} else if (myProp instanceof IntegerProperty) {
 			IntegerProperty ip = (IntegerProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
+			propVBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
 		} else if (myProp instanceof BooleanProperty) {
 			BooleanProperty bp = (BooleanProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
+			propVBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
 		} else if (myProp instanceof StringProperty) {
 			// THIS PROBABLY REFERS TO IMAGE FILES..............
 			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
-			propHBox.getChildren().addAll(propLabelName, makeTextField(sp));
+			propVBox.getChildren().addAll(propLabelName, makeTextField(sp));
 		} else if (myProp instanceof ListProperty) {
 			ListProperty lp = (ListProperty) myProp;
 			//propHBox.getChildren().addAll(propLabelName, makeTableView(lp));
@@ -631,7 +650,7 @@ public class VisualFactory {
 			MapProperty mp = (MapProperty) myProp;
 			//propHBox.getChildren().addAll(propLabelName, makeTableView(mp));
 		}
-		return propHBox;
+		return propVBox;
 	}
 
 	private String convertCamelCase(String camelCaseString) {
