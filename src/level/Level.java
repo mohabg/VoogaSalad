@@ -14,12 +14,17 @@ import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
+import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
 import goals.Goal;
+import goals.Goal.Goals;
 import goals.GoalChecker;
 import goals.GoalFactory;
+import goals.GoalProperties;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -60,10 +65,20 @@ public class Level implements ILevel {
 		goalList= new ArrayList<Goal>();
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
+//		goalList.add(goalFactory.makeGoal(new GoalProperties(Goals.PointsGoal)));
 		goalCount = 0;
 		isFinished = false;
 		currentSpriteID = 0;
 
+	}
+//	public Level()
+
+	public List<Goal> getGoalList() {
+		return goalList;
+	}
+
+	public void setGoalList(List<Goal> goalList) {
+		this.goalList = goalList;
 	}
 
 	public LevelProperties getLevelProperties() {
@@ -141,7 +156,9 @@ public class Level implements ILevel {
 	}
 
 	public int getCurrentPoints() {
-		return getLevelProperties().getScore().getScoreValue().intValue();
+		return getLevelProperties().getScore().intValue();
+
+//		return getLevelProperties().getScore().getScoreValue().intValue();
 	}
 
 	public GoalFactory getGoalFactory() {
@@ -162,6 +179,12 @@ public class Level implements ILevel {
 	public void addGoal(Goal goal){
 		goalList.add(goal);
 	}
+	public IntegerProperty getScore(){
+		return levelProperties.getScore();
+	}
+//	public Score getScore(){
+//		return levelProperties.getScore();
+//	}
 
 	private boolean completeGoals() {
 		GoalChecker goalChecker = new GoalChecker(this);
@@ -170,6 +193,7 @@ public class Level implements ILevel {
 			if (goal.isFinished())
 				goalCount++;
 		}
+//		System.out.println(goalCount+" "+getLevelProperties().getNumGoals());
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
@@ -234,12 +258,15 @@ public class Level implements ILevel {
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		System.out.println(key.getCode()+key.getCharacter());
-
+		
+//		System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+ "  "+goalList.get(0).getGoal().name());
+		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 		Integer currentSpriteID = getCurrentSpriteID();
 
 		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
+		System.out.println(currentSprite.getX().doubleValue());
 		if(currentSprite == null){
 			return;
 		}
@@ -305,5 +332,10 @@ public class Level implements ILevel {
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory){
 		this.mySpriteFactory = mySpriteFactory;
+	}
+
+	public Sprite getCurrentSprite() {
+		// TODO Auto-generated method stub
+		return spriteMap.get(currentSpriteID);
 	}
 }

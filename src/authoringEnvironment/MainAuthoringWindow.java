@@ -19,19 +19,18 @@ public class MainAuthoringWindow extends Screen {
 	private GameMakerWindow myGameMakerWindow;
 	private SettingsWindow mySettingsWindow;
 
-	public MainAuthoringWindow(Screen parent) {
+	public MainAuthoringWindow(Screen parent, String gameName) {
 		super(parent);
 		myPane = new BorderPane();
 		myPane.setStyle("-fx-background-color: #434343;");
 
 		myGameMakerWindow = new GameMakerWindow();
 		myItemWindow = new ItemWindow(myGameMakerWindow);
-		myMenubar = new AuthoringMenubarCreator();
+		myMenubar = new AuthoringMenubarCreator(gameName);
 		myMenubar.initMenuBar(this, myGameMakerWindow);
 		mySettingsWindow = new SettingsWindow();
 		// myItemWindow.init();
 		myGameMakerWindow.init(mySettingsWindow);
-		myGameMakerWindow.addNewTab();
 		
 		((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
