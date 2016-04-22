@@ -27,7 +27,7 @@ public class FrontEndData {
 	public static String TILEPANE = "TilePane";
 	
 
-	public static File DEFAULT_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/DefaultGames");
+	public static File DEFAULT_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/SavedGames");
 	public static File SAVED_DIRECTORY = new File(System.getProperty("user.dir") + "/SavedGameData/SavedGames");
 
 	public static String FILE_TYPE = ".xml";
