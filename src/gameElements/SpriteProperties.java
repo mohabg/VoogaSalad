@@ -31,10 +31,10 @@ public class SpriteProperties {
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
         myUserControlled = new SimpleBooleanProperty(false);
-        myLeftLimit=new SimpleDoubleProperty(-500);
-        myRightLimit=new SimpleDoubleProperty(500);
-        myUpLimit=new SimpleDoubleProperty(500);
-        myDownLimit=new SimpleDoubleProperty(-500);
+        myLeftLimit=new SimpleDoubleProperty(0);
+        myRightLimit=new SimpleDoubleProperty(590);
+        myUpLimit=new SimpleDoubleProperty(850);
+        myDownLimit=new SimpleDoubleProperty(0);
 
 //        myX.set(0);
 //        myY.set(0);
