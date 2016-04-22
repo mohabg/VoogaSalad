@@ -20,7 +20,7 @@ public class GameEditingFileScreen extends GameFileScreen {
 
 	@Override
 	public void setOnMouseClick(File file){
-		MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, file.getName());
+		MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, file.getName().replace(".xml", ""));
 		// TODO CHANGE THIS TO INJECTIONS
 		myMainAuthoringWindow.getGameMakerWindow()
 				.setGameTabs(getMyGameLoader().parseAndLoadGame(file));

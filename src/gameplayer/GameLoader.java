@@ -109,7 +109,7 @@ public class GameLoader {
 	private static void saveGame(String name, List<LevelModel> gameLevels) {
 		String saveFileDir = String.format(SAVED_FOLDER_DIRECTORY, name);
 		System.out.println("saved to " + saveFileDir);
-		FXConverters.configure(xstream);
+//		FXConverters.configure(xstream);
 		// BufferedOutputStream stdout = new BufferedOutputStream(System.out);
 		// xstream.marshal(gameLevels, new PrettyPrintWriter(new
 		// OutputStreamWriter(stdout)));

@@ -2,6 +2,7 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -77,9 +78,11 @@ public class PlayScreen extends Screen {
 //		System.out.println(myPane.getOnKeyPressed());
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
 //		System.out.println(myPane.getOnKeyPressed());
-//		myHUD.addToHUDElement(HUDEnum.Left, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
-//		Sprite user = myEngine.getCurrentLevel().getCurrentSprite();
-//		myHUD.addToHUDElement(HUDEnum.Right, user.getHealth().getProperty());
+		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
+		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
+		Integer userID = currentLevel.getCurrentSpriteID();
+AESpriteFactory sf = new AESpriteFactory();
+		myHUD.addToHUDElement(HUDEnum.Up, sf.clone(myViewSprites.get(currentLevel).get(userID)));
 //		myHUD.addToHUDElement(HUDEnum.Right, user.getCollisions());
 		myPane.getChildren().add(myHUD.getHUD());
 	}
@@ -105,7 +108,7 @@ public class PlayScreen extends Screen {
 		setLevel(myEngine.getCurrentLevel(), null);
 		myEngine.gameLoop();
 
-		initHUD();
+		
 	}
 
 	public void setLevel(Level newLevel, Level oldLevel) {
@@ -127,11 +130,11 @@ public class PlayScreen extends Screen {
 //		myPane.removeEventFilter(KeyEvent.KEY_PRESSED, key -> oldLevel.handleKeyPress(key));
 //		myPane.removeEventFilter(KeyEvent.KEY_RELEASED, key -> oldLevel.handleKeyRelease(key));
 
-		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> newLevel.handleKeyPress(key));
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> newLevel.handleKeyRelease(key));
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {newLevel.handleKeyPress(key); key.consume();});
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {newLevel.handleKeyRelease(key); key.consume();});
 		currentLevel = newLevel;
 		setSprites();
-		
+		initHUD();
 		
 
 	}
@@ -157,24 +160,24 @@ public class PlayScreen extends Screen {
 		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		System.out.println(activeSprites.get(0));
 		System.out.println(m.get(activeSprites.get(0)));
-		myPane.getChildren();
+//		myPane.getChildren();
 //		myPane.getChildren().addAll(activeSprites.stream().map(a->myViewSprites.get(currentLevel).get(a)).collect(Collectors.toList()));
 //		myPane.getChildren().add((Node) m.get(activeSprites.get(0)));
 		activeSprites.forEach(s->{
 			System.out.println(s);
-//			myPane.getChildren()
-//			.add(myViewSprites.get(currentLevel).get(s));
+			myPane.getChildren()
+			.add(myViewSprites.get(currentLevel).get(s));
 		});
 				
 	}
 
-	public void removeSprites(List<Integer> deadSprites) {
-		deadSprites.forEach(s -> {
-			System.out.println(s);
-			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
-			myViewSprites.get(currentLevel).remove(s);
-		});
-	}
+//	public void removeSprites(List<Integer> deadSprites) {
+//		deadSprites.forEach(s -> {
+//			System.out.println(s);
+//			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
+//			myViewSprites.get(currentLevel).remove(s);
+//		});
+//	}
 	public Level getCurrentLevel(){
 		return currentLevel;
 	}

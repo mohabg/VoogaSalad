@@ -59,6 +59,7 @@ public class HeadsUpDisplay {
 	public void addToHUDElement(HUDEnum loc, Property... items) {
 		for(Property item: items){
 			Label itemlabel = new Label();
+	//TODO: CSS styling
 			Bindings.bindBidirectional(itemlabel.textProperty(), item, new NumberStringConverter());
 			addToHUDElement(loc, itemlabel);
 		}

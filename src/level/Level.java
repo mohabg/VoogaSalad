@@ -197,7 +197,8 @@ public class Level implements ILevel {
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
-	private List<Integer> updateSprites() {
+//	private List<Integer> updateSprites() {
+		private void updateSprites() {
 
 		List<Integer> spriteList= new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
@@ -213,13 +214,13 @@ public class Level implements ILevel {
 
 			removeDeadSprite(spriteID, spriteList);
 		}
-		return spriteList;
+//		return spriteList;
 	}
 
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
 		if (spriteMap.get(spriteID).isDead()){
 			spriteMap.remove(spriteID);
-			deadSpriteList.add(spriteID);
+//			deadSpriteList.add(spriteID);
 		}
 
 	}
@@ -306,13 +307,14 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	public List<Integer> update() {
-		List<Integer> deadSprites= updateSprites();
+//	public List<Integer> update() {
+		public void update() {
+//		List<Integer> deadSprites= updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
 			setisFinished(true);
 		}
-		return deadSprites;
+//		return deadSprites;
 
 	}
 
