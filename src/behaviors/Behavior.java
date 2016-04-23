@@ -11,14 +11,14 @@ import javafx.beans.property.SimpleBooleanProperty;
  *
  */
 public abstract class Behavior {
-	
-	private BooleanProperty enabled;
+
+	public BooleanProperty enabled;
 	
 	public Behavior(){
 		enabled = new SimpleBooleanProperty(false);
 	}
 	public abstract void apply(Sprite spriteProperties, SpriteFactory spriteFactory);
-	
+
 	public boolean isEnabled(){
 		return enabled.getValue();
 	}

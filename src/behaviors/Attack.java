@@ -41,7 +41,7 @@ public abstract class Attack extends Behavior {
 		this(myRef, 1 ,0);
 	}
 
-	public Attack(RefObject myRef, int ammunition, int chargeTime) {	
+	public Attack(RefObject myRef, int ammunition, int chargeTime) {
 		super();
 		this.ammunition = new SimpleIntegerProperty(ammunition);
 		this.chargeTime = new SimpleIntegerProperty(chargeTime);
