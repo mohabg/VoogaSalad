@@ -127,8 +127,14 @@ public class PlayScreen extends Screen {
 //		myPane.removeEventFilter(KeyEvent.KEY_PRESSED, key -> oldLevel.handleKeyPress(key));
 //		myPane.removeEventFilter(KeyEvent.KEY_RELEASED, key -> oldLevel.handleKeyRelease(key));
 
-		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> newLevel.handleKeyPress(key));
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> newLevel.handleKeyRelease(key));
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			newLevel.handleKeyPress(key);
+			key.consume();
+		});
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+			newLevel.handleKeyRelease(key);
+			key.consume();
+		});
 		currentLevel = newLevel;
 		myPane.getChildren().addAll(myViewSprites.get(currentLevel).values());
 		currentLevel.setCurrentSpriteID(0);
