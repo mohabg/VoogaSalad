@@ -5,6 +5,7 @@ import javafx.util.Duration;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
+import gameElements.Time;
 
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class Engine {
 	private Timeline myGameLoop;
 	private Level currentLevel;
 	private IGameEditor myEditor;
-	private double myGameTime;
+	private Time myGameTime;
 	private boolean isPaused;
     private PlayScreen myGameScreen;
 
@@ -37,7 +38,6 @@ public class Engine {
 	public Engine(PlayScreen myGameScreen) {
 		this.myGameScreen = myGameScreen;
 		myGameLoop = new Timeline();
-		myGameTime = 0;
 		isPaused = false;
 	}
 	
@@ -99,11 +99,11 @@ public class Engine {
     
     public void gameLoop() {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
-        double startTime = System.currentTimeMillis();
+    	myGameTime = new Time();
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    myGameTime = (System.currentTimeMillis() - startTime)/1000.0;
+                	myGameTime.updateTime();
 					myGameScreen.removeSprites(myEditor.updateGame());
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
 						myGameScreen.setLevel(myEditor.getCurrentLevel());
@@ -128,7 +128,7 @@ public class Engine {
     }
     
     public double getGameTimeInSeconds() {
-    	return myGameTime;
+    	return myGameTime.getTime()/1000;
     }
     
     public void setResultForKeyPress(KeyEvent event) {
