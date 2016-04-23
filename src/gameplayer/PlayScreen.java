@@ -80,9 +80,6 @@ public class PlayScreen extends Screen {
 //		System.out.println(myPane.getOnKeyPressed());
 		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
 		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
-		Integer userID = currentLevel.getCurrentSpriteID();
-AESpriteFactory sf = new AESpriteFactory();
-		myHUD.addToHUDElement(HUDEnum.Up, sf.clone(myViewSprites.get(currentLevel).get(userID)));
 //		myHUD.addToHUDElement(HUDEnum.Right, user.getCollisions());
 		myPane.getChildren().add(myHUD.getHUD());
 	}
@@ -130,10 +127,15 @@ AESpriteFactory sf = new AESpriteFactory();
 //		myPane.removeEventFilter(KeyEvent.KEY_PRESSED, key -> oldLevel.handleKeyPress(key));
 //		myPane.removeEventFilter(KeyEvent.KEY_RELEASED, key -> oldLevel.handleKeyRelease(key));
 
-		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {newLevel.handleKeyPress(key); key.consume();});
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {newLevel.handleKeyRelease(key); key.consume();});
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {newLevel.handleKeyPress(key); 
+//		key.consume();
+		});
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {newLevel.handleKeyRelease(key); 
+//		key.consume();
+		});
 		currentLevel = newLevel;
-		setSprites();
+//		setSprites();
+		myPane.getChildren().addAll(myViewSprites.get(currentLevel).values());
 		initHUD();
 		
 

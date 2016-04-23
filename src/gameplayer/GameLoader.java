@@ -134,7 +134,6 @@ public class GameLoader {
 	 */
 	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
 	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
-		// FXConverters.configure(xstream);
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (ITab levelTab : levels.getITabs()) {
@@ -152,6 +151,8 @@ public class GameLoader {
 	 * @return list of LevelModel
 	 */
 	public static List<LevelModel> parseAndLoadGame(File file) {
+//		 FXConverters.configure(xstream);
+
 		return (List<LevelModel>) xstream.fromXML(file);
 	}
 

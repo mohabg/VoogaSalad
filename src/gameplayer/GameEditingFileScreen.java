@@ -23,7 +23,7 @@ public class GameEditingFileScreen extends GameFileScreen {
 		MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, file.getName().replace(".xml", ""));
 		// TODO CHANGE THIS TO INJECTIONS
 		myMainAuthoringWindow.getGameMakerWindow()
-				.setGameTabs(getMyGameLoader().parseAndLoadGame(file));
+				.setGameTabs(GameLoader.parseAndLoadGame(file));
 		switchScene(myMainAuthoringWindow);
 	}
 	

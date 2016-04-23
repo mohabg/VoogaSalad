@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import gameplayer.ButtonFactory;
 import gameplayer.GameEditingFileScreen;
+import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.Screen;
 import javafx.scene.control.Button;
@@ -31,7 +32,7 @@ public class StartOptionsWindow extends Screen {
 		myPane = new BorderPane();
 		startWindowBox = new VBox();
 		Settings.setStartWindowSettings(startWindowBox);
-
+		new GameLoader();
 		makeAndSetStartBox();
 	}
 
