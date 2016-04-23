@@ -1,0 +1,455 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+    -fx-border-width: 1 1 1 1; -fx-border-color: white white transparent white ;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #3c3c3c;
+
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #3c3c3c;
+    -fx-text-fill: #96b946;
+
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
+}
+
+
+#TilePane {
+    -fx-background-color: #3c3c3c;
+    -fx-border-width: 1 2 3 4; -fx-border-color: white ;
+
+}
+
+#GameTab{
+    -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;
+
+}
+
+
+.menu-bar{
+    -fx-background-color: #3c3c3c;
+    -fx-border-color:  #3c3c3c;
+    -fx-border-width: 2;
+
+}
+
+.menu-bar .label {
+    -fx-font-size: 14 pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: #dedede;
+
+}
+
+
+.menu:hover {
+    -fx-background-color: #96b946;
+}
+
+.menu-item .label{
+    -fx-font-size: 14 pt;
+    -fx-label-line-length: 8;
+    -fx-text-fill: #96b946;
+    -fx-background-color: #3c3c3c;
+}
+
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #96b946;
+}
+
+
+#button-style {
+    -fx-background-color:
+            #000000,
+            linear-gradient(#7ebcea, #2f4b8f),
+            linear-gradient(#426ab7, #263e75),
+            linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 34px;
+}
+/*
+.slider {
+    -fx-skin: "com.sun.javafx.scene.control.skin.SliderSkin";
+}
+*/
+
+.slider .thumb {
+    -fx-background-color:
+            derive(-fx-color,-36%),
+            derive(-fx-color,73%),
+            linear-gradient(to bottom, derive(-fx-color,-19%),derive(-fx-color,61%));
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 1.0em; /* makes sure this remains circular */
+    -fx-padding: 0.583333em; /* 7 */
+}
+
+.slider:focused .thumb {
+    -fx-color: -fx-focused-base;
+    -fx-background-color:
+            -fx-focus-color,
+            derive(-fx-color,-36%),
+            derive(-fx-color,73%),
+            linear-gradient(to bottom, derive(-fx-color,-19%),derive(-fx-color,61%));
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius: 1.0em; /* makes sure this remains circular */
+}
+
+
+/* Uncomment when RT-10521 is fixed.
+.slider .thumb:pressed {
+    -fx-color: -fx-pressed-base;
+}
+*/
+
+.slider .track {
+    -fx-background-color:
+            -fx-shadow-highlight-color,
+            derive(-fx-color,-22%),
+            linear-gradient(to bottom, derive(-fx-color,-15.5%), derive(-fx-color,34%) 30%, derive(-fx-color,68%));
+    -fx-background-insets: 1 0 -1 0, 0, 1;
+    -fx-background-radius: 2.5, 2.5, 1.5;
+    -fx-padding: 0.208333em; /* 2.5 */
+}
+
+.slider:vertical .track {
+    -fx-background-color:
+            -fx-shadow-highlight-color,
+            derive(-fx-color,-22%),
+            linear-gradient(to right, derive(-fx-color,-15.5%), derive(-fx-color,34%) 30%, derive(-fx-color,68%));
+    -fx-background-insets: 0 -1 0 1, 0, 1;
+}
+
+.slider .axis {
+    -fx-tick-mark-stroke: ladder(-fx-background, derive(-fx-background,30%) 40%, derive(-fx-background,-30%) 41%);
+    -fx-tick-label-font: 0.833333em System;
+    -fx-tick-label-fill: -fx-text-background-color;
+}
+
+.slider:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+
+/* Scroll Pane CSS */
+.scroll-pane {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ScrollPaneSkin";
+    -fx-background-color: -fx-box-border,-fx-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1.0;
+}
+
+.scroll-pane:focused {
+    -fx-background-color: -fx-focus-color, -fx-box-border, -fx-background;
+    -fx-background-insets: -1.4, 0, 1;
+}
+
+.scroll-pane > * > .scroll-bar:horizontal {
+    -fx-background-insets: 0, 1 0 0 0;
+    -fx-padding: 0.0 0.0 0.0 0.0;
+}
+
+.scroll-pane > * > .scroll-bar:vertical {
+    -fx-background-insets: 0, 0 0 0 1;
+    -fx-padding: 0.0 0.0 0.0 0.0;
+}
+
+.scroll-pane .corner {
+    -fx-background-color: -fx-box-border, -fx-base;
+    -fx-background-insets: 0, 1 0 0 1;
+}
+
+.scroll-pane:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+
+
+
+
+/* Tab Pane Extended CSS */
+
+.tab-pane {
+    -fx-skin: "com.sun.javafx.scene.control.skin.TabPaneSkin";
+    /* -fx-tab-min-width: 4.583em;  55 */
+    /* -fx-tab-max-width: 4.583em; 55 */
+    -fx-tab-min-height: 2em; /* 24 */
+    -fx-tab-max-height: 2em; /* 24 */
+}
+
+.tab .tab-label {
+    -fx-skin: "com.sun.javafx.scene.control.skin.LabelSkin";
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER;
+    -fx-text-fill: -fx-text-base-color;
+}
+/*
+.tab *.tab-label Text {
+    -fx-effect: dropshadow(two-pass-box , rgba(255, 255, 255, 0.4), 1, 0.0 , 0, 1);
+}*/
+
+.tab-content-area {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-padding: 0.0em; /* 0 */
+    /* -fx-opacity: -fx-disabled-opacity;*/
+}
+
+.tab {
+    /* This is how it is done in Button, but the -1 inset caused a white line  */
+    /* to appear beneath the tab, which looks bad, so it's taken out below.    */
+    /*    -fx-background-color: -fx-shadow-highlight-color, -fx-tab-border-color, -fx-inner-border, -fx-body-color;
+        -fx-background-radius: 5 5 0 0, 5 5 0 0, 4 4 0 0, 3 3 0 0;
+        -fx-background-insets: 0 0 -1 0, 0, 1, 2;*/
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.083333em 0.5em 0.083333em 0.5em; /* 1 6 1 6 */
+    /*    -fx-text-fill: -fx-text-base-color;*/
+}
+
+/*.tab:top {
+    -fx-background-color: -fx-tab-border-color, -fx-inner-border, -fx-body-color;
+}
+*/
+/*
+.tab:right {
+    -fx-background-color: -fx-tab-border-color, -fx-inner-border-bottomup, -fx-body-color-bottomup;
+}
+
+.tab:bottom {
+    -fx-background-color: -fx-tab-border-color, -fx-inner-border-bottomup, -fx-body-color-bottomup;
+}
+
+.tab:left {
+    -fx-background-color: -fx-tab-border-color, -fx-inner-border, -fx-body-color;
+}
+
+.tab:hover {
+    -fx-color: -fx-hover-base;
+}
+*/
+
+.tab:selected {
+    /*    -fx-background-color: white;*/
+
+    /*    -fx-background-color: -fx-tab-border-color, -fx-inner-border, -fx-body-color;
+        -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+        -fx-background-insets: 0, 1 1 0 1, 2 2 0 2;*/
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0, 1 1 0 1;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0;
+}
+
+.tab:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+.tab:disabled:hover {
+    -fx-color: -fx-base;
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+.tab-pane *.tab-header-background {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, derive(-fx-color, -20%);
+    -fx-effect: innershadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0 , 0);
+}
+
+/*.tab-pane *.tab-header-area {*/
+/* I would like to use -fx-tab-border-color here, but for some reason it */
+/* just isn't the correct color, even though it works in :top above */
+/*    -fx-background-color: -fx-tab-border-color, lightgray;*/
+/*}*/
+
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
+}
+
+.tab-pane:bottom *.tab-header-area {
+    -fx-background-insets: 0, 1 0 0 0;
+    -fx-padding: 0 0.166667em 0.416667em 0.833em; /* 0 2 5 0 */
+}
+
+.tab-pane:left *.tab-header-area {
+    -fx-background-insets: 0, 0 1 0 0;
+    -fx-padding: 0.833em 0.0em 0.166667em 0.416667em; /* 10 0 2 5 */
+}
+
+.tab-pane:right *.tab-header-area {
+    -fx-background-insets: 0, 0 0 0 1;
+    -fx-padding: 0.833em 0.416667em 0.166667em 0.0em; /* 10 5 2 0 */
+}
+
+.tab-pane .headers-region {
+    -fx-effect: dropshadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0, 0);
+}
+
+/* TODO: scaling the shape seems to make it way too large */
+.tab-close-button {
+    -fx-background-color: -fx-mark-color;
+    -fx-shape: "M 0,0 H1 L 4,3 7,0 H8 V1 L 5,4 8,7 V8 H7 L 4,5 1,8 H0 V7 L 3,4 0,1 Z";
+    -fx-scale-shape: false;
+    -fx-effect: dropshadow(two-pass-box , rgba(255, 255, 255, 0.4), 1, 0.0 , 0, 1);
+}
+
+.tab-close-button:hover {
+    -fx-background-color: derive(-fx-mark-color, -30%);
+}
+
+/* CONTROL BUTTONS */
+.control-buttons-tab {
+    -fx-background-color: -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.083333em 0.25em 0.083333em 0.25em; /* 1 3 1 3 */
+}
+
+.tab-down-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0.0em 0.416667em 0.0em 0.416667em; /* 0 5 0 5 */
+}
+
+.tab-down-button:hover {
+    -fx-background-color: -fx-body-color;
+    -fx-color: -fx-hover-base;
+}
+
+.tab-down-button .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.238083em 0.416667em 0.238083em 0.416667em; /* 2.857 5 2.857 5 */
+    -fx-shape: "M 0 0 H 7 L 3.5 4 z";
+}
+
+/* FLOATING TABS CUSTOMISATION */
+.tab-pane.floating *.tab-header-background {
+    -fx-background-color: null;
+}
+
+.tab-pane.floating *.tab-header-area {
+    -fx-background-color: null;
+}
+
+.tab-pane.floating *.tab-content-area {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 5, 4;
+}
+
+.tab-pane.floating *.tab {
+    -fx-background-color: -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+}
+
+.tab-pane.floating *.tab:selected {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0 0 -1 0, 1 1 -1 1;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0;
+}
+
+
+
+
+/* Tool Bar CSS */
+
+.tool-bar {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ToolBarSkin";
+}
+
+.tool-bar:vertical {
+    -fx-background: derive(-fx-base,-20%);
+    -fx-background-color:
+            linear-gradient(to right, derive(-fx-base,-30%), derive(-fx-base,-60%)),
+            linear-gradient(to right, derive(-fx-base,65%) 2%, derive(-fx-base,-20%) 95%);
+    -fx-background-insets: 0, 0 1 0 1;
+    -fx-background-radius: 0 ;
+    -fx-padding: 0.833em 0.416667em 0.833em 0.416667em; /* 10 5 10 5 */
+    -fx-spacing: 0.333em; /* 4 */
+    -fx-alignment: TOP_LEFT;
+}
+
+.tool-bar .separator:vertical .line {
+    -fx-border-style: solid;
+    -fx-background-color: null;
+    -fx-border-color:  transparent derive(-fx-base,-35%) transparent transparent;
+}
+
+.tool-bar .separator:horizontal .line {
+    -fx-border-style: solid;
+    -fx-background-color: null;
+    -fx-border-color:  transparent transparent derive(-fx-base,-35%) transparent;
+}
+
+.tool-bar:vertical .separator {
+    -fx-orientation: horizontal;
+    -fx-padding: 0.0em 0.0835em 0.0em 0.0835em; /* 0 1 0 1 */
+}
+
+.tool-bar:horizontal {
+    -fx-background: derive(-fx-base,-30%);
+    -fx-background-color:
+            linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),
+            linear-gradient(to bottom, derive(-fx-base,65%) 2%, derive(-fx-base,-20%) 95%);
+    -fx-background-insets: 0, 1 0 1 0;
+    -fx-background-radius: 0, 0 ;
+    -fx-padding: 0.416667em 0.833em 0.416667em 0.833em; /* 5 10 5 10 */
+    -fx-spacing: 0.333em; /* 4 */
+    -fx-alignment: CENTER_LEFT;
+}
+
+.tool-bar:horizontal .separator {
+    -fx-orientation: vertical;
+    -fx-padding: 0.0835em 0.0em 0.0835em 0.0em; /* 1 0 1 0 */
+}
+
+.tool-bar-overflow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0.666667em 0.916667em 0em 0em; /* 8 11 0 0 */
+}
+
+.tool-bar-overflow-button .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.666667em 0.916667em 0em 0em; /* 8 11 0 0 */
+    -fx-shape: "M337.273,297.622l-0.016,1.069l2.724,2.639l-2.723,2.628l0.015,1.048h0.881l3.81-3.685l-3.788-3.699H337.273z M343.783,297.622h-0.902l-0.015,1.069l2.724,2.639l-2.724,2.628l0.015,1.048h0.882l3.809-3.685L343.783,297.622z" ;
+}
+
+.tool-bar-overflow-button:focused .arrow {
+    -fx-background-color: -fx-mark-highlight-color, derive(-fx-accent, -15%);
+    -fx-background-insets: 1 0 -1 0, 0;
+}
+
+.tool-bar-overflow-button:hover .arrow {
+    -fx-background-color: -fx-mark-highlight-color, derive(-fx-hover-base, -35%);
+    -fx-background-insets: 1 0 -1 0, 0;
+}

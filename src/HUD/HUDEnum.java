@@ -4,5 +4,5 @@ public enum HUDEnum {
 	Left, 
 	Right, 
 	Up, 
-	Down;
+	Down
 }

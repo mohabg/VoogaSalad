@@ -5,39 +5,63 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * A class that describes the health of each sprite, which usually determines when a sprite will disappear from a level and be
+ * removed from spriteMap. Most classes use this class to check and update health of certain sprites on the screen 
+ */
+
+
 public class Health {
+
 	
-	private DoubleProperty value = new SimpleDoubleProperty();
-	private boolean isMortal;	
+	private DoubleProperty healthValue;
+	private BooleanProperty isMortal;	
+	
 	public Health(){
-		isMortal = false;
+		healthValue = new SimpleDoubleProperty(0);
+		isMortal = new SimpleBooleanProperty(false);
 	}
-	public Health(DoubleProperty myHealth){
-		this.value = myHealth;
-		isMortal = true;
+	
+	public Health(double myHealth){
+		healthValue = new SimpleDoubleProperty(myHealth);
+		isMortal = new SimpleBooleanProperty(true);
 	}
-	private void changeHealth(double val){
-		if(isMortal){
-			value.add(val);
+
+	private void changeHealth(double val) {
+		if (isMortal.getValue()) {
+			healthValue.set(healthValue.doubleValue() + val);
 		}
 	}
-	public void setHealth(double health){
-		this.value.set(health);
-		isMortal = true;
+
+	public void setHealth(double health) {
+		this.healthValue.set(health);
+		isMortal.set(true);
 	}
-	public double getHealthValue(){
-		return value.doubleValue();
+
+	public double getHealthValue() {
+		return healthValue.doubleValue();
 	}
-	public void decrementHealth(double damage){
+
+	public void decrementHealth(double damage) {
 		changeHealth(damage * -1);
 	}
-	public void incrementHealth(double val){
+
+	public void incrementHealth(double val) {
 		changeHealth(val);
 	}
-	public boolean isDead(){
-		if(!isMortal){
+	
+	public void kill(){
+		isMortal.set(true);
+		healthValue.set(0);
+	}
+	/**
+	 * If the sprite is mortal, check if its health is zero
+	 * @return
+	 */
+	public boolean isDead() {
+		if (!isMortal.getValue()) {
 			return false;
 		}
-		return value.doubleValue() <= 0;
+		return healthValue.doubleValue() <= 0;
 	}
 }
