@@ -10,6 +10,7 @@ import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import gameplayer.GameLoader;
 import gameplayer.PlayScreen;
+import interfaces.IGameWindow;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
@@ -23,7 +24,7 @@ import javafx.scene.layout.VBox;
 import level.LevelProperties;
 import resources.FrontEndData;
 
-public class Project1 {
+public class Project1 implements IGameWindow{
 	PlayScreen ps;
 	private double orgSceneX, orgSceneY;
 	private double orgTranslateX, orgTranslateY;
@@ -95,9 +96,10 @@ public class Project1 {
 		//AnchorPane myNewGamePane = new AnchorPane();
 
         myNewGameArea.setContent(myNewGamePane);
-//        myNewGamePane.setOnMouseClicked(e->{
-//            updateSettingsPane(this.myLevelModel);
-//        });
+        myNewGamePane.setOnMouseClicked(e->{
+        	//TODO: change this 
+            updateSettingsPane(new LevelModel(ps.getCurrentLevel()));
+        });
 
 		ps.getViewSprites().values().forEach(c-> addWithClicking(c));
 	}
@@ -171,6 +173,12 @@ public class Project1 {
 	
 	public void setKeys(){
 		ps.setKeys();
+	}
+
+	@Override
+	public void setViewSprite(ViewSprite vs) {
+		myNewGamePane.getChildren().add(vs);
+		
 	}
 
 }

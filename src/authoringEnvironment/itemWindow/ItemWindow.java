@@ -2,6 +2,7 @@ package authoringEnvironment.itemWindow;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
+import interfaces.IGameWindow;
 import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,10 +16,10 @@ import java.util.stream.Collectors;
  */
 public class ItemWindow {
 	private TabPane myTabPane;
-	private ITabPane myGameTabPane;
+	private IGameWindow myGameTabPane;
 	// private Map<ViewSprite, Sprite> mySpritesAndModels;
 
-	public ItemWindow(ITabPane window) {
+	public ItemWindow(IGameWindow window) {
 		myGameTabPane = window;
 		myTabPane = new TabPane();
 		myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
@@ -53,7 +54,7 @@ public class ItemWindow {
         	String p = FrontEndData.SpriteImages.getString(key);
 			ViewSprite viewsprite = new ViewSprite(p);
 			viewsprite.setOnMouseClicked(e -> {
-				myGameTabPane.getCurrentTab().setTabContent(viewsprite);
+				myGameTabPane.setViewSprite(viewsprite);
 			});
 			return viewsprite;
 	}

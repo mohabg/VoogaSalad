@@ -25,17 +25,22 @@ public class MainAuthoringWindow extends Screen {
 		super(parent);
 		myPane = new BorderPane();
 		myPane.setStyle("-fx-background-color: #434343;");
+		mySettingsWindow = new SettingsWindow();
 
 		myGameMakerWindow = new GameMakerWindow();
-		myItemWindow = new ItemWindow(myGameMakerWindow);
-		myMenubar = new AuthoringMenubarCreator(gameName);
-		myMenubar.initMenuBar(this, myGameMakerWindow);
-		mySettingsWindow = new SettingsWindow();
-		// myItemWindow.init();
-		myGameMakerWindow.init(mySettingsWindow);
 		
 		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
 		le = new Project1(new File(PATH), mySettingsWindow);
+		
+		myItemWindow = new ItemWindow(myGameMakerWindow);
+		myItemWindow = new ItemWindow(le);
+
+		
+		myMenubar = new AuthoringMenubarCreator(gameName);
+		myMenubar.initMenuBar(this, myGameMakerWindow);
+		// myItemWindow.init();
+		myGameMakerWindow.init(mySettingsWindow);
+		
 		((BorderPane) myPane).setCenter(le.getPane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());

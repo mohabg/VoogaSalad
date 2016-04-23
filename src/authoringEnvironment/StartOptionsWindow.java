@@ -32,7 +32,6 @@ public class StartOptionsWindow extends Screen {
 		myPane = new BorderPane();
 		startWindowBox = new VBox();
 		Settings.setStartWindowSettings(startWindowBox);
-		new GameLoader();
 		makeAndSetStartBox();
 	}
 
@@ -45,9 +44,8 @@ public class StartOptionsWindow extends Screen {
 			dialog.setContentText("Please enter your game's name:");
 			Optional<String> result = dialog.showAndWait();
 			result.ifPresent(r->{
-				MainAuthoringWindow m = new MainAuthoringWindow(this, r);
-				switchScene(m);
-				m.setKeys();
+				switchScene(new MainAuthoringWindow(this, r));
+//				m.setKeys();
 				
 			});
 		}));
