@@ -24,7 +24,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 
 
-public abstract class Attack implements Behavior {
+public abstract class Attack extends Behavior {
 	
 	private IntegerProperty ammunition;
 	private IntegerProperty chargeTime;
@@ -42,6 +42,7 @@ public abstract class Attack implements Behavior {
 	}
 
 	public Attack(RefObject myRef, int ammunition, int chargeTime) {	
+		super();
 		this.ammunition = new SimpleIntegerProperty(ammunition);
 		this.chargeTime = new SimpleIntegerProperty(chargeTime);
 		this.behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);

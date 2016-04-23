@@ -26,8 +26,8 @@ public class MoveVertically extends Movement{
 
 	@Override
 	public void move(Sprite sprite) {
-		//sprite.getSpriteProperties().setMyY((sprite.getY().doubleValue() + getValue()));
-		sprite.getSpriteProperties().setMyYvel(getValue());
+		sprite.getSpriteProperties().setMyY((sprite.getY().doubleValue() + getValue()));
+		//sprite.getSpriteProperties().setMyYvel(getValue());
 
 
 	}
