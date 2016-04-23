@@ -24,9 +24,11 @@ public class SpriteMap{
 	}
 	
 	public void addSprite(Sprite sprite){
-//		id++;
-		spriteMap.put(id++, sprite);
+
+		spriteMap.put(id, sprite);
 		activeSprites.add(id);
+		id++;
+
 	}
 	public int getLastSpriteID(){
 		return id - 1;
@@ -42,6 +44,7 @@ public class SpriteMap{
 	}
 	public void remove(int id){
 		spriteMap.remove(id);
+		activeSprites.remove(id);
 	}
 	
 	public Collection<Sprite> getSprites(){

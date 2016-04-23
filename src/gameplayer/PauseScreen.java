@@ -58,7 +58,7 @@ public class PauseScreen extends Screen {
 
 		Button save = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("savegame"), a -> {
 			File currGameFile = ((PlayScreen) parentScreen).getGameFile();
-			GameLoader.savePlayedGame( currGameFile.getName(), gameLevels);
+			GameLoader.savePlayedGame( currGameFile.getName().replace(".xml", ""), gameLevels);
 		});
 
 		Button settings = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("changesettings"), a -> {

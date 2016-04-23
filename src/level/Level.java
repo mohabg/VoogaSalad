@@ -51,7 +51,7 @@ public class Level implements ILevel {
 	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
-
+	private Integer userControlledSpriteID;
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
@@ -136,10 +136,12 @@ public class Level implements ILevel {
 		setCurrentSpriteID(newSpriteID);
 		getSpriteMap().put(newSpriteID, newSprite);
 		*/
-
+		
 		spriteMap.addSprite(newSprite);
 		setCurrentSpriteID(spriteMap.getLastSpriteID());
-		
+		if(newSprite.isUserControlled()){
+			userControlledSpriteID = spriteMap.getLastSpriteID();
+		}
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
@@ -197,7 +199,8 @@ public class Level implements ILevel {
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
-	private List<Integer> updateSprites() {
+//	private List<Integer> updateSprites() {
+		private void updateSprites() {
 
 		List<Integer> spriteList= new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
@@ -213,13 +216,13 @@ public class Level implements ILevel {
 
 			removeDeadSprite(spriteID, spriteList);
 		}
-		return spriteList;
+//		return spriteList;
 	}
 
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
 		if (spriteMap.get(spriteID).isDead()){
 			spriteMap.remove(spriteID);
-			deadSpriteList.add(spriteID);
+//			deadSpriteList.add(spriteID);
 		}
 
 	}
@@ -263,10 +266,10 @@ public class Level implements ILevel {
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
-		Integer currentSpriteID = getCurrentSpriteID();
 
-		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
-//		System.out.println(currentSprite.getX().doubleValue());
+
+		Sprite currentSprite = getSpriteMap().get(userControlledSpriteID);
+		System.out.println(currentSprite.getX().doubleValue());
 		if(currentSprite == null){
 			return;
 		}
@@ -306,13 +309,14 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	public List<Integer> update() {
-		List<Integer> deadSprites= updateSprites();
+//	public List<Integer> update() {
+		public void update() {
+//		List<Integer> deadSprites= updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
 			setisFinished(true);
 		}
-		return deadSprites;
+//		return deadSprites;
 
 	}
 

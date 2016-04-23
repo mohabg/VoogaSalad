@@ -133,11 +133,11 @@ public class Sprite {
 	 * Updates the sprite frame by frame
 	 */
 	public void update(SpriteFactory spriteFactory) {
-		myProperties.updatePos();
 		for (Behavior behavior : automaticBehaviors.values()) {
 			 behavior.apply(this, spriteFactory);
 		}
 
+		myProperties.updatePos();
 	}
 
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {

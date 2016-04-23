@@ -2,6 +2,7 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
@@ -36,14 +37,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
-<<<<<<< HEAD
- * IScreen for playing the game. Has a HUD.
- * This class also has an instance of Engine, which runs the game loop
-=======
+
  * IScreen for playing the game. Has a HUD. This class also has an instance of
  * Engine, which runs the game loop
  *
->>>>>>> origin/master
  * @author Huijia
  *
  */
@@ -78,8 +75,8 @@ public class PlayScreen extends Screen {
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
 //		System.out.println(myPane.getOnKeyPressed());
 		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
-		Sprite user = myEngine.getCurrentLevel().getCurrentSprite();
-		myHUD.addToHUDElement(HUDEnum.Up, user.getHealth().getProperty());
+
+		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
 //		myHUD.addToHUDElement(HUDEnum.Right, user.getCollisions());
 		myPane.getChildren().add(myHUD.getHUD());
 	}
@@ -105,7 +102,7 @@ public class PlayScreen extends Screen {
 		setLevel(myEngine.getCurrentLevel(), null);
 		myEngine.gameLoop();
 
-		initHUD();
+		
 	}
 
 	public void setLevel(Level newLevel, Level oldLevel) {
@@ -127,21 +124,17 @@ public class PlayScreen extends Screen {
 //		myPane.removeEventFilter(KeyEvent.KEY_PRESSED, key -> oldLevel.handleKeyPress(key));
 //		myPane.removeEventFilter(KeyEvent.KEY_RELEASED, key -> oldLevel.handleKeyRelease(key));
 
-		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			newLevel.handleKeyPress(key);
-			key.consume();
+
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {newLevel.handleKeyPress(key); 
+//		key.consume();
 		});
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
-			newLevel.handleKeyRelease(key);
-			key.consume();
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {newLevel.handleKeyRelease(key); 
+//		key.consume();
 		});
 		currentLevel = newLevel;
-		myPane.getChildren().addAll(myViewSprites.get(currentLevel).values());
-		currentLevel.setCurrentSpriteID(0);
-		currentLevel.getCurrentSprite().setAsUserControlled();
-		System.out.println(gameFile.getAbsolutePath());
 //		setSprites();
-		
+		myPane.getChildren().addAll(myViewSprites.get(currentLevel).values());
+		initHUD();
 		
 
 	}
@@ -167,24 +160,24 @@ public class PlayScreen extends Screen {
 		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		System.out.println(activeSprites.get(0));
 		System.out.println(m.get(activeSprites.get(0)));
-		myPane.getChildren();
+//		myPane.getChildren();
 //		myPane.getChildren().addAll(activeSprites.stream().map(a->myViewSprites.get(currentLevel).get(a)).collect(Collectors.toList()));
 //		myPane.getChildren().add((Node) m.get(activeSprites.get(0)));
 		activeSprites.forEach(s->{
 			System.out.println(s);
-//			myPane.getChildren()
-//			.add(myViewSprites.get(currentLevel).get(s));
+			myPane.getChildren()
+			.add(myViewSprites.get(currentLevel).get(s));
 		});
 				
 	}
 
-	public void removeSprites(List<Integer> deadSprites) {
-		deadSprites.forEach(s -> {
-			System.out.println(s);
-			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
-			myViewSprites.get(currentLevel).remove(s);
-		});
-	}
+//	public void removeSprites(List<Integer> deadSprites) {
+//		deadSprites.forEach(s -> {
+//			System.out.println(s);
+//			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
+//			myViewSprites.get(currentLevel).remove(s);
+//		});
+//	}
 	public Level getCurrentLevel(){
 		return currentLevel;
 	}
