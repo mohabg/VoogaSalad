@@ -52,8 +52,9 @@ public class GameLoader {
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
 
-	public GameLoader() {
+	public static void init() {
 		FXConverters.configure(xstream);
+		
 	}
 
 	/**
@@ -189,4 +190,6 @@ public class GameLoader {
 		File file = new File(String.format(SAVED_FOLDER_DIRECTORY, name));
 		return newGame(file);
 	}
+
+	
 }
