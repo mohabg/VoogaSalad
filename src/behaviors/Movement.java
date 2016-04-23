@@ -11,24 +11,20 @@ import javafx.beans.property.SimpleDoubleProperty;
 	 * to move the sprite 
 	 */
 
-public abstract class Movement implements Behavior{
+public abstract class Movement extends Behavior{
 	//New movement with list of movements
 	//run each movement a specified number of times before going to next
 
-	private Sprite mySprite;
 	private DoubleProperty value;
 	
 	public Movement(){
 		this(0);
 	}
 	public Movement(double value){
+		super();
 		this.value = new SimpleDoubleProperty(value);
-		//mySprite = new Sprite("");
 	}
 	
-	public Sprite getSpriteProperties(){
-		return mySprite;
-	}
 	public double getValue(){
 		return value.doubleValue();
 	}
