@@ -65,7 +65,7 @@ public class GameMakerWindow implements ITabPane {
 
 	public void setGameTabs(List<LevelModel> gameLevels) {
 		myTabPane.getTabs().clear();
-        // myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        // myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		for (LevelModel lm : gameLevels) {
 			System.out.println("new tab");

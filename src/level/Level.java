@@ -14,7 +14,8 @@ import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
-import gameElements.Score;
+
+import collisions.EnemyCollision;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
@@ -247,7 +248,6 @@ public class Level implements ILevel {
 					
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
-
 							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
 									getLevelProperties());
 
@@ -284,9 +284,6 @@ public class Level implements ILevel {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
-				if(behavior instanceof Attack){
-					int x = -1;
-				}
 				behavior.apply(currentSprite, mySpriteFactory);
 			}
 
