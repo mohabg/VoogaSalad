@@ -135,9 +135,10 @@ public class Sprite {
 	public void update(SpriteFactory spriteFactory) {
 		myProperties.updatePos();
 		for (Behavior behavior : automaticBehaviors.values()) {
-			 behavior.apply(this, spriteFactory);
+			if(behavior.isEnabled()){
+				behavior.apply(this, spriteFactory);
+			}
 		}
-
 	}
 
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {

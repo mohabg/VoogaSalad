@@ -21,4 +21,10 @@ public abstract class Behavior {
 	public boolean isEnabled(){
 		return enabled.getValue();
 	}
+	public void enable(){
+		enabled.set(true);
+	}
+	public void disable(){
+		enabled.set(false);
+	}
 }
