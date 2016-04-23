@@ -51,7 +51,7 @@ public class Level implements ILevel {
 	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
-
+	private Integer userControlledSpriteID;
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
@@ -136,10 +136,12 @@ public class Level implements ILevel {
 		setCurrentSpriteID(newSpriteID);
 		getSpriteMap().put(newSpriteID, newSprite);
 		*/
-
+		
 		spriteMap.addSprite(newSprite);
 		setCurrentSpriteID(spriteMap.getLastSpriteID());
-		
+		if(newSprite.isUserControlled()){
+			userControlledSpriteID = spriteMap.getLastSpriteID();
+		}
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
@@ -264,9 +266,8 @@ public class Level implements ILevel {
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
-		Integer currentSpriteID = getCurrentSpriteID();
 
-		Sprite currentSprite = getSpriteMap().get(currentSpriteID);
+		Sprite currentSprite = getSpriteMap().get(userControlledSpriteID);
 		System.out.println(currentSprite.getX().doubleValue());
 		if(currentSprite == null){
 			return;
