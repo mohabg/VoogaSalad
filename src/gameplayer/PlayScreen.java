@@ -3,46 +3,38 @@ package gameplayer;
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
 import authoringEnvironment.LevelModel;
-import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
-import game.IGameEditor;
 import gameElements.Sprite;
-import javafx.scene.Scene;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import level.Level;
-import level.LevelProperties;
 import resources.FrontEndData;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
-<<<<<<< HEAD
- * IScreen for playing the game. Has a HUD.
- * This class also has an instance of Engine, which runs the game loop
-=======
+ * 
  * IScreen for playing the game. Has a HUD. This class also has an instance of
  * Engine, which runs the game loop
  *
->>>>>>> origin/master
  * @author Huijia
  *
  */
 public class PlayScreen extends Screen {
 	private Map<Level, Map<Integer, ViewSprite>> myViewSprites;
+	private ObservableList<Integer> activeSprites;
 	private Engine myEngine;
 
 	private HeadsUpDisplay myHUD;
 
-//	private List<LevelModel> gameLevels;
 	private File gameFile;
 	private Level currentLevel;
 
@@ -52,21 +44,16 @@ public class PlayScreen extends Screen {
 		myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
 
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
-		initHUD();
-		// add above to HUD
 
 	}
 
 	private void initHUD() {
 		Button pauseButton = makePauseButton();
-//		System.out.println(pauseButton.getOnKeyPressed());
-//		System.out.println(getScene().getOnKeyPressed());
-//		
-//		System.out.println(myPane.getOnKeyPressed());
+
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-//		System.out.println(myPane.getOnKeyPressed());
-		
-//		myHUD.addToHUDElement(HUDEnum.Left, new Score);
+		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
+
+		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
 		myPane.getChildren().add(myHUD.getHUD());
 	}
 
@@ -80,78 +67,83 @@ public class PlayScreen extends Screen {
 	}
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
-//		this.gameLevels = gameLevels;
-
 		myEngine = new Engine(this, new GameEditor());
 
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 
-		// TODO: go through loop
-		myViewSprites.keySet().forEach(level -> myEngine.addLevel(0, level));
-		setLevel(myEngine.getCurrentLevel());
+		myViewSprites.keySet().forEach(level -> myEngine.addLevel(level.getLevelProperties().getLevelID(), level));
+		setLevel(myEngine.getCurrentLevel(), null);
 		myEngine.gameLoop();
 
-		// TODO GIVE MODELS TO BACKEND
-
-
-		// bind image-specific attributes
 	}
 
-	public void setLevel(Level newLevel) {
-		try{
-		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
-		}
-		catch (Exception e){
+	public void setLevel(Level newLevel, Level oldLevel) {
+		try {
+			myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
+		} catch (Exception e) {
 
 		}
 		currentLevel = newLevel;
-		System.out.println(myPane.getChildren().toString());
-		SpriteFactory sf = new SpriteFactory(myPane, myViewSprites.get(newLevel), newLevel.getSpriteMap());
-		newLevel.setSpriteFactory(sf);
-		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> newLevel.handleKeyPress(key));
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> newLevel.handleKeyRelease(key));
-//
-//		myPane.setOnKeyPressed(key -> newLevel.handleKeyPress(key));
-//		myPane.setOnKeyReleased(key -> {
-//			System.out.println(key.getCode());
-//			newLevel.handleKeyRelease(key);
 
-//			for (ViewSprite vs : myViewSprites.get(newLevel).values()) {
-//
-//				System.out.println(vs.xProperty().doubleValue());
-//				System.out.println(vs.yProperty().doubleValue());
-//			}
-//		});
+		SpriteFactory sf = new SpriteFactory(myViewSprites.get(currentLevel), currentLevel.getSpriteMap());
+		currentLevel.setSpriteFactory(sf);
+		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
+		activeSprites.addListener(new ListChangeListener<Integer>() {
+			@Override
+			public void onChanged(ListChangeListener.Change change) {
+				setSprites();
+			}
+		});
 
-//		myPane.getChildren().
-	// myPane.getChildren().
-		myPane.getChildren().addAll(myViewSprites.get(newLevel).values());
+		setKeys();
+		setSprites();
+		initHUD();
 
 	}
-
-	// private Group getViewSprites(Map<ViewSprite, Sprite> spriteList){
-	//
-	// return
-	// }
 
 	public File getGameFile() {
 		return gameFile;
 	}
 
-
 	public void play() {
 		myEngine.playGameLoop();
 	}
 
-	public void removeSprites(List<Integer> deadSprites) {
-		deadSprites.forEach(s -> {
+	public void setSprites() {
+
+		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
+		activeSprites.forEach(s -> {
 			System.out.println(s);
-			myPane.getChildren().remove(myViewSprites.get(currentLevel).get(s));
-			myViewSprites.get(currentLevel).remove(s);
+			myPane.getChildren().add(myViewSprites.get(currentLevel).get(s));
 		});
+
 	}
-	public Level getCurrentLevel(){
+
+	public Level getCurrentLevel() {
 		return currentLevel;
+	}
+
+	public Pane getPane() {
+		return myPane;
+	}
+
+	public Map<Integer, Sprite> getSprites() {
+		return myEngine.getSpriteMap();
+	}
+
+	public Map<Integer, ViewSprite> getViewSprites() {
+		return myViewSprites.get(currentLevel);
+	}
+
+	public void setKeys() {
+		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			currentLevel.handleKeyPress(key);
+			key.consume();
+		});
+		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+			currentLevel.handleKeyRelease(key);
+			key.consume();
+		});
 	}
 
 }

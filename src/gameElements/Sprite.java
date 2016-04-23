@@ -133,7 +133,6 @@ public class Sprite {
 	 * Updates the sprite frame by frame
 	 */
 	public void update(SpriteFactory spriteFactory) {
-		myProperties.updatePos();
 		for (Behavior behavior : automaticBehaviors.values()) {
 			if(behavior.isEnabled()){
 				behavior.apply(this, spriteFactory);

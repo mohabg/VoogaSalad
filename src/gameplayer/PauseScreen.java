@@ -27,11 +27,9 @@ import resources.FrontEndData;
  */
 public class PauseScreen extends Screen {
 
-	private GameLoader myGameLoader;
-
 	public PauseScreen(Screen parent) {
 		super(parent);
-		myGameLoader = new GameLoader();
+//		myGameLoader = new GameLoader();
 	}
 
 	public void initBorderPane(Collection<Level> gameLevels) {
@@ -50,7 +48,7 @@ public class PauseScreen extends Screen {
 
 		Button restart = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("restartgame"), a -> {
 			File currGameFile = ((PlayScreen) parentScreen).getGameFile();
-			switchScene(myGameLoader.newGame(currGameFile));
+			switchScene(GameLoader.newGame(currGameFile));
 
 		});
 
@@ -59,7 +57,8 @@ public class PauseScreen extends Screen {
 		});
 
 		Button save = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("savegame"), a -> {
-			GameLoader.savePlayedGame(gameLevels);
+			File currGameFile = ((PlayScreen) parentScreen).getGameFile();
+			GameLoader.savePlayedGame( currGameFile.getName().replace(".xml", ""), gameLevels);
 		});
 
 		Button settings = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("changesettings"), a -> {
