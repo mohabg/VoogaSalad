@@ -46,7 +46,7 @@ public class Time {
 	public void timeToString() {
 		int minutes = (int) myCurrentTime/60;
 		int seconds = (int) myCurrentTime%60;
-		System.out.println("Time Remaining: " + Integer.toString(minutes) + ":" + Integer.toString(seconds));
+//		System.out.println("Time Remaining: " + Integer.toString(minutes) + ":" + Integer.toString(seconds));
 	}
 	
 }
