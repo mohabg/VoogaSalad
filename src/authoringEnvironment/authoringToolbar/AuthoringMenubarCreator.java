@@ -19,10 +19,14 @@ import resources.FrontEndData;
  */
 public class AuthoringMenubarCreator {
 	private MenuBar myMenuBar;
+	private String myName;
 
 	// TODO SWITCH TO REFLECTION
-	public AuthoringMenubarCreator() {
+
+
+	public AuthoringMenubarCreator(String gameName) {
 		myMenuBar = new MenuBar();
+		myName = gameName;
 	}
 
 	/**
@@ -56,9 +60,9 @@ public class AuthoringMenubarCreator {
         myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("FileMenu1"), e -> {
             System.out.println("NOT IMPLEMENTED");
         });
-        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
-            saveMyGame(window);
-        });
+//        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
+//            saveMyGame(window);
+//        });
         
         return myFileMenuMaker;
     }
@@ -75,14 +79,10 @@ public class AuthoringMenubarCreator {
     	return myGameMenu;
     }
 
-    private void saveMyGame(ITabPane tabLevels) {
-		GameLoader.saveGame(tabLevels);
-	}
-
 	private void playMyGame(ITabPane tabLevels) {
-		GameLoader.saveGame(tabLevels);
+		GameLoader.saveGame(myName, tabLevels);
 		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
-		myStage.setScene(new GamePlayingFileScreen().getScene());
+		myStage.setScene(GameLoader.newGame(myName).getScene());
 		myStage.centerOnScreen();
 	}
 

@@ -2,37 +2,24 @@ package authoringEnvironment.settingsWindow;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.SubclassEnumerator;
-import gameElements.Sprite;
 import gameplayer.ButtonFactory;
-import behaviors.*;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.util.Pair;
+import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 import resources.ResourcesReader;
-import java.lang.reflect.Constructor;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
-
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
-import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
+import java.util.*;
 
 
 /**
@@ -55,8 +42,9 @@ public class VisualFactory {
 	public TabPane getMyTabs(Object mySprite) {
 		TabPane myTabs = new TabPane();
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
-		myTabs.getStylesheets().add("authoringEnvironment/settingsWindow/settingsWindow.css");
+//		myTabs.getStylesheets().add("authoringEnvironment/settingsWindow/settingsWindow.css");
 //        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
 
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
@@ -80,8 +68,11 @@ public class VisualFactory {
 		 
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
 //		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 //	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
 
 	    myBox = makePropBoxForFieldTab(f, mySprite);
 	    
@@ -627,7 +618,10 @@ public class VisualFactory {
         String labelText = convertCamelCase(propName);
 		Label propLabelName = new Label(labelText);
 
-//        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+
+//      propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+
+        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
         propLabelName.setAlignment(Pos.CENTER);
 
         if (myProp instanceof DoubleProperty) {

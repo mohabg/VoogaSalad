@@ -6,7 +6,7 @@ import level.LevelProperties;
 /**
  * Upon collision the sprite in question disappears from the screen
  */
-
+ 
 
 public class DissapearCollision extends Collision{
 	

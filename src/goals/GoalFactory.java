@@ -24,25 +24,29 @@ public class GoalFactory {
 		Constructor<?> constructor = null;
 		Goal goal=null;
 		String goalType = myProperties.getMyGoal().toString();
+		System.out.println(goalType);
+
 		try{
 			Class<?> goalClass= Class.forName(path + goalType);
 			try{
 				constructor=goalClass.getConstructor(myProperties.getClass());
 			} catch(NoSuchMethodException exception){
-				exception.printStackTrace();
+//				exception.printStackTrace();
 			}
 			try{
 				goal= (Goal) constructor.newInstance(myProperties);
 			} catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException exception){
-				exception.printStackTrace();
+//				exception.printStackTrace();
 			}
 		} catch (ClassNotFoundException exception){
-			exception.printStackTrace();
+//			exception.printStackTrace();
 		}
 		if(goal==null){
-			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
+			GoalProperties property=new GoalProperties(Goals.PointsGoal);
 			goal=new PointsGoal(property);
 		}
+		System.out.println(goal.getGoal().name());
+
 		return goal;
 	}
 

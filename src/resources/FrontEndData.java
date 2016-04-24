@@ -23,7 +23,7 @@ public class FrontEndData {
 	public static String BUTTONLABELS = "resources/buttonlabels";
 	public static ResourceBundle ButtonLabels = ResourceBundle.getBundle(BUTTONLABELS);
 
-	public static String STYLESHEET = "authoringEnvironment/itemWindow/TabStyles.css";
+	public static String STYLESHEET = "authoringEnvironment/itemWindow/styles.css";
 	public static String TILEPANE = "TilePane";
 	
 

@@ -15,60 +15,38 @@ import java.util.TimerTask;
 
 public class Time {
 	
-	private int myDelay;
-	private Timer myTimer;
-	private int myInitialTime;
+	public static double INITIAL_TIME_AMOUNT = 300;
+	public static double DEFAULT_DELAY = 0.017;
+	
+	private double myDelay;
+	private double myInitialTime;
+	private double myCurrentTime;
 
 	public Time() {
-		myDelay = 1000; //in milliseconds --> 1 second
-		myTimer = new Timer();
-		myInitialTime = 0;
+		myDelay = DEFAULT_DELAY;
+		myInitialTime = INITIAL_TIME_AMOUNT;
+		myCurrentTime = INITIAL_TIME_AMOUNT;
 	}
 	
 	public Time(int initialTime) {
-		myDelay = 1000; //in milliseconds --> 1 second
-		myTimer = new Timer();
+		myDelay = DEFAULT_DELAY;
 		myInitialTime = initialTime;
+		myCurrentTime = initialTime;
 	}
 	
-	public void startTime() {
-		if ( myInitialTime == 0)
-			runRegularTimer();
-		else
-			runCountdownTimer(myInitialTime);
+	public double getTime() {
+		return myCurrentTime;
 	}
 	
-	private void runCountdownTimer(int initialTime) {
-		CountdownTimerTask cdTimerTask = new CountdownTimerTask(initialTime);
-		myTimer.schedule(cdTimerTask, 0, myDelay);
-	}
-
-	private void runRegularTimer() {
-		TimerTask task = new TimerTask() {
-			int count = 0;
-			@Override
-			public void run() {
-				count++;
-				int min = count/60;
-			    int sec = count%60;
-			}
-		};
-		myTimer.schedule(task, myDelay);
+	public void updateTime() {
+		myCurrentTime -= myDelay;
+		timeToString();
 	}
 	
-	public void pauseTime() {
-		//TODO: look into pausing and resuming TimerTasks
-		myTimer.cancel();
-	}
-	
-	public void resetTime() {
-		myTimer.cancel();
-		myTimer = new Timer();
-		startTime();
-	}
-	
-	public void setScore() {
-		//TODO: once score is implemented, update here
+	public void timeToString() {
+		int minutes = (int) myCurrentTime/60;
+		int seconds = (int) myCurrentTime%60;
+//		System.out.println("Time Remaining: " + Integer.toString(minutes) + ":" + Integer.toString(seconds));
 	}
 	
 }

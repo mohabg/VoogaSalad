@@ -25,8 +25,8 @@ public interface IGameEditor {
 	void setUserSprite(Integer spriteID);
 	
 	//TODO: suggestions for better implementation?
-    List<Integer> updateGame();
-	
+//    List<Integer> updateGame();
+    void updateGame();
 	
 	void setResultForKeyPress(KeyEvent event);
 	void setResultForKeyRelease(KeyEvent event);

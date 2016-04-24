@@ -23,7 +23,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 
 
-public abstract class Defense implements Behavior {
+public abstract class Defense extends Behavior {
 
 	private BooleanProperty enabled;
 	private ApplyBehaviorConditions behaviorConditions;
@@ -38,6 +38,7 @@ public abstract class Defense implements Behavior {
 		this(myRef, false, new ApplyBehaviorConditions(), new Health());
 	}
 	public Defense(RefObject myRef, boolean enabled, ApplyBehaviorConditions behaviorConditions, Health myHealth){
+		super();
 		this.myRef = myRef;
 		this.enabled = new SimpleBooleanProperty(enabled);
 		this.behaviorConditions = behaviorConditions;
