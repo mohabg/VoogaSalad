@@ -23,9 +23,10 @@ public class GoalFactory {
 	public Goal makeGoal(GoalProperties myProperties){
 		Constructor<?> constructor = null;
 		Goal goal=null;
-		String goalType = myProperties.getMyGoal().toString();
+		String goalType = myProperties.getGoalName();
 		try{
-			Class<?> goalClass= Class.forName(path + goalType);
+			System.out.println(path+goalType);
+			Class<?> goalClass= Class.forName("goals."+goalType);
 			try{
 				constructor=goalClass.getConstructor(myProperties.getClass());
 			} catch(NoSuchMethodException exception){
@@ -40,7 +41,7 @@ public class GoalFactory {
 			exception.printStackTrace();
 		}
 		if(goal==null){
-			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
+			GoalProperties property=new GoalProperties(Goals.PointsGoal);
 			goal=new PointsGoal(property);
 		}
 		return goal;

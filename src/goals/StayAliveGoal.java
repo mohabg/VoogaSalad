@@ -6,5 +6,11 @@ public class StayAliveGoal extends Goal implements IGoal{
 		super(myProperties);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public void acceptVisitor(IGoalVisitor visitor){
+		System.out.println("accept stay alive visitor");
+		setIsFinished(visitor.visit(this));
+	}
 
 }

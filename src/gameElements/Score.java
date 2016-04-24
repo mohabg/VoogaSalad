@@ -30,4 +30,9 @@ public class Score {
 	public void subtractScore(int decrement){
 		scoreValue.subtract(decrement);
 	}
+	public void setScoreValue(Integer currentPoints) {
+
+		IntegerProperty score=new SimpleIntegerProperty(currentPoints);
+		this.scoreValue=score;
+	}
 }
