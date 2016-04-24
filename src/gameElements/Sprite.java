@@ -29,7 +29,7 @@ public class Sprite {
 	private Health myHealth;
 
 	private ListProperty<Collision> myCollisions;
-	private MapProperty<StringProperty, Behavior> automaticBehaviors;
+	private MapProperty<StringProperty, Behavior> behaviors;
 	private MapProperty<KeyCode, Behavior> userPressBehaviors;
 	private MapProperty<KeyCode, Behavior> userReleaseBehaviors;
 	
@@ -63,7 +63,7 @@ public class Sprite {
 		myCollisions = new SimpleListProperty<Collision>(ol);
 		
 		ObservableMap<StringProperty, Behavior> om1 = FXCollections.observableMap(new HashMap<StringProperty, Behavior>());
-		automaticBehaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
+		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 		
 		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
 		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om2);
@@ -79,32 +79,36 @@ public class Sprite {
 		myCollisions.add(new EnemyCollision());
 
 		Attack bullet = new Bullet();
+		addBehavior(bullet);
 		userPressBehaviors.put(KeyCode.SPACE, bullet);
 		
 		Behavior defaultUpPressMovement = new MoveVertically(-5);
-		//automaticBehaviors.put(new SimpleStringProperty(defaultUpPressMovement.getClass().getName()), defaultUpPressMovement);
+		addBehavior(defaultUpPressMovement);
 		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
-
+		
 		Behavior defaultDownPressMovement = new MoveVertically(5);
 		userPressBehaviors.put(KeyCode.DOWN, defaultDownPressMovement);
-		//automaticBehaviors.put(new SimpleStringProperty(defaultDownPressMovement.getClass().getName()), defaultDownPressMovement);
+		addBehavior(defaultDownPressMovement);
 
 
-		Behavior defaultVertReleaseMovement = new MoveVertically(0);
+		/*Behavior defaultVertReleaseMovement = new MoveVertically(0);
 		userReleaseBehaviors.put(KeyCode.UP, defaultVertReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.DOWN, defaultVertReleaseMovement);
+		addBehavior(defaultVertReleaseMovement);*/
 
 
 		Behavior defaultLeftPressMovement = new MoveHorizontally(-5);
 		userPressBehaviors.put(KeyCode.LEFT, defaultLeftPressMovement);
+		addBehavior(defaultLeftPressMovement);
 
 		Behavior defaultRightPressMovement = new MoveHorizontally(5);
 		userPressBehaviors.put(KeyCode.RIGHT, defaultRightPressMovement);
+		addBehavior(defaultRightPressMovement);
 
-
-		Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
+		/*Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
 		userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
 		userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
+		addBehavior(defaultHorizReleaseMovement);*/
 
 
 	}
@@ -124,7 +128,7 @@ public class Sprite {
 			testMap.put(new SimpleStringProperty(key), myBehaviors.get(key));
 		}		
 		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
-		this.automaticBehaviors.set(om2);
+		this.behaviors.set(om2);
 		this.myRef = myRef;
 		this.canMove = new SimpleBooleanProperty(true);
 	}
@@ -133,7 +137,7 @@ public class Sprite {
 	 * Updates the sprite frame by frame
 	 */
 	public void update(SpriteFactory spriteFactory) {
-		for (Behavior behavior : automaticBehaviors.values()) {
+		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isEnabled()){
 				behavior.apply(this, spriteFactory);
 			}
@@ -145,8 +149,8 @@ public class Sprite {
 		//return userPressBehaviors;
 	}
 
-	public void addBehavior(String key, Behavior behavior){
-		automaticBehaviors.put(new SimpleStringProperty(key), behavior);
+	public void addBehavior(Behavior behavior){
+		behaviors.put(new SimpleStringProperty(behavior.getClass().getName()), behavior);
 
 	}
 
@@ -176,8 +180,8 @@ public class Sprite {
 
 	public Map<String, Behavior> getBehaviors(){
 		Map<String, Behavior> fakeB = new HashMap<String, Behavior>();
-		for (StringProperty s : automaticBehaviors.keySet()) {
-			fakeB.put(s.getValue(), automaticBehaviors.get(s));
+		for (StringProperty s : behaviors.keySet()) {
+			fakeB.put(s.getValue(), behaviors.get(s));
 		}
 		
 		return fakeB;
@@ -312,20 +316,22 @@ public class Sprite {
 	 */
 	public void setAsUserControlled() {
 		myProperties.setUserControlled(true);
-		setActorCollision();
+		removeCollisionType(new EnemyCollision());
+		addCollision(new ActorCollision());
 	}
-
-	private void setActorCollision() {
-		// Remove enemy and add actor collision
-		Collision actorCollision = new ActorCollision();
+	public void disableUserControlled(){
+		myProperties.setUserControlled(false);
+		removeCollisionType(new ActorCollision());
+		addCollision(new EnemyCollision());
+	}
+	private void removeCollisionType(Collision col){
 		Iterator<Collision> it = getCollisions().iterator();
-		while (it.hasNext()) {
-			Collision collision = it.next();
-			if (collision instanceof EnemyCollision) {
+		while(it.hasNext()){
+			Collision nextCol = it.next();
+			if(nextCol.getClass().getName().equals(col.getClass().getName())){
 				it.remove();
 			}
 		}
-		this.addCollision(actorCollision);
 	}
 
 	public void invokeMethodInBehaviors(String methodName, Class[] parameters, Object[] objects) {

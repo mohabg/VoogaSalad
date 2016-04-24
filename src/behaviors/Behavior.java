@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public abstract class Behavior {
 
-	public BooleanProperty enabled;
+	private BooleanProperty enabled;
 	
 	public Behavior(){
 		enabled = new SimpleBooleanProperty(false);
