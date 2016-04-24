@@ -64,4 +64,7 @@ public class Health {
 		}
 		return healthValue.doubleValue() <= 0;
 	}
+	public DoubleProperty getProperty(){
+		return healthValue;
+	}
 }

@@ -14,6 +14,8 @@ import gameplayer.PlayScreen;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -28,9 +30,10 @@ public class Engine {
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
 	
 	private Timeline myGameLoop;
-	private Level currentLevel;
+//	private Level currentLevel;
 	private IGameEditor myEditor;
 	private Time myGameTime;
+	private DoubleProperty myTimeProperty;
 	private boolean isPaused;
     private PlayScreen myGameScreen;
 
@@ -38,6 +41,7 @@ public class Engine {
 	public Engine(PlayScreen myGameScreen) {
 		this.myGameScreen = myGameScreen;
 		myGameLoop = new Timeline();
+		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 	}
 	
@@ -104,9 +108,9 @@ public class Engine {
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                 	myGameTime.updateTime();
-					myGameScreen.removeSprites(myEditor.updateGame());
+                    myEditor.updateGame();
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
-						myGameScreen.setLevel(myEditor.getCurrentLevel());
+						myGameScreen.setLevel(myEditor.getCurrentLevel(), myGameScreen.getCurrentLevel());
 					}
                 }
             }); 
@@ -129,6 +133,10 @@ public class Engine {
     
     public double getGameTimeInSeconds() {
     	return myGameTime.getTime()/1000;
+}
+
+    public DoubleProperty getTimeProperty() {
+    	return myTimeProperty;
     }
     
     public void setResultForKeyPress(KeyEvent event) {
