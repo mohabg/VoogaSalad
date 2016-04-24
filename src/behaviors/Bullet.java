@@ -33,7 +33,7 @@ public class Bullet extends Attack{
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void apply(Sprite sprite, SpriteFactory spriteFactory) {
+    public void shoot(Sprite sprite, SpriteFactory spriteFactory) {
        
         	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
             bullet.setAsUserControlled();
