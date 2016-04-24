@@ -22,7 +22,7 @@ public class MainAuthoringWindow extends Screen {
 	public MainAuthoringWindow(Screen parent) {
 		super(parent);
 		myPane = new BorderPane();
-		myPane.setStyle("-fx-background-color: #434343;");
+		myPane.setStyle("-fx-background-color: #121b3e;");
 
 		myGameMakerWindow = new GameMakerWindow();
 		myItemWindow = new ItemWindow(myGameMakerWindow);

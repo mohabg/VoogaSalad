@@ -42,7 +42,7 @@ public class VisualFactory {
 	private static final int HBOX_INSET = 10;
 	private Settings mySettings;
 	private ResourcesReader myReader;
-	private final String SCROLL_PANE_CSS = "-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;";
+//	private final String SCROLL_PANE_CSS = "-fx-border-width: 1 1 1 1; -fx-border-color: white transparent transparent transparent ;";
 	private List<String> myProjectClassNames;
 	
 	public VisualFactory() {
@@ -55,7 +55,8 @@ public class VisualFactory {
 	public TabPane getMyTabs(Object mySprite) {
 		TabPane myTabs = new TabPane();
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
-        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+		myTabs.getStylesheets().add("authoringEnvironment/settingsWindow/settingsWindow.css");
+//        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
@@ -79,8 +80,8 @@ public class VisualFactory {
 		 
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 
 	    myBox = makePropBoxForFieldTab(f, mySprite);
 	    
@@ -626,7 +627,7 @@ public class VisualFactory {
         String labelText = convertCamelCase(propName);
 		Label propLabelName = new Label(labelText);
 
-        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
         propLabelName.setAlignment(Pos.CENTER);
 
         if (myProp instanceof DoubleProperty) {

@@ -1,0 +1,14 @@
+.border-pane {
+	-fx-background-color: #121b3e;
+}
+
+.vbox {
+	-fx-background-color: #121b3e;
+}
+
+.button {
+	-fx-background-color: #121b3e;
+	-fx-text-fill: #ffffff;
+	-fx-font-family: verdana;
+	-fx-font-weight: bold;
+}

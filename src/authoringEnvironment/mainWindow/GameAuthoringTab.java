@@ -102,64 +102,73 @@ public class GameAuthoringTab implements ITab{
 		myTab = new Tab(title);
 		mySpriteMap = spriteMap;
 		myWindow = window;
-<<<<<<< HEAD
 		contextMenu = new ContextMenu();
 		createContextMenu();
-=======
         myLevelProperties = new LevelProperties();
         mySpriteTabPanes = new HashMap<Sprite, TabPane>();
->>>>>>> 9ad368ba9ee8ac269278592494ab95904322f4fc
 		initArea();
 	}
 
 	private void initArea() {
-		ScrollPane myNewGameArea = new ScrollPane();
-<<<<<<< HEAD
-		Settings.setGameAreaSettings(myNewGameArea);
-		myNewGameArea.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		myNewGameArea.setVvalue(myNewGameArea.getPrefHeight());
 		
-		AnchorPane myNewGamePane = new AnchorPane();
+//		ScrollPane myNewGameArea = new ScrollPane();
+//		myNewGameArea.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		
+		//AnchorPane myNewGamePane = new AnchorPane();
+		
 		Settings.setGamePaneSettings(myNewGamePane);
+//		myNewGameArea.setVvalue(myNewGamePane.getHeight());
 		
-		Button addButton = new Button();
-		addButton.setText("+");
-		addButton.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				myNewGamePane.setPrefHeight(myNewGamePane.getPrefHeight() + 100);
-			}
-		});
+		// buttons need refactoring!
+//		HBox buttonHBox = new HBox();
+//		Button addButton = new Button();
+//		Button minusButton = new Button();
+//		addButton.setText("+");
+//		minusButton.setText("-");
+//		minusButton.setDisable(true);
+//		
+//		addButton.setOnAction(new EventHandler<ActionEvent>(){
+//			@Override
+//			public void handle(ActionEvent event){
+//				
+//				myNewGamePane.setPrefHeight(myNewGamePane.getPrefHeight() + 100);
+//				myNewGamePane.setTranslateY(myNewGamePane.getTranslateY() + 100);
+//				AnchorPane.setTopAnchor(buttonHBox, myNewGamePane.getTranslateY() * -1);
+//				if(myNewGamePane.getTranslateY() > 0){
+//					minusButton.setDisable(false);
+//				}
+//			}
+//		});
+//		
+//		minusButton.setOnAction(new EventHandler<ActionEvent>(){
+//			@Override
+//			public void handle(ActionEvent event){
+//				myNewGamePane.setPrefHeight(myNewGamePane.getPrefHeight() - 100);
+//				myNewGamePane.setTranslateY(myNewGamePane.getTranslateY() - 100);
+//				AnchorPane.setTopAnchor(buttonHBox, myNewGamePane.getTranslateY() * -1);
+//				
+//				if(myNewGamePane.getTranslateY() == 0){
+//					minusButton.setDisable(true);
+//				}
+//			}
+//		});
+//		
+//		buttonHBox.getChildren().addAll(minusButton, addButton);
+//		myNewGamePane.getChildren().add(buttonHBox);
+//		myNewGameArea.setContent(myNewGamePane);
 		
-		Button minusButton = new Button();
-		minusButton.setText("-");
-		minusButton.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				myNewGamePane.setPrefHeight(myNewGamePane.getPrefHeight() - 100);
-			}
-		});
-		
-		HBox buttonHBox = new HBox();
-		buttonHBox.getChildren().addAll(minusButton, addButton);
-		
-		myNewGamePane.getChildren().add(buttonHBox);
-		myNewGameArea.setContent(myNewGamePane);
-		
-=======
+
 //		Settings.setGameAreaSettings(myNewGameArea);
 
 		//AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
 
-        myNewGameArea.setContent(myNewGamePane);
+//        myNewGameArea.setContent(myNewGamePane);
         myNewGamePane.setOnMouseClicked(e->{
             updateSettingsPane(this.myLevelProperties);
         });
 
-
->>>>>>> 9ad368ba9ee8ac269278592494ab95904322f4fc
-		setTabContent(myNewGameArea);
+		setTabContent(myNewGamePane);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
 		
 		myTab.getContent().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -168,7 +177,7 @@ public class GameAuthoringTab implements ITab{
 			}
 		});
 	}
-
+	
 	private void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
@@ -204,16 +213,18 @@ public class GameAuthoringTab implements ITab{
     }
 
 	private void addWithClicking(ViewSprite sprite){
+		if(sprite.getMyImage().contains("background")){
+//			myNewGamePane.getStylesheets().clear();
+			myNewGamePane.setStyle("-fx-background-image: url(" + sprite.getMyImage() + ");" + "\n" +
+								   "-fx-background-repeat: repeat;");
+			return;
+		}
+		
 		sprite.setCursor(Cursor.HAND);
-<<<<<<< HEAD
-=======
-
->>>>>>> 9ad368ba9ee8ac269278592494ab95904322f4fc
 		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
 		sprite.setFitWidth(sprite.getImage().getWidth()*0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-<<<<<<< HEAD
 //        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 //            @Override
 //            public void handle(MouseEvent e) {
@@ -223,22 +234,8 @@ public class GameAuthoringTab implements ITab{
 //                e.consume();
 //            }
 //        });
-		
-		((Pane) ((ScrollPane) getTabContent()).getContent()).getChildren().addAll(sprite);
-=======
-        sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                if (e.getButton() == MouseButton.SECONDARY) {
-                    ((Pane) getTabContent()).getChildren().remove(sprite);
-                }
-                e.consume();
-            }
-        });
 
-        (getMyNewGamePane()).getChildren().addAll(sprite);
-        
->>>>>>> 9ad368ba9ee8ac269278592494ab95904322f4fc
+		((Pane) getTabContent()).getChildren().addAll(sprite);
 	}
 
 	public Map<ViewSprite, Sprite> getMap(){
@@ -257,8 +254,8 @@ public class GameAuthoringTab implements ITab{
 
 	@Override
 	public void setTabContent(Node content) {
-
-        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
+//
+//        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
         myTab.setContent(content);
     }
 

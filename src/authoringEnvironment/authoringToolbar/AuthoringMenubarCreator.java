@@ -34,64 +34,45 @@ public class AuthoringMenubarCreator {
 	 * @param window
 	 */
 	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, ITabPane window) {
-        FileMenu myFileMenuMaker = getFileMenu();
-        AddNewLevelMenu myNewLevelMaker = getAddNewLevelMenu(window);
-        SaveGameMenu mySaveGameMenu = getSaveGameMenu(window);
-        BackMenu myBackMenu = getBackMenu(mainAuthoringWindow);
-        PlayMenu myPlayMenu = getPlayMenu(window);
-		myMenuBar.getStylesheets().add(FrontEndData.STYLESHEET);
-		myMenuBar.getMenus().addAll(myFileMenuMaker.getMenu(), myNewLevelMaker.getMenu(), mySaveGameMenu.getMenu(),
-				myBackMenu.getMenu(), myPlayMenu.getMenu());
+		BackMenu myBackMenu = getBackMenu(mainAuthoringWindow);
+        FileMenu myFileMenuMaker = getFileMenu(window);
+        GameMenu myGameMenu = getGameMenu(window);
+		myMenuBar.getStylesheets().add("authoringEnvironment/authoringToolbar/authoringToolbar.css");
+		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu());
 	}
-
-    private FileMenu getFileMenu() {
-        FileMenu myFileMenuMaker = new FileMenu();
-//		myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString(myFileMenuMaker.getClass().getName();
-        myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
-        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("FileMenu1"), e -> {
-            System.out.println("NOT IMPLEMENTED");
-        });
-        return myFileMenuMaker;
-    }
-
-    private PlayMenu getPlayMenu(ITabPane window) {
-        PlayMenu myPlayMenu = new PlayMenu();
-        myPlayMenu.setName(FrontEndData.ButtonLabels.getString("PlayMenu"));
-
-        myPlayMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
-            playMyGame(window);
-        });
-        return myPlayMenu;
-    }
 
     private BackMenu getBackMenu(MainAuthoringWindow mainAuthoringWindow) {
         BackMenu myBackMenu = new BackMenu();
         myBackMenu.setName(FrontEndData.ButtonLabels.getString("BackMenu"));
-
         myBackMenu.setNewAction(FrontEndData.ButtonLabels.getString("BackMenu1"), e -> {
             mainAuthoringWindow.returnToParentScreen();
         });
         return myBackMenu;
     }
 
-    private SaveGameMenu getSaveGameMenu(ITabPane window) {
-        SaveGameMenu mySaveGameMenu = new SaveGameMenu();
-        mySaveGameMenu.setName(FrontEndData.ButtonLabels.getString("SaveGameMenu"));
-
-        mySaveGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
+    private FileMenu getFileMenu(ITabPane window) {
+        FileMenu myFileMenuMaker = new FileMenu();
+        myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
+        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("FileMenu1"), e -> {
+            System.out.println("NOT IMPLEMENTED");
+        });
+        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
             saveMyGame(window);
         });
-        return mySaveGameMenu;
+        
+        return myFileMenuMaker;
     }
-
-    private AddNewLevelMenu getAddNewLevelMenu(ITabPane window) {
-        AddNewLevelMenu myNewLevelMaker = new AddNewLevelMenu();
-        myNewLevelMaker.setName(FrontEndData.ButtonLabels.getString("AddNewLevelMenu"));
-
-        myNewLevelMaker.setNewAction(FrontEndData.ButtonLabels.getString("AddNewLevelMenu1"), e -> {
+    
+    private GameMenu getGameMenu(ITabPane window){
+    	GameMenu myGameMenu = new GameMenu();
+    	myGameMenu.setName(FrontEndData.ButtonLabels.getString("GameMenu"));
+    	myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
+             playMyGame(window);
+        });
+    	myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("AddNewLevelMenu1"), e -> {
             window.addNewTab();
         });
-        return myNewLevelMaker;
+    	return myGameMenu;
     }
 
     private void saveMyGame(ITabPane tabLevels) {
@@ -99,7 +80,7 @@ public class AuthoringMenubarCreator {
 	}
 
 	private void playMyGame(ITabPane tabLevels) {
-		saveMyGame(tabLevels);
+		GameLoader.saveGame(tabLevels);
 		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
 		myStage.setScene(new GamePlayingFileScreen().getScene());
 		myStage.centerOnScreen();

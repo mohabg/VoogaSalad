@@ -89,7 +89,7 @@ public abstract class GameFileScreen extends Screen {
         });
         myButton.setPrefHeight(FrontEndData.BUTTON_SIZE);
         myButton.setPrefWidth(FrontEndData.BUTTON_SIZE);
-        myButton.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+//        myButton.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
         myButton.setId("button-style");
         return new VBox(myButton);
         

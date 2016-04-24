@@ -27,9 +27,9 @@ public class StartOptionsWindow extends Screen {
 		super();
 		myStage = currStage;
 		myPane = new BorderPane();
+		myPane.getStylesheets().add("authoringEnvironment/startOptionsWindow.css");
 		startWindowBox = new VBox();
 		Settings.setStartWindowSettings(startWindowBox);
-
 		makeAndSetStartBox();
 	}
 
@@ -43,7 +43,6 @@ public class StartOptionsWindow extends Screen {
 		}));
 
 		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {
-
 			switchScene(new GameEditingFileScreen());
 		}));
 
