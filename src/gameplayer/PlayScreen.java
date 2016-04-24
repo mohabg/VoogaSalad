@@ -110,12 +110,14 @@ public class PlayScreen extends Screen {
 	}
 
 	public void setSprites() {
-
+		System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
 		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
-		activeSprites.forEach(s -> {
-			System.out.println(s);
+//		activeSprites.forEach(s -> {
+			for(Integer s: activeSprites){
+			System.out.println(s+" "+myViewSprites.get(currentLevel).size());
 			myPane.getChildren().add(myViewSprites.get(currentLevel).get(s));
-		});
+			}
+//			});
 
 	}
 
