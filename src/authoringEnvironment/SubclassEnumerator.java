@@ -39,12 +39,12 @@ public class SubclassEnumerator {
 		//System.out.println(g);
 	}
 	
-	public static Map<String, Class<?>> getAllSubclasses(Class<?> clazz) {
+	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> clazz) {
 		List<String> allPackageNames = new ArrayList<String>();
 		allPackageNames.addAll(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
 				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
 				"spriteProperties"));
-		Map<String, Class<?>> allSubclasses = new HashMap<String, Class<?>>();
+		Map<String, Class<R>> allSubclasses = new HashMap<String, Class<R>>();
 		
 		for (String p : allPackageNames) {
 			allSubclasses.putAll(getSubclasses(p, clazz));
@@ -84,8 +84,8 @@ public class SubclassEnumerator {
 		return readableClasses;
 	}
 	
-	public static Map<String, Class<?>> getSubclasses(String packageName, Class<?> superclass) {
-		Map<String, Class<?>> subclassNameMap = new HashMap<String, Class<?>>();
+	public static <R>  Map<String, Class<R>> getSubclasses(String packageName, Class<R> superclass) {
+		Map<String, Class<R>> subclassNameMap = new HashMap<String, Class<R>>();
 		List<Class<?>> packageClasses = new ArrayList<Class<?>>();
 		try {
 			packageClasses = getClasses(packageName);
@@ -94,9 +94,9 @@ public class SubclassEnumerator {
 			e.printStackTrace();
 		}
 		
-		List<Class<?>> subclasses = findSubclasses(packageClasses, superclass);
+		List<Class<R>> subclasses = findSubclasses(packageClasses, superclass);
 		
-		for (Class<?> subclass : subclasses) {
+		for (Class<R> subclass : subclasses) {
 			String subclassName = subclass.getTypeName();
 			//String readableName = subclassName.substring(subclassName.indexOf(".")+1);
 			subclassNameMap.put(subclassName, subclass);
@@ -105,11 +105,11 @@ public class SubclassEnumerator {
 		return subclassNameMap;
 	}
 	
-	private static List<Class<?>> findSubclasses(List<Class<?>> classes, Class<?> superclass) {
-		List<Class<?>> subclasses = new ArrayList<Class<?>>();
+	private static <R> List<Class<R>> findSubclasses(List<Class<?>> classes, Class<R> superclass) {
+		List<Class<R>> subclasses = new ArrayList<Class<R>>();
 		for (Class<?> candidateClass : classes) {
 		    if (superclass.isAssignableFrom(candidateClass)) {
-		        subclasses.add(candidateClass);
+		        subclasses.add((Class<R>) candidateClass);
 		    }
 		}
 		return subclasses;

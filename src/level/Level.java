@@ -14,12 +14,14 @@ import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
+import collisions.EnemyCollision;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
+import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -64,6 +66,10 @@ public class Level implements ILevel {
 		isFinished = false;
 		currentSpriteID = 0;
 
+		populateGoals();
+	//	System.out.println("goalListSize"+ goalList.size());
+
+	
 	}
 
 	public LevelProperties getLevelProperties() {
@@ -158,14 +164,25 @@ public class Level implements ILevel {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
 		}
 	}
+	
+	
 
 	public void addGoal(Goal goal){
 		goalList.add(goal);
 	}
 
+	private void populateGoals(){
+		//System.out.println("gaolpropertysize"+getLevelProperties().getGoalProperties().size());
+		for(GoalProperties property: getLevelProperties().getGoalProperties()){
+		//	System.out.println(property.getGoalName());
+			goalList.add(goalFactory.makeGoal(property));
+		}
+	}
 	private boolean completeGoals() {
 		GoalChecker goalChecker = new GoalChecker(this);
+	
 		for (Goal goal : goalList) {
+		//	System.out.println(goal.getGoalProperties().getGoalName());
 			goal.acceptVisitor(goalChecker);
 			if (goal.isFinished())
 				goalCount++;
@@ -220,7 +237,6 @@ public class Level implements ILevel {
 					
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
-
 							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
 									getLevelProperties());
 
@@ -255,9 +271,6 @@ public class Level implements ILevel {
 				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
 			}
 			if (behavior != null) {
-				if(behavior instanceof Attack){
-					int x = -1;
-				}
 				behavior.apply(currentSprite, mySpriteFactory);
 			}
 
@@ -283,6 +296,7 @@ public class Level implements ILevel {
 		List<Integer> deadSprites= updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
+			
 			setisFinished(true);
 		}
 		return deadSprites;

@@ -23,5 +23,10 @@ public class PointsGoal extends Goal implements IGoal{
 	public int getNumPoints(){
 		return this.numPoints;
 	}
+	@Override
+	public void acceptVisitor(IGoalVisitor visitor){
+		System.out.println("acceptpointsvisitor");
+		setIsFinished(visitor.visit(this));
+	}
 	
 }

@@ -21,6 +21,7 @@ public class Health {
 		healthValue = new SimpleDoubleProperty(0);
 		isMortal = new SimpleBooleanProperty(false);
 	}
+	
 	public Health(double myHealth){
 		healthValue = new SimpleDoubleProperty(myHealth);
 		isMortal = new SimpleBooleanProperty(true);

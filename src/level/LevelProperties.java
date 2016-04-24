@@ -1,12 +1,16 @@
 package level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import gameElements.Score;
 import collisions.Collision;
 import gameElements.Sprite;
 import gameElements.Time;
+import goals.Goal.Goals;
+import goals.GoalProperties;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -30,6 +34,7 @@ public class LevelProperties {
 	private Time time;
 	private IntegerProperty numGoals;
 	private Map<KeyCode, KeyboardActions> keyMapping;
+	private List<GoalProperties> goalProperties;
 	private Sprite[] collidingSprites;
 
 	public LevelProperties() {
@@ -39,6 +44,8 @@ public class LevelProperties {
 		nextLevel = new SimpleIntegerProperty();
 		previousLevel = new SimpleIntegerProperty();
 		numGoals = new SimpleIntegerProperty();
+		goalProperties=new ArrayList();
+		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 		myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
@@ -122,7 +129,7 @@ public class LevelProperties {
 	}
 
 	public void setCurrentPoints(Integer currentPoints) {
-		this.score.equals(currentPoints);
+		this.score.setScoreValue(currentPoints);
 	}
 
 	public Integer getNumGoals() {
@@ -153,6 +160,14 @@ public class LevelProperties {
 
 	public void setScore(Score score) {
 		this.score = score;
+	}
+
+	public List<GoalProperties> getGoalProperties() {
+		return goalProperties;
+	}
+
+	public void setGoalProperties(List<GoalProperties> goalProperties) {
+		this.goalProperties = goalProperties;
 	}
 
 }
