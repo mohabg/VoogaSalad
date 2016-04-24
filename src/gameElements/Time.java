@@ -15,23 +15,23 @@ import java.util.TimerTask;
 
 public class Time {
 	
-	public static double INITIAL_TIME_AMOUNT = 300000;
-	public static double DEFAULT_DELAY = 1000;
+	public static double INITIAL_TIME_AMOUNT = 300;
+	public static double DEFAULT_DELAY = 0.017;
 	
 	private double myDelay;
 	private double myInitialTime;
 	private double myCurrentTime;
 
 	public Time() {
-		myDelay = DEFAULT_DELAY; //in milliseconds --> 1 second
+		myDelay = DEFAULT_DELAY;
 		myInitialTime = INITIAL_TIME_AMOUNT;
 		myCurrentTime = INITIAL_TIME_AMOUNT;
 	}
 	
 	public Time(int initialTime) {
-		myDelay = DEFAULT_DELAY; //in milliseconds --> 1 second
+		myDelay = DEFAULT_DELAY;
 		myInitialTime = initialTime;
-		myCurrentTime = INITIAL_TIME_AMOUNT;
+		myCurrentTime = initialTime;
 	}
 	
 	public double getTime() {
@@ -44,7 +44,9 @@ public class Time {
 	}
 	
 	public void timeToString() {
-		System.out.println(Double.toString(myCurrentTime));
+		int minutes = (int) myCurrentTime/60;
+		int seconds = (int) myCurrentTime%60;
+		System.out.println("Time Remaining: " + Integer.toString(minutes) + ":" + Integer.toString(seconds));
 	}
 	
 }
