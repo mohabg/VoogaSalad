@@ -51,7 +51,7 @@ public class PlayScreen extends Screen {
 		Button pauseButton = makePauseButton();
 
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
+		//myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
 
 		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
 		myPane.getChildren().add(myHUD.getHUD());
