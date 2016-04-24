@@ -44,7 +44,7 @@ public class SpriteMap{
 	}
 	public void remove(int id){
 		spriteMap.remove(id);
-		activeSprites.remove(id);
+		activeSprites.removeIf(item->item.equals(id));
 	}
 	
 	public Collection<Sprite> getSprites(){

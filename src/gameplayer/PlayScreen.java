@@ -51,7 +51,7 @@ public class PlayScreen extends Screen {
 		Button pauseButton = makePauseButton();
 
 		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-		myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
+		//myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
 
 		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
 		myPane.getChildren().add(myHUD.getHUD());
@@ -110,12 +110,11 @@ public class PlayScreen extends Screen {
 	}
 
 	public void setSprites() {
-
+		System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
 		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		activeSprites.forEach(s -> {
-			System.out.println(s);
 			myPane.getChildren().add(myViewSprites.get(currentLevel).get(s));
-		});
+			});
 
 	}
 

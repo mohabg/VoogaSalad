@@ -14,8 +14,8 @@ import behaviors.Behavior;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
-
 import collisions.EnemyCollision;
+import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
@@ -269,7 +269,6 @@ public class Level implements ILevel {
 
 
 		Sprite currentSprite = getSpriteMap().get(userControlledSpriteID);
-		System.out.println(currentSprite.getX().doubleValue());
 		if(currentSprite == null){
 			return;
 		}
@@ -278,14 +277,13 @@ public class Level implements ILevel {
 //		System.out.println("HEALTH: "+currentSprite.getHealth().getHealthValue());
 
 		if (currentSprite.isUserControlled()) {
-			Behavior behavior;
-			if (enable) {
-				behavior = currentSprite.getUserPressBehavior(key.getCode());
-			} else {
-				behavior = currentSprite.getUserReleaseBehavior(key.getCode());
-			}
-			if (behavior != null) {
-				behavior.apply(currentSprite, mySpriteFactory);
+			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
+			if(behavior != null){
+				if (enable) {
+					behavior.enable();
+				} else {
+					behavior.disable();
+				}
 			}
 
 		} else {
@@ -308,7 +306,7 @@ public class Level implements ILevel {
 	@Override
 //	public List<Integer> update() {
 		public void update() {
-//		List<Integer> deadSprites= updateSprites();
+		updateSprites();
 		checkCollisions();
 		if (completeGoals()) {
 			setisFinished(true);

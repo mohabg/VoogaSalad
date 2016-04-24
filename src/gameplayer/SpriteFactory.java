@@ -40,8 +40,9 @@ public class SpriteFactory {
 		sp.setMyY(y);
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
+		myViewSprites.put(spriteMap.getLastSpriteID()+1, vs);
+
 		spriteMap.addSprite(s);
-		myViewSprites.put(spriteMap.getLastSpriteID(), vs);
 		
 		return s;
 
