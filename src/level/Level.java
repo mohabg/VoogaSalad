@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import Physics.PhysicsEngine;
 import behaviors.Attack;
 import behaviors.Behavior;
 import collisions.Collision;
@@ -48,7 +49,7 @@ public class Level implements ILevel {
 	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
-
+	private PhysicsEngine physicsEngine;
 	private Integer currentSpriteID;
 	private GoalFactory goalFactory;
 	private int goalCount;
@@ -58,6 +59,7 @@ public class Level implements ILevel {
 	public Level() {
 
 		levelProperties = new LevelProperties();
+		physicsEngine= new PhysicsEngine(0.9);
 		spriteMap = new SpriteMap();
 		goalList= new ArrayList<Goal>();
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();

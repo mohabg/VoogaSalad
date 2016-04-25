@@ -11,11 +11,12 @@ import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
 import collisions.Collision;
 import gameElements.Health;
+import gameElements.ISpriteFactory;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import javafx.scene.layout.Pane;
 
-public class SpriteFactory {
+public class SpriteFactory implements ISpriteFactory{
 	private Pane myPane;
 	private Map<Integer, ViewSprite> myViewSprites;
 	private SpriteMap spriteMap;

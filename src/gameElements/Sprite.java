@@ -256,6 +256,9 @@ public class Sprite {
 		myProperties.setMyYProperty(y);
 	}
 
+	public void setY(DoubleProperty y) {
+		myProperties.setMyYProperty(y);
+	}
 	public DoubleProperty getAngle() {
 		return myProperties.myAngleProperty();
 	}
