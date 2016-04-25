@@ -48,48 +48,8 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 	//private Map<ViewSprite, >
 	private LevelModel myLevelModel;
 //    private LevelProperties myLevelProperties;
-    private AnchorPane myNewGamePane = new AnchorPane();
+//    private AnchorPane myNewGamePane = new AnchorPane();
 
-
-    private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent t) {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-            double newTranslateX = orgTranslateX + offsetX;
-            double newTranslateY = orgTranslateY + offsetY;
-
-            ViewSprite dragSource = (ViewSprite) t.getSource();
-            // update x, update y with newTranslate
-            dragSource.setX(newTranslateX);
-            dragSource.setY(newTranslateY);
-            //dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
-//            dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
-//            dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
-        }
-	};
-
-	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent t) {
-            ViewSprite mySprite = ((ViewSprite) (t.getSource()));
-            orgTranslateX = mySprite.getX();
-            orgTranslateY = mySprite.getY();
-
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-            
-            if(t.isSecondaryButtonDown()){
-				contextMenu.show(myTab.getContent(), t.getScreenX(), t.getScreenY());
-			}
-            
-            if (mySprite != currentSprite) {
-            	currentSprite = mySprite;
-            	updateSettingsPane(mySprite);
-            }
-		}
-	};
-	
 	private void createContextMenu(){
 		MenuItem delete = new MenuItem("delete");
 		contextMenu.getItems().add(delete);
@@ -119,16 +79,18 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 	
 	@Override
 	public void initArea() {
-		ScrollPane myNewGameArea = new ScrollPane();
+//		ScrollPane myNewGameArea = new ScrollPane();
 
 		Settings.setGamePaneSettings((AnchorPane) myNewGamePane);
 
-		myNewGameArea.setContent(myNewGamePane);
+//		myNewGameArea.setContent(myNewGamePane);
 		myNewGamePane.setOnMouseClicked(e -> {
 			updateSettingsPane(this.myLevelModel);
 		});
 
-		setTabContent(myNewGameArea);
+//		setTabContent(myNewGameArea);
+		setTabContent(myNewGamePane);
+
 		mySpriteMap.keySet().forEach(c -> addWithClicking(c));
 	}
 

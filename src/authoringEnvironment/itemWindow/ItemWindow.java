@@ -78,6 +78,7 @@ public class ItemWindow {
         	String p = FrontEndData.SpriteImages.getString(key);
 			ViewSprite viewsprite = new ViewSprite(p);
 			viewsprite.setOnMouseClicked(e -> {
+				System.out.println("Q");
 				myGameTabPane.setViewSprite(viewsprite);
 			});
 			return viewsprite;

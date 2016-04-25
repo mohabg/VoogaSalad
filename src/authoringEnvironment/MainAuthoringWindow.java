@@ -39,7 +39,6 @@ public class MainAuthoringWindow extends Screen {
 		
 		myMenubar = new AuthoringMenubarCreator(gameName);
 		myMenubar.initMenuBar(this, myGameMakerWindow);
-		// myItemWindow.init();
 		myGameMakerWindow.init(mySettingsWindow);
 		
 //		((BorderPane) myPane).setCenter(le.getMyNewGamePane());

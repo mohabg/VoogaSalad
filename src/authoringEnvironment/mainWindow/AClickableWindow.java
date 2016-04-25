@@ -109,7 +109,9 @@ public abstract class AClickableWindow {
 
 	public void addWithClicking(ViewSprite sprite) {
 		setClicking(sprite);
-		myNewGamePane.getChildren().addAll(sprite);
+		System.out.println("add");
+		myNewGamePane.getChildren().add(sprite);
+		System.out.println(myNewGamePane.getChildren().size());
 
 	}
 
