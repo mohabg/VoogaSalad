@@ -12,6 +12,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import level.LevelProperties;
@@ -32,6 +33,7 @@ public abstract class AClickableWindow {
 		myWindow = window;
 		mySpriteTabPanes = new HashMap<Sprite, TabPane>();
 		myLevelModel = new LevelModel();
+		myNewGamePane = new AnchorPane();
 
 
 	}
