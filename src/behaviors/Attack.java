@@ -24,7 +24,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 
 
-public abstract class Attack implements Behavior {
+public abstract class Attack extends Behavior {
 	
 	private IntegerProperty ammunition;
 	private IntegerProperty chargeTime;
@@ -41,13 +41,23 @@ public abstract class Attack implements Behavior {
 		this(myRef, 1 ,0);
 	}
 
-	public Attack(RefObject myRef, int ammunition, int chargeTime) {	
+	public Attack(RefObject myRef, int ammunition, int chargeTime) {
+		super();
 		this.ammunition = new SimpleIntegerProperty(ammunition);
 		this.chargeTime = new SimpleIntegerProperty(chargeTime);
 		this.behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
 		this.movement = movement;
 		this.myRef = myRef;
 	}
+	
+	public void apply(Sprite sprite, SpriteFactory spriteFactory){
+		if(this.isEnabled()){
+			shoot(sprite, spriteFactory);
+			this.disable();
+		}
+	}
+	
+	public abstract void shoot(Sprite sprite, SpriteFactory spriteFactory);
 
 	/**
 	 * @param sprite The sprite who's elibility to shoot you want to determine

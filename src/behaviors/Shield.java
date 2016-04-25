@@ -23,7 +23,7 @@ public class Shield extends Defense{
 	private DoubleProperty rechargeTime;
 	
 	public Shield(){
-		this(new RefObject(), 0);
+		this(new RefObject("pictures/gaming.png"), 0);
 	}
 	
 	public Shield(RefObject myRef, double rechargeTime){

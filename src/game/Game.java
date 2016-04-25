@@ -72,6 +72,7 @@ public class Game {
 	
 	public void createLevel(int levelID, LevelProperties levelProperties) {
 		Level newLevel = new Level();
+	//	System.out.println("bug" + newLevel.getGoalList().size());
         levelProperties.setLevelID(levelID);
         newLevel.setLevelProperties(levelProperties);
     	myGameLevels.add(levelID, newLevel);

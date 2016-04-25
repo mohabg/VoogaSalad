@@ -12,7 +12,7 @@ import goals.Goal.Goals;
 
 
 public class GoalFactory {
-	private String path = "voogasalad_TheDuballers.src.goals.";
+	private String path = "goals.";
 	
 	
 	
@@ -23,26 +23,30 @@ public class GoalFactory {
 	public Goal makeGoal(GoalProperties myProperties){
 		Constructor<?> constructor = null;
 		Goal goal=null;
-		String goalType = myProperties.getMyGoal().toString();
+		String goalType = myProperties.getGoalName();
 		try{
-			Class<?> goalClass= Class.forName(path + goalType);
+			System.out.println(path+goalType);
+ 
+			Class<?> goalClass= Class.forName(path+goalType);
 			try{
 				constructor=goalClass.getConstructor(myProperties.getClass());
 			} catch(NoSuchMethodException exception){
-				exception.printStackTrace();
+//				exception.printStackTrace();
 			}
 			try{
 				goal= (Goal) constructor.newInstance(myProperties);
 			} catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException exception){
-				exception.printStackTrace();
+//				exception.printStackTrace();
 			}
 		} catch (ClassNotFoundException exception){
-			exception.printStackTrace();
+//			exception.printStackTrace();
 		}
 		if(goal==null){
 			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
 			goal=new PointsGoal(property);
 		}
+		System.out.println(goal.getGoal().name());
+
 		return goal;
 	}
 

@@ -1,5 +1,6 @@
 package authoringEnvironment;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,12 @@ public class AESpriteFactory {
 	}
 	public ViewSprite clone(ViewSprite vs){
 		return new ViewSprite(vs.getMyImage()); 
+	}
+	
+	public Map<ViewSprite, Sprite> makeMap(List<Sprite> list){
+		Map<ViewSprite, Sprite> map = new HashMap<ViewSprite, Sprite>();
+		list.forEach(s -> map.put(makeViewSprite(s), s));
+		return map;
 	}
 //	
 //	private ViewSprite makeViewSprite(String key) {

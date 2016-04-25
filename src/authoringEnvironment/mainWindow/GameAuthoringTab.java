@@ -1,6 +1,8 @@
+
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.AESpriteFactory;
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -17,11 +19,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import level.Level;
 import level.LevelProperties;
 import resources.FrontEndData;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 /**
  * @author David Yan, Huijia Yu, Joe Jacob
  */
@@ -35,7 +40,8 @@ public class GameAuthoringTab implements ITab{
 	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
-    private LevelProperties myLevelProperties;
+	private LevelModel myLevelModel;
+//    private LevelProperties myLevelProperties;
     private AnchorPane myNewGamePane = new AnchorPane();
 
 
@@ -75,13 +81,24 @@ public class GameAuthoringTab implements ITab{
 		}
 	};
 
-	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
-		myTab = new Tab(title);
+	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, Integer levelID, SettingsWindow window) {
+		String tabName = FrontEndData.TAB + levelID;
+		myTab = new Tab(tabName);
 		mySpriteMap = spriteMap;
 		myWindow = window;
-        myLevelProperties = new LevelProperties();
+        myLevelModel = new LevelModel();
+        setLevelProperties(levelID, tabName);
+        
         mySpriteTabPanes = new HashMap<Sprite, TabPane>();
 		initArea();
+	}
+	
+	private void setLevelProperties(Integer levelID, String tabName){
+		LevelProperties p = myLevelModel.getMyProperties();
+		p.setLevelID(levelID);
+		p.setLevelName(tabName);
+		p.setPreviousLevel(levelID-1);
+		p.setNextLevel(levelID+1);
 	}
 
 	private void initArea() {
@@ -93,7 +110,7 @@ public class GameAuthoringTab implements ITab{
 
         myNewGameArea.setContent(myNewGamePane);
         myNewGamePane.setOnMouseClicked(e->{
-            updateSettingsPane(this.myLevelProperties);
+            updateSettingsPane(this.myLevelModel);
         });
 
 
@@ -105,7 +122,7 @@ public class GameAuthoringTab implements ITab{
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 
-    private void updateSettingsPane(LevelProperties clickedSprite) {
+    private void updateSettingsPane(LevelModel clickedSprite) {
         myWindow.setContent(setSettingsContent(clickedSprite));
     }
 
@@ -127,10 +144,10 @@ public class GameAuthoringTab implements ITab{
 		return myBox;
 	}
 
-    public VBox setSettingsContent(LevelProperties myLevelProperties) {
+    public VBox setSettingsContent(LevelModel myLevel) {
     	currentSprite = null;
         VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
+        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevel);
         myBox.getChildren().addAll(propertiesList);
         return myBox;
     }
@@ -156,8 +173,8 @@ public class GameAuthoringTab implements ITab{
         
 	}
 
-	public Map<ViewSprite, Sprite> getMap(){
-		return mySpriteMap;
+	public List<Sprite> getList(){
+		return mySpriteMap.values().stream().collect(Collectors.toList());
 	}
 
 	@Override

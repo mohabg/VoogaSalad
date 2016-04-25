@@ -1,22 +1,33 @@
 package gameElements;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public class SpriteMap{
 	
 	private Map<Integer, Sprite> spriteMap;
+	private ObservableList<Integer> activeSprites;
 	private int id;
 	
 	public SpriteMap(){
 		spriteMap = new HashMap<Integer, Sprite>();
+		activeSprites = FXCollections.observableList(new ArrayList<Integer>());
 		id = 0;
 	}
 	
 	public void addSprite(Sprite sprite){
-		spriteMap.put(id++, sprite);
+		spriteMap.put(id, sprite);
+		activeSprites.add(id);
+		id++;
+
 	}
 	public int getLastSpriteID(){
 		return id - 1;
@@ -32,6 +43,7 @@ public class SpriteMap{
 	}
 	public void remove(int id){
 		spriteMap.remove(id);
+		activeSprites.removeIf(item->item.equals(id));
 	}
 	
 	public Collection<Sprite> getSprites(){
@@ -40,5 +52,14 @@ public class SpriteMap{
 	
 	public Set<Integer> getSpriteIDList(){
 		return spriteMap.keySet();
+	}
+	
+	public ObservableList<Integer> getActiveSprites(){
+		return activeSprites;
+	}
+	
+	public void setActiveSprites(List<Integer> sprites){
+		activeSprites.setAll(sprites);
+		
 	}
 }

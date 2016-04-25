@@ -25,9 +25,15 @@ public class Score {
 		this.scoreValue = scoreValue;
 	}
 	public void addScore(int increment){
-		scoreValue.add(increment);
+		scoreValue.setValue(scoreValue.getValue()+increment);
 	}
 	public void subtractScore(int decrement){
-		scoreValue.subtract(decrement);
+		scoreValue.setValue(scoreValue.getValue()-decrement);
 	}
+	public void setScoreValue(Integer currentPoints) {
+
+		IntegerProperty score=new SimpleIntegerProperty(currentPoints);
+		this.scoreValue=score;
+	}
+	
 }
