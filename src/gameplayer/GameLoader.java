@@ -52,9 +52,10 @@ public class GameLoader {
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
 
-	public GameLoader() {
-		FXConverters.configure(xstream);
-	}
+	public static void init() {
+ 		FXConverters.configure(xstream);
+
+ 	}
 
 	/**
 	 * makes new game playscreen and starts it with the elements from the file,
