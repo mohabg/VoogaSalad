@@ -1,5 +1,7 @@
 package highscoretable;
 
+import java.util.Optional;
+
 import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,8 +20,16 @@ public class HighScoreController {
 	public TableView<HighScore> getTable() {
 		return table;
 	}
-
-	public void addHighScore(HighScore... scores) {
+	public void addHighScore(Double score, String game){
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setContentText("Please enter your name:");
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(player -> addHighScore(score, player, game));
+	}
+	public void addHighScore(Double score, String player, String game){
+		addHighScores(new HighScore(score, player, game));
+	}
+	public void addHighScores(HighScore... scores) {
 		data.addAll(scores);
 
 	}

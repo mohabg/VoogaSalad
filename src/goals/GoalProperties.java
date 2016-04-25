@@ -23,7 +23,7 @@ public class GoalProperties {
 		setMyGoal(goal);
 		setGoalName(goal.toString());
 		setIsFinished(false);
-		totalPoints=0;
+		totalPoints=100;
 		targetID=new ArrayList<Integer>();
 	}
 	

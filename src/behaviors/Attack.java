@@ -49,6 +49,15 @@ public abstract class Attack extends Behavior {
 		this.movement = movement;
 		this.myRef = myRef;
 	}
+	
+	public void apply(Sprite sprite, SpriteFactory spriteFactory){
+		if(this.isEnabled()){
+			shoot(sprite, spriteFactory);
+			this.disable();
+		}
+	}
+	
+	public abstract void shoot(Sprite sprite, SpriteFactory spriteFactory);
 
 	/**
 	 * @param sprite The sprite who's elibility to shoot you want to determine

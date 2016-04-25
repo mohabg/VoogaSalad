@@ -11,18 +11,15 @@ import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
 import collisions.Collision;
 import gameElements.Health;
-import gameElements.ISpriteFactory;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import javafx.scene.layout.Pane;
 
-public class SpriteFactory implements ISpriteFactory{
-	private Pane myPane;
+public class SpriteFactory {
 	private Map<Integer, ViewSprite> myViewSprites;
 	private SpriteMap spriteMap;
 	
-	public SpriteFactory(Pane myPane,Map<Integer, ViewSprite> myViewSprites, SpriteMap mySpriteMap ) {
-		this.myPane = myPane; 
+	public SpriteFactory(Map<Integer, ViewSprite> myViewSprites, SpriteMap mySpriteMap ) {
 		this.myViewSprites = myViewSprites;
 		this.spriteMap = mySpriteMap;
 	}
@@ -43,9 +40,9 @@ public class SpriteFactory implements ISpriteFactory{
 		sp.setMyY(y);
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
-		myPane.getChildren().add(vs);
+		myViewSprites.put(spriteMap.getLastSpriteID()+1, vs);
+
 		spriteMap.addSprite(s);
-		myViewSprites.put(spriteMap.getLastSpriteID(), vs);
 		
 		return s;
 

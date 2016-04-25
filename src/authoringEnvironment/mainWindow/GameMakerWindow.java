@@ -1,5 +1,6 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.AESpriteFactory;
 /**
  * @author: David Yan, Joe Jacob, Huijia Yu
  */
@@ -32,6 +33,8 @@ public class GameMakerWindow implements ITabPane {
 		myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		myWindow = window;
+		addNewTab();
+
 		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
 			Tab selectedTab = myTabPane.getSelectionModel().getSelectedItem();
 			GameAuthoringTab gat = myGameTabs.get(selectedTab);
@@ -47,8 +50,7 @@ public class GameMakerWindow implements ITabPane {
 	 */
 
 	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
-		String tabName = FrontEndData.TAB + (myTabPane.getTabs().size() + 1);
-		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
+		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, myTabPane.getTabs().size() + 1, myWindow);
 		myGameTabs.put(myTab.getTab(), myTab);
 		
 		getTabPane().getTabs().add(myTab.getTab());
@@ -67,7 +69,8 @@ public class GameMakerWindow implements ITabPane {
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 		for (LevelModel lm : gameLevels) {
 			System.out.println("new tab");
-			createNewTab(lm.getMyMap());
+			AESpriteFactory sf= new AESpriteFactory();
+			createNewTab(sf.makeMap(lm.getMySpriteList()));
 		}
 	}
 
