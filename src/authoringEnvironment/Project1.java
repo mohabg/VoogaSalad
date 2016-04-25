@@ -147,6 +147,12 @@ public class Project1 implements IGameWindow{
     }
 
 	private void addWithClicking(ViewSprite sprite){
+		setClicking(sprite);
+        myNewGamePane.getChildren().addAll(sprite);
+        
+	}
+
+	private void setClicking(ViewSprite sprite) {
 		sprite.setCursor(Cursor.HAND);
 
 		sprite.setFitHeight(sprite.getImage().getHeight()*0.5);
@@ -162,9 +168,6 @@ public class Project1 implements IGameWindow{
                 e.consume();
             }
         });
-
-        myNewGamePane.getChildren().addAll(sprite);
-        
 	}
 	
 	public Pane getPane(){
@@ -177,8 +180,11 @@ public class Project1 implements IGameWindow{
 
 	@Override
 	public void setViewSprite(ViewSprite vs) {
-		myNewGamePane.getChildren().add(vs);
-		
+			AESpriteFactory sf = new AESpriteFactory();
+			ViewSprite copy = sf.clone(vs);
+			setClicking(copy);
+			ps.addSprite(copy);
+				
 	}
 
 }

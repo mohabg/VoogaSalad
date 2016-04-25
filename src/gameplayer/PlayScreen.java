@@ -2,6 +2,7 @@ package gameplayer;
 
 import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
@@ -143,6 +144,14 @@ public class PlayScreen extends Screen {
 			currentLevel.handleKeyRelease(key);
 			key.consume();
 		});
+	}
+
+	public void addSprite(ViewSprite vs) {
+		AESpriteFactory sf = new AESpriteFactory();
+		myViewSprites.get(currentLevel).put(currentLevel.getCurrentSpriteID()+1, vs);
+
+		currentLevel.addSprite(sf.makeSprite(vs));
+		
 	}
 
 }
