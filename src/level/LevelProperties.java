@@ -30,8 +30,8 @@ public class LevelProperties {
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;
 	private IntegerProperty previousLevel;
-	private IntegerProperty numGoals;
 	
+	private IntegerProperty numGoals;
 	private Score score;
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private List<GoalProperties> goalProperties;
