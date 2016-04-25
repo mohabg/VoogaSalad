@@ -53,7 +53,6 @@ public class ServerUtility {
             mySftp.cd(directoryName);
         } catch (SftpException e) {
         }
-        endSession();
     }
 
     public List<String> getFileNames(){
@@ -68,7 +67,6 @@ public class ServerUtility {
         list.forEach(file->{
             myFileNames.add(file.getFilename());
         });
-        endSession();
         return myFileNames;
 
     }
@@ -94,7 +92,6 @@ public class ServerUtility {
         } catch (SftpException e) {
         }
         ArrayList<ChannelSftp.LsEntry> myFilesList = new ArrayList<>(files);
-        endSession();
 
         return myFilesList;
     }
@@ -111,7 +108,6 @@ public class ServerUtility {
             } catch (FileNotFoundException e) {
             }
         }
-        endSession();
     }
 
     public void getFile(String fileName) {
@@ -130,7 +126,6 @@ public class ServerUtility {
         }
         catch (SftpException e) {
         }
-        endSession();
     }
 
 
