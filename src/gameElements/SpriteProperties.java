@@ -1,5 +1,8 @@
 package gameElements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,6 +20,7 @@ public class SpriteProperties {
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
     private BooleanProperty myUserControlled;
+    private List<SpriteProperties> myClones;
     
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
@@ -27,6 +31,7 @@ public class SpriteProperties {
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
         myUserControlled = new SimpleBooleanProperty(false);
+        myClones = new ArrayList<SpriteProperties>();
 //        myX.set(0);
 //        myY.set(0);
 //        myWidth.set(0);
@@ -53,7 +58,24 @@ public class SpriteProperties {
         myHeight.set(height);
         myAngle.set(angle);
     }
+    
+    public SpriteProperties getClone(){
+    	SpriteProperties clone = new SpriteProperties(myX.doubleValue(), myY.doubleValue(), myXvel.doubleValue(), 
+    			myYvel.doubleValue(), myWidth.doubleValue(), myHeight.doubleValue(), myAngle.doubleValue());
+    	bindCloneProperties(clone);
+    	myClones.add(clone);
+    	return clone;
+    }
 
+	private void bindCloneProperties(SpriteProperties clone) {
+		clone.getMyX().bindBidirectional(myX);
+    	clone.getMyY().bindBidirectional(myY);
+    	clone.getMyAngleProperty().bindBidirectional(myAngle);
+    	clone.getMyXvel().bindBidirectional(myXvel);
+    	clone.getMyYvel().bindBidirectional(myYvel);
+    	clone.getUserControlled().bindBidirectional(myUserControlled);
+	}
+    
     public void updatePos(){
     	myX.setValue(myX.getValue() + myXvel.getValue());
     	myY.setValue(myY.getValue() + myYvel.getValue());
@@ -85,8 +107,8 @@ public class SpriteProperties {
     public double getMyAngle() {
         return myAngle.get();
     }
-
-    public DoubleProperty myAngleProperty() {
+ 
+    public DoubleProperty getMyAngleProperty() {
         return myAngle;
     }
 

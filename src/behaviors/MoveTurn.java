@@ -10,10 +10,8 @@ import javafx.beans.property.DoubleProperty;
  */
 public class MoveTurn extends Movement {
 	
-	private DoubleProperty degree;
-	
-		public void setDegree(DoubleProperty degree) {
-		this.degree = degree;
+	public MoveTurn(double value){
+		super(value);
 	}
 		
 		/**

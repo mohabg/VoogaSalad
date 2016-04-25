@@ -177,7 +177,7 @@ public class GameLoader {
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {
 			if(s.isUserControlled()){
-				s.setAsUserControlled();
+				s.setUserControlled(true);
 			}
 			newLevel.addSprite(s);
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));

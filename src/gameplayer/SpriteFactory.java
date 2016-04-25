@@ -38,13 +38,24 @@ public class SpriteFactory {
 		SpriteProperties sp = vs.getMySpriteProperties();
 		sp.setMyX(x);
 		sp.setMyY(y);
+		return createAndBindSprite(myHealth, myCollisions, myBehaviors, myRef, vs, sp);
+
+	}
+	public Sprite makeSprite(double x, double y, SpriteProperties clone, RefObject myRef) {
+		ViewSprite vs = new ViewSprite(myRef.getMyRef());
+		double imageWidth = vs.getMySpriteProperties().getMyWidth().doubleValue();
+		double imageHeight = vs.getMySpriteProperties().getMyHeight().doubleValue();
+		clone.setMyWidth(imageWidth);
+		clone.setMyHeight(imageHeight);
+		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new HashMap<String,Behavior>(), myRef, vs, clone);
+	}
+	
+	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,
+			RefObject myRef, ViewSprite vs, SpriteProperties sp) {
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
 		myViewSprites.put(spriteMap.getLastSpriteID()+1, vs);
-
 		spriteMap.addSprite(s);
-		
 		return s;
-
 	}
 }
