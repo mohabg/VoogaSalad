@@ -105,7 +105,10 @@ public class ServerUtility {
             try {
                 mySftp.put(new FileInputStream(myFile), myFile.getName());
             } catch (SftpException e) {
+                //TODO: Throw up an error dialog
+
             } catch (FileNotFoundException e) {
+                //TODO: Throw up an error dialog
             }
         }
     }

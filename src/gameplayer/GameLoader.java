@@ -2,6 +2,7 @@ package gameplayer;
 
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.ServerUtility;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
 import com.thoughtworks.xstream.XStream;
@@ -91,20 +92,27 @@ public class GameLoader {
 	/**
 	 * saves levelmodels to a user defined directory
 	 *
-	 * @param saveFileDir
+	 * @param name
 	 * @param gameLevels
 	 */
 	// TODO MIGHT WANT TO ASK FOR FILENAME HERE
 	private static void saveGame(String name, List<LevelModel> gameLevels) {
+        ServerUtility myServer = new ServerUtility();
 		String saveFileDir = String.format(SAVED_FOLDER_DIRECTORY, name);
 		System.out.println("saved to " + saveFileDir);
 		String xml = xstream.toXML(gameLevels);
 
 		FileWriter fw;
+        File myFile = new File(saveFileDir);
 		try {
-			fw = new FileWriter(saveFileDir);
+            myFile.createNewFile();
+            fw = new FileWriter(myFile);
 			fw.write(xml);
+            //TODO: Save the written file to server
 			fw.close();
+            myServer.addFile(myFile);
+            myServer.endSession();
+
 		} catch (IOException e1) {
 			// TODO PRINT ERROR
 		}
