@@ -164,5 +164,10 @@ public class PlayScreen extends Screen {
 		currentLevel.addSprite(sf.makeSprite(vs));
 		
 	}
+	public void setBackground(String background){
+		myPane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
+				   "-fx-background-repeat: repeat;");	
+		
+	}
 
 }
