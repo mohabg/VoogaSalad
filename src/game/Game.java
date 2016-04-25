@@ -58,7 +58,7 @@ public class Game {
     }
 	
 	public Level getCurrentLevel() {
-		System.out.println(currLevelNum);
+	//	System.out.println(currLevelNum);
     	return myGameLevels.get(currLevelNum);
     }
 	
