@@ -30,11 +30,11 @@ public class MainAuthoringWindow extends Screen {
 
 		myGameMakerWindow = new GameMakerWindow();
 		
-		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
-		le = new Project1(new File(PATH), mySettingsWindow);
+//		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
+//		le = new Project1(new File(PATH), mySettingsWindow);
 		
 		myItemWindow = new ItemWindow(myGameMakerWindow);
-		myItemWindow = new ItemWindow(le);
+//		myItemWindow = new ItemWindow(le);
 
 		
 		myMenubar = new AuthoringMenubarCreator(gameName);
@@ -42,7 +42,8 @@ public class MainAuthoringWindow extends Screen {
 		// myItemWindow.init();
 		myGameMakerWindow.init(mySettingsWindow);
 		
-		((BorderPane) myPane).setCenter(le.getMyNewGamePane());
+//		((BorderPane) myPane).setCenter(le.getMyNewGamePane());
+		((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
 		((BorderPane) myPane).setRight(mySettingsWindow.getBox());

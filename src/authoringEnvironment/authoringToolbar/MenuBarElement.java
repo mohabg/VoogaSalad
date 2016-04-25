@@ -8,10 +8,10 @@ import javafx.scene.control.MenuItem;
 /**
  * @author Joe Jacob
  */
-public abstract class AbstractMenu {
+public class MenuBarElement {
 	private Menu myMenu;
 	
-	public AbstractMenu() {
+	public MenuBarElement() {
 	}
 	
 	/** 

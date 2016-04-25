@@ -3,6 +3,7 @@ package authoringEnvironment.authoringToolbar;
 import authoringEnvironment.MainAuthoringWindow;
 import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
+import gameplayer.MainPlayingWindow;
 import interfaces.ITabPane;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -38,15 +39,16 @@ public class AuthoringMenubarCreator {
 	 * @param window
 	 */
 	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, ITabPane window) {
-		BackMenu myBackMenu = getBackMenu(mainAuthoringWindow);
-        FileMenu myFileMenuMaker = getFileMenu(window);
-        GameMenu myGameMenu = getGameMenu(window);
+		MenuBarElement myBackMenu = getBackMenu(mainAuthoringWindow);
+		MenuBarElement myFileMenuMaker = getFileMenu(window);
+		MenuBarElement myGameMenu = getGameMenu(window);
+		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow);
 		myMenuBar.getStylesheets().add("authoringEnvironment/authoringToolbar/authoringToolbar.css");
-		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu());
+		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
 	}
 
-    private BackMenu getBackMenu(MainAuthoringWindow mainAuthoringWindow) {
-        BackMenu myBackMenu = new BackMenu();
+    private MenuBarElement getBackMenu(MainAuthoringWindow mainAuthoringWindow) {
+    	MenuBarElement myBackMenu = new MenuBarElement();
         myBackMenu.setName(FrontEndData.ButtonLabels.getString("BackMenu"));
         myBackMenu.setNewAction(FrontEndData.ButtonLabels.getString("BackMenu1"), e -> {
             mainAuthoringWindow.returnToParentScreen();
@@ -54,8 +56,8 @@ public class AuthoringMenubarCreator {
         return myBackMenu;
     }
 
-    private FileMenu getFileMenu(ITabPane window) {
-        FileMenu myFileMenuMaker = new FileMenu();
+    private MenuBarElement getFileMenu(ITabPane window) {
+    	MenuBarElement myFileMenuMaker = new MenuBarElement();
         myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
         myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("FileMenu1"), e -> {
             System.out.println("NOT IMPLEMENTED");
@@ -67,8 +69,8 @@ public class AuthoringMenubarCreator {
         return myFileMenuMaker;
     }
     
-    private GameMenu getGameMenu(ITabPane window){
-    	GameMenu myGameMenu = new GameMenu();
+    private MenuBarElement getGameMenu(ITabPane window){
+    	MenuBarElement myGameMenu = new MenuBarElement();
     	myGameMenu.setName(FrontEndData.ButtonLabels.getString("GameMenu"));
     	myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
              playMyGame(window);
@@ -77,6 +79,16 @@ public class AuthoringMenubarCreator {
             window.addNewTab();
         });
     	return myGameMenu;
+    }
+    
+    private MenuBarElement getPlayToggle(MainAuthoringWindow mainAuthoringWindow){
+    	MenuBarElement playToggleButton = new MenuBarElement();
+    	playToggleButton.setName("play/edit");
+    	playToggleButton.setNewAction("play", e -> {
+    		MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(mainAuthoringWindow, myName);
+    		mainAuthoringWindow.switchScene(myMainPlayingWindow);
+    	});
+    	return playToggleButton;
     }
 
 	private void playMyGame(ITabPane tabLevels) {

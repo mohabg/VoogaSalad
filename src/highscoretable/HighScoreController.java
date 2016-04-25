@@ -18,6 +18,7 @@ public class HighScoreController {
 		table = new TableView<HighScore>();
 		data = FXCollections.observableArrayList();
 		makeTable();
+
 	}
 	public HighScoreController(Collection<HighScore> history){
 		this();
@@ -39,18 +40,19 @@ public class HighScoreController {
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(player -> addHighScore(score, player, game));
 	}
-	
 	public void addHighScore(Double score, String player, String game){
 		addHighScores(new HighScore(score, player, game));
 	}
 	
 	public void addHighScores(HighScore... scores) {
 		data.addAll(scores);
+
 	}
 
 	private void makeTable() {
 		table.setItems(data);
 		table.getColumns().setAll(makeTableCol("scorevalue"), makeTableCol("playername"), makeTableCol("gamename"));
+
 	}
 
 	private TableColumn<HighScore, String> makeTableCol(String name) {
