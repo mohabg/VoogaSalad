@@ -14,30 +14,30 @@ public class HighScoreController {
 		table = new TableView<HighScore>();
 		data = FXCollections.observableArrayList();
 		makeTable();
-
 	}
 
 	public TableView<HighScore> getTable() {
 		return table;
 	}
+	
 	public void addHighScore(Double score, String game){
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setContentText("Please enter your name:");
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(player -> addHighScore(score, player, game));
 	}
+	
 	public void addHighScore(Double score, String player, String game){
 		addHighScores(new HighScore(score, player, game));
 	}
+	
 	public void addHighScores(HighScore... scores) {
 		data.addAll(scores);
-
 	}
 
 	private void makeTable() {
 		table.setItems(data);
 		table.getColumns().setAll(makeTableCol("scorevalue"), makeTableCol("playername"), makeTableCol("gamename"));
-
 	}
 
 	private TableColumn<HighScore, String> makeTableCol(String name) {

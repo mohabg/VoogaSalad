@@ -32,6 +32,7 @@ public class StartOptionsWindow extends Screen {
 		myPane = new BorderPane();
 		myPane.getStylesheets().add("authoringEnvironment/startOptionsWindow.css");
 		startWindowBox = new VBox();
+		startWindowBox.setId("myvBox");
 		Settings.setStartWindowSettings(startWindowBox);
 		new GameLoader();
 		makeAndSetStartBox();

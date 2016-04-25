@@ -28,6 +28,7 @@ public abstract class GameFileScreen extends Screen {
     public GameFileScreen() {
         super();
         tabPane = new TabPane();
+        tabPane.getStylesheets().add("gameplayer/gameFileScreen.css");
         // Settings.setGamePlayingSettings((Pane) tabPane);
         initTabs();
     }

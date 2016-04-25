@@ -1,0 +1,23 @@
+.tab-pane .tab-header-background{
+	-fx-background-color: #121b3e;
+}
+
+.tab {
+	-fx-font-family: verdana;
+	-fx-font-weight: bold;
+	-fx-background-color: #121b3e;
+}
+
+.tab .tab-label{
+	-fx-text-fill: #ffffff;
+}
+
+.tab:selected .tab-label{
+	-fx-text-fill: #7090cb;
+}
+
+#FlowPane {
+	-fx-background-color: #121b3e;
+	-fx-pref-tile-height: 10;
+	-fx-pref-tile-width: 10;
+}
