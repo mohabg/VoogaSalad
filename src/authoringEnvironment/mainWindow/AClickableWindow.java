@@ -134,6 +134,16 @@ public abstract class AClickableWindow {
 	public Pane getMyNewGamePane() {
 		return myNewGamePane;
 	}
+	
+	public void setBackground(String background) {
+		myNewGamePane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
+				   "-fx-background-repeat: repeat;");		
+	}
+	
+	public String getBackground() {
+		// TODO Auto-generated method stub
+		return myNewGamePane.getStyle().replace("-fx-background-image: url(", "").replace(");", "").replace("-fx-background-repeat: repeat;", "").trim();
+	}
 
 	public abstract void initArea();
 

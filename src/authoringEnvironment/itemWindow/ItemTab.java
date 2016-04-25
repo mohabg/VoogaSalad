@@ -5,6 +5,7 @@ import authoringEnvironment.ViewSprite;
 import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import resources.FrontEndData;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @author Huijia
  *
  */
-public abstract class AbstractItemTab implements ITab{
+public  class ItemTab implements ITab{
 	
 	private Tab myTab;
     private TilePane myTilePane;
@@ -23,18 +24,18 @@ public abstract class AbstractItemTab implements ITab{
     private static double IMAGE_HEIGHT;
     private static double OFFSET = 50;
 
-    public AbstractItemTab() {
+    public ItemTab() {
         myTab = new Tab();
         myTilePane = new TilePane();
     }
     /** 
      * this adds the sprites to the tab
-     * @param viewSprites
+     * @param list
      */
-    public void populateTab(List<ViewSprite> viewSprites){
+    public void populateTab(List<ImageView> list){
         Settings.setTilePaneSettings(myTilePane);
         IMAGE_HEIGHT = myTilePane.getTileHeight() - OFFSET;
-        viewSprites.forEach(viewSprite -> {
+        list.forEach(viewSprite -> {
             viewSprite.setFitHeight(IMAGE_HEIGHT);
             viewSprite.setPreserveRatio(true);
             myTilePane.getChildren().add(viewSprite);
@@ -61,6 +62,21 @@ public abstract class AbstractItemTab implements ITab{
 
 	@Override
 	public Node getTabContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setViewSprite(ViewSprite view) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setBackground(String bg) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public String getBackground() {
 		// TODO Auto-generated method stub
 		return null;
 	}

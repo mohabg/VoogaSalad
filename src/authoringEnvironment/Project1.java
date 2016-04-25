@@ -17,6 +17,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -70,5 +71,6 @@ public class Project1 extends AClickableWindow implements IGameWindow {
 		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));
 		
 	}
+	
 
 }

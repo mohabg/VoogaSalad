@@ -139,7 +139,7 @@ public class GameLoader {
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (ITab levelTab : levels.getITabs()) {
-			LevelModel newLM = new LevelModel(((GameAuthoringTab) levelTab).getList());
+			LevelModel newLM = new LevelModel(levelTab);
 			levelModelList.add(newLM);
 		}
 		return levelModelList;

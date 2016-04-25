@@ -106,6 +106,12 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 		
 	}
 
+	@Override
+	public void setBackground(String bg) {
+		this.getCurrentTab().setBackground(bg);
+		
+	}
+
 	// @Override
 	// public TabPane getTabPane() {
 	// return myTabPane;
