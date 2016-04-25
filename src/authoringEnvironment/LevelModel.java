@@ -28,14 +28,14 @@ import behaviors.Behavior;
 import collisions.Collision;
 
 public class LevelModel {
-	private ListProperty<Goals> myGoals;
+	private ListProperty<Goal> myGoals;
 //	private MapProperty<KeyCode, KeyboardActions> myKeyMap;
 	private IntegerProperty numGoals;
 	private List<Sprite> myList;
 
 	public LevelModel() {
 
-		myGoals = new SimpleListProperty<Goals>(FXCollections.observableList(new ArrayList<Goals>()));
+		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
 
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
@@ -53,7 +53,7 @@ public class LevelModel {
 		this();
 		LevelProperties myProperties = l.getLevelProperties();
 //		List<GoalProperties> goalproperties = l.getGoalList().stream().map(goal->goal.getGoalProperties()).collect(Collectors.toList());
-		myGoals.addAll(myProperties.getGoalProperties().stream().map(gp-> gp.getMyGoal()).collect(Collectors.toList()));
+//		myGoals.addAll(myProperties.getGoalProperties().stream().map(gp-> gp.getMyGoal()).collect(Collectors.toList()));
 
 	}
 
@@ -62,7 +62,7 @@ public class LevelModel {
 //		return myKeyMap;
 //	}
 
-	public List<Goals> getMyGoals() {
+	public List<Goal> getMyGoals() {
 		return myGoals;
 	}
 	

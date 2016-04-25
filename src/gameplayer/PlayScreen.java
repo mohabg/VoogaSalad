@@ -70,15 +70,24 @@ public class PlayScreen extends Screen {
 	public void setGameLevels(List<LevelModel> gameLevels) {
 		myEngine = new Engine(this, new GameEditor());
 
-		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
+//		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
+		for (int i=0; i<gameLevels.size(); i++){
+			LevelModel lm = gameLevels.get(i);
+			Level newLevel = GameLoader.makeLevel(lm, i);
+			myViewSprites.put(newLevel, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
+
+		}
 
 		myViewSprites.keySet().forEach(level -> myEngine.addLevel(level.getLevelProperties().getLevelID(), level));
+		myEngine.setCurrentLevel(0);
 		setLevel(myEngine.getCurrentLevel());
 		myEngine.gameLoop();
+		initHUD();
 
 	}
 
 	public void setLevel(Level newLevel) {
+		System.out.println("                         QQQQQQQQQQQQQQQQQQQQQQ");
 		try {
 			myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		} catch (Exception e) {
@@ -98,7 +107,6 @@ public class PlayScreen extends Screen {
 
 		setKeys();
 		setSprites();
-		initHUD();
 
 	}
 

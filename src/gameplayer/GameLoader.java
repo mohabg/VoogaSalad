@@ -138,24 +138,17 @@ public class GameLoader {
 		return (List<LevelModel>) xstream.fromXML(file);
 	}
 
-	// TODO: TALK ABOUT STATIC IN GAMELOADER????
-	public static Map<Level, Map<Integer, ViewSprite>> makeLevelViewSpriteMap(List<LevelModel> gameLevels) {
-		Map<Level, Map<Integer, ViewSprite>> myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
-
-		gameLevels.forEach(lm -> {
-			Level newLevel = new Level();
-			LevelProperties lp = newLevel.getLevelProperties();
-			setLevelProperties(lp,1,"level1");
-			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
-			lp.setNumGoals(lm.getNumGoals());
+	static Level makeLevel(LevelModel lm, int id) {
+		Level newLevel = new Level();
+		LevelProperties lp = newLevel.getLevelProperties();
+		setLevelProperties(lp,id,"level"+id);
+//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
+		lp.setNumGoals(lm.getNumGoals());
 //			lp.setKeyMapping(lm.getMyKeyMap());
-			myViewSprites.put(newLevel, setLevelSprites(newLevel, lm.getMySpriteList()));
-		});
-		return myViewSprites;
-
+		return newLevel;
 	}
 
-	private static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, List<Sprite> list) {
+	static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, List<Sprite> list) {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {
