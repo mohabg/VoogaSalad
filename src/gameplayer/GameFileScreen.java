@@ -28,6 +28,7 @@ public abstract class GameFileScreen extends Screen {
     public GameFileScreen() {
         super();
         tabPane = new TabPane();
+        tabPane.getStylesheets().add("gameplayer/gameFileScreen.css");
         // Settings.setGamePlayingSettings((Pane) tabPane);
         initTabs();
     }
@@ -84,6 +85,8 @@ public abstract class GameFileScreen extends Screen {
         });
         myButton.setPrefHeight(FrontEndData.BUTTON_SIZE);
         myButton.setPrefWidth(FrontEndData.BUTTON_SIZE);
+        
+//      myButton.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
         myButton.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
         myButton.setId("button-style");
         return new VBox(myButton);

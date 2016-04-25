@@ -22,8 +22,9 @@ public abstract class AbstractMenu {
 	
 	public void setName(String menuName){
 		myMenu = new Menu(menuName);
-
+		myMenu.getStyleClass().add("menu-title");
 	}
+	
 	public void setNewAction(String itemName, EventHandler<ActionEvent> action) {
 		MenuItem myNewFile = new MenuItem(itemName);
         myNewFile.setOnAction(action);

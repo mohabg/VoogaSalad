@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import resources.FrontEndData;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class ItemWindow {
 	public ItemWindow(IGameWindow window) {
 		myGameTabPane = window;
 		myTabPane = new TabPane();
-		myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
+		myTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/itemWindow.css");
 		// mySpritesAndModels = new HashMap<ViewSprite, Sprite>();
 		initTabPane();
 	}

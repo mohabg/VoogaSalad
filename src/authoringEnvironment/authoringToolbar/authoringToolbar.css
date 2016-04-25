@@ -1,0 +1,13 @@
+.menu-bar{
+	-fx-background-color: #121b3e;
+}
+
+.menu-bar .label {
+	-fx-text-fill: #ffffff;
+	-fx-font-family: verdana;
+	-fx-font-weight: bold;
+}
+
+.menu-item .label{
+	-fx-text-fill: #121b3e;
+}

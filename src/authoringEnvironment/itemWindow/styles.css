@@ -1,54 +1,75 @@
+/* .tab-pane {
+	-fx-background-color: #0059b3;
+	-fx-padding: 5 5 5 5;
+}
+
+.tab-header-background{
+	-fx-background-radius: 5 5 0 0;
+}
+
+.tab-header-area{
+	-fx-background-color: #0059b3;
+}
+
+.tab{
+	-fx-background-color: #ffffff;
+}
+
+.tab-pane .tab:selected{
+	-fx-text-fill: #0059b3;
+}
+
+#TilePane {
+	-fx-background-color: #cccccc;
+	-fx-alignment: top-center;
+	-fx-pref-tile-height: 110;
+	-fx-pref-tile-width: 110;
+}
+
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }
 
-.tab-pane
-{
+.tab-pane {
     -fx-tab-min-width:90px;
-
 }
 
-.tab{
-    -fx-background-insets: 0 1 0 1,0,0;
-    -fx-border-width: 1 1 1 1; -fx-border-color: white white transparent white ;
-}
-.tab-pane .tab
-{
-    -fx-background-color: #3c3c3c;
-
-
+.tab {
+    /*-fx-background-insets: 0 1 0 1,0,0;*/
+    /*-fx-border-width: 1 1 1 1;*/
+    /*-fx-border-color: white white transparent white;
+    -fx-background-color: #000000;
 }
 
-.tab-pane .tab:selected
-{
-    -fx-background-color: #3c3c3c;
+.tab-pane {
+    -fx-background-color: #86bcff;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #000000;
     -fx-text-fill: #96b946;
-
 }
 
 .tab .tab-label {
     -fx-alignment: CENTER;
     -fx-text-fill: #828282;
     -fx-font-size: 12px;
-
     -fx-font-weight: bold;
 }
 
 .tab:selected .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: #96b946;
+    -fx-text-fill: #86bcff;
 }
 
-
 #TilePane {
-    -fx-background-color: #3c3c3c;
-    -fx-border-width: 1 2 3 4; -fx-border-color: white ;
-
+    -fx-background-color: #666666;
+    -fx-background-insets: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
 }
 
 #GameTab{
     -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;
-
 }
 
 
