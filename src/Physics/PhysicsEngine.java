@@ -8,6 +8,7 @@ import level.Level;
 public class PhysicsEngine {
 	private DoubleProperty drag;
 
+	// 
 	public PhysicsEngine(DoubleProperty dragVal) {
 		drag = dragVal;
 	}
@@ -33,6 +34,7 @@ public class PhysicsEngine {
 	}
 
 	// should this be private
+	// update method should not update sprite positions
 	public void updateSprite(Sprite sprite, DoubleProperty degree) {
 		updateSpritePosition(sprite);
 		updateAngle(sprite, degree);
