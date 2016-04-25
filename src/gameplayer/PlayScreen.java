@@ -7,6 +7,7 @@ import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
 import gameElements.Sprite;
+import highscoretable.HighScoreController;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -72,12 +73,12 @@ public class PlayScreen extends Screen {
 		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 
 		myViewSprites.keySet().forEach(level -> myEngine.addLevel(level.getLevelProperties().getLevelID(), level));
-		setLevel(myEngine.getCurrentLevel(), null);
+		setLevel(myEngine.getCurrentLevel());
 		myEngine.gameLoop();
 
 	}
 
-	public void setLevel(Level newLevel, Level oldLevel) {
+	public void setLevel(Level newLevel) {
 		try {
 			myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		} catch (Exception e) {
@@ -115,7 +116,6 @@ public class PlayScreen extends Screen {
 		activeSprites.forEach(s -> {
 			myPane.getChildren().add(myViewSprites.get(currentLevel).get(s));
 			});
-
 	}
 
 	public Level getCurrentLevel() {
@@ -144,5 +144,16 @@ public class PlayScreen extends Screen {
 			key.consume();
 		});
 	}
+	
+	public void makeHighScoreTable(){
+		HighScoreController hsc = new HighScoreController();
+//		hsc.addHighScore(myEngine.getScore(), myEngine.getName());
+		hsc.addHighScore(10.1, "game");
+		myPane.getChildren().clear();
+		myPane.getChildren().add(hsc.getTable());
+		
+	}
+	
+	
 
 }
