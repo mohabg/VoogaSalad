@@ -30,17 +30,16 @@ public class LevelProperties {
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;
 	private IntegerProperty previousLevel;
-	// private Score score;
-	private IntegerProperty score;
-	private Time time;
 	private IntegerProperty numGoals;
+	
+	private Score score;
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private List<GoalProperties> goalProperties;
 	private Sprite[] collidingSprites;
 
 	public LevelProperties() {
-		// score = new Score();
-		score = new SimpleIntegerProperty();
+		score = new Score();
+		// score = new SimpleIntegerProperty();
 		levelID = new SimpleIntegerProperty();
 		levelName = new SimpleStringProperty();
 		nextLevel = new SimpleIntegerProperty();
@@ -127,12 +126,13 @@ public class LevelProperties {
 		this.previousLevel.set(previousLevel);
 	}
 
-	/*
-	 * public Score getScoreObject(){ return this.score; }
-	 */
+	public Score getScoreObject() {
+		return this.score;
+	}
+
 	public Integer getCurrentPoints() {
 		// return score.getScoreValue().get();
-		return score.get();
+		return getScore().getValue();
 	}
 
 	public void setCurrentPoints(Integer currentPoints) {
@@ -145,14 +145,6 @@ public class LevelProperties {
 
 	public void setNumGoals(Integer numGoals) {
 		this.numGoals.set(numGoals);
-	}
-
-	public Time getTime() {
-		return time;
-	}
-
-	public void setTime(Time time) {
-		this.time = time;
 	}
 
 	public KeyboardActions getKeyboardAction(KeyCode key) {
@@ -179,10 +171,10 @@ public class LevelProperties {
 	 * public void setScore(Score score) { this.score = score; }
 	 */
 	public IntegerProperty getScore() {
-		return score;
+		return getScoreObject().getScoreValue();
 	}
 
 	public void addScore(int val) {
-		score.set(score.get() + val);
+		getScoreObject().addScore(val);
 	}
 }

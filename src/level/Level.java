@@ -19,6 +19,7 @@ import collisions.EnemyCollision;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
+import gameElements.Time;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.Goal.Goals;
@@ -27,6 +28,7 @@ import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -49,7 +51,7 @@ import java.util.*;
 
 public class Level implements ILevel {
 	private LevelProperties levelProperties;
-
+	private Time time;
 	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
@@ -60,6 +62,7 @@ public class Level implements ILevel {
 	private int goalCount;
 	private boolean isFinished;
 	private SpriteFactory mySpriteFactory;
+	
 
 	public Level() {
 
@@ -368,4 +371,13 @@ public class Level implements ILevel {
 		// TODO Auto-generated method stub
 		return spriteMap.get(currentSpriteID);
 	}
+	
+	public Time getTime() {
+		return time;
+	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 }
