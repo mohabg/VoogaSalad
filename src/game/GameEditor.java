@@ -74,14 +74,14 @@ public class GameEditor implements IGameEditor {
 		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
 	}
 
-//	public List<Integer> updateGame() {
-		public void updateGame() {
-
-//		List<Integer> dead = 
-				myGame.getCurrentLevel().update();
-		if (myGame.getCurrentLevel().getisFinished())
-			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
-//		return dead;
+	// public List<Integer> updateGame() {
+	public void updateGame() {
+		//System.out.println(myGame.getCurrentLevel().getGoalList().size() + "size of goal list");
+		// List<Integer> dead =
+		myGame.getCurrentLevel().update();
+//		if (myGame.getCurrentLevel().getisFinished())
+//			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
+		// return dead;
 	}
 
 	public void setResultForKeyPress(KeyEvent event) {

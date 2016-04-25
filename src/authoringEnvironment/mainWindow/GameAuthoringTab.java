@@ -1,3 +1,4 @@
+
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.AESpriteFactory;
@@ -40,17 +41,15 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 		String tabName = FrontEndData.TAB + levelID;
 		myTab = new Tab(tabName);
 		mySpriteMap = spriteMap;
-		setLevelProperties(levelID, tabName);
+
+		myWindow = window;
+        myLevelModel = new LevelModel();
+//        setLevelProperties(levelID, tabName);
+        
+        mySpriteTabPanes = new HashMap<Sprite, TabPane>();
 		initArea();
 	}
-
-	private void setLevelProperties(Integer levelID, String tabName) {
-		LevelProperties p = myLevelModel.getMyProperties();
-		p.setLevelID(levelID);
-		p.setLevelName(tabName);
-		p.setPreviousLevel(levelID - 1);
-		p.setNextLevel(levelID + 1);
-	}
+	
 
 	@Override
 	public void initArea() {
