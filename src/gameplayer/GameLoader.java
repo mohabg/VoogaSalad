@@ -145,7 +145,7 @@ public class GameLoader {
 		gameLevels.forEach(lm -> {
 			Level newLevel = new Level();
 			LevelProperties lp = newLevel.getLevelProperties();
-
+			setLevelProperties(lp,1,"level1");
 			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
 			lp.setNumGoals(lm.getNumGoals());
 //			lp.setKeyMapping(lm.getMyKeyMap());
@@ -172,5 +172,13 @@ public class GameLoader {
 	public static Screen newGame(String name) {
 		File file = new File(String.format(SAVED_FOLDER_DIRECTORY, name));
 		return newGame(file);
+	}
+	
+
+	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
+		p.setLevelID(levelID);
+		p.setLevelName(tabName);
+//		p.setPreviousLevel(levelID-1);
+//		p.setNextLevel(levelID+1);
 	}
 }
