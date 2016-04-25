@@ -88,10 +88,6 @@ public class Sprite {
 		userPressBehaviors.put(KeyCode.RIGHT, defaultRightPressMovement);
 		addBehavior(defaultRightPressMovement);
 		
-		Behavior turnMovement = new MoveTurn(45);
-		userPressBehaviors.put(KeyCode.A, turnMovement);
-		addBehavior(turnMovement);
-		
 	}
 	
 
