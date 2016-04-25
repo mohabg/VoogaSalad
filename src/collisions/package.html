@@ -1,0 +1,7 @@
+<HTML>
+<BODY>
+This package describes how collisions are handled in the game. The CollisionChecker uses javafx's intersects method to make sure a collision
+occurred, and if a collision occurs, reflection is used to determine what behavior the sprites who are colliding should experience, then
+the handleCollision from the respective class is called. There are many types of collisions, including DamageCollision(takes health away 
+from a colliding sprite), PowerUpCollision(gives a power up to a colliding sprite), ExplosionCollision(causes the sprite in question to
+explode), etc. The names are fairly self explanatory.  
