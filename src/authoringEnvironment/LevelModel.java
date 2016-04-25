@@ -5,29 +5,42 @@ package authoringEnvironment;
  */
 import gameElements.Sprite;
 import goals.Goal;
+import goals.Goal.Goals;
 import goals.GoalProperties;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+import javafx.scene.input.KeyCode;
+import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LevelModel {
+import behaviors.Behavior;
+import collisions.Collision;
 
-	private LevelProperties myProperties;
-	private ListProperty<Goal> myGoals;
+public class LevelModel {
+	private ListProperty<Goals> myGoals;
+//	private MapProperty<KeyCode, KeyboardActions> myKeyMap;
+	private IntegerProperty numGoals;
 	private List<Sprite> myList;
 
 	public LevelModel() {
-		myList = new ArrayList<Sprite>();
 
-//		myList =  ;
-		myProperties = new LevelProperties();
-		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
+		myGoals = new SimpleListProperty<Goals>(FXCollections.observableList(new ArrayList<Goals>()));
 
+		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
+				.observableMap(new HashMap<KeyCode, KeyboardActions>());
+//		myKeyMap = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
+		numGoals = new SimpleIntegerProperty();
 	}
 
 	public LevelModel(List<Sprite> list) {
@@ -37,23 +50,27 @@ public class LevelModel {
 
 	public LevelModel(Level l) {
 		this();
-		myList.addAll(l.getSpriteMap().getSpriteMap().values());
-		myProperties = l.getLevelProperties();
+		LevelProperties myProperties = l.getLevelProperties();
 //		List<GoalProperties> goalproperties = l.getGoalList().stream().map(goal->goal.getGoalProperties()).collect(Collectors.toList());
-		myGoals.addAll(l.getGoalList());
+		myGoals.addAll(myProperties.getGoalProperties().stream().map(gp-> gp.getMyGoal()).collect(Collectors.toList()));
 
 	}
 
-	public List<Sprite> getMySpriteList() {
+
+//	public Map<KeyCode, KeyboardActions> getMyKeyMap() {
+//		return myKeyMap;
+//	}
+
+	public List<Goals> getMyGoals() {
+		return myGoals;
+	}
+	
+	public List<Sprite> getMySpriteList(){
 		return myList;
 	}
-
-	public LevelProperties getMyProperties() {
-		return myProperties;
-	}
-
-	public List<Goal> getMyGoals() {
-		return myGoals;
+	
+	public Integer getNumGoals(){
+		return numGoals.get();
 	}
 
 }
