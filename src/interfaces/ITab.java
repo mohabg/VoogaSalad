@@ -16,5 +16,5 @@ public interface ITab {
 	
 	void setTabTitle(String tabTitle);
 
-	void setTabContent(ViewSprite view);
+	void setViewSprite(ViewSprite view);
 }

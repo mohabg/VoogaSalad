@@ -41,7 +41,7 @@ public class MainAuthoringWindow extends Screen {
 		// myItemWindow.init();
 		myGameMakerWindow.init(mySettingsWindow);
 		
-		((BorderPane) myPane).setCenter(le.getPane());
+		((BorderPane) myPane).setCenter(le.getMyNewGamePane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
 		((BorderPane) myPane).setRight(mySettingsWindow.getBox());
@@ -52,10 +52,6 @@ public class MainAuthoringWindow extends Screen {
 
 	public GameMakerWindow getGameMakerWindow() {
 		return myGameMakerWindow;
-	}
-	
-	public void setKeys(){
-		le.setKeys();
 	}
 
 }

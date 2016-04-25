@@ -14,7 +14,7 @@ public class PlayerSpritesTab extends AbstractItemTab {
 	}
 
 
-	public void setTabContent(ViewSprite view) {
+	public void setViewSprite(ViewSprite view) {
 		// TODO Auto-generated method stub
 		
 	}

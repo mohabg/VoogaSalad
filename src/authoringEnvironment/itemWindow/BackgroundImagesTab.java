@@ -14,7 +14,7 @@ public class BackgroundImagesTab extends AbstractItemTab {
 	}
 
 	@Override
-	public void setTabContent(ViewSprite view) {
+	public void setViewSprite(ViewSprite view) {
 		// TODO Auto-generated method stub
 		
 	}
