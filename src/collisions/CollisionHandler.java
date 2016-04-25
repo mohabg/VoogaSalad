@@ -2,18 +2,18 @@ package collisions;
 
 import java.lang.reflect.Method;
 
+import events.ICollisionHandler;
+
 /**
  * Handles overall collisions 
  */
 
 import level.LevelProperties;
 
-public class CollisionHandler {
-	
-	private Method method;
+public class CollisionHandler implements ICollisionHandler {
 
 	public CollisionHandler(){
-		//Should have some way to access time and score
+		
 	}
 	
 
@@ -41,7 +41,7 @@ public class CollisionHandler {
 		Class<? extends Collision> CollisionTwoClass = two.getClass();
 		try{
 			Method[] methods = CollisionOneClass.getMethods();
-			method = CollisionOneClass.getDeclaredMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
+			Method method = CollisionOneClass.getDeclaredMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 			return true;
 		}
 		catch(NoSuchMethodException e){

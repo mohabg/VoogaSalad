@@ -1,7 +1,8 @@
+
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.AESpriteFactory;
-import authoringEnvironment.RefObject;
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -18,10 +19,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import level.Level;
 import level.LevelProperties;
 import resources.FrontEndData;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 /**
  * @author David Yan, Huijia Yu, Joe Jacob
  */
@@ -31,12 +36,16 @@ public class GameAuthoringTab implements ITab{
 
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
+	private Map<Sprite, TabPane> mySpriteTabPanes;
 	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	//private Map<ViewSprite, >
-    private LevelProperties myLevelProperties;
+	private LevelModel myLevelModel;
+//    private LevelProperties myLevelProperties;
+    private AnchorPane myNewGamePane = new AnchorPane();
 
-	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+
+    private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
             double offsetX = t.getSceneX() - orgSceneX;
@@ -72,27 +81,40 @@ public class GameAuthoringTab implements ITab{
 		}
 	};
 
-	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, String title, SettingsWindow window) {
-		myTab = new Tab(title);
+	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, Integer levelID, SettingsWindow window) {
+		String tabName = FrontEndData.TAB + levelID;
+		myTab = new Tab(tabName);
 		mySpriteMap = spriteMap;
 		myWindow = window;
-        myLevelProperties = new LevelProperties();
-
+        myLevelModel = new LevelModel();
+        setLevelProperties(levelID, tabName);
+        
+        mySpriteTabPanes = new HashMap<Sprite, TabPane>();
 		initArea();
+	}
+	
+	private void setLevelProperties(Integer levelID, String tabName){
+		LevelProperties p = myLevelModel.getMyProperties();
+		p.setLevelID(levelID);
+		p.setLevelName(tabName);
+		p.setPreviousLevel(levelID-1);
+		p.setNextLevel(levelID+1);
 	}
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
 //		Settings.setGameAreaSettings(myNewGameArea);
 
-		AnchorPane myNewGamePane = new AnchorPane();
+		//AnchorPane myNewGamePane = new AnchorPane();
 		Settings.setGamePaneSettings(myNewGamePane);
-//        myNewGamePane.setOnMouseClicked(e->{
-//            updateSettingsPane(this.myLevelProperties);
-//        });
+
+        myNewGameArea.setContent(myNewGamePane);
+        myNewGamePane.setOnMouseClicked(e->{
+            updateSettingsPane(this.myLevelModel);
+        });
 
 
-		setTabContent(myNewGamePane);
+		setTabContent(myNewGameArea);
 		mySpriteMap.keySet().forEach(c-> addWithClicking(c));
 	}
 
@@ -100,9 +122,9 @@ public class GameAuthoringTab implements ITab{
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
 
-//    private void updateSettingsPane(LevelProperties clickedSprite) {
-//        myWindow.setContent(setSettingsContent(clickedSprite));
-//    }
+    private void updateSettingsPane(LevelModel clickedSprite) {
+        myWindow.setContent(setSettingsContent(clickedSprite));
+    }
 
     /**
      * @param spriteModel model used to generate visual elements that
@@ -111,17 +133,24 @@ public class GameAuthoringTab implements ITab{
 
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-		myBox.getChildren().addAll(propertiesList);
+		TabPane propertiesPane = new TabPane();
+		if (mySpriteTabPanes.get(spriteModel) != null) {
+			propertiesPane = mySpriteTabPanes.get(spriteModel);
+		} else {
+			propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
+			mySpriteTabPanes.put(spriteModel, propertiesPane);
+		}
+		myBox.getChildren().addAll(propertiesPane);
 		return myBox;
 	}
 
-//    public VBox setSettingsContent(LevelProperties myLevelProperties) {
-//        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-//        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevelProperties);
-//        myBox.getChildren().addAll(propertiesList);
-//        return myBox;
-//    }
+    public VBox setSettingsContent(LevelModel myLevel) {
+    	currentSprite = null;
+        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+        TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevel);
+        myBox.getChildren().addAll(propertiesList);
+        return myBox;
+    }
 
 	private void addWithClicking(ViewSprite sprite){
 		sprite.setCursor(Cursor.HAND);
@@ -140,12 +169,12 @@ public class GameAuthoringTab implements ITab{
             }
         });
 
-        ((Pane) getTabContent()).getChildren().addAll(sprite);
+        (getMyNewGamePane()).getChildren().addAll(sprite);
         
 	}
 
-	public Map<ViewSprite, Sprite> getMap(){
-		return mySpriteMap;
+	public List<Sprite> getList(){
+		return mySpriteMap.values().stream().collect(Collectors.toList());
 	}
 
 	@Override
@@ -170,12 +199,13 @@ public class GameAuthoringTab implements ITab{
         myTab.setText(tabTitle);
     }
 
+    public void setCurrentSpriteNull() {
+    	currentSprite = null;
+    }
 
     /**
      * @param view is a ViewSprite that's going to be copied and get its properties set between the
      * Sprite properties.
-     * @param sprite Sprite properties are bound to ViewSprite coordinate variables such that when one
-     * change is made, the other knows of the change
      */
 	@Override
 	public void setTabContent(ViewSprite view) {
@@ -185,6 +215,10 @@ public class GameAuthoringTab implements ITab{
 		addWithClicking(copy);
 	}
 
+
+    public AnchorPane getMyNewGamePane() {
+        return myNewGamePane;
+    }
 
 
     }
