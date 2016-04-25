@@ -42,7 +42,7 @@ public class AuthoringMenubarCreator {
 		MenuBarElement myBackMenu = getBackMenu(mainAuthoringWindow);
 		MenuBarElement myFileMenuMaker = getFileMenu(window);
 		MenuBarElement myGameMenu = getGameMenu(window);
-		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow);
+		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow, window);
 		myMenuBar.getStylesheets().add("authoringEnvironment/authoringToolbar/authoringToolbar.css");
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
 	}
@@ -81,10 +81,12 @@ public class AuthoringMenubarCreator {
     	return myGameMenu;
     }
     
-    private MenuBarElement getPlayToggle(MainAuthoringWindow mainAuthoringWindow){
+    private MenuBarElement getPlayToggle(MainAuthoringWindow mainAuthoringWindow, ITabPane tabLevels){
     	MenuBarElement playToggleButton = new MenuBarElement();
     	playToggleButton.setName("play/edit");
     	playToggleButton.setNewAction("play", e -> {
+    		GameLoader.saveGame(myName, tabLevels);
+
     		MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(mainAuthoringWindow, myName);
     		mainAuthoringWindow.switchScene(myMainPlayingWindow);
     	});

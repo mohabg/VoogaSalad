@@ -29,9 +29,9 @@ import resources.FrontEndData;
 public class Project1 extends AClickableWindow implements IGameWindow {
 	PlayScreen ps;
 
-	public Project1(File newGameFile, SettingsWindow window) {
+	public Project1(PlayScreen myPlayScreen, SettingsWindow window) {
 		super(window);
-		ps = (PlayScreen) GameLoader.newGame(newGameFile);
+		ps = myPlayScreen;
 		myLevelModel = new LevelModel(ps.getCurrentLevel());
 		myNewGamePane = ps.getPane();
 		myNewGamePane.getChildren().removeAll(ps.getViewSprites().values());

@@ -7,6 +7,7 @@ import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
 import authoringEnvironment.itemWindow.ItemWindow;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameplayer.PlayScreen;
 import gameplayer.Screen;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -47,6 +48,31 @@ public class MainAuthoringWindow extends Screen {
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
 		((BorderPane) myPane).setRight(mySettingsWindow.getBox());
 		// mySettingsWindow.setContent();
+		
+		
+	}public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
+		super(parent);
+		myPane = new BorderPane();
+
+		mySettingsWindow = new SettingsWindow();
+		myPane.setStyle("-fx-background-color: #121b3e;");
+
+		myGameMakerWindow = new GameMakerWindow();
+		
+//		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
+		le = new Project1(myPlayScreen, mySettingsWindow);
+		
+		myItemWindow = new ItemWindow(le);
+
+		
+		myMenubar = new AuthoringMenubarCreator(gameName);
+		myMenubar.initMenuBar(this, myGameMakerWindow);
+		myGameMakerWindow.init(mySettingsWindow);
+		
+		((BorderPane) myPane).setCenter(le.getMyNewGamePane());
+		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
+		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
+		((BorderPane) myPane).setRight(mySettingsWindow.getBox());
 		
 		
 	}

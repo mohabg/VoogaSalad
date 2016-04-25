@@ -58,8 +58,6 @@ public class ItemWindow {
 				.collect(Collectors.toList());
 	}
 	
-	
-
 	private ImageView makeBackground(String k) {
 		String p = FrontEndData.SpriteImages.getString(k);
 		ImageView bg = new ImageView(p);
@@ -78,7 +76,6 @@ public class ItemWindow {
         	String p = FrontEndData.SpriteImages.getString(key);
 			ViewSprite viewsprite = new ViewSprite(p);
 			viewsprite.setOnMouseClicked(e -> {
-				System.out.println("Q");
 				myGameTabPane.setViewSprite(viewsprite);
 			});
 			return viewsprite;
