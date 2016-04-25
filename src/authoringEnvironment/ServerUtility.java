@@ -31,7 +31,6 @@ public class ServerUtility {
         try {
             mySession = ssh.getSession(myUsername, HOSTNAME, 22);
         } catch (JSchException e) {
-            e.printStackTrace();
         }
         mySession.setConfig(myConfig);
         mySession.setPassword(myPassword);
@@ -40,58 +39,100 @@ public class ServerUtility {
             myChannel = mySession.openChannel("sftp");
             myChannel.connect();
         } catch (JSchException e) {
-            e.printStackTrace();
         }
         mySftp = (ChannelSftp) myChannel;
         try {
             mySftp.cd(DIRECTORY);
         }catch (SftpException e) {
-            e.printStackTrace();
         }
     }
 
-    public void createDirectory(String directoryName) throws SftpException {
-        mySftp.mkdir(directoryName);
-        mySftp.cd(directoryName);
+    public void createDirectory(String directoryName){
+        try {
+            mySftp.mkdir(directoryName);
+            mySftp.cd(directoryName);
+        } catch (SftpException e) {
+        }
+        endSession();
     }
 
-    public List<String> getFileNames() throws SftpException {
-        Vector files = mySftp.ls("*");
+    public List<String> getFileNames(){
+        Vector files = null;
+        try {
+            files = mySftp.ls("*");
+        } catch (SftpException e) {
+            e.printStackTrace();
+        }
         ArrayList<ChannelSftp.LsEntry> list = new ArrayList<>(files);
         List<String> myFileNames = new ArrayList<>();
         list.forEach(file->{
             myFileNames.add(file.getFilename());
         });
+        endSession();
         return myFileNames;
+
     }
 
-    private List<ChannelSftp.LsEntry> getListOfFiles() throws SftpException {
-        Vector files = mySftp.ls("*");
+    private List<ChannelSftp.LsEntry> getListOfFiles(){
+        Vector files = null;
+        try {
+            files = mySftp.ls("*");
+        } catch (SftpException e) {
+            e.printStackTrace();
+        }
         ArrayList<ChannelSftp.LsEntry> myList = new ArrayList<>(files);
+        endSession();
+
         return myList;
 
     }
 
-    public List<ChannelSftp.LsEntry> getAllFiles() throws SftpException{
-        Vector files = mySftp.ls("*");
+    public List<ChannelSftp.LsEntry> getAllFiles(){
+        Vector files = null;
+        try {
+            files = mySftp.ls("*");
+        } catch (SftpException e) {
+        }
         ArrayList<ChannelSftp.LsEntry> myFilesList = new ArrayList<>(files);
+        endSession();
+
         return myFilesList;
     }
 
-    public void addFile(File myFile) throws FileNotFoundException, SftpException {
+    public void addFile(File myFile){
         List<String> myFileNames = getFileNames();
         if(myFileNames.contains(myFile.getName())){
             System.out.println("File Name Already Exists");
 
         }else {
-            mySftp.put(new FileInputStream(myFile), myFile.getName());
+            try {
+                mySftp.put(new FileInputStream(myFile), myFile.getName());
+            } catch (SftpException e) {
+            } catch (FileNotFoundException e) {
+            }
         }
-    }
-
-    public void getFile(String fileName) throws SftpException, IOException {
-        mySftp.get(fileName+".xml","SavedGameData/SavedGames/j.xml");
         endSession();
     }
+
+    public void getFile(String fileName) {
+
+        try {
+            File folder = new File("SavedGameData/SavedGames/");
+            File[] listOfFiles = folder.listFiles();
+            for(File file: listOfFiles){
+                if(file.getName().equals(fileName)){
+                    //System.out.println(file.getName().split(".xml")[0]);
+                    mySftp.get(fileName,"SavedGameData/DefaultGames/"+file.getName());
+                }
+            }
+            mySftp.get(fileName,"SavedGameData/DefaultGames/"+fileName);
+
+        }
+        catch (SftpException e) {
+        }
+        endSession();
+    }
+
 
 
 
