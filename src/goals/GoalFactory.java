@@ -42,7 +42,7 @@ public class GoalFactory {
 //			exception.printStackTrace();
 		}
 		if(goal==null){
-			GoalProperties property=new GoalProperties(Goals.PointsGoal);
+			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
 			goal=new PointsGoal(property);
 		}
 		System.out.println(goal.getGoal().name());
