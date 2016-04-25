@@ -1,5 +1,9 @@
 package highscoretable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 import javafx.collections.*;
@@ -15,9 +19,18 @@ public class HighScoreController {
 		data = FXCollections.observableArrayList();
 		makeTable();
 	}
+	public HighScoreController(Collection<HighScore> history){
+		this();
+		data.addAll(history);
+		
+	}
 
 	public TableView<HighScore> getTable() {
 		return table;
+	}
+	
+	public Collection<HighScore> getList(){
+		return data;
 	}
 	
 	public void addHighScore(Double score, String game){

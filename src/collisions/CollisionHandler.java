@@ -2,13 +2,15 @@ package collisions;
 
 import java.lang.reflect.Method;
 
+import events.ICollisionHandler;
+
 /**
  * Handles overall collisions 
  */
 
 import level.LevelProperties;
 
-public class CollisionHandler {
+public class CollisionHandler implements ICollisionHandler {
 
 	public CollisionHandler(){
 		

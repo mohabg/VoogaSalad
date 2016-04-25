@@ -34,7 +34,6 @@ public class StartOptionsWindow extends Screen {
 		startWindowBox = new VBox();
 		startWindowBox.setId("myvBox");
 		Settings.setStartWindowSettings(startWindowBox);
-		new GameLoader();
 		makeAndSetStartBox();
 	}
 

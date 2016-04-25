@@ -16,6 +16,7 @@ import gameElements.SpriteMap;
 import javafx.scene.layout.Pane;
 
 public class SpriteFactory {
+	// do we want to use an interface??
 	private Map<Integer, ViewSprite> myViewSprites;
 	private SpriteMap spriteMap;
 	
