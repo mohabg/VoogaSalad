@@ -111,7 +111,7 @@ public class Engine {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
-						myGameScreen.setLevel(myEditor.getCurrentLevel(), myGameScreen.getCurrentLevel());
+						myGameScreen.setLevel(myEditor.getCurrentLevel());
 					}
                 }
             }); 
