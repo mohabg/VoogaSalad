@@ -30,7 +30,6 @@ public class LevelProperties {
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;
 	private IntegerProperty previousLevel;
-	
 	private IntegerProperty numGoals;
 	private Score score;
 	private Map<KeyCode, KeyboardActions> keyMapping;
@@ -176,5 +175,13 @@ public class LevelProperties {
 
 	public void addScore(int val) {
 		getScoreObject().addScore(val);
+	}
+
+	public Map<KeyCode, KeyboardActions> getKeyMapping() {
+		return keyMapping;
+	}
+
+	public void setKeyMapping(Map<KeyCode, KeyboardActions> keyMapping) {
+		this.keyMapping = keyMapping;
 	}
 }
