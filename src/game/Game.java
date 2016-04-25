@@ -58,6 +58,7 @@ public class Game {
     }
 	
 	public Level getCurrentLevel() {
+		System.out.println(currLevelNum);
     	return myGameLevels.get(currLevelNum);
     }
 	
@@ -83,7 +84,8 @@ public class Game {
 	 */
 
 	public void addLevel(int levelID, Level level) {
-		myGameLevels.add(levelID, level);
+		myGameLevels.add(level);
+//		myGameLevels.add(levelID, level);
 	}
 	
 	public Level restartGame() {

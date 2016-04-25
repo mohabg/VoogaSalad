@@ -52,7 +52,7 @@ public class LevelProperties {
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		setLevelID(0);
 		setLevelName("");
-		setNextLevel(-1);
+		setNextLevel(1);
 		setPreviousLevel(-1);
 		setCurrentPoints(0);
 		setNumGoals(1);

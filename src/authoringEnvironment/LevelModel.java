@@ -41,6 +41,7 @@ public class LevelModel {
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
 //		myKeyMap = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		numGoals = new SimpleIntegerProperty();
+		myList = new ArrayList<Sprite>();
 	}
 
 	public LevelModel(List<Sprite> list) {

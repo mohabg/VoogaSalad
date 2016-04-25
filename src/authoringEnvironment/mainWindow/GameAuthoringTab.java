@@ -93,13 +93,6 @@ public class GameAuthoringTab implements ITab{
 		initArea();
 	}
 	
-//	private void setLevelProperties(Integer levelID, String tabName){
-//		LevelProperties p = myLevelModel.getMyProperties();
-//		p.setLevelID(levelID);
-//		p.setLevelName(tabName);
-//		p.setPreviousLevel(levelID-1);
-//		p.setNextLevel(levelID+1);
-//	}
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
