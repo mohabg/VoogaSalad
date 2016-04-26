@@ -232,10 +232,10 @@ public class Level implements ILevel {
 		}
 		goalList.removeAll(deleteGoals);
 		
-		System.out.println(goalCount + "goalCount");
-		
-		System.out.println("num goals"+getLevelProperties().getNumGoals());
-		System.out.println(goalCount >= getLevelProperties().getNumGoals());
+//		System.out.println(goalCount + "goalCount");
+//		
+//		System.out.println("num goals"+getLevelProperties().getNumGoals());
+//		System.out.println(goalCount >= getLevelProperties().getNumGoals());
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
@@ -246,7 +246,7 @@ public class Level implements ILevel {
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
 		if (spriteMap.getSpriteMap().isEmpty()) {
-			System.out.println();
+//			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
 			spriteMap.get(spriteID).update(this.mySpriteFactory);
@@ -354,7 +354,7 @@ public class Level implements ILevel {
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-		System.out.println("FINAL RESULT" + getisFinished());
+//		System.out.println("FINAL RESULT" + getisFinished());
 //		System.out.println("completeGoals" + completeGoals());
 //		System.out.println("isFinished" + getisFinished());
 		// return deadSprites;

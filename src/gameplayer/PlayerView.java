@@ -21,6 +21,9 @@ public class PlayerView extends Screen {
 		super();
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 		myViewSprites = new HashMap<Integer, ViewSprite>();
+		
+		//TODO: find better way
+		myPane.getChildren().add(new Button("a"));
 	}
 
 	private void initHUD() {

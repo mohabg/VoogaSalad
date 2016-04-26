@@ -106,11 +106,12 @@ public class PlayScreen {
 	}
 
 	public void setKeys() {
-		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+		myView.getPane().getScene().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			System.out.println("KEY PRESS");
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
-		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+		myView.getPane().getScene().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
 			currentLevel.handleKeyRelease(key);
 			key.consume();
 		});
