@@ -29,7 +29,7 @@ public class SubclassEnumerator {
 		this.packageNames = packageNames;
 	}
 	
-	public SubclassEnumerator getInstance() {
+	public static SubclassEnumerator getInstance() {
 		if (instance == null) {
 			instance = new SubclassEnumerator(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
 					"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",

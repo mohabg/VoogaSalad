@@ -4,6 +4,7 @@ import gameElements.ISprite.spriteState;
 import java.util.ArrayList;
 import java.util.List;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,6 +14,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class SpriteProperties {
+	//@IgnoreField
     private DoubleProperty myX;
     private DoubleProperty myY;
     private DoubleProperty myXvel;
@@ -25,6 +27,7 @@ public class SpriteProperties {
     private DoubleProperty myRightLimit;
     private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
+    @IgnoreField
     private List<SpriteProperties> myClones;
     
     public SpriteProperties(){

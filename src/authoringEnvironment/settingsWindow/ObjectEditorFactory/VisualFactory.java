@@ -28,6 +28,7 @@ public class VisualFactory {
 	private List<String> myProjectClassNames;
 	
 	public VisualFactory() {
+		SubclassEnumerator.getInstance();
 		myProjectClassNames = SubclassEnumerator.getAllSimpleClassNames();
 	}
 
@@ -36,13 +37,16 @@ public class VisualFactory {
 	public TabPane getMyTabs(Object model) {
 		TabPane myTabs = new TabPane();
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
-        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+        //myTabs.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
 
 		Field[] fields = model.getClass().getDeclaredFields();
 
 		for (Field f : fields) {
 			f.setAccessible(true);
-			myTabs.getTabs().add(getOneTab(f, model));
+			
+			if(!f.isAnnotationPresent(IgnoreField.class)) {
+				myTabs.getTabs().add(getOneTab(f, model));
+			}
 		}
 
 		return myTabs;
@@ -51,7 +55,7 @@ public class VisualFactory {
 
 	private Tab getOneTab(Field f, Object model) {
 		String tabName = f.getName();
-		Tab myFieldTab = new Tab(tabName);
+		Tab myFieldTab = new Tab(convertCamelCase(tabName));
 		VBox myBox = new VBox();
 		ScrollPane myScrollPane = new ScrollPane();
 		AnchorPane myAnchorPane = new AnchorPane();
@@ -119,7 +123,7 @@ public class VisualFactory {
 			Class<R> newClassType = nv.getKey();
 			
 			if (nv.getValue() == null) {		
-				nv.setValue((R) newClassInstance(newClassType));
+				nv.setValue(newClassInstance(newClassType));
 				o.getValue().setValue(nv.getValue());
 			}	
 
@@ -143,7 +147,7 @@ public class VisualFactory {
 			Class<R> newClassType = nv.getKey();
 			
 			if (nv.getValue() == null) {		
-				nv.setValue((R) newClassInstance(newClassType));
+				nv.setValue(newClassInstance(newClassType));
 				o.getValue().setValue(nv.getValue());
 			}
 			
@@ -181,7 +185,7 @@ public class VisualFactory {
 			Class<T> newClassType = nv.getKey();
 			
 			if (nv.getValue() == null) {		
-				nv.setValue((T) newClassInstance(newClassType));
+				nv.setValue(newClassInstance(newClassType));
 				o.getValue().setValue(nv.getValue());
 			}
 			
@@ -317,6 +321,7 @@ public class VisualFactory {
 		
 		return doubleParamVBox;
 	}
+	
 	
 	private <R,T> HBox addDoubleParameter(Class<R> rType, Class<T> tType, MapProperty<R,T> mprt) {
 		HBox retHBox = new HBox();
@@ -487,7 +492,7 @@ public class VisualFactory {
 			for (Field otherField : allFields) {
 				otherField.setAccessible(true);
 				// TODO NEED TO REMOVE THIS
-				if (!otherField.getType().isAssignableFrom(gameElements.Sprite.class)) {
+				if (!otherField.isAnnotationPresent(IgnoreField.class)) {
 					K o = (K) fieldGetObject(otherField, parent);
 					String pName = otherField.getName();
 					fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), o, pName, properties, true));
