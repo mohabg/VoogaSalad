@@ -15,11 +15,13 @@ import resources.FrontEndData;
 
 public class PlayerView extends Screen {
 	private HeadsUpDisplay myHUD;
+	private Map<Integer, Map<Integer, ViewSprite>> myViewSpriteMap;
 	private Map<Integer, ViewSprite> myViewSprites;
 
 	public PlayerView(){
 		super();
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
+		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		
 		//TODO: find better way
@@ -62,8 +64,14 @@ public class PlayerView extends Screen {
 		
 	}
 
-	public void setViewSprites(Map<Integer, ViewSprite> levelSprites) {
+	public void setViewSprites(int id, Map<Integer, ViewSprite> levelSprites) {
+		myViewSpriteMap.put(id, levelSprites);
 		myViewSprites = levelSprites;
+	}
+
+	public void setLevelSprites(Integer levelID) {
+		myViewSprites = myViewSpriteMap.get(levelID);
+		
 	}
 	
 	

@@ -55,8 +55,9 @@ public class PlayScreen {
 		for (int i = 0; i < gameLevels.size(); i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel = GameLoader.makeLevel(lm, i);
-			myEngine.addLevel(newLevel.getLevelProperties().getLevelID(), newLevel);
-			myView.setViewSprites(GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
+			int id = newLevel.getLevelProperties().getLevelID();
+			myEngine.addLevel(id, newLevel);
+			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
 			myView.setBackground(lm.getBackground());
 		}
 
@@ -69,7 +70,7 @@ public class PlayScreen {
 	public void setLevel(Level newLevel) {
 
 		currentLevel = newLevel;
-
+	
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
 		currentLevel.setSpriteFactory(sf);
 		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
@@ -80,8 +81,9 @@ public class PlayScreen {
 			}
 		});
 
-		setKeys();
+		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 		myView.setSprites(activeSprites);
+		setKeys();
 
 	}
 
