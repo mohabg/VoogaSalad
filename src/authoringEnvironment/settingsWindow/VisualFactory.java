@@ -12,6 +12,7 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
+import resources.FrontEndData;
 import resources.ResourcesReader;
 
 import java.lang.reflect.Field;
@@ -44,7 +45,7 @@ public class VisualFactory {
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);	// cant close tabs
 //		myTabs.getStylesheets().add("authoringEnvironment/settingsWindow/settingsWindow.css");
 //        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+        myTabs.getStylesheets().add(FrontEndData.STYLESHEET);
 
 		Field[] fields = mySprite.getClass().getDeclaredFields();
 
@@ -71,8 +72,8 @@ public class VisualFactory {
 
 //		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
 //	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-		myScrollPane.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
-	    myAnchorPane.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+		myScrollPane.getStylesheets().add(FrontEndData.STYLESHEET);
+	    myAnchorPane.getStylesheets().add(FrontEndData.STYLESHEET);
 
 	    myBox = makePropBoxForFieldTab(f, mySprite);
 	    

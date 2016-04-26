@@ -3,7 +3,7 @@ package authoringEnvironment.authoringToolbar;
 import authoringEnvironment.MainAuthoringWindow;
 import authoringEnvironment.Project1;
 import gameplayer.MainPlayingWindow;
-import javafx.scene.control.MenuBar;
+import resources.FrontEndData;
 
 public class LEMenuBarCreator extends AbstractMenuBar{
 
@@ -14,7 +14,7 @@ public class LEMenuBarCreator extends AbstractMenuBar{
 	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, Project1 window) {
 		MenuBarElement myBackMenu = getBackMenu(mainAuthoringWindow);
 		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow, window);
-		myMenuBar.getStylesheets().add("authoringEnvironment/authoringToolbar/authoringToolbar.css");
+		myMenuBar.getStylesheets().add(FrontEndData.TAB_STYLESHEET);
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myPlayToggleMenu.getMenu());
 	
 	}

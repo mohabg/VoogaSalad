@@ -1,15 +1,10 @@
 package authoringEnvironment.authoringToolbar;
 
 import authoringEnvironment.MainAuthoringWindow;
-import authoringEnvironment.Project1;
 import gameplayer.GameLoader;
-import gameplayer.GamePlayingFileScreen;
 import gameplayer.MainPlayingWindow;
 import gameplayer.PlayScreen;
 import interfaces.ITabPane;
-import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import resources.FrontEndData;
 
@@ -42,7 +37,7 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
 		MenuBarElement myFileMenuMaker = getFileMenu(window);
 		MenuBarElement myGameMenu = getGameMenu(window);
 		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow, window);
-		myMenuBar.getStylesheets().add("authoringEnvironment/authoringToolbar/authoringToolbar.css");
+		myMenuBar.getStylesheets().add(FrontEndData.TAB_STYLESHEET);
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
 	}
 	

@@ -1,11 +1,7 @@
 package authoringEnvironment;
 
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import gameplayer.ButtonFactory;
 import gameplayer.GameEditingFileScreen;
-import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.Screen;
 import javafx.scene.control.Button;
@@ -15,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import resources.FrontEndData;
+
+import java.util.Optional;
 
 /**
  * @author Huijia Yu, Joe Jacob
@@ -30,7 +28,7 @@ public class StartOptionsWindow extends Screen {
 		super();
 		myStage = currStage;
 		myPane = new BorderPane();
-		myPane.getStylesheets().add("authoringEnvironment/startOptionsWindow.css");
+		myPane.getStylesheets().add(FrontEndData.STARTING_STYLESHEET);
 		startWindowBox = new VBox();
 		startWindowBox.setId("myvBox");
 		Settings.setStartWindowSettings(startWindowBox);
