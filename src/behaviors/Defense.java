@@ -65,12 +65,12 @@ public abstract class Defense extends Behavior {
 	 * @see readyToDefend
 	 */
 	@Override
-	public void apply(Sprite sprite, SpriteFactory spriteFactory){
+	public void apply(IActions actions){
 			if(this.isEnabled()){
-				defend(sprite, spriteFactory);
+				defend(actions);
 			}
 	}
-	public abstract void defend(Sprite sprite, SpriteFactory spriteFactory);
+	public abstract void defend(IActions actions);
 
 	public Health getHealth() {
 		return health;

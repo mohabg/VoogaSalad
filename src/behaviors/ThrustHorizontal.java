@@ -1,6 +1,7 @@
 package behaviors;
 
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
 
 public class ThrustHorizontal extends Movement{
 	
@@ -9,13 +10,14 @@ public class ThrustHorizontal extends Movement{
 	}
 
 	@Override
-	public void move(Sprite sprite) {
-		double currentXVelocity = sprite.getSpriteProperties().getMyXvel().doubleValue();
-		double currentYVelocity = sprite.getSpriteProperties().getMyYvel().doubleValue();
-		double xOrientation = Math.cos(Math.toRadians(sprite.getAngle().getValue()));
-		double yOrientation = Math.sin(Math.toRadians(sprite.getAngle().getValue()));
-		sprite.getSpriteProperties().setMyXvel(currentXVelocity + xOrientation * getValue());
-		sprite.getSpriteProperties().setMyYvel(currentYVelocity + yOrientation * getValue());
+	public void move(IActions actions) {
+		SpriteProperties properties = actions.getSpriteProperties();
+		double currentXVelocity = properties.getMyXvel().doubleValue();
+		double currentYVelocity = properties.getMyYvel().doubleValue();
+		double xOrientation = Math.cos(Math.toRadians(properties.getMyAngle()));
+		double yOrientation = Math.sin(Math.toRadians(properties.getMyAngle()));
+		properties.setMyXvel(currentXVelocity + xOrientation * getValue());
+		properties.setMyYvel(currentYVelocity + yOrientation * getValue());
 	}
 
 }

@@ -24,7 +24,7 @@ import gameplayer.SpriteFactory;
 public class Gun extends Attack{
 
 	public Gun(){
-		this(new RefObject("pictures/galaga_enemy_3.png"));
+		this(new RefObject("pictures/shootbullet.png"));
 	}
 	public Gun(RefObject myRef){
 		super(myRef);
@@ -35,10 +35,10 @@ public class Gun extends Attack{
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void shoot(Sprite sprite, SpriteFactory spriteFactory) {
-       
-        	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
-            bullet.setUserControlled(sprite.isUserControlled());
+    public void shoot(IActions actions) {
+    		SpriteProperties properties = actions.getSpriteProperties();
+        	Sprite bullet = actions.makeSprite(properties.getMyX().doubleValue(), properties.getMyY().doubleValue(), getMyRef());
+            bullet.setUserControlled(actions.isUserAction());
         	Behavior movement = new ThrustVertical(-3);
         	movement.enable();
             bullet.addBehavior(movement);

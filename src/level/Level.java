@@ -16,6 +16,7 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.EnemyCollision;
+import gameElements.Actions;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -61,7 +62,7 @@ public class Level implements ILevel {
 	private GoalFactory goalFactory;
 	private int goalCount;
 	private boolean isFinished;
-	private SpriteFactory mySpriteFactory;
+	private Actions actions;
 	
 
 	public Level() {
@@ -75,14 +76,10 @@ public class Level implements ILevel {
 		goalCount = 0;
 		isFinished = false;
 		currentSpriteID = 0;
-	//	System.out.println("goalListSize"+ goalList.size());
-	//	System.out.println("level constructor find numgoals" + levelProperties.getNumGoals());
+		actions = new Actions();
 		populateGoals();
-		// System.out.println("goalListSize"+ goalList.size());
 
 	}
-	// public Level()
-	
 	
 	public List<Goal> getGoalList() {
 		return goalList;
@@ -142,11 +139,6 @@ public class Level implements ILevel {
 	 */
 
 	public void addSprite(Sprite newSprite) {
-		/*
-		 * Integer newSpriteID = newSpriteID(spriteMap);
-		 * setCurrentSpriteID(newSpriteID); getSpriteMap().put(newSpriteID,
-		 * newSprite);
-		 */
 
 		spriteMap.addSprite(newSprite);
 		setCurrentSpriteID(spriteMap.getLastSpriteID());
@@ -171,7 +163,6 @@ public class Level implements ILevel {
 	public int getCurrentPoints() {
 		return getScore().intValue();
 
-		// return getLevelProperties().getScore().getScoreValue().intValue();
 	}
 
 	public GoalFactory getGoalFactory() {
@@ -197,9 +188,6 @@ public class Level implements ILevel {
 		return levelProperties.getScore();
 	}
 
-	// public Score getScore(){
-	// return levelProperties.getScore();
-	// }
 	private void populateGoals() {
 		// System.out.println("gaolpropertysize"+getLevelProperties().getGoalProperties().size());
 		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
@@ -213,36 +201,20 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
-		//System.out.println("gothere" + goalList.size());
-
 		GoalChecker goalChecker = new GoalChecker(this);
-	//  System.out.println("goalCount" + " " + getLevelProperties().getNumGoals());
-	//	System.out.println("gothere");
 		List<Goal> deleteGoals= new ArrayList<Goal>();
 		for (Goal goal : goalList) {
-			//System.out.println("hit");
-		// System.out.println(goalList.size());
-		//	System.out.println(goal.getGoalProperties().getGoalName());
 			goal.acceptVisitor(goalChecker);
-		//	System.out.println("comes here");
 			if (goal.isFinished()){
-	//			System.out.println("goal is finished");
 				goalCount++;
 				deleteGoals.add(goal);
 			}
 		}
 		goalList.removeAll(deleteGoals);
-		
-//		System.out.println(goalCount + "goalCount");
-		
-//		System.out.println("num goals"+getLevelProperties().getNumGoals());
-//		System.out.println(goalCount >= getLevelProperties().getNumGoals());
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
-	// private List<Integer> updateSprites() {
 	private void updateSprites() {
-		// System.out.println("updatesprite" + goalList.size());
 
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
@@ -251,24 +223,20 @@ public class Level implements ILevel {
 		}
 		for (Integer spriteID : spriteIDList) {
 			Sprite sprite=spriteMap.get(spriteID);
-			sprite.update(this.mySpriteFactory);
-		//	System.out.println("reach sprite update (increases x and y coordinates)");
+			this.actions.setSprite(sprite);
+			sprite.update(this.actions);
 			this.getPhysicsEngine().updateSprite(sprite);
-		//	System.out.println("reach physics engine (decreases velocity based on drag");
 			if (!sprite.isUserControlled()
 					&& sprite.getBehaviors().get("default") != null) {
-				sprite.getBehaviors().get("default").apply(sprite, mySpriteFactory);
+				sprite.getBehaviors().get("default").apply(actions);
 			}
-
 			removeDeadSprite(spriteID, spriteList);
 		}
-		// return spriteList;
 	}
 
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
 		if (spriteMap.get(spriteID).isDead()) {
 			spriteMap.remove(spriteID);
-			// deadSpriteList.add(spriteID);
 		}
 
 	}
@@ -306,9 +274,6 @@ public class Level implements ILevel {
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		System.out.println(key.getCode() + key.getCharacter());
-		//System.out.println("goal list keyboard" + goalList.size());
-		// System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+
-		// " "+goalList.get(0).getGoal().name());
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
@@ -317,11 +282,6 @@ public class Level implements ILevel {
 		if (currentSprite == null) {
 			return;
 		}
-		// System.out.println("X: " + currentSprite.getX().doubleValue());
-		// System.out.println("Y: " + currentSprite.getY().doubleValue());
-		// System.out.println("HEALTH:
-		// "+currentSprite.getHealth().getHealthValue());
-
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
 			System.out.println(key.getCode() + "keycode");
@@ -355,18 +315,10 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	// public List<Integer> update() {
 	public void update() {
-//		System.out.println("isFinishedOG" + getisFinished());
-
-	//	System.out.println("update" + goalList.size());
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-//		System.out.println("FINAL RESULT" + getisFinished());
-//		System.out.println("completeGoals" + completeGoals());
-//		System.out.println("isFinished" + getisFinished());
-		// return deadSprites;
 
 	}
 
@@ -385,11 +337,10 @@ public class Level implements ILevel {
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
-		this.mySpriteFactory = mySpriteFactory;
+		this.actions.setSpriteFactory(mySpriteFactory);
 	}
 
 	public Sprite getCurrentSprite() {
-		// TODO Auto-generated method stub
 		return spriteMap.get(currentSpriteID);
 	}
 	

@@ -28,11 +28,10 @@ public class Armor extends Defense{
 	 */
 
 	@Override
-	public void defend(Sprite sprite, SpriteFactory spriteFactory) {
-	
+	public void defend(IActions actions) {
+		// TODO Auto-generated method stub
 		
 	}
-	
 	
 
 }
