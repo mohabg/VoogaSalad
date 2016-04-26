@@ -65,16 +65,6 @@ public class GameLoader {
 	 * @return the screen with the game
 	 */
 
-	public static Screen newGame(File file) {
-		System.out.println(file.getPath());
-		List<LevelModel> gameLevels = parseAndLoadGame(file);
-
-		PlayScreen ps = new PlayScreen(file);
-		ps.setGameLevels(gameLevels);
-
-		return ps;
-	}
-
 	/**
 	 * saves a list of levelmodels to a default directory
 	 *
@@ -165,10 +155,6 @@ public class GameLoader {
 		return viewsprites;
 	}
 
-	public static Screen newGame(String name) {
-		File file = new File(String.format(SAVED_FOLDER_DIRECTORY, name));
-		return newGame(file);
-	}
 
 
 	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
