@@ -33,7 +33,7 @@ public class VisualFactory {
 	
 	public VisualFactory() {
 		mySettings = new Settings();
-		myProjectClassNames = SubclassEnumerator.getAllReadableClasses();
+		myProjectClassNames = SubclassEnumerator.getAllSimpleClassNames();
 	}
 
 	// TODO: Binding and figuring out list of objects in reflection

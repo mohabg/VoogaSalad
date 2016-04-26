@@ -18,7 +18,18 @@ import gameElements.Sprite;
 public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
 	public static final String PACKAGE_NAME = "gameElements";
+	private static List<String> packageNames;
+	private static SubclassEnumerator instance = null;
 	
+	public SubclassEnumerator(List<String> packageNames) {
+		this.packageNames = packageNames;
+	}
+	
+	public SubclassEnumerator getInstance() {
+		if (instance == null) {
+			
+		}
+	}
 	
 	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> clazz) {
 		List<String> allPackageNames = new ArrayList<String>();
@@ -34,7 +45,7 @@ public class SubclassEnumerator {
 		return allSubclasses;
 	}
 	
-	public static List<String> getAllReadableClasses() {
+	public static List<String> getAllSimpleClassNames() {
 		List<String> allClassNames = new ArrayList<String>();
 		List<String> allPackageNames = new ArrayList<String>();
 		allPackageNames.addAll(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
