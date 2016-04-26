@@ -32,7 +32,6 @@ public class StartOptionsWindow extends Screen {
 		myPane = new BorderPane();
 		startWindowBox = new VBox();
 		Settings.setStartWindowSettings(startWindowBox);
-		new GameLoader();
 		makeAndSetStartBox();
 	}
 

@@ -58,6 +58,7 @@ public class Game {
     }
 	
 	public Level getCurrentLevel() {
+	//	System.out.println(currLevelNum);
     	return myGameLevels.get(currLevelNum);
     }
 	
@@ -72,6 +73,7 @@ public class Game {
 	
 	public void createLevel(int levelID, LevelProperties levelProperties) {
 		Level newLevel = new Level();
+	//	System.out.println("bug" + newLevel.getGoalList().size());
         levelProperties.setLevelID(levelID);
         newLevel.setLevelProperties(levelProperties);
     	myGameLevels.add(levelID, newLevel);
@@ -82,7 +84,8 @@ public class Game {
 	 */
 
 	public void addLevel(int levelID, Level level) {
-		myGameLevels.add(levelID, level);
+		myGameLevels.add(level);
+//		myGameLevels.add(levelID, level);
 	}
 	
 	public Level restartGame() {
