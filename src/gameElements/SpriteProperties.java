@@ -1,5 +1,6 @@
 package gameElements;
 
+import gameElements.ISprite.spriteState;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -21,7 +22,7 @@ public class SpriteProperties {
     private DoubleProperty myRightLimit;
     private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
-    
+    private spriteState state;
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
         myY = new SimpleDoubleProperty(0);
@@ -35,12 +36,8 @@ public class SpriteProperties {
         myRightLimit=new SimpleDoubleProperty(590);
         myUpLimit=new SimpleDoubleProperty(850);
         myDownLimit=new SimpleDoubleProperty(0);
-
-//        myX.set(0);
-//        myY.set(0);
-//        myWidth.set(0);
-//        myHeight.set(0);
-//        myAngle.set(0);
+        
+        
     }
 
     public SpriteProperties(double x, double y, double width, double height, double angle){

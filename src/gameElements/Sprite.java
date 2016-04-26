@@ -23,11 +23,10 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite {
-
+public class Sprite implements ISprite{
+	 
 	private SpriteProperties myProperties;
 	private Health myHealth;
-
 	private ListProperty<Collision> myCollisions;
 
 	private MapProperty<StringProperty, Behavior> behaviors;
