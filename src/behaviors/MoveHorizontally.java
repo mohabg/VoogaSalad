@@ -1,7 +1,7 @@
 package behaviors;
 
 import gameElements.Sprite;
-
+import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
 
 /**
@@ -18,9 +18,9 @@ public class MoveHorizontally extends Movement{
 	}
 
 	@Override
-	public void move(Sprite sprite) {
-
-     sprite.getSpriteProperties().setMyX((sprite.getX().doubleValue() + getValue()));
+	public void move(IActions actions) {
+	SpriteProperties properties = actions.getSpriteProperties();
+	properties.setMyX(properties.getMyX().doubleValue() + getValue());
      // sprite.getSpriteProperties().setMyXvel(getValue());
 
 	}

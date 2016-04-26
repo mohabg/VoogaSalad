@@ -29,7 +29,7 @@ public class DamageCollision extends Collision{
 	public void handleCollision(EnemyCollision collision, LevelProperties levelProperties){
 		if(collision.isCollidingWithUser(levelProperties)){
 			Sprite collidingSprite = levelProperties.getSpriteForCollision(collision);
-			causeDamage(collidingSprite, getValue());
+			collidingSprite.takeDamage(getValue());
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class DamageCollision extends Collision{
 	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
 		if( !(collision.isCollidingWithUser(levelProperties)) ){
 			Sprite collidingSprite = levelProperties.getSpriteForCollision(collision);
-			causeDamage(collidingSprite, getValue());
+			collidingSprite.takeDamage(getValue());
 		}
 	}
 	
@@ -47,18 +47,7 @@ public class DamageCollision extends Collision{
 	 * @param spriteToDamage Sprite that the damage will be inflicted upon
 	 * @param damage Double that indicates how much damage will be inflicted on spriteToDamage
 	 */
-	protected void causeDamage(Sprite spriteToDamage, double damage) {
-		
-		//Damage defense before health
-		for(Behavior behavior : spriteToDamage.getBehaviors().values()){
-			if(behavior instanceof Defense){
-				Defense defense = (Defense) behavior;
-				if(defense.isEnabled()){
-					defense.takeDamage(damage);
-					return;
-				}
-			}
-		}
-		spriteToDamage.getHealth().decrementHealth(damage);
+	private void causeDamage(Sprite spriteToDamage, double damage) {
+		spriteToDamage.takeDamage(damage);
 	}
 }

@@ -11,6 +11,7 @@ import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
+import gameplayer.SpriteFactory;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -20,44 +21,21 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Shield extends Defense{
 	
-	private DoubleProperty rechargeTime;
-	
 	public Shield(){
-		this(new RefObject("pictures/gaming.png"), 0);
+		this(new RefObject("pictures/gaming.png"), new Health(20));
 	}
 	
-	public Shield(RefObject myRef, double rechargeTime){
-		super(myRef);
-		this.rechargeTime = new SimpleDoubleProperty(rechargeTime);
-	}
-	
-	public DoubleProperty getRechargeTime() {
-		return rechargeTime;
+	public Shield(RefObject myRef, Health health){
+		super(myRef, health);
 	}
 
-	public void setRechargeTime(DoubleProperty rechargeTime) {
-		this.rechargeTime=rechargeTime;
-	}
-	public void decrementRechargeTime(DoubleProperty decrement){
-		rechargeTime.subtract(decrement);
-	}
-
-	
-	/**
-	 * @param sprite The method takes a sprite, which determines whether the isUsercontrolled is true
-	 * @see isUserControlled
-	 */
 	@Override
-	public boolean readyToDefend(Sprite sprite) {
-		if(sprite.isUserControlled()){
-			//Should depend on key input instead of this method
-			return true;
-		}
-		else{
-			//AI controlled shielding?
-			ApplyBehaviorConditions behaviorConditions = getBehaviorConditions();
-			
-		}
-		return false;
+	public void defend(IActions actions) {
+		SpriteProperties properties = actions.getSpriteProperties();
+		actions.makeSprite(properties.getMyX().doubleValue(), 
+								properties.getMyY().doubleValue(),
+								properties.getClone(),
+								this.getMyRef());
+		//TODO: Shield sprite needs collisions
 	}
 }

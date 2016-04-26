@@ -16,6 +16,8 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.EnemyCollision;
+import gameElements.Actions;
+import events.EventManager;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -61,8 +63,8 @@ public class Level implements ILevel {
 	private GoalFactory goalFactory;
 	private int goalCount;
 	private boolean isFinished;
-	private SpriteFactory mySpriteFactory;
-	
+	private Actions actions;
+	private EventManager myEventManager;
 
 	public Level() {
 
@@ -75,14 +77,15 @@ public class Level implements ILevel {
 		goalCount = 0;
 		isFinished = false;
 		currentSpriteID = 0;
-	//	System.out.println("goalListSize"+ goalList.size());
-	//	System.out.println("level constructor find numgoals" + levelProperties.getNumGoals());
+
+		actions = new Actions();
+
+		myEventManager = new EventManager();
+		myEventManager.setCollisionHandler(new CollisionHandler());
 		populateGoals();
-		// System.out.println("goalListSize"+ goalList.size());
 
 	}
-	// public Level()
-
+	
 	public List<Goal> getGoalList() {
 		return goalList;
 	}
@@ -141,11 +144,6 @@ public class Level implements ILevel {
 	 */
 
 	public void addSprite(Sprite newSprite) {
-		/*
-		 * Integer newSpriteID = newSpriteID(spriteMap);
-		 * setCurrentSpriteID(newSpriteID); getSpriteMap().put(newSpriteID,
-		 * newSprite);
-		 */
 
 		spriteMap.addSprite(newSprite);
 		setCurrentSpriteID(spriteMap.getLastSpriteID());
@@ -170,7 +168,6 @@ public class Level implements ILevel {
 	public int getCurrentPoints() {
 		return getScore().intValue();
 
-		// return getLevelProperties().getScore().getScoreValue().intValue();
 	}
 
 	public GoalFactory getGoalFactory() {
@@ -196,9 +193,6 @@ public class Level implements ILevel {
 		return levelProperties.getScore();
 	}
 
-	// public Score getScore(){
-	// return levelProperties.getScore();
-	// }
 	private void populateGoals() {
 		// System.out.println("gaolpropertysize"+getLevelProperties().getGoalProperties().size());
 		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
@@ -212,36 +206,20 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
-		//System.out.println("gothere" + goalList.size());
-
 		GoalChecker goalChecker = new GoalChecker(this);
-	//  System.out.println("goalCount" + " " + getLevelProperties().getNumGoals());
-	//	System.out.println("gothere");
 		List<Goal> deleteGoals= new ArrayList<Goal>();
 		for (Goal goal : goalList) {
-			//System.out.println("hit");
-		// System.out.println(goalList.size());
-		//	System.out.println(goal.getGoalProperties().getGoalName());
 			goal.acceptVisitor(goalChecker);
-		//	System.out.println("comes here");
 			if (goal.isFinished()){
-				System.out.println("goal is finished");
 				goalCount++;
 				deleteGoals.add(goal);
 			}
 		}
 		goalList.removeAll(deleteGoals);
-		
-//		System.out.println(goalCount + "goalCount");
-//		
-//		System.out.println("num goals"+getLevelProperties().getNumGoals());
-//		System.out.println(goalCount >= getLevelProperties().getNumGoals());
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
-	// private List<Integer> updateSprites() {
 	private void updateSprites() {
-		// System.out.println("updatesprite" + goalList.size());
 
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
@@ -249,61 +227,31 @@ public class Level implements ILevel {
 //			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
-			spriteMap.get(spriteID).update(this.mySpriteFactory);
-			if (!spriteMap.get(spriteID).isUserControlled()
-					&& spriteMap.get(spriteID).getBehaviors().get("default") != null) {
-				spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID), mySpriteFactory);
+			Sprite sprite=spriteMap.get(spriteID);
+			this.actions.setSprite(sprite);
+			sprite.update(this.actions);
+			this.getPhysicsEngine().updateSprite(sprite);
+			if (!sprite.isUserControlled()
+					&& sprite.getBehaviors().get("default") != null) {
+				sprite.getBehaviors().get("default").apply(actions);
 			}
-
 			removeDeadSprite(spriteID, spriteList);
 		}
-		// return spriteList;
 	}
 
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
 		if (spriteMap.get(spriteID).isDead()) {
 			spriteMap.remove(spriteID);
-			// deadSpriteList.add(spriteID);
 		}
 
 	}
 
 	private void checkCollisions() {
-
-		CollisionHandler collisionHandler = new CollisionHandler();
-		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
-		Sprite[] spriteArr = new Sprite[spriteSet.size()];
-		int index = 0;
-		for (Sprite sprite : spriteSet) {
-			spriteArr[index] = sprite;
-			index++;
-		}
-
-		for (int i = 0; i < spriteSet.size(); i++) {
-			for (int j = i + 1; j < spriteSet.size(); j++) {
-				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
-
-					getLevelProperties().setCollidingSprites(spriteArr[i], spriteArr[j]);
-
-					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
-						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
-									getLevelProperties());
-
-						}
-
-					}
-				}
-			}
-		}
+		myEventManager.handleCollisions(spriteMap, getLevelProperties());
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		System.out.println(key.getCode() + key.getCharacter());
-		//System.out.println("goal list keyboard" + goalList.size());
-		// System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+
-		// " "+goalList.get(0).getGoal().name());
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
@@ -313,13 +261,13 @@ public class Level implements ILevel {
 		if (currentSprite == null) {
 			return;
 		}
-		// System.out.println("X: " + currentSprite.getX().doubleValue());
-		// System.out.println("Y: " + currentSprite.getY().doubleValue());
-		// System.out.println("HEALTH:
-		// "+currentSprite.getHealth().getHealthValue());
-
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
+			System.out.println(key.getCode() + "keycode");
+			System.out.println(behavior.toString());
+			System.out.println("angle"+currentSprite.getAngle());
+			System.out.println("xVel, x" + " " + currentSprite.getX() +" " + currentSprite.getSpriteProperties().getMyXvel());
+			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());
 			if (behavior != null) {
 				if (enable) {
 					behavior.enable();
@@ -346,18 +294,11 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	// public List<Integer> update() {
 	public void update() {
-//		System.out.println("isFinishedOG" + getisFinished());
-
-	//	System.out.println("update" + goalList.size());
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-//		System.out.println("FINAL RESULT" + getisFinished());
-//		System.out.println("completeGoals" + completeGoals());
-//		System.out.println("isFinished" + getisFinished());
-		// return deadSprites;
+
 
 	}
 
@@ -365,22 +306,15 @@ public class Level implements ILevel {
 	 * This method handles Key Press Events.
 	 */
 	public void handleKeyPress(KeyEvent key) {
-		handleKeyboardAction(key, true);
-	}
-
-	/**
-	 * This method handles Key Release Events.
-	 */
-	public void handleKeyRelease(KeyEvent key) {
-		handleKeyboardAction(key, false);
+		//handleKeyboardAction(key, true);
+		myEventManager.keyEvent(key);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
-		this.mySpriteFactory = mySpriteFactory;
+		this.actions.setSpriteFactory(mySpriteFactory);
 	}
 
 	public Sprite getCurrentSprite() {
-		// TODO Auto-generated method stub
 		return spriteMap.get(currentSpriteID);
 	}
 	
@@ -390,6 +324,16 @@ public class Level implements ILevel {
 
 	public void setTime(Time time) {
 		this.time = time;
+	}
+
+
+	public PhysicsEngine getPhysicsEngine() {
+		return physicsEngine;
+	}
+
+
+	public void setPhysicsEngine(PhysicsEngine physicsEngine) {
+		this.physicsEngine = physicsEngine;
 	}
 
 }

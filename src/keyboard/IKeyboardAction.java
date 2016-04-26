@@ -5,11 +5,11 @@ import gameElements.Sprite;
 public interface IKeyboardAction {
 
 	public enum KeyboardActions {
-		MoveLeft,
-		MoveRight,
-		MoveUp,
-		MoveDown,
-		Shoot,
+		rotateLeft,
+		rotateRight,
+		thrustForward,
+		thrustReverse,
+		Attack,
 		SwitchWeapon,
 		Reload,
 		NewGame,

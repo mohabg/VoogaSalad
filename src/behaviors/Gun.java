@@ -21,23 +21,25 @@ import gameplayer.SpriteFactory;
  * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 
  */
 
-public class Bullet extends Attack{
+public class Gun extends Attack{
 
-	public Bullet(){
-		this(new RefObject("pictures/galaga_enemy_3.png"));
+	public Gun(){
+		this(new RefObject("pictures/shootbullet.png"));
 	}
-	public Bullet(RefObject myRef){
+	public Gun(RefObject myRef){
 		super(myRef);
+		this.getBehaviorConditions().setFrequency(2);
+		this.getBehaviorConditions().setProbability(0.2);
 	}
 	/**
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void shoot(Sprite sprite, SpriteFactory spriteFactory) {
-       
-        	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
-            bullet.setAsUserControlled();
-        	Behavior movement = new MoveVertically(-3);
+    public void shoot(IActions actions) {
+    		SpriteProperties properties = actions.getSpriteProperties();
+        	Sprite bullet = actions.makeSprite(properties.getMyX().doubleValue(), properties.getMyY().doubleValue(), getMyRef());
+            bullet.setUserControlled(actions.isUserAction());
+        	Behavior movement = new ThrustVertical(-3);
         	movement.enable();
             bullet.addBehavior(movement);
             bullet.addCollision(new DamageCollision(10));

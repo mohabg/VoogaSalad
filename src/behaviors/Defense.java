@@ -18,7 +18,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 public abstract class Defense extends Behavior {
 
-	private BooleanProperty enabled;
 	private ApplyBehaviorConditions behaviorConditions;
 	private RefObject myRef;
 	private Health health;
@@ -28,12 +27,14 @@ public abstract class Defense extends Behavior {
 	}
 	
 	public Defense(RefObject myRef){
-		this(myRef, false, new ApplyBehaviorConditions(), new Health());
+		this(myRef, new ApplyBehaviorConditions(), new Health());
 	}
-	public Defense(RefObject myRef, boolean enabled, ApplyBehaviorConditions behaviorConditions, Health myHealth){
+	public Defense(RefObject myRef, Health myHealth){
+		this(myRef, new ApplyBehaviorConditions(), new Health());
+	}
+	public Defense(RefObject myRef, ApplyBehaviorConditions behaviorConditions, Health myHealth){
 		super();
 		this.myRef = myRef;
-		this.enabled = new SimpleBooleanProperty(enabled);
 		this.behaviorConditions = behaviorConditions;
 		this.health = health;
 	}
@@ -44,20 +45,9 @@ public abstract class Defense extends Behavior {
 	public void setMyRef(RefObject myRef) {
 		this.myRef = myRef;
 	}
-
-	public boolean isEnabled(){
-		return enabled.get();
-	}
-	public void enableDefense(){
-		enabled.set(true);
-		//enable image
-	}
-	public void disableDefense(){
-		enabled.set(false);
-		//disable image
-	}
+	
 	public void takeDamage(double damage){
-		this.health.decrementHealth(damage);
+		this.health.takeDamage(damage);
 	}
 	public ApplyBehaviorConditions getBehaviorConditions(){
 		return behaviorConditions;
@@ -67,15 +57,14 @@ public abstract class Defense extends Behavior {
 	 * @param sprite Enables the defense of a sprite, provided the readyToDefend boolean is on
 	 */
 	@Override
-	public void apply(Sprite sprite, SpriteFactory spriteFactory){
-		if(readyToDefend(sprite)){
-			enableDefense();
-			spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), myRef);
-		}
-		else{
-			disableDefense();
-		}
+	public void apply(IActions actions){
+			if(this.isEnabled()){
+				defend(actions);
+			}
 	}
-	public abstract boolean readyToDefend(Sprite sprite);
+	public abstract void defend(IActions actions);
 
+	public Health getHealth() {
+		return health;
+	}
 }

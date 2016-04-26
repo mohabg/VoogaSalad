@@ -1,5 +1,7 @@
 package behaviors;
 
+import gameElements.Actions;
+import gameElements.ApplyBehaviorConditions;
 import gameElements.Sprite;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
@@ -12,20 +14,29 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public abstract class Behavior {
 
-	private BooleanProperty enabled;
+	private ApplyBehaviorConditions behaviorConditions;
 	
 	public Behavior(){
-		enabled = new SimpleBooleanProperty(false);
+		behaviorConditions = new ApplyBehaviorConditions();
 	}
-	public abstract void apply(Sprite spriteProperties, SpriteFactory spriteFactory);
-
+	public abstract void apply(IActions actions);
+	
+	public boolean isReady(Sprite sprite){
+		return this.behaviorConditions.ready(sprite);
+	}
 	public boolean isEnabled(){
-		return enabled.getValue();
+		return this.behaviorConditions.isEnabled();
 	}
 	public void enable(){
-		enabled.set(true);
+		this.behaviorConditions.enable();
 	}
 	public void disable(){
-		enabled.set(false);
+		this.behaviorConditions.disable();
+	}
+	public ApplyBehaviorConditions getBehaviorConditions() {
+		return behaviorConditions;
+	}
+	public void setBehaviorConditions(ApplyBehaviorConditions behaviorConditions) {
+		this.behaviorConditions = behaviorConditions;
 	}
 }
