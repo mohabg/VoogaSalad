@@ -49,10 +49,10 @@ public class MainAuthoringWindow extends Screen {
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
 		((BorderPane) myPane).setRight(mySettingsWindow.getBox());
-		// mySettingsWindow.setContent();
-		
-		
-	}public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
+		// mySettingsWindow.setContent();	
+	}
+	
+	public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
 		super(parent);
 		myPane = new BorderPane();
 
@@ -73,8 +73,6 @@ public class MainAuthoringWindow extends Screen {
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
 		((BorderPane) myPane).setTop(myMenubar.getMenuBar());
 		((BorderPane) myPane).setRight(mySettingsWindow.getBox());
-		
-		
 	}
 
 	public GameMakerWindow getGameMakerWindow() {

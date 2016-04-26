@@ -17,12 +17,10 @@ public class MainPlayingWindow extends Screen {
 		myPlayScreen = playScreen;
 		this.gameName = gameName;
 		init();
-
 	}
 
 	public MainPlayingWindow(Screen parent, String gameName) {
 		this(parent, gameName, (PlayScreen) GameLoader.newGame(gameName));
-
 	}
 
 	private void init() {

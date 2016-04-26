@@ -20,22 +20,23 @@ public class ControlWindow{
 		this.myPlayScreen =  myPlayScreen;
 		myFlowPane = new FlowPane();
 		myFlowPane.setId("myFlowPane");
+		Settings.setControlWindowSettings(myFlowPane);
 		myFlowPane.getStylesheets().add("gameplayer/controlWindow.css");
 		createFlowPane();
 	}
 	
 	private void createFlowPane(){
-		Button pauseButton = new Button("pause");
+		Button pauseButton = new Button("Pause");
 		pauseButton.setOnAction(e -> {
 			myPlayScreen.getEngine().pauseGameLoop();
 		});
 		
-		Button playButton = new Button("play");
+		Button playButton = new Button("Play");
 		playButton.setOnAction(e -> {
 			myPlayScreen.getEngine().playGameLoop();
 		});
 		
-		Button restartButton = new Button("restart");
+		Button restartButton = new Button("Restart");
 		restartButton.setOnAction(e -> {
 			File currGameFile = myPlayScreen.getGameFile();
 			myPlayScreen = (PlayScreen) GameLoader.newGame(currGameFile);

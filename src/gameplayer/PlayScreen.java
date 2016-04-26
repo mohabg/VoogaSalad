@@ -4,6 +4,7 @@ import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
@@ -44,6 +45,7 @@ public class PlayScreen extends Screen {
 		super();
 		gameFile = newGameFile;
 		myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
+		Settings.setPlayScreenSettings(myPane);
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 	}
 

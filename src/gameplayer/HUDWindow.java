@@ -1,5 +1,6 @@
 package gameplayer;
 
+import authoringEnvironment.Settings;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -11,6 +12,7 @@ public class HUDWindow{
 	public HUDWindow(PlayScreen myPlayScreen) {
 		this.myPlayScreen =  myPlayScreen;
 		myFlowPane = new FlowPane();
+		Settings.setHUDWindowSettings(myFlowPane);
 		myFlowPane.getStylesheets().add("gameplayer/HUDWindow.css");
 		myFlowPane.setId("myFlowPane");
 		createFlowPane();

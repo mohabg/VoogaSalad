@@ -1,5 +1,8 @@
 #myFlowPane {
 	-fx-background-color: #121b3e;
+	-fx-hgap: 1000;
+	-fx-alignment: center;
+	-fx-vgap: 20;
 }
 
 .button {
@@ -7,6 +10,7 @@
 	-fx-text-fill: #ffffff;
 	-fx-font-family: verdana;
 	-fx-font-weight: bold;
+	-fx-font-size: 20;
 }
 
 .button:hover{
