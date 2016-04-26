@@ -17,6 +17,7 @@ import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.EnemyCollision;
 import gameElements.Actions;
+import events.EventManager;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -63,7 +64,7 @@ public class Level implements ILevel {
 	private int goalCount;
 	private boolean isFinished;
 	private Actions actions;
-	
+	private EventManager myEventManager;
 
 	public Level() {
 
@@ -76,7 +77,11 @@ public class Level implements ILevel {
 		goalCount = 0;
 		isFinished = false;
 		currentSpriteID = 0;
+
 		actions = new Actions();
+
+		myEventManager = new EventManager();
+		myEventManager.setCollisionHandler(new CollisionHandler());
 		populateGoals();
 
 	}
@@ -242,34 +247,7 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-
-		CollisionHandler collisionHandler = new CollisionHandler();
-		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
-		Sprite[] spriteArr = new Sprite[spriteSet.size()];
-		int index = 0;
-		for (Sprite sprite : spriteSet) {
-			spriteArr[index] = sprite;
-			index++;
-		}
-
-		for (int i = 0; i < spriteSet.size(); i++) {
-			for (int j = i + 1; j < spriteSet.size(); j++) {
-				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
-
-					getLevelProperties().setCollidingSprites(spriteArr[i], spriteArr[j]);
-
-					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
-						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
-									getLevelProperties());
-
-						}
-
-					}
-				}
-			}
-		}
+		myEventManager.handleCollisions(spriteMap, getLevelProperties());
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
@@ -319,6 +297,7 @@ public class Level implements ILevel {
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
+		System.out.println("FINAL RESULT" + getisFinished());
 
 	}
 
@@ -326,14 +305,8 @@ public class Level implements ILevel {
 	 * This method handles Key Press Events.
 	 */
 	public void handleKeyPress(KeyEvent key) {
-		handleKeyboardAction(key, true);
-	}
-
-	/**
-	 * This method handles Key Release Events.
-	 */
-	public void handleKeyRelease(KeyEvent key) {
-		handleKeyboardAction(key, false);
+		//handleKeyboardAction(key, true);
+		myEventManager.keyEvent(key);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {

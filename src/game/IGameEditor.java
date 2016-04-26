@@ -29,5 +29,4 @@ public interface IGameEditor {
     void updateGame();
 	
 	void setResultForKeyPress(KeyEvent event);
-	void setResultForKeyRelease(KeyEvent event);
 }
