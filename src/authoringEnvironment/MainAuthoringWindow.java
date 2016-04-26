@@ -1,9 +1,11 @@
 package authoringEnvironment;
 
+import authoringEnvironment.authoringToolbar.AbstractMenuBar;
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
+import authoringEnvironment.authoringToolbar.LEMenuBarCreator;
 import authoringEnvironment.itemWindow.ItemWindow;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -17,7 +19,7 @@ import java.io.File;
 
 public class MainAuthoringWindow extends Screen {
 	private ItemWindow myItemWindow;
-	private AuthoringMenubarCreator myMenubar;
+//	private AbstractMenuBar myMenubar;
 	private GameMakerWindow myGameMakerWindow;
 	private SettingsWindow mySettingsWindow;
 	Project1 le;
@@ -38,7 +40,7 @@ public class MainAuthoringWindow extends Screen {
 //		myItemWindow = new ItemWindow(le);
 
 		
-		myMenubar = new AuthoringMenubarCreator(gameName);
+		AuthoringMenubarCreator myMenubar = new AuthoringMenubarCreator(gameName);
 		myMenubar.initMenuBar(this, myGameMakerWindow);
 		myGameMakerWindow.init(mySettingsWindow);
 		
@@ -63,11 +65,9 @@ public class MainAuthoringWindow extends Screen {
 		le = new Project1(myPlayScreen, mySettingsWindow);
 		
 		myItemWindow = new ItemWindow(le);
-
-		
-		myMenubar = new AuthoringMenubarCreator(gameName);
-		myMenubar.initMenuBar(this, myGameMakerWindow);
-		myGameMakerWindow.init(mySettingsWindow);
+	
+		LEMenuBarCreator myMenubar = new LEMenuBarCreator(gameName);
+		myMenubar.initMenuBar(this, le);
 		
 		((BorderPane) myPane).setCenter(le.getMyNewGamePane());
 		((BorderPane) myPane).setLeft(myItemWindow.getTabPane());

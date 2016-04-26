@@ -71,6 +71,9 @@ public class Project1 extends AClickableWindow implements IGameWindow {
 		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));
 		
 	}
+	public PlayScreen getPlayScreen(){
+		return ps;
+	}
 	
 
 }
