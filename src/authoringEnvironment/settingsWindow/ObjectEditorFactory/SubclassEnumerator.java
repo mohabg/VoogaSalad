@@ -39,6 +39,14 @@ public class SubclassEnumerator {
 		return instance;
 	}
 	
+	public static boolean hasSubclasses(Class<?> clazz) {
+		if (getAllSubclasses(clazz).size() <= 1) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static <R>  Map<String, Class<R>> getSubclasses(String packageName, Class<R> superclass) {
 		Map<String, Class<R>> subclassNameMap = new HashMap<String, Class<R>>();
 		List<Class<?>> packageClasses = new ArrayList<Class<?>>();
