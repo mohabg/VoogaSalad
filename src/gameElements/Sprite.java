@@ -26,7 +26,7 @@ import java.util.*;
 
 public class Sprite implements ISprite{
 //    private spriteState state;
-
+	
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;

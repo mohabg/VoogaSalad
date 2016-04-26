@@ -33,10 +33,10 @@ public class ViewPoint {
 		*/
 	}
 	
-	public ViewPoint(DoubleProperty myWidth, DoubleProperty myHeight, Sprite sprite){
+	public ViewPoint(DoubleProperty myWidth, DoubleProperty myHeight){
 	//	DoubleProperty yCoordinate= new SimpleDoubleProperty(sprite.getX().doubleValue()-myWidth.doubleValue()/2);
 	//	DoubleProperty xCoordinate= new SimpleDoubleProperty(sprite.getY().doubleValue()+myHeight.doubleValue()/2);
-		this(myWidth, myHeight, new SimpleDoubleProperty(sprite.getX().doubleValue()-myWidth.doubleValue()/2), new SimpleDoubleProperty(sprite.getY().doubleValue()+myHeight.doubleValue()/2));
+		this(myWidth, myHeight, new SimpleDoubleProperty(0-myWidth.doubleValue()/2), new SimpleDoubleProperty(sprite.getY().doubleValue()+myHeight.doubleValue()/2));
 	}
 
 	public double getMyWidth() {
