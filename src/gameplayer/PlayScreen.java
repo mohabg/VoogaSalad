@@ -101,7 +101,7 @@ public class PlayScreen extends Screen {
 
 		setKeys();
 		setSprites();
-		myEngine.getMyEditor().getGame().setViewPoint(58*20, 58*11, currentLevel.getCurrentSprite());
+	//	myEngine.getMyEditor().getGame().setViewPoint(58*20, 58*11, currentLevel.getCurrentSprite());
 	//	myEngine.getMyEditor().getGame().setViewPoint(new ViewPoint( new SimpleDoubleProperty(), new SimpleDoubleProperty(), myEngine.getCurrentLevel().getCurrentSprite()));
 		initHUD();
 

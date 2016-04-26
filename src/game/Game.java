@@ -28,7 +28,10 @@ public class Game {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = gameInfo;
+		 
 	}
+	
+	
 
 	/*
 	 * public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty
@@ -39,6 +42,11 @@ public class Game {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = new GameInfo();
+	}
+	
+	public Game(DoubleProperty width, DoubleProperty height){
+		this();
+		viewPoint=new ViewPoint(width, height);
 	}
 
 	public GameInfo getGameInfo() {
