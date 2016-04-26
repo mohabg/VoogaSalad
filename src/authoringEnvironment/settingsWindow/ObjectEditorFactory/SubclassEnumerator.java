@@ -1,4 +1,4 @@
-	package authoringEnvironment;
+	package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,25 +19,6 @@ public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
 	public static final String PACKAGE_NAME = "gameElements";
 	
-	public static void main(String[] args) {
-		List<Class<?>> test = new ArrayList<Class<?>>();
-		
-		try {
-			test = getClasses(PACKAGE_NAME);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//findSubclasses(test, Collision.class);
-		for (Class<?> c : test) {
-			//System.out.println(c.getName());
-		}
-		getReadableClasses(PACKAGE_NAME);
-		//getSubclasses(PACKAGE_NAME, Behavior.class);
-		
-		List<String> g = getAllReadableClasses();
-		//System.out.println(g);
-	}
 	
 	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> clazz) {
 		List<String> allPackageNames = new ArrayList<String>();

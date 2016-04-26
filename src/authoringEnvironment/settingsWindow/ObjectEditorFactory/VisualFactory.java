@@ -1,7 +1,6 @@
-package authoringEnvironment.settingsWindow;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
 import authoringEnvironment.Settings;
-import authoringEnvironment.SubclassEnumerator;
 import gameplayer.ButtonFactory;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
