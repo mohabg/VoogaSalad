@@ -33,11 +33,11 @@ public abstract class Movement extends Behavior{
 	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly
 	 */
 	@Override
-	public void apply(Sprite sprite, SpriteFactory spriteFactory) {
-		if(sprite.canMove()){
-			move(sprite);
+	public void apply(IActions actions) {
+		if(actions.spriteCanMove()){
+			move(actions);
 		}
 	}
 	
-	public abstract void move(Sprite sprite);
+	public abstract void move(IActions actions);
 }

@@ -25,6 +25,7 @@ public class SpriteProperties {
     private DoubleProperty myRightLimit;
     private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
+    private BooleanProperty canMove;
     private List<SpriteProperties> myClones;
     
     public SpriteProperties(){
@@ -41,7 +42,7 @@ public class SpriteProperties {
         myRightLimit=new SimpleDoubleProperty(590);
         myUpLimit=new SimpleDoubleProperty(850);
         myDownLimit=new SimpleDoubleProperty(0);
-        
+        this.canMove = new SimpleBooleanProperty(true);
         
     }
 
@@ -76,6 +77,19 @@ public class SpriteProperties {
 		myXvel.set(xVel);
 		myYvel.set(yVel);
 	}
+
+	public boolean canMove() {
+		return canMove.getValue();
+	}
+
+	public void disableMovement() {
+		canMove.set(false);
+	}
+
+	public void enableMovement() {
+		canMove.set(true);
+	}
+
 
 	public SpriteProperties getClone(){
     	SpriteProperties clone = new SpriteProperties(myX.doubleValue(), myY.doubleValue(), myXvel.doubleValue(), 

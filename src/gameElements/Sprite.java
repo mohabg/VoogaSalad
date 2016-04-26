@@ -35,7 +35,6 @@ public class Sprite implements ISprite{
 	private MapProperty<KeyCode, Behavior> userPressBehaviors;
 
 	private RefObject myRef;
-	private BooleanProperty canMove;
 
 	public Sprite() {
 		this("");
@@ -59,8 +58,7 @@ public class Sprite implements ISprite{
 		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om2);
 
 		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-
-		canMove = new SimpleBooleanProperty(true);
+		
 		myHealth = new Health(100);
 
 		myCollisions.add(new EnemyCollision());
@@ -118,7 +116,6 @@ public class Sprite implements ISprite{
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.behaviors.set(om2);
-		this.canMove = new SimpleBooleanProperty(true);
 	}
 
 	public Sprite(SpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
@@ -127,17 +124,16 @@ public class Sprite implements ISprite{
 		this.myProperties = properties;
 		this.myHealth = health;
 		this.behaviors.set(behaviors);
-		this.canMove = new SimpleBooleanProperty(true);
 	}
 
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update(SpriteFactory spriteFactory) {
+	public void update(IActions actions) {
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(this, spriteFactory);
+				behavior.apply(actions);
 			}
 		}
 	}
@@ -310,18 +306,6 @@ public class Sprite implements ISprite{
 			addCollision(new EnemyCollision());
 		}
 	}
-	public boolean canMove() {
-		return canMove.getValue();
-	}
-
-	public void disableMovement() {
-		canMove.set(false);
-	}
-
-	public void enableMovement() {
-		canMove.set(true);
-	}
-
 	/**
 	 *
 	 * @param keyCode
