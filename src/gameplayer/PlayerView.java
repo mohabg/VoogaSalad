@@ -1,18 +1,14 @@
 package gameplayer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
 import authoringEnvironment.ViewSprite;
 import highscoretable.HighScoreController;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import resources.FrontEndData;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PlayerView extends Screen {
 	private HeadsUpDisplay myHUD;
@@ -43,9 +39,9 @@ public class PlayerView extends Screen {
 		});
 	}
 	
-	public Pane getPane() {
-		return myPane;
-	}
+//	public Pane getPane() {
+//		return myPane;
+//	}
 	
 	public void setBackground(String background){
 		myPane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +

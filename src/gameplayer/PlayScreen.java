@@ -34,13 +34,19 @@ public class PlayScreen {
 		gameFile = newGameFile;
 		myView = new PlayerView();
 		myEngine = new Engine(this, new GameEditor());
-		setGameLevels(GameLoader.parseAndLoadGame(gameFile));
-		
+        setGameLevels(GameLoader.parseAndLoadGame(gameFile));
+
 
 	}
 	public PlayScreen(String name){
 		this(new File(String.format(GameLoader.SAVED_FOLDER_DIRECTORY, name)));
 	}
+
+    public void init(){
+        setKeys();
+
+    }
+
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
 
@@ -98,12 +104,12 @@ public class PlayScreen {
 	}
 
 	public void setKeys() {
-		myView.getPane().getScene().setOnKeyPressed(null);
-		myView.getPane().getScene().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+//		myView.getPane().getScene().setOnKeyPressed(null);
+		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
-		myView.getPane().getScene().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
 			currentLevel.handleKeyRelease(key);
 			key.consume();
 		});

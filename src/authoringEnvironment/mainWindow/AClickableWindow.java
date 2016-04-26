@@ -24,9 +24,7 @@ public abstract class AClickableWindow {
 	protected Map<Sprite, TabPane> mySpriteTabPanes;
 	protected SettingsWindow myWindow;
 	protected Pane myNewGamePane;
-	
 	protected LevelModel myLevelModel;
-
 
 	public AClickableWindow(SettingsWindow window) {
 		myWindow = window;

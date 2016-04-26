@@ -1,10 +1,7 @@
 package gameplayer;
 
-import java.util.Collection;
-
 import authoringEnvironment.Settings;
 import authoringEnvironment.StartOptionsWindow;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -68,8 +65,7 @@ public abstract class Screen {
 	}
 
 	public Pane getPane() {
-		// TODO Auto-generated method stub
-		return null;
+		return myPane;
 	}
 
 }

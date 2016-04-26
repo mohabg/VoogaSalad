@@ -2,9 +2,6 @@ package gameplayer;
 
 import java.io.File;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 /**
  * Game file screen for playing games. Extends gamefilescreen.
  * 
@@ -23,5 +20,6 @@ public class GamePlayingFileScreen extends GameFileScreen {
 
 		PlayScreen playScreen = new PlayScreen(file);
 		switchScene(playScreen.getScreen());
+        playScreen.init();
 	}
 }
