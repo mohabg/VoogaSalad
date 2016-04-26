@@ -191,6 +191,8 @@ public class VisualFactory {
 					Pane myComboBoxGrandParent = (Pane) myComboBoxParent.getParent();
 					ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKeyCopy = (ComboBox<SimpleEntry<Class<R>, R>>) ((VBox) myComboBoxGrandParent.getChildren().get(0)).getChildren().get(0);
 					R key = mySubclassBoxKeyCopy.getValue().getValue();
+					
+					
 					mprt.put(key, o.getValue().getValue());		
 				}
 			}		
@@ -460,6 +462,8 @@ public class VisualFactory {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = makeSubclassComboBox(clazz);
 			ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeCBListener();
 			subclassBox.valueProperty().addListener(boxChangeListener);	
+			updateComboBoxValue(clazz, parent, subclassBox);
+			System.out.println(clazz.getName());
 			VBox vb = new VBox(subclassBox);
 			fieldVBoxHBox.getChildren().add(vb);
 			properties.add(fieldVBoxHBox);
@@ -628,6 +632,9 @@ public class VisualFactory {
 	}
 
 	private String convertCamelCase(String camelCaseString) {
+		if (camelCaseString.indexOf(".") != -1) {
+			camelCaseString = camelCaseString.substring(camelCaseString.lastIndexOf("."));
+		}
 		String[] words = camelCaseString.split("(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])");
 		String converted = "";
 
