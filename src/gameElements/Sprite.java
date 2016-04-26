@@ -5,6 +5,7 @@ import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
+import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -24,7 +25,8 @@ import java.util.*;
  */
 
 public class Sprite implements ISprite{
-	 
+//    private spriteState state;
+
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
@@ -72,29 +74,30 @@ public class Sprite implements ISprite{
 		addBehavior(shield);
 		userPressBehaviors.put(KeyCode.SHIFT, shield);
 
-		Behavior thrustForward = new Thrust(-5);
+		Behavior thrustForward = new ThrustVertical(-3);
 		addBehavior(thrustForward);
 		userPressBehaviors.put(KeyCode.UP, thrustForward);
 
-		Behavior thrustReverse = new Thrust(5);
+		Behavior thrustReverse = new ThrustVertical(3);
 		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
 		addBehavior(thrustReverse);
-	
-		/*
-		 * Behavior defaultVertReleaseMovement = new MoveVertically(0);
-		 * userReleaseBehaviors.put(KeyCode.UP, defaultVertReleaseMovement);
-		 * userReleaseBehaviors.put(KeyCode.DOWN, defaultVertReleaseMovement);
-		 * addBehavior(defaultVertReleaseMovement);
-		 */
+		
+		Behavior moveLeft = new ThrustHorizontal(-3);
+		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
+		addBehavior(moveLeft);
 
-		Behavior rotateLeft = new MoveTurn(-1);
-		userPressBehaviors.put(KeyCode.LEFT, rotateLeft);
-		addBehavior(rotateLeft);
-
-		Behavior rotateRight = new MoveTurn(1);
-		userPressBehaviors.put(KeyCode.RIGHT, rotateRight);
-		addBehavior(rotateRight);
-
+		Behavior moveRight = new ThrustHorizontal(3);
+		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
+		addBehavior(moveRight);
+		
+		Behavior moveTurnRight = new MoveTurn(2);
+		userPressBehaviors.put(KeyCode.A, moveTurnRight);
+		addBehavior(moveTurnRight);
+		
+		Behavior moveTurnLeft = new MoveTurn(358);
+		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
+		addBehavior(moveTurnLeft);
+		
 		/*
 		 * Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
 		 * userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
@@ -107,7 +110,7 @@ public class Sprite implements ISprite{
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		this(myRef);
-		
+		// this.state=spriteState;
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
 		Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
 		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
@@ -138,15 +141,6 @@ public class Sprite implements ISprite{
 			}
 		}
 	}
-	
-	public void thrustSprite(DoubleProperty intensity) {
-		double currentXVelocity = getSpriteProperties().getMyXvel().doubleValue();
-		double currentYVelocity = getSpriteProperties().getMyYvel().doubleValue();
-		this.getSpriteProperties().setMyXvel(currentXVelocity + Math.sin(this.getAngle().getValue()) * intensity.getValue());
-		this.getSpriteProperties().setMyYvel(currentYVelocity + Math.cos(this.getAngle().getValue()) * intensity.getValue());
-
-	}
-
 
 	public Sprite getClone(){
 		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions,
@@ -371,12 +365,13 @@ public class Sprite implements ISprite{
 		}
 		return testMap;
 	}
-	
+/*
 	public spriteState getState(){
-		return this.getSpriteProperties().getState();
+		return this.state;
 	}
 	
-	public void setState(spriteState state){
-		this.getSpriteProperties().setState(state);
+	public void setState(spriteState spriteState){
+		this.state=spriteState;
 	}
+*/	
 }
