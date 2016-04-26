@@ -24,7 +24,7 @@ public class KillBossGoal extends Goal implements IGoal {
 	
 	@Override
 	public void acceptVisitor(IGoalVisitor visitor){
-		System.out.println("acceptpointsvisitor");
+		// System.out.println("acceptpointsvisitor");
 		setIsFinished(visitor.visit(this));
 	}
 

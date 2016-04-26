@@ -5,6 +5,7 @@ import java.util.List;
 
 import collisions.Collision;
 import collisions.CollisionHandler;
+import gameElements.SpriteMap;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import level.LevelProperties;
@@ -45,6 +46,11 @@ public class EventManager implements ICollisionHandler, IInputHandler {
 	@Override
 	public void keyEvent(KeyEvent event) {
 		myInputHandler.keyEvent(event);
+	}
+
+	@Override
+	public void handleCollisions(SpriteMap spriteMap, LevelProperties levelProperties) {
+		myCollisionHandler.handleCollisions(spriteMap, levelProperties);
 	}
 
 }
