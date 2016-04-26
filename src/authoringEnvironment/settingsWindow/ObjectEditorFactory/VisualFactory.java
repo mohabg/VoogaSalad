@@ -98,17 +98,7 @@ public class VisualFactory {
 			}
 			
 			myBox.getChildren().add(myH);			
-		} 
-//			else if (f.getType().isEnum()) {
-//			HBox enumCombo = new HBox(makeSubclassComboBox(f.getType()));
-//			myBox.getChildren().add(enumCombo);
-//		} else if (isAProperty(f)) {
-//			Property fObject = (Property) fieldGetObject(f, model);
-//			String fObjectName = f.getName();
-//			Set<HBox> props = makePropertyBoxes(f, fObject, fObjectName, new HashSet<HBox>());
-//			myBox.getChildren().addAll(props);
-//		} 
-			else {
+		} else {
 			// populate pulldown with all subclasses
 			VBox propVBox = makeFieldVBox(f, model);
 			myBox.getChildren().addAll(propVBox);
@@ -291,6 +281,8 @@ public class VisualFactory {
 		if (Property.class.isAssignableFrom(rType)) {
 			paramProps.add(new HBox(makeSettingsObject(rObj, rType.getSimpleName())));
 			return paramProps;
+		} else if (rType.isEnum()) {
+			return paramProps;
 		}
 		
 		for (Field rField : rAllFields) {			
@@ -298,7 +290,7 @@ public class VisualFactory {
 			Object rFieldObj = fieldGetObject(rField, rObj);	
 			String rFieldObjName = rField.getName();
 				
-			paramProps.addAll(makePropertyBoxes(rField, rFieldObj, rFieldObjName, new HashSet<HBox>()));			
+			paramProps.addAll(makePropertyBoxes(rField.getType(), rFieldObj, rFieldObjName, new HashSet<HBox>()));			
 		}
 		
 		return paramProps;
@@ -399,7 +391,7 @@ public class VisualFactory {
 		}
 		
 		Object fObj = fieldGetObject(f, parentObj);		
-		Set<HBox> props = makePropertyBoxes(f, fObj, fObj.getClass().getName(), new HashSet<HBox>());
+		Set<HBox> props = makePropertyBoxes(f.getType(), fObj, fObj.getClass().getName(), new HashSet<HBox>());
 		propVBox.getChildren().addAll(props);
 
 
@@ -463,12 +455,16 @@ public class VisualFactory {
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = new StringConverter<SimpleEntry<Class<R>, R>>() {
 			@Override
 			public String toString(SimpleEntry<Class<R>, R> object) {
+				String displayString = "";
 				if (object.getKey().isEnum()) {
-					return object.getValue().toString();
+					displayString = object.getValue().toString();
 				} else {
 					Class<R> clazz = object.getKey();
-					return clazz.getSimpleName();
+					displayString = clazz.getSimpleName();
 				}
+				
+				String convertedDisplayString = convertCamelCase(displayString);
+				return convertedDisplayString;
 			}
 
 			@Override
@@ -482,63 +478,43 @@ public class VisualFactory {
 	}
 	
 	
-	private Set<HBox> makePropertyBoxes(Field p, Object parent, String parentName, Set<HBox> properties) {
+	private Set<HBox> makePropertyBoxes(Class<?> clazz, Object parent, String parentName, Set<HBox> properties) {
 		if (parent instanceof Property) {
 			// the parent is a Property, we can make a settings element
-			HBox settingsHBox = new HBox(makeSettingsObject(parent, p.getName()));
+			HBox settingsHBox = new HBox(makeSettingsObject(parent, parentName));
 			properties.add(settingsHBox);
 			return properties;
-		} 
-//		else if (parent instanceof gameElements.Sprite) {
-//			// results in infinite recursion for collision right now
-//			return properties;
-//		} 
-		else if (p.getType().getEnumConstants() != null) {
-			if (p.isEnumConstant()) {
-				return properties;
-			} 
-			
-			if (p.getType().isEnum()) {
-				Label label = new Label(p.getName());
-				VBox vb = new VBox(label, makeSubclassComboBox(p.getType()));
-				HBox enumCombo = new HBox(vb);
-				properties.add(enumCombo);
-			}
-			
+		} else if (parent != null && clazz.isEnum()) {
+			Label label = new Label(parentName);
+			VBox vb = new VBox(label, makeSubclassComboBox(clazz));
+			HBox enumCombo = new HBox(vb);
+			properties.add(enumCombo);
+	
 			return properties;
 		}
 
-		// is Field p a Property????
+		// prevents us from trying to initialize java classes
+		
+		if (myProjectClassNames.contains(clazz.getName())) {
+			Set<Field> allFields = getAllFields(new HashSet<Field>(), clazz);
+			// parent is probably an abstract class and therefore
 
-		boolean isProperty = isAProperty(p);
+			// impossible to make an instance
+			if (parent == null) {
+				parent = getSubclassInstance(clazz);
+			}
 
-		if (isProperty) {
-			Property pObject = (Property) fieldGetObject(p, parent);
-			String pObjectName = p.getName();
-			properties.addAll(makePropertyBoxes(p, pObject, pObjectName, properties));
-		} else {
-			// prevents us from trying to initialize java classes
-			if (myProjectClassNames.contains(p.getType().getName())) {
-				Set<Field> allFields = getAllFields(new HashSet<Field>(), p.getType());
-				// parent is probably an abstract class and therefore
-
-				// impossible to make an instance
-				if (parent == null) {
-					parent = getSubclassInstance(p.getType());
-				}
-				
-				for (Field otherField : allFields) {
-					otherField.setAccessible(true);
-					// TODO NEED TO REMOVE THIS
-					if (!otherField.getType().isAssignableFrom(gameElements.Sprite.class)) {
-						Object o = fieldGetObject(otherField, parent);
-						String pName = otherField.getName();
-						//System.out.println(pName);
-						properties.addAll(makePropertyBoxes(otherField, o, pName, properties));
-					}
+			for (Field otherField : allFields) {
+				otherField.setAccessible(true);
+				// TODO NEED TO REMOVE THIS
+				if (!otherField.getType().isAssignableFrom(gameElements.Sprite.class)) {
+					Object o = fieldGetObject(otherField, parent);
+					String pName = otherField.getName();
+					properties.addAll(makePropertyBoxes(otherField.getType(), o, pName, properties));
 				}
 			}
 		}
+
 		return properties;
 	}
 
@@ -586,14 +562,13 @@ public class VisualFactory {
 		if (!myProjectClassNames.contains(clazz.getName())) {
 			if (Property.class.isAssignableFrom(clazz)) {
 				return (Class<R>) getPropertySubclass(clazz);
-			} else if(clazz.getEnumConstants() != null) {
-				return clazz;
-			} else if(KeyCode.class.isAssignableFrom(clazz)) {
+			} else if(clazz.isEnum()) {
 				return clazz;
 			}
 			return clazz;
 		}
 		
+		// TODO MAKE AN EXCEPTION
 		// find an available subclass otherwise print an exception
 		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		// make sure the picked class isn't abstract
@@ -645,8 +620,6 @@ public class VisualFactory {
         propVBox.setPadding(new Insets(20,20,20,20));
         String labelText = convertCamelCase(propName);
 		Label propLabelName = new Label(labelText);
-
-        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
         propLabelName.setAlignment(Pos.CENTER);
 
         if (myProp instanceof DoubleProperty) {
