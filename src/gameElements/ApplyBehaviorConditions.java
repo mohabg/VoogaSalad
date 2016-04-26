@@ -1,7 +1,9 @@
 package gameElements;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -18,27 +20,50 @@ public class ApplyBehaviorConditions {
 
 	
 	private DoubleProperty probability;
-	private IntegerProperty frameDelay;
 	private DoubleProperty distFromUser;
-	private IntegerProperty framesPassed;
+	private DoubleProperty minDistFromUser;
+	private DoubleProperty maxDistFromUser;
+	private DoubleProperty frequency; //In seconds
 	private DoubleProperty maxDuration;
 	private DoubleProperty currentDuration;
+	private double runningTime;
+	private BooleanProperty enabled;
 	
 	public ApplyBehaviorConditions(){
 		probability = new SimpleDoubleProperty(0);
-		frameDelay = new SimpleIntegerProperty(0);
 		distFromUser = new SimpleDoubleProperty(0);
-		framesPassed = new SimpleIntegerProperty(0);
+		minDistFromUser = new SimpleDoubleProperty(0);
+		maxDistFromUser = new SimpleDoubleProperty(0);
 		maxDuration = new SimpleDoubleProperty(0);
 		currentDuration = new SimpleDoubleProperty(0);
+		frequency = new SimpleDoubleProperty(0);
+		runningTime = System.currentTimeMillis();
+		enabled = new SimpleBooleanProperty(false);
 	}
 	
-	public ApplyBehaviorConditions(double probability, int frameDelay, double distFromUser, double maxDuration){
-		this();
-		this.probability.set(probability);
-		this.frameDelay.set(frameDelay);
-		this.distFromUser.set(distFromUser);
-		this.maxDuration.set(maxDuration);
+	public boolean ready(Sprite sprite){
+		if(sprite.isUserControlled()){
+			return this.isEnabled();
+		}
+		else{
+			if(Math.random() < getProbability()) {
+				double elapsedTime = System.currentTimeMillis() - runningTime;
+				if(elapsedTime >= frequency.doubleValue() * 1000) {
+					runningTime = System.currentTimeMillis();
+					if(getDistFromUser() >= getMinDistFromUser() &&
+						getDistFromUser() <= getMaxDistFromUser()){
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public double getMinDistFromUser(){
+		return minDistFromUser.doubleValue();
+	}
+	public double getMaxDistFromUser(){
+		return maxDistFromUser.doubleValue();
 	}
 	public double getCurrentDuration() {
 		return currentDuration.doubleValue();
@@ -49,20 +74,14 @@ public class ApplyBehaviorConditions {
 	public double getMaxDuration() {
 		return maxDuration.doubleValue();
 	}
-	public void setMaxDuration(DoubleProperty duration) {
-		this.maxDuration = duration;
+	public void setMaxDuration(double duration) {
+		this.maxDuration.set(duration);
 	}
 	public double getProbability() {
 		return probability.doubleValue();
 	}
-	public void setProbability(DoubleProperty probability) {
-		this.probability = probability;
-	}
-	public int getFrameDelay() {
-		return frameDelay.get();
-	}
-	public void setFrameDelay(int frameDelay) {
-		this.frameDelay.set(frameDelay);
+	public void setProbability(double probability) {
+		this.probability.set(probability);
 	}
 	public double getDistFromUser() {
 		return distFromUser.doubleValue();
@@ -70,10 +89,19 @@ public class ApplyBehaviorConditions {
 	public void setDistFromUser(double distFromUser) {
 		this.distFromUser.set(distFromUser);
 	}
-	public int getFramesPassed() {
-		return framesPassed.get();
+	public void setFrequency(double frequency){
+		this.frequency.set(frequency);
 	}
-	public void setFramesPassed(int framesPassed) {
-		this.framesPassed.set(framesPassed);
+	public double getFrequency(){
+		return frequency.doubleValue();
+	}
+	public boolean isEnabled(){
+		return enabled.getValue();
+	}
+	public void enable(){
+		enabled.set(true);
+	}
+	public void disable(){
+		enabled.set(false);
 	}
 }

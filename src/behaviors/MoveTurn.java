@@ -10,12 +10,10 @@ import javafx.beans.property.DoubleProperty;
  * determine how much the sprite should move
  */
 public class MoveTurn extends Movement {
-
-
-	public MoveTurn(double degreeVal) {
-		super(degreeVal);
+	
+	public MoveTurn(double value){
+		super(value);
 	}
-
 
 	/**
 	 * @param sprite

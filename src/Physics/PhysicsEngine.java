@@ -40,7 +40,6 @@ public class PhysicsEngine {
 	public void updateSprite(Sprite sprite) {
 		updateSpriteVelocity(sprite);
 	// updateAngle(sprite, degree);
-
 	}
 
 	// should this be private
