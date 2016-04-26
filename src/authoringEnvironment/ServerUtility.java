@@ -27,13 +27,14 @@ public class ServerUtility {
 
 
     public ServerUtility(){
-        signInDialog("dwy3","Davidspassword");
+        signInDialog();
         ssh = new JSch();
         myConfig = new Properties();
         myConfig.put("StrictHostKeyChecking","no");
         try {
             mySession = ssh.getSession(myUsername, HOSTNAME, 22);
         } catch (JSchException e) {
+            //TODO: Good error handling
         }
         mySession.setConfig(myConfig);
         mySession.setPassword(myPassword);
@@ -42,19 +43,22 @@ public class ServerUtility {
             myChannel = mySession.openChannel("sftp");
             myChannel.connect();
         } catch (JSchException e) {
+            //TODO: Good error handling
         }
         mySftp = (ChannelSftp) myChannel;
         try {
             mySftp.cd(DIRECTORY);
         }catch (SftpException e) {
+            //TODO: Good error handling
         }
     }
 
-    public void createDirectory(String directoryName){
+    public void createDirectory(String teamDirectoryName){
         try {
-            mySftp.mkdir(directoryName);
-            mySftp.cd(directoryName);
+            mySftp.mkdir(teamDirectoryName);
+            mySftp.cd(teamDirectoryName);
         } catch (SftpException e) {
+            //TODO: Good error handling
         }
     }
 
@@ -63,7 +67,7 @@ public class ServerUtility {
         try {
             files = mySftp.ls("*");
         } catch (SftpException e) {
-            e.printStackTrace();
+            //TODO: Good error handling
         }
         ArrayList<ChannelSftp.LsEntry> list = new ArrayList<>(files);
         List<String> myFileNames = new ArrayList<>();
@@ -79,7 +83,7 @@ public class ServerUtility {
         try {
             files = mySftp.ls("*");
         } catch (SftpException e) {
-            e.printStackTrace();
+            //TODO: Good error handling
         }
         ArrayList<ChannelSftp.LsEntry> myList = new ArrayList<>(files);
         endSession();
@@ -93,6 +97,7 @@ public class ServerUtility {
         try {
             files = mySftp.ls("*");
         } catch (SftpException e) {
+            //TODO: Good error handling
         }
         ArrayList<ChannelSftp.LsEntry> myFilesList = new ArrayList<>(files);
 
@@ -131,6 +136,7 @@ public class ServerUtility {
 
         }
         catch (SftpException e) {
+            //TODO: Good error handling
         }
     }
 
@@ -182,7 +188,7 @@ public class ServerUtility {
     }
 
 
-    private void signInDialog(String user, String pass){
+    private void signInDialog(){
         Dialog<Pair<String, String>> dialog = new Dialog<Pair<String,String>>();
         dialog.setTitle("Login Dialog");
         dialog.setHeaderText("Look, a Custom Login Dialog");
@@ -226,8 +232,8 @@ public class ServerUtility {
         Optional<Pair<String,String>> result = dialog.showAndWait();
 
         result.ifPresent(usernamePassword -> {
-            myUsername = user;
-            myPassword = pass;
+            myUsername = usernamePassword.getKey();
+            myPassword = usernamePassword.getValue();
         });
     }
 }
