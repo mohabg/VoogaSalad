@@ -2,8 +2,11 @@ package game;
 
 import java.util.List;
 
+import gameElements.ViewPoint;
 import goals.Goal;
 import goals.GoalProperties;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -21,6 +24,8 @@ public class GameEditor implements IGameEditor {
 	public GameEditor() {
 		myGame = new Game();
 	}
+	
+	
 
 	public Game getGame() {
 		return myGame;
@@ -78,7 +83,12 @@ public class GameEditor implements IGameEditor {
 	public void updateGame() {
 		//System.out.println(myGame.getCurrentLevel().getGoalList().size() + "size of goal list");
 		// List<Integer> dead =
-		myGame.getCurrentLevel().update();
+		Level level=myGame.getCurrentLevel();
+		level.update();
+		
+		//System.out.println(this.getGame().getViewPoint());
+		this.getGame().getViewPoint().updateViewPoint(level);
+//		viewPoint.updateViewPoint(level);
 //		if (myGame.getCurrentLevel().getisFinished())
 //			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
 		// return dead;

@@ -25,7 +25,7 @@ import java.util.HashMap;
  */
 
 public class LevelProperties {
-
+	
 	private IntegerProperty levelID;
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;

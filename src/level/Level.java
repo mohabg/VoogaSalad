@@ -50,6 +50,7 @@ import java.util.*;
  */
 
 public class Level implements ILevel {
+	
 	private LevelProperties levelProperties;
 	private Time time;
 	private SpriteMap spriteMap;
@@ -62,7 +63,6 @@ public class Level implements ILevel {
 	private int goalCount;
 	private boolean isFinished;
 	private SpriteFactory mySpriteFactory;
-	
 
 	public Level() {
 

@@ -74,11 +74,11 @@ public class Sprite implements ISprite{
 		addBehavior(shield);
 		userPressBehaviors.put(KeyCode.SHIFT, shield);
 
-		Behavior thrustForward = new Thrust(-5);
+		Behavior thrustForward = new Thrust(-1);
 		addBehavior(thrustForward);
 		userPressBehaviors.put(KeyCode.UP, thrustForward);
 
-		Behavior thrustReverse = new Thrust(5);
+		Behavior thrustReverse = new Thrust(1);
 		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
 		addBehavior(thrustReverse);
 	

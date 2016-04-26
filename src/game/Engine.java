@@ -49,7 +49,21 @@ public class Engine {
 		this(myGameScreen);
 		myEditor = editor;
 	}
+	public IGameEditor getMyEditor() {
+		return myEditor;
+	}
 
+	public void setMyEditor(IGameEditor myEditor) {
+		this.myEditor = myEditor;
+	}
+
+	public DoubleProperty getMyTimeProperty() {
+		return myTimeProperty;
+	}
+
+	public void setMyTimeProperty(DoubleProperty myTimeProperty) {
+		this.myTimeProperty = myTimeProperty;
+	}
 	public void setGameInfo(GameInfo gameInfo) {
         myEditor.setGameInfo(gameInfo);
     }
@@ -110,6 +124,7 @@ public class Engine {
                 public void handle(ActionEvent event) {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
+                //    myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
 						myGameScreen.setLevel(myEditor.getCurrentLevel());
 					}

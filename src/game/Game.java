@@ -2,6 +2,10 @@ package game;
 
 import java.util.List;
 
+import gameElements.Sprite;
+import gameElements.ViewPoint;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import level.Level;
 import level.LevelProperties;
 
@@ -18,6 +22,8 @@ public class Game {
 	private GameInfo myInfo;
 	private List<Level> myGameLevels;
 	private int currLevelNum;
+	private ViewPoint viewPoint;
+
 
 	public Game(GameInfo gameInfo) {
 		myGameLevels = new ArrayList<Level>();
@@ -25,11 +31,16 @@ public class Game {
 		myInfo = gameInfo;
 	}
 	
+	/* public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height){
+		this(gameInfo);
+		viewPoint= new ViewPoint(width, height, myGameLevels.get(currLevelNum).getCurrentSprite());
+	}
+	*/
 	public Game() {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
-        myInfo = new GameInfo();
-    }
+		myInfo = new GameInfo();
+	}
 
 	public GameInfo getGameInfo() {
         return myInfo;
@@ -77,6 +88,8 @@ public class Game {
         levelProperties.setLevelID(levelID);
         newLevel.setLevelProperties(levelProperties);
     	myGameLevels.add(levelID, newLevel);
+		viewPoint.updateViewPoint(newLevel);
+
 	}
 	
 	/**
@@ -91,5 +104,17 @@ public class Game {
 	public Level restartGame() {
         return myGameLevels.get(0);
     }
+
+	public ViewPoint getViewPoint() {
+		return viewPoint;
+	}
+
+	public void setViewPoint(ViewPoint viewPoint) {
+		this.viewPoint = viewPoint;
+	}
+	
+	public void setViewPoint(double myWidth, double myHeight, Sprite sprite){
+		setViewPoint(new ViewPoint(new SimpleDoubleProperty(myWidth), new SimpleDoubleProperty(myHeight), sprite));
+	}
 
 }

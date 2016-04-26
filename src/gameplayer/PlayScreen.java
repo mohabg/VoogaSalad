@@ -7,7 +7,10 @@ import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
 import gameElements.Sprite;
+import gameElements.ViewPoint;
 import highscoretable.HighScoreController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -98,6 +101,8 @@ public class PlayScreen extends Screen {
 
 		setKeys();
 		setSprites();
+		myEngine.getMyEditor().getGame().setViewPoint(58*20, 58*11, currentLevel.getCurrentSprite());
+	//	myEngine.getMyEditor().getGame().setViewPoint(new ViewPoint( new SimpleDoubleProperty(), new SimpleDoubleProperty(), myEngine.getCurrentLevel().getCurrentSprite()));
 		initHUD();
 
 	}
