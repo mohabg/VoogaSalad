@@ -13,17 +13,35 @@ import level.Level;
 import resources.FrontEndData;
 
 public class ControlWindow{
-	PlayScreen myPlayScreen;
+	private PlayScreen myPlayScreen;
 	private FlowPane myFlowPane;
 	
 	public ControlWindow(PlayScreen myPlayScreen) {
 		this.myPlayScreen =  myPlayScreen;
 		myFlowPane = new FlowPane();
+		myFlowPane.setId("myFlowPane");
+		myFlowPane.getStylesheets().add("gameplayer/controlWindow.css");
 		createFlowPane();
 	}
 	
 	private void createFlowPane(){
-		myFlowPane.getChildren().add(new Label("test"));
+		Button pauseButton = new Button("pause");
+		pauseButton.setOnAction(e -> {
+			myPlayScreen.getEngine().pauseGameLoop();
+		});
+		
+		Button playButton = new Button("play");
+		playButton.setOnAction(e -> {
+			myPlayScreen.getEngine().playGameLoop();
+		});
+		
+		Button restartButton = new Button("restart");
+		restartButton.setOnAction(e -> {
+			File currGameFile = myPlayScreen.getGameFile();
+			myPlayScreen = (PlayScreen) GameLoader.newGame(currGameFile);
+		});
+		
+		myFlowPane.getChildren().addAll(pauseButton, playButton, restartButton);
 	}
 	
 	public Pane getPane(){
@@ -35,8 +53,11 @@ public class ControlWindow{
 //		VBox buttons = makePauseScreenButtons(gameLevels);
 //		Settings.setStartWindowSettings(buttons);
 //	}
-
+//
 //	private VBox makePauseScreenButtons(Collection<Level> gameLevels) {
+//		
+//		
+//		
 //		VBox box = new VBox();
 //
 //		Button cont = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("continuegame"), a -> {
@@ -70,5 +91,5 @@ public class ControlWindow{
 //		box.getChildren().addAll(cont, restart, switchgame, save, settings, back);
 //
 //		return box;
-//	}
+	
 }

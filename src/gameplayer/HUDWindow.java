@@ -11,11 +11,13 @@ public class HUDWindow{
 	public HUDWindow(PlayScreen myPlayScreen) {
 		this.myPlayScreen =  myPlayScreen;
 		myFlowPane = new FlowPane();
+		myFlowPane.getStylesheets().add("gameplayer/HUDWindow.css");
+		myFlowPane.setId("myFlowPane");
 		createFlowPane();
 	}
 	
 	private void createFlowPane(){
-		myFlowPane.getChildren().add(new Label("test 2"));
+		myFlowPane.getChildren().add(new Label("HUD goes here"));
 	}
 	
 	public Pane getPane(){

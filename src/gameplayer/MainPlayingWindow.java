@@ -29,4 +29,8 @@ public class MainPlayingWindow extends Screen{
 		((BorderPane) myPane).setRight(myHUDWindow.getPane());
 		((BorderPane) myPane).setTop(toggleButton);
 	}
+	
+	public PlayScreen getPlayScreen(){
+		return myPlayScreen;
+	}
 }

@@ -44,9 +44,7 @@ public class PlayScreen extends Screen {
 		super();
 		gameFile = newGameFile;
 		myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
-
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
-
 	}
 
 	private void initHUD() {
@@ -88,7 +86,6 @@ public class PlayScreen extends Screen {
 	}
 
 	public void setLevel(Level newLevel) {
-		System.out.println("                         QQQQQQQQQQQQQQQQQQQQQQ");
 		try {
 			myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
 		} catch (Exception e) {
@@ -162,8 +159,6 @@ public class PlayScreen extends Screen {
 		myPane.getChildren().add(hsc.getTable());
 		
 	}
-	
-	
 
 	public void addSprite(ViewSprite vs) {
 		AESpriteFactory sf = new AESpriteFactory();
@@ -172,10 +167,15 @@ public class PlayScreen extends Screen {
 		currentLevel.addSprite(sf.makeSprite(vs));
 		
 	}
+	
 	public void setBackground(String background){
 		myPane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
 				   "-fx-background-repeat: repeat;");	
 		
+	}
+	
+	public Engine getEngine(){
+		return myEngine;
 	}
 
 }
