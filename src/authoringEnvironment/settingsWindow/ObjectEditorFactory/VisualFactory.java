@@ -125,7 +125,7 @@ public class VisualFactory {
 
 			// populate combobox parent with new params
 			myComboBoxParent.getChildren().setAll(subclassBox);
-			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), o.getValue().getKey()));			
+			myComboBoxParent.getChildren().addAll(makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
 		};
 		
 		return boxChangeListener;
@@ -163,7 +163,7 @@ public class VisualFactory {
 			
 			// populate combobox parent with new params
 			myComboBoxParent.getChildren().setAll(subclassBox);
-			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), o.getValue().getKey()));			
+			myComboBoxParent.getChildren().addAll(makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
 		};
 		
 		return boxChangeListener;
@@ -197,7 +197,7 @@ public class VisualFactory {
 					
 			// populate combobox parent with new params
 			myComboBoxParent.getChildren().setAll(subclassBox);
-			myComboBoxParent.getChildren().addAll(makeBoxesAndBindFields(o.getValue().getValue(), o.getValue().getKey()));			
+			myComboBoxParent.getChildren().addAll(makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
 		};
 		
 		return boxChangeListener;
@@ -273,28 +273,6 @@ public class VisualFactory {
 		mySubclassBox.setValue(rBoxItem);
 	}
 
-	private <R> Set<HBox> makeBoxesAndBindFields(R rObj, Class<R> rType) {
-		Set<HBox> paramProps = new HashSet<HBox>();
-		Set<Field> rAllFields = getAllFields(new HashSet<Field>(), rType);
-		
-		// rObj is most likely a java object then (not user-made)
-		if (Property.class.isAssignableFrom(rType)) {
-			paramProps.add(new HBox(makeSettingsObject(rObj, rType.getSimpleName())));
-			return paramProps;
-		} else if (rType.isEnum()) {
-			return paramProps;
-		}
-		
-		for (Field rField : rAllFields) {			
-			rField.setAccessible(true);
-			Object rFieldObj = fieldGetObject(rField, rObj);	
-			String rFieldObjName = rField.getName();
-				
-			paramProps.addAll(makePropertyBoxes(rField.getType(), rFieldObj, rFieldObjName, new HashSet<HBox>()));			
-		}
-		
-		return paramProps;
-	}
 	
 	
 	
@@ -383,15 +361,8 @@ public class VisualFactory {
 
 		Class<R> clazz = (Class<R>) f.getType();
 		
-		if (SubclassEnumerator.hasSubclasses(clazz)) {		
-			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = makeSubclassComboBox(clazz);
-			ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeCBListener();
-			subclassBox.valueProperty().addListener(boxChangeListener);	
-			fieldVBox.getChildren().add(subclassBox);
-		}
-		
-		Object fObj = fieldGetObject(f, parentObj);		
-		Set<HBox> props = makePropertyBoxes(f.getType(), fObj, fObj.getClass().getName(), new HashSet<HBox>());
+		R fObj = (R) fieldGetObject(f, parentObj);		
+		Set<HBox> props = makePropertyBoxes(clazz, fObj, fObj.getClass().getName(), new HashSet<HBox>(), true);
 		propVBox.getChildren().addAll(props);
 
 
@@ -478,41 +449,49 @@ public class VisualFactory {
 	}
 	
 	
-	private Set<HBox> makePropertyBoxes(Class<?> clazz, Object parent, String parentName, Set<HBox> properties) {
-		if (parent instanceof Property) {
+	private <R, K> Set<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, Set<HBox> properties, boolean makeBox) {
+		if (Property.class.isAssignableFrom(clazz)) {
 			// the parent is a Property, we can make a settings element
 			HBox settingsHBox = new HBox(makeSettingsObject(parent, parentName));
 			properties.add(settingsHBox);
 			return properties;
-		} else if (parent != null && clazz.isEnum()) {
-			Label label = new Label(parentName);
-			VBox vb = new VBox(label, makeSubclassComboBox(clazz));
-			HBox enumCombo = new HBox(vb);
-			properties.add(enumCombo);
-	
+		} else if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
+			HBox fieldVBoxHBox = new HBox();
+			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = makeSubclassComboBox(clazz);
+			ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = makeCBListener();
+			subclassBox.valueProperty().addListener(boxChangeListener);	
+			VBox vb = new VBox(subclassBox);
+			fieldVBoxHBox.getChildren().add(vb);
+			properties.add(fieldVBoxHBox);
 			return properties;
 		}
 
-		// prevents us from trying to initialize java classes
-		
+
+		// prevents us from trying to initialize java classes		
 		if (myProjectClassNames.contains(clazz.getName())) {
 			Set<Field> allFields = getAllFields(new HashSet<Field>(), clazz);
 			// parent is probably an abstract class and therefore
 
 			// impossible to make an instance
 			if (parent == null) {
-				parent = getSubclassInstance(clazz);
+				parent = (R) getSubclassInstance(clazz);
 			}
-
+			
+			HBox fieldVBoxHBox = new HBox();
+			VBox fieldVBox = new VBox();
+			Set<HBox> fieldHBoxes = new HashSet<HBox>();
 			for (Field otherField : allFields) {
 				otherField.setAccessible(true);
 				// TODO NEED TO REMOVE THIS
 				if (!otherField.getType().isAssignableFrom(gameElements.Sprite.class)) {
-					Object o = fieldGetObject(otherField, parent);
+					K o = (K) fieldGetObject(otherField, parent);
 					String pName = otherField.getName();
-					properties.addAll(makePropertyBoxes(otherField.getType(), o, pName, properties));
+					fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), o, pName, properties, true));
 				}
 			}
+			fieldVBox.getChildren().addAll(fieldHBoxes);
+			fieldVBoxHBox.getChildren().add(fieldVBox);			
+			properties.add(fieldVBoxHBox);
 		}
 
 		return properties;
