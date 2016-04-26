@@ -42,7 +42,7 @@ public class Health {
 		return healthValue.doubleValue();
 	}
 
-	public void decrementHealth(double damage) {
+	public void takeDamage(double damage) {
 		changeHealth(damage * -1);
 	}
 
@@ -66,5 +66,16 @@ public class Health {
 	}
 	public DoubleProperty getProperty(){
 		return healthValue;
+	}
+	
+	public void setMortal(boolean bool){
+		this.isMortal.set(bool);
+	}
+	
+	public Health getClone() {
+		Health clone = new Health();
+		clone.setHealth(this.getHealthValue());
+		clone.setMortal(this.isMortal.get());
+		return clone;
 	}
 }

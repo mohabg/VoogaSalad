@@ -1,5 +1,9 @@
 package gameElements;
 
+import gameElements.ISprite.spriteState;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -16,7 +20,12 @@ public class SpriteProperties {
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
+    private DoubleProperty myLeftLimit;
+    private DoubleProperty myDownLimit;
+    private DoubleProperty myRightLimit;
+    private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
+    private List<SpriteProperties> myClones;
     
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
@@ -27,11 +36,13 @@ public class SpriteProperties {
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
         myUserControlled = new SimpleBooleanProperty(false);
-//        myX.set(0);
-//        myY.set(0);
-//        myWidth.set(0);
-//        myHeight.set(0);
-//        myAngle.set(0);
+        myClones = new ArrayList<SpriteProperties>();
+        myLeftLimit=new SimpleDoubleProperty(0);
+        myRightLimit=new SimpleDoubleProperty(590);
+        myUpLimit=new SimpleDoubleProperty(850);
+        myDownLimit=new SimpleDoubleProperty(0);
+        
+        
     }
 
     public SpriteProperties(double x, double y, double width, double height, double angle){
@@ -43,7 +54,8 @@ public class SpriteProperties {
         myAngle.set(angle);
     }
 
-    public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle){
+    public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle,double leftLimit, double rightLimit,
+    		double upLimit, double downLimit){
     	this();
         myX.set(x);
         myY.set(y);
@@ -52,9 +64,45 @@ public class SpriteProperties {
         myWidth.set(width);
         myHeight.set(height);
         myAngle.set(angle);
+        myLeftLimit.set(leftLimit);
+        myRightLimit.set(rightLimit);
+        myUpLimit.set(upLimit);
+        myDownLimit.set(downLimit);
+    }
+    
+    public SpriteProperties(double x, double y, double xVel, double yVel,
+			double width, double height, double angle) {
+    	this(x, y, width, height, angle);
+		myXvel.set(xVel);
+		myYvel.set(yVel);
+	}
+
+	public SpriteProperties getClone(){
+    	SpriteProperties clone = new SpriteProperties(myX.doubleValue(), myY.doubleValue(), myXvel.doubleValue(), 
+    			myYvel.doubleValue(), myWidth.doubleValue(), myHeight.doubleValue(), myAngle.doubleValue());
+    	bindCloneProperties(clone);
+    	myClones.add(clone);
+    	return clone;
     }
 
+	private void bindCloneProperties(SpriteProperties clone) {
+		clone.getMyX().bindBidirectional(myX);
+    	clone.getMyY().bindBidirectional(myY);
+    	clone.getMyAngleProperty().bindBidirectional(myAngle);
+    	clone.getMyXvel().bindBidirectional(myXvel);
+    	clone.getMyYvel().bindBidirectional(myYvel);
+    	clone.getUserControlled().bindBidirectional(myUserControlled);
+	}
+    
     public void updatePos(){
+    	if (myX.getValue()>myRightLimit.getValue())
+    		myXvel.setValue(-myXvel.getValue());    	
+    	if (myX.getValue()<myLeftLimit.getValue())
+    		myXvel.setValue(-myXvel.getValue());
+    	if (myY.getValue()>myUpLimit.getValue())
+    		myYvel.setValue(-myYvel.getValue());
+    	if (myY.getValue()<myDownLimit.getValue())
+    		myYvel.setValue(-myYvel.getValue());
     	myX.setValue(myX.getValue() + myXvel.getValue());
     	myY.setValue(myY.getValue() + myYvel.getValue());
     }
@@ -85,13 +133,13 @@ public class SpriteProperties {
     public double getMyAngle() {
         return myAngle.get();
     }
-
-    public DoubleProperty myAngleProperty() {
+ 
+    public DoubleProperty getMyAngleProperty() {
         return myAngle;
     }
 
     public void setMyAngle(double myAngle) {
-        this.myAngle.set(myAngle);
+        this.myAngle.set(myAngle % 360);
     }
     public void setMyAngleProperty(DoubleProperty myAngle) {
        this.myAngle = myAngle;
@@ -126,7 +174,6 @@ public class SpriteProperties {
     }
 
     public void setMyY(double myY) {
-  //   	System.out.println("setting " + myY);
         this.myY.set(myY);
     }
 
@@ -181,6 +228,48 @@ public class SpriteProperties {
 	public void setUserControlled(BooleanProperty userControlled) {
 		this.myUserControlled = userControlled;
 	}
+
+	public DoubleProperty getMyXLeftLimit() {
+		return myLeftLimit;
+	}
+
+	public void setMyXLeftLimit(DoubleProperty myXLeftLimit) {
+		this.myLeftLimit = myXLeftLimit;
+	}
+
+	public DoubleProperty getMyYDownLimit() {
+		return myDownLimit;
+	}
+
+	public void setMyYDownLimit(DoubleProperty myYDownLimit) {
+		this.myDownLimit = myYDownLimit;
+	}
+
+	public DoubleProperty getMyXRightLimit() {
+		return myRightLimit;
+	}
+
+	public void setMyRightLimit(DoubleProperty myRightLimit) {
+		this.myRightLimit = myRightLimit;
+	}
+
+	public DoubleProperty getMyYUpLimit() {
+		return myUpLimit;
+	}
+
+	public void setMyYUpLimit(DoubleProperty myYUpLimit) {
+		this.myUpLimit = myYUpLimit;
+	}
+/*
+	public spriteState getState() {
+		return state;
+	}
+
+	public void setState(spriteState state) {
+		this.state = state;
+	}
+
+*/	
 
 
 

@@ -8,7 +8,7 @@ import level.Level;
 public class PhysicsEngine {
 	private DoubleProperty drag;
 
-	// 
+	
 	public PhysicsEngine(DoubleProperty dragVal) {
 		drag = dragVal;
 	}
@@ -21,10 +21,12 @@ public class PhysicsEngine {
 	}
 
 	public void animate(Level level) {
-
+		for(Sprite sprite: level.getSpriteMap().getSprites()){
+			updateSprite(sprite);
+		}
 	}
 
-	// should this be private
+/*	// should this be private
 	public void thrustSprite(Sprite sprite, DoubleProperty intensity) {
 		sprite.getSpriteProperties().setMyXvelProperty(
 				new SimpleDoubleProperty(Math.sin(sprite.getAngle().getValue() * intensity.getValue())));
@@ -32,18 +34,16 @@ public class PhysicsEngine {
 				new SimpleDoubleProperty(Math.cos(sprite.getAngle().getValue() * intensity.getValue())));
 
 	}
-
+*/
 	// should this be private
 	// update method should not update sprite positions
-	public void updateSprite(Sprite sprite, DoubleProperty degree) {
-		sprite.getSpriteProperties().updatePos();
+	public void updateSprite(Sprite sprite) {
 		updateSpriteVelocity(sprite);
 	// updateAngle(sprite, degree);
-
 	}
 
 	// should this be private
-	public void updateAngle(Sprite sprite, DoubleProperty degree) {
+	public void updateSpriteAngle(Sprite sprite, DoubleProperty degree) {
 		sprite.getSpriteProperties().setMyAngle((sprite.getAngle().doubleValue() + degree.getValue()));
 	}
 
@@ -54,18 +54,18 @@ public class PhysicsEngine {
 
 	private void updateXVelocity(Sprite sprite) {
 		//DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyXvel().getValue() + sprite.getX().getValue());
-		DoubleProperty newXVelocity = new SimpleDoubleProperty(
-		sprite.getSpriteProperties().getMyXvel().getValue() * getDrag().getValue());
+		
+		double newXVel= sprite.getSpriteProperties().getMyXvel().getValue() * getDrag().getValue();
 	//	sprite.setX(newLocation);
-		sprite.getSpriteProperties().setMyXvelProperty(newXVelocity);
+		sprite.getSpriteProperties().setMyXvel(newXVel);
 
 	}
 
 	private void updateYVelocity(Sprite sprite) {
 	//	DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyYvel().getValue() + sprite.getY().getValue());
-		DoubleProperty newYVelocity = new SimpleDoubleProperty();
+		double newYVel = sprite.getSpriteProperties().getMyYvel().getValue() * getDrag().getValue();
 	//	sprite.setY(newLocation);
-		sprite.getSpriteProperties().setMyYvelProperty(newYVelocity);
+		sprite.getSpriteProperties().setMyYvel(newYVel);
 
 	}
 

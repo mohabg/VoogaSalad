@@ -37,7 +37,7 @@ public class CriticalHitCollision extends DamageCollision{
 	public void handleCollision(EnemyCollision collision, LevelProperties levelProperties){
 		if(collision.isCollidingWithUser(levelProperties)){
 			if(Math.random() < getValue()){
-				causeDamage(levelProperties.getSpriteForCollision(collision), getCriticalHitDamage());
+				levelProperties.getSpriteForCollision(collision).takeDamage(getCriticalHitDamage());
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public class CriticalHitCollision extends DamageCollision{
 	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
 		if( !(collision.isCollidingWithUser(levelProperties)) ){
 			if(Math.random() < getValue()){
-				causeDamage(levelProperties.getSpriteForCollision(collision), getCriticalHitDamage());
+				levelProperties.getSpriteForCollision(collision).takeDamage(getCriticalHitDamage());
 			}
 		}
 	}

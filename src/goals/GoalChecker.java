@@ -31,8 +31,8 @@ public class GoalChecker implements IGoalVisitor{
 	}
 	
 	public boolean visit(StayAliveGoal goal){
-		System.out.println("reached alivegoalchcker");
-		System.out.println("spritesize"+level.getSpriteMap().getSprites().size());
+		//System.out.println("reached visit() method in stay alive checker");
+	//	System.out.println("spritesize"+level.getSpriteMap().getSprites().size());
 		boolean enemyBoolean=true;
 		for(Sprite sprite: level.getSpriteMap().getSprites()){
 			if(!sprite.isUserControlled()){
@@ -40,7 +40,7 @@ public class GoalChecker implements IGoalVisitor{
 				break;
 			}
 		}
-		System.out.println("enemyboolean" + enemyBoolean);
+		// System.out.println("enemyboolean" + enemyBoolean);
 		return enemyBoolean;
 	}
 	

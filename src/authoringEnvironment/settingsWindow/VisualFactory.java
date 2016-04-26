@@ -106,6 +106,9 @@ public class VisualFactory {
 			}
 			
 			myBox.getChildren().add(myH);			
+		} else if (f.getType().isEnum()) {
+			HBox enumCombo = new HBox(makeSubclassComboBox(f.getType()));
+			myBox.getChildren().add(enumCombo);
 		} else if (isAProperty(f)) {
 			Property fObject = (Property) fieldGetObject(f, mySprite);
 			String fObjectName = f.getName();
@@ -317,7 +320,6 @@ public class VisualFactory {
 			}
 			
 			Button addButton = ButtonFactory.makeButton("Add", e -> {
-				System.out.println("RTYPE " + rType.getName());
 				doubleParamVBox.getChildren().add(doubleParamVBox.getChildren().size()-1, addDoubleParameter(rType, tType, mprt));
 			});
 			
@@ -341,7 +343,6 @@ public class VisualFactory {
 		// get a proper subclass of R if necessary
 		if (isAbstractOrInterface(rType)) {
 			rType = (Class<R>) getSubclass(rType);	
-			System.out.println(rType.getName());
 		}
 		rListElement = (R) newClassInstance(rType);	
 		updateComboBoxValue((Class<R>) rListElement.getClass(), rListElement, mySubclassBoxKey);
@@ -421,12 +422,13 @@ public class VisualFactory {
 		if (Property.class.isAssignableFrom(clazz)) {
 			clazz = (Class<R>) getPropertySubclass(clazz);
 			allSubKeyset.add(new SimpleEntry<Class<R>, R>(clazz, null));
-		} else if(KeyCode.class.isAssignableFrom(clazz)) {
-			KeyCode[] allCodes = KeyCode.values();
-			for (KeyCode k : allCodes) {
-				allSubKeyset.add(new SimpleEntry<Class<R>, R>((Class<R>)k.getClass(), (R) k));
+		} else if (clazz.isEnum()) {
+			R[] enumVals =  clazz.getEnumConstants();
+			for (R val : enumVals) {
+				allSubKeyset.add(new SimpleEntry<Class<R>, R>((Class<R>)val.getClass(), (R) val));
 			}
 		} 
+		
 		// user made class
 		else {
 			for (Class<R> rClass : allSubclasses.values()) {
@@ -451,7 +453,7 @@ public class VisualFactory {
 		StringConverter<SimpleEntry<Class<R>, R>> comboBoxConverter = new StringConverter<SimpleEntry<Class<R>, R>>() {
 			@Override
 			public String toString(SimpleEntry<Class<R>, R> object) {
-				if (KeyCode.class.isAssignableFrom(object.getKey())) {
+				if (object.getKey().isEnum()) {
 					return object.getValue().toString();
 				} else {
 					Class<R> clazz = object.getKey();
@@ -478,6 +480,19 @@ public class VisualFactory {
 		}  else if (parent instanceof gameElements.Sprite) {
 			// results in infinite recursion for collision right now
 			return properties;
+		} else if (p.getType().getEnumConstants() != null) {
+			if (p.isEnumConstant()) {
+				return properties;
+			} 
+			
+			if (p.getType().isEnum()) {
+				Label label = new Label(p.getName());
+				VBox vb = new VBox(label, makeSubclassComboBox(p.getType()));
+				HBox enumCombo = new HBox(vb);
+				properties.add(enumCombo);
+			}
+			
+			return properties;
 		}
 
 		// is Field p a Property????
@@ -503,7 +518,7 @@ public class VisualFactory {
 					otherField.setAccessible(true);
 					Object o = fieldGetObject(otherField, parent);
 					String pName = otherField.getName();
-					
+					//System.out.println(pName);
 					properties.addAll(makePropertyBoxes(otherField, o, pName, properties));
 				}
 			}
@@ -555,6 +570,8 @@ public class VisualFactory {
 		if (!myProjectClassNames.contains(clazz.getName())) {
 			if (Property.class.isAssignableFrom(clazz)) {
 				return (Class<R>) getPropertySubclass(clazz);
+			} else if(clazz.getEnumConstants() != null) {
+				return clazz;
 			} else if(KeyCode.class.isAssignableFrom(clazz)) {
 				return clazz;
 			}
@@ -636,6 +653,8 @@ public class VisualFactory {
 		} else if (myProp instanceof MapProperty) {
 			MapProperty mp = (MapProperty) myProp;
 			//propHBox.getChildren().addAll(propLabelName, makeTableView(mp));
+		} else if (myProp instanceof Enum<?>) {
+		
 		}
 		return propVBox;
 	}
