@@ -19,6 +19,10 @@ public class SpriteProperties {
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
+    private DoubleProperty myLeftLimit;
+    private DoubleProperty myDownLimit;
+    private DoubleProperty myRightLimit;
+    private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
     private List<SpriteProperties> myClones;
     
@@ -32,6 +36,11 @@ public class SpriteProperties {
         myAngle = new SimpleDoubleProperty(0);
         myUserControlled = new SimpleBooleanProperty(false);
         myClones = new ArrayList<SpriteProperties>();
+        myLeftLimit=new SimpleDoubleProperty(0);
+        myRightLimit=new SimpleDoubleProperty(590);
+        myUpLimit=new SimpleDoubleProperty(850);
+        myDownLimit=new SimpleDoubleProperty(0);
+
 //        myX.set(0);
 //        myY.set(0);
 //        myWidth.set(0);
@@ -48,7 +57,8 @@ public class SpriteProperties {
         myAngle.set(angle);
     }
 
-    public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle){
+    public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle,double leftLimit, double rightLimit,
+    		double upLimit, double downLimit){
     	this();
         myX.set(x);
         myY.set(y);
@@ -57,9 +67,20 @@ public class SpriteProperties {
         myWidth.set(width);
         myHeight.set(height);
         myAngle.set(angle);
+        myLeftLimit.set(leftLimit);
+        myRightLimit.set(rightLimit);
+        myUpLimit.set(upLimit);
+        myDownLimit.set(downLimit);
     }
     
-    public SpriteProperties getClone(){
+    public SpriteProperties(double x, double y, double xVel, double yVel,
+			double width, double height, double angle) {
+    	this(x, y, width, height, angle);
+		myXvel.set(xVel);
+		myYvel.set(yVel);
+	}
+
+	public SpriteProperties getClone(){
     	SpriteProperties clone = new SpriteProperties(myX.doubleValue(), myY.doubleValue(), myXvel.doubleValue(), 
     			myYvel.doubleValue(), myWidth.doubleValue(), myHeight.doubleValue(), myAngle.doubleValue());
     	bindCloneProperties(clone);
@@ -77,6 +98,14 @@ public class SpriteProperties {
 	}
     
     public void updatePos(){
+    	if (myX.getValue()>myRightLimit.getValue())
+    		myXvel.setValue(-myXvel.getValue());    	
+    	if (myX.getValue()<myLeftLimit.getValue())
+    		myXvel.setValue(-myXvel.getValue());
+    	if (myY.getValue()>myUpLimit.getValue())
+    		myYvel.setValue(-myYvel.getValue());
+    	if (myY.getValue()<myDownLimit.getValue())
+    		myYvel.setValue(-myYvel.getValue());
     	myX.setValue(myX.getValue() + myXvel.getValue());
     	myY.setValue(myY.getValue() + myYvel.getValue());
     }
@@ -202,6 +231,40 @@ public class SpriteProperties {
 	public void setUserControlled(BooleanProperty userControlled) {
 		this.myUserControlled = userControlled;
 	}
+
+	public DoubleProperty getMyXLeftLimit() {
+		return myLeftLimit;
+	}
+
+	public void setMyXLeftLimit(DoubleProperty myXLeftLimit) {
+		this.myLeftLimit = myXLeftLimit;
+	}
+
+	public DoubleProperty getMyYDownLimit() {
+		return myDownLimit;
+	}
+
+	public void setMyYDownLimit(DoubleProperty myYDownLimit) {
+		this.myDownLimit = myYDownLimit;
+	}
+
+	public DoubleProperty getMyXRightLimit() {
+		return myRightLimit;
+	}
+
+	public void setMyRightLimit(DoubleProperty myRightLimit) {
+		this.myRightLimit = myRightLimit;
+	}
+
+	public DoubleProperty getMyYUpLimit() {
+		return myUpLimit;
+	}
+
+	public void setMyYUpLimit(DoubleProperty myYUpLimit) {
+		this.myUpLimit = myYUpLimit;
+	}
+
+	
 
 
 

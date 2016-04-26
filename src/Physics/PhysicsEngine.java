@@ -8,7 +8,7 @@ import level.Level;
 public class PhysicsEngine {
 	private DoubleProperty drag;
 
-	// 
+	
 	public PhysicsEngine(DoubleProperty dragVal) {
 		drag = dragVal;
 	}
@@ -21,7 +21,9 @@ public class PhysicsEngine {
 	}
 
 	public void animate(Level level) {
-
+		for(Sprite sprite: level.getSpriteMap().getSprites()){
+			updateSprite(sprite);
+		}
 	}
 
 	// should this be private
@@ -35,14 +37,13 @@ public class PhysicsEngine {
 
 	// should this be private
 	// update method should not update sprite positions
-	public void updateSprite(Sprite sprite, DoubleProperty degree) {
-		sprite.getSpriteProperties().updatePos();
+	public void updateSprite(Sprite sprite) {
 		updateSpriteVelocity(sprite);
 	// updateAngle(sprite, degree);
 	}
 
 	// should this be private
-	public void updateAngle(Sprite sprite, DoubleProperty degree) {
+	public void updateSpriteAngle(Sprite sprite, DoubleProperty degree) {
 		sprite.getSpriteProperties().setMyAngle((sprite.getAngle().doubleValue() + degree.getValue()));
 	}
 

@@ -32,7 +32,7 @@ public abstract class Goal implements IGoal{
 	}
 	
 	public void setIsFinished(boolean isFinished){
-		goalProperties.setFinished();
+		goalProperties.setIsFinished(isFinished);
 	}
 	
 	public boolean isFinished(){
@@ -43,7 +43,7 @@ public abstract class Goal implements IGoal{
 	}
 	
 	public void acceptVisitor(IGoalVisitor visitor){
-		System.out.println("reached accept visitor");
 		setIsFinished(visitor.visit(this));
+
 	}
 }

@@ -117,6 +117,7 @@ public class Sprite {
 	 * Updates the sprite frame by frame
 	 */
 	public void update(SpriteFactory spriteFactory) {
+		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
 				behavior.apply(this, spriteFactory);
