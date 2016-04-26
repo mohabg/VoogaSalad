@@ -140,58 +140,16 @@ public class ServerUtility {
         }
     }
 
-
-
-
     public void endSession(){
         myChannel.disconnect();
         mySession.disconnect();
 
     }
 
-
-    public static void main(String[] args) throws JSchException, SftpException, IOException {
-
-//
-//        java.util.Properties config = new java.util.Properties();
-//        config.put("StrictHostKeyChecking", "no");
-//
-//        JSch ssh = new JSch();
-//        Session session = ssh.getSession(login, hostname, 22);
-//        session.setConfig(config);
-//        session.setPassword(password);
-//        session.connect();
-//        Channel channel = session.openChannel("sftp");
-//        channel.connect();
-//
-//        ChannelSftp sftp = (ChannelSftp) channel;
-//        sftp.mkdir("newfolder");
-//        sftp.cd(directory);
-//        Vector files = sftp.ls("*");
-//        System.out.printf("Found %d files in dir %s%n", files.size(), directory);
-//        ArrayList<ChannelSftp.LsEntry> list = new ArrayList<>(files);
-//
-//        for (ChannelSftp.LsEntry file : list) {
-//            if (file.getAttrs().isDir()) {
-//                continue;
-//            }
-//            System.out.printf("Reading file : %s%n", file.getFilename());
-//            BufferedReader bis = new BufferedReader(new InputStreamReader(sftp.get(file.getFilename())));
-//            String line = null;
-//            while ((line = bis.readLine()) != null) {
-//                System.out.println(line);
-//            }
-//            bis.close();
-//        }
-
-
-    }
-
-
     private void signInDialog(){
         Dialog<Pair<String, String>> dialog = new Dialog<Pair<String,String>>();
-        dialog.setTitle("Login Dialog");
-        dialog.setHeaderText("Look, a Custom Login Dialog");
+        dialog.setTitle("Login to Server");
+        dialog.setHeaderText("Save to Server");
 
         ButtonType loginButtonType = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
