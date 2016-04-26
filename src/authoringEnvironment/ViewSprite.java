@@ -60,25 +60,16 @@ public class ViewSprite extends ImageView {
 		setImage(image);
 	}
 
-	// public void setMyHealth(double test){
-	// myHealth.setMyValue(test);
-	// }
-	//
-	// public double getMyHealth(){
-	// return myHealth.getMyValue();
-	// }
 
 	public String getMyImage() {
 		return myRef.getValue();
 	}
 
 	public double getHeight() {
-		// TODO Auto-generated method stub
 		return getImage().getHeight();
 	}
 
 	public double getWidth() {
-		// TODO Auto-generated method stub
 		return getImage().getWidth();
 
 	}

@@ -2,18 +2,8 @@
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import behaviors.Behavior;
-import collisions.Collision;
-import gameElements.Sprite;
+import java.util.*;
 
 public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
@@ -21,14 +11,11 @@ public class SubclassEnumerator {
 	
 	public static void main(String[] args) {
 		List<Class<?>> test = new ArrayList<Class<?>>();
-		
 		try {
 			test = getClasses(PACKAGE_NAME);
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		//findSubclasses(test, Collision.class);
 		for (Class<?> c : test) {
 			//System.out.println(c.getName());
 		}

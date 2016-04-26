@@ -78,7 +78,6 @@ public class GameLoader {
 		String saveFileDir = String.format(SAVED_FOLDER_DIRECTORY, name);
 		System.out.println("saved to " + saveFileDir);
 		String xml = xstream.toXML(gameLevels);
-
 		FileWriter fw;
 		try {
 			fw = new FileWriter(saveFileDir);

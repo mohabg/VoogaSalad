@@ -1,24 +1,17 @@
 package gameplayer;
 
-import HUD.HUDEnum;
-import HUD.HeadsUpDisplay;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
 import gameElements.Sprite;
-import highscoretable.HighScoreController;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import level.Level;
-import resources.FrontEndData;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,12 +67,9 @@ public class PlayScreen {
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
 		currentLevel.setSpriteFactory(sf);
 		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
-		activeSprites.addListener(new ListChangeListener<Integer>() {
-			@Override
-			public void onChanged(ListChangeListener.Change change) {
-				myView.setSprites(activeSprites);
-			}
-		});
+		activeSprites.addListener((ListChangeListener<Integer>) change -> {
+            myView.setSprites(activeSprites);
+        });
 
 		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 		myView.setSprites(activeSprites);
@@ -110,7 +100,6 @@ public class PlayScreen {
 	public void setKeys() {
 		myView.getPane().getScene().setOnKeyPressed(null);
 		myView.getPane().getScene().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			System.out.println("KEY PRESS");
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
