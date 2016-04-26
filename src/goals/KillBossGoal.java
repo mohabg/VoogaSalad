@@ -21,5 +21,11 @@ public class KillBossGoal extends Goal implements IGoal {
 	public void setBossIDList(List<Integer> bossIDList) {
 		this.bossIDList = bossIDList;
 	}
+	
+	@Override
+	public void acceptVisitor(IGoalVisitor visitor){
+		System.out.println("acceptpointsvisitor");
+		setIsFinished(visitor.visit(this));
+	}
 
 }

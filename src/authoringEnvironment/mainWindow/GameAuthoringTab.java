@@ -1,3 +1,4 @@
+
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.AESpriteFactory;
@@ -86,19 +87,12 @@ public class GameAuthoringTab implements ITab{
 		mySpriteMap = spriteMap;
 		myWindow = window;
         myLevelModel = new LevelModel();
-        setLevelProperties(levelID, tabName);
+//        setLevelProperties(levelID, tabName);
         
         mySpriteTabPanes = new HashMap<Sprite, TabPane>();
 		initArea();
 	}
 	
-	private void setLevelProperties(Integer levelID, String tabName){
-		LevelProperties p = myLevelModel.getMyProperties();
-		p.setLevelID(levelID);
-		p.setLevelName(tabName);
-		p.setPreviousLevel(levelID-1);
-		p.setNextLevel(levelID+1);
-	}
 
 	private void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();

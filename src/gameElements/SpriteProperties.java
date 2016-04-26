@@ -148,7 +148,6 @@ public class SpriteProperties {
     }
 
     public void setMyY(double myY) {
-    	System.out.println("setting " + myY);
         this.myY.set(myY);
     }
 
