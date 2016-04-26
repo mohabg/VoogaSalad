@@ -5,6 +5,7 @@ import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
+import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -23,11 +24,11 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite {
+public class Sprite implements ISprite{
+//    private spriteState state;
 
 	private SpriteProperties myProperties;
 	private Health myHealth;
-
 	private ListProperty<Collision> myCollisions;
 
 	private MapProperty<StringProperty, Behavior> behaviors;
@@ -109,7 +110,7 @@ public class Sprite {
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		this(myRef);
-		
+		// this.state=spriteState;
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
 		Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
 		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
@@ -356,6 +357,7 @@ public class Sprite {
 			}
 		}
 	}
+	
 	private Map<StringProperty, Behavior> changeKeysToProperties(Map<String, Behavior> myBehaviors) {
 		Map<StringProperty, Behavior> testMap = new HashMap<StringProperty, Behavior>();
 		for(String key : myBehaviors.keySet()) {
@@ -363,4 +365,13 @@ public class Sprite {
 		}
 		return testMap;
 	}
+/*
+	public spriteState getState(){
+		return this.state;
+	}
+	
+	public void setState(spriteState spriteState){
+		this.state=spriteState;
+	}
+*/	
 }

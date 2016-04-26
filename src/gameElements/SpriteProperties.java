@@ -1,5 +1,6 @@
 package gameElements;
 
+import gameElements.ISprite.spriteState;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +41,8 @@ public class SpriteProperties {
         myRightLimit=new SimpleDoubleProperty(590);
         myUpLimit=new SimpleDoubleProperty(850);
         myDownLimit=new SimpleDoubleProperty(0);
-
-//        myX.set(0);
-//        myY.set(0);
-//        myWidth.set(0);
-//        myHeight.set(0);
-//        myAngle.set(0);
+        
+        
     }
 
     public SpriteProperties(double x, double y, double width, double height, double angle){
@@ -263,8 +260,16 @@ public class SpriteProperties {
 	public void setMyYUpLimit(DoubleProperty myYUpLimit) {
 		this.myUpLimit = myYUpLimit;
 	}
+/*
+	public spriteState getState() {
+		return state;
+	}
 
-	
+	public void setState(spriteState state) {
+		this.state = state;
+	}
+
+*/	
 
 
 
