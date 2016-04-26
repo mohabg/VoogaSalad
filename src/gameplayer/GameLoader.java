@@ -10,6 +10,8 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import XStreamHandlers.FXConverters;
 import gameElements.Sprite;
+import goals.Goal.Goals;
+import goals.GoalProperties;
 import interfaces.ITab;
 import interfaces.ITabPane;
 import javafx.scene.control.TextField;
@@ -50,8 +52,9 @@ public class GameLoader {
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
 
-	public GameLoader() {
+	public static void init() {
 		FXConverters.configure(xstream);
+
 	}
 
 	/**
@@ -61,7 +64,7 @@ public class GameLoader {
 	 *            the file containing the game
 	 * @return the screen with the game
 	 */
-	public Screen newGame(File file) {
+	public static Screen newGame(File file) {
 		List<LevelModel> gameLevels = parseAndLoadGame(file);
 		PlayScreen ps = new PlayScreen(file);
 		ps.setGameLevels(gameLevels);
@@ -75,25 +78,14 @@ public class GameLoader {
 	 * @param gameLevels
 	 */
 
-	public static void saveGame(ITabPane tabLevels) {
-		saveGame(levelTabsToModels(tabLevels));
+	public static void saveGame(String name, ITabPane tabLevels) {
+		saveGame(name, levelTabsToModels(tabLevels));
 
 	}
-	public static void savePlayedGame(Collection<Level> levels){
-		List<LevelModel> gameLevels = levels.stream()
-				.map(l->new LevelModel(l)).collect(Collectors.toList());
-		saveGame(gameLevels);
-	}
 
-	public static void saveGame(List<LevelModel> gameLevels) {
-		FXConverters.configure(xstream);
-
-		TextInputDialog dialog = new TextInputDialog("my-game");
-		dialog.setContentText("Please enter your game's name:");
-		Optional<String> result = dialog.showAndWait();
-
-		result.ifPresent(name -> saveGame(String.format(SAVED_FOLDER_DIRECTORY, name), gameLevels));
-
+	public static void savePlayedGame(String name, Collection<Level> levels) {
+		List<LevelModel> gameLevels = levels.stream().map(l -> new LevelModel(l)).collect(Collectors.toList());
+		saveGame(name, gameLevels);
 	}
 
 	/**
@@ -103,12 +95,9 @@ public class GameLoader {
 	 * @param gameLevels
 	 */
 	// TODO MIGHT WANT TO ASK FOR FILENAME HERE
-	private static void saveGame(String saveFileDir, List<LevelModel> gameLevels) {
+	private static void saveGame(String name, List<LevelModel> gameLevels) {
+		String saveFileDir = String.format(SAVED_FOLDER_DIRECTORY, name);
 		System.out.println("saved to " + saveFileDir);
-		FXConverters.configure(xstream);
-		// BufferedOutputStream stdout = new BufferedOutputStream(System.out);
-		// xstream.marshal(gameLevels, new PrettyPrintWriter(new
-		// OutputStreamWriter(stdout)));
 		String xml = xstream.toXML(gameLevels);
 
 		FileWriter fw;
@@ -128,17 +117,12 @@ public class GameLoader {
 	 *            implement ITabPane
 	 * @return list of LevelModel
 	 */
-	// TODO FIND A WAY TO CHECK IF THE TABPANE ACTUALLY CORRESPONDS TO LEVELS
 	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
-		// FXConverters.configure(xstream);
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (ITab levelTab : levels.getITabs()) {
-
-			Map<ViewSprite, Sprite> spriteModels = ((GameAuthoringTab) levelTab).getMap();
-			LevelModel newLM = new LevelModel(spriteModels);
+			LevelModel newLM = new LevelModel(((GameAuthoringTab) levelTab).getList());
 			levelModelList.add(newLM);
-			System.out.println("items in tab: " + spriteModels.size());
 		}
 		return levelModelList;
 	}
@@ -150,34 +134,51 @@ public class GameLoader {
 	 *            xml file
 	 * @return list of LevelModel
 	 */
-	public List<LevelModel> parseAndLoadGame(File file) {
+	public static List<LevelModel> parseAndLoadGame(File file) {
 		return (List<LevelModel>) xstream.fromXML(file);
 	}
 
 	// TODO: TALK ABOUT STATIC IN GAMELOADER????
 	public static Map<Level, Map<Integer, ViewSprite>> makeLevelViewSpriteMap(List<LevelModel> gameLevels) {
-        Map<Level, Map<Integer, ViewSprite>> myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
-       
-        gameLevels.forEach(lm -> {
-            Level newLevel = new Level();
-//            newLevel.setLevelProperties(lm.getMyProperties);
+		Map<Level, Map<Integer, ViewSprite>> myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
 
-            newLevel.setLevelProperties(new LevelProperties());
-            
-            myViewSprites.put(newLevel,setLevelSprites(newLevel, lm.getMyMap()) );
-        });
-        return myViewSprites;
-        
-    }
-	private static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, Map<ViewSprite, Sprite> spriteList) {
+		gameLevels.forEach(lm -> {
+			Level newLevel = new Level();
+			LevelProperties lp = newLevel.getLevelProperties();
+			setLevelProperties(lp,1,"level1");
+			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
+			lp.setNumGoals(lm.getNumGoals());
+//			lp.setKeyMapping(lm.getMyKeyMap());
+			myViewSprites.put(newLevel, setLevelSprites(newLevel, lm.getMySpriteList()));
+		});
+		return myViewSprites;
+
+	}
+
+	private static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, List<Sprite> list) {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
 		AESpriteFactory sf = new AESpriteFactory();
-		spriteList.values().forEach(s -> {
+		list.forEach(s -> {
+			if (s.isUserControlled()) {
+				s.setAsUserControlled();
+			}
 			newLevel.addSprite(s);
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
 
 		});
-        newLevel.getSpriteMap().get(newLevel.getCurrentSpriteID()).setAsUserControlled();
 		return viewsprites;
+	}
+
+	public static Screen newGame(String name) {
+		File file = new File(String.format(SAVED_FOLDER_DIRECTORY, name));
+		return newGame(file);
+	}
+	
+
+	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
+		p.setLevelID(levelID);
+		p.setLevelName(tabName);
+//		p.setPreviousLevel(levelID-1);
+//		p.setNextLevel(levelID+1);
 	}
 }

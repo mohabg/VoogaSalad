@@ -4,7 +4,7 @@ import gameElements.Sprite;
 
 public interface IKeyboardAction {
 
-	enum KeyboardActions {
+	public enum KeyboardActions {
 		MoveLeft,
 		MoveRight,
 		MoveUp,

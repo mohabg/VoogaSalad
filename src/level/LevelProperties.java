@@ -1,12 +1,16 @@
 package level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import gameElements.Score;
 import collisions.Collision;
 import gameElements.Sprite;
 import gameElements.Time;
+import goals.Goal.Goals;
+import goals.GoalProperties;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -26,29 +30,36 @@ public class LevelProperties {
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;
 	private IntegerProperty previousLevel;
-	private Score score;
-	private Time time;
 	private IntegerProperty numGoals;
+	private Score score;
 	private Map<KeyCode, KeyboardActions> keyMapping;
+	private List<GoalProperties> goalProperties;
 	private Sprite[] collidingSprites;
 
 	public LevelProperties() {
 		score = new Score();
-		levelID = new SimpleIntegerProperty();
-		levelName = new SimpleStringProperty();
-		nextLevel = new SimpleIntegerProperty();
-		previousLevel = new SimpleIntegerProperty();
-		numGoals = new SimpleIntegerProperty();
+		// score = new SimpleIntegerProperty();
+		/* 
+		setLevelID(0);
+		setLevelName("");
+		setNextLevel(1);
+		setPreviousLevel(-1);
+		setCurrentPoints(0);
+		setNumGoals(1);
+		*/
+		levelID = new SimpleIntegerProperty(0);
+		levelName = new SimpleStringProperty("");
+		nextLevel = new SimpleIntegerProperty(1);
+		previousLevel = new SimpleIntegerProperty(-1);
+		numGoals = new SimpleIntegerProperty(1);
+		System.out.println("numGoals hardcode" + numGoals);
+		goalProperties = new ArrayList();
+		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 		myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
-		setLevelID(0);
-		setLevelName("");
-		setNextLevel(-1);
-		setPreviousLevel(-1);
-		setCurrentPoints(0);
-		setNumGoals(1);
+		
 		collidingSprites = new Sprite[2];
 	}
 
@@ -63,10 +74,11 @@ public class LevelProperties {
 		numGoals.set(numberOfGoals);
 		collidingSprites = new Sprite[2];
 	}
-	
-	private void defaultLevelPropertyInit(){
+
+	private void defaultLevelPropertyInit() {
 		collidingSprites = new Sprite[2];
 	}
+
 	public void setCollidingSprites(Sprite one, Sprite two) {
 		collidingSprites[0] = one;
 		collidingSprites[1] = two;
@@ -90,7 +102,7 @@ public class LevelProperties {
 	}
 
 	public void setLevelID(Integer levelID) {
-		this.levelID.set(0);
+		this.levelID.set(levelID);
 	}
 
 	public String getLevelName() {
@@ -117,8 +129,13 @@ public class LevelProperties {
 		this.previousLevel.set(previousLevel);
 	}
 
+	public Score getScoreObject() {
+		return this.score;
+	}
+
 	public Integer getCurrentPoints() {
-		return score.getScoreValue().get();
+		// return score.getScoreValue().get();
+		return getScore().getValue();
 	}
 
 	public void setCurrentPoints(Integer currentPoints) {
@@ -133,26 +150,42 @@ public class LevelProperties {
 		this.numGoals.set(numGoals);
 	}
 
-	public Time getTime() {
-		return time;
-	}
-
-	public void setTime(Time time) {
-		this.time = time;
-	}
-
 	public KeyboardActions getKeyboardAction(KeyCode key) {
 		if (!keyMapping.keySet().contains(key))
 			return KeyboardActions.Default;
 		return keyMapping.get(key);
 	}
 
-	public Score getScore() {
-		return score;
+	/*
+	 * public IntegerProperty getScore() { return
+	 * getScoreObject().getScoreValue(); }
+	 * 
+	 * public void addScore(int val){ getScoreObject().addScore(val); }
+	 */
+	public List<GoalProperties> getGoalProperties() {
+		return goalProperties;
 	}
 
-	public void setScore(Score score) {
-		this.score = score;
+	public void setGoalProperties(List<GoalProperties> goalProperties) {
+		this.goalProperties = goalProperties;
 	}
 
+	/*
+	 * public void setScore(Score score) { this.score = score; }
+	 */
+	public IntegerProperty getScore() {
+		return getScoreObject().getScoreValue();
+	}
+
+	public void addScore(int val) {
+		getScoreObject().addScore(val);
+	}
+
+	public Map<KeyCode, KeyboardActions> getKeyMapping() {
+		return keyMapping;
+	}
+
+	public void setKeyMapping(Map<KeyCode, KeyboardActions> keyMapping) {
+		this.keyMapping = keyMapping;
+	}
 }

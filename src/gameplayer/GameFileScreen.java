@@ -24,15 +24,10 @@ import java.util.stream.Collectors;
 public abstract class GameFileScreen extends Screen {
     private File myGameFile;
     private TabPane tabPane;
-    
-    
-    
-    private GameLoader myGameLoader;
-    
+        
     public GameFileScreen() {
         super();
         tabPane = new TabPane();
-        setMyGameLoader(new GameLoader());
         // Settings.setGamePlayingSettings((Pane) tabPane);
         initTabs();
     }
@@ -89,7 +84,7 @@ public abstract class GameFileScreen extends Screen {
         });
         myButton.setPrefHeight(FrontEndData.BUTTON_SIZE);
         myButton.setPrefWidth(FrontEndData.BUTTON_SIZE);
-        myButton.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
+        myButton.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
         myButton.setId("button-style");
         return new VBox(myButton);
         
@@ -101,12 +96,5 @@ public abstract class GameFileScreen extends Screen {
         return myGameFile;
     }
     
-    public GameLoader getMyGameLoader() {
-        return myGameLoader;
-    }
-    
-    public void setMyGameLoader(GameLoader myGameLoader) {
-        this.myGameLoader = myGameLoader;
-    }
 
 }
