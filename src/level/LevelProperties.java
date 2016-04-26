@@ -39,23 +39,27 @@ public class LevelProperties {
 	public LevelProperties() {
 		score = new Score();
 		// score = new SimpleIntegerProperty();
-		levelID = new SimpleIntegerProperty();
-		levelName = new SimpleStringProperty();
-		nextLevel = new SimpleIntegerProperty();
-		previousLevel = new SimpleIntegerProperty();
-		numGoals = new SimpleIntegerProperty();
-		goalProperties = new ArrayList();
-		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
-		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
-		myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
-		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
-		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
+		/* 
 		setLevelID(0);
 		setLevelName("");
 		setNextLevel(1);
 		setPreviousLevel(-1);
 		setCurrentPoints(0);
 		setNumGoals(1);
+		*/
+		levelID = new SimpleIntegerProperty(0);
+		levelName = new SimpleStringProperty("");
+		nextLevel = new SimpleIntegerProperty(1);
+		previousLevel = new SimpleIntegerProperty(-1);
+		numGoals = new SimpleIntegerProperty(1);
+		System.out.println("numGoals hardcode" + numGoals);
+		goalProperties = new ArrayList();
+		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
+		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
+		myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
+		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
+		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
+		
 		collidingSprites = new Sprite[2];
 	}
 

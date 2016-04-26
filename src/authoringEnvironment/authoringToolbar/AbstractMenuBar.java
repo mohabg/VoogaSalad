@@ -20,7 +20,7 @@ public abstract class AbstractMenuBar {
 		MenuBarElement myBackMenu = new MenuBarElement();
 		myBackMenu.setName(FrontEndData.ButtonLabels.getString("BackMenu"));
 		myBackMenu.setNewAction(FrontEndData.ButtonLabels.getString("BackMenu1"), e -> {
-			mainAuthoringWindow.returnToParentScreen();
+			mainAuthoringWindow.returnToStart();
 		});
 		return myBackMenu;
 	}
