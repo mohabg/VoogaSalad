@@ -56,7 +56,7 @@ public class LevelProperties {
 		goalProperties = new ArrayList();
 		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
-		myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
+	//	myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		
@@ -148,6 +148,10 @@ public class LevelProperties {
 
 	public void setNumGoals(Integer numGoals) {
 		this.numGoals.set(numGoals);
+	}
+	
+	public void setKeyboardAction(KeyCode code, KeyboardActions action){
+		keyMapping.put(code, action);
 	}
 
 	public KeyboardActions getKeyboardAction(KeyCode key) {

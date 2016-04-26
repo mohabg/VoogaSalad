@@ -23,6 +23,7 @@ public abstract class Movement extends Behavior{
 	public Movement(double value){
 		super();
 		this.value = new SimpleDoubleProperty(value);
+		this.getBehaviorConditions().setProbability(1);
 	}
 	
 	public double getValue(){

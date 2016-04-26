@@ -82,7 +82,8 @@ public class Level implements ILevel {
 
 	}
 	// public Level()
-
+	
+	
 	public List<Goal> getGoalList() {
 		return goalList;
 	}
@@ -225,17 +226,17 @@ public class Level implements ILevel {
 			goal.acceptVisitor(goalChecker);
 		//	System.out.println("comes here");
 			if (goal.isFinished()){
-				System.out.println("goal is finished");
+	//			System.out.println("goal is finished");
 				goalCount++;
 				deleteGoals.add(goal);
 			}
 		}
 		goalList.removeAll(deleteGoals);
 		
-		System.out.println(goalCount + "goalCount");
+//		System.out.println(goalCount + "goalCount");
 		
-		System.out.println("num goals"+getLevelProperties().getNumGoals());
-		System.out.println(goalCount >= getLevelProperties().getNumGoals());
+//		System.out.println("num goals"+getLevelProperties().getNumGoals());
+//		System.out.println(goalCount >= getLevelProperties().getNumGoals());
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
 
@@ -249,10 +250,14 @@ public class Level implements ILevel {
 			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
-			spriteMap.get(spriteID).update(this.mySpriteFactory);
-			if (!spriteMap.get(spriteID).isUserControlled()
-					&& spriteMap.get(spriteID).getBehaviors().get("default") != null) {
-				spriteMap.get(spriteID).getBehaviors().get("default").apply(spriteMap.get(spriteID), mySpriteFactory);
+			Sprite sprite=spriteMap.get(spriteID);
+			sprite.update(this.mySpriteFactory);
+		//	System.out.println("reach sprite update (increases x and y coordinates)");
+			this.getPhysicsEngine().updateSprite(sprite);
+		//	System.out.println("reach physics engine (decreases velocity based on drag");
+			if (!sprite.isUserControlled()
+					&& sprite.getBehaviors().get("default") != null) {
+				sprite.getBehaviors().get("default").apply(sprite, mySpriteFactory);
 			}
 
 			removeDeadSprite(spriteID, spriteList);
@@ -319,6 +324,11 @@ public class Level implements ILevel {
 
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
+			System.out.println(key.getCode() + "keycode");
+			System.out.println(behavior.toString());
+			System.out.println("angle"+currentSprite.getAngle());
+			System.out.println("xVel, x" + " " + currentSprite.getX() +" " + currentSprite.getSpriteProperties().getMyXvel());
+			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());
 			if (behavior != null) {
 				if (enable) {
 					behavior.enable();
@@ -353,7 +363,7 @@ public class Level implements ILevel {
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-		System.out.println("FINAL RESULT" + getisFinished());
+//		System.out.println("FINAL RESULT" + getisFinished());
 //		System.out.println("completeGoals" + completeGoals());
 //		System.out.println("isFinished" + getisFinished());
 		// return deadSprites;
@@ -389,6 +399,16 @@ public class Level implements ILevel {
 
 	public void setTime(Time time) {
 		this.time = time;
+	}
+
+
+	public PhysicsEngine getPhysicsEngine() {
+		return physicsEngine;
+	}
+
+
+	public void setPhysicsEngine(PhysicsEngine physicsEngine) {
+		this.physicsEngine = physicsEngine;
 	}
 
 }
