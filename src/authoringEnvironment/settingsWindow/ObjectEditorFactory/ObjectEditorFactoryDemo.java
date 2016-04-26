@@ -26,6 +26,7 @@ public class ObjectEditorFactoryDemo extends Application {
 		myModel.getMyX().addListener((o, ov, nv) -> {
 			System.out.println("i changed my value to " + nv.doubleValue());
 		});
+		
 		TabPane modelSettings = myFactory.getMyTabs(myModel);
 		
 		Scene demoScene = new Scene(modelSettings, 800, 800);

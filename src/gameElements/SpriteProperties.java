@@ -16,7 +16,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class SpriteProperties {
 	@IgnoreField
 	private int TEST;
-	@IgnoreField
+	//@IgnoreField
     private DoubleProperty myX;
     private DoubleProperty myY;
     private DoubleProperty myXvel;
