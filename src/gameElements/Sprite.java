@@ -5,6 +5,7 @@ import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
+import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -24,7 +25,8 @@ import java.util.*;
  */
 
 public class Sprite implements ISprite{
-	 
+//    private spriteState state;
+
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
@@ -107,7 +109,7 @@ public class Sprite implements ISprite{
 	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		this(myRef);
-		
+		// this.state=spriteState;
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
 		Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
 		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
@@ -142,9 +144,8 @@ public class Sprite implements ISprite{
 	public void thrustSprite(DoubleProperty intensity) {
 		double currentXVelocity = getSpriteProperties().getMyXvel().doubleValue();
 		double currentYVelocity = getSpriteProperties().getMyYvel().doubleValue();
-		this.getSpriteProperties().setMyXvel(currentXVelocity + Math.sin(this.getAngle().getValue()) * intensity.getValue());
-		this.getSpriteProperties().setMyYvel(currentYVelocity + Math.cos(this.getAngle().getValue()) * intensity.getValue());
-
+		this.getSpriteProperties().setMyXvel(currentXVelocity + (Math.sin(-1*Math.toRadians(this.getAngle().getValue())) * intensity.getValue()));
+		this.getSpriteProperties().setMyYvel(currentYVelocity + (Math.cos(-1*Math.toRadians(this.getAngle().getValue())) * intensity.getValue()));
 	}
 
 
@@ -371,12 +372,13 @@ public class Sprite implements ISprite{
 		}
 		return testMap;
 	}
-	
+/*
 	public spriteState getState(){
-		return this.getSpriteProperties().getState();
+		return this.state;
 	}
 	
-	public void setState(spriteState state){
-		this.getSpriteProperties().setState(state);
+	public void setState(spriteState spriteState){
+		this.state=spriteState;
 	}
+*/	
 }

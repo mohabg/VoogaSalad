@@ -25,7 +25,6 @@ public class SpriteProperties {
     private DoubleProperty myRightLimit;
     private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
-    private spriteState state;
     private List<SpriteProperties> myClones;
     
     public SpriteProperties(){
@@ -261,7 +260,7 @@ public class SpriteProperties {
 	public void setMyYUpLimit(DoubleProperty myYUpLimit) {
 		this.myUpLimit = myYUpLimit;
 	}
-
+/*
 	public spriteState getState() {
 		return state;
 	}
@@ -270,7 +269,7 @@ public class SpriteProperties {
 		this.state = state;
 	}
 
-	
+*/	
 
 
 
