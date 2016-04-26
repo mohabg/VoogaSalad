@@ -107,7 +107,7 @@ public class Engine {
     public void gameLoop() {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
     	myGameTime = new Time();
-    //	System.out.println("gamem loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
+    //	System.out.println("game loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {

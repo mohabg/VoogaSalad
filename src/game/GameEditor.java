@@ -79,8 +79,8 @@ public class GameEditor implements IGameEditor {
 		//System.out.println(myGame.getCurrentLevel().getGoalList().size() + "size of goal list");
 		// List<Integer> dead =
 		myGame.getCurrentLevel().update();
-//		if (myGame.getCurrentLevel().getisFinished())
-//			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
+		if (myGame.getCurrentLevel().getisFinished())
+			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
 		// return dead;
 	}
 

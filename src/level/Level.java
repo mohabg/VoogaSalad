@@ -16,6 +16,7 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.EnemyCollision;
+import events.EventManager;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -62,7 +63,7 @@ public class Level implements ILevel {
 	private int goalCount;
 	private boolean isFinished;
 	private SpriteFactory mySpriteFactory;
-	
+	private EventManager myEventManager;
 
 	public Level() {
 
@@ -75,6 +76,7 @@ public class Level implements ILevel {
 		goalCount = 0;
 		isFinished = false;
 		currentSpriteID = 0;
+		myEventManager = new EventManager();
 	//	System.out.println("goalListSize"+ goalList.size());
 	//	System.out.println("level constructor find numgoals" + levelProperties.getNumGoals());
 		populateGoals();
