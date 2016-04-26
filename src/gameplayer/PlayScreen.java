@@ -139,10 +139,10 @@ public class PlayScreen extends Screen {
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+		/*myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
 			currentLevel.handleKeyRelease(key);
 			key.consume();
-		});
+		});*/
 	}
 	
 	public void makeHighScoreTable(){
