@@ -25,7 +25,7 @@ public class GoalFactory {
 		Goal goal=null;
 		String goalType = myProperties.getGoalName();
 		try{
-			System.out.println(path+goalType);
+			// System.out.println(path+goalType);
  
 			Class<?> goalClass= Class.forName(path+goalType);
 			try{
@@ -45,7 +45,7 @@ public class GoalFactory {
 			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
 			goal=new PointsGoal(property);
 		}
-		System.out.println(goal.getGoal().name());
+		// System.out.println(goal.getGoal().name());
 
 		return goal;
 	}

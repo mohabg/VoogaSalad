@@ -142,7 +142,7 @@ public class SpriteProperties {
     }
 
     public void setMyAngle(double myAngle) {
-        this.myAngle.set(myAngle);
+        this.myAngle.set(myAngle % 360);
     }
     public void setMyAngleProperty(DoubleProperty myAngle) {
        this.myAngle = myAngle;

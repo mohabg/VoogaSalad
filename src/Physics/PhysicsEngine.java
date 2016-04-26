@@ -26,7 +26,7 @@ public class PhysicsEngine {
 		}
 	}
 
-	// should this be private
+/*	// should this be private
 	public void thrustSprite(Sprite sprite, DoubleProperty intensity) {
 		sprite.getSpriteProperties().setMyXvelProperty(
 				new SimpleDoubleProperty(Math.sin(sprite.getAngle().getValue() * intensity.getValue())));
@@ -34,7 +34,7 @@ public class PhysicsEngine {
 				new SimpleDoubleProperty(Math.cos(sprite.getAngle().getValue() * intensity.getValue())));
 
 	}
-
+*/
 	// should this be private
 	// update method should not update sprite positions
 	public void updateSprite(Sprite sprite) {
@@ -54,18 +54,18 @@ public class PhysicsEngine {
 
 	private void updateXVelocity(Sprite sprite) {
 		//DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyXvel().getValue() + sprite.getX().getValue());
-		DoubleProperty newXVelocity = new SimpleDoubleProperty(
-		sprite.getSpriteProperties().getMyXvel().getValue() * getDrag().getValue());
+		
+		double newXVel= sprite.getSpriteProperties().getMyXvel().getValue() * getDrag().getValue();
 	//	sprite.setX(newLocation);
-		sprite.getSpriteProperties().setMyXvelProperty(newXVelocity);
+		sprite.getSpriteProperties().setMyXvel(newXVel);
 
 	}
 
 	private void updateYVelocity(Sprite sprite) {
 	//	DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyYvel().getValue() + sprite.getY().getValue());
-		DoubleProperty newYVelocity = new SimpleDoubleProperty();
+		double newYVel = sprite.getSpriteProperties().getMyYvel().getValue() * getDrag().getValue();
 	//	sprite.setY(newLocation);
-		sprite.getSpriteProperties().setMyYvelProperty(newYVelocity);
+		sprite.getSpriteProperties().setMyYvel(newYVel);
 
 	}
 
