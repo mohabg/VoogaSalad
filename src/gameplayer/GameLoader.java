@@ -1,37 +1,21 @@
 package gameplayer;
 
+import XStreamHandlers.FXConverters;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.mainWindow.GameAuthoringTab;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import XStreamHandlers.FXConverters;
 import gameElements.Sprite;
-import goals.Goal.Goals;
-import goals.GoalProperties;
 import interfaces.ITab;
 import interfaces.ITabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import level.Level;
 import level.LevelProperties;
 
-import javafx.scene.control.TextInputDialog;
-
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -70,7 +54,7 @@ public class GameLoader {
 	/**
 	 * saves a list of levelmodels to a default directory
 	 *
-	 * @param gameLevels
+	 * @param tabLevels
 	 */
 
 	public static void saveGame(String name, ITabPane tabLevels) {
@@ -86,7 +70,7 @@ public class GameLoader {
 	/**
 	 * saves levelmodels to a user defined directory
 	 *
-	 * @param saveFileDir
+	 * @param name
 	 * @param gameLevels
 	 */
 	// TODO MIGHT WANT TO ASK FOR FILENAME HERE

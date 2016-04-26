@@ -1,9 +1,5 @@
 package authoringEnvironment;
 
-import authoringEnvironment.authoringToolbar.AbstractMenuBar;
-/**
- * @author David Yan, Joe Jacob, Huijia Yu
- */
 import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
 import authoringEnvironment.authoringToolbar.LEMenuBarCreator;
 import authoringEnvironment.itemWindow.ItemWindow;
@@ -11,11 +7,13 @@ import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.PlayScreen;
 import gameplayer.Screen;
-import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
+import resources.FrontEndData;
 
-import java.awt.*;
-import java.io.File;
+/**
+ * @author David Yan, Joe Jacob, Huijia Yu
+ */
 
 public class MainAuthoringWindow extends Screen {
     private ItemWindow myItemWindow;
@@ -26,55 +24,39 @@ public class MainAuthoringWindow extends Screen {
     
     public MainAuthoringWindow(Screen parent, String gameName) {
         super(parent);
-        myPane = new BorderPane();
-        
-        mySettingsWindow = new SettingsWindow();
-        myPane.setStyle("-fx-background-color: #121b3e;");
-        
-        myGameMakerWindow = new GameMakerWindow();
-        
-        //		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
-        //		le = new Project1(new File(PATH), mySettingsWindow);
-        
+        initBorderPane();
         myItemWindow = new ItemWindow(myGameMakerWindow);
-        //		myItemWindow = new ItemWindow(le);
-        
-        
         AuthoringMenubarCreator myMenubar = new AuthoringMenubarCreator(gameName);
         myMenubar.initMenuBar(this, myGameMakerWindow);
         myGameMakerWindow.init(mySettingsWindow);
         
-        //		((BorderPane) myPane).setCenter(le.getMyNewGamePane());
         ((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
-        ((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
-        ((BorderPane) myPane).setTop(myMenubar.getMenuBar());
-        ((BorderPane) myPane).setRight(mySettingsWindow.getBox());
-        // mySettingsWindow.setContent();
+        setupScreen(myMenubar.getMenuBar());
         
-        
-    }public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
-        super(parent);
+    }
+
+    private void initBorderPane() {
         myPane = new BorderPane();
-        
         mySettingsWindow = new SettingsWindow();
-        myPane.setStyle("-fx-background-color: #121b3e;");
-        
+        myPane.getStylesheets().add(FrontEndData.STARTING_STYLESHEET);
         myGameMakerWindow = new GameMakerWindow();
-        
-        //		String PATH = "/Users/Huijia/Documents/workspace/voogasalad_TheDuballers/SavedGameData/SavedGames/a.xml";
+    }
+
+    private void setupScreen(MenuBar menuBar) {
+        ((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
+        ((BorderPane) myPane).setTop(menuBar);
+        ((BorderPane) myPane).setRight(mySettingsWindow.getBox());
+    }
+
+    public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
+        super(parent);
+        initBorderPane();
         le = new Project1(myPlayScreen, mySettingsWindow);
-        
         myItemWindow = new ItemWindow(le);
-        
         LEMenuBarCreator myMenubar = new LEMenuBarCreator(gameName);
         myMenubar.initMenuBar(this, le);
-        
         ((BorderPane) myPane).setCenter(le.getMyNewGamePane());
-        ((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
-        ((BorderPane) myPane).setTop(myMenubar.getMenuBar());
-        ((BorderPane) myPane).setRight(mySettingsWindow.getBox());
-        
-        
+        setupScreen(myMenubar.getMenuBar());
     }
     
     public GameMakerWindow getGameMakerWindow() {

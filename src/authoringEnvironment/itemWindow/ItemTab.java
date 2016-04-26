@@ -27,21 +27,20 @@ public  class ItemTab implements ITab{
     public ItemTab() {
         myTab = new Tab();
         myTilePane = new TilePane();
+        Settings.setTilePaneSettings(myTilePane);
+        IMAGE_HEIGHT = myTilePane.getTileHeight() - OFFSET;
     }
     /** 
      * this adds the sprites to the tab
      * @param list
      */
     public void populateTab(List<ImageView> list){
-        Settings.setTilePaneSettings(myTilePane);
-        IMAGE_HEIGHT = myTilePane.getTileHeight() - OFFSET;
         list.forEach(viewSprite -> {
             viewSprite.setFitHeight(IMAGE_HEIGHT);
             viewSprite.setPreserveRatio(true);
             myTilePane.getChildren().add(viewSprite);
         });
-        myTilePane.setId(FrontEndData.TILEPANE);
-        myTilePane.getStylesheets().add(FrontEndData.STYLESHEET);
+        myTilePane.getStylesheets().add(FrontEndData.TILEPANE);
         setTabContent(myTilePane);
     }
 
