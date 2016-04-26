@@ -146,9 +146,5 @@ public class Engine {
     public void setResultForKeyPress(KeyEvent event) {
     	myEditor.setResultForKeyPress(event);
     }
-    
-    public void setResultForKeyRelease(KeyEvent event) {
-    	myEditor.setResultForKeyRelease(event);
-    }
 
 }

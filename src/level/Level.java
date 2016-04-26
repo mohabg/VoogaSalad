@@ -77,10 +77,7 @@ public class Level implements ILevel {
 		isFinished = false;
 		currentSpriteID = 0;
 		myEventManager = new EventManager();
-	//	System.out.println("goalListSize"+ goalList.size());
-	//	System.out.println("level constructor find numgoals" + levelProperties.getNumGoals());
 		populateGoals();
-		// System.out.println("goalListSize"+ goalList.size());
 
 	}
 	// public Level()
@@ -271,8 +268,8 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-
-		CollisionHandler collisionHandler = new CollisionHandler();
+		
+		myEventManager.setCollisionHandler(new CollisionHandler());
 		CollisionChecker checker = new CollisionChecker();
 		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
@@ -290,7 +287,7 @@ public class Level implements ILevel {
 
 					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
+							myEventManager.applyCollision(collisionSpriteOne, collisionSpriteTwo,
 									getLevelProperties());
 
 						}
@@ -303,9 +300,6 @@ public class Level implements ILevel {
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		System.out.println(key.getCode() + key.getCharacter());
-		//System.out.println("goal list keyboard" + goalList.size());
-		// System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+
-		// " "+goalList.get(0).getGoal().name());
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
@@ -314,11 +308,6 @@ public class Level implements ILevel {
 		if (currentSprite == null) {
 			return;
 		}
-		// System.out.println("X: " + currentSprite.getX().doubleValue());
-		// System.out.println("Y: " + currentSprite.getY().doubleValue());
-		// System.out.println("HEALTH:
-		// "+currentSprite.getHealth().getHealthValue());
-
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
 			if (behavior != null) {
@@ -347,18 +336,10 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	// public List<Integer> update() {
 	public void update() {
-//		System.out.println("isFinishedOG" + getisFinished());
-
-	//	System.out.println("update" + goalList.size());
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-		System.out.println("FINAL RESULT" + getisFinished());
-//		System.out.println("completeGoals" + completeGoals());
-//		System.out.println("isFinished" + getisFinished());
-		// return deadSprites;
 
 	}
 
@@ -366,14 +347,8 @@ public class Level implements ILevel {
 	 * This method handles Key Press Events.
 	 */
 	public void handleKeyPress(KeyEvent key) {
-		handleKeyboardAction(key, true);
-	}
-
-	/**
-	 * This method handles Key Release Events.
-	 */
-	public void handleKeyRelease(KeyEvent key) {
-		handleKeyboardAction(key, false);
+		//handleKeyboardAction(key, true);
+		myEventManager.keyEvent(key);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
