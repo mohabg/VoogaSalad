@@ -1,6 +1,7 @@
 package authoringEnvironment.authoringToolbar;
 
 import authoringEnvironment.MainAuthoringWindow;
+import authoringEnvironment.Project1;
 import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.MainPlayingWindow;
@@ -18,16 +19,13 @@ import resources.FrontEndData;
  * @author Huijia, David Yan, Joe Jacob
  *
  */
-public class AuthoringMenubarCreator {
-	private MenuBar myMenuBar;
-	private String myName;
+public class AuthoringMenubarCreator extends AbstractMenuBar{
 
 	// TODO SWITCH TO REFLECTION
 
 
 	public AuthoringMenubarCreator(String gameName) {
-		myMenuBar = new MenuBar();
-		myName = gameName;
+		super(gameName);
 	}
 
 	/**
@@ -46,15 +44,9 @@ public class AuthoringMenubarCreator {
 		myMenuBar.getStylesheets().add("authoringEnvironment/authoringToolbar/authoringToolbar.css");
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
 	}
+	
+	
 
-    private MenuBarElement getBackMenu(MainAuthoringWindow mainAuthoringWindow) {
-    	MenuBarElement myBackMenu = new MenuBarElement();
-        myBackMenu.setName(FrontEndData.ButtonLabels.getString("BackMenu"));
-        myBackMenu.setNewAction(FrontEndData.ButtonLabels.getString("BackMenu1"), e -> {
-            mainAuthoringWindow.returnToParentScreen();
-        });
-        return myBackMenu;
-    }
 
     private MenuBarElement getFileMenu(ITabPane window) {
     	MenuBarElement myFileMenuMaker = new MenuBarElement();
@@ -92,7 +84,7 @@ public class AuthoringMenubarCreator {
     	});
     	return playToggleButton;
     }
-
+    
 	private void playMyGame(ITabPane tabLevels) {
 		GameLoader.saveGame(myName, tabLevels);
 		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
@@ -100,8 +92,6 @@ public class AuthoringMenubarCreator {
 		myStage.centerOnScreen();
 	}
 
-	public MenuBar getMenuBar() {
-		return myMenuBar;
-	}
+	
 
 }
