@@ -108,6 +108,7 @@ public class PlayScreen {
 	}
 
 	public void setKeys() {
+		myView.getPane().getScene().setOnKeyPressed(null);
 		myView.getPane().getScene().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
 			System.out.println("KEY PRESS");
 			currentLevel.handleKeyPress(key);

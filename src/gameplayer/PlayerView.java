@@ -10,6 +10,7 @@ import authoringEnvironment.ViewSprite;
 import highscoretable.HighScoreController;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import resources.FrontEndData;
 
@@ -25,7 +26,7 @@ public class PlayerView extends Screen {
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		
 		//TODO: find better way
-		myPane.getChildren().add(new Button("a"));
+		myPane.getChildren().add(new HBox(new Button("a")));
 	}
 
 	private void initHUD() {
