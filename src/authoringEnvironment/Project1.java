@@ -33,7 +33,7 @@ public class Project1 extends AClickableWindow implements IGameWindow {
 		super(window);
 		ps = myPlayScreen;
 		myLevelModel = new LevelModel(ps.getCurrentLevel());
-		myNewGamePane = ps.getPane();
+		myNewGamePane = ps.getScreen().getPane();
 		myNewGamePane.getChildren().removeAll(ps.getViewSprites().values());
 		initArea();
 	}

@@ -67,4 +67,9 @@ public abstract class Screen {
 		switchScene(new StartOptionsWindow((Stage) myPane.getScene().getWindow()));
 	}
 
+	public Pane getPane() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

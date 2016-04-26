@@ -47,7 +47,7 @@ public class GameLoader {
 			+ "/SavedGameData/DefaultGames/my-file.xml";
 	private static final String SAVED_DIRECTORY = System.getProperty("user.dir")
 			+ "/SavedGameData/SavedGames/my-file.xml";
-	private static final String SAVED_FOLDER_DIRECTORY = System.getProperty("user.dir")
+	static final String SAVED_FOLDER_DIRECTORY = System.getProperty("user.dir")
 			+ "/SavedGameData/SavedGames/%s.xml";
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
@@ -64,6 +64,8 @@ public class GameLoader {
 	 *            the file containing the game
 	 * @return the screen with the game
 	 */
+
+
 
 	/**
 	 * saves a list of levelmodels to a default directory

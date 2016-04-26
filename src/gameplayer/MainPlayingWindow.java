@@ -21,7 +21,7 @@ public class MainPlayingWindow extends Screen {
 	}
 
 	public MainPlayingWindow(Screen parent, String gameName) {
-		this(parent, gameName, (PlayScreen) GameLoader.newGame(gameName));
+		this(parent, gameName, new PlayScreen(gameName));
 
 	}
 
@@ -35,7 +35,7 @@ public class MainPlayingWindow extends Screen {
 			switchScene(myMainAuthoringWindow);
 		});
 
-		((BorderPane) myPane).setCenter(myPlayScreen.getPane());
+		((BorderPane) myPane).setCenter(myPlayScreen.getScreen().getPane());
 		((BorderPane) myPane).setLeft(myControlWindow.getPane());
 		((BorderPane) myPane).setRight(myHUDWindow.getPane());
 		((BorderPane) myPane).setTop(toggleButton);

@@ -1,5 +1,6 @@
 package gameplayer;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class PlayerView extends Screen {
 	public PlayerView(){
 		super();
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
-
+		myViewSprites = new HashMap<Integer, ViewSprite>();
 	}
 
 	private void initHUD() {
@@ -56,6 +57,10 @@ public class PlayerView extends Screen {
 		myPane.getChildren().clear();
 		myPane.getChildren().add(hsc.getTable());
 		
+	}
+
+	public void setViewSprites(Map<Integer, ViewSprite> levelSprites) {
+		myViewSprites = levelSprites;
 	}
 	
 	

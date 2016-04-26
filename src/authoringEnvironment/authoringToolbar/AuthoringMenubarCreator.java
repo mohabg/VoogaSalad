@@ -5,6 +5,7 @@ import authoringEnvironment.Project1;
 import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.MainPlayingWindow;
+import gameplayer.PlayScreen;
 import interfaces.ITabPane;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -88,7 +89,7 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
 	private void playMyGame(ITabPane tabLevels) {
 		GameLoader.saveGame(myName, tabLevels);
 		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
-		myStage.setScene(GameLoader.newGame(myName).getScene());
+		myStage.setScene(new PlayScreen(myName).getScreen().getScene());
 		myStage.centerOnScreen();
 	}
 

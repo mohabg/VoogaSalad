@@ -21,7 +21,7 @@ public class GamePlayingFileScreen extends GameFileScreen {
 	@Override
 	public void setOnMouseClick(File file) {
 
-		Screen playScreen = GameLoader.newGame(file);
-		switchScene(playScreen);
+		PlayScreen playScreen = new PlayScreen(file);
+		switchScene(playScreen.getScreen());
 	}
 }
