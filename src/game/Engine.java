@@ -9,6 +9,7 @@ import gameElements.Time;
 
 import java.util.Map;
 
+import events.EventManager;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
@@ -30,6 +31,7 @@ public class Engine {
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
 	
 	private Timeline myGameLoop;
+	private EventManager myEventManager;
 //	private Level currentLevel;
 	private IGameEditor myEditor;
 	private Time myGameTime;
@@ -39,6 +41,7 @@ public class Engine {
 
 
 	public Engine(PlayScreen myGameScreen) {
+		myEventManager = new EventManager();
 		this.myGameScreen = myGameScreen;
 		myGameLoop = new Timeline();
 		myTimeProperty = new SimpleDoubleProperty(0);
