@@ -16,6 +16,7 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.EnemyCollision;
+import events.EventManager;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -62,7 +63,7 @@ public class Level implements ILevel {
 	private int goalCount;
 	private boolean isFinished;
 	private SpriteFactory mySpriteFactory;
-	
+	private EventManager myEventManager;
 
 	public Level() {
 
@@ -75,10 +76,9 @@ public class Level implements ILevel {
 		goalCount = 0;
 		isFinished = false;
 		currentSpriteID = 0;
-	//	System.out.println("goalListSize"+ goalList.size());
-	//	System.out.println("level constructor find numgoals" + levelProperties.getNumGoals());
+		myEventManager = new EventManager();
+		myEventManager.setCollisionHandler(new CollisionHandler());
 		populateGoals();
-		// System.out.println("goalListSize"+ goalList.size());
 
 	}
 	// public Level()
@@ -274,41 +274,11 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-
-		CollisionHandler collisionHandler = new CollisionHandler();
-		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
-		Sprite[] spriteArr = new Sprite[spriteSet.size()];
-		int index = 0;
-		for (Sprite sprite : spriteSet) {
-			spriteArr[index] = sprite;
-			index++;
-		}
-
-		for (int i = 0; i < spriteSet.size(); i++) {
-			for (int j = i + 1; j < spriteSet.size(); j++) {
-				if (checker.areColliding(spriteArr[i], spriteArr[j])) {
-
-					getLevelProperties().setCollidingSprites(spriteArr[i], spriteArr[j]);
-
-					for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
-						for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
-							collisionHandler.applyCollision(collisionSpriteOne, collisionSpriteTwo,
-									getLevelProperties());
-
-						}
-
-					}
-				}
-			}
-		}
+		myEventManager.handleCollisions(spriteMap, getLevelProperties());
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
 		System.out.println(key.getCode() + key.getCharacter());
-		//System.out.println("goal list keyboard" + goalList.size());
-		// System.out.println(goalList.get(0).getGoalProperties().getTotalPoints()+
-		// " "+goalList.get(0).getGoal().name());
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
@@ -317,11 +287,6 @@ public class Level implements ILevel {
 		if (currentSprite == null) {
 			return;
 		}
-		// System.out.println("X: " + currentSprite.getX().doubleValue());
-		// System.out.println("Y: " + currentSprite.getY().doubleValue());
-		// System.out.println("HEALTH:
-		// "+currentSprite.getHealth().getHealthValue());
-
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
 			System.out.println(key.getCode() + "keycode");
@@ -355,15 +320,11 @@ public class Level implements ILevel {
 	}
 
 	@Override
-	// public List<Integer> update() {
 	public void update() {
-//		System.out.println("isFinishedOG" + getisFinished());
-
-	//	System.out.println("update" + goalList.size());
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-//		System.out.println("FINAL RESULT" + getisFinished());
+		System.out.println("FINAL RESULT" + getisFinished());
 //		System.out.println("completeGoals" + completeGoals());
 //		System.out.println("isFinished" + getisFinished());
 		// return deadSprites;
@@ -374,14 +335,8 @@ public class Level implements ILevel {
 	 * This method handles Key Press Events.
 	 */
 	public void handleKeyPress(KeyEvent key) {
-		handleKeyboardAction(key, true);
-	}
-
-	/**
-	 * This method handles Key Release Events.
-	 */
-	public void handleKeyRelease(KeyEvent key) {
-		handleKeyboardAction(key, false);
+		//handleKeyboardAction(key, true);
+		myEventManager.keyEvent(key);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
