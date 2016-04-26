@@ -82,13 +82,14 @@ public class Sprite {
 		addBehavior(bullet);
 		userPressBehaviors.put(KeyCode.SPACE, bullet);
 
-		Behavior defaultUpPressMovement = new MoveVertically(-5);
-		addBehavior(defaultUpPressMovement);
-		userPressBehaviors.put(KeyCode.UP, defaultUpPressMovement);
+		Behavior thrustForward = new Thrust(-5);
+		addBehavior(thrustForward);
+		userPressBehaviors.put(KeyCode.UP, thrustForward);
 
-		Behavior defaultDownPressMovement = new MoveVertically(5);
-		userPressBehaviors.put(KeyCode.DOWN, defaultDownPressMovement);
-		addBehavior(defaultDownPressMovement);
+		Behavior thrustReverse = new Thrust(5);
+		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
+		addBehavior(thrustReverse);
+		
 
 		/*
 		 * Behavior defaultVertReleaseMovement = new MoveVertically(0);
@@ -97,13 +98,13 @@ public class Sprite {
 		 * addBehavior(defaultVertReleaseMovement);
 		 */
 
-		Behavior defaultLeftPressMovement = new MoveHorizontally(-5);
-		userPressBehaviors.put(KeyCode.LEFT, defaultLeftPressMovement);
-		addBehavior(defaultLeftPressMovement);
+		Behavior rotateLeft = new MoveTurn(-1);
+		userPressBehaviors.put(KeyCode.LEFT, rotateLeft);
+		addBehavior(rotateLeft);
 
-		Behavior defaultRightPressMovement = new MoveHorizontally(5);
-		userPressBehaviors.put(KeyCode.RIGHT, defaultRightPressMovement);
-		addBehavior(defaultRightPressMovement);
+		Behavior rotateRight = new MoveTurn(1);
+		userPressBehaviors.put(KeyCode.RIGHT, rotateRight);
+		addBehavior(rotateRight);
 
 		/*
 		 * Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
@@ -144,6 +145,15 @@ public class Sprite {
 			}
 		}
 	}
+	
+	public void thrustSprite(DoubleProperty intensity) {
+		double currentXVelocity = getSpriteProperties().getMyXvel().doubleValue();
+		double currentYVelocity = getSpriteProperties().getMyYvel().doubleValue();
+		this.getSpriteProperties().setMyXvel(currentXVelocity + Math.sin(this.getAngle().getValue()) * intensity.getValue());
+		this.getSpriteProperties().setMyYvel(currentYVelocity + Math.cos(this.getAngle().getValue()) * intensity.getValue());
+
+	}
+
 
 	public Map<KeyCode, Behavior> getUserPressBehaviors() {
 		return userPressBehaviors;

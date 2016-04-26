@@ -37,7 +37,7 @@ public class Bullet extends Attack{
        
         	Sprite bullet = spriteFactory.makeSprite(sprite.getX().doubleValue(), sprite.getY().doubleValue(), getMyRef());
             bullet.setAsUserControlled();
-        	Behavior movement = new MoveVertically(-3);
+        	Behavior movement = new Thrust(-3);
         	movement.enable();
             bullet.addBehavior(movement);
             bullet.addCollision(new DamageCollision(10));

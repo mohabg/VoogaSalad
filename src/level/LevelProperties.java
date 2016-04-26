@@ -149,6 +149,10 @@ public class LevelProperties {
 	public void setNumGoals(Integer numGoals) {
 		this.numGoals.set(numGoals);
 	}
+	
+	public void setKeyboardAction(KeyCode code, KeyboardActions action){
+		keyMapping.put(code, action);
+	}
 
 	public KeyboardActions getKeyboardAction(KeyCode key) {
 		if (!keyMapping.keySet().contains(key))
