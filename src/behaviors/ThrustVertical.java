@@ -9,13 +9,13 @@ import javafx.beans.property.SimpleDoubleProperty;
  * Has the moveY attribute to determine how much the sprite should move
  */
 
-public class Thrust extends Movement{
+public class ThrustVertical extends Movement{
 
-	public Thrust() {
+	public ThrustVertical() {
 		super();
 	}
 
-	public Thrust(double value) {
+	public ThrustVertical(double value) {
 		super(value);
 	}
 
@@ -26,11 +26,13 @@ public class Thrust extends Movement{
 
 	@Override
 	public void move(Sprite sprite) {
-		DoubleProperty intensity=new SimpleDoubleProperty(getValue());
-		sprite.thrustSprite(intensity);
-		// sprite.getSpriteProperties().setMyY((sprite.getY().doubleValue() + getValue()));
+		double currentXVelocity = sprite.getSpriteProperties().getMyXvel().doubleValue();
+		double currentYVelocity = sprite.getSpriteProperties().getMyYvel().doubleValue();
+		double xOrientation = Math.sin(Math.toRadians(-1 * sprite.getAngle().getValue()));
+		double yOrientation = Math.cos(Math.toRadians(-1 * sprite.getAngle().getValue()));
+		sprite.getSpriteProperties().setMyXvel(currentXVelocity + xOrientation * getValue());
+		sprite.getSpriteProperties().setMyYvel(currentYVelocity + yOrientation * getValue());
 
-	    //sprite.getSpriteProperties().setMyYvel(getValue());
 	}
 
 
