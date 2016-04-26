@@ -224,7 +224,7 @@ public class Level implements ILevel {
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
 		if (spriteMap.getSpriteMap().isEmpty()) {
-			System.out.println();
+//			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
 			Sprite sprite=spriteMap.get(spriteID);
@@ -255,6 +255,7 @@ public class Level implements ILevel {
 		levelProperties.addScore(10);
 		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
+
 
 		Sprite currentSprite = getSpriteMap().get(userControlledSpriteID);
 		if (currentSprite == null) {
@@ -297,7 +298,7 @@ public class Level implements ILevel {
 		updateSprites();
 		checkCollisions();
 		setisFinished(completeGoals());
-		System.out.println("FINAL RESULT" + getisFinished());
+
 
 	}
 

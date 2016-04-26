@@ -3,17 +3,14 @@ package authoringEnvironment;
 /**
  * @author David Yan, Joe Jacob
  */
+import authoringEnvironment.mainWindow.GameAuthoringTab;
 import gameElements.Sprite;
 import goals.Goal;
-import goals.Goal.Goals;
-import goals.GoalProperties;
+import interfaces.ITab;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
@@ -21,21 +18,20 @@ import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import behaviors.Behavior;
-import collisions.Collision;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class LevelModel {
-	private ListProperty<Goals> myGoals;
+	private ListProperty<Goal> myGoals;
 //	private MapProperty<KeyCode, KeyboardActions> myKeyMap;
 	private IntegerProperty numGoals;
 	private List<Sprite> myList;
+	private String myBackground;
 
 	public LevelModel() {
-
-		myGoals = new SimpleListProperty<Goals>(FXCollections.observableList(new ArrayList<Goals>()));
+		myBackground = "";
+		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
 
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
@@ -44,16 +40,18 @@ public class LevelModel {
 		myList = new ArrayList<Sprite>();
 	}
 
-	public LevelModel(List<Sprite> list) {
+	public LevelModel(ITab levelTab) {
 		this();
-		myList.addAll(list);
+		myBackground = levelTab.getBackground();
+		
+		myList.addAll(((GameAuthoringTab) levelTab).getList());
 	}
 
 	public LevelModel(Level l) {
 		this();
 		LevelProperties myProperties = l.getLevelProperties();
 //		List<GoalProperties> goalproperties = l.getGoalList().stream().map(goal->goal.getGoalProperties()).collect(Collectors.toList());
-		myGoals.addAll(myProperties.getGoalProperties().stream().map(gp-> gp.getMyGoal()).collect(Collectors.toList()));
+//		myGoals.addAll(myProperties.getGoalProperties().stream().map(gp-> gp.getMyGoal()).collect(Collectors.toList()));
 
 	}
 
@@ -62,7 +60,7 @@ public class LevelModel {
 //		return myKeyMap;
 //	}
 
-	public List<Goals> getMyGoals() {
+	public List<Goal> getMyGoals() {
 		return myGoals;
 	}
 	
@@ -72,6 +70,10 @@ public class LevelModel {
 	
 	public Integer getNumGoals(){
 		return numGoals.get();
+	}
+	
+	public String getBackground(){
+		return myBackground;
 	}
 
 }
