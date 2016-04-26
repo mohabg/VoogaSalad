@@ -14,7 +14,9 @@ import javafx.beans.property.SimpleDoubleProperty;
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class SpriteProperties {
-	//@IgnoreField
+	@IgnoreField
+	private int TEST;
+	@IgnoreField
     private DoubleProperty myX;
     private DoubleProperty myY;
     private DoubleProperty myXvel;

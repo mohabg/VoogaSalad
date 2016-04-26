@@ -45,8 +45,14 @@ public class VisualFactory {
 			f.setAccessible(true);
 			
 			if(!f.isAnnotationPresent(IgnoreField.class)) {
+				if(f.getType().isPrimitive()) {
+					throw new FieldTypeException("Field " + f.getType().getName() + " " + f.getName() + " in " + f.getDeclaringClass().getName() + " is a primitive");
+				}
+				
 				myTabs.getTabs().add(getOneTab(f, model));
 			}
+			
+			
 		}
 
 		return myTabs;
@@ -491,8 +497,12 @@ public class VisualFactory {
 			Set<HBox> fieldHBoxes = new HashSet<HBox>();
 			for (Field otherField : allFields) {
 				otherField.setAccessible(true);
-				// TODO NEED TO REMOVE THIS
+				
 				if (!otherField.isAnnotationPresent(IgnoreField.class)) {
+					if(otherField.getType().isPrimitive()) {
+						throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
+					}
+					
 					K o = (K) fieldGetObject(otherField, parent);
 					String pName = otherField.getName();
 					fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), o, pName, properties, true));
