@@ -15,7 +15,9 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 public class SpriteProperties {
     private DoubleProperty myX;
+    private DoubleProperty myRelativeX;
     private DoubleProperty myY;
+    private DoubleProperty myRelativeY;
     private DoubleProperty myXvel;
     private DoubleProperty myYvel;
     private DoubleProperty myWidth;
@@ -45,6 +47,8 @@ public class SpriteProperties {
         myRightLimit=new SimpleDoubleProperty(590);
         myUpLimit=new SimpleDoubleProperty(850);
         myDownLimit=new SimpleDoubleProperty(0);
+        myRelativeX = new SimpleDoubleProperty(0);
+        myRelativeY = new SimpleDoubleProperty(0);
         canMove = new SimpleBooleanProperty(true);
         
     }
@@ -56,18 +60,20 @@ public class SpriteProperties {
         myWidth.set(width);
         myHeight.set(height);
         myAngle.set(angle);
+        this.setMyRelativeX(new SimpleDoubleProperty(x));
+        this.setMyRelativeY(new SimpleDoubleProperty(y));
     }
 
     public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle,double leftLimit, double rightLimit,
     		double upLimit, double downLimit){
-    	this();
-        myX.set(x);
-        myY.set(y);
+    	this(x, y, width, height, angle);
+       // myX.set(x);
+       //  myY.set(y);
         myXvel.set(xVel);
         myYvel.set(yVel);
-        myWidth.set(width);
-        myHeight.set(height);
-        myAngle.set(angle);
+      //  myWidth.set(width);
+      //  myHeight.set(height);
+      //  myAngle.set(angle);
         myLeftLimit.set(leftLimit);
         myRightLimit.set(rightLimit);
         myUpLimit.set(upLimit);
@@ -286,7 +292,23 @@ public class SpriteProperties {
 		this.state = state;
 	}
 
-*/	
+*/
+
+	public DoubleProperty getMyRelativeX() {
+		return myRelativeX;
+	}
+
+	public void setMyRelativeX(DoubleProperty myRelativeX) {
+		this.myRelativeX = myRelativeX;
+	}
+
+	public DoubleProperty getMyRelativeY() {
+		return myRelativeY;
+	}
+
+	public void setMyRelativeY(DoubleProperty myRelativeY) {
+		this.myRelativeY = myRelativeY;
+	}	
 
 
 

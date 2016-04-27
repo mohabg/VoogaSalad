@@ -15,23 +15,25 @@ public class SpriteMap{
 	
 	private Map<Integer, Sprite> spriteMap;
 	private ObservableList<Integer> activeSprites;
-	private int id;
+	private int currentID;
+	private int userControlledSpriteID;
 	
 	public SpriteMap(){
 		spriteMap = new HashMap<Integer, Sprite>();
 		activeSprites = FXCollections.observableList(new ArrayList<Integer>());
-		id = 0;
+		currentID = 0;
+		userControlledSpriteID = 0;
 	}
 	
 	public void addSprite(Sprite sprite){
-
-		spriteMap.put(id, sprite);
-		activeSprites.add(id);
-		id++;
-
+		spriteMap.put(++currentID, sprite);
+		activeSprites.add(currentID);
 	}
-	public int getLastSpriteID(){
-		return id - 1;
+	public void put(Integer id, Sprite sprite){
+		this.spriteMap.put(id, sprite);
+	}
+	public int getCurrentID(){
+		return currentID;
 	}
 	public Map<Integer, Sprite> getSpriteMap(){
 		return spriteMap;
@@ -62,5 +64,17 @@ public class SpriteMap{
 	public void setActiveSprites(List<Integer> sprites){
 		activeSprites.setAll(sprites);
 		
+	}
+
+	public int getUserControlledSpriteID() {
+		return userControlledSpriteID;
+	}
+
+	public void setUserControlledSpriteID(int userControlledSpriteID) {
+		this.userControlledSpriteID = userControlledSpriteID;
+	}
+
+	public Sprite getCurrentSprite() {
+		return this.get(currentID);
 	}
 }

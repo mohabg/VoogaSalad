@@ -3,7 +3,10 @@ package level;
 import collisions.Collision;
 import gameElements.Score;
 import gameElements.Sprite;
+import gameElements.SpriteMap;
+import gameElements.Time;
 import goals.Goal.Goals;
+import goals.Goal;
 import goals.GoalProperties;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -22,17 +25,23 @@ import java.util.Map;
  */
 
 public class LevelProperties {
-
+	
 	private IntegerProperty levelID;
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;
 	private IntegerProperty previousLevel;
 	private IntegerProperty numGoals;
 	private Score score;
+	private List<Sprite> sprites;
+	private SpriteMap spriteMap;
+	private List<Goal> goalList;
+	private Time time;
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private List<GoalProperties> goalProperties;
 	private Sprite[] collidingSprites;
-
+	private IntegerProperty goalCount;
+	private BooleanProperty isFinished;
+	
 	public LevelProperties() {
 		score = new Score();
 		// score = new SimpleIntegerProperty();
@@ -44,13 +53,16 @@ public class LevelProperties {
 		setCurrentPoints(0);
 		setNumGoals(1);
 		*/
+		goalCount = new SimpleIntegerProperty(0);
+		isFinished = new SimpleBooleanProperty(false);
+		spriteMap = new SpriteMap();
 		levelID = new SimpleIntegerProperty(0);
 		levelName = new SimpleStringProperty("");
 		nextLevel = new SimpleIntegerProperty(1);
 		previousLevel = new SimpleIntegerProperty(-1);
 		numGoals = new SimpleIntegerProperty(1);
-		System.out.println("numGoals hardcode" + numGoals);
-		goalProperties = new ArrayList();
+		goalList = new ArrayList<>();
+		goalProperties = new ArrayList<>();
 		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 	//	myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
@@ -130,6 +142,38 @@ public class LevelProperties {
 		return this.score;
 	}
 
+	public List<Sprite> getSprites() {
+		return sprites;
+	}
+
+	public void setSprites(List<Sprite> sprites) {
+		this.sprites = sprites;
+	}
+
+	public SpriteMap getSpriteMap() {
+		return spriteMap;
+	}
+
+	public void setSpriteMap(SpriteMap spriteMap) {
+		this.spriteMap = spriteMap;
+	}
+
+	public List<Goal> getGoalList() {
+		return goalList;
+	}
+
+	public void setGoalList(List<Goal> goalList) {
+		this.goalList = goalList;
+	}
+
+	public Time getTime() {
+		return time;
+	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 	public Integer getCurrentPoints() {
 		// return score.getScoreValue().get();
 		return getScore().getValue();
@@ -189,4 +233,20 @@ public class LevelProperties {
 	public void setKeyMapping(Map<KeyCode, KeyboardActions> keyMapping) {
 		this.keyMapping = keyMapping;
 	}
+	public int getGoalCount() {
+		return this.goalCount.get();
+	}
+
+	public void setGoalCount(int goalCount) {
+		this.goalCount.set(goalCount);
+	}
+
+	public boolean isFinished() {
+		return isFinished.get();
+	}
+
+	public void setIsFinished(boolean isFinished) {
+		this.isFinished.set(isFinished);
+	}
+
 }

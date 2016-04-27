@@ -6,6 +6,10 @@ import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
 import gameElements.Sprite;
+import gameElements.ViewPoint;
+import highscoretable.HighScoreController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
@@ -81,6 +85,7 @@ public class PlayScreen {
 		myView.setSprites(activeSprites);
 		setKeys();
 
+
 	}
 
 	public File getGameFile() {
@@ -109,7 +114,10 @@ public class PlayScreen {
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
-
+		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+			//currentLevel.handleKeyRelease(key);
+			key.consume();
+		});
 	}
 
 	public void addSprite(ViewSprite vs) {
