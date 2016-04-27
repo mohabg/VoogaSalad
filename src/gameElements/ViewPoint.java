@@ -61,10 +61,11 @@ public class ViewPoint {
 	}
 
 	public void setRectangle(Rectangle rectangle) {
+		
 		this.rectangle = rectangle;
 	}
 
-	private void updateActiveSprites(Level level){
+	public void updateActiveSprites(Level level){
 		List<Integer> activeSpriteList=new ArrayList<Integer>();
 		for(Integer integer:level.getSpriteMap().getSpriteIDList()){
 			Sprite sprite=level.getSpriteMap().get(integer);
@@ -75,12 +76,37 @@ public class ViewPoint {
 		level.getSpriteMap().setActiveSprites(activeSpriteList);
 	}
 	
-	public void updateViewPoint(Level level){
+	public void moveViewPoint(double xDelta, double yDelta, Level level){
+		int newXCoordinate=(int) (getRectangle().getCenterX()+xDelta);
+		int newYCoordinate=(int) (getRectangle().getCenterY()+yDelta);
+		getRectangle().setLocation(newXCoordinate, newYCoordinate);
+		updateSpriteRelativeX(level, xDelta);
+		updateSpriteRelativeY(level, yDelta);
+		updateActiveSprites(level);
+	}
+	
+	public void updateSpriteRelativeX(Level level, double increment){
+		for(Integer integer:level.getSpriteMap().getSpriteIDList()){
+			Sprite sprite=level.getSpriteMap().get(integer);
+			DoubleProperty incrementVal=new SimpleDoubleProperty(increment);
+			sprite.setX(sprite.getSpriteProperties().getMyRelativeX().doubleValue() - incrementVal.doubleValue());
+		}
+	}
+	
+	public void updateSpriteRelativeY(Level level, double increment){
+		for(Integer integer:level.getSpriteMap().getSpriteIDList()){
+			Sprite sprite=level.getSpriteMap().get(integer);
+			DoubleProperty incrementVal=new SimpleDoubleProperty(increment);
+			sprite.setY(sprite.getSpriteProperties().getMyRelativeY().doubleValue() - incrementVal.doubleValue());
+		}
+	}
+	
+/*	public void updateViewPoint(Level level){
 		Sprite userSprite = level.getCurrentSprite();
 		Point point=new Point(userSprite.getX().intValue(), userSprite.getY().intValue());
 		getRectangle().setLocation(point);
 		updateActiveSprites(level);
 	}
-	
+*/	
 	
 }

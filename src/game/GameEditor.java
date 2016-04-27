@@ -2,6 +2,7 @@ package game;
 
 import java.util.List;
 
+import authoringEnvironment.Settings;
 import gameElements.ViewPoint;
 import goals.Goal;
 import goals.GoalProperties;
@@ -22,11 +23,9 @@ public class GameEditor implements IGameEditor {
 	private Game myGame;
 
 	public GameEditor() {
-		myGame = new Game();
+		myGame = new Game(new SimpleDoubleProperty(Settings.getScreenWidth()), new SimpleDoubleProperty(Settings.getScreenHeight()));
 	}
 	
-	
-
 	public Game getGame() {
 		return myGame;
 	}
@@ -87,7 +86,7 @@ public class GameEditor implements IGameEditor {
 		level.update();
 		
 		//System.out.println(this.getGame().getViewPoint());
-		this.getGame().getViewPoint().updateViewPoint(level);
+//		this.getGame().getViewPoint().updateViewPoint(level);
 //		viewPoint.updateViewPoint(level);
 //		if (myGame.getCurrentLevel().getisFinished())
 //			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());

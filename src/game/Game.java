@@ -98,7 +98,7 @@ public class Game {
 		levelProperties.setLevelID(levelID);
 		newLevel.setLevelProperties(levelProperties);
 		myGameLevels.add(levelID, newLevel);
-		viewPoint.updateViewPoint(newLevel);
+	//	viewPoint.updateViewPoint(newLevel);
 
 	}
 

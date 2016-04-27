@@ -240,6 +240,10 @@ public class Sprite implements ISprite{
 	public void setX(DoubleProperty x) {
 		myProperties.setMyXProperty(x);
 	}
+	
+	public void setX(double x) {
+		myProperties.setMyX(x);
+	}
 
 	public DoubleProperty getY() {
 		return myProperties.getMyY();

@@ -124,7 +124,7 @@ public class Engine {
                 public void handle(ActionEvent event) {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
-                //    myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
+             //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
 						myGameScreen.setLevel(myEditor.getCurrentLevel());
 					}
