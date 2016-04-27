@@ -1,7 +1,9 @@
 package events;
 
+import behaviors.IActions;
+
 public interface Executable {
 	
-	public void execute();
+	public void execute(IActions action);
 
 }

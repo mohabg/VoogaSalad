@@ -7,6 +7,6 @@ import level.LevelProperties;
 public interface ICollisionHandler {
 	
 	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties);
-	public void handleCollisions(SpriteMap spriteMap, LevelProperties levelProperties);
+	public void checkCollisions(SpriteMap spriteMap, LevelProperties levelProperties);
 
 }

@@ -28,5 +28,5 @@ public interface IGameEditor {
 //    List<Integer> updateGame();
     void updateGame();
 	
-	void setResultForKeyPress(KeyEvent event);
+	//void setResultForKeyPress(KeyEvent event);
 }

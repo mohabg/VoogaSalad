@@ -2,11 +2,15 @@ package collisions;
 
 import java.awt.Rectangle;
 
+import events.Trigger;
 import gameElements.Sprite;
 
-public class CollisionChecker {
+public class CollisionChecker implements Trigger {
+	
+	private boolean isTriggered;
+	
 	public CollisionChecker(){
-		
+		isTriggered = false;
 	}
 	
 	/**
@@ -16,7 +20,8 @@ public class CollisionChecker {
 		// check if either are null
 		Rectangle rectangleSpriteOne = spriteToRectangle(spriteOne);
 		Rectangle rectangleSpriteTwo = spriteToRectangle(spriteTwo);
-		return rectangleSpriteOne.intersects(rectangleSpriteTwo);
+		isTriggered = rectangleSpriteOne.intersects(rectangleSpriteTwo);
+		return isTriggered;
 	}
 	
 	/**
@@ -27,6 +32,11 @@ public class CollisionChecker {
 	private Rectangle spriteToRectangle(Sprite sprite){
 		Rectangle rectangle = new Rectangle ( (int) sprite.getX().doubleValue(), (int) sprite.getY().doubleValue(), (int) sprite.getWidth().doubleValue(), (int) sprite.getHeight().doubleValue());
 		return rectangle;
+	}
+
+	@Override
+	public boolean isTriggered() {
+		return isTriggered;
 	}
 	
 }

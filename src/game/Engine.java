@@ -143,8 +143,8 @@ public class Engine {
     	return myTimeProperty;
     }
     
-    public void setResultForKeyPress(KeyEvent event) {
+    /*public void setResultForKeyPress(KeyEvent event) {
     	myEditor.setResultForKeyPress(event);
-    }
+    }*/
 
 }

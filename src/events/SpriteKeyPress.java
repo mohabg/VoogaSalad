@@ -2,7 +2,6 @@ package events;
 
 import java.util.HashMap;
 import behaviors.Behavior;
-import behaviors.Bullet;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import javafx.beans.property.MapProperty;

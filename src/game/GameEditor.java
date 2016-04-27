@@ -80,8 +80,8 @@ public class GameEditor implements IGameEditor {
 			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
 	}
 
-	public void setResultForKeyPress(KeyEvent event) {
+	/*public void setResultForKeyPress(KeyEvent event) {
 		myGame.getCurrentLevel().handleKeyPress(event);
-	}
+	}*/
 
 }

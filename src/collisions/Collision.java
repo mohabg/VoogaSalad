@@ -2,6 +2,7 @@ package collisions;
 
 import java.lang.reflect.Method;
 
+import events.Trigger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,7 +18,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.LevelProperties;
 
-public abstract class Collision{
+public abstract class Collision {
 	
 	private DoubleProperty value;
 	
@@ -28,9 +29,11 @@ public abstract class Collision{
 	public Collision(double value){
 		this.value = new SimpleDoubleProperty(value);
 	}
+	
 	public double getValue(){
 		return this.value.doubleValue();
 	}
+	
 	public boolean isCollidingWithUser(LevelProperties levelProperties){
 		for(Sprite sprite : levelProperties.getCollidingSprites()){
 			if(!sprite.getCollisions().contains(this)){
@@ -73,4 +76,5 @@ public abstract class Collision{
 		}
 		return null;
 	}
+	
 }

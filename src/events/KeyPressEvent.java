@@ -3,6 +3,7 @@ package events;
 import java.util.Map;
 
 import behaviors.Behavior;
+import behaviors.IActions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import keyboard.IKeyboardAction;
@@ -19,23 +20,28 @@ public class KeyPressEvent implements Executable {
 	}
 
 	@Override
-	public void execute(KeyEvent key, boolean enable, SpriteMap spriteMap, Integer spriteID) {
-		/*System.out.println(key.getCode() + key.getCharacter());
+	public void execute(IActions action) {
+		
+	}
+
+	/*@Override
+	public void execute(KeyEvent key, boolean enable, Sprite currentSprite) {
+		System.out.println(key.getCode() + key.getCharacter());
 		levelProperties.addScore(10);
 		KeyboardActions action = levelProperties.getKeyboardAction(key.getCode());
-		IKeyboardAction keyboardAction = keyboardActionMap.get(action);*/
+		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
 
-		Sprite currentSprite = spriteMap.get(spriteID);
+		//Sprite currentSprite = spriteMap.get(spriteID);
 		if (currentSprite == null) {
 			return;
 		}
 		if (currentSprite.isUserControlled()) {
 			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
-			/*System.out.println(key.getCode() + "keycode");
+			System.out.println(key.getCode() + "keycode");
 			System.out.println(behavior.toString());
 			System.out.println("angle"+currentSprite.getAngle());
 			System.out.println("xVel, x" + " " + currentSprite.getX() +" " + currentSprite.getSpriteProperties().getMyXvel());
-			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());*/
+			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());
 			if (behavior != null) {
 				if (enable) {
 					behavior.enable();
@@ -44,7 +50,7 @@ public class KeyPressEvent implements Executable {
 				}
 			}
 
-		} /*else {
+		} else {
 			if (keyboardAction == null) {
 				keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
 				keyboardActionMap.put(action, keyboardAction);
@@ -58,7 +64,7 @@ public class KeyPressEvent implements Executable {
 				keyboardAction.disableKeyboardAction(currentSprite);
 			}
 
-		}*/
-	}
+		}
+	}*/
 
 }

@@ -12,12 +12,15 @@ import java.util.TreeSet;
 import Physics.PhysicsEngine;
 import behaviors.Attack;
 import behaviors.Behavior;
+import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.EnemyCollision;
 import gameElements.Actions;
 import events.EventManager;
+import events.Executable;
+import events.InputHandler;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -82,8 +85,8 @@ public class Level implements ILevel {
 
 		myEventManager = new EventManager();
 		myEventManager.setCollisionHandler(new CollisionHandler());
+		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
-
 	}
 	
 	public List<Goal> getGoalList() {
@@ -124,6 +127,8 @@ public class Level implements ILevel {
 
 	public void setCurrentSpriteID(Integer currentSpriteID) {
 		this.currentSpriteID = currentSpriteID;
+		Sprite currentSprite = spriteMap.get(currentSpriteID);
+		myEventManager.setSpriteActions(currentSprite.getUserPressBehaviors());
 	}
 
 	public void deleteSprite(Integer spriteID) {
@@ -247,7 +252,7 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-		myEventManager.handleCollisions(spriteMap, getLevelProperties());
+		myEventManager.checkCollisions(spriteMap, getLevelProperties());
 	}
 
 	private void handleKeyboardAction(KeyEvent key, boolean enable) {
@@ -261,13 +266,14 @@ public class Level implements ILevel {
 			return;
 		}
 		if (currentSprite.isUserControlled()) {
-			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
+			Executable execute = currentSprite.getUserPressBehavior(key.getCode());
 			System.out.println(key.getCode() + "keycode");
-			System.out.println(behavior.toString());
+			System.out.println(execute.toString());
 			System.out.println("angle"+currentSprite.getAngle());
 			System.out.println("xVel, x" + " " + currentSprite.getX() +" " + currentSprite.getSpriteProperties().getMyXvel());
 			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());
-			if (behavior != null) {
+			if (execute != null && execute instanceof Behavior) {
+				Behavior behavior = (Behavior) execute;
 				if (enable) {
 					behavior.enable();
 				} else {
@@ -306,7 +312,7 @@ public class Level implements ILevel {
 	 */
 	public void handleKeyPress(KeyEvent key) {
 		//handleKeyboardAction(key, true);
-		myEventManager.keyEvent(key);
+		myEventManager.keyEvent(key, actions);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
