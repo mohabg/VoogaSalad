@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -60,7 +60,6 @@ public class SettingsReflectUtils {
 		// TODO MAKE AN EXCEPTION
 		// find an available subclass otherwise print an exception
 		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
-		// make sure the picked class isn't abstract
 		for (Class<R> sub : parentSubclasses.values()) {
 			if (!isAbstractOrInterface(sub)) {
 				return sub;

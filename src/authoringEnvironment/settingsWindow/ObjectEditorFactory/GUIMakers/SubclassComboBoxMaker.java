@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.SubclassEnumerator;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -21,8 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 public class SubclassComboBoxMaker {
-	
-	
 	
 	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Class<R> clazz, Property... property) {	
 		ComboBox<SimpleEntry<Class<R>, R>> comboBox = makeComboBox(clazz);

@@ -57,7 +57,7 @@ public class SettingsObjectMaker {
 	
 	public static String convertCamelCase(String camelCaseString) {
 		if (camelCaseString.indexOf(".") != -1) {
-			camelCaseString = camelCaseString.substring(camelCaseString.lastIndexOf("."));
+			camelCaseString = camelCaseString.substring(camelCaseString.lastIndexOf(".") + 1);
 		}
 		String[] words = camelCaseString.split("(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])");
 		String converted = "";

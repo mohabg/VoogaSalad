@@ -6,6 +6,8 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFi
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Exceptions.FieldTypeException;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SettingsObjectMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SubclassComboBoxMaker;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
 import gameplayer.ButtonFactory;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -31,11 +33,9 @@ import java.util.*;
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class VisualFactory {
-
 	private static List<String> myProjectClassNames;
 	
 	public VisualFactory() {
-		SubclassEnumerator.getInstance();
 		myProjectClassNames = SubclassEnumerator.getAllSimpleClassNames();
 	}
 
@@ -98,40 +98,63 @@ public class VisualFactory {
 
 	private VBox populateTab(Field f, Object model) {
 		VBox myBox = new VBox();
+		
 		// this is for things like Lists and Maps
 		if (f.getGenericType() instanceof ParameterizedType) {
-			HBox myH = new HBox();
-			ParameterizedType pt = (ParameterizedType) f.getGenericType();
-			
-			Type[] params = pt.getActualTypeArguments();
-			
-			// handle parameterized property object types
-			Class<?> rawTypeClass = SettingsReflectUtils.getClass(pt.getRawType().getTypeName());
-			if (Property.class.isAssignableFrom(rawTypeClass)) {
-				Property ptProperty = (Property) SettingsReflectUtils.fieldGetObject(f, model);
-				
-				if(params.length == 1) {
-					// single param catch (most likely List)
-					Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
-					myH.getChildren().add(singleParamType(paramClass0, ptProperty));
-				} else if (params.length == 2) {
-					// double param catch (most likely Map)
-					Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
-					Class<?> paramClass1 = SettingsReflectUtils.getClass(params[1].getTypeName());
-					myH.getChildren().add(doubleParamType(paramClass0, paramClass1, ptProperty));
-				}		
-			}
-			
-			myBox.getChildren().add(myH);			
+			HBox propHBox = makeParameterizedHBox(f, model);		
+			myBox.getChildren().add(propHBox);			
 		} else {
-			// populate pulldown with all subclasses
 			VBox propVBox = makeFieldVBox(f, model);
 			myBox.getChildren().addAll(propVBox);
 		}
 		
 		return myBox;
 	}
+
+
+	private HBox makeParameterizedHBox(Field f, Object model) {
+		HBox myH = new HBox();
+		
+		ParameterizedType pt = (ParameterizedType) f.getGenericType();		
+		Type[] params = pt.getActualTypeArguments();
+		
+		// handle parameterized property object types
+		Class<?> rawTypeClass = SettingsReflectUtils.getClass(pt.getRawType().getTypeName());
+		if (Property.class.isAssignableFrom(rawTypeClass)) {
+			Property ptProperty = (Property) SettingsReflectUtils.fieldGetObject(f, model);
+			
+			if(params.length == 1) {
+				// single param catch (most likely List)
+				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
+				myH.getChildren().add(singleParamType(paramClass0, ptProperty));
+			} else if (params.length == 2) {
+				// double param catch (most likely Map)
+				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
+				Class<?> paramClass1 = SettingsReflectUtils.getClass(params[1].getTypeName());
+				myH.getChildren().add(doubleParamType(paramClass0, paramClass1, ptProperty));
+			}		
+		}
+		
+		return myH;
+	}
 	
+
+	private <R> VBox makeFieldVBox(Field f, Object parentObj) {
+		VBox fieldVBox = new VBox();
+		VBox propVBox = new VBox();
+
+		Class<R> clazz = (Class<R>) f.getType();
+		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);
+		
+		Set<HBox> props = makePropertyBoxes(clazz, fObj, clazz.getName(), new HashSet<HBox>(), true);
+		propVBox.getChildren().addAll(props);
+
+
+		fieldVBox.getChildren().add(propVBox);
+
+		return fieldVBox;
+	}
+
 	
 	private <R> VBox singleParamType(Class<R> rType, Object prop) {
 		VBox singleParamVBox = new VBox();
@@ -175,7 +198,7 @@ public class VisualFactory {
 		}
 		
 		rObj = (R) SettingsReflectUtils.newClassInstance(rType);		
-		updateComboBoxValue(rType, rObj, mySubclassBox);
+		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox);
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
 	
 		return retVBox;
@@ -184,6 +207,7 @@ public class VisualFactory {
 	private static <R> void updateComboBoxValue(Class<R> rType, R rObj, ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox) {
 		List<SimpleEntry<Class<R>, R>> boxItems = mySubclassBox.getItems();
 		SimpleEntry<Class<R>, R> rBoxItem = null;	
+
 		for (SimpleEntry<Class<R>, R> item : boxItems) {
 			if (item.getKey().equals(rType)) {
 				rBoxItem = item;
@@ -196,7 +220,7 @@ public class VisualFactory {
 	}
 
 	
-	private <R, T> VBox doubleParamType(Class<R> rType, Class<T> tType, Property prop) {
+	private <R, T> VBox doubleParamType(Class<R> rType, Class<T> tType, Object prop) {
 		VBox doubleParamVBox = new VBox();
 		
 		if(prop instanceof MapProperty) {
@@ -244,8 +268,8 @@ public class VisualFactory {
 		// get a proper subclass of R if necessary
 		if (SettingsReflectUtils.isAbstractOrInterface(rType)) {
 			rType = (Class<R>) SettingsReflectUtils.getSubclass(rType);	
-		}
-		rListElement = (R) SettingsReflectUtils.newClassInstance(rType);	
+		} 
+		rListElement = (R) SettingsReflectUtils.newClassInstance(rType);
 		updateComboBoxValue((Class<R>) rListElement.getClass(), rListElement, mySubclassBoxKey);
 		
 		
@@ -260,86 +284,69 @@ public class VisualFactory {
 		tListElement = (T) SettingsReflectUtils.newClassInstance(tType);		
 		updateComboBoxValue((Class<T>) tListElement.getClass(), tListElement, mySubclassBoxValue);
 
+		mprt.put(rListElement, tListElement);
 		retHBox.getChildren().addAll(elementBoxKey, elementBoxValue);
 		return retHBox;
 	}
 
 		
-	// ONLY MAKE COMBO BOX IF THERE IS A SUBCLASS
-	// SET DEFAULT VALUE OF COMBOBOX TO BE FIRST VALUE IN OBSERVABLE LIST
-	private <R> VBox makeFieldVBox(Field f, Object parentObj) {
-		VBox fieldVBox = new VBox();
-		VBox propVBox = new VBox();
-
-		Class<R> clazz = (Class<R>) f.getType();
-
-		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);		
-		Set<HBox> props = makePropertyBoxes(clazz, fObj, fObj.getClass().getName(), new HashSet<HBox>(), true);
-		propVBox.getChildren().addAll(props);
-
-
-		fieldVBox.getChildren().add(propVBox);
-
-		return fieldVBox;
-	}
-		
 	public static <R, K> Set<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, Set<HBox> properties, boolean makeBox) {
 		if (Property.class.isAssignableFrom(clazz)) {
-			// the parent is a Property, we can make a settings element
 			HBox settingsHBox = new HBox(SettingsObjectMaker.makeSettingsObject(parent, parentName));
 			properties.add(settingsHBox);
 			return properties;
-		} else if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
-			HBox fieldVBoxHBox = new HBox();
+		} 
+		
+		HBox fieldVBoxHBox = new HBox();
+		// parent is probably an abstract class and therefore
+		// impossible to make an instance
+		if (parent == null) {
+			parent = (R) SettingsReflectUtils.getSubclassInstance(clazz);
+		}
+		
+		// make subclass combobox if necessary
+		if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = SubclassComboBoxMaker.makeSubclassComboBox(clazz);
 			updateComboBoxValue(clazz, parent, subclassBox);
-			System.out.println(clazz.getName());
+			
 			VBox vb = new VBox(subclassBox);
 			fieldVBoxHBox.getChildren().add(vb);
-			properties.add(fieldVBoxHBox);
-			return properties;
 		}
-
-
+		
 		// prevents us from trying to initialize java classes		
-		if (myProjectClassNames.contains(clazz.getName())) {
-			Set<Field> allFields = SettingsReflectUtils.getAllFields(new HashSet<Field>(), clazz);
-			// parent is probably an abstract class and therefore
-
-			// impossible to make an instance
-			if (parent == null) {
-				parent = (R) SettingsReflectUtils.getSubclassInstance(clazz);
-			}
-			
-			HBox fieldVBoxHBox = new HBox();
-			VBox fieldVBox = new VBox();
+		if (myProjectClassNames.contains(clazz.getName())) {			
+			VBox fieldVBox = new VBox();			
 			Set<HBox> fieldHBoxes = new HashSet<HBox>();
+			
+			Set<Field> allFields = SettingsReflectUtils.getAllFields(new HashSet<Field>(), clazz);
 			for (Field otherField : allFields) {
-				otherField.setAccessible(true);
-				
+				otherField.setAccessible(true);			
 				if (!otherField.isAnnotationPresent(IgnoreField.class)) {
 					if(otherField.getType().isPrimitive()) {
 						// TODO UNCOMMENT
 						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
+					} else {
+						String pName = otherField.getName();
+						K otherFieldObject = (K) SettingsReflectUtils.fieldGetObject(otherField, parent);
+						
+						if (otherField.isAnnotationPresent(SetFieldName.class)) {
+							pName = otherField.getAnnotation(SetFieldName.class).label();
+						}
+
+						fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), otherFieldObject, pName, properties, true));
 					}
-					String pName = otherField.getName();
-					if (otherField.isAnnotationPresent(SetFieldName.class)) {
-						pName = otherField.getAnnotation(SetFieldName.class).label();
-					}
-					
-					K o = (K) SettingsReflectUtils.fieldGetObject(otherField, parent);
-					fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), o, pName, properties, true));
 				}
 			}
+			
 			fieldVBox.getChildren().addAll(fieldHBoxes);
 			fieldVBoxHBox.getChildren().add(fieldVBox);			
-			properties.add(fieldVBoxHBox);
+		} else {
+			// TODO THROW EXCEPTION
+			// idk if this is necessary
 		}
-
+		
+		properties.add(fieldVBoxHBox);
 		return properties;
 	}
-
-	
-	
 
 }

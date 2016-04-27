@@ -1,31 +1,15 @@
-	package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.Constants;
+
 public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
-	public static final String PACKAGE_NAME = "gameElements";
-	private static List<String> packageNames = Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
-			"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
-			"spriteProperties");
-	private static SubclassEnumerator instance = null;
-
-	public SubclassEnumerator(List<String> packageNames) {
-		this.packageNames = packageNames;
-	}
 	
-	public static SubclassEnumerator getInstance() {
-		if (instance == null) {
-			instance = new SubclassEnumerator(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
-					"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
-					"spriteProperties"));
-		}
-		
-		return instance;
-	}
 	
 	public static boolean hasSubclasses(Class<?> clazz) {
 		if (getAllSubclasses(clazz).size() <= 1) {
@@ -58,7 +42,7 @@ public class SubclassEnumerator {
 	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> clazz) {
 		Map<String, Class<R>> allSubclasses = new HashMap<String, Class<R>>();
 		
-		for (String p : packageNames) {
+		for (String p : Constants.getInstance().getPackageNames()) {
 			allSubclasses.putAll(getSubclasses(p, clazz));
 		}
 		
@@ -68,7 +52,7 @@ public class SubclassEnumerator {
 	public static List<String> getAllSimpleClassNames() {
 		List<String> allClassNames = new ArrayList<String>();
 				
-		for (String p : packageNames) {
+		for (String p : Constants.getInstance().getPackageNames()) {
 			allClassNames.addAll(getSimpleClassNames(p));
 		}
 		
