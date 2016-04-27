@@ -1,28 +1,23 @@
 package events;
 
-import java.util.Map;
-
-import behaviors.Behavior;
 import behaviors.IActions;
-import gameElements.Sprite;
-import gameElements.SpriteMap;
-import keyboard.IKeyboardAction;
-import keyboard.KeyboardActionChecker;
-import keyboard.KeyboardActionFactory;
 import level.LevelProperties;
-import keyboard.IKeyboardAction.KeyboardActions;
-import javafx.scene.input.KeyEvent;
 
 public class KeyPressEvent implements Executable {
 
-	public KeyPressEvent() {
-		// TODO Auto-generated constructor stub
-	}
+    public KeyPressEvent() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public void execute(IActions action, LevelProperties levProps) {
-		
-	}
+    @Override
+    public void execute(IActions action, LevelProperties levProps) {
+
+    }
+
+    @Override
+    public void stop(IActions actions, LevelProperties levProps) {
+
+    }
 
 	/*@Override
 	public void execute(KeyEvent key, boolean enable, Sprite currentSprite) {
@@ -30,7 +25,6 @@ public class KeyPressEvent implements Executable {
 		levelProperties.addScore(10);
 		KeyboardActions action = levelProperties.getKeyboardAction(key.getCode());
 		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
-
 		//Sprite currentSprite = spriteMap.get(spriteID);
 		if (currentSprite == null) {
 			return;
@@ -49,21 +43,17 @@ public class KeyPressEvent implements Executable {
 					behavior.disable();
 				}
 			}
-
 		} else {
 			if (keyboardAction == null) {
 				keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
 				keyboardActionMap.put(action, keyboardAction);
 			}
-
 			KeyboardActionChecker keyboardActionChecker = new KeyboardActionChecker();
-
 			if (keyboardActionChecker.checkKeyboardAction(action, currentSprite) && enable) {
 				keyboardAction.enableKeyboardAction(currentSprite);
 			} else {
 				keyboardAction.disableKeyboardAction(currentSprite);
 			}
-
 		}
 	}*/
 

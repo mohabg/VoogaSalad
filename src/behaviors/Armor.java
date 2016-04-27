@@ -38,6 +38,11 @@ public class Armor extends Defense{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+    @Override
+    public void stop(IActions actions, LevelProperties levProps) {
+
+    }
+
 
 }

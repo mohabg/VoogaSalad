@@ -1,7 +1,6 @@
 package collisions;
 
 import behaviors.IActions;
-import gameElements.Sprite;
 import level.LevelProperties;
 
 public class ExplosionCollision extends Collision{
@@ -29,4 +28,9 @@ public class ExplosionCollision extends Collision{
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public void stop(IActions actions, LevelProperties levProps) {
+
+    }
 }
