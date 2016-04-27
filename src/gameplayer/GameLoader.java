@@ -18,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import level.Level;
 import level.LevelProperties;
-
 import javafx.scene.control.TextInputDialog;
 
 import java.io.BufferedOutputStream;
@@ -51,10 +50,9 @@ public class GameLoader {
 			+ "/SavedGameData/SavedGames/%s.xml";
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
-
+	
 	public static void init() {
 		FXConverters.configure(xstream);
-
 	}
 
 	/**
@@ -161,12 +159,17 @@ public class GameLoader {
 		list.forEach(s -> {
 			if(s.isUserControlled()){
 				s.setUserControlled(true);
+				setUserControlledSpriteID(newLevel);
 			}
 			newLevel.addSprite(s);
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
 
 		});
 		return viewsprites;
+	}
+
+	private static void setUserControlledSpriteID(Level newLevel) {
+		newLevel.getLevelProperties().getSpriteMap().setUserControlledSpriteID(newLevel.getCurrentSpriteID());
 	}
 
 	public static Screen newGame(String name) {

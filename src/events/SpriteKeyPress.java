@@ -2,7 +2,7 @@ package events;
 
 import java.util.HashMap;
 import behaviors.Behavior;
-import behaviors.Bullet;
+import behaviors.Gun;
 import behaviors.MoveHorizontally;
 import behaviors.MoveVertically;
 import javafx.beans.property.MapProperty;
@@ -49,7 +49,7 @@ public class SpriteKeyPress {
 	}
 	
 	public void addShooting(KeyCode key) {
-		userPressBehaviors.put(key, new Bullet());
+		userPressBehaviors.put(key, new Gun());
 	}
 
 }

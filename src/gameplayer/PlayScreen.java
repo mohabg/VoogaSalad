@@ -140,7 +140,7 @@ public class PlayScreen extends Screen {
 			key.consume();
 		});
 		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
-			currentLevel.handleKeyRelease(key);
+			//currentLevel.handleKeyRelease(key);
 			key.consume();
 		});
 	}

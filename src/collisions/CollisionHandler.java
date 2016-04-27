@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import events.ICollisionHandler;
 import gameElements.Sprite;
-import gameElements.SpriteMap;
 
 /**
  * Handles overall collisions 
@@ -32,9 +31,9 @@ public class CollisionHandler implements ICollisionHandler {
 		}
 	}
 	
-	public void handleCollisions(SpriteMap spriteMap, LevelProperties levelProperties) {
+	public void handleCollisions(LevelProperties levelProperties) {
 		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
+		Collection<Sprite> spriteSet = levelProperties.getSpriteMap().getSprites();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
 		int index = 0;
 		for (Sprite sprite : spriteSet) {
