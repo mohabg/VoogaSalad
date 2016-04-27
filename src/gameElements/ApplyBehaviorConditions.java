@@ -1,5 +1,6 @@
 package gameElements;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -26,6 +27,7 @@ public class ApplyBehaviorConditions {
 	private DoubleProperty frequency; //In seconds
 	private DoubleProperty maxDuration;
 	private DoubleProperty currentDuration;
+	@IgnoreField
 	private double runningTime;
 	private BooleanProperty enabled;
 	

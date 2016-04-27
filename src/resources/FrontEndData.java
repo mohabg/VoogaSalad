@@ -24,6 +24,10 @@ public class FrontEndData {
 	public static ResourceBundle ButtonLabels = ResourceBundle.getBundle(BUTTONLABELS);
 
 	public static String STYLESHEET = "authoringEnvironment/itemWindow/styles.css";
+    public static String TAB_STYLESHEET = "authoringEnvironment/authoringToolbar/authoringToolbar.css";
+    public static String ITEMWINDOW_STYLESHEET = "authoringEnvironment/itemWindow/itemWindow.css";
+    public static String MAINWINDOW_STYLESHEET = "authoringEnvironment/mainWindow/mainWindow.css";
+    public static String STARTING_STYLESHEET = "authoringEnvironment/startOptionsWindow.css";
 	public static String TILEPANE = "TilePane";
 	
 

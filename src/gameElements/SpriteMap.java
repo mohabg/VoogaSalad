@@ -24,6 +24,7 @@ public class SpriteMap{
 	}
 	
 	public void addSprite(Sprite sprite){
+
 		spriteMap.put(id, sprite);
 		activeSprites.add(id);
 		id++;

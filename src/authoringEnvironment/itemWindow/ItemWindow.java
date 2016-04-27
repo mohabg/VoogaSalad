@@ -2,9 +2,11 @@ package authoringEnvironment.itemWindow;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
-import interfaces.ITabPane;
+import interfaces.IGameWindow;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.image.ImageView;
 import resources.FrontEndData;
 
 import java.util.List;
@@ -15,13 +17,14 @@ import java.util.stream.Collectors;
  */
 public class ItemWindow {
 	private TabPane myTabPane;
-	private ITabPane myGameTabPane;
+	private IGameWindow myGameTabPane;
 	// private Map<ViewSprite, Sprite> mySpritesAndModels;
 
-	public ItemWindow(ITabPane window) {
+	public ItemWindow(IGameWindow window) {
 		myGameTabPane = window;
 		myTabPane = new TabPane();
-		myTabPane.getStylesheets().add(FrontEndData.STYLESHEET);
+		myTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		myTabPane.getStylesheets().add(FrontEndData.ITEMWINDOW_STYLESHEET);
 		// mySpritesAndModels = new HashMap<ViewSprite, Sprite>();
 		initTabPane();
 	}
@@ -33,9 +36,13 @@ public class ItemWindow {
 
 	private Tab makeTab(String type) {
 		try {
-			Class c = Class.forName(FrontEndData.ItemPaths.getString(type));
-			AbstractItemTab tab = (AbstractItemTab) c.newInstance();
+			ItemTab tab = new ItemTab();
+			if(type.equals("Background")){
+				tab.populateTab(fillBackground(type));
+			}
+			else{
 			tab.populateTab(fillSprites(type));
+			}
 			tab.setTabTitle(type);
 			return tab.getTab();
 		} catch (Exception e) {
@@ -43,8 +50,22 @@ public class ItemWindow {
 		}
 		return null;
 	}
+	
+	private List<ImageView> fillBackground(String type) {
+		return FrontEndData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type)).map(k -> makeBackground(k))
+				.collect(Collectors.toList());
+	}
+	
+	private ImageView makeBackground(String k) {
+		String p = FrontEndData.SpriteImages.getString(k);
+		ImageView bg = new ImageView(p);
+		bg.setOnMouseClicked(e -> {
+			myGameTabPane.setBackground(p);
+		});
+		return bg;		
+	}
 
-	private List<ViewSprite> fillSprites(String type) {
+	private List<ImageView> fillSprites(String type) {
 		return FrontEndData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type)).map(k -> makeViewSprite(k))
 				.collect(Collectors.toList());
 	}
@@ -53,7 +74,7 @@ public class ItemWindow {
         	String p = FrontEndData.SpriteImages.getString(key);
 			ViewSprite viewsprite = new ViewSprite(p);
 			viewsprite.setOnMouseClicked(e -> {
-				myGameTabPane.getCurrentTab().setTabContent(viewsprite);
+				myGameTabPane.setViewSprite(viewsprite);
 			});
 			return viewsprite;
 	}

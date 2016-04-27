@@ -14,7 +14,11 @@ public interface ITab {
 	
 	Tab getTab();
 	
-	void setTabTitle(String tabTitle);
+	public void setTabTitle(String tabTitle);
 
-	void setTabContent(ViewSprite view);
+	public void setViewSprite(ViewSprite view);
+	
+	public void setBackground(String bg);
+	
+	public String getBackground();
 }

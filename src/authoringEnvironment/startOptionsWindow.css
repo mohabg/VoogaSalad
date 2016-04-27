@@ -1,0 +1,18 @@
+.border-pane {
+	-fx-background-color: #121b3e;
+}
+
+#myvBox {
+	-fx-background-color: #121b3e;
+}
+
+.button {
+	-fx-background-color: #121b3e;
+	-fx-text-fill: #ffffff;
+	-fx-font-family: verdana;
+	-fx-font-weight: bold;
+}
+
+.button:hover{
+	-fx-text-fill: #7090cb;
+}
