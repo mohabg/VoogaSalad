@@ -3,9 +3,7 @@ package authoringEnvironment.authoringToolbar;
 import authoringEnvironment.MainAuthoringWindow;
 import gameplayer.GameLoader;
 import gameplayer.MainPlayingWindow;
-import gameplayer.PlayScreen;
 import interfaces.ITabPane;
-import javafx.stage.Stage;
 import resources.FrontEndData;
 
 /**
@@ -60,9 +58,9 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
     private MenuBarElement getGameMenu(ITabPane window){
     	MenuBarElement myGameMenu = new MenuBarElement();
     	myGameMenu.setName(FrontEndData.ButtonLabels.getString("GameMenu"));
-    	myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
-             playMyGame(window);
-        });
+//    	myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("PlayMenu1"), e -> {
+//             playMyGame(window);
+//        });
     	myGameMenu.setNewAction(FrontEndData.ButtonLabels.getString("AddNewLevelMenu1"), e -> {
             window.addNewTab();
         });
@@ -81,12 +79,12 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
     	return playToggleButton;
     }
     
-	private void playMyGame(ITabPane tabLevels) {
-		GameLoader.saveGame(myName, tabLevels);
-		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
-		myStage.setScene(new PlayScreen(myName).getScreen().getScene());
-		myStage.centerOnScreen();
-	}
+//	private void playMyGame(ITabPane tabLevels) {
+//		GameLoader.saveGame(myName, tabLevels);
+//		Stage myStage = (Stage) myMenuBar.getScene().getWindow();
+//		myStage.setScene(new PlayScreen(myName).getScreen().getScene());
+//		myStage.centerOnScreen();
+//	}
 
 	
 

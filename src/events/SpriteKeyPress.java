@@ -1,6 +1,5 @@
 package events;
 
-import java.util.HashMap;
 import behaviors.Behavior;
 import behaviors.Gun;
 import behaviors.MoveHorizontally;
@@ -8,16 +7,16 @@ import behaviors.MoveVertically;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
+
+import java.util.HashMap;
 
 public class SpriteKeyPress {
 
 	private MapProperty<KeyCode, Behavior> userPressBehaviors;
 
 	public SpriteKeyPress() {
-		userPressBehaviors = new SimpleMapProperty<KeyCode, 
-				Behavior>(FXCollections.observableMap(new HashMap<KeyCode, Behavior>()));
+		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(FXCollections.observableMap(new HashMap<KeyCode, Behavior>()));
 	}
 	
 	public SpriteKeyPress(MapProperty<KeyCode, Behavior> userPressBehaviors) {

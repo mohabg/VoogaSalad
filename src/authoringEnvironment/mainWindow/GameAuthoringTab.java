@@ -70,7 +70,7 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 
 //		myNewGameArea.setContent(myNewGamePane);
 		myNewGamePane.setOnMouseClicked(e -> {
-			updateSettingsPane(this.myLevelModel);
+			updateSettingsPane(myLevelModel);
 		});
 
 //		setTabContent(myNewGameArea);
