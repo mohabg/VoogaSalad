@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import level.LevelProperties;
 
 public class InputHandler implements IInputHandler {
 
@@ -48,12 +49,12 @@ public class InputHandler implements IInputHandler {
 	}
 
 	@Override
-	public void keyEvent(KeyEvent event, IActions action) {
+	public void keyEvent(KeyEvent event, IActions action, LevelProperties levProps) {
 		if ( gameActions.containsKey(event.getCode())){
-			gameActions.get(event.getCode()).execute(action);	
+			gameActions.get(event.getCode()).execute(action, levProps);	
 		}
 		else if ( spriteActions.containsKey(event.getCode())){
-			spriteActions.get(event.getCode()).execute(action);
+			spriteActions.get(event.getCode()).execute(action, levProps);
 		}
 		//else throw some error
 	}

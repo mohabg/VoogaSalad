@@ -129,7 +129,7 @@ public class Sprite implements ISprite{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions);
+				behavior.apply(actions, null);
 			}
 		}
 	}

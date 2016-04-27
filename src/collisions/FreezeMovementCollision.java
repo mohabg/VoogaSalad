@@ -1,5 +1,6 @@
 package collisions;
 
+import behaviors.IActions;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -19,5 +20,11 @@ public class FreezeMovementCollision extends Collision{
 	 */	
 	public void handleCollision(EnemyCollision other, LevelProperties levelProperties) {
 		levelProperties.getSpriteForCollision(other).getSpriteProperties().disableMovement();
+	}
+
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

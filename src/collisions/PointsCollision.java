@@ -1,5 +1,6 @@
 package collisions;
 
+import behaviors.IActions;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -19,5 +20,10 @@ public class PointsCollision extends Collision{
 		Integer newScore = (int) (levelProperties.getCurrentPoints() + getValue());
 		levelProperties.setCurrentPoints(newScore);
 		System.out.println("currentPoints"+newScore);
+	}
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

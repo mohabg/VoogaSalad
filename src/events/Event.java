@@ -1,8 +1,14 @@
 package events;
 
 import behaviors.IActions;
+import level.LevelProperties;
 
-public class Event {
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
+public abstract class Event {
 	
 	private static String DEFAULT_EVENT_NAME = "unnamedEvent";
 	
@@ -20,21 +26,30 @@ public class Event {
 		this.executable = executable;
 	}
 	
+	public Executable getExecutable() {
+		return executable;
+	}
+
+	public void setExecutable(Executable executable) {
+		this.executable = executable;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Trigger getTrigger() {
+		return trigger;
 	}
 	
 	public void setTrigger(Trigger trigger) {
 		this.trigger = trigger;
 	}
 	
-	public void setAction(Executable executable) {
-		this.executable = executable;
-	}
-	
-	public void doEvent(IActions action) {
-		if (trigger.isTriggered())
-			executable.execute(action);
-	}
+	public abstract void doEvent(IActions action, LevelProperties levProps);
 
 }

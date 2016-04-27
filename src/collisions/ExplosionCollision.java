@@ -1,5 +1,6 @@
 package collisions;
 
+import behaviors.IActions;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -18,5 +19,11 @@ public class ExplosionCollision extends Collision{
 
 	public void handleCollision(EnemyCollision other, LevelProperties levelProperties){
 		//Explode
+	}
+
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

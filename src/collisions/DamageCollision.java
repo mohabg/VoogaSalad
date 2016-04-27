@@ -2,6 +2,7 @@ package collisions;
 
 import behaviors.Behavior;
 import behaviors.Defense;
+import behaviors.IActions;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import level.LevelProperties;
@@ -27,7 +28,7 @@ public class DamageCollision extends Collision{
 	 * @param collision The Enemy sprite that you want to cause damage to
 	 */
 	public void handleCollision(EnemyCollision collision, LevelProperties levelProperties){
-		if(collision.isCollidingWithUser(levelProperties)){
+		if(this.isCollidingWithUser(levelProperties)){
 			Sprite collidingSprite = levelProperties.getSpriteForCollision(collision);
 			collidingSprite.takeDamage(getValue());
 		}
@@ -37,7 +38,7 @@ public class DamageCollision extends Collision{
 	 * @param collision The Actor sprite that you want to cause damage to
 	 */
 	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
-		if( !(collision.isCollidingWithUser(levelProperties)) ){
+		if( !(this.isCollidingWithUser(levelProperties)) ){
 			Sprite collidingSprite = levelProperties.getSpriteForCollision(collision);
 			collidingSprite.takeDamage(getValue());
 		}
@@ -49,5 +50,11 @@ public class DamageCollision extends Collision{
 	 */
 	private void causeDamage(Sprite spriteToDamage, double damage) {
 		spriteToDamage.takeDamage(damage);
+	}
+
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }
