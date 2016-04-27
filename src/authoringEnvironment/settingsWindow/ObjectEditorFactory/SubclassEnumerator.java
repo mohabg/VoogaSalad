@@ -12,10 +12,7 @@ public class SubclassEnumerator {
 			"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
 			"spriteProperties");
 	private static SubclassEnumerator instance = null;
-	
 
-	
-	
 	public SubclassEnumerator(List<String> packageNames) {
 		this.packageNames = packageNames;
 	}

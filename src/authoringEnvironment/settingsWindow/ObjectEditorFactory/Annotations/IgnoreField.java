@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Annotation;

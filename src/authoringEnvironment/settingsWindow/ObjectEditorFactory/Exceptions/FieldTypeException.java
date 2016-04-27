@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Exceptions;
 
 public final class FieldTypeException extends RuntimeException {
 	 // for serialization
