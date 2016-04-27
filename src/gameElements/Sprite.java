@@ -6,6 +6,7 @@ import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
+import events.Executable;
 import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
@@ -33,7 +34,7 @@ public class Sprite implements ISprite{
 	private ListProperty<Collision> myCollisions;
 
 	private MapProperty<StringProperty, Behavior> behaviors;
-	private MapProperty<KeyCode, Behavior> userPressBehaviors;
+	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
 	private RefObject myRef;
 
@@ -55,8 +56,8 @@ public class Sprite implements ISprite{
 				.observableMap(new HashMap<StringProperty, Behavior>());
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om2);
+		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
+		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
 		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
 		
@@ -138,7 +139,7 @@ public class Sprite implements ISprite{
 												this.behaviors, this.myRef);
 	}
 	
-	public Map<KeyCode, Behavior> getUserPressBehaviors() {
+	public MapProperty<KeyCode, Executable> getUserPressBehaviors() {
 		return userPressBehaviors;
 	}
 
@@ -147,8 +148,8 @@ public class Sprite implements ISprite{
 
 	}
 
-	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(userBehaviors);
+	public void setUserPressBehaviors(Map<KeyCode, Executable> userBehaviors) {
+		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(userBehaviors);
 		this.userPressBehaviors.set(om2);
 	}
 
@@ -311,7 +312,7 @@ public class Sprite implements ISprite{
 	 *            Checks if the KeyCode corresponds to an action
 	 * @return
 	 */
-	public Behavior getUserPressBehavior(KeyCode keyCode) {
+	public Executable getUserPressBehavior(KeyCode keyCode) {
 		return userPressBehaviors.get(keyCode);
 	}
 	

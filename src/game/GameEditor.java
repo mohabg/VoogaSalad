@@ -2,6 +2,7 @@ package game;
 
 import java.util.List;
 
+import gameElements.ISprite;
 import authoringEnvironment.Settings;
 import gameElements.ViewPoint;
 import goals.Goal;
@@ -74,8 +75,12 @@ public class GameEditor implements IGameEditor {
 		return myGame.getCurrentLevel().getCurrentSpriteID();
 	}
 
-	public void setUserSprite(Integer spriteID) {
-		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
+	public void setSpriteActions() {
+		myGame.getCurrentLevel().setSpriteActions();
+	}
+	
+	public void setUserSprite(Integer sprite) {
+		myGame.getCurrentLevel().setCurrentSpriteID(sprite);
 	}
 
 	public void updateGame() {
@@ -85,8 +90,8 @@ public class GameEditor implements IGameEditor {
 			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
 	}
 
-	public void setResultForKeyPress(KeyEvent event) {
+	/*public void setResultForKeyPress(KeyEvent event) {
 		myGame.getCurrentLevel().handleKeyPress(event);
-	}
+	}*/
 
 }

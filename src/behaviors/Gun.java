@@ -28,7 +28,7 @@ public class Gun extends Attack{
 	}
 	public Gun(RefObject myRef){
 		super(myRef);
-		this.getBehaviorConditions().setFrequency(2);
+		this.getBehaviorConditions().setFrequency(20);
 		this.getBehaviorConditions().setProbability(0.2);
 	}
 	/**

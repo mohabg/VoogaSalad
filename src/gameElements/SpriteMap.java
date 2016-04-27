@@ -77,4 +77,8 @@ public class SpriteMap{
 	public Sprite getCurrentSprite() {
 		return this.get(currentID);
 	}
+
+	public Sprite getUserControlledSprite() {
+		return this.get(userControlledSpriteID);
+	}
 }
