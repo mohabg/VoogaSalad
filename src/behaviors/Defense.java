@@ -1,16 +1,9 @@
 package behaviors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import authoringEnvironment.RefObject;
-import collisions.Collision;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Health;
 import gameElements.Sprite;
-import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -62,15 +55,14 @@ public abstract class Defense extends Behavior {
 	
 	/**
 	 * @param sprite Enables the defense of a sprite, provided the readyToDefend boolean is on
-	 * @see readyToDefend
 	 */
 	@Override
-	public void apply(Sprite sprite, SpriteFactory spriteFactory){
+	public void apply(IActions actions){
 			if(this.isEnabled()){
-				defend(sprite, spriteFactory);
+				defend(actions);
 			}
 	}
-	public abstract void defend(Sprite sprite, SpriteFactory spriteFactory);
+	public abstract void defend(IActions actions);
 
 	public Health getHealth() {
 		return health;

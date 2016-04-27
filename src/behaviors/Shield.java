@@ -30,10 +30,11 @@ public class Shield extends Defense{
 	}
 
 	@Override
-	public void defend(Sprite sprite, SpriteFactory spriteFactory) {
-		spriteFactory.makeSprite(sprite.getX().doubleValue(), 
-								sprite.getY().doubleValue(),
-								sprite.getSpriteProperties().getClone(),
+	public void defend(IActions actions) {
+		SpriteProperties properties = actions.getSpriteProperties();
+		actions.makeSprite(properties.getMyX().doubleValue(), 
+								properties.getMyY().doubleValue(),
+								properties.getClone(),
 								this.getMyRef());
 		//TODO: Shield sprite needs collisions
 	}

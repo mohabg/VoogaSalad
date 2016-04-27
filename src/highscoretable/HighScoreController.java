@@ -43,6 +43,7 @@ public class HighScoreController {
 	public void addHighScore(Double score, String player, String game){
 		addHighScores(new HighScore(score, player, game));
 	}
+	
 	public void addHighScores(HighScore... scores) {
 		data.addAll(scores);
 

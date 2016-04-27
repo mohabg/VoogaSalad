@@ -1,7 +1,6 @@
 package gameplayer;
 
-import HUD.HUDEnum;
-import HUD.HeadsUpDisplay;
+import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
@@ -13,14 +12,10 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import level.Level;
-import resources.FrontEndData;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,78 +27,64 @@ import java.util.Map;
  * @author Huijia
  *
  */
-public class PlayScreen extends Screen {
-	private Map<Level, Map<Integer, ViewSprite>> myViewSprites;
+public class PlayScreen {
 	private ObservableList<Integer> activeSprites;
 	private Engine myEngine;
-
-	private HeadsUpDisplay myHUD;
-
+	private PlayerView myView;
 	private File gameFile;
 	private Level currentLevel;
 
 	public PlayScreen(File newGameFile) {
-		super();
 		gameFile = newGameFile;
-		myViewSprites = new HashMap<Level, Map<Integer, ViewSprite>>();
+		myView = new PlayerView();
+		myEngine = new Engine(this, new GameEditor());
+        setGameLevels(GameLoader.parseAndLoadGame(gameFile));
 
-		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 
 	}
-
-	private void initHUD() {
-		Button pauseButton = makePauseButton();
-
-		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-		//myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
-
-		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
-		myPane.getChildren().add(myHUD.getHUD());
+	public PlayScreen(String name){
+		this(new File(String.format(GameLoader.SAVED_FOLDER_DIRECTORY, name)));
 	}
 
-	private Button makePauseButton() {
-		return ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("pause"), a -> {
-			PauseScreen ps = new PauseScreen(this);
-			ps.initBorderPane(myViewSprites.keySet());
-			switchScene(ps);
-			myEngine.pauseGameLoop();
-		});
-	}
+    public void init(){
+        setKeys();
+
+    }
+
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
-		myEngine = new Engine(this, new GameEditor());
 
-		myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
+		// myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
+		for (int i = 0; i < gameLevels.size(); i++) {
+			LevelModel lm = gameLevels.get(i);
+			Level newLevel = GameLoader.makeLevel(lm, i);
+			int id = newLevel.getLevelProperties().getLevelID();
+			myEngine.addLevel(id, newLevel);
+			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
+			myView.setBackground(lm.getBackground());
+		}
 
-		myViewSprites.keySet().forEach(level -> myEngine.addLevel(level.getLevelProperties().getLevelID(), level));
+		myEngine.setCurrentLevel(0);
 		setLevel(myEngine.getCurrentLevel());
 		myEngine.gameLoop();
 
 	}
 
 	public void setLevel(Level newLevel) {
-		try {
-			myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
-		} catch (Exception e) {
 
-		}
 		currentLevel = newLevel;
-
-		SpriteFactory sf = new SpriteFactory(myViewSprites.get(currentLevel), currentLevel.getSpriteMap());
+	
+		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
 		currentLevel.setSpriteFactory(sf);
 		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
-		activeSprites.addListener(new ListChangeListener<Integer>() {
-			@Override
-			public void onChanged(ListChangeListener.Change change) {
-				setSprites();
-			}
-		});
+		activeSprites.addListener((ListChangeListener<Integer>) change -> {
+            myView.setSprites(activeSprites);
+        });
 
+		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
+		myView.setSprites(activeSprites);
 		setKeys();
-		setSprites();
-	//	myEngine.getMyEditor().getGame().setViewPoint(58*20, 58*11, currentLevel.getCurrentSprite());
-	//	myEngine.getMyEditor().getGame().setViewPoint(new ViewPoint( new SimpleDoubleProperty(), new SimpleDoubleProperty(), myEngine.getCurrentLevel().getCurrentSprite()));
-		initHUD();
+
 
 	}
 
@@ -115,20 +96,8 @@ public class PlayScreen extends Screen {
 		myEngine.playGameLoop();
 	}
 
-	public void setSprites() {
-		// System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
-		myPane.getChildren().removeAll(myViewSprites.get(currentLevel).values());
-		activeSprites.forEach(s -> {
-			myPane.getChildren().add(myViewSprites.get(currentLevel).get(s));
-			});
-	}
-
 	public Level getCurrentLevel() {
 		return currentLevel;
-	}
-
-	public Pane getPane() {
-		return myPane;
 	}
 
 	public Map<Integer, Sprite> getSprites() {
@@ -136,29 +105,30 @@ public class PlayScreen extends Screen {
 	}
 
 	public Map<Integer, ViewSprite> getViewSprites() {
-		return myViewSprites.get(currentLevel);
+		return myView.getViewSprites();
 	}
 
 	public void setKeys() {
-		myPane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+//		myView.getPane().getScene().setOnKeyPressed(null);
+		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
-		myPane.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
-			currentLevel.handleKeyRelease(key);
+		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+			//currentLevel.handleKeyRelease(key);
 			key.consume();
 		});
 	}
-	
-	public void makeHighScoreTable(){
-		HighScoreController hsc = new HighScoreController();
-//		hsc.addHighScore(myEngine.getScore(), myEngine.getName());
-		hsc.addHighScore(10.1, "game");
-		myPane.getChildren().clear();
-		myPane.getChildren().add(hsc.getTable());
-		
+
+	public void addSprite(ViewSprite vs) {
+		AESpriteFactory sf = new AESpriteFactory();
+		myView.getViewSprites().put(currentLevel.getCurrentSpriteID() + 1, vs);
+		currentLevel.addSprite(sf.makeSprite(vs));
+
 	}
-	
-	
+	public Screen getScreen() {
+		// TODO Auto-generated method stub
+		return myView;
+	}
 
 }

@@ -1,5 +1,6 @@
 package behaviors;
 
+import gameElements.Actions;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Sprite;
 import gameplayer.SpriteFactory;
@@ -18,7 +19,7 @@ public abstract class Behavior {
 	public Behavior(){
 		behaviorConditions = new ApplyBehaviorConditions();
 	}
-	public abstract void apply(Sprite spriteProperties, SpriteFactory spriteFactory);
+	public abstract void apply(IActions actions);
 	
 	public boolean isReady(Sprite sprite){
 		return this.behaviorConditions.ready(sprite);

@@ -2,9 +2,6 @@ package gameplayer;
 
 import java.io.File;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 /**
  * Game file screen for playing games. Extends gamefilescreen.
  * 
@@ -21,7 +18,7 @@ public class GamePlayingFileScreen extends GameFileScreen {
 	@Override
 	public void setOnMouseClick(File file) {
 
-		Screen playScreen = GameLoader.newGame(file);
-		switchScene(playScreen);
+        MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(this, file.getName().replace(".xml", ""));
+        switchScene(myMainPlayingWindow);
 	}
 }

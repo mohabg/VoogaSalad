@@ -1,5 +1,6 @@
 package gameElements;
 
+import behaviors.IActions;
 import gameplayer.SpriteFactory;
 
 public interface ISprite {
@@ -12,5 +13,5 @@ public interface ISprite {
 		Defense
 	}
 	
-	void update(SpriteFactory spriteFactory);
+	public void update(IActions actions);
 }

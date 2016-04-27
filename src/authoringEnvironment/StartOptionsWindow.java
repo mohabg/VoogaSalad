@@ -1,11 +1,7 @@
 package authoringEnvironment;
 
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import gameplayer.ButtonFactory;
 import gameplayer.GameEditingFileScreen;
-import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
 import gameplayer.Screen;
 import javafx.scene.control.Button;
@@ -15,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import resources.FrontEndData;
+
+import java.util.Optional;
 
 /**
  * @author Huijia Yu, Joe Jacob
@@ -30,7 +28,9 @@ public class StartOptionsWindow extends Screen {
 		super();
 		myStage = currStage;
 		myPane = new BorderPane();
+		myPane.getStylesheets().add(FrontEndData.STARTING_STYLESHEET);
 		startWindowBox = new VBox();
+		startWindowBox.setId("myvBox");
 		Settings.setStartWindowSettings(startWindowBox);
 		makeAndSetStartBox();
 	}
@@ -43,11 +43,14 @@ public class StartOptionsWindow extends Screen {
 			TextInputDialog dialog = new TextInputDialog("my-game");
 			dialog.setContentText("Please enter your game's name:");
 			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(r->switchScene(new MainAuthoringWindow(this, r)));
+			result.ifPresent(r->{
+				switchScene(new MainAuthoringWindow(this, r));
+//				m.setKeys();
+				
+			});
 		}));
 
 		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {
-
 			switchScene(new GameEditingFileScreen());
 		}));
 
