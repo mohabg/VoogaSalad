@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

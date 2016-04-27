@@ -2,11 +2,10 @@ package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFieldName;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Exceptions.FieldTypeException;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SettingsObjectMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SubclassComboBoxMaker;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
 import gameplayer.ButtonFactory;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -71,8 +70,11 @@ public class VisualFactory {
 
 
 	private Tab getOneTab(Field f, Object model) {
-		String tabName = f.getName();
-		Tab myFieldTab = new Tab(SettingsObjectMaker.convertCamelCase(tabName));
+		String tabName = SettingsObjectMaker.convertCamelCase(f.getName());
+		if (f.isAnnotationPresent(SetFieldName.class)) {
+			tabName = f.getAnnotation(SetFieldName.class).label();
+		}
+		Tab myFieldTab = new Tab(tabName);
 		VBox myBox = new VBox();
 		ScrollPane myScrollPane = new ScrollPane();
 		AnchorPane myAnchorPane = new AnchorPane();
@@ -320,9 +322,12 @@ public class VisualFactory {
 						// TODO UNCOMMENT
 						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
 					}
+					String pName = otherField.getName();
+					if (otherField.isAnnotationPresent(SetFieldName.class)) {
+						pName = otherField.getAnnotation(SetFieldName.class).label();
+					}
 					
 					K o = (K) SettingsReflectUtils.fieldGetObject(otherField, parent);
-					String pName = otherField.getName();
 					fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), o, pName, properties, true));
 				}
 			}

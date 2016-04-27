@@ -1,6 +1,7 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFieldName;
 import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
