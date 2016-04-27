@@ -15,6 +15,7 @@ import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import level.LevelProperties;
 
 /**
  * Describes attacking behavior of Sprites. Has the amount of ammunition(IntegerProperty ammunition), how long the 
@@ -49,12 +50,12 @@ public abstract class Attack extends Behavior {
 	}
 	
 	@Override
-	public void apply(IActions actions){
-		shoot(actions);
-		this.disable();
+	public void apply(IActions actions, LevelProperties levProps){
+				shoot(actions, levProps);
+				this.disable();
 	}
 	
-	public abstract void shoot(IActions actions);
+	public abstract void shoot(IActions actions, LevelProperties levProps);
 
 	/**
 	 * @param sprite The sprite who's elibility to shoot you want to determine

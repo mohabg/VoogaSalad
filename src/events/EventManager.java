@@ -5,6 +5,7 @@ import java.util.List;
 
 import behaviors.IActions;
 import collisions.Collision;
+import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.SpriteMap;
 import javafx.beans.property.MapProperty;
@@ -13,32 +14,42 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import level.LevelProperties;
 
-public class EventManager implements ICollisionHandler, IInputHandler {
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
+public class EventManager implements IInputHandler {
 	
-	private ICollisionHandler myCollisionHandler;
+	private List<Event> myEvents;
 	private IInputHandler myInputHandler;
 	
 	public EventManager() {
-		myCollisionHandler = new CollisionHandler();
+		myEvents = new ArrayList<Event>();
 		myInputHandler = new InputHandler();
 	}
 
-	public EventManager(ICollisionHandler myCollisionHandler, IInputHandler myInputHandler) {
+/*	public EventManager(ICollisionHandler myCollisionHandler, IInputHandler myInputHandler) {
 		this.myCollisionHandler = myCollisionHandler;
 		this.myInputHandler = myInputHandler;
+	}*/
+	
+	public void addEvent(Event event) {
+		myEvents.add(event);
 	}
 
-	public void setCollisionHandler(ICollisionHandler handler) {
-		myCollisionHandler = handler;
+	public void setEvents(List<Event> events) {
+		myEvents = events;
 	}
 	
 	public void setInputHandler(IInputHandler handler) {
 		myInputHandler = handler; 
 	}
-
-	@Override
-	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties) {
-		myCollisionHandler.applyCollision(one, two, levelProperties);
+	
+	public void doEvents(IActions action, LevelProperties levProps) {
+		for ( Event e: myEvents) {
+			e.doEvent(action, levProps);
+		}
 	}
 
 	@Override
@@ -47,17 +58,12 @@ public class EventManager implements ICollisionHandler, IInputHandler {
 	}
 
 	@Override
-	public void keyPress(KeyEvent event, IActions action) {
-		myInputHandler.keyPress(event, action);
+	public void keyPress(KeyEvent event, IActions action, LevelProperties levProps) {
+		myInputHandler.keyPress(event, action, levProps);
 	}
 	@Override
-	public void keyRelease(KeyEvent event, IActions action){
-		myInputHandler.keyRelease(event, action);
-	}
-	
-	@Override
-	public void checkCollisions(LevelProperties levelProperties) {
-		myCollisionHandler.checkCollisions(levelProperties);
+	public void keyRelease(KeyEvent event, IActions action, LevelProperties levProps){
+		myInputHandler.keyRelease(event, action, levProps);
 	}
 
 	@Override

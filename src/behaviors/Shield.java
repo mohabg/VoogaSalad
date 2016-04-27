@@ -14,6 +14,7 @@ import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.LevelProperties;
 
 /**
  * A sprite that acts as a shield to an actor--is usually used in the defense attributes of sprites 
@@ -37,5 +38,11 @@ public class Shield extends Defense{
 								properties.getClone(),
 								this.getMyRef());
 		//TODO: Shield sprite needs collisions
+	}
+
+	@Override
+	public void stop(IActions actions, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

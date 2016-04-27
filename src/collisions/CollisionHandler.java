@@ -2,7 +2,9 @@ package collisions;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import events.ICollisionHandler;
+
+import behaviors.IActions;
+import events.Executable;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 
@@ -12,10 +14,34 @@ import gameElements.SpriteMap;
 
 import level.LevelProperties;
 
-public class CollisionHandler implements ICollisionHandler {
+public class CollisionHandler implements Executable {
+	
+	private Collision collisionOne;
+	private Collision collisionTwo;
 
 	public CollisionHandler(){
 		
+	}
+
+	public CollisionHandler(Collision collisionOne, Collision collisionTwo) {
+		this.collisionOne = collisionOne;
+		this.collisionTwo = collisionTwo;
+	}
+
+	public Collision getCollisionOne() {
+		return collisionOne;
+	}
+
+	public void setCollisionOne(Collision collisionOne) {
+		this.collisionOne = collisionOne;
+	}
+
+	public Collision getCollisionTwo() {
+		return collisionTwo;
+	}
+
+	public void setCollisionTwo(Collision collisionTwo) {
+		this.collisionTwo = collisionTwo;
 	}
 
 	/**
@@ -23,7 +49,7 @@ public class CollisionHandler implements ICollisionHandler {
 	 * @see haveCollisionEffects
 	 * @see handleCollision
 	 */
-	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
+	private void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
 		if(haveCollisionEffects(one, two, levelProperties)){
 			one.handleCollision(two, levelProperties);
 		}
@@ -32,8 +58,8 @@ public class CollisionHandler implements ICollisionHandler {
 		}
 	}
 	
-	public void checkCollisions(LevelProperties levelProperties) {
-		CollisionChecker checker = new CollisionChecker();
+/*	public void checkCollisions(LevelProperties levelProperties, CollisionChecker checker) {
+		//CollisionChecker checker = new CollisionChecker();
 		Collection<Sprite> spriteSet = levelProperties.getSpriteMap().getSprites();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
 		int index = 0;
@@ -52,7 +78,6 @@ public class CollisionHandler implements ICollisionHandler {
 
 	private void haveCollided(LevelProperties levelProperties, Sprite[] spriteArr, int i, int j) {
 		levelProperties.setCollidingSprites(spriteArr[i], spriteArr[j]);
-
 		for (Collision collisionSpriteOne : spriteArr[i].getCollisions()) {
 			for (Collision collisionSpriteTwo : spriteArr[j].getCollisions()) {
 				applyCollision(collisionSpriteOne, collisionSpriteTwo,
@@ -61,7 +86,7 @@ public class CollisionHandler implements ICollisionHandler {
 			}
 
 		}
-	}
+	}*/
 	
 	/**
 	 * @param one determines whether Collision one or two have a handleCollision method, if they do not the method returns false
@@ -79,6 +104,12 @@ public class CollisionHandler implements ICollisionHandler {
 		catch(NoSuchMethodException e){
 		}
 		return false;
+	}
+
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		applyCollision(collisionOne,collisionTwo,levProps);
 	}
 
 	

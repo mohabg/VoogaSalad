@@ -1,6 +1,6 @@
 package gameElements;
 
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.IgnoreField;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;

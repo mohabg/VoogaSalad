@@ -10,8 +10,13 @@ import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.EnemyCollision;
 import gameElements.Actions;
 import gameElements.ISprite.spriteState;
+import events.CollisionEvent;
+import events.Event;
 import events.EventManager;
 import events.Executable;
 import events.InputHandler;
@@ -64,7 +69,12 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		myEventManager.setCollisionHandler(new CollisionHandler());
+		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DamageCollision(10), new EnemyCollision());
+		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DissapearCollision(), new EnemyCollision());
+		myEventManager.addEvent(hardCodedEvent);
+		myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 	}
@@ -98,6 +108,7 @@ public class Level implements ILevel {
 	public void addSprite(Sprite newSprite) {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		spriteMap.addSprite(newSprite);
+		levelProperties.addSpriteType(newSprite);
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
@@ -167,7 +178,7 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-		myEventManager.checkCollisions(getLevelProperties());
+		myEventManager.doEvents(actions,getLevelProperties());
 	}
 
 
@@ -176,12 +187,12 @@ public class Level implements ILevel {
 	 */
 	public void handleKeyPress(KeyEvent key) {
 		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
-		myEventManager.keyPress(key, actions);
+		myEventManager.keyPress(key, actions, this.levelProperties);
 	}
 	
 	public void handleKeyRelease(KeyEvent key){
 		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
-		myEventManager.keyRelease(key, actions);
+		myEventManager.keyRelease(key, actions, this.levelProperties);
 	}
 	
 	public int getCurrentPoints() {

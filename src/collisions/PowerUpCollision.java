@@ -1,5 +1,6 @@
 package collisions;
 
+import behaviors.IActions;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -34,6 +35,14 @@ public class PowerUpCollision extends Collision{
 	@Override
 	public Collision clone() {
 		return new PowerUpCollision(getValue());
+	}
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void stop(IActions actions, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

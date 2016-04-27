@@ -1,6 +1,7 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFieldName;
 import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
@@ -128,7 +129,7 @@ public class Sprite implements ISprite, IEnemy{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions);
+				behavior.apply(actions, null);
 			}
 		}
 	}

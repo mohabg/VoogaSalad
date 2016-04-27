@@ -1,5 +1,6 @@
 package collisions;
 
+import behaviors.IActions;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -37,5 +38,13 @@ public class DissapearCollision extends Collision{
 	@Override
 	public Collision clone() {
 		return new DissapearCollision(this.getValue());
+	}
+	public void execute(IActions action, LevelProperties levProps) {
+
+	}
+	@Override
+	public void stop(IActions actions, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -16,6 +16,7 @@ import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
+import level.LevelProperties;
 
 /**
  * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 
@@ -35,16 +36,21 @@ public class Gun extends Attack{
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void shoot(IActions actions) {
+    public void shoot(IActions actions, LevelProperties levProps) {
     		SpriteProperties properties = actions.getSpriteProperties();
         	Sprite bullet = actions.makeSprite(properties.getMyX().doubleValue(), properties.getMyY().doubleValue(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
         	Behavior movement = new ThrustVertical(-75);
         	actions.setSprite(bullet);
-            movement.apply(actions);
+            movement.apply(actions,levProps);
             bullet.addCollision(new DamageCollision(10));
             bullet.addCollision(new DissapearCollision());
             bullet.addCollision(new PointsCollision(10));
         	setAmmunition(getAmmunition() - 1);
     }
+	@Override
+	public void stop(IActions actions, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
+	}
 }
