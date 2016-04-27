@@ -5,6 +5,7 @@ import gameplayer.SpriteFactory;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.LevelProperties;
 
 	/**
 	 * Superclass for Movements--takes the sprite that wants to be used as an instance variable, and a subclass of movement is called
@@ -12,8 +13,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 	 */
 
 public abstract class Movement extends Behavior{
-	//New movement with list of movements
-	//run each movement a specified number of times before going to next
 
 	private DoubleProperty value;
 	
@@ -23,21 +22,29 @@ public abstract class Movement extends Behavior{
 	public Movement(double value){
 		super();
 		this.value = new SimpleDoubleProperty(value);
-		this.getBehaviorConditions().setProbability(1);
 	}
 	
 	public double getValue(){
 		return value.doubleValue();
 	}
+	
+	@Override
+	public void execute(IActions actions, LevelProperties levProps){
+		this.enable();
+	}
+	@Override 
+	public void stop(IActions actions, LevelProperties levProps){
+		this.disable();
+	}
 	/**
 	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly
 	 */
 	@Override
-	public void apply(Sprite sprite, SpriteFactory spriteFactory) {
-		if(sprite.canMove()){
-			move(sprite);
+	public void apply(IActions actions, LevelProperties levProps) {
+		if(actions.spriteCanMove()){
+			move(actions);
 		}
 	}
 	
-	public abstract void move(Sprite sprite);
+	public abstract void move(IActions actions);
 }

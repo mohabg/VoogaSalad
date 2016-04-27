@@ -1,10 +1,7 @@
 package gameplayer;
 
-import java.util.Collection;
-
 import authoringEnvironment.Settings;
 import authoringEnvironment.StartOptionsWindow;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -65,6 +62,10 @@ public abstract class Screen {
 
 	public void returnToStart() {
 		switchScene(new StartOptionsWindow((Stage) myPane.getScene().getWindow()));
+	}
+
+	public Pane getPane() {
+		return myPane;
 	}
 
 }

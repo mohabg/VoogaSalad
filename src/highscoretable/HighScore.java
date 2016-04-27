@@ -11,7 +11,6 @@ public class HighScore {
 		scorevalue = new SimpleDoubleProperty(score);
 		playername = new SimpleStringProperty(player);
 		gamename = new SimpleStringProperty(game);
-
 	}
 
 	public SimpleDoubleProperty scorevalueProperty() {
@@ -26,6 +25,7 @@ public class HighScore {
 	public SimpleStringProperty gamenameProperty() {
 		return gamename;
 	}
+	
 	// public Integer getScore() {
 	// return (Integer) items.get(0).getItem();
 	// }

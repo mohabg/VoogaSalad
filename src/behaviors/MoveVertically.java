@@ -1,6 +1,7 @@
 package behaviors;
 
 import gameElements.Sprite;
+import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -20,8 +21,9 @@ public class MoveVertically extends Movement{
 	 */
 
 	@Override
-	public void move(Sprite sprite) {
-		sprite.getSpriteProperties().setMyY((sprite.getY().doubleValue() + getValue()));
+	public void move(IActions actions) {
+		SpriteProperties properties = actions.getSpriteProperties();
+		properties.setMyY(properties.getMyY().doubleValue() + getValue());
 
 	    //sprite.getSpriteProperties().setMyYvel(getValue());
 	}

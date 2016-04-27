@@ -52,4 +52,8 @@ public class CriticalHitCollision extends DamageCollision{
 			}
 		}
 	}
+	
+	public Collision clone() {
+		return new CriticalHitCollision(getValue(),criticalHitDamage.get());
+	}
 }

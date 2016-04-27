@@ -1,10 +1,12 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFieldName;
 import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
+import events.Executable;
 import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
@@ -24,18 +26,17 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite implements ISprite{
+public class Sprite implements ISprite, IEnemy{
 //    private spriteState state;
-
+	
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 
 	private MapProperty<StringProperty, Behavior> behaviors;
-	private MapProperty<KeyCode, Behavior> userPressBehaviors;
+	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
 	private RefObject myRef;
-	private BooleanProperty canMove;
 
 	public Sprite() {
 		this("");
@@ -55,12 +56,11 @@ public class Sprite implements ISprite{
 				.observableMap(new HashMap<StringProperty, Behavior>());
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om2);
+		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
+		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
 		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-
-		canMove = new SimpleBooleanProperty(true);
+		
 		myHealth = new Health(100);
 
 		myCollisions.add(new EnemyCollision());
@@ -74,19 +74,20 @@ public class Sprite implements ISprite{
 		addBehavior(shield);
 		userPressBehaviors.put(KeyCode.SHIFT, shield);
 
-		Behavior thrustForward = new ThrustVertical(-3);
+
+		Behavior thrustForward = new ThrustVertical(-1);
 		addBehavior(thrustForward);
 		userPressBehaviors.put(KeyCode.UP, thrustForward);
 
-		Behavior thrustReverse = new ThrustVertical(3);
+		Behavior thrustReverse = new ThrustVertical(1);
 		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
 		addBehavior(thrustReverse);
 		
-		Behavior moveLeft = new ThrustHorizontal(-3);
+		Behavior moveLeft = new ThrustHorizontal(-1);
 		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
 		addBehavior(moveLeft);
 
-		Behavior moveRight = new ThrustHorizontal(3);
+		Behavior moveRight = new ThrustHorizontal(1);
 		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
 		addBehavior(moveRight);
 		
@@ -97,13 +98,6 @@ public class Sprite implements ISprite{
 		Behavior moveTurnLeft = new MoveTurn(358);
 		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
 		addBehavior(moveTurnLeft);
-		
-		/*
-		 * Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
-		 * userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
-		 * userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
-		 * addBehavior(defaultHorizReleaseMovement);
-		 */
 
 	}
 
@@ -118,7 +112,6 @@ public class Sprite implements ISprite{
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.behaviors.set(om2);
-		this.canMove = new SimpleBooleanProperty(true);
 	}
 
 	public Sprite(SpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
@@ -127,17 +120,16 @@ public class Sprite implements ISprite{
 		this.myProperties = properties;
 		this.myHealth = health;
 		this.behaviors.set(behaviors);
-		this.canMove = new SimpleBooleanProperty(true);
 	}
 
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update(SpriteFactory spriteFactory) {
+	public void update(IActions actions) {
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(this, spriteFactory);
+				behavior.apply(actions, null);
 			}
 		}
 	}
@@ -147,7 +139,7 @@ public class Sprite implements ISprite{
 												this.behaviors, this.myRef);
 	}
 	
-	public Map<KeyCode, Behavior> getUserPressBehaviors() {
+	public MapProperty<KeyCode, Executable> getUserPressBehaviors() {
 		return userPressBehaviors;
 	}
 
@@ -156,8 +148,8 @@ public class Sprite implements ISprite{
 
 	}
 
-	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(userBehaviors);
+	public void setUserPressBehaviors(Map<KeyCode, Executable> userBehaviors) {
+		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(userBehaviors);
 		this.userPressBehaviors.set(om2);
 	}
 
@@ -239,6 +231,10 @@ public class Sprite implements ISprite{
 	public void setX(DoubleProperty x) {
 		myProperties.setMyXProperty(x);
 	}
+	
+	public void setX(double x) {
+		myProperties.setMyX(x);
+	}
 
 	public DoubleProperty getY() {
 		return myProperties.getMyY();
@@ -310,25 +306,13 @@ public class Sprite implements ISprite{
 			addCollision(new EnemyCollision());
 		}
 	}
-	public boolean canMove() {
-		return canMove.getValue();
-	}
-
-	public void disableMovement() {
-		canMove.set(false);
-	}
-
-	public void enableMovement() {
-		canMove.set(true);
-	}
-
 	/**
 	 *
 	 * @param keyCode
 	 *            Checks if the KeyCode corresponds to an action
 	 * @return
 	 */
-	public Behavior getUserPressBehavior(KeyCode keyCode) {
+	public Executable getUserPressBehavior(KeyCode keyCode) {
 		return userPressBehaviors.get(keyCode);
 	}
 	
@@ -373,5 +357,29 @@ public class Sprite implements ISprite{
 	public void setState(spriteState spriteState){
 		this.state=spriteState;
 	}
-*/	
+*/
+
+	public boolean isOutOfBounds() {
+		return this.getSpriteProperties().isOutOfBounds();
+	}
+
+	@Override
+	public IEnemy clone() {
+		Sprite clone = new Sprite(myRef);
+		clone.getSpriteProperties().setMyX(Math.random()*clone.getSpriteProperties().getMyWidth().get());
+		clone.getSpriteProperties().setMyY(Math.random()*clone.getSpriteProperties().getMyHeight().get()/5);
+		return clone;
+	}
+
+	@Override
+	public double getSpawnProbability() {
+		// TODO Auto-generated method stub
+		return 0;
+	}	
+
+	public void spawn() {
+		if (Math.random() < getSpawnProbability())
+			clone();
+	}
+
 }

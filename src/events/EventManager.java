@@ -3,51 +3,72 @@ package events;
 import java.util.ArrayList;
 import java.util.List;
 
+import behaviors.IActions;
 import collisions.Collision;
+import collisions.CollisionChecker;
+import collisions.CollisionHandler;
+import gameElements.SpriteMap;
+import javafx.beans.property.MapProperty;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import level.LevelProperties;
 
-public class EventManager implements ICollisionHandler, IInputHandler {
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
+public class EventManager implements IInputHandler {
 	
-	private List<ICollisionHandler> myCollisionHandlers;
-	private List<IInputHandler> myInputHandlers;
-
+	private List<Event> myEvents;
+	private IInputHandler myInputHandler;
+	
 	public EventManager() {
-		myCollisionHandlers = new ArrayList<>();
-		myInputHandlers = new ArrayList<>();
-	}
-	
-	public void addCollisionHandler(ICollisionHandler handler) {
-		myCollisionHandlers.add(handler);
-	}
-	
-	public void addInputHandler(IInputHandler handler) {
-		myInputHandlers.add(handler);
+		myEvents = new ArrayList<Event>();
+		myInputHandler = new InputHandler();
 	}
 
-	@Override
-	public void applyCollision(Collision one, Collision two, LevelProperties levelProperties) {
-		for ( ICollisionHandler handler: myCollisionHandlers)
-			handler.applyCollision(one, two, levelProperties);
+/*	public EventManager(ICollisionHandler myCollisionHandler, IInputHandler myInputHandler) {
+		this.myCollisionHandler = myCollisionHandler;
+		this.myInputHandler = myInputHandler;
+	}*/
+	
+	public void addEvent(Event event) {
+		myEvents.add(event);
+	}
+
+	public void setEvents(List<Event> events) {
+		myEvents = events;
+	}
+	
+	public void setInputHandler(IInputHandler handler) {
+		myInputHandler = handler; 
+	}
+	
+	public void doEvents(IActions action, LevelProperties levProps) {
+		for ( Event e: myEvents) {
+			e.doEvent(action, levProps);
+		}
 	}
 
 	@Override
 	public void mouseClickEvent(MouseEvent event) {
-		for ( IInputHandler handler: myInputHandlers)
-			handler.mouseClickEvent(event);
+		myInputHandler.mouseClickEvent(event);
 	}
 
 	@Override
-	public void keyPressEvent(KeyEvent event) {
-		for ( IInputHandler handler: myInputHandlers)
-			handler.keyPressEvent(event);
+	public void keyPress(KeyEvent event, IActions action, LevelProperties levProps) {
+		myInputHandler.keyPress(event, action, levProps);
+	}
+	@Override
+	public void keyRelease(KeyEvent event, IActions action, LevelProperties levProps){
+		myInputHandler.keyRelease(event, action, levProps);
 	}
 
 	@Override
-	public void keyReleaseEvent(KeyEvent event) {
-		for ( IInputHandler handler: myInputHandlers)
-			handler.keyReleaseEvent(event);
+	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
+		myInputHandler.setSpriteActions(userPressActions);
 	}
 
 }

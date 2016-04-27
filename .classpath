@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/xstream-1.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.53.jar"/>
+	<classpathentry kind="lib" path="lib/reflectutils-0.9.20.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

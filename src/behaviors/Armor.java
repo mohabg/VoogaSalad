@@ -7,11 +7,12 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 import collisions.Collision;
-import gameElements.ApplyBehaviorConditions;
+import gameElements.ExecuteConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
+import level.LevelProperties;
 
 /**
  * A subclass of Defense, this describes armor that could go over a sprite.
@@ -28,11 +29,15 @@ public class Armor extends Defense{
 	 */
 
 	@Override
-	public void defend(Sprite sprite, SpriteFactory spriteFactory) {
-	
+	public void defend(IActions actions) {
+		// TODO Auto-generated method stub
 		
 	}
-	
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

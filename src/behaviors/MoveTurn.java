@@ -1,7 +1,7 @@
 package behaviors;
 
 import gameElements.Sprite;
-
+import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
 
 /**
@@ -15,15 +15,11 @@ public class MoveTurn extends Movement {
 		super(value);
 	}
 
-	/**
-	 * @param sprite
-	 *            Gets the sprite and turns the sprite a certain number of
-	 *            degrees(turns the sprite)
-	 */
-
 	@Override
-	public void move(Sprite sprite) {
-		sprite.getSpriteProperties().setMyAngle((sprite.getAngle().doubleValue() + getValue()));
+	public void move(IActions actions) {
+		SpriteProperties properties = actions.getSpriteProperties();
+		properties.setMyAngle(properties.getMyAngle() + getValue());
+		
 	}
 
 }

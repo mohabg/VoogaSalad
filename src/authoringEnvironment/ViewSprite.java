@@ -6,7 +6,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.control.TabPane;
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
  */
@@ -61,25 +60,16 @@ public class ViewSprite extends ImageView {
 		setImage(image);
 	}
 
-	// public void setMyHealth(double test){
-	// myHealth.setMyValue(test);
-	// }
-	//
-	// public double getMyHealth(){
-	// return myHealth.getMyValue();
-	// }
 
 	public String getMyImage() {
 		return myRef.getValue();
 	}
 
 	public double getHeight() {
-		// TODO Auto-generated method stub
 		return getImage().getHeight();
 	}
 
 	public double getWidth() {
-		// TODO Auto-generated method stub
 		return getImage().getWidth();
 
 	}

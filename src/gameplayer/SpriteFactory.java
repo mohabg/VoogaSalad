@@ -55,7 +55,7 @@ public class SpriteFactory {
 			RefObject myRef, ViewSprite vs, SpriteProperties sp) {
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
-		myViewSprites.put(spriteMap.getLastSpriteID()+1, vs);
+		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
 		spriteMap.addSprite(s);
 		return s;
 	}

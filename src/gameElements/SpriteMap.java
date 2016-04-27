@@ -14,23 +14,26 @@ import javafx.collections.ObservableMap;
 public class SpriteMap{
 	
 	private Map<Integer, Sprite> spriteMap;
-	private ObservableList<Integer> activeSprites;
-	private int id;
+	private ObservableList<Integer> activeSpriteIDs;
+	private int currentID;
+	private int userControlledSpriteID;
 	
 	public SpriteMap(){
 		spriteMap = new HashMap<Integer, Sprite>();
-		activeSprites = FXCollections.observableList(new ArrayList<Integer>());
-		id = 0;
+		activeSpriteIDs = FXCollections.observableList(new ArrayList<Integer>());
+		currentID = 0;
+		userControlledSpriteID = 0;
 	}
 	
 	public void addSprite(Sprite sprite){
-		spriteMap.put(id, sprite);
-		activeSprites.add(id);
-		id++;
-
+		spriteMap.put(++currentID, sprite);
+		activeSpriteIDs.add(currentID);
 	}
-	public int getLastSpriteID(){
-		return id - 1;
+	public void put(Integer id, Sprite sprite){
+		this.spriteMap.put(id, sprite);
+	}
+	public int getCurrentID(){
+		return currentID;
 	}
 	public Map<Integer, Sprite> getSpriteMap(){
 		return spriteMap;
@@ -43,7 +46,7 @@ public class SpriteMap{
 	}
 	public void remove(int id){
 		spriteMap.remove(id);
-		activeSprites.removeIf(item->item.equals(id));
+		activeSpriteIDs.removeIf(item->item.equals(id));
 	}
 	
 	public Collection<Sprite> getSprites(){
@@ -55,11 +58,27 @@ public class SpriteMap{
 	}
 	
 	public ObservableList<Integer> getActiveSprites(){
-		return activeSprites;
+		return activeSpriteIDs;
 	}
 	
 	public void setActiveSprites(List<Integer> sprites){
-		activeSprites.setAll(sprites);
+		activeSpriteIDs.setAll(sprites);
 		
+	}
+
+	public int getUserControlledSpriteID() {
+		return userControlledSpriteID;
+	}
+
+	public void setUserControlledSpriteID(int userControlledSpriteID) {
+		this.userControlledSpriteID = userControlledSpriteID;
+	}
+
+	public Sprite getCurrentSprite() {
+		return this.get(currentID);
+	}
+
+	public Sprite getUserControlledSprite() {
+		return this.get(userControlledSpriteID);
 	}
 }

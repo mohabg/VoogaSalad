@@ -9,6 +9,9 @@ import gameElements.Time;
 
 import java.util.Map;
 
+import authoringEnvironment.Project1;
+import events.EventManager;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
@@ -30,6 +33,7 @@ public class Engine {
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
 	
 	private Timeline myGameLoop;
+	private EventManager myEventManager;
 //	private Level currentLevel;
 	private IGameEditor myEditor;
 	private Time myGameTime;
@@ -39,6 +43,7 @@ public class Engine {
 
 
 	public Engine(PlayScreen myGameScreen) {
+		myEventManager = new EventManager();
 		this.myGameScreen = myGameScreen;
 		myGameLoop = new Timeline();
 		myTimeProperty = new SimpleDoubleProperty(0);
@@ -48,6 +53,25 @@ public class Engine {
 	public Engine(PlayScreen myGameScreen, IGameEditor editor) {
 		this(myGameScreen);
 		myEditor = editor;
+	}
+	public IGameEditor getMyEditor() {
+		return myEditor;
+	}
+
+	public void setMyEditor(IGameEditor myEditor) {
+		this.myEditor = myEditor;
+	}
+
+	public DoubleProperty getMyTimeProperty() {
+		return myTimeProperty;
+	}
+
+	public void setMyTimeProperty(DoubleProperty myTimeProperty) {
+		this.myTimeProperty = myTimeProperty;
+	}
+
+	public Engine(Project1 liveEditing, GameEditor gameEditor) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public void setGameInfo(GameInfo gameInfo) {
@@ -85,8 +109,12 @@ public class Engine {
         return myEditor.getUserSprite();
     }
 
-    public void setUserSprite(Integer userSprite) {
-        myEditor.setUserSprite(userSprite);
+    public void setSpriteActions() {
+        myEditor.setSpriteActions();
+    }
+    
+    public void setUserSprite(Integer sprite) {
+    	myEditor.setUserSprite(sprite);
     }
     
     public void addGoal(Goal goal) {
@@ -104,12 +132,13 @@ public class Engine {
     public void gameLoop() {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
     	myGameTime = new Time();
-    //	System.out.println("gamem loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
+    //	System.out.println("game loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
+             //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
 					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
 						myGameScreen.setLevel(myEditor.getCurrentLevel());
 					}
@@ -140,12 +169,8 @@ public class Engine {
     	return myTimeProperty;
     }
     
-    public void setResultForKeyPress(KeyEvent event) {
+    /*public void setResultForKeyPress(KeyEvent event) {
     	myEditor.setResultForKeyPress(event);
-    }
-    
-    public void setResultForKeyRelease(KeyEvent event) {
-    	myEditor.setResultForKeyRelease(event);
-    }
+    }*/
 
 }
