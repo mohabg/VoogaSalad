@@ -9,7 +9,8 @@ import javafx.scene.input.MouseEvent;
 public interface IInputHandler {	
 
 	public void mouseClickEvent(MouseEvent event);
-	public void keyEvent(KeyEvent event, IActions action);
+	public void keyPress(KeyEvent event, IActions action);
+	public void keyRelease(KeyEvent event, IActions action);
 	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions);
 
 }

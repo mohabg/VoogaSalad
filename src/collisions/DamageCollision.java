@@ -50,4 +50,9 @@ public class DamageCollision extends Collision{
 	private void causeDamage(Sprite spriteToDamage, double damage) {
 		spriteToDamage.takeDamage(damage);
 	}
+
+	@Override
+	public Collision clone() {
+		return new DamageCollision(this.getValue());
+	}
 }

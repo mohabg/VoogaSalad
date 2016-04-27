@@ -20,4 +20,8 @@ public class PointsCollision extends Collision{
 		levelProperties.setCurrentPoints(newScore);
 		System.out.println("currentPoints"+newScore);
 	}
+	@Override
+	public Collision clone() {
+		return new PointsCollision(getValue());
+	}
 }

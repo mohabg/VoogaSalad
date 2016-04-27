@@ -31,5 +31,9 @@ public class PowerUpCollision extends Collision{
 			}
 		}
 	}
+	@Override
+	public Collision clone() {
+		return new PowerUpCollision(getValue());
+	}
 	
 }

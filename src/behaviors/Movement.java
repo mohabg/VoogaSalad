@@ -12,8 +12,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 	 */
 
 public abstract class Movement extends Behavior{
-	//New movement with list of movements
-	//run each movement a specified number of times before going to next
 
 	private DoubleProperty value;
 	
@@ -23,11 +21,19 @@ public abstract class Movement extends Behavior{
 	public Movement(double value){
 		super();
 		this.value = new SimpleDoubleProperty(value);
-		this.getBehaviorConditions().setProbability(1);
 	}
 	
 	public double getValue(){
 		return value.doubleValue();
+	}
+	
+	@Override
+	public void execute(IActions actions){
+		this.enable();
+	}
+	@Override 
+	public void stop(IActions actions){
+		this.disable();
 	}
 	/**
 	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly

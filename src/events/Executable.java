@@ -6,4 +6,6 @@ public interface Executable {
 	
 	public void execute(IActions action);
 
+	public void stop(IActions actions);
+
 }

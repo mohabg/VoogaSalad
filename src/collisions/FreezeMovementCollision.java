@@ -20,4 +20,9 @@ public class FreezeMovementCollision extends Collision{
 	public void handleCollision(EnemyCollision other, LevelProperties levelProperties) {
 		levelProperties.getSpriteForCollision(other).getSpriteProperties().disableMovement();
 	}
+
+	@Override
+	public Collision clone() {
+		return new FreezeMovementCollision();
+	}
 }

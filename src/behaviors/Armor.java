@@ -7,7 +7,7 @@ import java.util.Map;
 
 import authoringEnvironment.RefObject;
 import collisions.Collision;
-import gameElements.ApplyBehaviorConditions;
+import gameElements.ExecuteConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;

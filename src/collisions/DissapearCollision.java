@@ -34,4 +34,8 @@ public class DissapearCollision extends Collision{
 			thisSprite.kill();
 		}
 	}
+	@Override
+	public Collision clone() {
+		return new DissapearCollision(this.getValue());
+	}
 }

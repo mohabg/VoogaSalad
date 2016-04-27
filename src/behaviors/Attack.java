@@ -8,7 +8,7 @@ import java.util.Random;
 
 import authoringEnvironment.RefObject;
 import collisions.Collision;
-import gameElements.ApplyBehaviorConditions;
+import gameElements.ExecuteConditions;
 import gameElements.Health;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
@@ -20,7 +20,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * Describes attacking behavior of Sprites. Has the amount of ammunition(IntegerProperty ammunition), how long the 
  * bullets take to charge(IntegerProperty chargeTime), and ApplyBehavior conditions, which has attributes that help
  * determine whether an enemy sprite is eligible to shoot.
- * @see ApplyBehaviorConditions
+ * @see ExecuteConditions
  */
 
 
@@ -47,10 +47,11 @@ public abstract class Attack extends Behavior {
 		this.movement = movement;
 		this.myRef = myRef;
 	}
+	
 	@Override
 	public void apply(IActions actions){
-				shoot(actions);
-				this.disable();
+		shoot(actions);
+		this.disable();
 	}
 	
 	public abstract void shoot(IActions actions);

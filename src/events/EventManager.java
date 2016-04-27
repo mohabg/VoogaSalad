@@ -47,10 +47,14 @@ public class EventManager implements ICollisionHandler, IInputHandler {
 	}
 
 	@Override
-	public void keyEvent(KeyEvent event, IActions action) {
-		myInputHandler.keyEvent(event, action);
+	public void keyPress(KeyEvent event, IActions action) {
+		myInputHandler.keyPress(event, action);
 	}
-
+	@Override
+	public void keyRelease(KeyEvent event, IActions action){
+		myInputHandler.keyRelease(event, action);
+	}
+	
 	@Override
 	public void checkCollisions(LevelProperties levelProperties) {
 		myCollisionHandler.checkCollisions(levelProperties);

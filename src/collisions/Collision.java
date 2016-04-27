@@ -48,7 +48,7 @@ public abstract class Collision {
 		applyEffects(other, this, levelProperties);
 	}
 
-	
+	public abstract Collision clone();
 	
 	private void applyEffects(Collision one, Collision two, LevelProperties levelProperties) {
 		Method methodToInvoke = getCollisionEffects(one, two, levelProperties);

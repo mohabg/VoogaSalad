@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -248,5 +247,26 @@ public class LevelProperties {
 	public void setIsFinished(boolean isFinished) {
 		this.isFinished.set(isFinished);
 	}
+	public Sprite getUserControlledSprite(){
+		return this.getSpriteMap().getUserControlledSprite();
+	}
 
+	public double getUserX() {
+		return this.getSpriteMap().getUserControlledSprite().getX().doubleValue();
+	}
+
+	public double getUserY() {
+		return this.getSpriteMap().getUserControlledSprite().getY().doubleValue();
+	}
+	public double distanceFromUser(Sprite sprite){
+		double xDiff = Math.abs(sprite.getX().doubleValue() - getUserX());
+		double yDiff = Math.abs(sprite.getY().doubleValue() - getUserY());
+		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+	}
+	public double angleToUser(Sprite sprite){
+		//Probably does not work as expected
+		double angleToFace = Math.atan(getUserY() - sprite.getY().doubleValue() / getUserX() - sprite.getX().doubleValue());
+		double angleToTurn = angleToFace - sprite.getAngle().doubleValue();
+		return angleToTurn;
+	}
 }

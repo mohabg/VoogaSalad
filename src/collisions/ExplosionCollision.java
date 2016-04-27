@@ -19,4 +19,9 @@ public class ExplosionCollision extends Collision{
 	public void handleCollision(EnemyCollision other, LevelProperties levelProperties){
 		//Explode
 	}
+
+	@Override
+	public Collision clone() {
+		return new ExplosionCollision(getValue());
+	}
 }

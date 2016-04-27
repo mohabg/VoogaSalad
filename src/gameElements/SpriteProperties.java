@@ -118,7 +118,15 @@ public class SpriteProperties {
 	}
     
     public void updatePos(){
-    	if (myX.getValue()>myRightLimit.getValue())
+    	if(this.isUserControlled()){
+    		stayInBounds();
+    	}
+    	myX.setValue(myX.getValue() + myXvel.getValue());
+    	myY.setValue(myY.getValue() + myYvel.getValue());
+    }
+
+	private void stayInBounds() {
+		if (myX.getValue()>myRightLimit.getValue())
     		myXvel.setValue(-myXvel.getValue());    	
     	if (myX.getValue()<myLeftLimit.getValue())
     		myXvel.setValue(-myXvel.getValue());
@@ -126,10 +134,13 @@ public class SpriteProperties {
     		myYvel.setValue(-myYvel.getValue());
     	if (myY.getValue()<myDownLimit.getValue())
     		myYvel.setValue(-myYvel.getValue());
-    	myX.setValue(myX.getValue() + myXvel.getValue());
-    	myY.setValue(myY.getValue() + myYvel.getValue());
+	}
+    public boolean isOutOfBounds(){
+    	return myX.getValue() > myRightLimit.getValue() ||   	
+    			myX.getValue() < myLeftLimit.getValue() ||
+    				myY.getValue() > myUpLimit.getValue() ||
+    					myY.getValue()<myDownLimit.getValue();
     }
-
     public DoubleProperty getMyXvel() {
 		return myXvel;
 	}

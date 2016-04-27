@@ -12,5 +12,10 @@ public class ActorCollision extends Collision{
 	public ActorCollision() {
 		super();
 	}
+
+	@Override
+	public Collision clone() {
+		return new ActorCollision();
+	}
 	
 }

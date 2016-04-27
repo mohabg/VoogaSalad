@@ -12,4 +12,9 @@ public class EnemyCollision extends Collision{
 	public EnemyCollision() {
 		super();
 	}
+
+	@Override
+	public Collision clone() {
+		return new EnemyCollision();
+	}
 }

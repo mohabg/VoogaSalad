@@ -48,7 +48,7 @@ public class InputHandler implements IInputHandler {
 	}
 
 	@Override
-	public void keyEvent(KeyEvent event, IActions action) {
+	public void keyPress(KeyEvent event, IActions action) {
 		if ( gameActions.containsKey(event.getCode())){
 			gameActions.get(event.getCode()).execute(action);	
 		}
@@ -57,5 +57,13 @@ public class InputHandler implements IInputHandler {
 		}
 		//else throw some error
 	}
-
+	@Override
+	public void keyRelease(KeyEvent event, IActions action){
+		if ( gameActions.containsKey(event.getCode())){
+			gameActions.get(event.getCode()).stop(action);	
+		}
+		else if ( spriteActions.containsKey(event.getCode())){
+			spriteActions.get(event.getCode()).stop(action);
+		}
+	}
 }
