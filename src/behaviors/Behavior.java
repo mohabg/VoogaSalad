@@ -7,6 +7,7 @@ import gameElements.Sprite;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import level.LevelProperties;
 
 /**
  * 
@@ -21,10 +22,10 @@ public abstract class Behavior implements Executable{
 		behaviorConditions = new ApplyBehaviorConditions();
 	}
 	@Override
-	public void execute(IActions actions){
-		apply(actions);
+	public void execute(IActions actions, LevelProperties levProps){
+		apply(actions, levProps);
 	}
-	public abstract void apply(IActions actions);
+	public abstract void apply(IActions actions, LevelProperties levProps);
 	
 	public boolean isReady(Sprite sprite){
 		return this.behaviorConditions.ready(sprite);

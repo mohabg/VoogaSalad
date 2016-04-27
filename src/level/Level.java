@@ -10,8 +10,12 @@ import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
 import gameElements.Actions;
 import gameElements.ISprite.spriteState;
+import events.CollisionEvent;
+import events.Event;
 import events.EventManager;
 import events.Executable;
 import events.InputHandler;
@@ -64,7 +68,9 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		myEventManager.setCollisionHandler(new CollisionHandler());
+		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DamageCollision(10), new DissapearCollision());
+		myEventManager.addEvent(hardCodedEvent);
 		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 	}
@@ -140,6 +146,7 @@ public class Level implements ILevel {
 	public void addSprite(Sprite newSprite) {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		spriteMap.addSprite(newSprite);
+		levelProperties.addSpriteType(newSprite);
 		// return new ID??
 		// checking for whether it is the main character-->should be done
 		// through the states pattern
@@ -226,7 +233,7 @@ public class Level implements ILevel {
 			this.getPhysicsEngine().updateSprite(sprite);
 			if (!sprite.isUserControlled()
 					&& sprite.getBehaviors().get("default") != null) {
-				sprite.getBehaviors().get("default").apply(actions);
+				sprite.getBehaviors().get("default").apply(actions, null);
 			}
 			removeDeadSprite(spriteID, spriteList);
 		}
@@ -241,7 +248,7 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-		myEventManager.checkCollisions(getLevelProperties());
+		myEventManager.doEvents(actions,getLevelProperties());
 	}
 
 
@@ -250,7 +257,7 @@ public class Level implements ILevel {
 	 */
 	public void handleKeyPress(KeyEvent key) {
 		actions.setSprite(getCurrentSprite());
-		myEventManager.keyEvent(key, actions);
+		myEventManager.keyEvent(key, actions, levelProperties);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {

@@ -1,5 +1,6 @@
 package collisions;
 
+import behaviors.IActions;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -33,5 +34,10 @@ public class DissapearCollision extends Collision{
 		if(thisSprite.isUserControlled() != collidingSprite.isUserControlled()){
 			thisSprite.kill();
 		}
+	}
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

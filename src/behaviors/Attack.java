@@ -15,6 +15,7 @@ import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import level.LevelProperties;
 
 /**
  * Describes attacking behavior of Sprites. Has the amount of ammunition(IntegerProperty ammunition), how long the 
@@ -48,7 +49,7 @@ public abstract class Attack extends Behavior {
 		this.myRef = myRef;
 	}
 	@Override
-	public void apply(IActions actions){
+	public void apply(IActions actions, LevelProperties levProps){
 				shoot(actions);
 				this.disable();
 	}

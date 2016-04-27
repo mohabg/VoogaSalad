@@ -7,6 +7,7 @@ import gameElements.Sprite;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import level.LevelProperties;
 
 /**
  * Deals with an array of behaviors having to do with how Sprites defend themselves. The enabled boolean lets one know if the 
@@ -57,7 +58,7 @@ public abstract class Defense extends Behavior {
 	 * @param sprite Enables the defense of a sprite, provided the readyToDefend boolean is on
 	 */
 	@Override
-	public void apply(IActions actions){
+	public void apply(IActions actions, LevelProperties levProps){
 			if(this.isEnabled()){
 				defend(actions);
 			}

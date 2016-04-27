@@ -32,11 +32,11 @@ public class LevelProperties {
 	private IntegerProperty previousLevel;
 	private IntegerProperty numGoals;
 	private Score score;
-	private List<Sprite> sprites;
 	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Time time;
 	private Map<KeyCode, KeyboardActions> keyMapping;
+	private Map<String, List<Sprite>> spriteTypes;
 	private List<GoalProperties> goalProperties;
 	private Sprite[] collidingSprites;
 	private IntegerProperty goalCount;
@@ -68,7 +68,8 @@ public class LevelProperties {
 	//	myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
-		
+		ObservableMap<String, List<Sprite>> om2 = FXCollections.observableMap(new HashMap<String, List<Sprite>>());
+		spriteTypes = new SimpleMapProperty<String, List<Sprite>>(om2);
 		collidingSprites = new Sprite[2];
 	}
 
@@ -142,20 +143,25 @@ public class LevelProperties {
 		return this.score;
 	}
 
-	public List<Sprite> getSprites() {
-		return sprites;
-	}
-
-	public void setSprites(List<Sprite> sprites) {
-		this.sprites = sprites;
-	}
-
 	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
 
 	public void setSpriteMap(SpriteMap spriteMap) {
 		this.spriteMap = spriteMap;
+	}
+
+	public Map<String, List<Sprite>> getSpriteTypes() {
+		return spriteTypes;
+	}
+
+	public void addSpriteType(Sprite sprite) {
+		if ( spriteTypes.get(sprite.getMyRef()) ==  null ) {
+			List<Sprite> newList = new ArrayList<Sprite>();
+			newList.add(sprite);
+			spriteTypes.put(sprite.getMyRef(),newList);
+		} else
+			spriteTypes.get(sprite.getMyRef()).add(sprite);
 	}
 
 	public List<Goal> getGoalList() {

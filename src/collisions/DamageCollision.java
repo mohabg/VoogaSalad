@@ -2,6 +2,7 @@ package collisions;
 
 import behaviors.Behavior;
 import behaviors.Defense;
+import behaviors.IActions;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import level.LevelProperties;
@@ -49,5 +50,11 @@ public class DamageCollision extends Collision{
 	 */
 	private void causeDamage(Sprite spriteToDamage, double damage) {
 		spriteToDamage.takeDamage(damage);
+	}
+
+	@Override
+	public void execute(IActions action, LevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

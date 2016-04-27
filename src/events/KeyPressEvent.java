@@ -20,7 +20,7 @@ public class KeyPressEvent implements Executable {
 	}
 
 	@Override
-	public void execute(IActions action) {
+	public void execute(IActions action, LevelProperties levProps) {
 		
 	}
 

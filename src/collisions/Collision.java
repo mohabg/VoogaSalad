@@ -2,6 +2,8 @@ package collisions;
 
 import java.lang.reflect.Method;
 
+import behaviors.IActions;
+import events.Executable;
 import events.Trigger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -18,7 +20,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.LevelProperties;
 
-public abstract class Collision {
+public abstract class Collision implements Executable {
 	
 	private DoubleProperty value;
 	
@@ -29,6 +31,8 @@ public abstract class Collision {
 	public Collision(double value){
 		this.value = new SimpleDoubleProperty(value);
 	}
+	
+	public abstract void execute(IActions action, LevelProperties levProps);
 	
 	public double getValue(){
 		return this.value.doubleValue();
