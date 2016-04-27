@@ -49,10 +49,12 @@ public class InputHandler implements IInputHandler {
 
 	@Override
 	public void keyEvent(KeyEvent event, IActions action) {
-		if ( gameActions.containsKey(event.getCode()))
+		if ( gameActions.containsKey(event.getCode())){
 			gameActions.get(event.getCode()).execute(action);	
-		else if ( spriteActions.containsKey(event.getCode()))
+		}
+		else if ( spriteActions.containsKey(event.getCode())){
 			spriteActions.get(event.getCode()).execute(action);
+		}
 		//else throw some error
 	}
 

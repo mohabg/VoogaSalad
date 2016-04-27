@@ -2,6 +2,7 @@ package game;
 
 import java.util.List;
 
+import gameElements.ISprite;
 import goals.Goal;
 import goals.GoalProperties;
 import javafx.scene.input.KeyEvent;
@@ -70,8 +71,12 @@ public class GameEditor implements IGameEditor {
 		return myGame.getCurrentLevel().getCurrentSpriteID();
 	}
 
-	public void setUserSprite(Integer spriteID) {
-		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
+	public void setSpriteActions() {
+		myGame.getCurrentLevel().setSpriteActions();
+	}
+	
+	public void setUserSprite(Integer sprite) {
+		myGame.getCurrentLevel().setCurrentSpriteID(sprite);
 	}
 
 	public void updateGame() {

@@ -8,9 +8,11 @@ import gameElements.Sprite;
 public class CollisionChecker implements Trigger {
 	
 	private boolean isTriggered;
+	private triggerType type;
 	
 	public CollisionChecker(){
 		isTriggered = false;
+		type = triggerType.COLLISION;
 	}
 	
 	/**

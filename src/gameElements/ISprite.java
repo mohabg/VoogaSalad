@@ -13,5 +13,5 @@ public interface ISprite {
 		Defense
 	}
 	
-	void update(IActions actions);
+	public void update(IActions actions);
 }

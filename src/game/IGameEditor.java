@@ -22,7 +22,8 @@ public interface IGameEditor {
 	void deleteGoal(Goal goal);
 	void setLevelProperties(LevelProperties levelProperties);
 	Integer getUserSprite();
-	void setUserSprite(Integer spriteID);
+	void setSpriteActions();
+	void setUserSprite(Integer sprite);
 	
 	//TODO: suggestions for better implementation?
 //    List<Integer> updateGame();

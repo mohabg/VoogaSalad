@@ -52,8 +52,8 @@ public class EventManager implements ICollisionHandler, IInputHandler {
 	}
 
 	@Override
-	public void checkCollisions(SpriteMap spriteMap, LevelProperties levelProperties) {
-		myCollisionHandler.checkCollisions(spriteMap, levelProperties);
+	public void checkCollisions(LevelProperties levelProperties) {
+		myCollisionHandler.checkCollisions(levelProperties);
 	}
 
 	@Override

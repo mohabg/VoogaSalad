@@ -2,12 +2,12 @@ package events;
 
 import javafx.scene.input.KeyEvent;
 
-public class KeyTrigger implements Trigger {
+public class KeyPressTrigger implements Trigger {
 	
 	private boolean isTriggered;
 	private KeyEvent event;
 
-	public KeyTrigger(KeyEvent event) {
+	public KeyPressTrigger(KeyEvent event) {
 		isTriggered = false;
 		this.event = event;
 	}

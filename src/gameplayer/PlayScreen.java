@@ -113,7 +113,10 @@ public class PlayScreen {
 			currentLevel.handleKeyRelease(key);
 			key.consume();
 		});*/
-
+		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+			//currentLevel.handleKeyRelease(key);
+			key.consume();
+		});
 	}
 
 	public void addSprite(ViewSprite vs) {

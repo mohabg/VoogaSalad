@@ -96,13 +96,6 @@ public class Sprite implements ISprite{
 		Behavior moveTurnLeft = new MoveTurn(358);
 		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
 		addBehavior(moveTurnLeft);
-		
-		/*
-		 * Behavior defaultHorizReleaseMovement = new MoveHorizontally(0);
-		 * userReleaseBehaviors.put(KeyCode.LEFT, defaultHorizReleaseMovement);
-		 * userReleaseBehaviors.put(KeyCode.RIGHT, defaultHorizReleaseMovement);
-		 * addBehavior(defaultHorizReleaseMovement);
-		 */
 
 	}
 

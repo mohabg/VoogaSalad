@@ -61,7 +61,7 @@ public class Project1 extends AClickableWindow implements IGameWindow {
 	@Override
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		Integer ID = null;
-		for (Integer i : ps.getViewSprites().keySet()) {
+		for(Integer i : ps.getViewSprites().keySet()) {
 			if (clickedSprite.equals(ps.getViewSprites().get(i))) {
 				ID = i;
 				break;

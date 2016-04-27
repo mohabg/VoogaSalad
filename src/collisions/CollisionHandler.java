@@ -32,9 +32,9 @@ public class CollisionHandler implements ICollisionHandler {
 		}
 	}
 	
-	public void checkCollisions(SpriteMap spriteMap, LevelProperties levelProperties) {
+	public void checkCollisions(LevelProperties levelProperties) {
 		CollisionChecker checker = new CollisionChecker();
-		Collection<Sprite> spriteSet = spriteMap.getSpriteMap().values();
+		Collection<Sprite> spriteSet = levelProperties.getSpriteMap().getSprites();
 		Sprite[] spriteArr = new Sprite[spriteSet.size()];
 		int index = 0;
 		for (Sprite sprite : spriteSet) {
@@ -80,6 +80,7 @@ public class CollisionHandler implements ICollisionHandler {
 		}
 		return false;
 	}
+
 	
 	
 }

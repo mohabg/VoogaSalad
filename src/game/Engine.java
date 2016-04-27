@@ -11,6 +11,7 @@ import java.util.Map;
 
 import authoringEnvironment.Project1;
 import events.EventManager;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
@@ -93,8 +94,12 @@ public class Engine {
         return myEditor.getUserSprite();
     }
 
-    public void setUserSprite(Integer userSprite) {
-        myEditor.setUserSprite(userSprite);
+    public void setSpriteActions() {
+        myEditor.setSpriteActions();
+    }
+    
+    public void setUserSprite(Integer sprite) {
+    	myEditor.setUserSprite(sprite);
     }
     
     public void addGoal(Goal goal) {

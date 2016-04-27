@@ -11,7 +11,9 @@ import interfaces.ITab;
 import interfaces.ITabPane;
 import level.Level;
 import level.LevelProperties;
+import javafx.scene.control.TextInputDialog;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,10 +37,9 @@ public class GameLoader {
 			+ "/SavedGameData/SavedGames/%s.xml";
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
-
+	
 	public static void init() {
 		FXConverters.configure(xstream);
-
 	}
 
 	/**
@@ -130,17 +131,22 @@ public class GameLoader {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {
-			if(s.isUserControlled()){
-				s.setUserControlled(true);
-			}
 			newLevel.addSprite(s);
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
+			if(s.isUserControlled()){
+				s.setUserControlled(true);
+				setUserControlledSpriteID(newLevel);
+				newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
+			}
 
 		});
 		return viewsprites;
 	}
 
-
+	private static void setUserControlledSpriteID(Level newLevel) {
+		newLevel.getLevelProperties().getSpriteMap().setUserControlledSpriteID(newLevel.getCurrentSpriteID());
+	}
+	
 
 	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
 		p.setLevelID(levelID);
