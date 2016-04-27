@@ -12,6 +12,7 @@ import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import collisions.DamageCollision;
 import collisions.DissapearCollision;
+import collisions.EnemyCollision;
 import gameElements.Actions;
 import gameElements.ISprite.spriteState;
 import events.CollisionEvent;
@@ -69,8 +70,11 @@ public class Level implements ILevel {
 
 		myEventManager = new EventManager();
 		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DamageCollision(10), new DissapearCollision());
+				new DamageCollision(10), new EnemyCollision());
+		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DissapearCollision(), new EnemyCollision());
 		myEventManager.addEvent(hardCodedEvent);
+		myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 	}

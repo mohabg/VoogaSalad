@@ -100,8 +100,10 @@ public class LevelProperties {
 
 	public Sprite getSpriteForCollision(Collision collision) {
 		for (Sprite sprite : collidingSprites) {
-			if (sprite.getCollisions().contains(collision)) {
-				return sprite;
+			for(Collision col : sprite.getCollisions()){
+				if(col.getClass().getName().equals(collision.getClass().getName())){
+					return sprite;
+				}
 			}
 		}
 		return null;

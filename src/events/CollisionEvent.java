@@ -37,6 +37,7 @@ public class CollisionEvent extends Event {
 					checker.setSpriteOne(spriteArr[i]);
 					checker.setSpriteTwo(spriteArr[j]);
 					checker.checkColliding();
+					levProps.setCollidingSprites(spriteArr[i], spriteArr[j]);
 					if ( checker.isTriggered()) {
 						getExecutable().execute(action, levProps);
 					}

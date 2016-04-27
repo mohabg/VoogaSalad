@@ -39,12 +39,8 @@ public abstract class Collision implements Executable {
 	}
 	
 	public boolean isCollidingWithUser(LevelProperties levelProperties){
-		for(Sprite sprite : levelProperties.getCollidingSprites()){
-			if(!sprite.getCollisions().contains(this)){
-				return sprite.isUserControlled();
-			}
-		}
-		return false;
+		Sprite collidingSprite = levelProperties.getSpriteForCollision(this);
+		return collidingSprite.isUserControlled();
 	}
 	public void handleCollision(Collision other, LevelProperties levelProperties){
 		//Subclasses should overload this method 
