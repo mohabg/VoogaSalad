@@ -6,6 +6,10 @@ import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
 import gameElements.Sprite;
+import gameElements.ViewPoint;
+import highscoretable.HighScoreController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
@@ -80,6 +84,7 @@ public class PlayScreen {
 		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 		myView.setSprites(activeSprites);
 		setKeys();
+
 
 	}
 

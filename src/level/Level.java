@@ -45,10 +45,12 @@ import keyboard.KeyboardActionFactory;
  */
 
 public class Level implements ILevel {
+	
 	private LevelProperties levelProperties;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
 	private PhysicsEngine physicsEngine;
 	private GoalFactory goalFactory;
+
 	private Actions actions;
 	private EventManager myEventManager;
 	
