@@ -1,4 +1,4 @@
-	package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+	package authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities;
 
 import java.io.File;
 import java.io.IOException;

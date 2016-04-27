@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
