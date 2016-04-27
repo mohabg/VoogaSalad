@@ -4,6 +4,7 @@ import gameElements.ISprite.spriteState;
 import java.util.ArrayList;
 import java.util.List;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -26,6 +27,8 @@ public class SpriteProperties {
     private DoubleProperty myUpLimit;
     private BooleanProperty myUserControlled;
     private BooleanProperty canMove;
+
+    @IgnoreField
     private List<SpriteProperties> myClones;
     
     public SpriteProperties(){
@@ -42,7 +45,7 @@ public class SpriteProperties {
         myRightLimit=new SimpleDoubleProperty(590);
         myUpLimit=new SimpleDoubleProperty(850);
         myDownLimit=new SimpleDoubleProperty(0);
-        this.canMove = new SimpleBooleanProperty(true);
+        canMove = new SimpleBooleanProperty(true);
         
     }
 

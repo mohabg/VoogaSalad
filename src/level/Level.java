@@ -195,7 +195,7 @@ public class Level implements ILevel {
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
 		if (spriteMap.getSpriteMap().isEmpty()) {
-			System.out.println();
+//			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
 			Sprite sprite=spriteMap.get(spriteID);

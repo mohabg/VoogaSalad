@@ -1,12 +1,7 @@
 package level;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import gameElements.Score;
 import collisions.Collision;
+import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.Time;
@@ -19,7 +14,10 @@ import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Holds all of the information a level has, which is then applied as a
@@ -206,7 +204,7 @@ public class LevelProperties {
 	/*
 	 * public IntegerProperty getScore() { return
 	 * getScoreObject().getScoreValue(); }
-	 * 
+	 *
 	 * public void addScore(int val){ getScoreObject().addScore(val); }
 	 */
 	public List<GoalProperties> getGoalProperties() {

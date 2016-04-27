@@ -1,15 +1,11 @@
 package authoringEnvironment;
 
+import gameElements.Sprite;
+import gameElements.SpriteProperties;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import behaviors.Behavior;
-import collisions.Collision;
-import gameElements.Health;
-import gameElements.Sprite;
-import gameElements.SpriteProperties;
-import resources.FrontEndData;
 
 public class AESpriteFactory {
 	public AESpriteFactory(){
@@ -21,9 +17,7 @@ public class AESpriteFactory {
 		s.setMySpriteProperties(sp);
 		s.setMyRef(new RefObject(vs.getMyImage()));
 		vs.bindToSprite(s);
-		
 		return s;
-
 	}
 	public ViewSprite makeViewSprite(Sprite s) {
 		SpriteProperties sp = s.getSpriteProperties();
@@ -42,24 +36,5 @@ public class AESpriteFactory {
 		list.forEach(s -> map.put(makeViewSprite(s), s));
 		return map;
 	}
-//	
-//	private ViewSprite makeViewSprite(String key) {
-//		try {
-//			Class c = Class.forName(FrontEndData.VIEWSPRITE);
-//			ViewSprite viewsprite = (ViewSprite) c.newInstance();
-//
-//            String p = FrontEndData.SpriteImages.getString(key);
-//            viewsprite.setImage(p);
-//
-//            Sprite newS = new Sprite(new RefObject(p));
-//			viewsprite.setOnMouseClicked(e -> {
-//				myGameTabPane.getCurrentTab().setTabContent(viewsprite, newS);
-//			});
-//
-//			return viewsprite;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//        }
-//		return null;
-//	}
+
 }
