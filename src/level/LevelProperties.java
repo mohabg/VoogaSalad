@@ -25,7 +25,7 @@ import java.util.Map;
  */
 
 public class LevelProperties {
-
+	
 	private IntegerProperty levelID;
 	private StringProperty levelName;
 	private IntegerProperty nextLevel;

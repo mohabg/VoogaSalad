@@ -26,7 +26,7 @@ import java.util.*;
 
 public class Sprite implements ISprite{
 //    private spriteState state;
-
+	
 	private SpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
@@ -71,6 +71,7 @@ public class Sprite implements ISprite{
 		Defense shield = new Shield();
 		addBehavior(shield);
 		userPressBehaviors.put(KeyCode.SHIFT, shield);
+
 
 		Behavior thrustForward = new ThrustVertical(-3);
 		addBehavior(thrustForward);
@@ -227,6 +228,10 @@ public class Sprite implements ISprite{
 
 	public void setX(DoubleProperty x) {
 		myProperties.setMyXProperty(x);
+	}
+	
+	public void setX(double x) {
+		myProperties.setMyX(x);
 	}
 
 	public DoubleProperty getY() {
