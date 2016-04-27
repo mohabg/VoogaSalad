@@ -3,9 +3,12 @@ package events;
 import java.util.ArrayList;
 import java.util.List;
 
+import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionHandler;
 import gameElements.SpriteMap;
+import javafx.beans.property.MapProperty;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import level.LevelProperties;
@@ -44,13 +47,18 @@ public class EventManager implements ICollisionHandler, IInputHandler {
 	}
 
 	@Override
-	public void keyEvent(KeyEvent event) {
-		myInputHandler.keyEvent(event);
+	public void keyEvent(KeyEvent event, IActions action) {
+		myInputHandler.keyEvent(event, action);
 	}
 
 	@Override
-	public void handleCollisions(LevelProperties levelProperties) {
-		myCollisionHandler.handleCollisions(levelProperties);
+	public void checkCollisions(LevelProperties levelProperties) {
+		myCollisionHandler.checkCollisions(levelProperties);
+	}
+
+	@Override
+	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
+		myInputHandler.setSpriteActions(userPressActions);
 	}
 
 }

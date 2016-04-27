@@ -11,4 +11,5 @@ public interface IActions {
 	public SpriteProperties getSpriteProperties();
 	public boolean isUserAction();
 	public boolean spriteCanMove();
+	
 }

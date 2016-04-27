@@ -6,9 +6,16 @@ import java.util.List;
 import java.util.Map;
 import Physics.PhysicsEngine;
 import behaviors.Behavior;
+import behaviors.IActions;
+import collisions.Collision;
+import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.Actions;
+import gameElements.ISprite.spriteState;
 import events.EventManager;
+import events.Executable;
+import events.InputHandler;
+import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
@@ -58,7 +65,15 @@ public class Level implements ILevel {
 
 		myEventManager = new EventManager();
 		myEventManager.setCollisionHandler(new CollisionHandler());
+		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
+	}
+	
+	@Override
+	public void update() {
+		updateSprites();
+		checkCollisions();
+		setisFinished(completeGoals());
 
 	}
 	
@@ -95,8 +110,13 @@ public class Level implements ILevel {
 		return this.getLevelProperties().getSpriteMap().getCurrentID();
 	}
 
-	public void setCurrentSpriteID(Integer currentSpriteID) {
-		this.getLevelProperties().getSpriteMap().getCurrentID();
+	public void setSpriteActions() {
+		myEventManager.setSpriteActions(levelProperties.getSpriteMap().getCurrentSprite().getUserPressBehaviors());
+	}
+	
+	public void setCurrentSpriteID(Integer sprite) {
+		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
+		setSpriteActions();
 	}
 
 	public void deleteSprite(Integer spriteID) {
@@ -221,65 +241,16 @@ public class Level implements ILevel {
 	}
 
 	private void checkCollisions() {
-		myEventManager.handleCollisions(getLevelProperties());
+		myEventManager.checkCollisions(getLevelProperties());
 	}
 
-	private void handleKeyboardAction(KeyEvent key, boolean enable) {
-		System.out.println(key.getCode() + key.getCharacter());
-		levelProperties.addScore(10);
-		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
-		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
-
-		Sprite currentSprite = getSpriteMap().getCurrentSprite();
-		if (currentSprite == null) {
-			return;
-		}
-		if (currentSprite.isUserControlled()) {
-			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
-			System.out.println(key.getCode() + "keycode");
-			System.out.println(behavior.toString());
-			System.out.println("angle"+currentSprite.getAngle());
-			System.out.println("xVel, x" + " " + currentSprite.getX() +" " + currentSprite.getSpriteProperties().getMyXvel());
-			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());
-			if (behavior != null) {
-				if (enable) {
-					behavior.enable();
-				} else {
-					behavior.disable();
-				}
-			}
-
-		} else {
-			if (keyboardAction == null) {
-				keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
-				keyboardActionMap.put(action, keyboardAction);
-			}
-
-			KeyboardActionChecker keyboardActionChecker = new KeyboardActionChecker();
-
-			if (keyboardActionChecker.checkKeyboardAction(action, currentSprite) && enable) {
-				keyboardAction.enableKeyboardAction(currentSprite);
-			} else {
-				keyboardAction.disableKeyboardAction(currentSprite);
-			}
-
-		}
-	}
-
-	@Override
-	public void update() {
-		updateSprites();
-		checkCollisions();
-		setisFinished(completeGoals());
-
-	}
 
 	/**
 	 * This method handles Key Press Events.
 	 */
 	public void handleKeyPress(KeyEvent key) {
-		//handleKeyboardAction(key, true);
-		myEventManager.keyEvent(key);
+		actions.setSprite(getCurrentSprite());
+		myEventManager.keyEvent(key, actions);
 	}
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
@@ -297,6 +268,10 @@ public class Level implements ILevel {
 
 	public void setPhysicsEngine(PhysicsEngine physicsEngine) {
 		this.physicsEngine = physicsEngine;
+	}
+
+	public EventManager getMyEventManager() {
+		return myEventManager;
 	}
 
 }

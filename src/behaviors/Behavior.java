@@ -1,5 +1,6 @@
 package behaviors;
 
+import events.Executable;
 import gameElements.Actions;
 import gameElements.ApplyBehaviorConditions;
 import gameElements.Sprite;
@@ -12,12 +13,16 @@ import javafx.beans.property.SimpleBooleanProperty;
  * This is the interface the Sprite uses to execute all of its actions.
  *
  */
-public abstract class Behavior {
+public abstract class Behavior implements Executable{
 
 	private ApplyBehaviorConditions behaviorConditions;
 	
 	public Behavior(){
 		behaviorConditions = new ApplyBehaviorConditions();
+	}
+	@Override
+	public void execute(IActions actions){
+		apply(actions);
 	}
 	public abstract void apply(IActions actions);
 	

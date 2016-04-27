@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import behaviors.Behavior;
+import behaviors.IActions;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
@@ -28,16 +29,33 @@ public class InputHandler implements IInputHandler {
 		this.gameActions = gameActions;
 		this.spriteActions = spriteActions;
 	}
-
-	@Override
-	public void mouseClickEvent(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
+	
+	public void addGameAction(KeyCode code, Executable action) {
+		gameActions.put(code, action);
+	}
+	
+	public void addSpriteAction(KeyCode code, Executable action) {
+		spriteActions.put(code, action);
+	}
+	
+	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
+		spriteActions = userPressActions;
 	}
 
 	@Override
-	public void keyEvent(KeyEvent event) {
-		gameActions.get(event.getCode()).execute();	
+	public void mouseClickEvent(MouseEvent event) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void keyEvent(KeyEvent event, IActions action) {
+		if ( gameActions.containsKey(event.getCode())){
+			gameActions.get(event.getCode()).execute(action);	
+		}
+		else if ( spriteActions.containsKey(event.getCode())){
+			spriteActions.get(event.getCode()).execute(action);
+		}
+		//else throw some error
 	}
 
 }
