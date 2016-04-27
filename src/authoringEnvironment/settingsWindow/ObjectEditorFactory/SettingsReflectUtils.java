@@ -2,8 +2,10 @@ package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -88,6 +90,10 @@ public class SettingsReflectUtils {
 		return clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers());
 	}
 	
+	public static boolean isAProperty(Field p) {
+		return Property.class.isAssignableFrom(p.getType());
+	}
+	
 	public static Object fieldGetObject(Field childField, Object parentObject) {
 		Object o = null;
 		try {
@@ -97,8 +103,17 @@ public class SettingsReflectUtils {
 		}
 		return o;
 	}
+	
+	public static Set<Field> getAllFields(Set<Field> fields, Class<?> type) {
+		fields.addAll(Arrays.asList(type.getDeclaredFields()));
 
-	public static boolean isAProperty(Field p) {
-		return Property.class.isAssignableFrom(p.getType());
+		List<String> myProjectClassNames = SubclassEnumerator.getAllSimpleClassNames();
+		if (type.getSuperclass() != null && myProjectClassNames.contains(type.getSuperclass().getTypeName())) {
+			fields = getAllFields(fields, type.getSuperclass());
+		}
+
+		return fields;
 	}
+
+
 }
