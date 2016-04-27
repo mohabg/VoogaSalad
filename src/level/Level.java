@@ -256,7 +256,7 @@ public class Level implements ILevel {
 	 * This method handles Key Press Events.
 	 */
 	public void handleKeyPress(KeyEvent key) {
-		actions.setSprite(getCurrentSprite());
+		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
 		myEventManager.keyEvent(key, actions, levelProperties);
 	}
 
