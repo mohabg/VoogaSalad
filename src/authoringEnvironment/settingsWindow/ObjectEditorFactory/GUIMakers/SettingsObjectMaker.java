@@ -43,15 +43,8 @@ public class SettingsObjectMaker {
 			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeTextField(sp));
-		} else if (myProp instanceof ListProperty) {
-			ListProperty lp = (ListProperty) myProp;
-			//propHBox.getChildren().addAll(propLabelName, makeTableView(lp));
-		} else if (myProp instanceof MapProperty) {
-			MapProperty mp = (MapProperty) myProp;
-			//propHBox.getChildren().addAll(propLabelName, makeTableView(mp));
-		} else if (myProp instanceof Enum<?>) {
-		
-		}
+		} 
+        
 		return propVBox;
 	}
 	
@@ -101,7 +94,7 @@ public class SettingsObjectMaker {
 	}
 
 	public static CheckBox makeBooleanCheckbox(BooleanProperty bp) {
-		CheckBox cb = new CheckBox("True/False");
+		CheckBox cb = new CheckBox();
 		cb.setIndeterminate(false);
 
 		cb.selectedProperty().bindBidirectional(bp);
@@ -121,7 +114,7 @@ public class SettingsObjectMaker {
 		
 		VBox.setVgrow(textField, Priority.ALWAYS);
 		HBox.setHgrow(textField, Priority.ALWAYS);
-		textField.autosize();
+
 
 		return textField;
 	}
