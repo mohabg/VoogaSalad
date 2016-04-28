@@ -2,11 +2,12 @@ package behaviors;
 
 import events.Executable;
 import gameElements.Actions;
-import gameElements.ApplyBehaviorConditions;
+import gameElements.ExecuteConditions;
 import gameElements.Sprite;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import level.LevelProperties;
 
 /**
  * 
@@ -15,16 +16,16 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public abstract class Behavior implements Executable{
 
-	private ApplyBehaviorConditions behaviorConditions;
+	private ExecuteConditions behaviorConditions;
 	
 	public Behavior(){
-		behaviorConditions = new ApplyBehaviorConditions();
+		behaviorConditions = new ExecuteConditions();
 	}
 	@Override
-	public void execute(IActions actions){
-		apply(actions);
+	public void execute(IActions actions, LevelProperties levProps){
+		apply(actions, levProps);
 	}
-	public abstract void apply(IActions actions);
+	public abstract void apply(IActions actions, LevelProperties levProps);
 	
 	public boolean isReady(Sprite sprite){
 		return this.behaviorConditions.ready(sprite);
@@ -38,10 +39,10 @@ public abstract class Behavior implements Executable{
 	public void disable(){
 		this.behaviorConditions.disable();
 	}
-	public ApplyBehaviorConditions getBehaviorConditions() {
+	public ExecuteConditions getBehaviorConditions() {
 		return behaviorConditions;
 	}
-	public void setBehaviorConditions(ApplyBehaviorConditions behaviorConditions) {
+	public void setBehaviorConditions(ExecuteConditions behaviorConditions) {
 		this.behaviorConditions = behaviorConditions;
 	}
 }

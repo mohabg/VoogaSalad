@@ -26,7 +26,7 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite implements ISprite{
+public class Sprite implements ISprite, IEnemy{
 //    private spriteState state;
 	
 	private SpriteProperties myProperties;
@@ -75,19 +75,19 @@ public class Sprite implements ISprite{
 		userPressBehaviors.put(KeyCode.SHIFT, shield);
 
 
-		Behavior thrustForward = new ThrustVertical(-3);
+		Behavior thrustForward = new ThrustVertical(-1);
 		addBehavior(thrustForward);
 		userPressBehaviors.put(KeyCode.UP, thrustForward);
 
-		Behavior thrustReverse = new ThrustVertical(3);
+		Behavior thrustReverse = new ThrustVertical(1);
 		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
 		addBehavior(thrustReverse);
 		
-		Behavior moveLeft = new ThrustHorizontal(-3);
+		Behavior moveLeft = new ThrustHorizontal(-1);
 		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
 		addBehavior(moveLeft);
 
-		Behavior moveRight = new ThrustHorizontal(3);
+		Behavior moveRight = new ThrustHorizontal(1);
 		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
 		addBehavior(moveRight);
 		
@@ -129,7 +129,7 @@ public class Sprite implements ISprite{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions);
+				behavior.apply(actions, null);
 			}
 		}
 	}
@@ -357,5 +357,29 @@ public class Sprite implements ISprite{
 	public void setState(spriteState spriteState){
 		this.state=spriteState;
 	}
-*/	
+*/
+
+	public boolean isOutOfBounds() {
+		return this.getSpriteProperties().isOutOfBounds();
+	}
+
+	@Override
+	public IEnemy clone() {
+		Sprite clone = new Sprite(myRef);
+		clone.getSpriteProperties().setMyX(Math.random()*clone.getSpriteProperties().getMyWidth().get());
+		clone.getSpriteProperties().setMyY(Math.random()*clone.getSpriteProperties().getMyHeight().get()/5);
+		return clone;
+	}
+
+	@Override
+	public double getSpawnProbability() {
+		// TODO Auto-generated method stub
+		return 0;
+	}	
+
+	public void spawn() {
+		if (Math.random() < getSpawnProbability())
+			clone();
+	}
+
 }

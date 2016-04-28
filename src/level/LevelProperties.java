@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +31,11 @@ public class LevelProperties {
 	private IntegerProperty previousLevel;
 	private IntegerProperty numGoals;
 	private Score score;
-	private List<Sprite> sprites;
 	private SpriteMap spriteMap;
 	private List<Goal> goalList;
 	private Time time;
 	private Map<KeyCode, KeyboardActions> keyMapping;
+	private Map<String, List<Sprite>> spriteTypes;
 	private List<GoalProperties> goalProperties;
 	private Sprite[] collidingSprites;
 	private IntegerProperty goalCount;
@@ -68,7 +67,8 @@ public class LevelProperties {
 	//	myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
-		
+		ObservableMap<String, List<Sprite>> om2 = FXCollections.observableMap(new HashMap<String, List<Sprite>>());
+		spriteTypes = new SimpleMapProperty<String, List<Sprite>>(om2);
 		collidingSprites = new Sprite[2];
 	}
 
@@ -99,8 +99,10 @@ public class LevelProperties {
 
 	public Sprite getSpriteForCollision(Collision collision) {
 		for (Sprite sprite : collidingSprites) {
-			if (sprite.getCollisions().contains(collision)) {
-				return sprite;
+			for(Collision col : sprite.getCollisions()){
+				if(col.getClass().getName().equals(collision.getClass().getName())){
+					return sprite;
+				}
 			}
 		}
 		return null;
@@ -142,20 +144,25 @@ public class LevelProperties {
 		return this.score;
 	}
 
-	public List<Sprite> getSprites() {
-		return sprites;
-	}
-
-	public void setSprites(List<Sprite> sprites) {
-		this.sprites = sprites;
-	}
-
 	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
 
 	public void setSpriteMap(SpriteMap spriteMap) {
 		this.spriteMap = spriteMap;
+	}
+
+	public Map<String, List<Sprite>> getSpriteTypes() {
+		return spriteTypes;
+	}
+
+	public void addSpriteType(Sprite sprite) {
+		if ( spriteTypes.get(sprite.getMyRef()) ==  null ) {
+			List<Sprite> newList = new ArrayList<Sprite>();
+			newList.add(sprite);
+			spriteTypes.put(sprite.getMyRef(),newList);
+		} else
+			spriteTypes.get(sprite.getMyRef()).add(sprite);
 	}
 
 	public List<Goal> getGoalList() {
@@ -248,5 +255,25 @@ public class LevelProperties {
 	public void setIsFinished(boolean isFinished) {
 		this.isFinished.set(isFinished);
 	}
+	public Sprite getUserControlledSprite(){
+		return this.getSpriteMap().getUserControlledSprite();
+	}
 
+	public double getUserX() {
+		return this.getSpriteMap().getUserControlledSprite().getX().doubleValue();
+	}
+
+	public double getUserY() {
+		return this.getSpriteMap().getUserControlledSprite().getY().doubleValue();
+	}
+	public double distanceFromUser(Sprite sprite){
+		double xDiff = Math.abs(sprite.getX().doubleValue() - getUserX());
+		double yDiff = Math.abs(sprite.getY().doubleValue() - getUserY());
+		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+	}
+	public double angleToUser(Sprite sprite){
+		//Probably does not work as expected
+		double angleToFace = Math.atan(getUserY() - sprite.getY().doubleValue() / getUserX() - sprite.getX().doubleValue());
+        return angleToFace - sprite.getAngle().doubleValue();
+	}
 }

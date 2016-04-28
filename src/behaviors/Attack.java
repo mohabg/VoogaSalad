@@ -1,26 +1,17 @@
 package behaviors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import authoringEnvironment.RefObject;
-import collisions.Collision;
-import gameElements.ApplyBehaviorConditions;
-import gameElements.Health;
-import gameElements.Sprite;
+import gameElements.ExecuteConditions;
 import gameElements.SpriteProperties;
-import gameplayer.SpriteFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import level.LevelProperties;
 
 /**
  * Describes attacking behavior of Sprites. Has the amount of ammunition(IntegerProperty ammunition), how long the 
  * bullets take to charge(IntegerProperty chargeTime), and ApplyBehavior conditions, which has attributes that help
  * determine whether an enemy sprite is eligible to shoot.
- * @see ApplyBehaviorConditions
+ * @see ExecuteConditions
  */
 
 
@@ -47,17 +38,15 @@ public abstract class Attack extends Behavior {
 		this.movement = movement;
 		this.myRef = myRef;
 	}
+	
 	@Override
-	public void apply(IActions actions){
-				shoot(actions);
+	public void apply(IActions actions, LevelProperties levProps){
+				shoot(actions, levProps);
 				this.disable();
 	}
 	
-	public abstract void shoot(IActions actions);
-
-	/**
-	 * @param sprite The sprite who's elibility to shoot you want to determine
-	 */
+	public abstract void shoot(IActions actions, LevelProperties levProps);
+    
 
 	public RefObject getMyRef(){
 		return myRef;

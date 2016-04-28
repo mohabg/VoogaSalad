@@ -69,8 +69,8 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
     
     private MenuBarElement getPlayToggle(MainAuthoringWindow mainAuthoringWindow, ITabPane tabLevels){
     	MenuBarElement playToggleButton = new MenuBarElement();
-    	playToggleButton.setName("play/edit");
-    	playToggleButton.setNewAction("play", e -> {
+    	playToggleButton.setName(FrontEndData.ButtonLabels.getString("Play/Edit"));
+    	playToggleButton.setNewAction(FrontEndData.ButtonLabels.getString("PlayOption"), e -> {
     		GameLoader.saveGame(myName, tabLevels);
 
     		MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(mainAuthoringWindow, myName);
