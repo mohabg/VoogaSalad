@@ -8,13 +8,13 @@ import gameElements.Sprite;
 public class CollisionChecker implements Trigger {
 	
 	private boolean isTriggered;
-	private triggerType type;
+	//private triggerType type;
 	private Sprite spriteOne;
 	private Sprite spriteTwo;
 	
 	public CollisionChecker(){
 		isTriggered = false;
-		type = triggerType.COLLISION;
+		//type = triggerType.COLLISION;
 	}
 
 	public Sprite getSpriteOne() {

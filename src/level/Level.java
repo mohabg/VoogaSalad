@@ -69,12 +69,12 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DamageCollision(10), new EnemyCollision());
-		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DissapearCollision(), new EnemyCollision());
-		myEventManager.addEvent(hardCodedEvent);
-		myEventManager.addEvent(hardCodedEvent1);
+		//Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				//new DamageCollision(10), new EnemyCollision());
+		//Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				//new DissapearCollision(), new EnemyCollision());
+		//myEventManager.addEvent(hardCodedEvent);
+		//myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 	}
