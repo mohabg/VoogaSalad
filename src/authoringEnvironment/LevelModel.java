@@ -4,6 +4,7 @@ package authoringEnvironment;
  * @author David Yan, Joe Jacob
  */
 import authoringEnvironment.mainWindow.GameAuthoringTab;
+import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
 import interfaces.ITab;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class LevelModel {
 	private ListProperty<Goal> myGoals;
+	private ListProperty<Event> myEvents;
 //	private MapProperty<KeyCode, KeyboardActions> myKeyMap;
 	private IntegerProperty numGoals;
 	private List<Sprite> myList;
@@ -35,6 +37,9 @@ public class LevelModel {
 
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
+		
+		myEvents = new SimpleListProperty<Event>(FXCollections.observableList(new ArrayList<Event>()));
+
 //		myKeyMap = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		numGoals = new SimpleIntegerProperty(1);
 		myList = new ArrayList<Sprite>();
@@ -74,6 +79,9 @@ public class LevelModel {
 	
 	public String getBackground(){
 		return myBackground;
+	}
+	public List<Event> getMyEvents(){
+		return myEvents;
 	}
 
 }
