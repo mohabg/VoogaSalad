@@ -115,7 +115,8 @@ public abstract class AClickableWindow {
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
-                myNewGamePane.getChildren().remove(sprite);
+                ViewSprite newSprite = new ViewSprite(sprite.getMyImage());
+                setViewSprite(newSprite);
             }
             e.consume();
         });
