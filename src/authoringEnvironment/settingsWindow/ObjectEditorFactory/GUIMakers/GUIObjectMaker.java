@@ -26,6 +26,12 @@ import javafx.scene.layout.VBox;
 
 public class GUIObjectMaker {
 	
+	public static TabPane makeTabPane() {
+		TabPane tabPane = makeStyledTabPane();
+		tabPane = addTabPaneOptions(tabPane);
+		return tabPane;
+	}
+	
 	public static TabPane makeStyledTabPane() {
 		TabPane tabPane = new TabPane();
 		tabPane = (TabPane) applyStylesheet(StylesheetType.TABPANE, tabPane);
@@ -37,17 +43,44 @@ public class GUIObjectMaker {
 		return tabPane;
 	}
 	
+	public static Tab makeTab(String name) {
+		Tab tab = makeStyledTab(name);
+		tab = addTabOptions(tab);
+		return tab;
+	}
+	
 	public static Tab makeStyledTab(String name) {
 		Tab tab = new Tab(name);
 		tab = (Tab) applyStylesheet(StylesheetType.TAB, tab);
 		return tab;
 	}
 	
+	public static Tab addTabOptions(Tab tab) {
+		return tab;
+	}
+	
+	public static Button makeButton(String name, EventHandler<? super MouseEvent> action) {
+		Button button = makeStyledButton(name, action);
+		button = addButtonOptions(button);
+		return button;
+	}
+	
+
 	public static Button makeStyledButton(String name, EventHandler<? super MouseEvent> action) {
 		Button button = new Button(name);
 		button.setOnMouseClicked(action);
 		button = (Button) applyStylesheet(StylesheetType.BUTTON, button);
 		return button;
+	}
+	
+	private static Button addButtonOptions(Button button) {
+		return button;
+	}
+	
+	public static HBox makeHBox(Node... node) {
+		HBox hBox = makeStyledHBox(node);
+		hBox = addHBoxOptions(hBox);
+		return hBox;
 	}
 	
 	public static HBox makeStyledHBox(Node...node) {
@@ -57,9 +90,15 @@ public class GUIObjectMaker {
 	}
 	
 	public static HBox addHBoxOptions(HBox hBox) {
-		Insets insets = new Insets(20, 20, 20, 20);
+		Insets insets = new Insets(5, 5, 5, 5);
 		hBox.setPadding(insets);
 		return hBox;
+	}
+	
+	public static VBox makeVBox(Node... node) {
+		VBox vBox = makeStyledVBox(node);
+		vBox = addVBoxOptions(vBox);
+		return vBox;
 	}
 	
 	public static VBox makeStyledVBox(Node...node) {
@@ -69,17 +108,33 @@ public class GUIObjectMaker {
 	}
 	
 	public static VBox addVBoxOptions(VBox vBox) {
-		Insets insets = new Insets(20, 20, 20, 20);
+		Insets insets = new Insets(5, 5, 5, 5);
 		vBox.setPadding(insets);
 		return vBox;
 	}
 	
+	public static ComboBox makeComboBox() {
+		ComboBox comboBox = makeStyledComboBox();
+		comboBox = addComboBoxOptions(comboBox);
+		return comboBox;
+	}
+	
+
 	public static ComboBox makeStyledComboBox() {
 		ComboBox comboBox = new ComboBox();
 		comboBox = (ComboBox) applyStylesheet(StylesheetType.COMBOBOX, comboBox);
 		return comboBox;
 	}
+	
+	private static ComboBox addComboBoxOptions(ComboBox comboBox) {
+		return comboBox;
+	}
 
+	public static ScrollPane makeScrollPane() {
+		ScrollPane scrollPane = makeStyledScrollPane();
+		scrollPane = addScrollPaneOptions(scrollPane);
+		return scrollPane;
+	}
 	
 	public static ScrollPane makeStyledScrollPane() {
 		ScrollPane scrollPane = new ScrollPane();
@@ -93,10 +148,27 @@ public class GUIObjectMaker {
 		return scrollPane;
 	}
 	
+	public static AnchorPane makeAnchorPane() {
+		AnchorPane anchorPane = makeStyledAnchorPane();
+		anchorPane = addAnchorPaneOptions(anchorPane);
+		return anchorPane;
+	}
+
+
 	public static AnchorPane makeStyledAnchorPane() {
 		AnchorPane anchorPane = new AnchorPane();
 		anchorPane = (AnchorPane) applyStylesheet(StylesheetType.ANCHORPANE, anchorPane);
 		return anchorPane;
+	}
+	
+	private static AnchorPane addAnchorPaneOptions(AnchorPane anchorPane) {
+		return anchorPane;
+	}
+	
+	public static Spinner makeSpinner() {
+		Spinner spinner = makeStyledSpinner();
+		spinner = addSpinnerOptions(spinner);
+		return spinner;
 	}
 	
 	public static Spinner makeStyledSpinner() {
@@ -108,6 +180,12 @@ public class GUIObjectMaker {
 	public static Spinner addSpinnerOptions(Spinner spinner) {
 		spinner.setEditable(true);
 		return spinner;
+	}
+	
+	public static TextField makeTextField(String name) {
+		TextField textField = makeStyledTextField(name);
+		textField = addTextFieldOptions(textField);
+		return textField;
 	}
 	
 	public static TextField makeStyledTextField(String name) {
@@ -122,6 +200,12 @@ public class GUIObjectMaker {
 		return textField;
 	}
 	
+	public static CheckBox makeCheckBox() {
+		CheckBox checkBox = makeStyledCheckBox();
+		checkBox = addCheckBoxOptions(checkBox);
+		return checkBox;
+	}
+	
 	public static CheckBox makeStyledCheckBox() {
 		CheckBox checkBox = new CheckBox();
 		checkBox = (CheckBox) applyStylesheet(StylesheetType.CHECKBOX, checkBox);
@@ -131,6 +215,12 @@ public class GUIObjectMaker {
 	public static CheckBox addCheckBoxOptions(CheckBox checkBox) {
 		checkBox.setIndeterminate(false);
 		return checkBox;
+	}
+	
+	public static Label makeLabel(String name) {
+		Label label = makeStyledLabel(name);
+		label = addLabelOptions(label);
+		return label;
 	}
 	
 	public static Label makeStyledLabel(String name) {

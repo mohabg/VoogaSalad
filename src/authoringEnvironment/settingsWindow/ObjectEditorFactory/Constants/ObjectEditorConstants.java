@@ -14,9 +14,7 @@ public class ObjectEditorConstants {
 	private static ObjectEditorConstants instance = null;
 
 	private ObjectEditorConstants() {
-		PACKAGE_NAMES = Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
-				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
-				"spriteProperties");
+		PACKAGE_NAMES = new ArrayList<String>();
 		SIMPLE_CLASS_NAMES = new ArrayList<String>();
 
 		initStylesheets();

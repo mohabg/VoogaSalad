@@ -21,13 +21,13 @@ import javafx.scene.layout.VBox;
 public class SettingsObjectMaker {
 	
 	public static VBox makeSettingsObject(Object myProp, String propName) {
-		VBox propVBox = new VBox();
-        propVBox.setPadding(new Insets(20,20,20,20));
+		VBox propVBox = GUIObjectMaker.makeVBox();
+        //propVBox.setPadding(new Insets(20,20,20,20));
         String labelText = convertCamelCase(propName);
-		Label propLabelName = new Label(labelText);
+		Label propLabelName = GUIObjectMaker.makeLabel(labelText);
 
-        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
-        propLabelName.setAlignment(Pos.CENTER);
+//        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+//        propLabelName.setAlignment(Pos.CENTER);
 
         if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;
@@ -64,10 +64,10 @@ public class SettingsObjectMaker {
 	}
 	
 	public static Spinner makeDoubleSpinner(DoubleProperty dp) {
-		Spinner mySpinner = new Spinner();
+		Spinner mySpinner = GUIObjectMaker.makeSpinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
-		mySpinner.setEditable(true);
+		//mySpinner.setEditable(true);
 		
 		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
@@ -79,10 +79,10 @@ public class SettingsObjectMaker {
 	}
 
 	public static Spinner makeIntegerSpinner(IntegerProperty ip) {
-		Spinner mySpinner = new Spinner();
+		Spinner mySpinner = GUIObjectMaker.makeSpinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
-		mySpinner.setEditable(true);
+		//mySpinner.setEditable(true);
 
 		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
@@ -94,8 +94,8 @@ public class SettingsObjectMaker {
 	}
 
 	public static CheckBox makeBooleanCheckbox(BooleanProperty bp) {
-		CheckBox cb = new CheckBox();
-		cb.setIndeterminate(false);
+		CheckBox cb = GUIObjectMaker.makeCheckBox();
+		//cb.setIndeterminate(false);
 
 		cb.selectedProperty().bindBidirectional(bp);
 
@@ -104,7 +104,7 @@ public class SettingsObjectMaker {
 
 
 	public static TextField makeTextField(StringProperty sp) {
-		TextField textField = new TextField(sp.toString());
+		TextField textField = GUIObjectMaker.makeTextField(sp.toString());
 		
 		TextFormatter formatter = new TextFormatter(TextFormatter.IDENTITY_STRING_CONVERTER);
 		textField.setTextFormatter(formatter);
@@ -112,8 +112,8 @@ public class SettingsObjectMaker {
 		textField.textProperty().bindBidirectional(sp);
 		textField.textProperty().bindBidirectional(formatter.valueProperty());
 		
-		VBox.setVgrow(textField, Priority.ALWAYS);
-		HBox.setHgrow(textField, Priority.ALWAYS);
+//		VBox.setVgrow(textField, Priority.ALWAYS);
+//		HBox.setHgrow(textField, Priority.ALWAYS);
 
 
 		return textField;
