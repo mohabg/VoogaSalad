@@ -285,4 +285,10 @@ public class Level implements ILevel {
 		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
 		setSpriteActions();
 	}
+
+	public void setEvents(List<Event> myEvents) {
+		this.myEventManager.setEvents(myEvents);
+		// TODO Auto-generated method stub
+		
+	}
 }
