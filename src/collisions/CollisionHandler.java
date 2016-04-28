@@ -112,6 +112,10 @@ public class CollisionHandler implements Executable {
 		applyCollision(collisionOne,collisionTwo,levProps);
 	}
 
-	
-	
+    @Override
+    public void stop(IActions actions, LevelProperties levProps) {
+
+    }
+
+
 }

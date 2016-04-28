@@ -1,7 +1,7 @@
 package authoringEnvironment.authoringToolbar;
 
 import authoringEnvironment.MainAuthoringWindow;
-import authoringEnvironment.Project1;
+import authoringEnvironment.LiveEditing;
 import gameplayer.MainPlayingWindow;
 import resources.FrontEndData;
 
@@ -11,17 +11,17 @@ public class LEMenuBarCreator extends AbstractMenuBar{
 		super(gameName);
 	}
 	
-	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, Project1 window) {
+	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, LiveEditing window) {
 		MenuBarElement myBackMenu = getBackMenu(mainAuthoringWindow);
 		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow, window);
 		myMenuBar.getStylesheets().add(FrontEndData.TAB_STYLESHEET);
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myPlayToggleMenu.getMenu());
 	
 	}
-	private MenuBarElement getPlayToggle(MainAuthoringWindow mainAuthoringWindow, Project1 le){
+	private MenuBarElement getPlayToggle(MainAuthoringWindow mainAuthoringWindow, LiveEditing le){
     	MenuBarElement playToggleButton = new MenuBarElement();
-    	playToggleButton.setName("play/edit");
-    	playToggleButton.setNewAction("play", e -> {
+    	playToggleButton.setName(FrontEndData.ButtonLabels.getString("Play/Edit"));
+    	playToggleButton.setNewAction(FrontEndData.ButtonLabels.getString("PlayOption"), e -> {
     		MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(mainAuthoringWindow, myName, le.getPlayScreen());
     		mainAuthoringWindow.switchScene(myMainPlayingWindow);
     	});

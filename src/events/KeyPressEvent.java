@@ -1,17 +1,7 @@
 package events;
 
-import java.util.Map;
-
-import behaviors.Behavior;
 import behaviors.IActions;
-import gameElements.Sprite;
-import gameElements.SpriteMap;
-import keyboard.IKeyboardAction;
-import keyboard.KeyboardActionChecker;
-import keyboard.KeyboardActionFactory;
 import level.LevelProperties;
-import keyboard.IKeyboardAction.KeyboardActions;
-import javafx.scene.input.KeyEvent;
 
 public class KeyPressEvent implements Executable {
 
@@ -23,6 +13,11 @@ public class KeyPressEvent implements Executable {
 	public void execute(IActions action, LevelProperties levProps) {
 		
 	}
+
+    @Override
+    public void stop(IActions actions, LevelProperties levProps) {
+
+    }
 
 	/*@Override
 	public void execute(KeyEvent key, boolean enable, Sprite currentSprite) {

@@ -20,7 +20,7 @@ public class MainAuthoringWindow extends Screen {
     //	private AbstractMenuBar myMenubar;
     private GameMakerWindow myGameMakerWindow;
     private SettingsWindow mySettingsWindow;
-    Project1 le;
+    public LiveEditing le;
     
     public MainAuthoringWindow(Screen parent, String gameName) {
         super(parent);
@@ -51,7 +51,7 @@ public class MainAuthoringWindow extends Screen {
     public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
         super(parent);
         initBorderPane();
-        le = new Project1(myPlayScreen, mySettingsWindow);
+        le = new LiveEditing(myPlayScreen, mySettingsWindow);
         myItemWindow = new ItemWindow(le);
         LEMenuBarCreator myMenubar = new LEMenuBarCreator(gameName);
         myMenubar.initMenuBar(this, le);

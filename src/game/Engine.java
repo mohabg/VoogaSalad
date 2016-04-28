@@ -1,17 +1,14 @@
 package game;
 
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 import gameElements.Time;
 
 import java.util.Map;
 
-import authoringEnvironment.Project1;
+import authoringEnvironment.LiveEditing;
 import events.EventManager;
-import gameElements.ISprite;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
@@ -21,7 +18,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
 
 /**
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
@@ -70,7 +66,7 @@ public class Engine {
 		this.myTimeProperty = myTimeProperty;
 	}
 
-	public Engine(Project1 liveEditing, GameEditor gameEditor) {
+	public Engine(LiveEditing liveEditing, GameEditor gameEditor) {
 		// TODO Auto-generated constructor stub
 	}
 
