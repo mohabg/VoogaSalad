@@ -11,10 +11,9 @@ import resources.FrontEndData;
  */
 public class SettingsWindow {
 	private VBox myDisplay;
-    private VisualFactory myVisualFactory;
+   
 
 	public SettingsWindow(){
-        myVisualFactory = new VisualFactory();
 		myDisplay = new VBox();
 		Settings.setSettingsDisplaySettings(myDisplay);
 	}
@@ -33,8 +32,5 @@ public class SettingsWindow {
 		return myDisplay;
 	}
 
-    public VisualFactory getMyVisualFactory(){
-        return myVisualFactory;
-    }
 
 }

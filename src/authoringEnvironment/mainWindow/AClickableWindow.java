@@ -3,6 +3,8 @@ package authoringEnvironment.mainWindow;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorController;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -14,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import resources.FrontEndData;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +26,7 @@ public abstract class AClickableWindow {
 	protected ViewSprite currentSprite;
 	protected Map<Sprite, TabPane> mySpriteTabPanes;
 	protected SettingsWindow myWindow;
+	protected ObjectEditorController myOEC;
 	protected Pane myNewGamePane;
 	protected LevelModel myLevelModel;
 
@@ -31,10 +35,19 @@ public abstract class AClickableWindow {
 		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
 		myNewGamePane = new AnchorPane();
-
+		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+				"spriteProperties"));
+		initOEC();
 
 	}
 
+	private void initOEC() {
+		for (StylesheetType type : StylesheetType.values()) {
+			myOEC.addObjectStylesheet(type, FrontEndData.STYLESHEET);
+		}
+	}
+	
 	protected EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -86,7 +99,7 @@ public abstract class AClickableWindow {
 		if (mySpriteTabPanes.containsKey(spriteModel)) {
 			propertiesPane = mySpriteTabPanes.get(spriteModel);
 		} else {
-			propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
+			propertiesPane = myOEC.makeObjectEditorTabPane(spriteModel);
 			mySpriteTabPanes.put(spriteModel, propertiesPane);
 		}
 		myBox.getChildren().addAll(propertiesPane);
@@ -96,7 +109,7 @@ public abstract class AClickableWindow {
 	public VBox setSettingsContent(LevelModel myLevel) {
 		currentSprite = null;
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevel);
+		TabPane propertiesList = myOEC.makeObjectEditorTabPane(myLevel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}

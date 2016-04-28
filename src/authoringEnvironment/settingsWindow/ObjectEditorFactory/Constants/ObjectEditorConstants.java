@@ -14,9 +14,7 @@ public class ObjectEditorConstants {
 	private static ObjectEditorConstants instance = null;
 
 	private ObjectEditorConstants() {
-		PACKAGE_NAMES = Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
-				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
-				"spriteProperties");
+		PACKAGE_NAMES = new ArrayList<String>();
 		SIMPLE_CLASS_NAMES = new ArrayList<String>();
 
 		initStylesheets();
@@ -36,6 +34,14 @@ public class ObjectEditorConstants {
 		}
 	}
 	
+	public String getStylesheet(StylesheetType type) {
+		return STYLESHEETS.get(type);
+	}
+	
+	public void setStylesheet(StylesheetType type, String stylesheet) {
+		STYLESHEETS.put(type, stylesheet);
+	}
+	
 	public List<String> getPackageNames() {
 		return PACKAGE_NAMES;
 	}
@@ -48,7 +54,7 @@ public class ObjectEditorConstants {
 		return SIMPLE_CLASS_NAMES;
 	}
 
-	public void setSimpeClassNames(List<String> SIMPLE_CLASS_NAMES) {
+	public void setSimpleClassNames(List<String> SIMPLE_CLASS_NAMES) {
 		this.SIMPLE_CLASS_NAMES = SIMPLE_CLASS_NAMES;
 	}
 }

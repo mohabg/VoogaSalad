@@ -10,5 +10,7 @@ public enum StylesheetType {
 	SCROLLPANE,
 	SPINNER,
 	TEXTFIELD,
+	CHECKBOX,
+	LABEL,
 	ANCHORPANE;
 }
