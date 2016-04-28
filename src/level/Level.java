@@ -6,9 +6,21 @@ import java.util.List;
 import java.util.Map;
 import Physics.PhysicsEngine;
 import behaviors.Behavior;
+import behaviors.IActions;
+import collisions.Collision;
+import collisions.CollisionChecker;
 import collisions.CollisionHandler;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.EnemyCollision;
 import gameElements.Actions;
+import gameElements.ISprite.spriteState;
+import events.CollisionEvent;
+import events.Event;
 import events.EventManager;
+import events.Executable;
+import events.InputHandler;
+import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
@@ -57,11 +69,181 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		myEventManager.setCollisionHandler(new CollisionHandler());
+		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DamageCollision(10), new EnemyCollision());
+		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DissapearCollision(), new EnemyCollision());
+		myEventManager.addEvent(hardCodedEvent);
+		myEventManager.addEvent(hardCodedEvent1);
+		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
-
 	}
 	
+	@Override
+	public void update() {
+		updateSprites();
+		checkCollisions();
+		setisFinished(completeGoals());
+
+	}
+
+	public void deleteSprite(Integer spriteID) {
+		getSpriteMap().remove(spriteID);
+	}
+
+	public Integer newSpriteID(SpriteMap spriteMap2) {
+		Integer currentSpriteID = this.getLevelProperties().getSpriteMap().getCurrentID();
+		while (spriteMap2.getSpriteMap().keySet().contains(currentSpriteID)) {
+			currentSpriteID++;
+		}
+		return currentSpriteID;
+	}
+
+	/**
+	 * @param newSprite
+	 *            gets newSprite and adds it to the sprite map(adding it to the
+	 *            current level)
+	 */
+
+	public void addSprite(Sprite newSprite) {
+		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
+		spriteMap.addSprite(newSprite);
+		levelProperties.addSpriteType(newSprite);
+		// return new ID??
+		// checking for whether it is the main character-->should be done
+		// through the states pattern
+	}
+
+	/**
+	 * @param newSprite
+	 *            Sprite who's id you want to update
+	 * @param spriteID
+	 *            the new ID you want your sprite to be considered
+	 */
+	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
+		getSpriteMap().put(spriteID, newSprite);
+	}
+	
+
+	private void populateGoals() {
+		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
+			this.getGoalList().add(goalFactory.makeGoal(property));
+		}
+	}
+
+	private boolean completeGoals() {
+		GoalChecker goalChecker = new GoalChecker(this);
+		List<Goal> deleteGoals= new ArrayList<Goal>();
+		List<Goal> goalList = this.levelProperties.getGoalList();
+		int goalCount = this.getLevelProperties().getGoalCount();
+		for (Goal goal : goalList) {
+			goal.acceptVisitor(goalChecker);
+			if (goal.isFinished()){
+				goalCount++;
+				deleteGoals.add(goal);
+			}
+		}
+		goalList.removeAll(deleteGoals);
+		return goalCount >= getLevelProperties().getNumGoals();
+	}
+
+	private void updateSprites() {
+		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
+		List<Integer> spriteList = new ArrayList<Integer>();
+		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
+		if (spriteMap.getSpriteMap().isEmpty()) {
+//			System.out.println();
+		}
+		for (Integer spriteID : spriteIDList) {
+			Sprite sprite=spriteMap.get(spriteID);
+			this.actions.setSprite(sprite);
+			sprite.update(this.actions);
+			this.getPhysicsEngine().updateSprite(sprite);
+			if(sprite.isOutOfBounds() && !spriteIsHero(sprite)){
+				//Temporary to avoid lagging
+				sprite.kill();
+			}
+			removeDeadSprite(spriteID, spriteList);
+		}
+	}
+	private boolean spriteIsHero(Sprite sprite){
+		return this.levelProperties.getUserControlledSprite().equals(sprite);
+	}
+	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
+		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
+		if (spriteMap.get(spriteID).isDead()) {
+			spriteMap.remove(spriteID);
+		}
+
+	}
+
+	private void checkCollisions() {
+		myEventManager.doEvents(actions,getLevelProperties());
+	}
+
+
+	/**
+	 * This method handles Key Press Events.
+	 */
+	public void handleKeyPress(KeyEvent key) {
+		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
+		myEventManager.keyPress(key, actions, this.levelProperties);
+	}
+	
+	public void handleKeyRelease(KeyEvent key){
+		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
+		myEventManager.keyRelease(key, actions, this.levelProperties);
+	}
+	
+	public int getCurrentPoints() {
+		return getScore().intValue();
+
+	}
+
+	public GoalFactory getGoalFactory() {
+		return goalFactory;
+	}
+
+	public void setGoalFactory(GoalFactory goalFactory) {
+		this.goalFactory = goalFactory;
+	}
+
+	public void deleteGoal(Goal goal) {
+		List<Goal> goalList = this.levelProperties.getGoalList();
+		goalList.remove(goal);
+		if (levelProperties.getNumGoals() > goalList.size()) {
+			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
+		}
+	}
+
+	public void addGoal(Goal goal) {
+		this.levelProperties.getGoalList().add(goal);
+	}
+
+	public IntegerProperty getScore() {
+		return levelProperties.getScore();
+	}
+
+	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
+		this.actions.setSpriteFactory(mySpriteFactory);
+	}
+
+	public Sprite getCurrentSprite() {
+		return this.levelProperties.getSpriteMap().getCurrentSprite();
+	}
+
+	public PhysicsEngine getPhysicsEngine() {
+		return physicsEngine;
+	}
+
+
+	public void setPhysicsEngine(PhysicsEngine physicsEngine) {
+		this.physicsEngine = physicsEngine;
+	}
+
+	public EventManager getMyEventManager() {
+		return myEventManager;
+	}
 	public List<Goal> getGoalList() {
 		return this.levelProperties.getGoalList();
 	}
@@ -95,208 +277,12 @@ public class Level implements ILevel {
 		return this.getLevelProperties().getSpriteMap().getCurrentID();
 	}
 
-	public void setCurrentSpriteID(Integer currentSpriteID) {
-		this.getLevelProperties().getSpriteMap().getCurrentID();
+	public void setSpriteActions() {
+		myEventManager.setSpriteActions(levelProperties.getSpriteMap().getCurrentSprite().getUserPressBehaviors());
 	}
-
-	public void deleteSprite(Integer spriteID) {
-		getSpriteMap().remove(spriteID);
+	
+	public void setCurrentSpriteID(Integer sprite) {
+		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
+		setSpriteActions();
 	}
-
-	public Integer newSpriteID(SpriteMap spriteMap2) {
-		Integer currentSpriteID = this.getLevelProperties().getSpriteMap().getCurrentID();
-		while (spriteMap2.getSpriteMap().keySet().contains(currentSpriteID)) {
-			currentSpriteID++;
-		}
-		return currentSpriteID;
-	}
-
-	/**
-	 * @param newSprite
-	 *            gets newSprite and adds it to the sprite map(adding it to the
-	 *            current level)
-	 */
-
-	public void addSprite(Sprite newSprite) {
-		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
-		spriteMap.addSprite(newSprite);
-		// return new ID??
-		// checking for whether it is the main character-->should be done
-		// through the states pattern
-	}
-
-	/**
-	 * @param newSprite
-	 *            Sprite who's id you want to update
-	 * @param spriteID
-	 *            the new ID you want your sprite to be considered
-	 */
-	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
-		getSpriteMap().put(spriteID, newSprite);
-	}
-
-	public int getCurrentPoints() {
-		return getScore().intValue();
-
-	}
-
-	public GoalFactory getGoalFactory() {
-		return goalFactory;
-	}
-
-	public void setGoalFactory(GoalFactory goalFactory) {
-		this.goalFactory = goalFactory;
-	}
-
-	public void deleteGoal(Goal goal) {
-		List<Goal> goalList = this.levelProperties.getGoalList();
-		goalList.remove(goal);
-		if (levelProperties.getNumGoals() > goalList.size()) {
-			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
-		}
-	}
-
-	public void addGoal(Goal goal) {
-		this.levelProperties.getGoalList().add(goal);
-	}
-
-	public IntegerProperty getScore() {
-		return levelProperties.getScore();
-	}
-
-	private void populateGoals() {
-		// System.out.println("gaolpropertysize"+getLevelProperties().getGoalProperties().size());
-		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
-			// System.out.println(property.getGoalName());
-			this.getGoalList().add(goalFactory.makeGoal(property));
-		}
-		// System.out.println("populate goals"+goalList.size());
-		
-		
-		
-	}
-
-	private boolean completeGoals() {
-		GoalChecker goalChecker = new GoalChecker(this);
-		List<Goal> deleteGoals= new ArrayList<Goal>();
-		List<Goal> goalList = this.levelProperties.getGoalList();
-		int goalCount = this.getLevelProperties().getGoalCount();
-		for (Goal goal : goalList) {
-			goal.acceptVisitor(goalChecker);
-			if (goal.isFinished()){
-				goalCount++;
-				deleteGoals.add(goal);
-			}
-		}
-		goalList.removeAll(deleteGoals);
-		return goalCount >= getLevelProperties().getNumGoals();
-	}
-
-	private void updateSprites() {
-		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
-		List<Integer> spriteList = new ArrayList<Integer>();
-		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
-		if (spriteMap.getSpriteMap().isEmpty()) {
-//			System.out.println();
-		}
-		for (Integer spriteID : spriteIDList) {
-			Sprite sprite=spriteMap.get(spriteID);
-			this.actions.setSprite(sprite);
-			sprite.update(this.actions);
-			this.getPhysicsEngine().updateSprite(sprite);
-			if (!sprite.isUserControlled()
-					&& sprite.getBehaviors().get("default") != null) {
-				sprite.getBehaviors().get("default").apply(actions);
-			}
-			removeDeadSprite(spriteID, spriteList);
-		}
-	}
-
-	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
-		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
-		if (spriteMap.get(spriteID).isDead()) {
-			spriteMap.remove(spriteID);
-		}
-
-	}
-
-	private void checkCollisions() {
-		myEventManager.handleCollisions(getLevelProperties());
-	}
-
-	private void handleKeyboardAction(KeyEvent key, boolean enable) {
-		System.out.println(key.getCode() + key.getCharacter());
-		levelProperties.addScore(10);
-		KeyboardActions action = getLevelProperties().getKeyboardAction(key.getCode());
-		IKeyboardAction keyboardAction = keyboardActionMap.get(action);
-
-		Sprite currentSprite = getSpriteMap().getCurrentSprite();
-		if (currentSprite == null) {
-			return;
-		}
-		if (currentSprite.isUserControlled()) {
-			Behavior behavior = currentSprite.getUserPressBehavior(key.getCode());
-			System.out.println(key.getCode() + "keycode");
-			System.out.println(behavior.toString());
-			System.out.println("angle"+currentSprite.getAngle());
-			System.out.println("xVel, x" + " " + currentSprite.getX() +" " + currentSprite.getSpriteProperties().getMyXvel());
-			System.out.println("yVel, y" + " " + currentSprite.getY() + " " + currentSprite.getSpriteProperties().getMyYvel());
-			if (behavior != null) {
-				if (enable) {
-					behavior.enable();
-				} else {
-					behavior.disable();
-				}
-			}
-
-		} else {
-			if (keyboardAction == null) {
-				keyboardAction = KeyboardActionFactory.buildKeyboardAction(action);
-				keyboardActionMap.put(action, keyboardAction);
-			}
-
-			KeyboardActionChecker keyboardActionChecker = new KeyboardActionChecker();
-
-			if (keyboardActionChecker.checkKeyboardAction(action, currentSprite) && enable) {
-				keyboardAction.enableKeyboardAction(currentSprite);
-			} else {
-				keyboardAction.disableKeyboardAction(currentSprite);
-			}
-
-		}
-	}
-
-	@Override
-	public void update() {
-		updateSprites();
-		checkCollisions();
-		setisFinished(completeGoals());
-
-	}
-
-	/**
-	 * This method handles Key Press Events.
-	 */
-	public void handleKeyPress(KeyEvent key) {
-		//handleKeyboardAction(key, true);
-		myEventManager.keyEvent(key);
-	}
-
-	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
-		this.actions.setSpriteFactory(mySpriteFactory);
-	}
-
-	public Sprite getCurrentSprite() {
-		return this.levelProperties.getSpriteMap().getCurrentSprite();
-	}
-
-	public PhysicsEngine getPhysicsEngine() {
-		return physicsEngine;
-	}
-
-
-	public void setPhysicsEngine(PhysicsEngine physicsEngine) {
-		this.physicsEngine = physicsEngine;
-	}
-
 }

@@ -1,6 +1,6 @@
 package gameElements;
 
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.IgnoreField;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -17,7 +17,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 
 
-public class ApplyBehaviorConditions {
+public class ExecuteConditions {
 
 	
 	private DoubleProperty probability;
@@ -31,7 +31,7 @@ public class ApplyBehaviorConditions {
 	private double runningTime;
 	private BooleanProperty enabled;
 	
-	public ApplyBehaviorConditions(){
+	public ExecuteConditions(){
 		probability = new SimpleDoubleProperty(0);
 		distFromUser = new SimpleDoubleProperty(0);
 		minDistFromUser = new SimpleDoubleProperty(0);
@@ -43,19 +43,22 @@ public class ApplyBehaviorConditions {
 		enabled = new SimpleBooleanProperty(false);
 	}
 	
+
 	public boolean ready(Sprite sprite){
 		if(sprite.isUserControlled()){
 			return this.isEnabled();
 		}
-		else{
-			if(Math.random() < getProbability()) {
-				double elapsedTime = System.currentTimeMillis() - runningTime;
-				if(elapsedTime >= frequency.doubleValue() * 1000) {
-					runningTime = System.currentTimeMillis();
-					if(getDistFromUser() >= getMinDistFromUser() &&
-						getDistFromUser() <= getMaxDistFromUser()){
-							return true;
-					}
+		else {
+			return isAIReady();
+		}
+	}
+	public boolean isAIReady() {
+		if (Math.random() < getProbability()) {
+			double elapsedTime = System.currentTimeMillis() - runningTime;
+			if (elapsedTime >= frequency.doubleValue() * 1000) {
+				runningTime = System.currentTimeMillis();
+				if (getDistFromUser() >= getMinDistFromUser() && getDistFromUser() <= getMaxDistFromUser()) {
+					return true;
 				}
 			}
 		}

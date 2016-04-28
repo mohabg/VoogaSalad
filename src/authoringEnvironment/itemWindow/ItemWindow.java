@@ -37,6 +37,7 @@ public class ItemWindow {
 	private Tab makeTab(String type) {
 		try {
 			ItemTab tab = new ItemTab();
+            //TOOD: Change type checking here
 			if(type.equals("Background")){
 				tab.populateTab(fillBackground(type));
 			}

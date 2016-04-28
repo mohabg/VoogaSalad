@@ -20,9 +20,6 @@ public class Settings {
     private static final double ITEM_WINDOW_WIDTH = SCREEN_WIDTH * 0.25;
     private static final int mySpacing = 20;
 
-
-
-
 	// TODO: REPLACE THE CONSTANTS IN HERE
 	public Settings() {
 

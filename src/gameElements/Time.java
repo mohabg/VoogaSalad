@@ -55,7 +55,7 @@ public class Time {
 	public void timeToString() {
 		int minutes = (int) myCurrentTime.doubleValue()/60;
 		int seconds = (int) myCurrentTime.doubleValue()%60;
-		System.out.println("Time Remaining: " + Integer.toString(minutes) + ":" + Integer.toString(seconds));
+		//System.out.println("Time Remaining: " + Integer.toString(minutes) + ":" + Integer.toString(seconds));
 	}
 	
 	public double getMyDelay() {

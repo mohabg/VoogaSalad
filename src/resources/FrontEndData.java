@@ -21,9 +21,12 @@ public class FrontEndData {
 	
 
 	public static String BUTTONLABELS = "resources/buttonlabels";
+    public static String STYLEPROPERTIES = "resources/styleProperties";
 	public static ResourceBundle ButtonLabels = ResourceBundle.getBundle(BUTTONLABELS);
+    public static ResourceBundle StyleLabels = ResourceBundle.getBundle(STYLEPROPERTIES);
 
-	public static String STYLESHEET = "authoringEnvironment/itemWindow/styles.css";
+
+    public static String STYLESHEET = "authoringEnvironment/itemWindow/styles.css";
     public static String TAB_STYLESHEET = "authoringEnvironment/authoringToolbar/authoringToolbar.css";
     public static String ITEMWINDOW_STYLESHEET = "authoringEnvironment/itemWindow/itemWindow.css";
     public static String MAINWINDOW_STYLESHEET = "authoringEnvironment/mainWindow/mainWindow.css";

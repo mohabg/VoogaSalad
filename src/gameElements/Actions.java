@@ -11,6 +11,7 @@ public class Actions implements IActions{
 	
 	public Actions(){
 	}
+	@Override
 	public void setSprite(Sprite sprite){
 		this.sprite = sprite;
 	}
