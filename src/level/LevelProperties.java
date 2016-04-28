@@ -274,7 +274,6 @@ public class LevelProperties {
 	public double angleToUser(Sprite sprite){
 		//Probably does not work as expected
 		double angleToFace = Math.atan(getUserY() - sprite.getY().doubleValue() / getUserX() - sprite.getX().doubleValue());
-		double angleToTurn = angleToFace - sprite.getAngle().doubleValue();
-		return angleToTurn;
+        return angleToFace - sprite.getAngle().doubleValue();
 	}
 }

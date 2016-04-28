@@ -1,18 +1,8 @@
 package behaviors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import authoringEnvironment.RefObject;
-import collisions.Collision;
 import gameElements.ExecuteConditions;
-import gameElements.Health;
-import gameElements.Sprite;
 import gameElements.SpriteProperties;
-import gameplayer.SpriteFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import level.LevelProperties;
@@ -56,10 +46,7 @@ public abstract class Attack extends Behavior {
 	}
 	
 	public abstract void shoot(IActions actions, LevelProperties levProps);
-
-	/**
-	 * @param sprite The sprite who's elibility to shoot you want to determine
-	 */
+    
 
 	public RefObject getMyRef(){
 		return myRef;

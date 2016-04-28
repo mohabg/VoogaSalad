@@ -40,8 +40,8 @@ public class StartOptionsWindow extends Screen {
 		ImageView myLogo = new ImageView(FrontEndData.DEFAULT_IMAGE);
 
 		Button createNewButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("new"), (e -> {
-			TextInputDialog dialog = new TextInputDialog("my-game");
-			dialog.setContentText("Please enter your game's name:");
+			TextInputDialog dialog = new TextInputDialog(FrontEndData.ButtonLabels.getString("SetGame"));
+			dialog.setContentText(FrontEndData.ButtonLabels.getString("InputGame"));
 			Optional<String> result = dialog.showAndWait();
 			result.ifPresent(r->{
 				switchScene(new MainAuthoringWindow(this, r));

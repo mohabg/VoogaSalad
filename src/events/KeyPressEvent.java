@@ -19,6 +19,11 @@ public class KeyPressEvent implements Executable {
 
     }
 
+    @Override
+    public void stop(IActions actions, LevelProperties levProps) {
+
+    }
+
 	/*@Override
 	public void execute(KeyEvent key, boolean enable, Sprite currentSprite) {
 		System.out.println(key.getCode() + key.getCharacter());

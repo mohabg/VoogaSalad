@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import resources.FrontEndData;
 
 /**
  * @author Joe Jacob
@@ -21,7 +22,7 @@ public class MenuBarElement {
 	
 	public void setName(String menuName){
 		myMenu = new Menu(menuName);
-		myMenu.getStyleClass().add("menu-title");
+		myMenu.getStyleClass().add(FrontEndData.StyleLabels.getString("MenuTitle"));
 	}
 	
 	public void setNewAction(String itemName, EventHandler<ActionEvent> action) {
