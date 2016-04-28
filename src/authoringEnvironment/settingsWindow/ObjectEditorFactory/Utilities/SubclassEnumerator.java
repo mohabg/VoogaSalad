@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.Constants;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 
 public class SubclassEnumerator {
 	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
@@ -42,7 +42,7 @@ public class SubclassEnumerator {
 	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> clazz) {
 		Map<String, Class<R>> allSubclasses = new HashMap<String, Class<R>>();
 		
-		for (String p : Constants.getInstance().getPackageNames()) {
+		for (String p : ObjectEditorConstants.getInstance().getPackageNames()) {
 			allSubclasses.putAll(getSubclasses(p, clazz));
 		}
 		
@@ -52,7 +52,7 @@ public class SubclassEnumerator {
 	public static List<String> getAllSimpleClassNames() {
 		List<String> allClassNames = new ArrayList<String>();
 				
-		for (String p : Constants.getInstance().getPackageNames()) {
+		for (String p : ObjectEditorConstants.getInstance().getPackageNames()) {
 			allClassNames.addAll(getSimpleClassNames(p));
 		}
 		

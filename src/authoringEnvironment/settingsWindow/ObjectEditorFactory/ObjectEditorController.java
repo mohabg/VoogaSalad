@@ -2,14 +2,14 @@ package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
 import java.util.List;
 
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.Constants;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 
 public class ObjectEditorController {
-	Constants myConstants;
+	ObjectEditorConstants myConstants;
 	VisualFactory myVisualFactory;
 	
 	public ObjectEditorController(List<String> packageNames) {	
-		myConstants = Constants.getInstance();
+		myConstants = ObjectEditorConstants.getInstance();
 		myConstants.setPackageNames(packageNames);
 		
 		myVisualFactory = new VisualFactory();
