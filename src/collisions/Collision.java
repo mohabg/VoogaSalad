@@ -1,24 +1,20 @@
 package collisions;
 
-import java.lang.reflect.Method;
-
 import behaviors.IActions;
 import events.Executable;
-import events.Trigger;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-/**
- * Describes the different behaviors of collision. Has the sprite that is colliding as an instance variable, 
- * @see applyEffects
- * @see handleCollision
- */
-
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.LevelProperties;
+
+import java.lang.reflect.Method;
+
+/**
+ * Describes the different behaviors of collision. Has the sprite that is colliding as an instance variable,
+ *
+ * @see applyEffects
+ * @see handleCollision
+ */
 
 public abstract class Collision implements Executable {
 	
@@ -60,6 +56,7 @@ public abstract class Collision implements Executable {
 				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
+                //TODO: Throw exception
 			}
 		}
 	}
@@ -68,12 +65,11 @@ public abstract class Collision implements Executable {
 		Class CollisionOneClass = one.getClass();
 		Class CollisionTwoClass = two.getClass();
 		try{
-			Method method = CollisionOneClass.getMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
-			return method;
+            return CollisionOneClass.getMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 		}
 		catch(Exception e){
-			
-		}
+            //TODO: Throw exception
+        }
 		return null;
 	}
 	

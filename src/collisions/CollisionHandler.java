@@ -102,7 +102,8 @@ public class CollisionHandler implements Executable {
 			return true;
 		}
 		catch(NoSuchMethodException e){
-		}
+            //TODO: Throw exception
+        }
 		return false;
 	}
 

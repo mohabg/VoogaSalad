@@ -49,8 +49,7 @@ public class CollisionChecker implements Trigger {
 	 */
 	
 	private Rectangle spriteToRectangle(Sprite sprite){
-		Rectangle rectangle = new Rectangle ( (int) sprite.getX().doubleValue(), (int) sprite.getY().doubleValue(), (int) sprite.getWidth().doubleValue(), (int) sprite.getHeight().doubleValue());
-		return rectangle;
+        return new Rectangle ( (int) sprite.getX().doubleValue(), (int) sprite.getY().doubleValue(), (int) sprite.getWidth().doubleValue(), (int) sprite.getHeight().doubleValue());
 	}
 
 	@Override
