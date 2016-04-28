@@ -46,9 +46,6 @@ public class VisualFactory {
 	public TabPane getMyTabs(Object model) {
 		TabPane myTabs = GUIObjectMaker.makeTabPane();
 
-//		myTabs.getStylesheets().add("authoringEnvironment/settingsWindow/settingsWindow.css");
-//        myTabs.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-      //  myTabs.getStylesheets().add(FrontEndData.STYLESHEET);
 
 
 		Field[] fields = model.getClass().getDeclaredFields();
@@ -81,11 +78,6 @@ public class VisualFactory {
 		ScrollPane myScrollPane = GUIObjectMaker.makeScrollPane();
 		AnchorPane myAnchorPane = GUIObjectMaker.makeAnchorPane();
 		 
-//		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//		myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//		
-//		myScrollPane.getStylesheets().add(FrontEndData.STYLESHEET);
-//	    myAnchorPane.getStylesheets().add(FrontEndData.STYLESHEET);
 
 
 	    myBox = populateTab(f, model);
