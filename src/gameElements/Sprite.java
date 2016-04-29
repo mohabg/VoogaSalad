@@ -53,7 +53,9 @@ public class Sprite implements ISprite, IEnemy{
 		ObservableMap<StringProperty, Behavior> om1 = FXCollections
 				.observableMap(new HashMap<StringProperty, Behavior>());
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
-
+		behaviors.sizeProperty().addListener((o, ov, nv) -> {
+			System.out.println("poo");
+		});
 		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
 		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
