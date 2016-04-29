@@ -1,5 +1,6 @@
 package behaviors;
 
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
@@ -26,13 +27,13 @@ public class ThrustVertical extends Movement{
 
 	@Override
 	public void move(IActions actions) {
-		SpriteProperties properties = actions.getSpriteProperties();
-		double currentXVelocity = properties.getMyXvel().doubleValue();
-		double currentYVelocity = properties.getMyYvel().doubleValue();
-		double xOrientation = Math.sin(Math.toRadians(-1 * properties.getMyAngle()));
-		double yOrientation = Math.cos(Math.toRadians(-1 * properties.getMyAngle()));
-		properties.setMyXvel(currentXVelocity + xOrientation * getValue());
-		properties.setMyYvel(currentYVelocity + yOrientation * getValue());
+		ISpriteProperties properties = actions.getSpriteProperties();
+		double currentXVelocity = properties.getXVel();
+		double currentYVelocity = properties.getYVel();
+		double xOrientation = Math.sin(Math.toRadians(-1 * properties.getAngle()));
+		double yOrientation = Math.cos(Math.toRadians(-1 * properties.getAngle()));
+		properties.setXVel(currentXVelocity + xOrientation * getValue());
+		properties.setYVel(currentYVelocity + yOrientation * getValue());
 
 	}
 

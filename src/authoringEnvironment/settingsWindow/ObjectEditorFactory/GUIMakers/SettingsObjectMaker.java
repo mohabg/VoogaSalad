@@ -22,12 +22,9 @@ public class SettingsObjectMaker {
 	
 	public static VBox makeSettingsObject(Object myProp, String propName) {
 		VBox propVBox = GUIObjectMaker.makeVBox();
-        //propVBox.setPadding(new Insets(20,20,20,20));
         String labelText = convertCamelCase(propName);
 		Label propLabelName = GUIObjectMaker.makeLabel(labelText);
 
-//        propLabelName.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
-//        propLabelName.setAlignment(Pos.CENTER);
 
         if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;
@@ -67,7 +64,6 @@ public class SettingsObjectMaker {
 		Spinner mySpinner = GUIObjectMaker.makeSpinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
-		//mySpinner.setEditable(true);
 		
 		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
@@ -82,7 +78,6 @@ public class SettingsObjectMaker {
 		Spinner mySpinner = GUIObjectMaker.makeSpinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
-		//mySpinner.setEditable(true);
 
 		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
@@ -95,7 +90,6 @@ public class SettingsObjectMaker {
 
 	public static CheckBox makeBooleanCheckbox(BooleanProperty bp) {
 		CheckBox cb = GUIObjectMaker.makeCheckBox();
-		//cb.setIndeterminate(false);
 
 		cb.selectedProperty().bindBidirectional(bp);
 
@@ -111,9 +105,6 @@ public class SettingsObjectMaker {
 		
 		textField.textProperty().bindBidirectional(sp);
 		textField.textProperty().bindBidirectional(formatter.valueProperty());
-		
-//		VBox.setVgrow(textField, Priority.ALWAYS);
-//		HBox.setHgrow(textField, Priority.ALWAYS);
 
 
 		return textField;

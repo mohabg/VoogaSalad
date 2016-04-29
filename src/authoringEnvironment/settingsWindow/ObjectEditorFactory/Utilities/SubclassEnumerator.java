@@ -8,9 +8,7 @@ import java.util.*;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 
 public class SubclassEnumerator {
-	public static final String BASE_ABS_PATH = "/Volumes/trapSD/Google%20Drive/School/Duke/Sophomore/COMPSCI%20308/voogasalad_TheDuballers";
-	
-	
+
 	public static boolean hasSubclasses(Class<?> clazz) {
 		if (getAllSubclasses(clazz).size() <= 1) {
 			return false;
@@ -94,7 +92,8 @@ public class SubclassEnumerator {
         List<File> dirs = new ArrayList<File>();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
-            String relative = new File(BASE_ABS_PATH)
+            String relative = new File(System.getProperty("user.dir")
+            		.replaceAll(" ", "%20"))
             		.toURI()
             		.relativize(new File(resource.getFile()).toURI())
             		.getPath();

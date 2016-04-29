@@ -2,6 +2,7 @@ package collisions;
 
 import behaviors.IActions;
 import events.Executable;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -35,7 +36,7 @@ public abstract class Collision implements Executable {
 	}
 	
 	public boolean isCollidingWithUser(LevelProperties levelProperties){
-		Sprite collidingSprite = levelProperties.getSpriteForCollision(this);
+		ISprite collidingSprite = levelProperties.getSpriteForCollision(this);
 		return collidingSprite.isUserControlled();
 	}
 	public void handleCollision(Collision other, LevelProperties levelProperties){

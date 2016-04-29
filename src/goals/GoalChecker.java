@@ -1,5 +1,6 @@
 package goals;
 
+import gameElements.ISprite;
 import gameElements.Sprite;
 import level.Level;
 
@@ -34,7 +35,7 @@ public class GoalChecker implements IGoalVisitor{
 		//System.out.println("reached visit() method in stay alive checker");
 	//	System.out.println("spritesize"+level.getSpriteMap().getSprites().size());
 		boolean enemyBoolean=true;
-		for(Sprite sprite: level.getSpriteMap().getSprites()){
+		for(ISprite sprite: level.getSpriteMap().getSprites()){
 			if(!sprite.isUserControlled()){
 				enemyBoolean=false;
 				break;

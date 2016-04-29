@@ -13,7 +13,9 @@ import collisions.CollisionHandler;
 import collisions.DamageCollision;
 import collisions.DissapearCollision;
 import collisions.EnemyCollision;
+import gameElements.AIController;
 import gameElements.Actions;
+import gameElements.ISprite;
 import gameElements.ISprite.spriteState;
 import events.CollisionEvent;
 import events.Event;
@@ -58,6 +60,7 @@ public class Level implements ILevel {
 
 	private Actions actions;
 	private EventManager myEventManager;
+	private AIController enemyController;
 	
 	public Level() {
 
@@ -82,7 +85,7 @@ public class Level implements ILevel {
 	@Override
 	public void update() {
 		updateSprites();
-		checkCollisions();
+		myEventManager.doEvents(actions,getLevelProperties());
 		setisFinished(completeGoals());
 
 	}
@@ -155,7 +158,7 @@ public class Level implements ILevel {
 //			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
-			Sprite sprite=spriteMap.get(spriteID);
+			ISprite sprite = spriteMap.get(spriteID);
 			this.actions.setSprite(sprite);
 			sprite.update(this.actions);
 			this.getPhysicsEngine().updateSprite(sprite);
@@ -166,7 +169,7 @@ public class Level implements ILevel {
 			removeDeadSprite(spriteID, spriteList);
 		}
 	}
-	private boolean spriteIsHero(Sprite sprite){
+	private boolean spriteIsHero(ISprite sprite){
 		return this.levelProperties.getUserControlledSprite().equals(sprite);
 	}
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
@@ -176,11 +179,6 @@ public class Level implements ILevel {
 		}
 
 	}
-
-	private void checkCollisions() {
-		myEventManager.doEvents(actions,getLevelProperties());
-	}
-
 
 	/**
 	 * This method handles Key Press Events.
@@ -228,7 +226,7 @@ public class Level implements ILevel {
 		this.actions.setSpriteFactory(mySpriteFactory);
 	}
 
-	public Sprite getCurrentSprite() {
+	public ISprite getCurrentSprite() {
 		return this.levelProperties.getSpriteMap().getCurrentSprite();
 	}
 
@@ -286,9 +284,10 @@ public class Level implements ILevel {
 		setSpriteActions();
 	}
 
+	public void setAIController(AIController enemyController) {
+		this.enemyController = enemyController;
+}
 	public void setEvents(List<Event> myEvents) {
 		this.myEventManager.setEvents(myEvents);
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -3,6 +3,7 @@ package gameElements;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -68,8 +69,8 @@ public class ViewPoint {
 	public void updateActiveSprites(Level level){
 		List<Integer> activeSpriteList=new ArrayList<Integer>();
 		for(Integer integer:level.getSpriteMap().getSpriteIDList()){
-			Sprite sprite=level.getSpriteMap().get(integer);
-			if( getRectangle().contains(sprite.getX().doubleValue(), sprite.getY().doubleValue())){
+			ISprite sprite=level.getSpriteMap().get(integer);
+			if( getRectangle().contains(sprite.getSpriteProperties().getX(), sprite.getSpriteProperties().getY())){
 				activeSpriteList.add(integer);
 			}
 		}
@@ -77,27 +78,17 @@ public class ViewPoint {
 	}
 	
 	public void moveViewPoint(double xDelta, double yDelta, Level level){
-		int newXCoordinate=(int) (getRectangle().getCenterX()+xDelta);
-		int newYCoordinate=(int) (getRectangle().getCenterY()+yDelta);
+		int newXCoordinate= (int) (getRectangle().getCenterX() + xDelta);
+		int newYCoordinate= (int) (getRectangle().getCenterY() + yDelta);
 		getRectangle().setLocation(newXCoordinate, newYCoordinate);
-		updateSpriteRelativeX(level, xDelta);
-		updateSpriteRelativeY(level, yDelta);
+		updateSpriteRelativePos(level.getSpriteMap().getSprites(), xDelta, yDelta);
 		updateActiveSprites(level);
 	}
 	
-	public void updateSpriteRelativeX(Level level, double increment){
-		for(Integer integer:level.getSpriteMap().getSpriteIDList()){
-			Sprite sprite=level.getSpriteMap().get(integer);
-			DoubleProperty incrementVal=new SimpleDoubleProperty(increment);
-			sprite.setX(sprite.getSpriteProperties().getMyRelativeX().doubleValue() - incrementVal.doubleValue());
-		}
-	}
-	
-	public void updateSpriteRelativeY(Level level, double increment){
-		for(Integer integer:level.getSpriteMap().getSpriteIDList()){
-			Sprite sprite=level.getSpriteMap().get(integer);
-			DoubleProperty incrementVal=new SimpleDoubleProperty(increment);
-			sprite.setY(sprite.getSpriteProperties().getMyRelativeY().doubleValue() - incrementVal.doubleValue());
+	public void updateSpriteRelativePos(Collection<ISprite> spriteList, double xDelta, double yDelta){
+		for(ISprite sprite : spriteList){
+			sprite.getSpriteProperties().setX(sprite.getSpriteProperties().getMyRelativeX() - xDelta);
+			sprite.getSpriteProperties().setY(sprite.getSpriteProperties().getMyRelativeY() - yDelta);
 		}
 	}
 	
