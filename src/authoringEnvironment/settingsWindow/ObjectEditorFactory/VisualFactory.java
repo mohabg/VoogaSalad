@@ -275,8 +275,7 @@ public class VisualFactory {
 
 		
 	public static <R, K> List<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, List<HBox> properties, boolean makeBox) {
-		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();
-		
+		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();		
 		if (Property.class.isAssignableFrom(clazz)) {
 			fieldVBoxHBox.getChildren().addAll(SettingsObjectMaker.makeSettingsObject(parent, parentName));
 			properties.add(fieldVBoxHBox);
@@ -286,6 +285,8 @@ public class VisualFactory {
 		
 		// parent is probably an abstract class and therefore
 		// impossible to make an instance
+		
+		
 		if (parent == null) {
 			parent = (R) SettingsReflectUtils.getSubclassInstance(clazz);
 		}
@@ -301,8 +302,9 @@ public class VisualFactory {
 		}
 		
 		// prevents us from trying to initialize java classes		
-		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(clazz.getName())) {			
-			VBox fieldVBox = GUIObjectMaker.makeVBox();			
+		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(clazz.getName())) {	
+			Label propLabel = GUIObjectMaker.makeLabel(SettingsObjectMaker.convertCamelCase(parentName));
+			VBox fieldVBox = GUIObjectMaker.makeVBox(propLabel);			
 			List<HBox> fieldHBoxes = new ArrayList<HBox>();
 			
 			List<Field> allFields = SettingsReflectUtils.getAllFields(new ArrayList<Field>(), clazz);
