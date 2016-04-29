@@ -286,8 +286,7 @@ public class VisualFactory {
 		
 		// parent is probably an abstract class and therefore
 		// impossible to make an instance
-		
-		
+
 		if (fieldObject == null) {
 			fieldObject = (R) SettingsReflectUtils.getSubclassInstance(fieldClass);
 			if (field != null) {
@@ -295,7 +294,7 @@ public class VisualFactory {
 					field.set(fieldObject, parent);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		}
