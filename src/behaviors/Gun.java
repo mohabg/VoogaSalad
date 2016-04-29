@@ -29,6 +29,7 @@ public class Gun extends Attack{
 	public Gun(){
 		this(new RefObject("pictures/shootbullet.png"));
 	}
+	
 	public Gun(RefObject myRef){
 		super(myRef);
 		this.getBehaviorConditions().setFrequency(20);

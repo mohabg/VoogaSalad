@@ -32,6 +32,7 @@ public class Health {
 	public Health(double myHealth){
 		healthValue = new SimpleDoubleProperty(myHealth);
 		originalHealthValue = myHealth;
+		numLives = new SimpleIntegerProperty(1);
 		isMortal = new SimpleBooleanProperty(true);
 	}
 

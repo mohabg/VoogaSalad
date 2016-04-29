@@ -26,12 +26,12 @@ public class SettingsObjectMaker {
 		Label propLabelName = GUIObjectMaker.makeLabel(labelText);
 
 
-        if (myProp instanceof DoubleProperty) {
-			DoubleProperty dp = (DoubleProperty) myProp;
-			propVBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
-		} else if (myProp instanceof IntegerProperty) {
+        if (myProp instanceof IntegerProperty) {
 			IntegerProperty ip = (IntegerProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeIntegerSpinner(ip));
+		} else if (myProp instanceof DoubleProperty) {
+			DoubleProperty dp = (DoubleProperty) myProp;
+			propVBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));
 		} else if (myProp instanceof BooleanProperty) {
 			BooleanProperty bp = (BooleanProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
@@ -84,7 +84,7 @@ public class SettingsObjectMaker {
 		
 		factory.valueProperty().bindBidirectional(ip);
 		factory.valueProperty().bindBidirectional(formatter.valueProperty());
-		
+
 		return mySpinner;
 	}
 

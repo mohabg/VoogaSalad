@@ -31,7 +31,6 @@ public class Sprite implements ISprite, IEnemy{
 	private ISpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
-
 	private MapProperty<StringProperty, Behavior> behaviors;
 	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
