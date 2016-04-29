@@ -1,6 +1,7 @@
 package authoringEnvironment;
 
 import gameElements.SpriteProperties;
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,7 +16,7 @@ import javafx.scene.image.ImageView;
 public class ViewSprite extends ImageView {
 
 	private StringProperty myRef;
-	private SpriteProperties mySpriteProperties;
+	private ISpriteProperties mySpriteProperties;
 	private ObjectProperty<Image> imageProp;
 	
 	public ViewSprite() {
@@ -31,8 +32,8 @@ public class ViewSprite extends ImageView {
 		imageProp = new SimpleObjectProperty<Image>(new Image(myRef.getValue()));
 		double imageWidth = imageProp.get().getWidth();
 		double imageHeight = imageProp.get().getHeight();
-		this.mySpriteProperties.setMyWidth(imageWidth);
-		this.mySpriteProperties.setMyHeight(imageHeight);
+		this.mySpriteProperties.setWidth(imageWidth);
+		this.mySpriteProperties.setHeight(imageHeight);
 		this.imageProperty().bindBidirectional(imageProp);
 	}
 	
@@ -49,7 +50,7 @@ public class ViewSprite extends ImageView {
 		return myRef;
 	}
 	
-	public SpriteProperties getMySpriteProperties() {
+	public ISpriteProperties getMySpriteProperties() {
 		return mySpriteProperties;
 	}
 
@@ -74,17 +75,18 @@ public class ViewSprite extends ImageView {
 
 	}
 
-	public void setMySpriteProperties(SpriteProperties sp) {
+	public void setMySpriteProperties(ISpriteProperties sp) {
 		mySpriteProperties = sp;
 	}
 
 	public void bindToSprite(Sprite s){
-		setMySpriteProperties(s.getSpriteProperties());
-		xProperty().bindBidirectional(s.getX());
-		yProperty().bindBidirectional(s.getY());
-		fitHeightProperty().bindBidirectional(s.getHeight());
-		fitWidthProperty().bindBidirectional(s.getWidth());
-		rotateProperty().bindBidirectional(s.getAngle());
+		ISpriteProperties properties = s.getSpriteProperties();
+		setMySpriteProperties(properties);
+		xProperty().bindBidirectional(properties.getXProperty());
+		yProperty().bindBidirectional(properties.getYProperty());
+		fitHeightProperty().bindBidirectional(properties.getHeightProperty());
+		fitWidthProperty().bindBidirectional(properties.getWidthProperty());
+		rotateProperty().bindBidirectional(properties.getAngleProperty());
 	}
 
 

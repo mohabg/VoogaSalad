@@ -198,7 +198,7 @@ public class VisualFactory {
 		}
 		
 		rObj = (R) SettingsReflectUtils.newClassInstance(rType);		
-		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox);
+		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox); 
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
 	
 		return retVBox;
