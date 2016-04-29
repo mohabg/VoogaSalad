@@ -6,7 +6,7 @@ import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.Time;
-import goals.Goal.Goals;
+import goals.Goals;
 import goals.Goal;
 import goals.GoalProperties;
 import javafx.beans.property.*;

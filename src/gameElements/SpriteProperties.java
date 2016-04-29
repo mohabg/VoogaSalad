@@ -1,6 +1,8 @@
 package gameElements;
 
 import gameElements.ISprite.spriteState;
+import goals.Goals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class SpriteProperties implements ISpriteProperties{
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
+    private Goals myGoal;
     private DoubleProperty myLeftLimit;
     private DoubleProperty myDownLimit;
     private DoubleProperty myRightLimit;

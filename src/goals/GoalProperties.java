@@ -3,7 +3,7 @@ package goals;
 import java.util.ArrayList;
 import java.util.List;
 
-import goals.Goal.Goals;
+import goals.Goals;
 
 /**
  * The GoalProperties class is fed to the GoalFactory to create a new goal. This class will provide the information to determine

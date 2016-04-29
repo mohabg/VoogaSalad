@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 
-import goals.Goal.Goals;
+import goals.Goals;
 
 
 public class GoalFactory {

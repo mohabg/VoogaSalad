@@ -35,7 +35,7 @@ public class SubclassComboBoxMaker {
 			ObjectProperty<SimpleEntry<Class<R>, R>> objProp = (ObjectProperty<SimpleEntry<Class<R>, R>>) o;
 			ComboBox subclassBox = (ComboBox) objProp.getBean();
 			Pane myComboBoxParent = (Pane) subclassBox.getParent();
-
+			System.out.println("CHANGING");
 			myComboBoxParent.getChildren().clear();
 			
 			// switch corresponding instances	
@@ -74,10 +74,12 @@ public class SubclassComboBoxMaker {
 					}
 				}
 			}		
-			
+			System.out.println(o.getValue().getKey().getName());
 			// populate combobox parent with new params
 			myComboBoxParent.getChildren().setAll(subclassBox);
-			myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
+			if (!o.getValue().getKey().isEnum()) {
+				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
+			}
 		};
 		
 		return boxChangeListener;
