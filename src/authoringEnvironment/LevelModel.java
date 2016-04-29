@@ -39,8 +39,10 @@ public class LevelModel {
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
 		
-		myEvents = new SimpleListProperty<Event>(FXCollections.observableList(new ArrayList<Event>()));
-
+		myEvents = new SimpleListProperty<Event>(FXCollections.<Event>observableList(new ArrayList<Event>()));
+		myEvents.sizeProperty().addListener((o, ov, nv) -> {
+			System.out.println("i changed");
+		});
 //		myKeyMap = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		numGoals = new SimpleIntegerProperty(1);
 		myList = new ArrayList<Sprite>();

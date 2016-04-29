@@ -7,7 +7,7 @@ import level.LevelProperties;
 public class KeyPressEvent extends Event {
 	
 	//private KeyCode myCode;
-
+	
 	public KeyPressEvent() {
 		super();
 	}
