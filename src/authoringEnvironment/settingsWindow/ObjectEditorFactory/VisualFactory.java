@@ -291,9 +291,10 @@ public class VisualFactory {
 		// make subclass combobox if necessary
 		if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = SubclassComboBoxMaker.makeSubclassComboBox(clazz);
-			updateComboBoxValue(clazz, parent, subclassBox);
-			
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
+			updateComboBoxValue((Class<R>) parent.getClass(), parent, subclassBox);
+			
+			
 			fieldVBoxHBox.getChildren().add(vb);
 		}
 		
