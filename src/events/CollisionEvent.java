@@ -18,19 +18,22 @@ public class CollisionEvent extends Event {
 	private Collision collisionOne;
 	private Collision collisionTwo;
 	
-	public CollisionEvent() {
-		this(new SimpleStringProperty(" "), new SimpleStringProperty(" "), 
-				new DamageCollision(), new DamageCollision());
-	}
-
-	public CollisionEvent(StringProperty typeOne, StringProperty typeTwo, Collision one, Collision two) {
+	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
 		collisionOne = one;
 		collisionTwo = two;
 		setExecutable(new CollisionHandler(collisionOne,collisionTwo));
 		setTrigger(new CollisionChecker());
-		spriteOneType = typeOne;
-		spriteTwoType = typeTwo;
+		spriteOneType = new SimpleStringProperty();
+		spriteOneType.set(typeOne);
+		spriteTwoType = new SimpleStringProperty();
+		spriteTwoType.set(typeTwo);
 	}
+	public CollisionEvent() {
+		this(" ", " ", 
+				new DamageCollision(), new DamageCollision());
+	}
+
+	
 
 	@Override
 	public void doEvent(IActions action, LevelProperties levProps) {

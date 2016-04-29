@@ -14,13 +14,14 @@ public class PlayerView extends Screen {
 	private HeadsUpDisplay myHUD;
 	private Map<Integer, Map<Integer, ViewSprite>> myViewSpriteMap;
 	private Map<Integer, ViewSprite> myViewSprites;
+	private Map<Integer, String> myBackgrounds;
 
 	public PlayerView(){
 		super();
 		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
 		myViewSprites = new HashMap<Integer, ViewSprite>();
-		
+		myBackgrounds = new HashMap<Integer, String>();
 		//TODO: find better way
 		myPane.getChildren().add(new HBox(new Button("a")));
 	}
@@ -42,9 +43,11 @@ public class PlayerView extends Screen {
 //	public Pane getPane() {
 //		return myPane;
 //	}
-	
-	public void setBackground(String background){
-		myPane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
+	public void setBackgroundList(Integer id, String background){
+		
+	}
+	public void setBackground(Integer id){
+		myPane.setStyle("-fx-background-image: url(" + myBackgrounds.get(id) + ");" + "\n" +
 				   "-fx-background-repeat: repeat;");	
 		
 	}
@@ -63,12 +66,16 @@ public class PlayerView extends Screen {
 
 	public void setViewSprites(int id, Map<Integer, ViewSprite> levelSprites) {
 		myViewSpriteMap.put(id, levelSprites);
-		myViewSprites = levelSprites;
+//		myViewSprites = levelSprites;
 	}
 
 	public void setLevelSprites(Integer levelID) {
 		myViewSprites = myViewSpriteMap.get(levelID);
 		
+	}
+
+	public void clearSprites() {
+		myPane.getChildren().removeAll(myViewSprites.values());
 	}
 	
 	

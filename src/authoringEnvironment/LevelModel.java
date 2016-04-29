@@ -4,6 +4,7 @@ package authoringEnvironment;
  * @author David Yan, Joe Jacob
  */
 import authoringEnvironment.mainWindow.GameAuthoringTab;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
@@ -26,9 +27,10 @@ import java.util.List;
 public class LevelModel {
 	private ListProperty<Goal> myGoals;
 	private ListProperty<Event> myEvents;
-//	private MapProperty<KeyCode, KeyboardActions> myKeyMap;
 	private IntegerProperty numGoals;
+	@IgnoreField
 	private List<Sprite> myList;
+	@IgnoreField
 	private String myBackground;
 
 	public LevelModel() {
