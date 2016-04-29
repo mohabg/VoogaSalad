@@ -6,6 +6,7 @@ import java.util.Map;
 import behaviors.Behavior;
 import behaviors.IActions;
 import collisions.Collision;
+import collisions.DamageCollision;
 import events.Executable;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.MapProperty;
@@ -47,4 +48,6 @@ public interface ISprite{
 	public void setUserControlled(boolean userAction);
 
 	public Health getMyHealth();
+
+	public void addCollision(Collision damageCollision);
 }

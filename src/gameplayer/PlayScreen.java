@@ -64,7 +64,7 @@ public class PlayScreen {
 			int id = newLevel.getLevelProperties().getLevelID();
 			myEngine.addLevel(id, newLevel);
 			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
-			myView.setBackground(lm.getBackground());
+			myView.setBackgroundList(id, lm.getBackground());
 		}
 
 		myEngine.setCurrentLevel(0);
@@ -97,6 +97,8 @@ public class PlayScreen {
         });
 
 		myView.setSprites(activeSprites);
+		myView.setBackground(currentLevel.getLevelProperties().getLevelID());
+
 		setKeys();
 
 
@@ -124,6 +126,7 @@ public class PlayScreen {
 
 	public void setKeys() {
 		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			System.out.println(key.getCode());
 			currentLevel.handleKeyPress(key);
 			key.consume();
 		});
