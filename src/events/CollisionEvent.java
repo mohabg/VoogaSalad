@@ -16,8 +16,8 @@ public class CollisionEvent extends Event {
 	
 	private StringProperty spriteOneType;
 	private StringProperty spriteTwoType;
-	//private Collision collisionOne;
-	//private Collision collisionTwo;
+	private Collision collisionOne;
+	private Collision collisionTwo;
 	
 	public CollisionEvent() {
 		this(" ", " ", 
@@ -25,9 +25,9 @@ public class CollisionEvent extends Event {
 	}
 
 	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
-		//collisionOne = one;
-		//collisionTwo = two;
-		setExecutable(new CollisionHandler(one,two));
+		collisionOne = one;
+		collisionTwo = two;
+		setExecutable(new CollisionHandler(collisionOne,collisionTwo));
 		setTrigger(new CollisionChecker());
 		spriteOneType = new SimpleStringProperty();
 		spriteOneType.set(typeOne);

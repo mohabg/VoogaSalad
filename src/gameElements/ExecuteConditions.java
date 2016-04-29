@@ -21,14 +21,17 @@ public class ExecuteConditions {
 
 	
 	private DoubleProperty probability;
+	@IgnoreField
 	private DoubleProperty distFromUser;
 	private DoubleProperty minDistFromUser;
 	private DoubleProperty maxDistFromUser;
 	private DoubleProperty frequency; //In seconds
 	private DoubleProperty maxDuration;
+	@IgnoreField
 	private DoubleProperty currentDuration;
 	@IgnoreField
 	private double runningTime;
+	@IgnoreField
 	private BooleanProperty enabled;
 	
 	public ExecuteConditions(){
