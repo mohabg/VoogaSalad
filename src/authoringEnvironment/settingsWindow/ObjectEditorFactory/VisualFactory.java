@@ -13,6 +13,8 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.Subclas
 import gameplayer.ButtonFactory;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -46,22 +48,16 @@ public class VisualFactory {
 	public TabPane getMyTabs(Object model) {
 		TabPane myTabs = GUIObjectMaker.makeTabPane();
 
-
-
 		Field[] fields = model.getClass().getDeclaredFields();
 
 		for (Field f : fields) {
-			f.setAccessible(true);
-			
+			f.setAccessible(true);		
 			if(!f.isAnnotationPresent(IgnoreField.class)) {
 				if(f.getType().isPrimitive()) {
 					throw new FieldTypeException("Field " + f.getType().getName() + " " + f.getName() + " in " + f.getDeclaringClass().getName() + " is a primitive");
-				}
-				
+				}		
 				myTabs.getTabs().add(getOneTab(f, model));
 			}
-			
-			
 		}
 
 		return myTabs;
@@ -76,14 +72,13 @@ public class VisualFactory {
 		Tab myFieldTab = GUIObjectMaker.makeTab(tabName);
 		VBox myBox = GUIObjectMaker.makeVBox();
 		ScrollPane myScrollPane = GUIObjectMaker.makeScrollPane();
-		AnchorPane myAnchorPane = GUIObjectMaker.makeAnchorPane();
+		//AnchorPane myAnchorPane = GUIObjectMaker.makeAnchorPane();
 		 
-
 
 	    myBox = populateTab(f, model);
 	    
-        myAnchorPane.getChildren().add(myBox);
-		myScrollPane.setContent(myAnchorPane);
+        //myAnchorPane.getChildren().add(myBox);
+		myScrollPane.setContent(myBox);
 
 
         myFieldTab.setContent(myScrollPane);
@@ -91,23 +86,21 @@ public class VisualFactory {
 	}
 
 	private VBox populateTab(Field f, Object model) {
-		VBox myBox = GUIObjectMaker.makeVBox();
+		VBox myBox = null;
 		
 		// this is for things like Lists and Maps
 		if (f.getGenericType() instanceof ParameterizedType) {
-			HBox propHBox = makeParameterizedHBox(f, model);		
-			myBox.getChildren().add(propHBox);			
+			myBox = makeParameterizedVBox(f, model);					
 		} else {
-			VBox propVBox = makeFieldVBox(f, model);
-			myBox.getChildren().addAll(propVBox);
+			myBox = makeFieldVBox(f, model);
 		}
 		
 		return myBox;
 	}
 
 
-	private HBox makeParameterizedHBox(Field f, Object model) {
-		HBox myH = GUIObjectMaker.makeHBox();
+	private VBox makeParameterizedVBox(Field f, Object model) {
+		VBox myV = GUIObjectMaker.makeVBox();
 		
 		ParameterizedType pt = (ParameterizedType) f.getGenericType();		
 		Type[] params = pt.getActualTypeArguments();
@@ -120,21 +113,20 @@ public class VisualFactory {
 			if(params.length == 1) {
 				// single param catch (most likely List)
 				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
-				myH.getChildren().add(singleParamType(paramClass0, ptProperty));
+				myV.getChildren().addAll(singleParamType(paramClass0, ptProperty));
 			} else if (params.length == 2) {
 				// double param catch (most likely Map)
 				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
 				Class<?> paramClass1 = SettingsReflectUtils.getClass(params[1].getTypeName());
-				myH.getChildren().add(doubleParamType(paramClass0, paramClass1, ptProperty));
+				myV.getChildren().addAll(doubleParamType(paramClass0, paramClass1, ptProperty));
 			}		
 		}
 		
-		return myH;
+		return myV;
 	}
 	
 
 	private <R> VBox makeFieldVBox(Field f, Object parentObj) {
-		VBox fieldVBox = GUIObjectMaker.makeVBox();
 		VBox propVBox = GUIObjectMaker.makeVBox();
 
 		Class<R> clazz = (Class<R>) f.getType();
@@ -143,10 +135,7 @@ public class VisualFactory {
 		Set<HBox> props = makePropertyBoxes(clazz, fObj, clazz.getName(), new HashSet<HBox>(), true);
 		propVBox.getChildren().addAll(props);
 
-
-		fieldVBox.getChildren().add(propVBox);
-
-		return fieldVBox;
+		return propVBox;
 	}
 
 	
@@ -169,10 +158,10 @@ public class VisualFactory {
 			}
 			
 			
-			Button addButton = GUIObjectMaker.makeButton(ADD, e -> {
-				singleParamVBox.getChildren().add(singleParamVBox.getChildren().size()-1, addSingleParameter(rType, lpr));
-			});
 			
+			Button addButton = GUIObjectMaker.makeButton(ADD, e -> {
+				singleParamVBox.getChildren().add(singleParamVBox.getChildren().size() -1, addSingleParameter(rType, lpr));
+			});
 			singleParamVBox.getChildren().add(addButton);			
 		}
 		
@@ -285,13 +274,14 @@ public class VisualFactory {
 
 		
 	public static <R, K> Set<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, Set<HBox> properties, boolean makeBox) {
+		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();
 		if (Property.class.isAssignableFrom(clazz)) {
-			HBox settingsHBox = GUIObjectMaker.makeHBox(SettingsObjectMaker.makeSettingsObject(parent, parentName));
-			properties.add(settingsHBox);
+			fieldVBoxHBox.getChildren().addAll(SettingsObjectMaker.makeSettingsObject(parent, parentName));
+			properties.add(fieldVBoxHBox);
 			return properties;
 		} 
 		
-		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();
+		
 		// parent is probably an abstract class and therefore
 		// impossible to make an instance
 		if (parent == null) {
@@ -301,9 +291,10 @@ public class VisualFactory {
 		// make subclass combobox if necessary
 		if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = SubclassComboBoxMaker.makeSubclassComboBox(clazz);
-			updateComboBoxValue(clazz, parent, subclassBox);
-			
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
+			updateComboBoxValue((Class<R>) parent.getClass(), parent, subclassBox);
+			
+			
 			fieldVBoxHBox.getChildren().add(vb);
 		}
 		
@@ -339,7 +330,9 @@ public class VisualFactory {
 			// idk if this is necessary
 		}
 		
-		properties.add(fieldVBoxHBox);
+		if (fieldVBoxHBox.getChildren().size() > 1) {
+			properties.add(fieldVBoxHBox);
+		}
 		return properties;
 	}
 

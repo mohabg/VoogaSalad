@@ -32,6 +32,7 @@ public class SpriteProperties {
 
     @IgnoreField
     private List<SpriteProperties> myClones;
+  
     
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
