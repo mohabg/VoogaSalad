@@ -3,7 +3,17 @@ package goals;
 import java.util.ArrayList;
 import java.util.List;
 
-import goals.Goal.Goals;
+import goals.Goals;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * The GoalProperties class is fed to the GoalFactory to create a new goal. This class will provide the information to determine
@@ -12,34 +22,53 @@ import goals.Goal.Goals;
 
 
 public class GoalProperties {
-	private String goalName;
+	private StringProperty goalName;
 	private Goals myGoal;
-	private boolean isFinished;
-	private int totalPoints;
-	private List<Integer> targetID;
+	private BooleanProperty isFinished;
+	private IntegerProperty totalPoints;
+	private ListProperty<IntegerProperty> targetID;
 
 	
 	public GoalProperties(Goals goal){
 		setMyGoal(goal);
 		setGoalName(goal.toString());
 		setIsFinished(false);
-		totalPoints=100;
-		targetID=new ArrayList<Integer>();
+		totalPoints=new SimpleIntegerProperty(100);
+		List<IntegerProperty> list = new ArrayList<IntegerProperty>();
+		ObservableList ol = FXCollections.observableList(list);
+		targetID=new SimpleListProperty<IntegerProperty>(ol);
+
 	}
 	
-	public String getGoalName() {
+	public GoalProperties(){
+		this(Goals.StayAliveGoal);
+	}
+	
+	public GoalProperties(Goals goal, IntegerProperty points){
+		this(goal);
+		this.setTotalPoints(points.intValue());
+	}
+	
+	public GoalProperties(Goals goal, ListProperty<IntegerProperty> targets){
+		this(goal);
+		targetID=targets;
+		
+	}
+	
+	public StringProperty getGoalName() {
 		return goalName;
 	}
 
 	public void setGoalName(String goalName) {
-		this.goalName = goalName;
+		StringProperty name=new SimpleStringProperty(goalName);
+		this.goalName = name;
 	}
 
-	public List<Integer> getTargetID() {
+	public ListProperty<IntegerProperty> getTargetID() {
 		return targetID;
 	}
 
-	public void setTargetID(List<Integer> targetID) {
+	public void setTargetID(ListProperty<IntegerProperty> targetID) {
 		this.targetID = targetID;
 	}
 
@@ -53,12 +82,13 @@ public class GoalProperties {
 	}
 	
 	public boolean isFinished() {
-		return isFinished;
+		return isFinished.getValue();
 	}
 	
 
 	public void setIsFinished(boolean isCompleted) {
-		this.isFinished = isCompleted;
+		BooleanProperty finish= new SimpleBooleanProperty(isCompleted);
+		this.isFinished = finish;
 	}
 	
 	public void setFinished(){
@@ -70,11 +100,11 @@ public class GoalProperties {
 	}
 
 	public int getTotalPoints() {
-		return totalPoints;
+		return totalPoints.intValue();
 	}
 
 	public void setTotalPoints(int totalPoints) {
-		this.totalPoints = totalPoints;
+		this.totalPoints = new SimpleIntegerProperty(totalPoints);
 	}
 	
 }

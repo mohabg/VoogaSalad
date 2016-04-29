@@ -1,5 +1,8 @@
 package goals;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * Describes the amount of points you need to get to the next level. The information is recieved from the 
  * getTotalPoints() method of the goalProperties. 
@@ -8,7 +11,7 @@ package goals;
 
 public class PointsGoal extends Goal implements IGoal{
 
-	private int numPoints;
+	private IntegerProperty numPoints;
 	
 	public PointsGoal(GoalProperties myProperties) {
 		super(myProperties);
@@ -16,11 +19,18 @@ public class PointsGoal extends Goal implements IGoal{
 		
 	}
 	
+	
+	public PointsGoal(){
+		super(new GoalProperties(Goals.PointsGoal));
+		setNumPoints();
+	}
+	
+	
 	public void setNumPoints(){
-		numPoints=getGoalProperties().getTotalPoints();
+		numPoints=new SimpleIntegerProperty(getGoalProperties().getTotalPoints());
 	}	
 	
-	public int getNumPoints(){
+	public IntegerProperty getNumPoints(){
 		return this.numPoints;
 	}
 	@Override
