@@ -101,7 +101,7 @@ public class GameLoader {
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (GameAuthoringTab levelTab : levels.getTabs()) {
-			LevelModel newLM = new LevelModel(levelTab);
+			LevelModel newLM = levelTab.getLevelModel();
 			levelModelList.add(newLM);
 		}
 		return levelModelList;
@@ -124,7 +124,7 @@ public class GameLoader {
 		setLevelProperties(lp,id,"level"+id);
 //			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
 		lp.setNumGoals(lm.getNumGoals());
-		//newLevel.setEvents(lm.getMyEvents());
+		newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
 	}

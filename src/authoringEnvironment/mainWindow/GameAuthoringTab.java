@@ -131,5 +131,9 @@ public class GameAuthoringTab extends AClickableWindow {
 		addWithClicking(copy);
 		
 	}
+	public LevelModel getLevelModel() {
+		// TODO Auto-generated method stub
+		return myLevelModel;
+	}
 
 }
