@@ -131,7 +131,7 @@ public class VisualFactory {
 
 		Class<R> clazz = (Class<R>) f.getType();
 		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);
-		
+
 		Set<HBox> props = makePropertyBoxes(clazz, fObj, clazz.getName(), new HashSet<HBox>(), true);
 		propVBox.getChildren().addAll(props);
 
@@ -190,7 +190,7 @@ public class VisualFactory {
 	private static <R> void updateComboBoxValue(Class<R> rType, R rObj, ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox) {
 		List<SimpleEntry<Class<R>, R>> boxItems = mySubclassBox.getItems();
 		SimpleEntry<Class<R>, R> rBoxItem = null;	
-
+		
 		for (SimpleEntry<Class<R>, R> item : boxItems) {
 			if (item.getKey().equals(rType)) {
 				rBoxItem = item;
@@ -199,6 +199,7 @@ public class VisualFactory {
 			}
 		}
 		
+
 		mySubclassBox.setValue(rBoxItem);
 	}
 
@@ -291,9 +292,10 @@ public class VisualFactory {
 		// make subclass combobox if necessary
 		if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = SubclassComboBoxMaker.makeSubclassComboBox(clazz);
-			updateComboBoxValue(clazz, parent, subclassBox);
-			
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
+			updateComboBoxValue((Class<R>) parent.getClass(), parent, subclassBox);
+			
+			
 			fieldVBoxHBox.getChildren().add(vb);
 		}
 		
