@@ -39,15 +39,17 @@ public class SpawnConditions extends ExecuteConditions{
 		//use probability to return left right top
 		if(Math.random() >= myRespawnProbability.doubleValue()){
 			if(Math.random() >= 0 && Math.random() <= myRespawnLeftProbability.doubleValue()){
-				//If generates 
+				//If generates between 0 and 0.3 respawn at top
 				//TODO: Replace this with Top of Screen Point
 				return new Point(3,4);
 			}
 			if(Math.random() > myRespawnTopProbability.doubleValue() && Math.random() < myRespawnLeftProbability.doubleValue()){
+				//If generates between 0.4 and 0.6 respawn at left position
 				//TODO: Replace this with Left of Screen point
 				return new Point(3,4);
 			}
 			if(Math.random() > myRespawnLeftProbability.doubleValue() && Math.random() < myRespawnRightProbability.doubleValue()){
+				//if generates greater than 0.6 respawn at right point
 				//TODO: Replace this with Right of Screen point
 				return new Point(3,4);
 			}
