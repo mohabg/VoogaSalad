@@ -100,7 +100,7 @@ public class VisualFactory {
 
 
 	private VBox makeParameterizedVBox(Field f, Object model) {
-		VBox myV = GUIObjectMaker.makeVBox();
+		VBox myV = null;
 		
 		ParameterizedType pt = (ParameterizedType) f.getGenericType();		
 		Type[] params = pt.getActualTypeArguments();
@@ -113,12 +113,12 @@ public class VisualFactory {
 			if(params.length == 1) {
 				// single param catch (most likely List)
 				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
-				myV.getChildren().addAll(singleParamType(paramClass0, ptProperty));
+				myV = singleParamType(paramClass0, ptProperty);
 			} else if (params.length == 2) {
 				// double param catch (most likely Map)
 				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
 				Class<?> paramClass1 = SettingsReflectUtils.getClass(params[1].getTypeName());
-				myV.getChildren().addAll(doubleParamType(paramClass0, paramClass1, ptProperty));
+				myV = doubleParamType(paramClass0, paramClass1, ptProperty);
 			}		
 		}
 		
