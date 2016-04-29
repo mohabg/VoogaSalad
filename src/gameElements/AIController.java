@@ -24,6 +24,9 @@ public class AIController {
 		for(ExecuteConditions spawnCondition : spawnConditionsForSprites.keySet()){
 			List<IEnemy> spritesForCondition = spawnConditionsForSprites.get(spawnCondition);
 			if(spawnCondition.isAIReady()){
+				// figure out where enemies come from
+				// figure out how enemies move
+				// use executeConditions to determine how they shoot
 				for(IEnemy enemy : spritesForCondition){
 					IEnemy cloned = enemy.clone();
 					spriteFactory.getSpriteMap().addSprite(cloned);

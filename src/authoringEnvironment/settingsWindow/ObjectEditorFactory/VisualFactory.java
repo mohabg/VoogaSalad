@@ -276,11 +276,12 @@ public class VisualFactory {
 		
 	public static <R, K> Set<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, Set<HBox> properties, boolean makeBox) {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();
+		
 		if (Property.class.isAssignableFrom(clazz)) {
 			fieldVBoxHBox.getChildren().addAll(SettingsObjectMaker.makeSettingsObject(parent, parentName));
 			properties.add(fieldVBoxHBox);
 			return properties;
-		} 
+		}
 		
 		
 		// parent is probably an abstract class and therefore
@@ -293,10 +294,14 @@ public class VisualFactory {
 		if (makeBox && SubclassEnumerator.hasSubclasses(clazz)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = SubclassComboBoxMaker.makeSubclassComboBox(clazz);
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
+			fieldVBoxHBox.getChildren().add(vb);
 			updateComboBoxValue((Class<R>) parent.getClass(), parent, subclassBox);
 			
 			
-			fieldVBoxHBox.getChildren().add(vb);
+			if (clazz.isEnum()) {
+				properties.add(fieldVBoxHBox);
+				return properties;			
+			}
 		}
 		
 		// prevents us from trying to initialize java classes		

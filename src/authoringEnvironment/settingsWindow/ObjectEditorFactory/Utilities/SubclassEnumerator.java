@@ -10,11 +10,13 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectE
 public class SubclassEnumerator {
 
 	public static boolean hasSubclasses(Class<?> clazz) {
-		if (getAllSubclasses(clazz).size() <= 1) {
-			return false;
+		if (getAllSubclasses(clazz).size() > 1) {
+			return true;
+		} else if (clazz.isEnum()) {
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public static <R>  Map<String, Class<R>> getSubclasses(String packageName, Class<R> superclass) {

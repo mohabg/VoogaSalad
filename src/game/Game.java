@@ -4,7 +4,9 @@ import java.util.List;
 
 import gameElements.Sprite;
 import gameElements.ViewPoint;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.Level;
 import level.LevelProperties;
@@ -23,11 +25,17 @@ public class Game {
 	private List<Level> myGameLevels;
 	private int currLevelNum;
 	private ViewPoint viewPoint;
-
+	private BooleanProperty isFinished;
+	
 	public Game(GameInfo gameInfo) {
-		myGameLevels = new ArrayList<Level>();
+		this();
+		this.setGameInfo(gameInfo);
+		/*
+		 * myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = gameInfo;
+		isFinished=new SimpleBooleanProperty(false);
+		*/
 		 
 	}
 	
@@ -42,6 +50,13 @@ public class Game {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = new GameInfo();
+		isFinished=new SimpleBooleanProperty(false);
+
+	}
+	
+	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height){
+		this(gameInfo);
+		viewPoint=new ViewPoint(width, height);
 	}
 	
 	public Game(DoubleProperty width, DoubleProperty height){
@@ -123,6 +138,23 @@ public class Game {
 		this.viewPoint = viewPoint;
 	}
 
+
+
+	public BooleanProperty getIsFinished() {
+		return isFinished;
+	}
+
+
+
+	public void setIsFinished(BooleanProperty isFinished) {
+		this.isFinished = isFinished;
+	}
+	
+	public void setIsFinished(boolean finished){
+		BooleanProperty finish=new SimpleBooleanProperty();
+		finish.set(false);
+		setIsFinished(finished);
+	}
 	/*
 	 * public void setViewPoint(double myWidth, double myHeight, Sprite sprite){
 	 * 
