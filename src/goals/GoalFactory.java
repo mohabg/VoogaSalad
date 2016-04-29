@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 
-import goals.Goal.Goals;
+import goals.Goals;
 
 
 public class GoalFactory {
@@ -23,7 +23,7 @@ public class GoalFactory {
 	public Goal makeGoal(GoalProperties myProperties){
 		Constructor<?> constructor = null;
 		Goal goal=null;
-		String goalType = myProperties.getGoalName();
+		String goalType = myProperties.getGoalName().toString();
 		try{
 			// System.out.println(path+goalType);
  

@@ -77,6 +77,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
+		System.out.println("levelproperties"+getLevelProperties().getGoalList());
 	}
 	
 	@Override

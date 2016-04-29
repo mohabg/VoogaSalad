@@ -5,7 +5,7 @@ import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.Time;
-import goals.Goal.Goals;
+import goals.Goals;
 import goals.Goal;
 import goals.GoalProperties;
 import javafx.beans.property.*;
@@ -62,7 +62,7 @@ public class LevelProperties {
 		numGoals = new SimpleIntegerProperty(1);
 		goalList = new ArrayList<>();
 		goalProperties = new ArrayList<>();
-		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
+	//	goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 	//	myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
