@@ -5,6 +5,7 @@ import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
+import events.Event;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -102,6 +103,10 @@ public class GameLoader {
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (GameAuthoringTab levelTab : levels.getTabs()) {
 			LevelModel newLM = levelTab.getLevelModel();
+//			LevelModel newLM = new LevelModel(levelTab);
+			newLM.setBackground(levelTab.getBackground());
+			
+			newLM.addSprites(levelTab.getList());
 			levelModelList.add(newLM);
 		}
 		return levelModelList;
@@ -122,9 +127,12 @@ public class GameLoader {
 		Level newLevel = new Level();
 		LevelProperties lp = newLevel.getLevelProperties();
 		setLevelProperties(lp,id,"level"+id);
-//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
+//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
 		lp.setNumGoals(lm.getNumGoals());
-		newLevel.setEvents(lm.getMyEvents());
+		List<Event> list = lm.getMyEvents();
+		for ( Event e: list)
+			newLevel.addEvent(e);
+		//newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
 	}
@@ -140,6 +148,9 @@ public class GameLoader {
 				s.setUserControlled(true);
 				setUserControlledSpriteID(newLevel);
 				//newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
+			}
+			else{
+				s.setUserControlled(false);
 			}
 		});
 		return viewsprites;

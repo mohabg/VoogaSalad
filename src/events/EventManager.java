@@ -35,9 +35,6 @@ public class EventManager {
 		}
 	}
 	
-	public void keyPressed(KeyEvent event) {
-	}
-	
 /*	@Override
 	public void mouseClickEvent(MouseEvent event) {
 		myInputHandler.mouseClickEvent(event);

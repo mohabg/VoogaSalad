@@ -91,6 +91,7 @@ public class Engine {
 
     public void setCurrentLevel(int levelIndex) {
         myEditor.setCurrentLevel(levelIndex);
+        //myEventManager = myEditor.getCurrentLevel().getMyEventManager();
     }
 
     public void getNumLevels() {

@@ -28,7 +28,6 @@ import events.CollisionEvent;
 import events.Event;
 import events.EventManager;
 import events.Executable;
-import events.InputHandler;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import events.Trigger;
@@ -120,6 +119,10 @@ public class Level implements ILevel {
 		//myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 		System.out.println("levelproperties"+getLevelProperties().getGoalList());
+	}
+	
+	public void addEvent(Event e) {
+		myEventManager.addEvent(e);
 	}
 	
 	@Override

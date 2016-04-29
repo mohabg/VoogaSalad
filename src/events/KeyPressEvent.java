@@ -1,15 +1,20 @@
 package events;
 
 import behaviors.IActions;
+import javafx.scene.input.KeyCode;
 import level.LevelProperties;
 
 public class KeyPressEvent extends Event {
+	
+	//private KeyCode myCode;
 
 	public KeyPressEvent() {
 		super();
 	}
 	
 	public KeyPressEvent(Trigger trigger, Executable executable) {
+		//KeyPressTrigger press = (KeyPressTrigger) getTrigger();
+		//myCode = press.getCode();
 		setTrigger(trigger);
 		setExecutable(executable);
 	}
