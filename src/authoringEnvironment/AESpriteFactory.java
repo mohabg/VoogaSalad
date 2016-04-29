@@ -1,5 +1,6 @@
 package authoringEnvironment;
 
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 
@@ -8,11 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public class AESpriteFactory {
+	
 	public AESpriteFactory(){
 		
 	}
 	public Sprite makeSprite(ViewSprite vs) {
-		SpriteProperties sp = vs.getMySpriteProperties();
+		ISpriteProperties sp = vs.getMySpriteProperties();
 		Sprite s = new Sprite();
 		s.setMySpriteProperties(sp);
 		s.setMyRef(new RefObject(vs.getMyImage()));
@@ -20,7 +22,7 @@ public class AESpriteFactory {
 		return s;
 	}
 	public ViewSprite makeViewSprite(Sprite s) {
-		SpriteProperties sp = s.getSpriteProperties();
+		ISpriteProperties sp = s.getSpriteProperties();
 		ViewSprite vs = new ViewSprite(s.getMyRef());
 		vs.bindToSprite(s);
 		

@@ -1,6 +1,7 @@
 package collisions;
 
 import behaviors.IActions;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import level.LevelProperties;
 
@@ -22,13 +23,10 @@ public class PowerUpCollision extends Collision{
 	 * @param other Checks the behavior of the other sprite that this collided with, and implements that corresponding behavior
 	 */
 	public void handleCollision(Collision other, LevelProperties levelProperties){
-		Sprite collidingSprite = levelProperties.getSpriteForCollision(other);
+		ISprite collidingSprite = levelProperties.getSpriteForCollision(other);
 		if(collidingSprite.isUserControlled()){
 			for(String className : collidingSprite.getBehaviors().keySet()){
-				if(className.equals("Attack")){
-					
-					
-				}
+				
 			}
 		}
 	}

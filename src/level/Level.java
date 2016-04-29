@@ -13,7 +13,9 @@ import collisions.CollisionHandler;
 import collisions.DamageCollision;
 import collisions.DissapearCollision;
 import collisions.EnemyCollision;
+import gameElements.AIController;
 import gameElements.Actions;
+import gameElements.ISprite;
 import gameElements.ISprite.spriteState;
 import events.CollisionEvent;
 import events.Event;
@@ -58,6 +60,7 @@ public class Level implements ILevel {
 
 	private Actions actions;
 	private EventManager myEventManager;
+	private AIController enemyController;
 	
 	public Level() {
 
@@ -155,7 +158,7 @@ public class Level implements ILevel {
 //			System.out.println();
 		}
 		for (Integer spriteID : spriteIDList) {
-			Sprite sprite=spriteMap.get(spriteID);
+			ISprite sprite = spriteMap.get(spriteID);
 			this.actions.setSprite(sprite);
 			sprite.update(this.actions);
 			this.getPhysicsEngine().updateSprite(sprite);
@@ -166,7 +169,7 @@ public class Level implements ILevel {
 			removeDeadSprite(spriteID, spriteList);
 		}
 	}
-	private boolean spriteIsHero(Sprite sprite){
+	private boolean spriteIsHero(ISprite sprite){
 		return this.levelProperties.getUserControlledSprite().equals(sprite);
 	}
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
@@ -228,7 +231,7 @@ public class Level implements ILevel {
 		this.actions.setSpriteFactory(mySpriteFactory);
 	}
 
-	public Sprite getCurrentSprite() {
+	public ISprite getCurrentSprite() {
 		return this.levelProperties.getSpriteMap().getCurrentSprite();
 	}
 
@@ -284,5 +287,10 @@ public class Level implements ILevel {
 	public void setCurrentSpriteID(Integer sprite) {
 		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
 		setSpriteActions();
+	}
+
+	public void setAIController(AIController enemyController) {
+		this.enemyController = enemyController;
+		
 	}
 }

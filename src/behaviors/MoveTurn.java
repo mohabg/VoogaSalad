@@ -1,5 +1,6 @@
 package behaviors;
 
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import javafx.beans.property.DoubleProperty;
@@ -17,8 +18,8 @@ public class MoveTurn extends Movement {
 
 	@Override
 	public void move(IActions actions) {
-		SpriteProperties properties = actions.getSpriteProperties();
-		properties.setMyAngle(properties.getMyAngle() + getValue());
+		ISpriteProperties properties = actions.getSpriteProperties();
+		properties.setAngle(properties.getAngle() + getValue());
 		
 	}
 

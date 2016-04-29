@@ -13,6 +13,8 @@ import collisions.DissapearCollision;
 import collisions.PointsCollision;
 import gameElements.ExecuteConditions;
 import gameElements.Health;
+import gameElements.ISprite;
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
@@ -30,22 +32,19 @@ public class Gun extends Attack{
 	public Gun(RefObject myRef){
 		super(myRef);
 		this.getBehaviorConditions().setFrequency(20);
-		this.getBehaviorConditions().setProbability(0.5);
+		this.getBehaviorConditions().setProbability(0);
 	}
 	/**
 	 * @param sprite The Sprite who's weapon you want to activate
 	 */
     @Override
     public void shoot(IActions actions, LevelProperties levProps) {
-    		SpriteProperties properties = actions.getSpriteProperties();
-        	Sprite bullet = actions.makeSprite(properties.getMyX().doubleValue(), properties.getMyY().doubleValue(), getMyRef());
+    		ISpriteProperties properties = actions.getSpriteProperties();
+        	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
         	Behavior movement = new ThrustVertical(-75);
         	actions.setSprite(bullet);
             movement.apply(actions,levProps);
-            bullet.addCollision(new DamageCollision(10));
-            bullet.addCollision(new DissapearCollision());
-            bullet.addCollision(new PointsCollision(10));
         	setAmmunition(getAmmunition() - 1);
     }
 	@Override

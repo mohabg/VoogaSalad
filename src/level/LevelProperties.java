@@ -1,6 +1,7 @@
 package level;
 
 import collisions.Collision;
+import gameElements.ISprite;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -37,21 +38,12 @@ public class LevelProperties {
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private Map<String, List<Sprite>> spriteTypes;
 	private List<GoalProperties> goalProperties;
-	private Sprite[] collidingSprites;
+	private ISprite[] collidingSprites;
 	private IntegerProperty goalCount;
 	private BooleanProperty isFinished;
 	
 	public LevelProperties() {
 		score = new Score();
-		// score = new SimpleIntegerProperty();
-		/* 
-		setLevelID(0);
-		setLevelName("");
-		setNextLevel(1);
-		setPreviousLevel(-1);
-		setCurrentPoints(0);
-		setNumGoals(1);
-		*/
 		goalCount = new SimpleIntegerProperty(0);
 		isFinished = new SimpleBooleanProperty(false);
 		spriteMap = new SpriteMap();
@@ -64,12 +56,11 @@ public class LevelProperties {
 		goalProperties = new ArrayList<>();
 		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
-	//	myBehaviorsMap.put(KeyCode.DOWN, KeyboardActions.MoveDown);
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		ObservableMap<String, List<Sprite>> om2 = FXCollections.observableMap(new HashMap<String, List<Sprite>>());
 		spriteTypes = new SimpleMapProperty<String, List<Sprite>>(om2);
-		collidingSprites = new Sprite[2];
+		collidingSprites = new ISprite[2];
 	}
 
 	public LevelProperties(Integer levelID, String levelName, Integer nextLevel, Integer previousLevel,
@@ -84,21 +75,17 @@ public class LevelProperties {
 		collidingSprites = new Sprite[2];
 	}
 
-	private void defaultLevelPropertyInit() {
-		collidingSprites = new Sprite[2];
+	public void setCollidingSprites(ISprite spriteArr, ISprite spriteArr2) {
+		collidingSprites[0] = spriteArr;
+		collidingSprites[1] = spriteArr2;
 	}
 
-	public void setCollidingSprites(Sprite one, Sprite two) {
-		collidingSprites[0] = one;
-		collidingSprites[1] = two;
-	}
-
-	public Sprite[] getCollidingSprites() {
+	public ISprite[] getCollidingSprites() {
 		return collidingSprites;
 	}
 
-	public Sprite getSpriteForCollision(Collision collision) {
-		for (Sprite sprite : collidingSprites) {
+	public ISprite getSpriteForCollision(Collision collision) {
+		for (ISprite sprite : collidingSprites) {
 			for(Collision col : sprite.getCollisions()){
 				if(col.getClass().getName().equals(collision.getClass().getName())){
 					return sprite;
@@ -255,25 +242,25 @@ public class LevelProperties {
 	public void setIsFinished(boolean isFinished) {
 		this.isFinished.set(isFinished);
 	}
-	public Sprite getUserControlledSprite(){
+	public ISprite getUserControlledSprite(){
 		return this.getSpriteMap().getUserControlledSprite();
 	}
 
 	public double getUserX() {
-		return this.getSpriteMap().getUserControlledSprite().getX().doubleValue();
+		return this.getSpriteMap().getUserControlledSprite().getSpriteProperties().getX();
 	}
 
 	public double getUserY() {
-		return this.getSpriteMap().getUserControlledSprite().getY().doubleValue();
+		return this.getSpriteMap().getUserControlledSprite().getSpriteProperties().getY();
 	}
 	public double distanceFromUser(Sprite sprite){
-		double xDiff = Math.abs(sprite.getX().doubleValue() - getUserX());
-		double yDiff = Math.abs(sprite.getY().doubleValue() - getUserY());
+		double xDiff = Math.abs(sprite.getSpriteProperties().getX() - getUserX());
+		double yDiff = Math.abs(sprite.getSpriteProperties().getY() - getUserY());
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 	public double angleToUser(Sprite sprite){
 		//Probably does not work as expected
-		double angleToFace = Math.atan(getUserY() - sprite.getY().doubleValue() / getUserX() - sprite.getX().doubleValue());
-        return angleToFace - sprite.getAngle().doubleValue();
+		double angleToFace = Math.atan(getUserY() - sprite.getSpriteProperties().getY() / getUserX() - sprite.getSpriteProperties().getX());
+        return angleToFace - sprite.getSpriteProperties().getAngle();
 	}
 }

@@ -129,6 +129,7 @@ public class GameLoader {
 
 	static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, List<Sprite> list) {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
+		List<Sprite> visList = list;
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {
 			newLevel.addSprite(s);
@@ -137,7 +138,6 @@ public class GameLoader {
 				s.setUserControlled(true);
 				setUserControlledSpriteID(newLevel);
 				newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
-				
 			}
 		});
 		return viewsprites;
