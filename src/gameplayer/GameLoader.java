@@ -102,7 +102,11 @@ public class GameLoader {
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (GameAuthoringTab levelTab : levels.getTabs()) {
-			LevelModel newLM = new LevelModel(levelTab);
+			LevelModel newLM = levelTab.getLevelModel();
+//			LevelModel newLM = new LevelModel(levelTab);
+			newLM.setBackground(levelTab.getBackground());
+			
+			newLM.addSprites(levelTab.getList());
 			levelModelList.add(newLM);
 		}
 		return levelModelList;
@@ -128,6 +132,7 @@ public class GameLoader {
 		List<Event> list = lm.getMyEvents();
 		for ( Event e: list)
 			newLevel.addEvent(e);
+		//newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
 	}

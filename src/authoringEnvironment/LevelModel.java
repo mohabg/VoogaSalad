@@ -85,4 +85,13 @@ public class LevelModel {
 		return myEvents;
 	}
 
+	public void setBackground(String background) {
+		myBackground = background;
+		
+	}
+
+	public void addSprites(List<Sprite> list) {
+		myList.addAll(list);		
+	}
+
 }

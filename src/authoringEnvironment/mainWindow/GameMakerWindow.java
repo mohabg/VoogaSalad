@@ -113,6 +113,8 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 		getCurrentTab().setPlayerViewSprite(viewsprite);
 	}
 
+	
+
 	// @Override
 	// public TabPane getTabPane() {
 	// return myTabPane;

@@ -11,6 +11,8 @@ import gameElements.Sprite;
 import gameElements.ViewPoint;
 import highscoretable.HighScoreController;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -147,6 +149,19 @@ public class PlayScreen {
 	public Screen getScreen() {
 		// TODO Auto-generated method stub
 		return myView;
+	}
+	public DoubleProperty getTime() {
+		// TODO Auto-generated method stub
+		System.out.println(myEngine.getTimeProperty().doubleValue());
+		return myEngine.getTimeProperty();
+	}
+	public DoubleProperty getHealth() {
+		System.out.println(myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty().doubleValue());
+		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
+	}
+	public IntegerProperty getScore() {
+		System.out.println(myEngine.getCurrentLevel().getScore());
+		return myEngine.getCurrentLevel().getScore();
 	}
 
 }

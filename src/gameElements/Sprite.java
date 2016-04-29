@@ -175,6 +175,7 @@ public class Sprite implements ISprite, IEnemy{
 		this.myRef = myRef;
 	}
 
+	@Override
 	public Health getMyHealth() {
 		return myHealth;
 	}

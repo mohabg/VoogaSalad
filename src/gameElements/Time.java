@@ -82,6 +82,9 @@ public class Time {
 		this.myCurrentTime = myCurrentTime;
 	}
 
+	public DoubleProperty getMyCurrentTimeProperty(){
+		return myCurrentTime;
+	}
 
 	
 }

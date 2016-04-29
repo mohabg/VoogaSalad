@@ -34,7 +34,7 @@ public class MainPlayingWindow extends Screen {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, gameName, myPlayScreen);
 			switchScene(myMainAuthoringWindow);
 		});
-
+		myHUDWindow.initHUD();
         createBorderPane();
 	}
 

@@ -1,24 +1,28 @@
 package gameplayer;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
+import HUD.HUDEnum;
+import HUD.HeadsUpDisplay;
 import javafx.scene.layout.Pane;
 
 public class HUDWindow{
+	private HeadsUpDisplay myHUD;
+
 	PlayScreen myPlayScreen;
-	private FlowPane myFlowPane;
 	
 	public HUDWindow(PlayScreen myPlayScreen) {
 		this.myPlayScreen =  myPlayScreen;
-		myFlowPane = new FlowPane();
-		createFlowPane();
+		myHUD = new HeadsUpDisplay();
+
 	}
 	
-	private void createFlowPane(){
-		myFlowPane.getChildren().add(new Label("test 2"));
-	}
 	
 	public Pane getPane(){
-		return myFlowPane;
+		return myHUD.getHUD();
+	}
+	
+	public void initHUD() {
+//		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
+		myHUD.addToHUDElement(HUDEnum.Up, myPlayScreen.getTime(), myPlayScreen.getHealth(), myPlayScreen.getScore());
+//		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
 	}
 }
