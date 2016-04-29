@@ -28,6 +28,7 @@ public class Game {
 	private BooleanProperty isFinished;
 	
 	public Game(GameInfo gameInfo) {
+		
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = gameInfo;
@@ -46,6 +47,8 @@ public class Game {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = new GameInfo();
+		isFinished=new SimpleBooleanProperty(false);
+
 	}
 	
 	public Game(DoubleProperty width, DoubleProperty height){

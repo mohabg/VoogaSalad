@@ -92,8 +92,8 @@ public class GameEditor implements IGameEditor {
 			}
 			myGame.setIsFinished(true);
 		}
-		
-		System.out.println(myGame.getIsFinished());
+		//System.out.println(myGame.getIsFinished().toString()+"gameEditor");
+		//System.out.println(myGame.getIsFinished());
 	}
 
 	/*public void setResultForKeyPress(KeyEvent event) {

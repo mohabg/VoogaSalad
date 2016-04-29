@@ -43,7 +43,7 @@ public class GoalFactory {
 		}
 		if(goal==null){
 			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
-			goal=new PointsGoal(property);
+			goal=new StayAliveGoal(property);
 		}
 		// System.out.println(goal.getGoal().name());
 

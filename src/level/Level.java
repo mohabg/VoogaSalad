@@ -28,6 +28,7 @@ import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
+import goals.Goals;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -127,6 +128,7 @@ public class Level implements ILevel {
 	
 
 	private void populateGoals() {
+		if(getLevelProperties().getGoalProperties().size()==0) getLevelProperties().addGoal(new GoalProperties());
 		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
 			this.getGoalList().add(goalFactory.makeGoal(property));
 		}
