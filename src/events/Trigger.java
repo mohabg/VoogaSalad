@@ -5,7 +5,7 @@ public interface Trigger {
 	public enum triggerType{
 		KEY_PRESS,
 		COLLISION,
-		GOAL
+		GOAL;
 	}
 	
 	public boolean isTriggered();
