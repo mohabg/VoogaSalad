@@ -20,14 +20,13 @@ public class CollisionEvent extends Event {
 	private Collision collisionTwo;
 	
 	public CollisionEvent() {
-		this(" ", " ", 
-				new DamageCollision(), new DamageCollision());
+		this(" ", " ", new DamageCollision(), new DamageCollision());
 	}
 
 	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
 		collisionOne = one;
 		collisionTwo = two;
-		setExecutable(new CollisionHandler(collisionOne,collisionTwo));
+		setExecutable(new CollisionHandler(collisionOne, collisionTwo));
 		setTrigger(new CollisionChecker());
 		spriteOneType = new SimpleStringProperty();
 		spriteOneType.set(typeOne);

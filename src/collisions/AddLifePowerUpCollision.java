@@ -10,29 +10,25 @@ import level.LevelProperties;
  * some power up, such as more health, more weapons, more lives, a bonus level, etc 
  */
 
-public class PowerUpCollision extends Collision{
+public class AddLifePowerUpCollision extends Collision{
 	
-	public PowerUpCollision(){
+	public AddLifePowerUpCollision(){
 		this(0);
 	}
-	public PowerUpCollision(double value) {
+	public AddLifePowerUpCollision(double value) {
 		super(value);
 	}
 
 	/**
 	 * @param other Checks the behavior of the other sprite that this collided with, and implements that corresponding behavior
 	 */
-	public void handleCollision(Collision other, LevelProperties levelProperties){
+	public void handleCollision(ActorCollision other, LevelProperties levelProperties){
 		ISprite collidingSprite = levelProperties.getSpriteForCollision(other);
-		if(collidingSprite.isUserControlled()){
-			for(String className : collidingSprite.getBehaviors().keySet()){
-				
-			}
-		}
+		collidingSprite.getMyHealth().addLife();
 	}
 	@Override
 	public Collision clone() {
-		return new PowerUpCollision(getValue());
+		return new AddLifePowerUpCollision(getValue());
 	}
 	public void execute(IActions action, LevelProperties levProps) {
 		// TODO Auto-generated method stub
