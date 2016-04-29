@@ -9,6 +9,7 @@ import java.util.Map;
 
 import authoringEnvironment.LiveEditing;
 import events.EventManager;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
@@ -77,7 +78,7 @@ public class Engine {
         myEditor.setGameInfo(gameInfo);
     }
 	
-	public Map<Integer, Sprite> getSpriteMap(){
+	public Map<Integer, ISprite> getSpriteMap(){
         return myEditor.getCurrentLevel().getSpriteMap().getSpriteMap();
     }
     public LevelProperties LevelProperties(){

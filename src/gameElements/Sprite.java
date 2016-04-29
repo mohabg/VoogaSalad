@@ -27,9 +27,8 @@ import java.util.*;
  */
 
 public class Sprite implements ISprite, IEnemy{
-//    private spriteState state;
-	
-	private SpriteProperties myProperties;
+
+	private ISpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 
@@ -100,11 +99,15 @@ public class Sprite implements ISprite, IEnemy{
 		addBehavior(moveTurnLeft);
 
 	}
-
-	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+	
+	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions, RefObject myRef){
+		this(myProperties, myHealth, myCollisions, new HashMap<String, Behavior>(), myRef);
+	}
+	
+	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		this(myRef);
-		// this.state=spriteState;
+	
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
 		Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
 		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
@@ -135,8 +138,7 @@ public class Sprite implements ISprite, IEnemy{
 	}
 
 	public Sprite getClone(){
-		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions,
-												this.behaviors, this.myRef);
+		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions, this.myRef);
 	}
 	
 	public MapProperty<KeyCode, Executable> getUserPressBehaviors() {
@@ -195,26 +197,6 @@ public class Sprite implements ISprite, IEnemy{
 		return myHealth.isDead();
 	}
 
-	public DoubleProperty getWidth() {
-		return myProperties.getMyWidth();
-	}
-
-	public void setWidth(DoubleProperty width) {
-		myProperties.setMyWidthProperty(width);
-	}
-
-	public DoubleProperty getHeight() {
-		return myProperties.getMyHeight();
-	}
-
-	public void setHeight(DoubleProperty height) {
-		myProperties.setMyHeightProperty(height);
-	}
-
-	public DoubleProperty getX() {
-		return myProperties.getMyX();
-	}
-
 	public StringProperty getMyStringRef() {
 		return myRef.getMyStringRef();
 	}
@@ -222,44 +204,11 @@ public class Sprite implements ISprite, IEnemy{
 	public ObjectProperty<Image> getMyImageProp() {
 		return new SimpleObjectProperty<Image>(new Image(myRef.getMyStringRef().getValue()));
 	}
-
-	public void setCoord(DoubleProperty x, DoubleProperty y) {
-		myProperties.setMyXProperty(x);
-		myProperties.setMyYProperty(y);
-	}
-
-	public void setX(DoubleProperty x) {
-		myProperties.setMyXProperty(x);
-	}
 	
-	public void setX(double x) {
-		myProperties.setMyX(x);
-	}
-
-	public DoubleProperty getY() {
-		return myProperties.getMyY();
-	}
-
-	public void setY(double y) {
-		myProperties.setMyYProperty(y);
-	}
-
-	public void setY(DoubleProperty y) {
-		myProperties.setMyYProperty(y);
-	}
-
-	public DoubleProperty getAngle() {
-		return myProperties.getMyAngleProperty();
-	}
-
-	public double getDistance(Sprite otherVect) {
-		return Math.sqrt((Math.pow(myProperties.getMyX().doubleValue(), 2)
-				- Math.pow(otherVect.getX().doubleValue(), 2))
-				+ (Math.pow(myProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
-	}
-
-	public void setAngle(DoubleProperty angle) {
-		myProperties.setMyAngleProperty(angle);
+	public double getDistance(ISprite otherVect) {
+		return Math.sqrt((Math.pow(myProperties.getX(), 2)
+				- Math.pow(otherVect.getSpriteProperties().getX(), 2))
+				+ (Math.pow(myProperties.getY(), 2) - Math.pow(otherVect.getSpriteProperties().getY(), 2)));
 	}
 
 	public Health getHealth() {
@@ -278,16 +227,15 @@ public class Sprite implements ISprite, IEnemy{
 		return myCollisions;
 	}
 
-	public void setMySpriteProperties(SpriteProperties sp) {
+	public void setMySpriteProperties(ISpriteProperties sp) {
 		myProperties = sp;
 	}
 
-	public SpriteProperties getSpriteProperties() {
+	public ISpriteProperties getSpriteProperties() {
 		return myProperties;
 	}
 
 	public boolean isUserControlled() {
-
 		return myProperties.isUserControlled();
 	}
 
@@ -349,25 +297,19 @@ public class Sprite implements ISprite, IEnemy{
 		}
 		return testMap;
 	}
-/*
-	public spriteState getState(){
-		return this.state;
-	}
 	
-	public void setState(spriteState spriteState){
-		this.state=spriteState;
-	}
-*/
-
 	public boolean isOutOfBounds() {
 		return this.getSpriteProperties().isOutOfBounds();
 	}
 
 	@Override
 	public IEnemy clone() {
-		Sprite clone = new Sprite(myRef);
-		clone.getSpriteProperties().setMyX(Math.random()*clone.getSpriteProperties().getMyWidth().get());
-		clone.getSpriteProperties().setMyY(Math.random()*clone.getSpriteProperties().getMyHeight().get()/5);
+		ISpriteProperties clonedProperties = this.getSpriteProperties().getClone();
+		List<Collision> clonedCollisions = new ArrayList<>();
+		for(Collision col : this.getCollisions()){
+			clonedCollisions.add(col.clone());
+		}
+		IEnemy clone = new Sprite(clonedProperties, this.myHealth.getClone(), clonedCollisions, new RefObject(this.getMyRef()));
 		return clone;
 	}
 
@@ -381,5 +323,4 @@ public class Sprite implements ISprite, IEnemy{
 		if (Math.random() < getSpawnProbability())
 			clone();
 	}
-
 }

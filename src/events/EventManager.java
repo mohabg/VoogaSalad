@@ -28,23 +28,6 @@ public class EventManager implements IInputHandler {
 		myEvents = new ArrayList<Event>();
 		myInputHandler = new InputHandler();
 	}
-
-/*	public EventManager(ICollisionHandler myCollisionHandler, IInputHandler myInputHandler) {
-		this.myCollisionHandler = myCollisionHandler;
-		this.myInputHandler = myInputHandler;
-	}*/
-	
-	public void addEvent(Event event) {
-		myEvents.add(event);
-	}
-
-	public void setEvents(List<Event> events) {
-		myEvents = events;
-	}
-	
-	public void setInputHandler(IInputHandler handler) {
-		myInputHandler = handler; 
-	}
 	
 	public void doEvents(IActions action, LevelProperties levProps) {
 		for ( Event e: myEvents) {
@@ -70,5 +53,16 @@ public class EventManager implements IInputHandler {
 	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
 		myInputHandler.setSpriteActions(userPressActions);
 	}
+	
+	public void addEvent(Event event) {
+		myEvents.add(event);
+	}
 
+	public void setEvents(List<Event> events) {
+		myEvents = events;
+	}
+	
+	public void setInputHandler(IInputHandler handler) {
+		myInputHandler = handler; 
+	}
 }

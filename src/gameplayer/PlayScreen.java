@@ -5,6 +5,8 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
+import gameElements.AIController;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import gameElements.ViewPoint;
 import highscoretable.HighScoreController;
@@ -88,6 +90,8 @@ public class PlayScreen {
 		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
+		AIController enemyController = new AIController(sf);
+		currentLevel.setAIController(enemyController);
 		currentLevel.setSpriteFactory(sf);
 		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
 		activeSprites.addListener((ListChangeListener<Integer>) change -> {
@@ -114,7 +118,7 @@ public class PlayScreen {
 		return currentLevel;
 	}
 
-	public Map<Integer, Sprite> getSprites() {
+	public Map<Integer, ISprite> getSprites() {
 		return myEngine.getSpriteMap();
 	}
 

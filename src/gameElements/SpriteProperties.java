@@ -11,9 +11,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- * @author David Yan, Joe Jacob, Huijia Yu
+ * @author David Yan, Joe Jacob, Huijia Yu, Mohab Gabal
  */
-public class SpriteProperties {
+public class SpriteProperties implements ISpriteProperties{
+	
     private DoubleProperty myX;
     private DoubleProperty myRelativeX;
     private DoubleProperty myY;
@@ -31,7 +32,8 @@ public class SpriteProperties {
     private BooleanProperty canMove;
 
     @IgnoreField
-    private List<SpriteProperties> myClones;
+
+    private List<ISpriteProperties> myClones;
     
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
@@ -42,7 +44,7 @@ public class SpriteProperties {
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
         myUserControlled = new SimpleBooleanProperty(false);
-        myClones = new ArrayList<SpriteProperties>();
+        myClones = new ArrayList<ISpriteProperties>();
         myLeftLimit=new SimpleDoubleProperty(0);
         myRightLimit=new SimpleDoubleProperty(590);
         myUpLimit=new SimpleDoubleProperty(850);
@@ -60,20 +62,15 @@ public class SpriteProperties {
         myWidth.set(width);
         myHeight.set(height);
         myAngle.set(angle);
-        this.setMyRelativeX(new SimpleDoubleProperty(x));
-        this.setMyRelativeY(new SimpleDoubleProperty(y));
+        this.setMyRelativeX(x);
+        this.setMyRelativeY(y);
     }
 
     public SpriteProperties(double x, double y, double xVel, double yVel, double width, double height, double angle,double leftLimit, double rightLimit,
     		double upLimit, double downLimit){
     	this(x, y, width, height, angle);
-       // myX.set(x);
-       //  myY.set(y);
         myXvel.set(xVel);
         myYvel.set(yVel);
-      //  myWidth.set(width);
-      //  myHeight.set(height);
-      //  myAngle.set(angle);
         myLeftLimit.set(leftLimit);
         myRightLimit.set(rightLimit);
         myUpLimit.set(upLimit);
@@ -103,21 +100,21 @@ public class SpriteProperties {
 	public SpriteProperties getClone(){
     	SpriteProperties clone = new SpriteProperties(myX.doubleValue(), myY.doubleValue(), myXvel.doubleValue(), 
     			myYvel.doubleValue(), myWidth.doubleValue(), myHeight.doubleValue(), myAngle.doubleValue());
-    	bindCloneProperties(clone);
+    	// If following original (such as shield)
+    	// bindCloneProperties(clone);
     	myClones.add(clone);
     	return clone;
     }
 
 	private void bindCloneProperties(SpriteProperties clone) {
 		clone.getMyX().bindBidirectional(myX);
-    	clone.getMyY().bindBidirectional(myY);
-    	clone.getMyAngleProperty().bindBidirectional(myAngle);
-    	clone.getMyXvel().bindBidirectional(myXvel);
-    	clone.getMyYvel().bindBidirectional(myYvel);
-    	clone.getUserControlled().bindBidirectional(myUserControlled);
+    	clone.getYProperty().bindBidirectional(myY);
+    	clone.getAngleProperty().bindBidirectional(myAngle);
+    	clone.getXVelProperty().bindBidirectional(myXvel);
+    	clone.getYVelProperty().bindBidirectional(myYvel);
+    	clone.getUserControlledProperty().bindBidirectional(myUserControlled);
 	}
-    
-    public void updatePos(){
+	public void updatePos(){
     	if(this.isUserControlled()){
     		stayInBounds();
     	}
@@ -141,186 +138,156 @@ public class SpriteProperties {
     				myY.getValue() > myUpLimit.getValue() ||
     					myY.getValue()<myDownLimit.getValue();
     }
-    public DoubleProperty getMyXvel() {
-		return myXvel;
-	}
 
-	public void setMyXvel(double Xvel) {
+	public void setXVel(double Xvel) {
 		myXvel.set(Xvel);
 	}
-
-	public void setMyXvelProperty(DoubleProperty myXvel) {
-		this.myXvel = myXvel;
-	}
-
-	public DoubleProperty getMyYvel() {
-		return myYvel;
-	}
-
-	public void setMyYvel(double Yvel) {
+	
+	public void setYVel(double Yvel) {
 		myYvel.setValue(Yvel);
 	}
-	public void setMyYvelProperty(DoubleProperty myYvel) {
-		this.myYvel = myYvel;
-	}
-
-    public double getMyAngle() {
+    public double getAngle() {
         return myAngle.get();
     }
- 
-    public DoubleProperty getMyAngleProperty() {
-        return myAngle;
-    }
 
-    public void setMyAngle(double myAngle) {
+    public void setAngle(double myAngle) {
         this.myAngle.set(myAngle % 360);
     }
-    public void setMyAngleProperty(DoubleProperty myAngle) {
-       this.myAngle = myAngle;
-    }
-
+   
     public DoubleProperty getMyX() {
         return myX;
     }
 
-    public DoubleProperty myXProperty() {
-        return myX;
-    }
-
-    public void setMyX(double myX) {
+    public void setX(double myX) {
         this.myX.set(myX);
     }
-
-    public void setMyXProperty(DoubleProperty X){
-    	myX = X;
+    public double getX(){
+    	return this.myX.doubleValue();
     }
 
-    public void setMyYProperty(DoubleProperty Y){
-    	myY = Y;
+    public double getWidth() {
+        return myWidth.doubleValue();
     }
-
-    public DoubleProperty getMyY() {
-        return myY;
-    }
-
-    public DoubleProperty myYProperty() {
-        return myY;
-    }
-
-    public void setMyY(double myY) {
-        this.myY.set(myY);
-    }
-
-    public DoubleProperty getMyWidth() {
-        return myWidth;
-    }
-
-    public DoubleProperty myWidthProperty() {
-        return myWidth;
-    }
-
-    public void setMyWidth(double myWidth) {
+    
+    public void setWidth(double myWidth) {
         this.myWidth.set(myWidth);
     }
-    public void setMyWidthProperty(DoubleProperty width){
-    	myWidth = width;
+    
+    public double getHeight() {
+        return myHeight.doubleValue();
     }
-
-    public DoubleProperty getMyHeight() {
-        return myHeight;
-    }
-
-    public DoubleProperty myHeightProperty() {
-        return myHeight;
-    }
-
-    public void setMyHeight(double myHeight) {
+    
+    public void setHeight(double myHeight) {
         this.myHeight.set(myHeight);
     }
-    public void setMyHeightProperty(DoubleProperty height){
-    	myHeight = height;
-    }
 
-	public void setMyYProperty(double y) {
+	public void setY(double y) {
 		myY.set(y);
-
 	}
-
-
+	
+	public double getY(){
+		return this.myY.doubleValue();
+	}
 	public boolean isUserControlled() {
 		return myUserControlled.getValue();
 	}
 
 	public void setUserControlled(boolean userControlled) {
-		this.myUserControlled.setValue(userControlled);
+		this.myUserControlled.set(userControlled);
 	}
 
-	public BooleanProperty getUserControlled() {
-		return myUserControlled;
+	public double getMyXLeftLimit() {
+		return myLeftLimit.doubleValue();
 	}
 
-	public void setUserControlled(BooleanProperty userControlled) {
-		this.myUserControlled = userControlled;
+	public void setMyXLeftLimit(double myXLeftLimit) {
+		this.myLeftLimit.set(myXLeftLimit);
 	}
 
-	public DoubleProperty getMyXLeftLimit() {
-		return myLeftLimit;
+	public double getMyYDownLimit() {
+		return myDownLimit.doubleValue();
 	}
 
-	public void setMyXLeftLimit(DoubleProperty myXLeftLimit) {
-		this.myLeftLimit = myXLeftLimit;
+	public void setMyYDownLimit(double myYDownLimit) {
+		this.myDownLimit.set(myYDownLimit);
 	}
 
-	public DoubleProperty getMyYDownLimit() {
-		return myDownLimit;
+	public double getMyXRightLimit() {
+		return myRightLimit.doubleValue();
 	}
 
-	public void setMyYDownLimit(DoubleProperty myYDownLimit) {
-		this.myDownLimit = myYDownLimit;
+	public void setMyRightLimit(double myRightLimit) {
+		this.myRightLimit.set(myRightLimit);
 	}
 
-	public DoubleProperty getMyXRightLimit() {
-		return myRightLimit;
+	public double getMyYUpLimit() {
+		return myUpLimit.doubleValue();
 	}
 
-	public void setMyRightLimit(DoubleProperty myRightLimit) {
-		this.myRightLimit = myRightLimit;
+	public void setMyYUpLimit(double myYUpLimit) {
+		this.myUpLimit.set(myYUpLimit);
 	}
 
-	public DoubleProperty getMyYUpLimit() {
-		return myUpLimit;
+	public double getMyRelativeX() {
+		return myRelativeX.doubleValue();
 	}
 
-	public void setMyYUpLimit(DoubleProperty myYUpLimit) {
-		this.myUpLimit = myYUpLimit;
-	}
-/*
-	public spriteState getState() {
-		return state;
+	public void setMyRelativeX(double myRelativeX) {
+		this.myRelativeX.set(myRelativeX);
 	}
 
-	public void setState(spriteState state) {
-		this.state = state;
+	public double getMyRelativeY() {
+		return myRelativeY.doubleValue();
 	}
 
-*/
-
-	public DoubleProperty getMyRelativeX() {
-		return myRelativeX;
+	public void setMyRelativeY(double myRelativeY) {
+		this.myRelativeY.set(myRelativeY);
 	}
 
-	public void setMyRelativeX(DoubleProperty myRelativeX) {
-		this.myRelativeX = myRelativeX;
+	public BooleanProperty getUserControlledProperty() {
+		return this.myUserControlled;
 	}
 
-	public DoubleProperty getMyRelativeY() {
-		return myRelativeY;
+	public DoubleProperty getYVelProperty() {
+		return this.myYvel;
 	}
 
-	public void setMyRelativeY(DoubleProperty myRelativeY) {
-		this.myRelativeY = myRelativeY;
-	}	
+	public DoubleProperty getXVelProperty() {
+		return this.myXvel;
+	}
 
+	public DoubleProperty getAngleProperty() {
+		return this.myAngle;
+	}
+	
+	@Override
+	public DoubleProperty getYProperty() {
+		return this.myY;
+	}
 
+	@Override
+	public DoubleProperty getXProperty() {
+		return this.myX;
+	}
+
+	@Override
+	public DoubleProperty getHeightProperty() {
+		return this.myHeight;
+	}
+
+	@Override
+	public DoubleProperty getWidthProperty() {
+		return this.myWidth;
+	}
+
+	@Override
+	public double getXVel() {
+		return this.myXvel.doubleValue();
+	}
+
+	@Override
+	public double getYVel() {
+		return this.myYvel.doubleValue();
+	}
 
 }

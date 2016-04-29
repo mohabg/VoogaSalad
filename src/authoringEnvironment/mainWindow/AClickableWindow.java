@@ -5,6 +5,7 @@ import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorController;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -24,7 +25,7 @@ public abstract class AClickableWindow {
 	protected double orgSceneX, orgSceneY;
 	protected double orgTranslateX, orgTranslateY;
 	protected ViewSprite currentSprite;
-	protected Map<Sprite, TabPane> mySpriteTabPanes;
+	protected Map<ISprite, TabPane> mySpriteTabPanes;
 	protected SettingsWindow myWindow;
 	protected ObjectEditorController myOEC;
 	protected Pane myNewGamePane;
@@ -87,20 +88,22 @@ public abstract class AClickableWindow {
 	}
 
 	/**
-	 * @param spriteModel
+	 * @param iSprite
 	 *            model used to generate visual elements that are added to a new
 	 *            VBox and displayed in the Settings Window
 	 */
 
-	public VBox setSettingsContent(Sprite spriteModel) {
+	public VBox setSettingsContent(ISprite iSprite) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesPane = new TabPane();
         //mySpriteTabPanes.get(spriteModel) != null
-		if (mySpriteTabPanes.containsKey(spriteModel)) {
-			propertiesPane = mySpriteTabPanes.get(spriteModel);
+		if (mySpriteTabPanes.containsKey(iSprite)) {
+			propertiesPane = mySpriteTabPanes.get(iSprite);
 		} else {
-			propertiesPane = myOEC.makeObjectEditorTabPane(spriteModel);
-			mySpriteTabPanes.put(spriteModel, propertiesPane);
+
+			propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
+			mySpriteTabPanes.put(iSprite, propertiesPane);
+
 		}
 		myBox.getChildren().addAll(propertiesPane);
 		return myBox;
