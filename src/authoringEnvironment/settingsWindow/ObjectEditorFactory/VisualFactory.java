@@ -132,7 +132,7 @@ public class VisualFactory {
 		Class<R> clazz = (Class<R>) f.getType();
 		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);
 
-		Set<HBox> props = makePropertyBoxes(clazz, fObj, clazz.getName(), new HashSet<HBox>(), true);
+		List<HBox> props = makePropertyBoxes(clazz, fObj, clazz.getName(), new ArrayList<HBox>(), true);
 		propVBox.getChildren().addAll(props);
 
 		return propVBox;
@@ -274,7 +274,7 @@ public class VisualFactory {
 	}
 
 		
-	public static <R, K> Set<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, Set<HBox> properties, boolean makeBox) {
+	public static <R, K> List<HBox> makePropertyBoxes(Class<R> clazz, R parent, String parentName, List<HBox> properties, boolean makeBox) {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();
 		
 		if (Property.class.isAssignableFrom(clazz)) {
@@ -296,20 +296,16 @@ public class VisualFactory {
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
 			fieldVBoxHBox.getChildren().add(vb);
 			updateComboBoxValue((Class<R>) parent.getClass(), parent, subclassBox);
-			
-			
-			if (clazz.isEnum()) {
-				properties.add(fieldVBoxHBox);
-				return properties;			
-			}
+			properties.add(fieldVBoxHBox);
+			return properties;	
 		}
 		
 		// prevents us from trying to initialize java classes		
 		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(clazz.getName())) {			
 			VBox fieldVBox = GUIObjectMaker.makeVBox();			
-			Set<HBox> fieldHBoxes = new HashSet<HBox>();
+			List<HBox> fieldHBoxes = new ArrayList<HBox>();
 			
-			Set<Field> allFields = SettingsReflectUtils.getAllFields(new HashSet<Field>(), clazz);
+			List<Field> allFields = SettingsReflectUtils.getAllFields(new ArrayList<Field>(), clazz);
 			for (Field otherField : allFields) {
 				otherField.setAccessible(true);			
 				if (!otherField.isAnnotationPresent(IgnoreField.class)) {
@@ -323,22 +319,17 @@ public class VisualFactory {
 						if (otherField.isAnnotationPresent(SetFieldName.class)) {
 							pName = otherField.getAnnotation(SetFieldName.class).label();
 						}
-
-						fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), otherFieldObject, pName, properties, true));
+						fieldHBoxes.addAll(makePropertyBoxes((Class<K>) otherField.getType(), otherFieldObject, pName, new ArrayList<HBox>(), true));
 					}
 				}
 			}
 			
 			fieldVBox.getChildren().addAll(fieldHBoxes);
 			fieldVBoxHBox.getChildren().add(fieldVBox);			
-		} else {
-			// TODO THROW EXCEPTION
-			// idk if this is necessary
-		}
+		} 
 		
-		if (fieldVBoxHBox.getChildren().size() > 1) {
-			properties.add(fieldVBoxHBox);
-		}
+		properties.add(fieldVBoxHBox);
+
 		return properties;
 	}
 

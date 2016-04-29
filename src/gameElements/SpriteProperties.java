@@ -26,7 +26,6 @@ public class SpriteProperties implements ISpriteProperties{
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
-    private Goals myGoal;
     private DoubleProperty myLeftLimit;
     private DoubleProperty myDownLimit;
     private DoubleProperty myRightLimit;
