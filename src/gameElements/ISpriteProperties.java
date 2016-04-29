@@ -1,6 +1,8 @@
 package gameElements;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.DoubleProperty;
+
 
 public interface ISpriteProperties {
 	
