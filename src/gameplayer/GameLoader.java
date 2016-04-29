@@ -123,6 +123,7 @@ public class GameLoader {
 		setLevelProperties(lp,id,"level"+id);
 //			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
 		lp.setNumGoals(lm.getNumGoals());
+		newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
 	}

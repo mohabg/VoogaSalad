@@ -1,7 +1,6 @@
 package events;
 
 import javafx.scene.input.KeyEvent;
-
 public class KeyPressTrigger implements Trigger {
 	
 	private boolean isTriggered;
@@ -10,6 +9,9 @@ public class KeyPressTrigger implements Trigger {
 	public KeyPressTrigger(KeyEvent event) {
 		isTriggered = false;
 		this.event = event;
+	}
+	
+	public void checkKeyPressed() {
 	}
 
 	@Override

@@ -12,10 +12,11 @@ public class CollisionChecker implements Trigger {
 	private triggerType type;
 	private ISprite spriteOne;
 	private ISprite spriteTwo;
+	//private triggerType type;
 	
 	public CollisionChecker(){
 		isTriggered = false;
-		type = triggerType.COLLISION;
+		//type = triggerType.COLLISION;
 	}
 
 	public ISprite getSpriteOne() {

@@ -38,7 +38,7 @@ public abstract class AClickableWindow {
 		myNewGamePane = new AnchorPane();
 		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
 				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
-				"spriteProperties"));
+				"spriteProperties", "events"));
 		initOEC();
 
 	}

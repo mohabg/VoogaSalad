@@ -16,7 +16,9 @@ import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -31,24 +33,25 @@ public class Engine {
 	
 	private Timeline myGameLoop;
 	private EventManager myEventManager;
-//	private Level currentLevel;
+	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
 	private Time myGameTime;
 	private DoubleProperty myTimeProperty;
 	private boolean isPaused;
-    private PlayScreen myGameScreen;
+//    private PlayScreen myGameScreen;
 
 
-	public Engine(PlayScreen myGameScreen) {
+	public Engine() {
 		myEventManager = new EventManager();
-		this.myGameScreen = myGameScreen;
+//		this.myGameScreen = myGameScreen;
+		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
 		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 	}
 	
-	public Engine(PlayScreen myGameScreen, IGameEditor editor) {
-		this(myGameScreen);
+	public Engine(IGameEditor editor) {
+		this();
 		myEditor = editor;
 	}
 	public IGameEditor getMyEditor() {
@@ -136,9 +139,8 @@ public class Engine {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
-					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
-						myGameScreen.setLevel(myEditor.getCurrentLevel());
-					}
+                    currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
+                   
                 }
             }); 
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
@@ -166,6 +168,9 @@ public class Engine {
     	return myTimeProperty;
     }
     
+    public IntegerProperty getCurrentLevelID(){
+    	return currentLevelID;
+    }
     /*public void setResultForKeyPress(KeyEvent event) {
     	myEditor.setResultForKeyPress(event);
     }*/

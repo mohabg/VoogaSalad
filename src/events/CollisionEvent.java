@@ -1,22 +1,33 @@
 package events;
 
 import java.util.Collection;
-
 import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.ISprite;
+import collisions.DamageCollision;
 import gameElements.Sprite;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import level.LevelProperties;
 
 public class CollisionEvent extends Event {
 	
-	private String spriteOneType;
-	private String spriteTwoType;
+	private StringProperty spriteOneType;
+	private StringProperty spriteTwoType;
+	private Collision collisionOne;
+	private Collision collisionTwo;
+	
+	public CollisionEvent() {
+		this(new SimpleStringProperty(" "), new SimpleStringProperty(" "), 
+				new DamageCollision(), new DamageCollision());
+	}
 
-	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
-		setExecutable(new CollisionHandler(one,two));
+	public CollisionEvent(StringProperty typeOne, StringProperty typeTwo, Collision one, Collision two) {
+		collisionOne = one;
+		collisionTwo = two;
+		setExecutable(new CollisionHandler(collisionOne,collisionTwo));
 		setTrigger(new CollisionChecker());
 		spriteOneType = typeOne;
 		spriteTwoType = typeTwo;
