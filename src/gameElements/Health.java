@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import voogasalad.util.hud.source.Property;
 
 /**
  * A class that describes the health of each sprite, which usually determines when a sprite will disappear from a level and be
@@ -15,11 +16,13 @@ public class Health {
 
 	
 	private DoubleProperty healthValue;
+	private Property healthProperty;
 	private BooleanProperty isMortal;	
 	
 	public Health(){
 		healthValue = new SimpleDoubleProperty(0);
 		isMortal = new SimpleBooleanProperty(false);
+		healthProperty = new Property(healthValue, "Health");
 	}
 	
 	public Health(double myHealth){
@@ -41,7 +44,9 @@ public class Health {
 	public double getHealthValue() {
 		return healthValue.doubleValue();
 	}
-
+	public Property getHealthProperty(){
+		return this.healthProperty;
+	}
 	public void takeDamage(double damage) {
 		changeHealth(damage * -1);
 	}

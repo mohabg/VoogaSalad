@@ -10,6 +10,7 @@ import events.Executable;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.MapProperty;
 import javafx.scene.input.KeyCode;
+import voogasalad.util.hud.source.Property;
 
 public interface ISprite{
 	
@@ -44,4 +45,6 @@ public interface ISprite{
 	public boolean isOutOfBounds();
 
 	public void setUserControlled(boolean userAction);
+
+	public Health getMyHealth();
 }

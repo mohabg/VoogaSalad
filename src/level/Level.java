@@ -36,6 +36,8 @@ import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
 import keyboard.KeyboardActionChecker;
 import keyboard.KeyboardActionFactory;
+import voogasalad.util.hud.source.HUDController;
+import voogasalad.util.hud.source.Property;
 
 
 
@@ -62,7 +64,13 @@ public class Level implements ILevel {
 	private EventManager myEventManager;
 	private AIController enemyController;
 	
+	private HUDController controller;
+	
+	
 	public Level() {
+		
+		controller = new HUDController();
+		
 
 		levelProperties = new LevelProperties();
 		physicsEngine = new PhysicsEngine(0.9);

@@ -5,6 +5,8 @@ import gameplayer.GameLoader;
 import gameplayer.MainPlayingWindow;
 import interfaces.ITabPane;
 import resources.FrontEndData;
+import voogasalad.util.hud.source.IAuthoringHUDController;
+import voogasalad.util.hud.source.PopupSelector;
 
 /**
  * This is the creator for the menubar, which allows the user to select new
@@ -13,7 +15,7 @@ import resources.FrontEndData;
  * @author Huijia, David Yan, Joe Jacob
  *
  */
-public class AuthoringMenubarCreator extends AbstractMenuBar{
+public class AuthoringMenubarCreator extends AbstractMenuBar implements IAuthoringHUDController{
 
 	// TODO SWITCH TO REFLECTION
 
@@ -35,13 +37,11 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
 		MenuBarElement myFileMenuMaker = getFileMenu(window);
 		MenuBarElement myGameMenu = getGameMenu(window);
 		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow, window);
+		MenuBarElement hud = hud();
 		myMenuBar.getStylesheets().add(FrontEndData.TAB_STYLESHEET);
-		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
+		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu(), hud.getMenu());
 	}
 	
-	
-
-
     private MenuBarElement getFileMenu(ITabPane window) {
     	MenuBarElement myFileMenuMaker = new MenuBarElement();
         myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
@@ -78,6 +78,21 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
     	});
     	return playToggleButton;
     }
+    
+    private MenuBarElement hud(){
+    	MenuBarElement hud = new MenuBarElement();
+    	hud.setName("hud");
+    	hud.setNewAction("hud", e-> {
+    		new PopupSelector(this);
+    	});
+    	return hud;
+    }
+
+	@Override
+	public void setHUDInfoFile(String location) {
+		// TODO Auto-generated method stub
+		
+	}
     
 //	private void playMyGame(ITabPane tabLevels) {
 //		GameLoader.saveGame(myName, tabLevels);
