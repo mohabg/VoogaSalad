@@ -3,21 +3,21 @@ package events;
 import behaviors.IActions;
 import level.LevelProperties;
 
-public class KeyPressEvent implements Executable {
+public class KeyPressEvent extends Event {
 
 	public KeyPressEvent() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void execute(IActions action, LevelProperties levProps) {
+	public void doEvent(IActions action, LevelProperties levProps) {
+		KeyPressTrigger press = (KeyPressTrigger) getTrigger();
 		
+		
+		if ( press.isTriggered()) {
+			getExecutable().execute(action, levProps);
+		}
 	}
-
-    @Override
-    public void stop(IActions actions, LevelProperties levProps) {
-
-    }
 
 	/*@Override
 	public void execute(KeyEvent key, boolean enable, Sprite currentSprite) {

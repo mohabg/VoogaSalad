@@ -22,7 +22,7 @@ public class PlayerView extends Screen {
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		
 		//TODO: find better way
-		myPane.getChildren().add(new HBox(new Button("a")));
+//		myPane.getChildren().add(new HBox(new Button("a")));
 	}
 
 	private void initHUD() {
@@ -63,12 +63,16 @@ public class PlayerView extends Screen {
 
 	public void setViewSprites(int id, Map<Integer, ViewSprite> levelSprites) {
 		myViewSpriteMap.put(id, levelSprites);
-		myViewSprites = levelSprites;
+//		myViewSprites = levelSprites;
 	}
 
 	public void setLevelSprites(Integer levelID) {
 		myViewSprites = myViewSpriteMap.get(levelID);
 		
+	}
+
+	public void clearSprites() {
+		myPane.getChildren().removeAll(myViewSprites.values());
 	}
 	
 	
