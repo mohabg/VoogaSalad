@@ -1,10 +1,12 @@
 package gameElements;
 
 import authoringEnvironment.RefObject;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFieldName;
 import behaviors.*;
 import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
+import events.Executable;
 import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
@@ -24,15 +26,14 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite implements ISprite{
-//    private spriteState state;
-	
-	private SpriteProperties myProperties;
+public class Sprite implements ISprite, IEnemy{
+
+	private ISpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 
 	private MapProperty<StringProperty, Behavior> behaviors;
-	private MapProperty<KeyCode, Behavior> userPressBehaviors;
+	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
 	private RefObject myRef;
 
@@ -54,8 +55,8 @@ public class Sprite implements ISprite{
 				.observableMap(new HashMap<StringProperty, Behavior>());
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-		userPressBehaviors = new SimpleMapProperty<KeyCode, Behavior>(om2);
+		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
+		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
 		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
 		
@@ -73,19 +74,19 @@ public class Sprite implements ISprite{
 		userPressBehaviors.put(KeyCode.SHIFT, shield);
 
 
-		Behavior thrustForward = new ThrustVertical(-3);
+		Behavior thrustForward = new ThrustVertical(-1);
 		addBehavior(thrustForward);
 		userPressBehaviors.put(KeyCode.UP, thrustForward);
 
-		Behavior thrustReverse = new ThrustVertical(3);
+		Behavior thrustReverse = new ThrustVertical(1);
 		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
 		addBehavior(thrustReverse);
 		
-		Behavior moveLeft = new ThrustHorizontal(-3);
+		Behavior moveLeft = new ThrustHorizontal(-1);
 		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
 		addBehavior(moveLeft);
 
-		Behavior moveRight = new ThrustHorizontal(3);
+		Behavior moveRight = new ThrustHorizontal(1);
 		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
 		addBehavior(moveRight);
 		
@@ -98,11 +99,15 @@ public class Sprite implements ISprite{
 		addBehavior(moveTurnLeft);
 
 	}
-
-	public Sprite(SpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
+	
+	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions, RefObject myRef){
+		this(myProperties, myHealth, myCollisions, new HashMap<String, Behavior>(), myRef);
+	}
+	
+	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		this(myRef);
-		// this.state=spriteState;
+	
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
 		Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
 		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
@@ -127,17 +132,16 @@ public class Sprite implements ISprite{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions);
+				behavior.apply(actions, null);
 			}
 		}
 	}
 
 	public Sprite getClone(){
-		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions,
-												this.behaviors, this.myRef);
+		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions, this.myRef);
 	}
 	
-	public Map<KeyCode, Behavior> getUserPressBehaviors() {
+	public MapProperty<KeyCode, Executable> getUserPressBehaviors() {
 		return userPressBehaviors;
 	}
 
@@ -146,8 +150,8 @@ public class Sprite implements ISprite{
 
 	}
 
-	public void setUserPressBehaviors(Map<KeyCode, Behavior> userBehaviors) {
-		ObservableMap<KeyCode, Behavior> om2 = FXCollections.observableMap(userBehaviors);
+	public void setUserPressBehaviors(Map<KeyCode, Executable> userBehaviors) {
+		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(userBehaviors);
 		this.userPressBehaviors.set(om2);
 	}
 
@@ -193,26 +197,6 @@ public class Sprite implements ISprite{
 		return myHealth.isDead();
 	}
 
-	public DoubleProperty getWidth() {
-		return myProperties.getMyWidth();
-	}
-
-	public void setWidth(DoubleProperty width) {
-		myProperties.setMyWidthProperty(width);
-	}
-
-	public DoubleProperty getHeight() {
-		return myProperties.getMyHeight();
-	}
-
-	public void setHeight(DoubleProperty height) {
-		myProperties.setMyHeightProperty(height);
-	}
-
-	public DoubleProperty getX() {
-		return myProperties.getMyX();
-	}
-
 	public StringProperty getMyStringRef() {
 		return myRef.getMyStringRef();
 	}
@@ -220,44 +204,11 @@ public class Sprite implements ISprite{
 	public ObjectProperty<Image> getMyImageProp() {
 		return new SimpleObjectProperty<Image>(new Image(myRef.getMyStringRef().getValue()));
 	}
-
-	public void setCoord(DoubleProperty x, DoubleProperty y) {
-		myProperties.setMyXProperty(x);
-		myProperties.setMyYProperty(y);
-	}
-
-	public void setX(DoubleProperty x) {
-		myProperties.setMyXProperty(x);
-	}
 	
-	public void setX(double x) {
-		myProperties.setMyX(x);
-	}
-
-	public DoubleProperty getY() {
-		return myProperties.getMyY();
-	}
-
-	public void setY(double y) {
-		myProperties.setMyYProperty(y);
-	}
-
-	public void setY(DoubleProperty y) {
-		myProperties.setMyYProperty(y);
-	}
-
-	public DoubleProperty getAngle() {
-		return myProperties.getMyAngleProperty();
-	}
-
-	public double getDistance(Sprite otherVect) {
-		return Math.sqrt((Math.pow(myProperties.getMyX().doubleValue(), 2)
-				- Math.pow(otherVect.getX().doubleValue(), 2))
-				+ (Math.pow(myProperties.getMyY().doubleValue(), 2) - Math.pow(otherVect.getY().doubleValue(), 2)));
-	}
-
-	public void setAngle(DoubleProperty angle) {
-		myProperties.setMyAngleProperty(angle);
+	public double getDistance(ISprite otherVect) {
+		return Math.sqrt((Math.pow(myProperties.getX(), 2)
+				- Math.pow(otherVect.getSpriteProperties().getX(), 2))
+				+ (Math.pow(myProperties.getY(), 2) - Math.pow(otherVect.getSpriteProperties().getY(), 2)));
 	}
 
 	public Health getHealth() {
@@ -276,16 +227,15 @@ public class Sprite implements ISprite{
 		return myCollisions;
 	}
 
-	public void setMySpriteProperties(SpriteProperties sp) {
+	public void setMySpriteProperties(ISpriteProperties sp) {
 		myProperties = sp;
 	}
 
-	public SpriteProperties getSpriteProperties() {
+	public ISpriteProperties getSpriteProperties() {
 		return myProperties;
 	}
 
 	public boolean isUserControlled() {
-
 		return myProperties.isUserControlled();
 	}
 
@@ -310,7 +260,7 @@ public class Sprite implements ISprite{
 	 *            Checks if the KeyCode corresponds to an action
 	 * @return
 	 */
-	public Behavior getUserPressBehavior(KeyCode keyCode) {
+	public Executable getUserPressBehavior(KeyCode keyCode) {
 		return userPressBehaviors.get(keyCode);
 	}
 	
@@ -347,13 +297,30 @@ public class Sprite implements ISprite{
 		}
 		return testMap;
 	}
-/*
-	public spriteState getState(){
-		return this.state;
-	}
 	
-	public void setState(spriteState spriteState){
-		this.state=spriteState;
+	public boolean isOutOfBounds() {
+		return this.getSpriteProperties().isOutOfBounds();
 	}
-*/	
+
+	@Override
+	public IEnemy clone() {
+		ISpriteProperties clonedProperties = this.getSpriteProperties().getClone();
+		List<Collision> clonedCollisions = new ArrayList<>();
+		for(Collision col : this.getCollisions()){
+			clonedCollisions.add(col.clone());
+		}
+		IEnemy clone = new Sprite(clonedProperties, this.myHealth.getClone(), clonedCollisions, new RefObject(this.getMyRef()));
+		return clone;
+	}
+
+	@Override
+	public double getSpawnProbability() {
+		// TODO Auto-generated method stub
+		return 0;
+	}	
+
+	public void spawn() {
+		if (Math.random() < getSpawnProbability())
+			clone();
+	}
 }

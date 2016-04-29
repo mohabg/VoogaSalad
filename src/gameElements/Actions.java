@@ -6,13 +6,14 @@ import gameplayer.SpriteFactory;
 
 public class Actions implements IActions{
 	
-	private Sprite sprite;
+	private ISprite sprite;
 	private SpriteFactory spriteFactory; 
 	
 	public Actions(){
 	}
-	public void setSprite(Sprite sprite){
-		this.sprite = sprite;
+	@Override
+	public void setSprite(ISprite iSprite){
+		this.sprite = iSprite;
 	}
 	public void setSpriteFactory(SpriteFactory spriteFactory){
 		this.spriteFactory = spriteFactory;
@@ -23,12 +24,12 @@ public class Actions implements IActions{
 	}
 
 	@Override
-	public Sprite makeSprite(double x, double y, SpriteProperties clone, RefObject myRef) {
+	public Sprite makeSprite(double x, double y, ISpriteProperties clone, RefObject myRef) {
 		return spriteFactory.makeSprite(x, y, clone, myRef);
 	}
 
 	@Override
-	public SpriteProperties getSpriteProperties() {
+	public ISpriteProperties getSpriteProperties() {
 		return sprite.getSpriteProperties();
 	}
 	@Override

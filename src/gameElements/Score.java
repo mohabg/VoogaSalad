@@ -1,10 +1,6 @@
 package gameElements;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Score {
@@ -32,8 +28,7 @@ public class Score {
 	}
 	public void setScoreValue(Integer currentPoints) {
 
-		IntegerProperty score=new SimpleIntegerProperty(currentPoints);
-		this.scoreValue=score;
+        this.scoreValue= new SimpleIntegerProperty(currentPoints);
 	}
 	
 }

@@ -1,8 +1,9 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Demo;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import javafx.application.Application;

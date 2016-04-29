@@ -1,26 +1,26 @@
 package game;
 
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 import gameElements.Time;
 
 import java.util.Map;
 
-import authoringEnvironment.Project1;
+import authoringEnvironment.LiveEditing;
 import events.EventManager;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
 
 /**
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
@@ -33,24 +33,25 @@ public class Engine {
 	
 	private Timeline myGameLoop;
 	private EventManager myEventManager;
-//	private Level currentLevel;
+	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
 	private Time myGameTime;
 	private DoubleProperty myTimeProperty;
 	private boolean isPaused;
-    private PlayScreen myGameScreen;
+//    private PlayScreen myGameScreen;
 
 
-	public Engine(PlayScreen myGameScreen) {
+	public Engine() {
 		myEventManager = new EventManager();
-		this.myGameScreen = myGameScreen;
+//		this.myGameScreen = myGameScreen;
+		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
 		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 	}
 	
-	public Engine(PlayScreen myGameScreen, IGameEditor editor) {
-		this(myGameScreen);
+	public Engine(IGameEditor editor) {
+		this();
 		myEditor = editor;
 	}
 	public IGameEditor getMyEditor() {
@@ -69,7 +70,7 @@ public class Engine {
 		this.myTimeProperty = myTimeProperty;
 	}
 
-	public Engine(Project1 liveEditing, GameEditor gameEditor) {
+	public Engine(LiveEditing liveEditing, GameEditor gameEditor) {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -77,7 +78,7 @@ public class Engine {
         myEditor.setGameInfo(gameInfo);
     }
 	
-	public Map<Integer, Sprite> getSpriteMap(){
+	public Map<Integer, ISprite> getSpriteMap(){
         return myEditor.getCurrentLevel().getSpriteMap().getSpriteMap();
     }
     public LevelProperties LevelProperties(){
@@ -108,8 +109,12 @@ public class Engine {
         return myEditor.getUserSprite();
     }
 
-    public void setUserSprite(Integer userSprite) {
-        myEditor.setUserSprite(userSprite);
+    public void setSpriteActions() {
+        myEditor.setSpriteActions();
+    }
+    
+    public void setUserSprite(Integer sprite) {
+    	myEditor.setUserSprite(sprite);
     }
     
     public void addGoal(Goal goal) {
@@ -134,9 +139,8 @@ public class Engine {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
-					if(!myEditor.getCurrentLevel().equals(myGameScreen.getCurrentLevel())){
-						myGameScreen.setLevel(myEditor.getCurrentLevel());
-					}
+                    currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
+                   
                 }
             }); 
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
@@ -164,8 +168,11 @@ public class Engine {
     	return myTimeProperty;
     }
     
-    public void setResultForKeyPress(KeyEvent event) {
-    	myEditor.setResultForKeyPress(event);
+    public IntegerProperty getCurrentLevelID(){
+    	return currentLevelID;
     }
+    /*public void setResultForKeyPress(KeyEvent event) {
+    	myEditor.setResultForKeyPress(event);
+    }*/
 
 }

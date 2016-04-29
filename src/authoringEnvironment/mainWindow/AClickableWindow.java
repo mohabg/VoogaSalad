@@ -3,6 +3,9 @@ package authoringEnvironment.mainWindow;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorController;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
+import gameElements.ISprite;
 import gameElements.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -14,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import resources.FrontEndData;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +25,9 @@ public abstract class AClickableWindow {
 	protected double orgSceneX, orgSceneY;
 	protected double orgTranslateX, orgTranslateY;
 	protected ViewSprite currentSprite;
-	protected Map<Sprite, TabPane> mySpriteTabPanes;
+	protected Map<ISprite, TabPane> mySpriteTabPanes;
 	protected SettingsWindow myWindow;
+	protected ObjectEditorController myOEC;
 	protected Pane myNewGamePane;
 	protected LevelModel myLevelModel;
 
@@ -31,10 +36,19 @@ public abstract class AClickableWindow {
 		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
 		myNewGamePane = new AnchorPane();
-
+		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+				"spriteProperties", "events"));
+		initOEC();
 
 	}
 
+	private void initOEC() {
+		for (StylesheetType type : StylesheetType.values()) {
+			myOEC.addObjectStylesheet(type, FrontEndData.STYLESHEET);
+		}
+	}
+	
 	protected EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
@@ -74,20 +88,22 @@ public abstract class AClickableWindow {
 	}
 
 	/**
-	 * @param spriteModel
+	 * @param iSprite
 	 *            model used to generate visual elements that are added to a new
 	 *            VBox and displayed in the Settings Window
 	 */
 
-	public VBox setSettingsContent(Sprite spriteModel) {
+	public VBox setSettingsContent(ISprite iSprite) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesPane = new TabPane();
         //mySpriteTabPanes.get(spriteModel) != null
-		if (mySpriteTabPanes.containsKey(spriteModel)) {
-			propertiesPane = mySpriteTabPanes.get(spriteModel);
+		if (mySpriteTabPanes.containsKey(iSprite)) {
+			propertiesPane = mySpriteTabPanes.get(iSprite);
 		} else {
-			propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
-			mySpriteTabPanes.put(spriteModel, propertiesPane);
+
+			propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
+			mySpriteTabPanes.put(iSprite, propertiesPane);
+
 		}
 		myBox.getChildren().addAll(propertiesPane);
 		return myBox;
@@ -96,7 +112,7 @@ public abstract class AClickableWindow {
 	public VBox setSettingsContent(LevelModel myLevel) {
 		currentSprite = null;
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-		TabPane propertiesList = myWindow.getMyVisualFactory().getMyTabs(myLevel);
+		TabPane propertiesList = myOEC.makeObjectEditorTabPane(myLevel);
 		myBox.getChildren().addAll(propertiesList);
 		return myBox;
 	}
@@ -115,7 +131,8 @@ public abstract class AClickableWindow {
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
-                myNewGamePane.getChildren().remove(sprite);
+                ViewSprite myClone = new ViewSprite(sprite.getMyImage());
+                setViewSprite(myClone);
             }
             e.consume();
         });

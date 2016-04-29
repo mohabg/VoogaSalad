@@ -123,21 +123,23 @@ public class GameLoader {
 		setLevelProperties(lp,id,"level"+id);
 //			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
 		lp.setNumGoals(lm.getNumGoals());
+		newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
 	}
 
 	static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, List<Sprite> list) {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
+		List<Sprite> visList = list;
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {
+			newLevel.addSprite(s);
+			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
 			if(s.isUserControlled()){
 				s.setUserControlled(true);
 				setUserControlledSpriteID(newLevel);
+				newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
 			}
-			newLevel.addSprite(s);
-			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
-
 		});
 		return viewsprites;
 	}

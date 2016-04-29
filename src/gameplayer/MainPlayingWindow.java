@@ -3,6 +3,7 @@ package gameplayer;
 import authoringEnvironment.MainAuthoringWindow;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import resources.FrontEndData;
 
 public class MainPlayingWindow extends Screen {
 	private ControlWindow myControlWindow;
@@ -26,7 +27,7 @@ public class MainPlayingWindow extends Screen {
 		myPane = new BorderPane();
 		myControlWindow = new ControlWindow(myPlayScreen);
 		myHUDWindow = new HUDWindow(myPlayScreen);
-		toggleButton = new Button("Toggle");
+		toggleButton = new Button(FrontEndData.ButtonLabels.getString("Toggle"));
 		toggleButton.setOnAction(e -> {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, gameName, myPlayScreen);
 			switchScene(myMainAuthoringWindow);

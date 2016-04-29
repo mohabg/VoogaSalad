@@ -1,19 +1,19 @@
 package gameplayer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import authoringEnvironment.RefObject;
-import gameElements.SpriteProperties;
 import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
 import collisions.Collision;
 import gameElements.Health;
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
-import javafx.scene.layout.Pane;
+import gameElements.SpriteProperties;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SpriteFactory {
 	// do we want to use an interface??
@@ -24,35 +24,41 @@ public class SpriteFactory {
 		this.myViewSprites = myViewSprites;
 		this.spriteMap = mySpriteMap;
 	}
+
 	public SpriteMap getSpriteMap() {
 		return spriteMap;
 	}
+
 	public void setSpriteMap(SpriteMap spriteMap) {
 		this.spriteMap = spriteMap;
+	}
+	public Map<Integer, ViewSprite> getMyViewSprites(){
+		return this.myViewSprites;
 	}
 	public Sprite makeSprite(double x, double y, RefObject myRef){
 		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
 	}
+
 	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
-		SpriteProperties sp = vs.getMySpriteProperties();
-		sp.setMyX(x);
-		sp.setMyY(y);
+		ISpriteProperties sp = vs.getMySpriteProperties();
+		sp.setX(x);
+		sp.setY(y);
 		return createAndBindSprite(myHealth, myCollisions, myBehaviors, myRef, vs, sp);
 
 	}
-	public Sprite makeSprite(double x, double y, SpriteProperties clone, RefObject myRef) {
+	public Sprite makeSprite(double x, double y, ISpriteProperties clone, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
-		double imageWidth = vs.getMySpriteProperties().getMyWidth().doubleValue();
-		double imageHeight = vs.getMySpriteProperties().getMyHeight().doubleValue();
-		clone.setMyWidth(imageWidth);
-		clone.setMyHeight(imageHeight);
+		double imageWidth = vs.getMySpriteProperties().getWidth();
+		double imageHeight = vs.getMySpriteProperties().getHeight();
+		clone.setWidth(imageWidth);
+		clone.setHeight(imageHeight);
 		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new HashMap<String,Behavior>(), myRef, vs, clone);
 	}
 	
 	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,
-			RefObject myRef, ViewSprite vs, SpriteProperties sp) {
+			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
 		vs.bindToSprite(s);
 		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
