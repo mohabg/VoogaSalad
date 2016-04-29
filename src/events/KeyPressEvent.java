@@ -12,8 +12,7 @@ public class KeyPressEvent extends Event {
 	@Override
 	public void doEvent(IActions action, LevelProperties levProps) {
 		KeyPressTrigger press = (KeyPressTrigger) getTrigger();
-		
-		
+		action.setSprite(levProps.getSpriteMap().getUserControlledSprite());
 		if ( press.isTriggered()) {
 			getExecutable().execute(action, levProps);
 		}

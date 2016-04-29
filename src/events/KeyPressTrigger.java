@@ -11,7 +11,16 @@ public class KeyPressTrigger implements Trigger {
 		this.event = event;
 	}
 	
-	public void checkKeyPressed() {
+	public KeyEvent getEvent() {
+		return event;
+	}
+
+	public void setEvent(KeyEvent event) {
+		this.event = event;
+	}
+
+	public void setIsTriggered(boolean trigger) {
+		isTriggered = trigger;
 	}
 
 	@Override

@@ -51,7 +51,10 @@ public class EventManager implements IInputHandler {
 			e.doEvent(action, levProps);
 		}
 	}
-
+	
+	public void keyPressed(KeyEvent event) {
+	}
+	
 	@Override
 	public void mouseClickEvent(MouseEvent event) {
 		myInputHandler.mouseClickEvent(event);
@@ -59,11 +62,21 @@ public class EventManager implements IInputHandler {
 
 	@Override
 	public void keyPress(KeyEvent event, IActions action, LevelProperties levProps) {
-		myInputHandler.keyPress(event, action, levProps);
+		for ( Event e: myEvents) {
+			if ( e instanceof KeyPressEvent ) {
+				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
+				trigger.setIsTriggered(true);
+			}
+		}
 	}
 	@Override
 	public void keyRelease(KeyEvent event, IActions action, LevelProperties levProps){
-		myInputHandler.keyRelease(event, action, levProps);
+		for ( Event e: myEvents) {
+			if ( e instanceof KeyPressEvent ) {
+				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
+				trigger.setIsTriggered(true);
+			}
+		}
 	}
 
 	@Override
