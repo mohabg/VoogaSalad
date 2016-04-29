@@ -1,79 +1,44 @@
 package gameElements;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import behaviors.Movement;
 import gameplayer.SpriteFactory;
 
 public class AIController {
 	
 	private SpriteFactory spriteFactory;
-	private ExecuteConditions spawnConditions;
-	private List<IEnemy> enemiesToSpawn;
+	private Map<ExecuteConditions, List<IEnemy>> spawnConditionsForSprites;
+	private Map<String, Movement> enemyMovements;
 	
-	public AIController(){
-		spawnConditions = new ExecuteConditions();
+	public AIController(SpriteFactory spriteFactory){
+		spawnConditionsForSprites = new HashMap<>();
+		enemyMovements = new HashMap<String, Movement>();
+		this.spriteFactory = spriteFactory;
 	}
 	
 	public void update(){
-		if(spawnConditions.isAIReady()){
-			
+		for(ExecuteConditions spawnCondition : spawnConditionsForSprites.keySet()){
+			List<IEnemy> spritesForCondition = spawnConditionsForSprites.get(spawnCondition);
+			if(spawnCondition.isAIReady()){
+				// figure out where enemies come from
+				// figure out how enemies move
+				// use executeConditions to determine how they shoot
+				for(IEnemy enemy : spritesForCondition){
+					IEnemy cloned = enemy.clone();
+					spriteFactory.getSpriteMap().addSprite(cloned);
+				}
+				
+			}	
 		}
-	}
-	
-	public SpriteFactory getSpriteFactory() {
-		return spriteFactory;
 	}
 
 	public void setSpriteFactory(SpriteFactory spriteFactory) {
 		this.spriteFactory = spriteFactory;
 	}
 
-	public double getMinDistFromUser() {
-		return spawnConditions.getMinDistFromUser();
-	}
-
-	public double getMaxDistFromUser() {
-		return spawnConditions.getMaxDistFromUser();
-	}
-
-	public double getCurrentDuration() {
-		return spawnConditions.getCurrentDuration();
-	}
-
-	public void setCurrentDuration(double currentDuration) {
-		spawnConditions.setCurrentDuration(currentDuration);
-	}
-
-	public double getMaxDuration() {
-		return spawnConditions.getMaxDuration();
-	}
-
-	public void setMaxDuration(double duration) {
-		spawnConditions.setMaxDuration(duration);
-	}
-
-	public double getProbability() {
-		return spawnConditions.getProbability();
-	}
-
-	public void setProbability(double probability) {
-		spawnConditions.setProbability(probability);
-	}
-
-	public double getDistFromUser() {
-		return spawnConditions.getDistFromUser();
-	}
-
-	public void setDistFromUser(double distFromUser) {
-		spawnConditions.setDistFromUser(distFromUser);
-	}
-
-	public void setFrequency(double frequency) {
-		spawnConditions.setFrequency(frequency);
-	}
-
-	public double getFrequency() {
-		return spawnConditions.getFrequency();
-	}
 	
 }

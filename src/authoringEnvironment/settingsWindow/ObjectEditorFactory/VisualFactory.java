@@ -100,7 +100,7 @@ public class VisualFactory {
 
 
 	private VBox makeParameterizedVBox(Field f, Object model) {
-		VBox myV = GUIObjectMaker.makeVBox();
+		VBox myV = null;
 		
 		ParameterizedType pt = (ParameterizedType) f.getGenericType();		
 		Type[] params = pt.getActualTypeArguments();
@@ -113,12 +113,12 @@ public class VisualFactory {
 			if(params.length == 1) {
 				// single param catch (most likely List)
 				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
-				myV.getChildren().addAll(singleParamType(paramClass0, ptProperty));
+				myV = singleParamType(paramClass0, ptProperty);
 			} else if (params.length == 2) {
 				// double param catch (most likely Map)
 				Class<?> paramClass0 = SettingsReflectUtils.getClass(params[0].getTypeName());
 				Class<?> paramClass1 = SettingsReflectUtils.getClass(params[1].getTypeName());
-				myV.getChildren().addAll(doubleParamType(paramClass0, paramClass1, ptProperty));
+				myV = doubleParamType(paramClass0, paramClass1, ptProperty);
 			}		
 		}
 		
@@ -131,7 +131,7 @@ public class VisualFactory {
 
 		Class<R> clazz = (Class<R>) f.getType();
 		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);
-		
+
 		Set<HBox> props = makePropertyBoxes(clazz, fObj, clazz.getName(), new HashSet<HBox>(), true);
 		propVBox.getChildren().addAll(props);
 
@@ -181,7 +181,7 @@ public class VisualFactory {
 		}
 		
 		rObj = (R) SettingsReflectUtils.newClassInstance(rType);		
-		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox);
+		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox); 
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
 	
 		return retVBox;
@@ -190,7 +190,7 @@ public class VisualFactory {
 	private static <R> void updateComboBoxValue(Class<R> rType, R rObj, ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox) {
 		List<SimpleEntry<Class<R>, R>> boxItems = mySubclassBox.getItems();
 		SimpleEntry<Class<R>, R> rBoxItem = null;	
-
+		
 		for (SimpleEntry<Class<R>, R> item : boxItems) {
 			if (item.getKey().equals(rType)) {
 				rBoxItem = item;
@@ -199,6 +199,7 @@ public class VisualFactory {
 			}
 		}
 		
+
 		mySubclassBox.setValue(rBoxItem);
 	}
 

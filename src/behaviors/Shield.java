@@ -9,6 +9,7 @@ import authoringEnvironment.RefObject;
 import collisions.Collision;
 import gameElements.ExecuteConditions;
 import gameElements.Health;
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
@@ -32,9 +33,9 @@ public class Shield extends Defense{
 
 	@Override
 	public void defend(IActions actions) {
-		SpriteProperties properties = actions.getSpriteProperties();
-		actions.makeSprite(properties.getMyX().doubleValue(), 
-								properties.getMyY().doubleValue(),
+		ISpriteProperties properties = actions.getSpriteProperties();
+		actions.makeSprite(properties.getX(), 
+								properties.getY(),
 								properties.getClone(),
 								this.getMyRef());
 		//TODO: Shield sprite needs collisions

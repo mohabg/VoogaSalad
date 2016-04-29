@@ -3,34 +3,36 @@ package collisions;
 import java.awt.Rectangle;
 
 import events.Trigger;
+import gameElements.ISprite;
 import gameElements.Sprite;
 
 public class CollisionChecker implements Trigger {
 	
 	private boolean isTriggered;
+	private triggerType type;
+	private ISprite spriteOne;
+	private ISprite spriteTwo;
 	//private triggerType type;
-	private Sprite spriteOne;
-	private Sprite spriteTwo;
 	
 	public CollisionChecker(){
 		isTriggered = false;
 		//type = triggerType.COLLISION;
 	}
 
-	public Sprite getSpriteOne() {
+	public ISprite getSpriteOne() {
 		return spriteOne;
 	}
 
-	public void setSpriteOne(Sprite spriteOne) {
-		this.spriteOne = spriteOne;
+	public void setSpriteOne(ISprite spriteArr) {
+		this.spriteOne = spriteArr;
 	}
 
-	public Sprite getSpriteTwo() {
+	public ISprite getSpriteTwo() {
 		return spriteTwo;
 	}
 
-	public void setSpriteTwo(Sprite spriteTwo) {
-		this.spriteTwo = spriteTwo;
+	public void setSpriteTwo(ISprite spriteArr) {
+		this.spriteTwo = spriteArr;
 	}
 	
 	/**
@@ -48,8 +50,9 @@ public class CollisionChecker implements Trigger {
 	 * @see areColliding
 	 */
 	
-	private Rectangle spriteToRectangle(Sprite sprite){
-        return new Rectangle ( (int) sprite.getX().doubleValue(), (int) sprite.getY().doubleValue(), (int) sprite.getWidth().doubleValue(), (int) sprite.getHeight().doubleValue());
+	private Rectangle spriteToRectangle(ISprite sprite){
+        return new Rectangle ( (int) sprite.getSpriteProperties().getX(), (int) sprite.getSpriteProperties().getY(), 
+        						(int) sprite.getSpriteProperties().getWidth(), (int) sprite.getSpriteProperties().getHeight());
 	}
 
 	@Override
