@@ -28,7 +28,6 @@ import events.CollisionEvent;
 import events.Event;
 import events.EventManager;
 import events.Executable;
-import events.InputHandler;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import events.Trigger;
@@ -84,8 +83,8 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DamageCollision(10), new EnemyCollision());
+		//Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				//new DamageCollision(10), new EnemyCollision());
 		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
 				new DissapearCollision(), new EnemyCollision());
 		
@@ -105,7 +104,7 @@ public class Level implements ILevel {
 
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
 		
-		myEventManager.addEvent(hardCodedEvent);
+		//myEventManager.addEvent(hardCodedEvent);
 		myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
@@ -120,6 +119,10 @@ public class Level implements ILevel {
 		//myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 		System.out.println("levelproperties"+getLevelProperties().getGoalList());
+	}
+	
+	public void addEvent(Event e) {
+		myEventManager.addEvent(e);
 	}
 	
 	@Override

@@ -19,7 +19,7 @@ public class CollisionHandler implements Executable {
 	private Collision collisionOne;
 	private Collision collisionTwo;
 
-	public CollisionHandler(){
+	public CollisionHandler() {
 		
 	}
 

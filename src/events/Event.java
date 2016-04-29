@@ -1,5 +1,6 @@
 package events;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import behaviors.IActions;
 import level.LevelProperties;
 
@@ -13,7 +14,9 @@ public abstract class Event {
 	private static String DEFAULT_EVENT_NAME = "unnamedEvent";
 	
 	private String name;
+	//@IgnoreField
 	private Trigger trigger;
+	//@IgnoreField
 	private Executable executable;
 	
 	public Event() {

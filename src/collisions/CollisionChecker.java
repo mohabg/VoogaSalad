@@ -9,9 +9,8 @@ import gameElements.Sprite;
 public class CollisionChecker implements Trigger {
 	
 	private boolean isTriggered;
-	private triggerType type;
-	private ISprite spriteOne;
-	private ISprite spriteTwo;
+	//private ISprite spriteOne;
+	//private ISprite spriteTwo;
 	//private triggerType type;
 	
 	public CollisionChecker(){
@@ -19,7 +18,7 @@ public class CollisionChecker implements Trigger {
 		//type = triggerType.COLLISION;
 	}
 
-	public ISprite getSpriteOne() {
+	/*public ISprite getSpriteOne() {
 		return spriteOne;
 	}
 
@@ -33,12 +32,12 @@ public class CollisionChecker implements Trigger {
 
 	public void setSpriteTwo(ISprite spriteArr) {
 		this.spriteTwo = spriteArr;
-	}
+	}*/
 	
 	/**
 	 * @param sprite1 Determines whether spriteOne or spriteTwo are intersecting
 	 */
-	public void checkColliding(){
+	public void checkColliding(ISprite spriteOne, ISprite spriteTwo){
 		// check if either are null
 		Rectangle rectangleSpriteOne = spriteToRectangle(spriteOne);
 		Rectangle rectangleSpriteTwo = spriteToRectangle(spriteTwo);
