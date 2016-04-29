@@ -8,25 +8,13 @@ import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.ITab;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import level.Level;
-import level.LevelProperties;
 import resources.FrontEndData;
 
 import java.util.HashMap;
@@ -53,13 +41,10 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 	private void createContextMenu(){
 		MenuItem delete = new MenuItem("delete");
 		contextMenu.getItems().add(delete);
-		delete.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event){
-				((Pane) getTabContent()).getChildren().remove(currentSprite);
-				event.consume();
-			}
-		});
+		delete.setOnAction(event -> {
+            ((Pane) getTabContent()).getChildren().remove(currentSprite);
+            event.consume();
+        });
 		contextMenu.setAutoHide(true);
 	}
 
@@ -85,7 +70,7 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 
 //		myNewGameArea.setContent(myNewGamePane);
 		myNewGamePane.setOnMouseClicked(e -> {
-			updateSettingsPane(this.myLevelModel);
+			updateSettingsPane(myLevelModel);
 		});
 
 //		setTabContent(myNewGameArea);

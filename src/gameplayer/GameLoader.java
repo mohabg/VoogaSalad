@@ -1,37 +1,23 @@
 package gameplayer;
 
+import XStreamHandlers.FXConverters;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.mainWindow.GameAuthoringTab;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import XStreamHandlers.FXConverters;
 import gameElements.Sprite;
-import goals.Goal.Goals;
-import goals.GoalProperties;
 import interfaces.ITab;
 import interfaces.ITabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import level.Level;
 import level.LevelProperties;
-
 import javafx.scene.control.TextInputDialog;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,14 +33,13 @@ public class GameLoader {
 			+ "/SavedGameData/DefaultGames/my-file.xml";
 	private static final String SAVED_DIRECTORY = System.getProperty("user.dir")
 			+ "/SavedGameData/SavedGames/my-file.xml";
-	private static final String SAVED_FOLDER_DIRECTORY = System.getProperty("user.dir")
+	static final String SAVED_FOLDER_DIRECTORY = System.getProperty("user.dir")
 			+ "/SavedGameData/SavedGames/%s.xml";
 
 	private static final String SAVED_DIRECTORY2 = System.getProperty("user.dir") + "/SavedGameData/SavedGames/";
-
+	
 	public static void init() {
 		FXConverters.configure(xstream);
-
 	}
 
 	/**
@@ -65,19 +50,12 @@ public class GameLoader {
 	 * @return the screen with the game
 	 */
 
-	public static Screen newGame(File file) {
-		System.out.println(file.getPath());
-		List<LevelModel> gameLevels = parseAndLoadGame(file);
-		PlayScreen ps = new PlayScreen(file);
-		ps.setGameLevels(gameLevels);
 
-		return ps;
-	}
 
 	/**
 	 * saves a list of levelmodels to a default directory
 	 *
-	 * @param gameLevels
+	 * @param tabLevels
 	 */
 
 	public static void saveGame(String name, ITabPane tabLevels) {
@@ -93,7 +71,7 @@ public class GameLoader {
 	/**
 	 * saves levelmodels to a user defined directory
 	 *
-	 * @param saveFileDir
+	 * @param name
 	 * @param gameLevels
 	 */
 	// TODO MIGHT WANT TO ASK FOR FILENAME HERE
@@ -101,7 +79,6 @@ public class GameLoader {
 		String saveFileDir = String.format(SAVED_FOLDER_DIRECTORY, name);
 		System.out.println("saved to " + saveFileDir);
 		String xml = xstream.toXML(gameLevels);
-
 		FileWriter fw;
 		try {
 			fw = new FileWriter(saveFileDir);
@@ -154,8 +131,9 @@ public class GameLoader {
 		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {
-			if (s.isUserControlled()) {
-				s.setAsUserControlled();
+			if(s.isUserControlled()){
+				s.setUserControlled(true);
+				setUserControlledSpriteID(newLevel);
 			}
 			newLevel.addSprite(s);
 			viewsprites.put(newLevel.getCurrentSpriteID(), sf.makeViewSprite(s));
@@ -164,11 +142,10 @@ public class GameLoader {
 		return viewsprites;
 	}
 
-	public static Screen newGame(String name) {
-		File file = new File(String.format(SAVED_FOLDER_DIRECTORY, name));
-		return newGame(file);
+	private static void setUserControlledSpriteID(Level newLevel) {
+		newLevel.getLevelProperties().getSpriteMap().setUserControlledSpriteID(newLevel.getCurrentSpriteID());
 	}
-
+	
 
 	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
 		p.setLevelID(levelID);

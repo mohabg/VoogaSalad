@@ -28,7 +28,6 @@ public abstract class Attack extends Behavior {
 	
 	private IntegerProperty ammunition;
 	private IntegerProperty chargeTime;
-	private ApplyBehaviorConditions behaviorConditions;
 	private Movement movement;
 	private RefObject myRef;
 	private SpriteProperties target;
@@ -45,44 +44,20 @@ public abstract class Attack extends Behavior {
 		super();
 		this.ammunition = new SimpleIntegerProperty(ammunition);
 		this.chargeTime = new SimpleIntegerProperty(chargeTime);
-		this.behaviorConditions = new ApplyBehaviorConditions(0.5, 0, 0, 0);
 		this.movement = movement;
 		this.myRef = myRef;
 	}
-	
-	public void apply(Sprite sprite, SpriteFactory spriteFactory){
-		if(this.isEnabled()){
-			shoot(sprite, spriteFactory);
-			this.disable();
-		}
+	@Override
+	public void apply(IActions actions){
+				shoot(actions);
+				this.disable();
 	}
 	
-	public abstract void shoot(Sprite sprite, SpriteFactory spriteFactory);
+	public abstract void shoot(IActions actions);
 
 	/**
 	 * @param sprite The sprite who's elibility to shoot you want to determine
 	 */
-
-	public boolean readyToShoot(Sprite sprite) {
-		if(sprite.isUserControlled()){
-			return true;
-		}
-		else{
-			//AI controlled
-			double frameDelay = behaviorConditions.getFrameDelay();
-			int framesPassed = behaviorConditions.getFramesPassed();
-			double probability = behaviorConditions.getProbability();
-			if (frameDelay > 0 && probability > 0) {
-				if (framesPassed >= frameDelay) {
-					if (Math.random() < probability) {
-						behaviorConditions.setFramesPassed(framesPassed + 1);
-						return true;
-						}
-				}
-			}
-		}
-		return false;
-	}
 
 	public RefObject getMyRef(){
 		return myRef;

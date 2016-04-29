@@ -3,18 +3,14 @@ package authoringEnvironment;
 /**
  * @author David Yan, Joe Jacob
  */
+import authoringEnvironment.mainWindow.GameAuthoringTab;
 import gameElements.Sprite;
 import goals.Goal;
-import goals.Goal.Goals;
-import goals.GoalProperties;
 import interfaces.ITab;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
@@ -22,12 +18,9 @@ import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import authoringEnvironment.mainWindow.GameAuthoringTab;
-import behaviors.Behavior;
-import collisions.Collision;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class LevelModel {
 	private ListProperty<Goal> myGoals;
@@ -37,8 +30,6 @@ public class LevelModel {
 	private String myBackground;
 
 	public LevelModel() {
-
-
 		myBackground = "";
 		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
 

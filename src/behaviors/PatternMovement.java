@@ -43,8 +43,14 @@ public class PatternMovement extends Movement {
 		pattern = new CircularQueue<Vector>();
 	}
 
+	@Override
+	public void move(IActions actions) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
+/*
 	@Override
 	public void move(Sprite sprite) {
 		callCount ++;
@@ -58,5 +64,5 @@ public class PatternMovement extends Movement {
 			sprite.getSpriteProperties().setMyYvel(0);
 		}
 	}
-
+*/
 }

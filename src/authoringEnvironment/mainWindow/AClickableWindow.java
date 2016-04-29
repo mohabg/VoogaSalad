@@ -1,8 +1,5 @@
 package authoringEnvironment.mainWindow;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -15,8 +12,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import level.LevelProperties;
 import resources.FrontEndData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AClickableWindow {
 	protected double orgSceneX, orgSceneY;
@@ -25,13 +24,11 @@ public abstract class AClickableWindow {
 	protected Map<Sprite, TabPane> mySpriteTabPanes;
 	protected SettingsWindow myWindow;
 	protected Pane myNewGamePane;
-	
 	protected LevelModel myLevelModel;
-
 
 	public AClickableWindow(SettingsWindow window) {
 		myWindow = window;
-		mySpriteTabPanes = new HashMap<Sprite, TabPane>();
+		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
 		myNewGamePane = new AnchorPane();
 
@@ -47,13 +44,9 @@ public abstract class AClickableWindow {
 			double newTranslateY = orgTranslateY + offsetY;
 
 			ViewSprite dragSource = (ViewSprite) t.getSource();
-			// update x, update y with newTranslate
 			dragSource.setX(newTranslateX);
 			dragSource.setY(newTranslateY);
 			// dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
-			// dragSource.getMySpriteProperties().setMyX(dragSource.getTranslateX());
-			// dragSource.getMySpriteProperties().setMyY(dragSource.getTranslateY());
-
 		}
 	};
 
@@ -89,7 +82,8 @@ public abstract class AClickableWindow {
 	public VBox setSettingsContent(Sprite spriteModel) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesPane = new TabPane();
-		if (mySpriteTabPanes.get(spriteModel) != null) {
+        //mySpriteTabPanes.get(spriteModel) != null
+		if (mySpriteTabPanes.containsKey(spriteModel)) {
 			propertiesPane = mySpriteTabPanes.get(spriteModel);
 		} else {
 			propertiesPane = myWindow.getMyVisualFactory().getMyTabs(spriteModel);
@@ -109,10 +103,7 @@ public abstract class AClickableWindow {
 
 	public void addWithClicking(ViewSprite sprite) {
 		setClicking(sprite);
-		System.out.println("add");
 		myNewGamePane.getChildren().add(sprite);
-		System.out.println(myNewGamePane.getChildren().size());
-
 	}
 
 	public void setClicking(ViewSprite sprite) {
@@ -122,15 +113,12 @@ public abstract class AClickableWindow {
 		sprite.setFitWidth(sprite.getImage().getWidth() * 0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				if (e.getButton() == MouseButton.SECONDARY) {
-					myNewGamePane.getChildren().remove(sprite);
-				}
-				e.consume();
-			}
-		});
+		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            if (e.getButton() == MouseButton.SECONDARY) {
+                myNewGamePane.getChildren().remove(sprite);
+            }
+            e.consume();
+        });
 	}
 
 	public Pane getMyNewGamePane() {

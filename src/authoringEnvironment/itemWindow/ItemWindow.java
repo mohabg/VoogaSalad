@@ -3,12 +3,10 @@ package authoringEnvironment.itemWindow;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import interfaces.IGameWindow;
-import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.image.ImageView;
 import resources.FrontEndData;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class ItemWindow {
 		myGameTabPane = window;
 		myTabPane = new TabPane();
 		myTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-		myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/itemWindow.css");
+		myTabPane.getStylesheets().add(FrontEndData.ITEMWINDOW_STYLESHEET);
 		// mySpritesAndModels = new HashMap<ViewSprite, Sprite>();
 		initTabPane();
 	}

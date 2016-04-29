@@ -1,7 +1,6 @@
 package gameplayer;
 
 import authoringEnvironment.MainAuthoringWindow;
-import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
@@ -20,7 +19,7 @@ public class MainPlayingWindow extends Screen {
 	}
 
 	public MainPlayingWindow(Screen parent, String gameName) {
-		this(parent, gameName, (PlayScreen) GameLoader.newGame(gameName));
+		this(parent, gameName, new PlayScreen(gameName));
 	}
 
 	private void init() {
@@ -33,13 +32,13 @@ public class MainPlayingWindow extends Screen {
 			switchScene(myMainAuthoringWindow);
 		});
 
-		((BorderPane) myPane).setCenter(myPlayScreen.getPane());
-		((BorderPane) myPane).setLeft(myControlWindow.getPane());
-		((BorderPane) myPane).setRight(myHUDWindow.getPane());
-		((BorderPane) myPane).setTop(toggleButton);
+        createBorderPane();
 	}
-	
-	public PlayScreen getPlayScreen(){
-		return myPlayScreen;
-	}
+
+    private void createBorderPane() {
+        ((BorderPane) myPane).setCenter(myPlayScreen.getScreen().getPane());
+        ((BorderPane) myPane).setLeft(myControlWindow.getPane());
+        ((BorderPane) myPane).setRight(myHUDWindow.getPane());
+        ((BorderPane) myPane).setTop(toggleButton);
+    }
 }

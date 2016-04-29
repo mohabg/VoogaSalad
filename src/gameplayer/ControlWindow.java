@@ -39,7 +39,7 @@ public class ControlWindow{
 		Button restartButton = new Button("Restart");
 		restartButton.setOnAction(e -> {
 			File currGameFile = myPlayScreen.getGameFile();
-			myPlayScreen = (PlayScreen) GameLoader.newGame(currGameFile);
+//			myPlayScreen = (PlayScreen) GameLoader.newGame(currGameFile);
 		});
 		
 		myFlowPane.getChildren().addAll(pauseButton, playButton, restartButton);

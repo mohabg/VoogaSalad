@@ -2,8 +2,12 @@ package game;
 
 import java.util.List;
 
+import authoringEnvironment.Settings;
+import gameElements.ViewPoint;
 import goals.Goal;
 import goals.GoalProperties;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -19,9 +23,9 @@ public class GameEditor implements IGameEditor {
 	private Game myGame;
 
 	public GameEditor() {
-		myGame = new Game();
+		myGame = new Game(new SimpleDoubleProperty(Settings.getScreenWidth()), new SimpleDoubleProperty(Settings.getScreenHeight()));
 	}
-
+	
 	public Game getGame() {
 		return myGame;
 	}
@@ -74,21 +78,15 @@ public class GameEditor implements IGameEditor {
 		myGame.getCurrentLevel().setCurrentSpriteID(spriteID);
 	}
 
-	// public List<Integer> updateGame() {
 	public void updateGame() {
-		//System.out.println(myGame.getCurrentLevel().getGoalList().size() + "size of goal list");
-		// List<Integer> dead =
+
 		myGame.getCurrentLevel().update();
-//		if (myGame.getCurrentLevel().getisFinished())
-//			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
-		// return dead;
+		if (myGame.getCurrentLevel().getisFinished())
+			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
 	}
 
 	public void setResultForKeyPress(KeyEvent event) {
 		myGame.getCurrentLevel().handleKeyPress(event);
 	}
 
-	public void setResultForKeyRelease(KeyEvent event) {
-		myGame.getCurrentLevel().handleKeyRelease(event);
-	}
 }

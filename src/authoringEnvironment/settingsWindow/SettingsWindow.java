@@ -1,6 +1,7 @@
 package authoringEnvironment.settingsWindow;
 
 import authoringEnvironment.Settings;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import resources.FrontEndData;

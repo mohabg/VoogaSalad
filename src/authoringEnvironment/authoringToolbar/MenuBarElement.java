@@ -16,8 +16,7 @@ public class MenuBarElement {
 	
 	/** 
 	 * This makes a new item in the menu.
-	 * @param itemName is the item being made
-	 * @param action is the action set for this item
+	 * @param menuName is the item being made
 	 */
 	
 	public void setName(String menuName){
