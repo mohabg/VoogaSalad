@@ -36,7 +36,6 @@ public class Engine {
 	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
 	private Time myGameTime;
-	private DoubleProperty myTimeProperty;
 	private boolean isPaused;
 //    private PlayScreen myGameScreen;
 
@@ -46,7 +45,8 @@ public class Engine {
 //		this.myGameScreen = myGameScreen;
 		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
-		myTimeProperty = new SimpleDoubleProperty(0);
+		myGameTime = new Time();
+//		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 	}
 	
@@ -60,14 +60,6 @@ public class Engine {
 
 	public void setMyEditor(IGameEditor myEditor) {
 		this.myEditor = myEditor;
-	}
-
-	public DoubleProperty getMyTimeProperty() {
-		return myTimeProperty;
-	}
-
-	public void setMyTimeProperty(DoubleProperty myTimeProperty) {
-		this.myTimeProperty = myTimeProperty;
 	}
 
 	public Engine(LiveEditing liveEditing, GameEditor gameEditor) {
@@ -165,7 +157,7 @@ public class Engine {
 }
 
     public DoubleProperty getTimeProperty() {
-    	return myTimeProperty;
+    	return myGameTime.getMyCurrentTimeProperty();
     }
     
     public IntegerProperty getCurrentLevelID(){
