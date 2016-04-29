@@ -74,7 +74,7 @@ public class EventManager implements IInputHandler {
 		for ( Event e: myEvents) {
 			if ( e instanceof KeyPressEvent ) {
 				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
-				trigger.setIsTriggered(true);
+				trigger.setIsTriggered(false);
 			}
 		}
 	}
