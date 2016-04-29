@@ -52,7 +52,7 @@ public class VisualFactory {
 
 		for (Field f : fields) {
 			f.setAccessible(true);		
-			if(!f.isAnnotationPresent(IgnoreField.class)) {
+			if(!f.isAnnotationPresent(IgnoreField.class) && !f.getType().isAnnotationPresent(IgnoreField.class)) {
 				if(f.getType().isPrimitive()) {
 					throw new FieldTypeException("Field " + f.getType().getName() + " " + f.getName() + " in " + f.getDeclaringClass().getName() + " is a primitive");
 				}		
@@ -310,7 +310,7 @@ public class VisualFactory {
 			List<Field> allFields = SettingsReflectUtils.getAllFields(new ArrayList<Field>(), clazz);
 			for (Field otherField : allFields) {
 				otherField.setAccessible(true);			
-				if (!otherField.isAnnotationPresent(IgnoreField.class)) {
+				if (!otherField.isAnnotationPresent(IgnoreField.class) && !otherField.getType().isAnnotationPresent(IgnoreField.class)) {
 					if(otherField.getType().isPrimitive()) {
 						// TODO UNCOMMENT
 						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
