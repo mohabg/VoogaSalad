@@ -52,7 +52,7 @@ public class Health {
 
 	public void takeDamage(double damage) {
 		changeHealth(damage * -1);
-		if(this.isDead()){
+		if(this.healthValue.get() <= 0){
 			numLives.set(numLives.get() - 1);
 			if(numLives.get() <= 0){
 				//end game
@@ -83,7 +83,7 @@ public class Health {
 		if (!isMortal.getValue()) {
 			return false;
 		}
-		return healthValue.doubleValue() <= 0;
+		return healthValue.doubleValue() <= 0 && this.numLives.get() <= 0;
 	}
 	public DoubleProperty getProperty(){
 		return healthValue;
