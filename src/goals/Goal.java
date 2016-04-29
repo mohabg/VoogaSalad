@@ -11,6 +11,10 @@ public abstract class Goal implements IGoal{
 	public Goal(GoalProperties myProperties){
 		setGoalProperties(myProperties);
 	}
+	
+	public Goal(){
+		goalProperties=new GoalProperties();
+	}
 
 	public GoalProperties getGoalProperties() {
 		return goalProperties;

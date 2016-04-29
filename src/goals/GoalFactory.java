@@ -23,7 +23,7 @@ public class GoalFactory {
 	public Goal makeGoal(GoalProperties myProperties){
 		Constructor<?> constructor = null;
 		Goal goal=null;
-		String goalType = myProperties.getGoalName();
+		String goalType = myProperties.getGoalName().toString();
 		try{
 			// System.out.println(path+goalType);
  
@@ -43,7 +43,7 @@ public class GoalFactory {
 		}
 		if(goal==null){
 			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
-			goal=new PointsGoal(property);
+			goal=new StayAliveGoal(property);
 		}
 		// System.out.println(goal.getGoal().name());
 

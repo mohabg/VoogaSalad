@@ -26,7 +26,7 @@ public class GameEditor implements IGameEditor {
 	public GameEditor() {
 		myGame = new Game(new SimpleDoubleProperty(Settings.getScreenWidth()), new SimpleDoubleProperty(Settings.getScreenHeight()));
 	}
-	
+
 	public Game getGame() {
 		return myGame;
 	}
@@ -86,8 +86,14 @@ public class GameEditor implements IGameEditor {
 	public void updateGame() {
 
 		myGame.getCurrentLevel().update();
-		if (myGame.getCurrentLevel().getisFinished())
-			myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
+		if (myGame.getCurrentLevel().getisFinished()){
+			if(myGame.getCurrentLevel().getLevelProperties().getNextLevel()!=null){
+				myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
+			}
+			myGame.setIsFinished(true);
+		}
+		//System.out.println(myGame.getIsFinished().toString()+"gameEditor");
+		//System.out.println(myGame.getIsFinished());
 	}
 
 	/*public void setResultForKeyPress(KeyEvent event) {
