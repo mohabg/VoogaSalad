@@ -112,4 +112,14 @@ public class ExecuteConditions {
 	public void disable(){
 		enabled.set(false);
 	}
+
+
+	public double getRunningTime() {
+		return runningTime;
+	}
+
+
+	public void setRunningTime(double runningTime) {
+		this.runningTime = runningTime;
+	}
 }
