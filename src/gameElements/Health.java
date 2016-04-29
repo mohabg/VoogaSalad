@@ -1,9 +1,12 @@
 package gameElements;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * A class that describes the health of each sprite, which usually determines when a sprite will disappear from a level and be
@@ -16,14 +19,19 @@ public class Health {
 	
 	private DoubleProperty healthValue;
 	private BooleanProperty isMortal;	
+	private IntegerProperty numLives;
+	@IgnoreField
+	private double originalHealthValue;
 	
 	public Health(){
 		healthValue = new SimpleDoubleProperty(0);
 		isMortal = new SimpleBooleanProperty(false);
+		numLives = new SimpleIntegerProperty(0);
 	}
 	
 	public Health(double myHealth){
 		healthValue = new SimpleDoubleProperty(myHealth);
+		originalHealthValue = myHealth;
 		isMortal = new SimpleBooleanProperty(true);
 	}
 
@@ -44,6 +52,19 @@ public class Health {
 
 	public void takeDamage(double damage) {
 		changeHealth(damage * -1);
+		if(this.isDead()){
+			numLives.set(numLives.get() - 1);
+			if(numLives.get() <= 0){
+				//end game
+			}
+			else{
+				resetHealth();
+			}
+		}
+	}
+
+	private void resetHealth() {
+		this.healthValue.set(originalHealthValue);	
 	}
 
 	public void incrementHealth(double val) {
