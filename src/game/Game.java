@@ -28,11 +28,14 @@ public class Game {
 	private BooleanProperty isFinished;
 	
 	public Game(GameInfo gameInfo) {
-		
-		myGameLevels = new ArrayList<Level>();
+		this();
+		this.setGameInfo(gameInfo);
+		/*
+		 * myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = gameInfo;
 		isFinished=new SimpleBooleanProperty(false);
+		*/
 		 
 	}
 	
@@ -49,6 +52,11 @@ public class Game {
 		myInfo = new GameInfo();
 		isFinished=new SimpleBooleanProperty(false);
 
+	}
+	
+	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height){
+		this(gameInfo);
+		viewPoint=new ViewPoint(width, height);
 	}
 	
 	public Game(DoubleProperty width, DoubleProperty height){
