@@ -1,6 +1,8 @@
 package gameElements;
 
 import gameElements.ISprite.spriteState;
+import goals.Goals;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,10 +4,11 @@ import XStreamHandlers.FXConverters;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import gameElements.Sprite;
-import interfaces.ITab;
 import interfaces.ITabPane;
 import level.Level;
 import level.LevelProperties;
@@ -99,7 +100,7 @@ public class GameLoader {
 	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
-		for (ITab levelTab : levels.getITabs()) {
+		for (GameAuthoringTab levelTab : levels.getTabs()) {
 			LevelModel newLM = new LevelModel(levelTab);
 			levelModelList.add(newLM);
 		}

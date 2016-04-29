@@ -37,12 +37,11 @@ public class ItemWindow {
 	private Tab makeTab(String type) {
 		try {
 			ItemTab tab = new ItemTab();
-            //TOOD: Change type checking here
-			if(type.equals("Background")){
+			// TOOD: Change type checking here
+			if (type.equals("Background")) {
 				tab.populateTab(fillBackground(type));
-			}
-			else{
-			tab.populateTab(fillSprites(type));
+			} else {
+				tab.populateTab(fillSprites(type));
 			}
 			tab.setTabTitle(type);
 			return tab.getTab();
@@ -51,33 +50,39 @@ public class ItemWindow {
 		}
 		return null;
 	}
-	
+
 	private List<ImageView> fillBackground(String type) {
 		return FrontEndData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type)).map(k -> makeBackground(k))
 				.collect(Collectors.toList());
 	}
-	
+
 	private ImageView makeBackground(String k) {
 		String p = FrontEndData.SpriteImages.getString(k);
 		ImageView bg = new ImageView(p);
 		bg.setOnMouseClicked(e -> {
 			myGameTabPane.setBackground(p);
 		});
-		return bg;		
+		return bg;
 	}
 
 	private List<ImageView> fillSprites(String type) {
-		return FrontEndData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type)).map(k -> makeViewSprite(k))
-				.collect(Collectors.toList());
+		return FrontEndData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type))
+				.map(k -> makeViewSprite(k, type)).collect(Collectors.toList());
 	}
 
-	private ViewSprite makeViewSprite(String key) {
-        	String p = FrontEndData.SpriteImages.getString(key);
-			ViewSprite viewsprite = new ViewSprite(p);
+	private ViewSprite makeViewSprite(String key, String type) {
+		String p = FrontEndData.SpriteImages.getString(key);
+		ViewSprite viewsprite = new ViewSprite(p);
+		if (type.equals("Player")) {
+			viewsprite.setOnMouseClicked(e -> {
+				myGameTabPane.setPlayerViewSprite(viewsprite);
+			});
+		} else {
 			viewsprite.setOnMouseClicked(e -> {
 				myGameTabPane.setViewSprite(viewsprite);
 			});
-			return viewsprite;
+		}
+		return viewsprite;
 	}
 
 	public TabPane getTabPane() {

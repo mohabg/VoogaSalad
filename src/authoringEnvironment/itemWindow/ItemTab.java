@@ -2,7 +2,6 @@ package authoringEnvironment.itemWindow;
 
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
-import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
@@ -16,7 +15,7 @@ import java.util.List;
  * @author Huijia
  *
  */
-public  class ItemTab implements ITab{
+public  class ItemTab{
 	
 	private Tab myTab;
     private TilePane myTilePane;
@@ -53,30 +52,8 @@ public  class ItemTab implements ITab{
         return myTab;
     }
     
-    @Override
     public void setTabContent(Node content) {
     	myTab.setContent(content);
     }
 
-
-	@Override
-	public Node getTabContent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void setViewSprite(ViewSprite view) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void setBackground(String bg) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public String getBackground() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -6,17 +6,14 @@ package goals;
 
 
 public abstract class Goal implements IGoal{
-	
-	public enum Goals{
-		PointsGoal,
-		StayAliveGoal,
-		KillBossGoal
-	}
-	
 	private GoalProperties goalProperties;
 	
 	public Goal(GoalProperties myProperties){
 		setGoalProperties(myProperties);
+	}
+	
+	public Goal(){
+		goalProperties=new GoalProperties();
 	}
 
 	public GoalProperties getGoalProperties() {

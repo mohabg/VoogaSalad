@@ -7,6 +7,9 @@ public class StayAliveGoal extends Goal implements IGoal{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public StayAliveGoal(){
+		super(new GoalProperties(Goals.StayAliveGoal));
+	}
 	@Override
 	public void acceptVisitor(IGoalVisitor visitor){
 		//System.out.println("accept stay alive visitor" + visitor.visit(this));

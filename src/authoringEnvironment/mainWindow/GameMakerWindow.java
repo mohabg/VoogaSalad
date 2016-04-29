@@ -6,10 +6,10 @@ import authoringEnvironment.AESpriteFactory;
  */
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
+import authoringEnvironment.itemWindow.ItemTab;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.IGameWindow;
-import interfaces.ITab;
 import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -74,7 +74,7 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 		}
 	}
 
-	public ITab getCurrentTab() {
+	public GameAuthoringTab getCurrentTab() {
 		return myGameTabs.get(myTabPane.getSelectionModel().getSelectedItem());
 	}
 
@@ -91,24 +91,26 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 	 * @return list of tabs
 	 */
 	@Override
-	public List<ITab> getITabs() {
-		List<ITab> myITabsList = new ArrayList<>();
+	public List<GameAuthoringTab> getTabs() {
+		List<GameAuthoringTab> myTabsList = new ArrayList<>();
 		myTabPane.getTabs().forEach(e -> {
-			myITabsList.add(myGameTabs.get(e));
+			myTabsList.add(myGameTabs.get(e));
 		});
-		return myITabsList;
+		return myTabsList;
 	}
 
-	@Override
 	public void setViewSprite(ViewSprite vs) {
-		this.getCurrentTab().setViewSprite(vs);
+		getCurrentTab().setViewSprite(vs);
 
 	}
 
-	@Override
 	public void setBackground(String bg) {
-		this.getCurrentTab().setBackground(bg);
+		getCurrentTab().setBackground(bg);
 
+	}
+
+	public void setPlayerViewSprite(ViewSprite viewsprite) {
+		getCurrentTab().setPlayerViewSprite(viewsprite);
 	}
 
 	// @Override

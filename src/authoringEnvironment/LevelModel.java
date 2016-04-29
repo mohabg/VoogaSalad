@@ -8,7 +8,6 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
-import interfaces.ITab;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -47,7 +46,7 @@ public class LevelModel {
 		myList = new ArrayList<Sprite>();
 	}
 
-	public LevelModel(ITab levelTab) {
+	public LevelModel(GameAuthoringTab levelTab) {
 		this();
 		myBackground = levelTab.getBackground();
 		
