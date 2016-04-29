@@ -76,7 +76,7 @@ public class SubclassComboBoxMaker {
 			
 			myComboBoxParent.getChildren().setAll(subclassBox);
 			if (!o.getValue().getKey().isEnum()) {
-				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
+				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new ArrayList<HBox>(), false));			
 			}
 		};
 		
