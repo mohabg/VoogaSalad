@@ -44,6 +44,9 @@ public class Gun extends Attack{
             bullet.setUserControlled(actions.isUserAction());
         	Behavior movement = new ThrustVertical(-75);
         	actions.setSprite(bullet);
+        	bullet.addCollision(new DamageCollision(10));
+        	bullet.addCollision(new DissapearCollision());
+        	bullet.addCollision(new PointsCollision(10));
             movement.apply(actions,levProps);
         	setAmmunition(getAmmunition() - 1);
     }
