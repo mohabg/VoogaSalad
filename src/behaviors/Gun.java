@@ -44,6 +44,7 @@ public class Gun extends Attack{
         	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
         	Behavior movement = new ThrustVertical(-75);
+        	movement.enable();
         	actions.setSprite(bullet);
         	bullet.addCollision(new DamageCollision(10));
         	bullet.addCollision(new DissapearCollision());
@@ -51,9 +52,4 @@ public class Gun extends Attack{
             movement.apply(actions,levProps);
         	setAmmunition(getAmmunition() - 1);
     }
-	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-		
-	}
 }

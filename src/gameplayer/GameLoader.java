@@ -139,7 +139,7 @@ public class GameLoader {
 			if(s.isUserControlled()){
 				s.setUserControlled(true);
 				setUserControlledSpriteID(newLevel);
-				newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
+				//newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
 			}
 		});
 		return viewsprites;

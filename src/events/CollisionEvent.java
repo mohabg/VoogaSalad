@@ -19,12 +19,11 @@ public class CollisionEvent extends Event {
 	private Collision collisionOne;
 	private Collision collisionTwo;
 	
-
 	public CollisionEvent() {
 		this(" ", " ", 
 				new DamageCollision(), new DamageCollision());
 	}
-	
+
 	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
 		collisionOne = one;
 		collisionTwo = two;

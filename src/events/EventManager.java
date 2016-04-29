@@ -19,14 +19,14 @@ import level.LevelProperties;
  * @author gauravkumar
  *
  */
-public class EventManager implements IInputHandler {
+public class EventManager {
 	
 	private List<Event> myEvents;
-	private IInputHandler myInputHandler;
+	//private IInputHandler myInputHandler;
 	
 	public EventManager() {
 		myEvents = new ArrayList<Event>();
-		myInputHandler = new InputHandler();
+		//myInputHandler = new InputHandler();
 	}
 	
 	public void doEvents(IActions action, LevelProperties levProps) {
@@ -34,25 +34,41 @@ public class EventManager implements IInputHandler {
 			e.doEvent(action, levProps);
 		}
 	}
-
-	@Override
+	
+	public void keyPressed(KeyEvent event) {
+	}
+	
+/*	@Override
 	public void mouseClickEvent(MouseEvent event) {
 		myInputHandler.mouseClickEvent(event);
+	}*/
+
+	public void keyPress(KeyCode code, IActions action, LevelProperties levProps) {
+		for ( Event e: myEvents) {
+			if ( e instanceof KeyPressEvent ) {
+				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
+				if (trigger.getCode().equals(code)) {
+					trigger.setIsTriggered(true);
+				}
+			}
+		}
 	}
 
-	@Override
-	public void keyPress(KeyEvent event, IActions action, LevelProperties levProps) {
-		myInputHandler.keyPress(event, action, levProps);
-	}
-	@Override
-	public void keyRelease(KeyEvent event, IActions action, LevelProperties levProps){
-		myInputHandler.keyRelease(event, action, levProps);
+	public void keyRelease(KeyCode code, IActions action, LevelProperties levProps){
+		for ( Event e: myEvents) {
+			if ( e instanceof KeyPressEvent ) {
+				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
+				if (trigger.getCode().equals(code)) {
+					trigger.setIsTriggered(false);
+				}
+			}
+		}
 	}
 
-	@Override
-	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
+	
+	/*public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
 		myInputHandler.setSpriteActions(userPressActions);
-	}
+	}*/
 	
 	public void addEvent(Event event) {
 		myEvents.add(event);
@@ -62,7 +78,7 @@ public class EventManager implements IInputHandler {
 		myEvents = events;
 	}
 	
-	public void setInputHandler(IInputHandler handler) {
+	/*public void setInputHandler(IInputHandler handler) {
 		myInputHandler = handler; 
-	}
+	}*/
 }

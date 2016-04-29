@@ -76,7 +76,7 @@ public class GameEditor implements IGameEditor {
 	}
 
 	public void setSpriteActions() {
-		myGame.getCurrentLevel().setSpriteActions();
+		//myGame.getCurrentLevel().setSpriteActions();
 	}
 	
 	public void setUserSprite(Integer sprite) {

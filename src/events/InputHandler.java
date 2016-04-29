@@ -13,7 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import level.LevelProperties;
 
-public class InputHandler implements IInputHandler {
+public class InputHandler {
 
 	private MapProperty<KeyCode, Executable> gameActions;
 	private MapProperty<KeyCode, Executable> spriteActions;

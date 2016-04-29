@@ -6,16 +6,23 @@ import level.LevelProperties;
 public class KeyPressEvent extends Event {
 
 	public KeyPressEvent() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+	
+	public KeyPressEvent(Trigger trigger, Executable executable) {
+		setTrigger(trigger);
+		setExecutable(executable);
 	}
 
 	@Override
 	public void doEvent(IActions action, LevelProperties levProps) {
 		KeyPressTrigger press = (KeyPressTrigger) getTrigger();
-		
-		
+		action.setSprite(levProps.getSpriteMap().getUserControlledSprite());
 		if ( press.isTriggered()) {
 			getExecutable().execute(action, levProps);
+		}
+		else{
+			getExecutable().stop(action, levProps);
 		}
 	}
 
