@@ -1,6 +1,7 @@
 package behaviors;
 
 import authoringEnvironment.RefObject;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import gameElements.ExecuteConditions;
 import gameElements.SpriteProperties;
 import javafx.beans.property.IntegerProperty;
@@ -22,9 +23,12 @@ public abstract class Attack extends Behavior {
 	private Movement movement;
 	private RefObject myRef;
 	private SpriteProperties target;
+	@IgnoreField
+	private boolean shotOnce;
 	
 	public Attack() {
 		this(new RefObject());
+		shotOnce = false;
 	}
 	
 	public Attack(RefObject myRef){
@@ -38,11 +42,22 @@ public abstract class Attack extends Behavior {
 		this.movement = movement;
 		this.myRef = myRef;
 	}
-	
+	@Override
+	public void execute(IActions actions, LevelProperties levProps){
+		if(!shotOnce){
+			shotOnce = true;
+			super.execute(actions, levProps);
+		}
+	}
+	@Override
+	public void stop(IActions actions, LevelProperties levProps){
+		shotOnce = false;
+	}
 	@Override
 	public void apply(IActions actions, LevelProperties levProps){
-				shoot(actions, levProps);
-				this.disable();
+		if(this.shotOnce){
+			shoot(actions, levProps);
+		}
 	}
 	
 	public abstract void shoot(IActions actions, LevelProperties levProps);

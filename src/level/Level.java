@@ -5,8 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Physics.PhysicsEngine;
+import behaviors.Attack;
 import behaviors.Behavior;
+import behaviors.Defense;
+import behaviors.Gun;
 import behaviors.IActions;
+import behaviors.MoveTurn;
+import behaviors.Shield;
+import behaviors.ThrustHorizontal;
+import behaviors.ThrustVertical;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
@@ -22,6 +29,9 @@ import events.Event;
 import events.EventManager;
 import events.Executable;
 import events.InputHandler;
+import events.KeyPressEvent;
+import events.KeyPressTrigger;
+import events.Trigger;
 import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -32,6 +42,7 @@ import goals.GoalFactory;
 import goals.GoalProperties;
 import goals.Goals;
 import javafx.beans.property.IntegerProperty;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -77,9 +88,36 @@ public class Level implements ILevel {
 				new DamageCollision(10), new EnemyCollision());
 		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
 				new DissapearCollision(), new EnemyCollision());
+		
+		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
+		
+		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
+
+		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
+
+		Event reverse = new KeyPressEvent(new KeyPressTrigger(KeyCode.DOWN),new ThrustVertical(1));
+		
+		Event left = new KeyPressEvent(new KeyPressTrigger(KeyCode.LEFT), new ThrustHorizontal(-1));
+
+		Event right = new KeyPressEvent(new KeyPressTrigger(KeyCode.RIGHT), new ThrustHorizontal(1));
+		
+		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
+
+		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
+		
 		myEventManager.addEvent(hardCodedEvent);
 		myEventManager.addEvent(hardCodedEvent1);
-		myEventManager.setInputHandler(new InputHandler());
+		myEventManager.addEvent(shooting);
+		myEventManager.addEvent(defense);
+		myEventManager.addEvent(forward);
+		myEventManager.addEvent(reverse);
+		myEventManager.addEvent(left);
+		myEventManager.addEvent(right);
+		myEventManager.addEvent(turnRight);
+		myEventManager.addEvent(turnLeft);
+		
+		
+		//myEventManager.setInputHandler(new InputHandler());
 		populateGoals();
 		System.out.println("levelproperties"+getLevelProperties().getGoalList());
 	}
@@ -157,9 +195,6 @@ public class Level implements ILevel {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
-		if (spriteMap.getSpriteMap().isEmpty()) {
-//			System.out.println();
-		}
 		for (Integer spriteID : spriteIDList) {
 			ISprite sprite = spriteMap.get(spriteID);
 			this.actions.setSprite(sprite);
@@ -188,12 +223,12 @@ public class Level implements ILevel {
 	 */
 	public void handleKeyPress(KeyEvent key) {
 		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
-		myEventManager.keyPress(key, actions, this.levelProperties);
+		myEventManager.keyPress(key.getCode(), actions, this.levelProperties);
 	}
 	
 	public void handleKeyRelease(KeyEvent key){
 		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
-		myEventManager.keyRelease(key, actions, this.levelProperties);
+		myEventManager.keyRelease(key.getCode(), actions, this.levelProperties);
 	}
 	
 	public int getCurrentPoints() {
@@ -278,13 +313,13 @@ public class Level implements ILevel {
 		return this.getLevelProperties().getSpriteMap().getCurrentID();
 	}
 
-	public void setSpriteActions() {
+	/*public void setSpriteActions() {
 		myEventManager.setSpriteActions(levelProperties.getSpriteMap().getCurrentSprite().getUserPressBehaviors());
-	}
+	}*/
 	
 	public void setCurrentSpriteID(Integer sprite) {
 		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
-		setSpriteActions();
+		//setSpriteActions();
 	}
 
 	public void setAIController(AIController enemyController) {

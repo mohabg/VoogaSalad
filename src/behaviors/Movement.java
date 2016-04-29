@@ -31,6 +31,7 @@ public abstract class Movement extends Behavior{
 	@Override
 	public void execute(IActions actions, LevelProperties levProps){
 		this.enable();
+		apply(actions, levProps);
 	}
 	@Override 
 	public void stop(IActions actions, LevelProperties levProps){
@@ -41,7 +42,7 @@ public abstract class Movement extends Behavior{
 	 */
 	@Override
 	public void apply(IActions actions, LevelProperties levProps) {
-		if(actions.spriteCanMove()){
+		if(actions.spriteCanMove() && this.isEnabled()){
 			move(actions);
 		}
 	}

@@ -1,29 +1,28 @@
 package events;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
 public class KeyPressTrigger implements Trigger {
 	@IgnoreField
-	private boolean isTriggered;
-	@IgnoreField	
-	private KeyEvent event;
+	private boolean isTriggered;	
+	private KeyCode code;
 	
 	public KeyPressTrigger(){
-		this.isTriggered = false;
+		this.isTriggered = false; 
 	}
 	
-	public KeyPressTrigger(KeyEvent event) {
+	public KeyPressTrigger(KeyCode Code) {
 		isTriggered = false;
-		this.event = event;
+		this.code = Code;
 	}
 	
-	public KeyEvent getEvent() {
-		return event;
+	public KeyCode getCode() {
+		return code;
 	}
 
-	public void setEvent(KeyEvent event) {
-		this.event = event;
+	public void setCode(KeyCode Code) {
+		this.code = Code;
 	}
 
 	public void setIsTriggered(boolean trigger) {
