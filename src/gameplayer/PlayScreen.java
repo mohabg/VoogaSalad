@@ -10,6 +10,8 @@ import gameElements.ViewPoint;
 import highscoretable.HighScoreController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
@@ -37,7 +39,7 @@ public class PlayScreen {
 	public PlayScreen(File newGameFile) {
 		gameFile = newGameFile;
 		myView = new PlayerView();
-		myEngine = new Engine(this, new GameEditor());
+		myEngine = new Engine(new GameEditor());
         setGameLevels(GameLoader.parseAndLoadGame(gameFile));
 
 
@@ -65,15 +67,26 @@ public class PlayScreen {
 		}
 
 		myEngine.setCurrentLevel(0);
-		setLevel(myEngine.getCurrentLevel());
+		myEngine.getCurrentLevelID().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				setLevel();
+				
+			}
+		});
+		
+		
+		
+		setLevel();
 		myEngine.gameLoop();
 
 	}
 
-	public void setLevel(Level newLevel) {
+	public void setLevel() {
+		myView.clearSprites();
+		currentLevel = myEngine.getCurrentLevel();
+		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 
-		currentLevel = newLevel;
-	
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
 		currentLevel.setSpriteFactory(sf);
 		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
@@ -81,7 +94,6 @@ public class PlayScreen {
             myView.setSprites(activeSprites);
         });
 
-		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 		myView.setSprites(activeSprites);
 		setKeys();
 
