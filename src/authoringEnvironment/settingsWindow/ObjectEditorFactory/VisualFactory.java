@@ -165,17 +165,16 @@ public class VisualFactory {
 		VBox retVBox = GUIObjectMaker.makeVBox();
 		R rObj = null;
 		
+		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = SubclassComboBoxMaker.makeSubclassComboBox(lpr, null, rType, lpr);
+		retVBox.getChildren().add(mySubclassBox);	
+		
 		// get a proper subclass of R if necessary
 		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
 			rType = (Class<R>) SettingsReflectUtils.getSubclass(rType);	
 		}				
-		rObj = (R) SettingsReflectUtils.newClassInstance(rType);	
+		rObj = (R) SettingsReflectUtils.getSubclassInstance(rType);	
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
 		
-		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = SubclassComboBoxMaker.makeSubclassComboBox(lpr, null, rType, lpr);
-		retVBox.getChildren().add(mySubclassBox);	
-		
-			
 		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox); 
 	
 		return retVBox;
@@ -272,36 +271,29 @@ public class VisualFactory {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();		
 		List<HBox> properties = new ArrayList<HBox>();
 		
-		//Class<R> fieldClass = field != null ? (Class<R>) field.getType() : (Class<R>) fieldObject.getClass();
 		String fieldName = field != null ? field.getName() : fieldObject.getClass().getName();
 		
 		
 		if (fieldObject == null) {
-			System.out.println("null fieldObject");
 			fieldClass = SettingsReflectUtils.getSubclass(fieldClass);
 			fieldObject = (R) SettingsReflectUtils.newClassInstance(fieldClass);
 			if (field != null) {
 				try {
 					field.set(fieldObject, parent);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 		
-		//System.out.println(fieldClass.getName() + " " + fieldName);
+	
 		if (Property.class.isAssignableFrom(fieldClass)) {
 			fieldVBoxHBox.getChildren().addAll(SettingsObjectMaker.makeSettingsObject(fieldObject, fieldName));
 			properties.add(fieldVBoxHBox);
 			return properties;
 		}
 		
-		
-		// parent is probably an abstract class and therefore
-		// impossible to make an instance
-
-		
+	
 		// make subclass combobox if necessary
 		if (makeBox && SubclassEnumerator.hasSubclasses(fieldClass)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = null;
@@ -309,15 +301,15 @@ public class VisualFactory {
 
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
 			fieldVBoxHBox.getChildren().add(vb);
-			updateComboBoxValue(fieldClass, fieldObject, subclassBox);
+			System.out.println(fieldClass + " " + fieldObject.getClass() + " " + fieldName);
+			updateComboBoxValue((Class<R>) fieldObject.getClass(), fieldObject, subclassBox);
 			properties.add(fieldVBoxHBox);
 			return properties;	
 		}
 		
 		// prevents us from trying to initialize java classes	
-		System.out.println(fieldClass.getName());
-		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(fieldClass.getName())) {	
-			
+		//System.out.println(fieldClass.getName());
+		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(fieldClass.getName())) {			
 			Label propLabel = GUIObjectMaker.makeLabel(SettingsObjectMaker.convertCamelCase(fieldName));
 			VBox fieldVBox = GUIObjectMaker.makeVBox(propLabel);			
 			List<HBox> fieldHBoxes = new ArrayList<HBox>();
@@ -345,7 +337,7 @@ public class VisualFactory {
 		} 
 		
 		properties.add(fieldVBoxHBox);
-		System.out.println(properties.size());
+		
 		return properties;
 	}
 

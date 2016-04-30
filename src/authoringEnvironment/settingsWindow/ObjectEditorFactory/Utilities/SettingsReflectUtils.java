@@ -59,8 +59,10 @@ public class SettingsReflectUtils {
 		
 		// TODO MAKE AN EXCEPTION
 		// find an available subclass otherwise print an exception
+		System.out.println("test " + clazz);
 		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
 		for (Class<R> sub : parentSubclasses.values()) {
+			System.out.println(sub);
 			if (!isAbstractOrInterface(sub)) {
 				return sub;
 			}
