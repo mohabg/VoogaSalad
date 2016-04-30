@@ -9,6 +9,8 @@ import goals.Goal;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -103,6 +105,13 @@ public class GameEditor implements IGameEditor {
 		if (myGame.getCurrentLevel().getCurrentSprite().isDead()){
 	//		System.out.println("restart game");
 	// 		does restart game work???
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Look, an Information Dialog");
+			alert.setContentText("I have a great message for you!");
+
+			alert.showAndWait();
+
 			myGame.restartGame();
 		}
 
