@@ -6,6 +6,7 @@ import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 /**
  * 
  * @author davidyan, Joe Jacob, Huijia Yu
@@ -63,6 +64,11 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 	@Override
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
 		setViewSprite(viewsprite);
+	}
+	@Override
+	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

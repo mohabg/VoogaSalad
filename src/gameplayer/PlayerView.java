@@ -54,9 +54,11 @@ public class PlayerView extends Screen {
 	}
 	public void setBackground(Integer id){
 		StringProperty backgroundName = myBackgrounds.get(id);
-		myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-		//myPane.setStyle("-fx-background-image: url(" + myBackgrounds.get(id) + ");" + "\n" +
-			//	   "-fx-background-repeat: repeat;");			
+		if (backgroundName.getValue() != "") {
+			myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));			
+		} else {
+			myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		}
 	}
 	
 	public Map<Integer, ViewSprite> getViewSprites() {

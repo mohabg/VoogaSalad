@@ -12,6 +12,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -97,18 +99,25 @@ public abstract class AClickableWindow {
 		@Override
 		public void handle(MouseEvent t) {
 			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
+			
 			orgTranslateX = mySprite.getX();
 			orgTranslateY = mySprite.getY();
-
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
-
+			
 			if (mySprite != currentSprite) {
 				currentSprite = mySprite;
 				updateSettingsPane(mySprite);
 			}
+			
+			if (t.isSecondaryButtonDown()) {
+				makeRightClickEvent(mySprite, t);
+			}
 		}
 	};
+	
+	public abstract void makeRightClickEvent(ViewSprite mySprite, MouseEvent t);
+	
 
 	public abstract void updateSettingsPane(ViewSprite clickedSprite);
 
@@ -158,6 +167,7 @@ public abstract class AClickableWindow {
 		sprite.setFitWidth(sprite.getImage().getWidth() * 0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+
 		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
                 ViewSprite myClone = new ViewSprite(sprite.getMyImage());

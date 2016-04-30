@@ -10,6 +10,7 @@ import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -18,13 +19,20 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import resources.FrontEndData;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,18 +43,13 @@ import java.util.stream.Collectors;
  * Main window in the Authoring Environment that allows users to set up the game to play.
  * Initializes the Sprites to be used in the game.
  */
-public class GameAuthoringTab extends AClickableWindow {
+public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner {
 	// viewpoint coords
 	private DoubleProperty absoluteX;
 	private DoubleProperty absoluteY;
 	
 	private Tab myTab;
-	private Map<ViewSprite, Sprite> mySpriteMap;
-	//private ViewSprite currentSprite;
-	//private SettingsWindow myWindow;
-	private ContextMenu contextMenu;
-	//private LevelModel myLevelModel;
-	
+	private Map<ViewSprite, Sprite> mySpriteMap;	
 	private AESpriteFactory sf;
 
 	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, Integer levelID, SettingsWindow window) {
@@ -57,8 +60,6 @@ public class GameAuthoringTab extends AClickableWindow {
 		mySpriteMap = spriteMap;
 
 		myWindow = window;
-		contextMenu = new ContextMenu();
-		createContextMenu();
         myLevelModel = new LevelModel();
 		initArea();
 		
@@ -142,14 +143,25 @@ public class GameAuthoringTab extends AClickableWindow {
 		System.out.println(code.getName() + " " + absoluteX.getValue() + " " + absoluteY.getValue());
 	}
 	
-	private void createContextMenu(){
-		MenuItem delete = new MenuItem("delete");
-		contextMenu.getItems().add(delete);
+	private ContextMenu createContextMenu(ViewSprite vs){
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem delete = new MenuItem("Delete Sprite");
+		MenuItem copy = new MenuItem("Copy Image Ref");
+		contextMenu.getItems().addAll(delete, copy);
+		
 		delete.setOnAction(event -> {
-            ((Pane) getTabContent()).getChildren().remove(currentSprite);
+            ((Pane) getTabContent()).getChildren().remove(vs);
             event.consume();
         });
+		
+		copy.setOnAction(event -> {
+			 StringSelection stringSelection = new StringSelection(vs.getMyImage());
+			 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();		 
+			 clipboard.setContents(stringSelection, this);
+		});
+		
 		contextMenu.setAutoHide(true);
+		return contextMenu;
 	}
 
 	public List<Sprite> getList() {
@@ -191,10 +203,12 @@ public class GameAuthoringTab extends AClickableWindow {
 		mySpriteMap.get(copy).setUserControlled(true);
 	}
 	
+
 	private ViewSprite cloneAndInitViewSprite(ViewSprite viewsprite) {
 		ViewSprite copy = sf.clone(viewsprite);
 		Sprite sprite = sf.makeSprite(copy);
 		
+	
 		// bind viewpoint
 		ISpriteProperties spriteProps = sprite.getSpriteProperties();
 		DoubleProperty spriteX = spriteProps.getXProperty();
@@ -231,6 +245,28 @@ public class GameAuthoringTab extends AClickableWindow {
 	public LevelModel getLevelModel() {
 		// TODO Auto-generated method stub
 		return myLevelModel;
+	}
+
+
+	@Override
+	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
+		double xpos = t.getSceneX();
+		double ypos = t.getSceneY();
+		
+		ContextMenu menu = createContextMenu(mySprite);
+		menu.setX(xpos);
+		menu.setY(ypos);
+		
+		menu.setAutoHide(true);
+		menu.show(myNewGamePane, xpos, ypos);
+		
+	}
+
+
+	@Override
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
