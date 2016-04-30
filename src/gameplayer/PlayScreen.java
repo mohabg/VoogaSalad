@@ -45,6 +45,7 @@ public class PlayScreen {
 		myEngine = new Engine(new GameEditor());
         setGameLevels(GameLoader.parseAndLoadGame(gameFile));
 	}
+	
 	public PlayScreen(String name){
 		this(new File(String.format(GameLoader.SAVED_FOLDER_DIRECTORY, name)));
 	}

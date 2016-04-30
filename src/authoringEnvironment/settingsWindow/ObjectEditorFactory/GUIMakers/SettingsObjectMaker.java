@@ -25,7 +25,6 @@ public class SettingsObjectMaker {
         String labelText = convertCamelCase(propName);
 		Label propLabelName = GUIObjectMaker.makeLabel(labelText);
 
-
         if (myProp instanceof DoubleProperty) {
 			DoubleProperty dp = (DoubleProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeDoubleSpinner(dp));

@@ -6,6 +6,5 @@
 	<classpathentry kind="lib" path="lib/xstream-1.4.9.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.53.jar"/>
 	<classpathentry kind="lib" path="lib/reflectutils-0.9.20.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/voogasalad_util"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

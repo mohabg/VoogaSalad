@@ -7,6 +7,7 @@ import java.util.Map;
 import Physics.PhysicsEngine;
 import behaviors.Behavior;
 import behaviors.IActions;
+import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
@@ -36,8 +37,6 @@ import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
 import keyboard.KeyboardActionChecker;
 import keyboard.KeyboardActionFactory;
-import voogasalad.util.hud.source.HUDController;
-import voogasalad.util.hud.source.Property;
 
 
 
@@ -64,13 +63,8 @@ public class Level implements ILevel {
 	private EventManager myEventManager;
 	private AIController enemyController;
 	
-	private HUDController controller;
-	
 	
 	public Level() {
-		
-		controller = new HUDController();
-		
 
 		levelProperties = new LevelProperties();
 		physicsEngine = new PhysicsEngine(0.9);
@@ -81,9 +75,9 @@ public class Level implements ILevel {
 
 		myEventManager = new EventManager();
 		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DamageCollision(10), new EnemyCollision());
+				new DamageCollision(10), new ActorCollision());
 		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DissapearCollision(), new EnemyCollision());
+				new DissapearCollision(), new ActorCollision());
 		myEventManager.addEvent(hardCodedEvent);
 		myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.setInputHandler(new InputHandler());

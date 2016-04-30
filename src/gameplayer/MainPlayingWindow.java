@@ -6,8 +6,6 @@ import authoringEnvironment.MainAuthoringWindow;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import resources.FrontEndData;
-import voogasalad.util.hud.source.HUDScreen;
-import voogasalad.util.hud.source.Property;
 
 public class MainPlayingWindow extends Screen {
 	
@@ -16,15 +14,11 @@ public class MainPlayingWindow extends Screen {
 	private HUDWindow myHUDWindow;
 	private Button toggleButton;
 	private String gameName;
-	private HUDScreen myHUDScreen;
-	private HashMap<String, Property> status;
 
 	public MainPlayingWindow(Screen parent, String gameName, PlayScreen playScreen) {
 		super(parent);
 		myPlayScreen = playScreen;
 		this.gameName = gameName;
-		
-		status = new HashMap<String, Property>();
 		init();
 	}
 
@@ -41,16 +35,13 @@ public class MainPlayingWindow extends Screen {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, gameName, myPlayScreen);
 			switchScene(myMainAuthoringWindow);
 		});
-		status.put("Health", myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getHealthProperty());
-		myHUDScreen = new HUDScreen(100, 50, status);
-        createBorderPane();
-        
+        createBorderPane();  
 	}
 
     private void createBorderPane() {
         ((BorderPane) myPane).setCenter(myPlayScreen.getScreen().getPane());
         ((BorderPane) myPane).setLeft(myControlWindow.getPane());
-        ((BorderPane) myPane).setRight(myHUDScreen.getScene());
+        ((BorderPane) myPane).setRight(myHUDWindow.getPane());
         ((BorderPane) myPane).setTop(toggleButton);
     }
 }

@@ -1,9 +1,15 @@
 package gameplayer;
 
 import authoringEnvironment.Settings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class HUDWindow{
 	PlayScreen myPlayScreen;
@@ -15,11 +21,35 @@ public class HUDWindow{
 		Settings.setHUDWindowSettings(myFlowPane);
 		myFlowPane.getStylesheets().add("gameplayer/HUDWindow.css");
 		myFlowPane.setId("myFlowPane");
-		createFlowPane();
+//		createFlowPane();
+		
+		DoubleProperty HUDHealth = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getProperty();
+//		DoubleProperty HUDTime = myPlayScreen.getCurrentLevel().getLevelProperties().getTime().getMyTime();
+		DoubleProperty HUDScore = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getCurrentPoints());
+		DoubleProperty HUDLives = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getNumLives();
+		DoubleProperty HUDLevelNumber = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getLevelID());
+	
+		addHUDElement("Health: ", HUDHealth);
+		addHUDElement("Lives: ", HUDLives);
+		addHUDElement("Score: ", HUDScore);
+		addHUDElement("Level Number: ", HUDLevelNumber);
 	}
 	
-	private void createFlowPane(){
-		myFlowPane.getChildren().add(new Label("HUD goes here"));
+	private void addHUDElement(String label, DoubleProperty HUDProperty){
+		HBox HUDHbox = new HBox();
+		Label HUDKey = new Label(label);
+		Label HUDValue = new Label();
+		
+		StringProperty stringProp = new SimpleStringProperty();
+		DoubleProperty doubleProp = HUDProperty;
+		stringProp.set(doubleProp.getValue().toString());
+		doubleProp.addListener((o, ov, nv) -> {
+			stringProp.set(o.getValue().toString());
+		});
+		HUDValue.textProperty().bindBidirectional(stringProp);
+		HUDHbox.getChildren().addAll(HUDKey, HUDValue);
+		
+		myFlowPane.getChildren().add(HUDHbox);
 	}
 	
 	public Pane getPane(){
