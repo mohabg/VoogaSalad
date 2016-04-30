@@ -4,7 +4,12 @@ import authoringEnvironment.MainAuthoringWindow;
 import authoringEnvironment.LiveEditing;
 import gameplayer.MainPlayingWindow;
 import resources.FrontEndData;
-
+/**
+ * 
+ * @author davidyan, Huijia Yu, Joe Jacob
+ * Creates the MenuBar for use in both the regular Authoring Environment in addition to Live Editing
+ *
+ */
 public class LEMenuBarCreator extends AbstractMenuBar{
 
 	public LEMenuBarCreator(String gameName) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 import javafx.scene.control.TabPane;
 
 public class ObjectEditorController {
@@ -14,7 +14,10 @@ public class ObjectEditorController {
 	public ObjectEditorController(List<String> packageNames) {	
 		myConstants = ObjectEditorConstants.getInstance();
 		myConstants.setPackageNames(packageNames);
-		myConstants.setSimpleClassNames(SubclassEnumerator.getAllSimpleClassNames());
+		myConstants.setAllClasses(ClassEnumerator.getAllClasses());
+		myConstants.setSimpleClassNames(ClassEnumerator.getAllSimpleClassNames());
+		
+		
 		myVisualFactory = new VisualFactory();
 	}
 	

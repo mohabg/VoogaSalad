@@ -9,7 +9,7 @@ import java.util.AbstractMap.SimpleEntry;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -49,11 +49,7 @@ public class SubclassComboBoxMaker {
 			o.getValue().setValue(nv.getValue());
 			
 			if (childField != null) {
-				try {
-					childField.set(parent, nv.getValue());
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					//e.printStackTrace();
-				}
+				SettingsReflectUtils.fieldSetObject(childField, parent, nv.getValue());
 			}
 			
 			// only if it's a property
@@ -87,8 +83,7 @@ public class SubclassComboBoxMaker {
 			
 			myComboBoxParent.getChildren().setAll(subclassBox);
 			if (!o.getValue().getKey().isEnum()) {
-				//System.out.println("new class change " + o.getValue().getKey());
-				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new ArrayList<HBox>(), false));
+				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getValue(), o.getValue().getKey(), false));
 			}
 		};
 		
@@ -98,7 +93,7 @@ public class SubclassComboBoxMaker {
 	private static <R> ComboBox<SimpleEntry<Class<R>, R>> makeComboBox(Class<R> clazz) {
 		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = GUIObjectMaker.makeComboBox();
 		
-		Map<String, Class<R>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		Map<String, Class<R>> allSubclasses = ClassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 		
 		// remove interfaces/abstract because they dont have instance vars

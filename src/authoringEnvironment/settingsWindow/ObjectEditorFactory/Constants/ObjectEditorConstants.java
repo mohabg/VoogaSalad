@@ -9,6 +9,7 @@ import java.util.Map;
 public class ObjectEditorConstants {
 	private List<String> PACKAGE_NAMES;
 	private List<String> SIMPLE_CLASS_NAMES;
+	private List<Class<?>> ALL_CLASSES;
 	private Map<StylesheetType, String> STYLESHEETS;
 
 	private static ObjectEditorConstants instance = null;
@@ -16,7 +17,8 @@ public class ObjectEditorConstants {
 	private ObjectEditorConstants() {
 		PACKAGE_NAMES = new ArrayList<String>();
 		SIMPLE_CLASS_NAMES = new ArrayList<String>();
-
+		ALL_CLASSES = new ArrayList<Class<?>>();
+		
 		initStylesheets();
 	}
 
@@ -56,5 +58,13 @@ public class ObjectEditorConstants {
 
 	public void setSimpleClassNames(List<String> SIMPLE_CLASS_NAMES) {
 		this.SIMPLE_CLASS_NAMES = SIMPLE_CLASS_NAMES;
+	}
+
+	public List<Class<?>> getAllClasses() {
+		return ALL_CLASSES;
+	}
+
+	public void setAllClasses(List<Class<?>> ALL_CLASSES) {
+		this.ALL_CLASSES = ALL_CLASSES;
 	}
 }

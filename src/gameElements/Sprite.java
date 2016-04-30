@@ -53,9 +53,7 @@ public class Sprite implements ISprite{
 		ObservableMap<StringProperty, Behavior> om1 = FXCollections
 				.observableMap(new HashMap<StringProperty, Behavior>());
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
-		behaviors.sizeProperty().addListener((o, ov, nv) -> {
-			System.out.println("poo");
-		});
+
 		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
 		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
@@ -98,7 +96,8 @@ public class Sprite implements ISprite{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions, null);
+				behavior.execute(actions, null);
+				behavior.stop(actions, null);
 			}
 		}
 	}

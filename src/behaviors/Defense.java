@@ -37,7 +37,7 @@ public abstract class Defense extends Behavior {
 		super();
 		this.myRef = myRef;
 		this.behaviorConditions = behaviorConditions;
-		this.health = health;
+		this.health = myHealth;
 	}
 	public RefObject getMyRef() {
 		return myRef;

@@ -11,6 +11,7 @@ import behaviors.Behavior;
 import behaviors.Defense;
 import behaviors.Gun;
 import behaviors.IActions;
+import collisions.ActorCollision;
 import behaviors.MoveTurn;
 import behaviors.Shield;
 import behaviors.ThrustHorizontal;
@@ -65,6 +66,7 @@ public class Level implements ILevel {
 	@IgnoreField
 	private AIController enemyController;
 	
+	
 	public Level() {
 
 		levelProperties = new LevelProperties();
@@ -74,6 +76,7 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
+
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
@@ -89,7 +92,9 @@ public class Level implements ILevel {
 		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
 
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
+
 		
+
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
 		myEventManager.addEvent(forward);

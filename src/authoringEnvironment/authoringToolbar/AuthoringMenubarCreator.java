@@ -15,8 +15,6 @@ import resources.FrontEndData;
  */
 public class AuthoringMenubarCreator extends AbstractMenuBar{
 
-	// TODO SWITCH TO REFLECTION
-
 
 	public AuthoringMenubarCreator(String gameName) {
 		super(gameName);
@@ -39,9 +37,6 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
 	}
 	
-	
-
-
     private MenuBarElement getFileMenu(ITabPane window) {
     	MenuBarElement myFileMenuMaker = new MenuBarElement();
         myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));

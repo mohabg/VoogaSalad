@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 
 /**
  * @author David Yan, Huijia Yu, Joe Jacob
+ * Main window in the Authoring Environment that allows users to set up the game to play.
+ * Initializes the Sprites to be used in the game.
  */
 public class GameAuthoringTab extends AClickableWindow {
 
@@ -119,7 +121,7 @@ public class GameAuthoringTab extends AClickableWindow {
 
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
-
+		
 	}
 
 	public void setPlayerViewSprite(ViewSprite viewsprite) {

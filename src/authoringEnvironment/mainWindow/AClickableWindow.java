@@ -20,7 +20,12 @@ import resources.FrontEndData;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 
+ * @author davidyan, Huijia Yu
+ * Abstract class that contains all methods needed to handle drag and drop and click events of Screens 
+ * Includes the Authoring Environment Screen and the Game Player Screen
+ */
 public abstract class AClickableWindow {
 	protected double orgSceneX, orgSceneY;
 	protected double orgTranslateX, orgTranslateY;
@@ -98,14 +103,14 @@ public abstract class AClickableWindow {
 		TabPane propertiesPane = new TabPane();
         //mySpriteTabPanes.get(spriteModel) != null
 		if (mySpriteTabPanes.containsKey(iSprite)) {
+			System.out.println("contained the key");
 			propertiesPane = mySpriteTabPanes.get(iSprite);
 		} else {
-
 			propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
 			mySpriteTabPanes.put(iSprite, propertiesPane);
-
+			System.out.println("didnt contained the key");
 		}
-		myBox.getChildren().addAll(propertiesPane);
+		myBox.getChildren().add(propertiesPane);
 		return myBox;
 	}
 

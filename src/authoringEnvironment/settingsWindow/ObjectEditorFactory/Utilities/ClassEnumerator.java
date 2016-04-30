@@ -7,28 +7,26 @@ import java.util.*;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 
-public class SubclassEnumerator {
-
-	public static boolean hasSubclasses(Class<?> clazz) {
-		if (getAllSubclasses(clazz).size() > 1) {
-			return true;
-		} else if (clazz.isEnum()) {
-			return true;
+public class ClassEnumerator {
+	
+	public static List<Class<?>> getAllClasses() {
+		List<Class<?>> allClasses = new ArrayList<Class<?>>();
+		
+		for (String packageName : ObjectEditorConstants.getInstance().getPackageNames()) {
+			try {
+				allClasses.addAll(getClasses(packageName));
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		return false;
+		return allClasses;
 	}
 	
-	public static <R>  Map<String, Class<R>> getSubclasses(String packageName, Class<R> superclass) {
+	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> superclass) {
 		Map<String, Class<R>> subclassNameMap = new HashMap<String, Class<R>>();
-		List<Class<?>> packageClasses = new ArrayList<Class<?>>();
-		try {
-			packageClasses = getClasses(packageName);
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		
+		List<Class<?>> packageClasses = ObjectEditorConstants.getInstance().getAllClasses();
+	
 		for (Class<?> candidateClass : packageClasses) {
 		    if (superclass.isAssignableFrom(candidateClass)) {
 		        String subclassName = candidateClass.getTypeName();
@@ -39,36 +37,10 @@ public class SubclassEnumerator {
 		return subclassNameMap;
 	}
 	
-	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> clazz) {
-		Map<String, Class<R>> allSubclasses = new HashMap<String, Class<R>>();
-		
-		for (String p : ObjectEditorConstants.getInstance().getPackageNames()) {
-			allSubclasses.putAll(getSubclasses(p, clazz));
-		}
-		
-		return allSubclasses;
-	}
-	
+
 	public static List<String> getAllSimpleClassNames() {
-		List<String> allClassNames = new ArrayList<String>();
-				
-		for (String p : ObjectEditorConstants.getInstance().getPackageNames()) {
-			allClassNames.addAll(getSimpleClassNames(p));
-		}
-		
-		return allClassNames;
-	}
-	
-	public static List<String> getSimpleClassNames(String packageName) {
-		List<Class<?>> clazzes = new ArrayList<Class<?>>();
-		try {
-			clazzes = getClasses(packageName);
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-		
 		List<String> readableClasses = new ArrayList<String>();
-		for(Class<?> c : clazzes) {
+		for(Class<?> c : ObjectEditorConstants.getInstance().getAllClasses()) {
 			readableClasses.add(c.getName());
 		}
 		
