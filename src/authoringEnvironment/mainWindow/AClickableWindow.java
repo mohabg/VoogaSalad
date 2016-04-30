@@ -105,7 +105,7 @@ public abstract class AClickableWindow {
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
 			
-			if (!t.isSecondaryButtonDown() && mySprite != currentSprite) {
+			if (t.getButton() != MouseButton.SECONDARY && mySprite != currentSprite) {
 				currentSprite = mySprite;
 				updateSettingsPane(mySprite);
 			}
