@@ -138,7 +138,7 @@ public class Sprite implements ISprite{
 			}
 		}
 		if(!this.getMyRef().equals("pictures/cipher.png")){
-			System.out.println(this.hashCode() + " " + this.myProperties.getY() + " " + this.myProperties.getYVel());
+			//System.out.println(this.hashCode() + " " + this.myProperties.getY() + " " + this.myProperties.getYVel());
 }
 	}
 

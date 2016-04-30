@@ -57,7 +57,7 @@ public class PlayerView extends Screen {
 		if (backgroundName.getValue() != "") {
 			myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));			
 		} else {
-			myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		//myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 		}
 	}
 	
