@@ -1,86 +1,65 @@
 package authoringEnvironment;
 
-import java.io.File;
-
 import gameplayer.ButtonFactory;
 import gameplayer.GameEditingFileScreen;
-import gameplayer.GameFileScreen;
-import gameplayer.GameLoader;
 import gameplayer.GamePlayingFileScreen;
-import gameplayer.IScreen;
-/**
- * @author davidyan
- */
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import gameplayer.Screen;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.FrontEndData;
 
-public class StartOptionsWindow implements IScreen {
+import java.util.Optional;
+
+/**
+ * @author Huijia Yu, Joe Jacob
+ */
+
+public class StartOptionsWindow extends Screen {
 
 	private Stage myStage;
-	private BorderPane myPane;
 	private VBox startWindowBox;
-	private Settings settings;
-	private IScreen parentScreen;
-
-	private final String CREATE_GAME = "Create A New Game";
-	private final String EDIT_GAME = "Edit An Existing Game";
-	private final String PLAY_GAME = "Play a Game";
-
-	private final String DEFAULT_IMAGE = "pictures/gaming.png";
+	
 
 	public StartOptionsWindow(Stage currStage) {
+		super();
 		myStage = currStage;
 		myPane = new BorderPane();
+		myPane.getStylesheets().add(FrontEndData.STARTING_STYLESHEET);
 		startWindowBox = new VBox();
-		settings = new Settings();
-
-		settings.setStartWindowSettings(startWindowBox);
-
+		startWindowBox.setId("myvBox");
+		Settings.setStartWindowSettings(startWindowBox);
 		makeAndSetStartBox();
 	}
 
 	private void makeAndSetStartBox() {
 		// TODO CHANGE THIS TO USE REFLECTION
-		ImageView myLogo = new ImageView(DEFAULT_IMAGE);
+		ImageView myLogo = new ImageView(FrontEndData.DEFAULT_IMAGE);
 
-		Button createNewButton = ButtonFactory.makeButton(CREATE_GAME, (e -> {
-			switchScene(new MainAuthoringWindow());
-			myStage.centerOnScreen();
+		Button createNewButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("new"), (e -> {
+			TextInputDialog dialog = new TextInputDialog(FrontEndData.ButtonLabels.getString("SetGame"));
+			dialog.setContentText(FrontEndData.ButtonLabels.getString("InputGame"));
+			Optional<String> result = dialog.showAndWait();
+			result.ifPresent(r->{
+				switchScene(new MainAuthoringWindow(this, r));
+//				m.setKeys();
+				
+			});
 		}));
 
-		Button editButton = ButtonFactory.makeButton(EDIT_GAME, (e -> {
-
+		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {
 			switchScene(new GameEditingFileScreen());
 		}));
 
-		Button playButton = ButtonFactory.makeButton(PLAY_GAME, (e -> {
+		Button playButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("play"), (e -> {
 			switchScene(new GamePlayingFileScreen());
 		}));
 
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
-		myPane.setCenter(startWindowBox);
-	}
-
-	public void switchScene(IScreen screen) {
-		// ((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());
-		myStage.setScene(screen.getScene());
-		myStage.show();
-	}
-
-	public void setParentScreen(IScreen screen) {
-		parentScreen = screen;
-	}
-
-	public Scene getScene() {
-		return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
+		((BorderPane) myPane).setCenter(startWindowBox);
 	}
 
 }

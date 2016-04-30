@@ -1,12 +1,9 @@
 package authoringEnvironment;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 /**
- * Created by davidyan on 4/11/16.
+ * @author David Yan
  */
 public class ExampleAttack {
 
@@ -16,6 +13,10 @@ public class ExampleAttack {
     private StringProperty myStringProp;
 
     public ExampleAttack(){
+        myAttack = new SimpleIntegerProperty();
+        myProbability = new SimpleDoubleProperty();
+        myBoolean = new SimpleBooleanProperty();
+        myStringProp = new SimpleStringProperty();
 
     }
     public ExampleAttack(int attack, double prob, boolean myBool, String myString){

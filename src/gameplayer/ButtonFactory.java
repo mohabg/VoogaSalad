@@ -10,12 +10,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-
+/**
+ * This class makes buttons.
+ * @author Huijia
+ *
+ */
 public class ButtonFactory {
 
 	public ButtonFactory() {}
 	
-		
+	/**
+	 * Makes a button
+	 * @param name is string for the label
+	 * @param action is what happens on click
+	 * @return
+	 */
 	public static Button makeButton(String name, EventHandler<? super MouseEvent> action) {
 		Button b = new Button();
 		b.setText(name);

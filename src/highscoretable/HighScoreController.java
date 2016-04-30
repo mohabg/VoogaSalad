@@ -1,5 +1,11 @@
 package highscoretable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+
 import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,12 +20,31 @@ public class HighScoreController {
 		makeTable();
 
 	}
+	public HighScoreController(Collection<HighScore> history){
+		this();
+		data.addAll(history);
+		
+	}
 
 	public TableView<HighScore> getTable() {
 		return table;
 	}
-
-	public void addHighScore(HighScore... scores) {
+	
+	public Collection<HighScore> getList(){
+		return data;
+	}
+	
+	public void addHighScore(Double score, String game){
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setContentText("Please enter your name:");
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(player -> addHighScore(score, player, game));
+	}
+	public void addHighScore(Double score, String player, String game){
+		addHighScores(new HighScore(score, player, game));
+	}
+	
+	public void addHighScores(HighScore... scores) {
 		data.addAll(scores);
 
 	}

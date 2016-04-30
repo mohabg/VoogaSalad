@@ -2,26 +2,23 @@ package gameplayer;
 
 import java.io.File;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
+/**
+ * Game file screen for playing games. Extends gamefilescreen.
+ * 
+ * @author Huijia
+ *
+ */
 public class GamePlayingFileScreen extends GameFileScreen {
 	private final String DEFAULT_PICTURE = "pictures/cipher.png";
 
-	public GamePlayingFileScreen(){
+	public GamePlayingFileScreen() {
 		super();
 	}
-	
 
 	@Override
-	public ImageView makeDisplay(File file) {
-		ImageView imageview = new ImageView();
-		// TODO have this pull the saved game's picture
-		imageview.setImage(new Image(DEFAULT_PICTURE));
-		imageview.setOnMouseClicked((event) -> {
-			IScreen playScreen = getMyGameLoader().newGame(file);
-			switchScene(playScreen);
-		});
-		return imageview;
+	public void setOnMouseClick(File file) {
+
+        MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(this, file.getName().replace(".xml", ""));
+        switchScene(myMainPlayingWindow);
 	}
 }

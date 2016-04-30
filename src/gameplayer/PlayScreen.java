@@ -1,86 +1,167 @@
 package gameplayer;
 
+import authoringEnvironment.AESpriteFactory;
+import authoringEnvironment.LevelModel;
+import authoringEnvironment.ViewSprite;
+import game.Engine;
+import game.GameEditor;
+import gameElements.AIController;
+import gameElements.ISprite;
+import gameElements.Sprite;
+import gameElements.ViewPoint;
+import highscoretable.HighScoreController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.scene.input.KeyEvent;
+import level.Level;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import HUD.HUDEnum;
-import HUD.HeadsUpDisplay;
-import authoringEnvironment.LevelModel;
-import authoringEnvironment.Model;
-import authoringEnvironment.ViewSprite;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
-public class PlayScreen implements IScreen {
-	private Pane myPane;
-	private Group myViewSprites;
-	private Scene myScene;
-	private HeadsUpDisplay myHUD;
-	
+/**
+ * 
+ * IScreen for playing the game. Has a HUD. This class also has an instance of
+ * Engine, which runs the game loop
+ *
+ * @author Huijia
+ *
+ */
+public class PlayScreen {
+	private ObservableList<Integer> activeSprites;
+	private Engine myEngine;
+	private PlayerView myView;
 	private File gameFile;
-	private IScreen parentScreen;
-	
-	private final String PAUSE = "Pause";
-	
+	private Level currentLevel;
+
 	public PlayScreen(File newGameFile) {
 		gameFile = newGameFile;
-		myPane = new Pane();
-		myViewSprites = new Group();
-		myScene = new Scene(myPane);
-		myHUD = new HeadsUpDisplay(myScene.getWidth(), myScene.getHeight());
-		initHUD();
-		// add above to HUD
-	
+		myView = new PlayerView();
+		myEngine = new Engine(new GameEditor());
+        setGameLevels(GameLoader.parseAndLoadGame(gameFile));
+
+
+	}
+	public PlayScreen(String name){
+		this(new File(String.format(GameLoader.SAVED_FOLDER_DIRECTORY, name)));
 	}
 
-	private void initHUD() {
-		Button pauseButton = makePauseButton();
-		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-		myPane.getChildren().add(myHUD.getHUD());
-	}
-	
-	private Button makePauseButton() {
-		return ButtonFactory.makeButton(PAUSE, a -> {
-			PauseScreen ps = new PauseScreen();
-			ps.setParentScreen(this);
-			switchScene(ps);
-		});
-	}
-	
+    public void init(){
+        setKeys();
+
+    }
+
+
 	public void setGameLevels(List<LevelModel> gameLevels) {
-		for (LevelModel lm : gameLevels) {
-			Map<ViewSprite, Model> spriteList = lm.getMyMap();
-			for(ViewSprite vs : spriteList.keySet()) {
-				myViewSprites.getChildren().add(vs);
-			}
+
+		// myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
+		for (int i = 0; i < gameLevels.size(); i++) {
+			LevelModel lm = gameLevels.get(i);
+			Level newLevel = GameLoader.makeLevel(lm, i);
+			int id = newLevel.getLevelProperties().getLevelID();
+			myEngine.addLevel(id, newLevel);
+			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
+			myView.setBackgroundList(id, lm.getBackground());
 		}
-		myPane.getChildren().add(myViewSprites);
+
+		myEngine.setCurrentLevel(0);
+		myEngine.getCurrentLevelID().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				setLevel();
+				
+			}
+		});
 		
-		// TODO GIVE MODELS TO BACKEND
-		// bind image-specific attributes
+		
+		
+		setLevel();
+		myEngine.gameLoop();
+
+	}
+
+	public void setLevel() {
+		myView.clearSprites();
+		currentLevel = myEngine.getCurrentLevel();
+		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
+
+		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
+		AIController enemyController = new AIController(sf);
+		currentLevel.setAIController(enemyController);
+		currentLevel.setSpriteFactory(sf);
+		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
+		activeSprites.addListener((ListChangeListener<Integer>) change -> {
+            myView.setSprites(activeSprites);
+        });
+
+		myView.setSprites(activeSprites);
+		myView.setBackground(currentLevel.getLevelProperties().getLevelID());
+
+		setKeys();
+
+
 	}
 
 	public File getGameFile() {
 		return gameFile;
 	}
-	
-	@Override
-	public Scene getScene() {
-		return myPane.getScene();
+
+	public void play() {
+		myEngine.playGameLoop();
 	}
 
-	@Override
-	public void switchScene(IScreen screen) {
-		((Stage) myPane.getScene().getWindow()).setScene(screen.getScene());	
+	public Level getCurrentLevel() {
+		return currentLevel;
 	}
 
-	@Override
-	public void setParentScreen(IScreen screen) {
-		parentScreen = screen;	
+	public Map<Integer, ISprite> getSprites() {
+		return myEngine.getSpriteMap();
 	}
+
+	public Map<Integer, ViewSprite> getViewSprites() {
+		return myView.getViewSprites();
+	}
+
+	public void setKeys() {
+		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			System.out.println(key.getCode());
+			currentLevel.handleKeyPress(key);
+			key.consume();
+		});
+		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+			currentLevel.handleKeyRelease(key);
+			key.consume();
+		});
+	}
+
+	public void addSprite(ViewSprite vs) {
+		AESpriteFactory sf = new AESpriteFactory();
+		myView.getViewSprites().put(currentLevel.getCurrentSpriteID() + 1, vs);
+		currentLevel.addSprite(sf.makeSprite(vs));
+
+	}
+	public Screen getScreen() {
+		// TODO Auto-generated method stub
+		return myView;
+	}
+	public DoubleProperty getTime() {
+		// TODO Auto-generated method stub
+		System.out.println(myEngine.getTimeProperty().doubleValue());
+		return myEngine.getTimeProperty();
+	}
+	public DoubleProperty getHealth() {
+		System.out.println(myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty().doubleValue());
+		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
+	}
+	public IntegerProperty getScore() {
+		System.out.println(myEngine.getCurrentLevel().getScore());
+		return myEngine.getCurrentLevel().getScore();
+	}
+
 }

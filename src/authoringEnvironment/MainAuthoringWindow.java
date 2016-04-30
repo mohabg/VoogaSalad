@@ -1,64 +1,66 @@
 package authoringEnvironment;
-/**
- * @author davidyan
- */
+
 import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
+import authoringEnvironment.authoringToolbar.LEMenuBarCreator;
 import authoringEnvironment.itemWindow.ItemWindow;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
-import gameplayer.IScreen;
+import gameplayer.PlayScreen;
+import gameplayer.Screen;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
+import resources.FrontEndData;
 
-import java.awt.*;
+/**
+ * @author David Yan, Joe Jacob, Huijia Yu
+ */
 
-public class MainAuthoringWindow implements IScreen{
-	private BorderPane myPane;
-	private static final int myScreenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-	private static final int myScreenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-	private ItemWindow myItemWindow;
-	private AuthoringMenubarCreator myMenubar;
-	private GameMakerWindow myGameMakerWindow;
-	private SettingsWindow mySettingsWindow;
-
-	public MainAuthoringWindow(){
-		myPane = new BorderPane();
-
-		myGameMakerWindow = new GameMakerWindow();
-		myItemWindow = new ItemWindow(myGameMakerWindow);
-		myMenubar = new AuthoringMenubarCreator();
-		myMenubar.initMenuBar(myGameMakerWindow);
-		mySettingsWindow = new SettingsWindow();
-//        myItemWindow.init();
+public class MainAuthoringWindow extends Screen {
+    private ItemWindow myItemWindow;
+    //	private AbstractMenuBar myMenubar;
+    private GameMakerWindow myGameMakerWindow;
+    private SettingsWindow mySettingsWindow;
+    public LiveEditing le;
+    
+    public MainAuthoringWindow(Screen parent, String gameName) {
+        super(parent);
+        initBorderPane();
+        myItemWindow = new ItemWindow(myGameMakerWindow);
+        AuthoringMenubarCreator myMenubar = new AuthoringMenubarCreator(gameName);
+        myMenubar.initMenuBar(this, myGameMakerWindow);
         myGameMakerWindow.init(mySettingsWindow);
+        
+        ((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
+        setupScreen(myMenubar.getMenuBar());
+        
+    }
 
+    private void initBorderPane() {
+        myPane = new BorderPane();
+        mySettingsWindow = new SettingsWindow();
+        myPane.getStylesheets().add(FrontEndData.STARTING_STYLESHEET);
+        myGameMakerWindow = new GameMakerWindow();
+    }
 
-        myPane.setCenter(myGameMakerWindow.getMyTabPane());
-		myPane.setLeft(myItemWindow.getTabPane());
-		myPane.setTop(myMenubar.getMenuBar());
-		myPane.setRight(mySettingsWindow.getBox());
-//        mySettingsWindow.setContent();
-	}
+    private void setupScreen(MenuBar menuBar) {
+        ((BorderPane) myPane).setLeft(myItemWindow.getTabPane());
+        ((BorderPane) myPane).setTop(menuBar);
+        ((BorderPane) myPane).setRight(mySettingsWindow.getBox());
+    }
 
-	public Scene getScene(){
-		Scene myRetScene = new Scene(myPane, myScreenWidth, myScreenHeight);
-		myRetScene.getStylesheets().add("resources/styles.css");
-		return myRetScene;
-	}
-	public GameMakerWindow getGameMakerWindow(){
-		return myGameMakerWindow;
-	}
-
-	@Override
-	public void switchScene(IScreen screen) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setParentScreen(IScreen screen) {
-		// TODO Auto-generated method stub
-		
-	}
-
+    public MainAuthoringWindow(Screen parent, String gameName, PlayScreen myPlayScreen) {
+        super(parent);
+        initBorderPane();
+        le = new LiveEditing(myPlayScreen, mySettingsWindow);
+        myItemWindow = new ItemWindow(le);
+        LEMenuBarCreator myMenubar = new LEMenuBarCreator(gameName);
+        myMenubar.initMenuBar(this, le);
+        ((BorderPane) myPane).setCenter(le.getMyNewGamePane());
+        setupScreen(myMenubar.getMenuBar());
+    }
+    
+    public GameMakerWindow getGameMakerWindow() {
+        return myGameMakerWindow;
+    }
+    
 }

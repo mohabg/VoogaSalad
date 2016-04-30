@@ -1,82 +1,122 @@
 package authoringEnvironment.mainWindow;
 
+import authoringEnvironment.AESpriteFactory;
 /**
- * @author: davidyan
+ * @author: David Yan, Joe Jacob, Huijia Yu
  */
-import authoringEnvironment.Model;
-import authoringEnvironment.Settings;
+import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.itemWindow.ItemWindowData;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import authoringEnvironment.itemWindow.ItemTab;
+import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.Sprite;
+import interfaces.IGameWindow;
+import interfaces.ITabPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import authoringEnvironment.settingsWindow.SettingsWindow;
-import gameplayer.Screen;
-import interfaces.ITab;
-import interfaces.ITabPane;
-import spriteProperties.NumProperty;
+import resources.FrontEndData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import authoringEnvironment.LevelModel;
+import java.util.Map;
 
-public class GameMakerWindow implements ITabPane{
+public class GameMakerWindow implements ITabPane, IGameWindow {
 	private TabPane myTabPane;
+	private Map<Tab, GameAuthoringTab> myGameTabs;
 	private SettingsWindow myWindow;
 
 	public GameMakerWindow() {
-		myTabPane = new TabPane();
+
 	}
 
 	public void init(SettingsWindow window) {
+		myTabPane = new TabPane();
+		myTabPane.getStylesheets().add(FrontEndData.MAINWINDOW_STYLESHEET);
+		myGameTabs = new HashMap<>();
 		myWindow = window;
 		addNewTab();
+
+		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+			Tab selectedTab = myTabPane.getSelectionModel().getSelectedItem();
+			GameAuthoringTab gat = myGameTabs.get(selectedTab);
+			gat.setCurrentSpriteNull();
+		});
+
 	}
 
-	public void createNewTab(Map<ViewSprite, Model> mySpriteMap) {
-		String tabName = ItemWindowData.TAB + (myTabPane.getTabs().size() + 1);
-		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, tabName, myWindow);
+	/**
+	 * @param mySpriteMap
+	 *            uses the map to populate a new tab, or level, in the Game
+	 *            Authoring Window
+	 */
 
-		myTabPane.getTabs().add(myTab);
-		myTabPane.getSelectionModel().select(myTab);
+	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
+		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, myTabPane.getTabs().size() + 1, myWindow);
+		myGameTabs.put(myTab.getTab(), myTab);
+
+		getTabPane().getTabs().add(myTab.getTab());
+		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
 
-	public void populateEditingFromSave(List<LevelModel> gameLevels) {
+	/**
+	 * @param gameLevels
+	 *            takes a list of game level objects to populate the correct
+	 *            number of tabs with the correct objects
+	 */
+
+	public void setGameTabs(List<LevelModel> gameLevels) {
 		myTabPane.getTabs().clear();
+		// myTabPane.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+		myGameTabs = new HashMap<>();
 		for (LevelModel lm : gameLevels) {
-			createNewTab(lm.getMyMap());
+			AESpriteFactory sf = new AESpriteFactory();
+			createNewTab(sf.makeMap(lm.getMySpriteList()));
 		}
-	}
-	
-	public void addNewTab() {
-		createNewTab(new HashMap<ViewSprite, Model>());
 	}
 
 	public GameAuthoringTab getCurrentTab() {
-		return (GameAuthoringTab) myTabPane.getSelectionModel().getSelectedItem();
-	}
-	
-	public TabPane getMyTabPane() {
-		return myTabPane;
+		return myGameTabs.get(myTabPane.getSelectionModel().getSelectedItem());
 	}
 
-	@Override
-	public void addNewTab(ITab newTab) {
-		createNewTab(new HashMap<ViewSprite, Model>());
-	}
-
-	@Override
 	public TabPane getTabPane() {
 		return myTabPane;
 	}
+
+	@Override
+	public void addNewTab() {
+		createNewTab(new HashMap<ViewSprite, Sprite>());
+	}
+
+	/**
+	 * @return list of tabs
+	 */
+	@Override
+	public List<GameAuthoringTab> getTabs() {
+		List<GameAuthoringTab> myTabsList = new ArrayList<>();
+		myTabPane.getTabs().forEach(e -> {
+			myTabsList.add(myGameTabs.get(e));
+		});
+		return myTabsList;
+	}
+
+	public void setViewSprite(ViewSprite vs) {
+		getCurrentTab().setViewSprite(vs);
+
+	}
+
+	public void setBackground(String bg) {
+		getCurrentTab().setBackground(bg);
+
+	}
+
+	public void setPlayerViewSprite(ViewSprite viewsprite) {
+		getCurrentTab().setPlayerViewSprite(viewsprite);
+	}
+
+	
+
+	// @Override
+	// public TabPane getTabPane() {
+	// return myTabPane;
+	// }
 }
