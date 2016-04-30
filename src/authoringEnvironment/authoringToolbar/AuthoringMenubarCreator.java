@@ -15,8 +15,6 @@ import resources.FrontEndData;
  */
 public class AuthoringMenubarCreator extends AbstractMenuBar{
 
-	// TODO SWITCH TO REFLECTION
-
 
 	public AuthoringMenubarCreator(String gameName) {
 		super(gameName);

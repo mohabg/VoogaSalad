@@ -7,7 +7,13 @@ import gameElements.SpriteProperties;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 
+ * @author davidyan, Huijia Yu, Joe Jacob
+ * Factory to create copies of ViewSprites and set up the binded properties
+ * Create the map that connects the Model Sprite to its corresponding ViewSprite
+ *
+ */
 public class AESpriteFactory {
 	
 	public AESpriteFactory(){

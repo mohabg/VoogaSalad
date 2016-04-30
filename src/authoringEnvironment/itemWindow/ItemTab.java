@@ -12,7 +12,7 @@ import java.util.List;
 /** 
  * This is the abstract tab class which will be used for the item window. 
  *
- * @author Huijia
+ * @author Huijia, Joe Jacob, davidyan
  *
  */
 public  class ItemTab{

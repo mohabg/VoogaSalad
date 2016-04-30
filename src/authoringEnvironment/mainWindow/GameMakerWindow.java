@@ -19,7 +19,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 
+ * @author davidyan, Joe Jacob, Huijia Yu
+ * Initializes the overall Tab Pane object to hold the Game Authoring Tabs that represents each level of the game.
+ *
+ */
 public class GameMakerWindow implements ITabPane, IGameWindow {
 	private TabPane myTabPane;
 	private Map<Tab, GameAuthoringTab> myGameTabs;

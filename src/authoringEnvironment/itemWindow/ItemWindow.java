@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author David Yan, Sam Toffler, Huijia Yu, Joe Jacob
+ * Generates the Item Window in the Authoring Environment that displays all possible sprites to use in the game
  */
 public class ItemWindow {
 	private TabPane myTabPane;

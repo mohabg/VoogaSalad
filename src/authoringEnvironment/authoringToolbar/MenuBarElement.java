@@ -7,7 +7,8 @@ import javafx.scene.control.MenuItem;
 import resources.FrontEndData;
 
 /**
- * @author Joe Jacob
+ * @author Joe Jacob, Huijia Yu, davidyan
+ * Create default element in Menu Bar and binds action to the menu item object
  */
 public class MenuBarElement {
 	private Menu myMenu;

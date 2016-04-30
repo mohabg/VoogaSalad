@@ -12,7 +12,13 @@ import javafx.beans.property.StringProperty;
  */
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+/**
+ * 
+ * @author davidyan, Huijia Yu, Joe Jacob
+ * View aspect of the sprite in the Authoring Environment that contains the properties of the Sprite
+ * Contains the bound properties that allows the Sprites in the Authoring Environment to be changed
+ *
+ */
 public class ViewSprite extends ImageView {
 
 	private StringProperty myRef;

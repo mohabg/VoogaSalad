@@ -24,7 +24,12 @@ import resources.FrontEndData;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 
+ * @author davidyan, Huijia Yu
+ * Abstract class that contains all methods needed to handle drag and drop and click events of Screens 
+ * Includes the Authoring Environment Screen and the Game Player Screen
+ */
 public abstract class AClickableWindow {
 	
 	

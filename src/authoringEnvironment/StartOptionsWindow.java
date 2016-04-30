@@ -15,7 +15,10 @@ import resources.FrontEndData;
 import java.util.Optional;
 
 /**
- * @author Huijia Yu, Joe Jacob
+ * @author Huijia Yu, Joe Jacob, davidyan
+ * Contains the starting options that connects the user to the corresponding choice made from the initial selection
+ * Allows user to choose whether to create a new game, edit an existing game, or play an already made game.
+ * 
  */
 
 public class StartOptionsWindow extends Screen {

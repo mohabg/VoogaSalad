@@ -4,7 +4,11 @@ import authoringEnvironment.MainAuthoringWindow;
 import interfaces.ITabPane;
 import javafx.scene.control.MenuBar;
 import resources.FrontEndData;
-
+/**
+ * 
+ * @author davidyan, Huijia Yu, Joe Jacob
+ * Abstract MenuBar that extends functionality to all menu items shown in the Authoring Environment
+ */
 public abstract class AbstractMenuBar {
 	protected MenuBar myMenuBar;
 	protected String myName;
