@@ -24,6 +24,7 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 		myNewGamePane.getChildren().removeAll(ps.getViewSprites().values());
 		initArea();
 	}
+	
 	@Override
 	public void initArea() {
 		ScrollPane myNewGameArea = new ScrollPane();
