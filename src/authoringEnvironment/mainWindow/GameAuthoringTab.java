@@ -87,7 +87,6 @@ public class GameAuthoringTab extends AClickableWindow {
 		System.out.println("sdsds");
 		
 		myTab.getTabPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			System.out.println(key.getCode());
 			updateViewpoint(key.getCode());		
 			key.consume();
 		});
@@ -95,18 +94,18 @@ public class GameAuthoringTab extends AClickableWindow {
 	
 	private void updateViewpoint(KeyCode code) {
 		switch (code) {
-			case LEFT:	absoluteX.subtract(1);
+			case LEFT:	absoluteX.set(absoluteX.getValue() - 1);
 				break;
-			case RIGHT: absoluteX.add(1);
+			case RIGHT: absoluteX.set(absoluteX.getValue() + 1);
 				break;
-			case UP:	absoluteY.subtract(1);
+			case UP:	absoluteY.set(absoluteY.getValue() - 1);
 				break;
-			case DOWN:	absoluteY.add(1);
+			case DOWN:	absoluteY.set(absoluteY.getValue() + 1);
 				break;
 			default:
 		}
 		
-		System.out.println(absoluteX.getValue() + " " + absoluteY.getValue());
+		System.out.println(code.getName() + " " + absoluteX.getValue() + " " + absoluteY.getValue());
 	}
 
 	public List<Sprite> getList() {
