@@ -1,16 +1,16 @@
 package events;
 
-import java.util.Collection;
 import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
-import gameElements.ISprite;
 import collisions.DamageCollision;
-import gameElements.Sprite;
+import gameElements.ISprite;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import level.LevelProperties;
+
+import java.util.Collection;
 
 public class CollisionEvent extends Event {
 	
@@ -52,9 +52,7 @@ public class CollisionEvent extends Event {
 					checker.checkColliding(spriteArr[i],spriteArr[j]);
 					levProps.setCollidingSprites(spriteArr[i], spriteArr[j]);
 					if ( checker.isTriggered()) { 
-						getExecutable().execute(action, levProps);
-					}
-				}
+						getExecutable().execute(action, levProps);}}
 			}
 		}
 	}

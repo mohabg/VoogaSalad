@@ -1,17 +1,5 @@
 package behaviors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import authoringEnvironment.RefObject;
-import collisions.Collision;
-import gameElements.ExecuteConditions;
-import gameElements.Health;
-import gameElements.Sprite;
-import gameElements.SpriteProperties;
-import gameplayer.SpriteFactory;
 import level.LevelProperties;
 
 /**
@@ -25,7 +13,7 @@ public class Armor extends Defense{
 		super();
 	}
 	/**
-	 * @param sprite Determines whether the sprite is eligible to use its defense
+	 * @param actions Determines whether the sprite is eligible to use its defense
 	 */
 
 	@Override

@@ -32,11 +32,7 @@ public class MainAuthoringWindow extends Screen {
         myItemWindow = new ItemWindow(myGameMakerWindow);
         AuthoringMenubarCreator myMenubar = new AuthoringMenubarCreator(gameName);
         myMenubar.initMenuBar(this, myGameMakerWindow);
-        
-        
-        
         setupScreen(myMenubar.getMenuBar());
-       
     }
 
     private void initBorderPane() {

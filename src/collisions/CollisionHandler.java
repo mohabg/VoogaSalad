@@ -1,18 +1,14 @@
 package collisions;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-
 import behaviors.IActions;
 import events.Executable;
-import gameElements.Sprite;
-import gameElements.SpriteMap;
+import level.LevelProperties;
+
+import java.lang.reflect.Method;
 
 /**
- * Handles overall collisions 
+ * Handles overall collisions
  */
-
-import level.LevelProperties;
 
 public class CollisionHandler implements Executable {
 	
@@ -46,8 +42,6 @@ public class CollisionHandler implements Executable {
 
 	/**
 	 * @param one triggers the handleCollision methods of Collisions one and two
-	 * @see haveCollisionEffects
-	 * @see handleCollision
 	 */
 	private void applyCollision(Collision one, Collision two, LevelProperties levelProperties){
 		if(haveCollisionEffects(one, two, levelProperties)){
