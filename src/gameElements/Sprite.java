@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import level.LevelProperties;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -128,13 +129,13 @@ public class Sprite implements ISprite{
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update(IActions actions) {
+	public void update(IActions actions, LevelProperties levProps) {
 		actions.setSprite(this);
 		this.getSpriteProperties().updatePos();
-		for (Behavior behavior : behaviors.values()) {
+ 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.execute(actions, null);
-				behavior.stop(actions, null);
+				behavior.execute(actions, levProps);
+				behavior.stop(actions, levProps);
 			}
 		}
 		if(!this.getMyRef().equals("pictures/cipher.png")){

@@ -55,4 +55,9 @@ public class Actions implements IActions{
 		this.target = target;
 	}
 
+	@Override
+	public ISprite getSprite() {
+		return this.sprite;
+	}
+
 }

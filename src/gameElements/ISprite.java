@@ -13,6 +13,7 @@ import gameplayer.SpriteFactory;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
+import level.LevelProperties;
 
 public interface ISprite{
 	
@@ -24,7 +25,7 @@ public interface ISprite{
 		Defense
 	}
 	
-	public void update(IActions actions);
+	public void update(IActions actions, LevelProperties levProps);
 
 	public String getMyRef();
 

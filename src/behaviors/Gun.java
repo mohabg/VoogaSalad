@@ -46,7 +46,8 @@ public class Gun extends Attack{
             getMovement().enable();
             //Setting movement through authoring environment not working
             Movement topDown = new MoveVertically(-50);
-            bullet.addBehavior(topDown);
+            topDown.enable();
+             bullet.addBehavior(topDown);
         	setAmmunition(getAmmunition() - 1);
     }
 }
