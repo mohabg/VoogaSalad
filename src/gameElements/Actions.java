@@ -7,6 +7,7 @@ import gameplayer.SpriteFactory;
 public class Actions implements IActions{
 	
 	private ISprite sprite;
+	private ISprite target;
 	private SpriteFactory spriteFactory; 
 	
 	public Actions(){
@@ -44,6 +45,19 @@ public class Actions implements IActions{
 	@Override
 	public boolean spriteCanMove() {
 		return this.getSpriteProperties().canMove();
+	}
+	@Override
+	public ISprite getTarget() {
+		return this.target;
+	}
+	@Override
+	public void setTarget(ISprite target) {
+		this.target = target;
+	}
+
+	@Override
+	public ISprite getSprite() {
+		return this.sprite;
 	}
 
 }

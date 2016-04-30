@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import level.LevelProperties;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -32,7 +33,6 @@ public class Sprite implements ISprite{
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 	private MapProperty<StringProperty, Behavior> behaviors;
-	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
 	private RefObject myRef;
 
@@ -55,10 +55,11 @@ public class Sprite implements ISprite{
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 
 		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
-		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
 		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-		
+		/*Behavior topDown = new MoveVertically(2);
+		topDown.enable();
+		this.addBehavior(topDown);*/
 		myHealth = new Health(100);
 
 		myCollisions.add(new EnemyCollision());
@@ -116,7 +117,7 @@ public class Sprite implements ISprite{
 		this.behaviors.set(om2);
 	}
 
-	public Sprite(SpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
+	public Sprite(ISpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
 			MapProperty<StringProperty, Behavior> behaviors, RefObject myRef) {
 		this(myRef);
 		this.myProperties = properties;
@@ -124,41 +125,33 @@ public class Sprite implements ISprite{
 		this.behaviors.set(behaviors);
 	}
 
+
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update(IActions actions) {
+	public void update(IActions actions, LevelProperties levProps) {
+		actions.setSprite(this);
 		this.getSpriteProperties().updatePos();
-		for (Behavior behavior : behaviors.values()) {
+ 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.execute(actions, null);
-				behavior.stop(actions, null);
+				behavior.execute(actions, levProps);
+				behavior.stop(actions, levProps);
 			}
 		}
+		if(!this.getMyRef().equals("pictures/cipher.png")){
+			//System.out.println(this.hashCode() + " " + this.myProperties.getY() + " " + this.myProperties.getYVel());
+}
 	}
 
 	public Sprite getClone(){
 		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions, this.myRef);
 	}
 	
-	public MapProperty<KeyCode, Executable> getUserPressBehaviors() {
-		return userPressBehaviors;
-	}
 
 	public void addBehavior(Behavior behavior) {
 		behaviors.put(new SimpleStringProperty(behavior.getClass().getName()), behavior);
 
-	}
-
-	public void setUserPressBehaviors(Map<KeyCode, Executable> userBehaviors) {
-		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(userBehaviors);
-		this.userPressBehaviors.set(om2);
-	}
-
-	public void addUserPressBehavior(KeyCode key, Behavior behavior) {
-		this.userPressBehaviors.put(key, behavior);
-	}
-
+	}/*
 	public Map<String, Behavior> getBehaviors(){
 		Map<String, Behavior> fakeB = new HashMap<String, Behavior>();
 		for (StringProperty s : behaviors.keySet()) {
@@ -167,7 +160,7 @@ public class Sprite implements ISprite{
 
 		return fakeB;
 	}
-
+*/
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -255,15 +248,6 @@ public class Sprite implements ISprite{
 			addCollision(new EnemyCollision());
 		}
 	}
-	/**
-	 *
-	 * @param keyCode
-	 *            Checks if the KeyCode corresponds to an action
-	 * @return
-	 */
-	public Executable getUserPressBehavior(KeyCode keyCode) {
-		return userPressBehaviors.get(keyCode);
-	}
 	
 	public void takeDamage(double damage) {
 		//Damage defense before health
@@ -301,5 +285,14 @@ public class Sprite implements ISprite{
 	
 	public boolean isOutOfBounds() {
 		return this.getSpriteProperties().isOutOfBounds();
+	}
+
+	public void setBehaviors(MapProperty<StringProperty, Behavior> behaviors) {
+		this.behaviors = behaviors;
+	}
+
+	@Override
+	public MapProperty<StringProperty, Behavior> getBehaviors() {
+		return this.behaviors;
 	}
 }

@@ -10,6 +10,11 @@ import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.SpriteProperties;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SpriteFactory {
-	// do we want to use an interface??
+	
 	private Map<Integer, ViewSprite> myViewSprites;
 	private SpriteMap spriteMap;
 	
@@ -49,6 +54,16 @@ public class SpriteFactory {
 		return createAndBindSprite(myHealth, myCollisions, myBehaviors, myRef, vs, sp);
 
 	}
+	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,
+			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
+		//TEMPORARY
+		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
+		vs.bindToSprite(s);
+		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
+		spriteMap.addSprite(s);
+		return s;
+	}
+
 	public Sprite makeSprite(double x, double y, ISpriteProperties clone, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
 		double imageWidth = vs.getMySpriteProperties().getWidth();
@@ -65,13 +80,13 @@ public class SpriteFactory {
 			clonedCollisions.add(col.clone());
 		}
 		ViewSprite vs = new ViewSprite(sprite.getMyRef());
-		return createAndBindSprite(sprite.getMyHealth().getClone(), clonedCollisions, sprite.getBehaviors(), 
+		return this.createAndBindSprite(sprite.getMyHealth().getClone(), clonedCollisions, sprite.getBehaviors(), 
 				new RefObject(sprite.getMyRef()), vs, clonedProperties);
 	}
 	
-	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,
+	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, MapProperty<StringProperty, Behavior> myBehaviors,
 			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
-		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
+		Sprite s = new Sprite(sp, myHealth, new SimpleListProperty<Collision>() , myBehaviors, myRef);
 		vs.bindToSprite(s);
 		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
 		spriteMap.addSprite(s);

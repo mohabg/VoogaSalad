@@ -5,12 +5,15 @@ import java.util.Map;
 
 import behaviors.Behavior;
 import behaviors.IActions;
+import behaviors.Movement;
 import collisions.Collision;
 import collisions.DamageCollision;
 import events.Executable;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
+import level.LevelProperties;
 
 public interface ISprite{
 	
@@ -22,7 +25,7 @@ public interface ISprite{
 		Defense
 	}
 	
-	public void update(IActions actions);
+	public void update(IActions actions, LevelProperties levProps);
 
 	public String getMyRef();
 
@@ -32,13 +35,9 @@ public interface ISprite{
 
 	public void kill();
 
-	public Map<String, Behavior> getBehaviors();
-	
 	public ISpriteProperties getSpriteProperties();
 
 	public boolean isUserControlled();
-
-	public MapProperty<KeyCode, Executable> getUserPressBehaviors();
 
 	public boolean isDead();
 
@@ -46,9 +45,10 @@ public interface ISprite{
 
 	public void setUserControlled(boolean userAction);
 
-
-
 	public void addCollision(Collision damageCollision);
 
 	public Health getMyHealth();
+
+	public void addBehavior(Behavior behavior);
+	public MapProperty<StringProperty, Behavior> getBehaviors();
 }

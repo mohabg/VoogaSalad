@@ -19,14 +19,4 @@ public class EnemyCollision extends Collision{
 	public Collision clone() {
 		return new EnemyCollision();
 	}
-	public void execute(IActions action, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-		
-	}
 }

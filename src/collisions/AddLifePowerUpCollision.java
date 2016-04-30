@@ -30,13 +30,4 @@ public class AddLifePowerUpCollision extends Collision{
 	public Collision clone() {
 		return new AddLifePowerUpCollision(getValue());
 	}
-	public void execute(IActions action, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-	}
-	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
