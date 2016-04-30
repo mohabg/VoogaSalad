@@ -10,6 +10,7 @@ import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.SpriteProperties;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
@@ -42,11 +43,11 @@ public class SpriteFactory {
 		return this.myViewSprites;
 	}
 	public Sprite makeSprite(double x, double y, RefObject myRef){
-		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
+		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new ArrayList<Behavior>(), myRef);
 	}
 
 	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef) {
+			List<Behavior> myBehaviors, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
 		ISpriteProperties sp = vs.getMySpriteProperties();
 		sp.setX(x);
@@ -54,7 +55,7 @@ public class SpriteFactory {
 		return createAndBindSprite(myHealth, myCollisions, myBehaviors, myRef, vs, sp);
 
 	}
-	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,
+	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, List<Behavior> myBehaviors,
 			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
 		//TEMPORARY
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
@@ -70,7 +71,7 @@ public class SpriteFactory {
 		double imageHeight = vs.getMySpriteProperties().getHeight();
 		clone.setWidth(imageWidth);
 		clone.setHeight(imageHeight);
-		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new HashMap<String,Behavior>(), myRef, vs, clone);
+		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new SimpleListProperty<Behavior>(), myRef, vs, clone);
 	}
 	
 	public Sprite clone(ISprite sprite){
@@ -84,7 +85,7 @@ public class SpriteFactory {
 				new RefObject(sprite.getMyRef()), vs, clonedProperties);
 	}
 	
-	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, MapProperty<StringProperty, Behavior> myBehaviors,
+	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, ListProperty<Behavior> myBehaviors,
 			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
 		Sprite s = new Sprite(sp, myHealth, new SimpleListProperty<Collision>() , myBehaviors, myRef);
 		vs.bindToSprite(s);
