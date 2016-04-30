@@ -10,20 +10,13 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.Setting
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SubclassComboBoxMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
-import gameplayer.ButtonFactory;
+
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+
 import javafx.scene.control.*;
-import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.input.KeyCode;
+
 import javafx.scene.layout.*;
-import javafx.util.StringConverter;
-import resources.FrontEndData;
-import resources.ResourcesReader;
+
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -132,7 +125,7 @@ public class VisualFactory {
 		Class<R> clazz = (Class<R>) f.getType();
 		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);
 
-		List<HBox> props = makePropertyBoxes(parentObj, f, clazz, fObj, clazz.getName(), new ArrayList<HBox>(), true);
+		List<HBox> props = makePropertyBoxes(parentObj, f, clazz, fObj, clazz.getName(), true);
 		propVBox.getChildren().addAll(props);
 
 		return propVBox;
@@ -275,8 +268,10 @@ public class VisualFactory {
 	}
 
 		
-	public static <R, K> List<HBox> makePropertyBoxes(Object parent, Field field, Class<R> fieldClass, R fieldObject, String fieldName, List<HBox> properties, boolean makeBox) {
+	public static <R, K> List<HBox> makePropertyBoxes(Object parent, Field field, Class<R> fieldClass, R fieldObject, String fieldName, boolean makeBox) {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();		
+		List<HBox> properties = new ArrayList<HBox>();
+		
 		if (Property.class.isAssignableFrom(fieldClass)) {
 			fieldVBoxHBox.getChildren().addAll(SettingsObjectMaker.makeSettingsObject(fieldObject, fieldName));
 			properties.add(fieldVBoxHBox);
@@ -331,7 +326,7 @@ public class VisualFactory {
 						if (childField.isAnnotationPresent(SetFieldName.class)) {
 							pName = childField.getAnnotation(SetFieldName.class).label();
 						}
-						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, (Class<K>) childField.getType(), otherFieldObject, pName, new ArrayList<HBox>(), true));
+						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, (Class<K>) childField.getType(), otherFieldObject, pName, true));
 					}
 				}
 			}
