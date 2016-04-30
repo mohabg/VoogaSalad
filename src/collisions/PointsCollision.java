@@ -19,7 +19,6 @@ public class PointsCollision extends Collision{
 	public void handleCollision(EnemyCollision enemy, LevelProperties levelProperties){
 		Integer newScore = (int) (levelProperties.getCurrentPoints() + getValue());
 		levelProperties.setCurrentPoints(newScore);
-		System.out.println("currentPoints"+newScore);
 	}
 	@Override
 	public Collision clone() {

@@ -26,6 +26,7 @@ import java.util.List;
 public class LevelModel {
 	private ListProperty<Goal> myGoals;
 	private ListProperty<Event> myEvents;
+	@IgnoreField
 	private IntegerProperty numGoals;
 	@IgnoreField
 	private List<Sprite> myList;

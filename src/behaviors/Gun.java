@@ -43,13 +43,10 @@ public class Gun extends Attack{
     		ISpriteProperties properties = actions.getSpriteProperties();
         	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
-        	Behavior movement = new ThrustVertical(-75);
-        	movement.enable();
-        	actions.setSprite(bullet);
-        	bullet.addCollision(new DamageCollision(10));
-        	bullet.addCollision(new DissapearCollision());
-        	bullet.addCollision(new PointsCollision(10));
-            movement.apply(actions,levProps);
+            getMovement().enable();
+            //Setting movement through authoring environment not working
+            Movement topDown = new MoveVertically(-50);
+            bullet.addBehavior(topDown);
         	setAmmunition(getAmmunition() - 1);
     }
 }

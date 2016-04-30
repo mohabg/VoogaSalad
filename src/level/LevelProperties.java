@@ -177,7 +177,7 @@ public class LevelProperties {
 	}
 
 	public void setCurrentPoints(Integer currentPoints) {
-		this.score.equals(currentPoints);
+		this.score.setScoreValue(currentPoints);
 	}
 
 	public Integer getNumGoals() {

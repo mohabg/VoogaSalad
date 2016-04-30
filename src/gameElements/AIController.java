@@ -14,7 +14,6 @@ public class AIController {
 	
 	private SpriteFactory spriteFactory;
 	private Map<ExecuteConditions, List<ISprite>> executeConditionToSprites;
-	private Map<String, Movement> enemyMovements;
 	
 	public AIController(){
 		this(null);
@@ -22,13 +21,14 @@ public class AIController {
 	
 	public AIController(SpriteFactory spriteFactory){
 		executeConditionToSprites = new HashMap<>();
-		enemyMovements = new HashMap<String, Movement>();
 		this.spriteFactory = spriteFactory;
 		Map<ExecuteConditions, List<ISprite>> conditions = this.getExecuteConditionToSprites();
 		ExecuteConditions spawn = new EnemySpawnConditions();
 		List<ISprite> sprites = new ArrayList<>();
 		for(ISprite sprite : this.getSpriteFactory().getSpriteMap().getSprites()){
-			sprites.add(sprite);
+			if(!sprite.equals(this.spriteFactory.getSpriteMap().getUserControlledSprite())){
+				sprites.add(sprite);
+			}
 		}
 		conditions.put(spawn, sprites);
 	}
@@ -52,15 +52,7 @@ public class AIController {
 	public void setExecuteConditionToSprites(Map<ExecuteConditions, List<ISprite>> spawnConditionsForSprites) {
 		this.executeConditionToSprites = spawnConditionsForSprites;
 	}
-
-	public Map<String, Movement> getEnemyMovements() {
-		return enemyMovements;
-	}
-
-	public void setEnemyMovements(Map<String, Movement> enemyMovements) {
-		this.enemyMovements = enemyMovements;
-	}
-
+	
 	public SpriteFactory getSpriteFactory() {
 		return this.spriteFactory;
 	}

@@ -70,7 +70,7 @@ public class Level implements ILevel {
 	public Level() {
 
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0.9, 1);
+		physicsEngine = new PhysicsEngine(0.9, 0);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
@@ -190,11 +190,12 @@ public class Level implements ILevel {
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
 		for (Integer spriteID : spriteIDList) {
 			ISprite sprite = spriteMap.get(spriteID);
-			this.actions.setSprite(sprite);
 			sprite.update(this.actions);
 			this.getPhysicsEngine().updateSprite(sprite);
-			if(sprite.isOutOfBounds() && !spriteIsHero(sprite)){
-				//Temporary to avoid lagging
+			if(spriteIsHero(sprite)){
+				sprite.getSpriteProperties().stayInBounds();
+			}
+			else if(sprite.isOutOfBounds()){
 				sprite.kill();
 			}
 			removeDeadSprite(spriteID, spriteList);

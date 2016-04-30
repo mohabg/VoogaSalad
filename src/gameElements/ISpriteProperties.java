@@ -40,4 +40,5 @@ public interface ISpriteProperties {
 	public void disableMovement();
 	public void updatePos();
 	public boolean canMove();
+	public void stayInBounds();
 }

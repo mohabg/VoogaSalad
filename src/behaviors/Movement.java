@@ -32,7 +32,9 @@ public abstract class Movement extends Behavior{
 	}
 	@Override 
 	public void stop(IActions actions, LevelProperties levProps){
-		this.disable();
+		if(actions.getSpriteProperties().isUserControlled()){
+			this.disable();
+		}
 	}
 	/**
 	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly

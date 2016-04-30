@@ -12,6 +12,10 @@ import javafx.beans.property.DoubleProperty;
  */
 public class MoveTurn extends Movement {
 	
+	public MoveTurn(){
+		super();
+	}
+	
 	public MoveTurn(double value){
 		super(value);
 	}
