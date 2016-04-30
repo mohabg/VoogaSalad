@@ -19,14 +19,16 @@ public class Health {
 	
 	private DoubleProperty healthValue;
 	private BooleanProperty isMortal;	
-	private IntegerProperty numLives;
+	private DoubleProperty numLives;
+
+
 	@IgnoreField
 	private double originalHealthValue;
 	
 	public Health(){
 		healthValue = new SimpleDoubleProperty(0);
 		isMortal = new SimpleBooleanProperty(false);
-		numLives = new SimpleIntegerProperty(1);
+		numLives = new SimpleDoubleProperty(1);
 	}
 	
 	public Health(double myHealth){
@@ -50,7 +52,7 @@ public class Health {
 	public double getHealthValue() {
 		return healthValue.doubleValue();
 	}
-
+	
 	public void takeDamage(double damage) {
 		changeHealth(damage * -1);
 		if(this.healthValue.get() <= 0){
@@ -63,6 +65,7 @@ public class Health {
 			}
 		}
 	}
+
 	public void addLife(){
 		this.numLives.set(numLives.get() + 1);
 	}
@@ -102,5 +105,9 @@ public class Health {
 		clone.setHealth(this.getHealthValue());
 		clone.setMortal(this.isMortal.get());
 		return clone;
+	}
+	
+	public DoubleProperty getNumLives() {
+		return numLives;
 	}
 }
