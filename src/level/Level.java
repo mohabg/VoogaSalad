@@ -16,26 +16,15 @@ import behaviors.MoveTurn;
 import behaviors.Shield;
 import behaviors.ThrustHorizontal;
 import behaviors.ThrustVertical;
-import collisions.Collision;
-import collisions.CollisionChecker;
-import collisions.CollisionHandler;
-import collisions.DamageCollision;
-import collisions.DissapearCollision;
-import collisions.EnemyCollision;
 import gameElements.AIController;
 import gameElements.Actions;
 import gameElements.ExecuteConditions;
-import gameElements.IEnemy;
 import gameElements.ISprite;
-import gameElements.ISprite.spriteState;
-import events.CollisionEvent;
 import events.Event;
 import events.EventManager;
 import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
-import events.Trigger;
-import gameElements.Score;
 import gameElements.SpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -50,8 +39,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
-import keyboard.KeyboardActionChecker;
-import keyboard.KeyboardActionFactory;
 
 
 
@@ -90,12 +77,7 @@ public class Level implements ILevel {
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DamageCollision(10), new ActorCollision());
-		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
 
-				new DissapearCollision(), new EnemyCollision());
-		
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
@@ -112,8 +94,8 @@ public class Level implements ILevel {
 
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
 
-		myEventManager.addEvent(hardCodedEvent);
-		myEventManager.addEvent(hardCodedEvent1);
+		
+
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
 		myEventManager.addEvent(forward);

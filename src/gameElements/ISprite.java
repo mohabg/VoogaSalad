@@ -46,10 +46,9 @@ public interface ISprite{
 
 	public void setUserControlled(boolean userAction);
 
-	public Health getMyHealth();
+
 
 	public void addCollision(Collision damageCollision);
-	
 
-	public ISprite clone();
+	public Health getMyHealth();
 }

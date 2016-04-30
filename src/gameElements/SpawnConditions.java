@@ -18,7 +18,7 @@ public class SpawnConditions extends ExecuteConditions{
 	public SpawnConditions(){
 		super();
 	    this.setProbability(0.5);
-	    this.setFrequency(10);
+	    this.setFrequency(5);
 		myRespawnTopProbability = new SimpleDoubleProperty(0.3);
 		myRespawnLeftProbability = new SimpleDoubleProperty(0.6);
 		myRespawnRightProbability = new SimpleDoubleProperty(1);
@@ -38,22 +38,22 @@ public class SpawnConditions extends ExecuteConditions{
 	
 	private Point getSpawnPosition(){
 		//use probability to return left right top
-			if(Math.random() >= 0 && Math.random() <= myRespawnLeftProbability.doubleValue()){
+		double rand = Math.random();
+			if(rand >= 0 && rand <= myRespawnLeftProbability.doubleValue()){
 				//If generates between 0 and 0.3 respawn at top
 				//TODO: Replace this with Top of Screen Point
 				return new Point(Settings.getScreenWidth()/2,0);
 			}
-			if(Math.random() > myRespawnTopProbability.doubleValue() && Math.random() < myRespawnLeftProbability.doubleValue()){
+			if(rand > myRespawnTopProbability.doubleValue() && rand < myRespawnLeftProbability.doubleValue()){
 				//If generates between 0.4 and 0.6 respawn at left position
 				//TODO: Replace this with Left of Screen point
 				return new Point(0,Settings.getScreenHeight()/2);
 			}
-			if(Math.random() > myRespawnLeftProbability.doubleValue() && Math.random() < myRespawnRightProbability.doubleValue()){
+			if(rand > myRespawnLeftProbability.doubleValue() && rand < myRespawnRightProbability.doubleValue()){
 				//if generates greater than 0.6 respawn at right point
 				//TODO: Replace this with Right of Screen point
 				return new Point(Settings.getScreenWidth(),Settings.getScreenHeight()/2);
 			}
-	
 		return null;
 		
 	}
@@ -67,8 +67,7 @@ public class SpawnConditions extends ExecuteConditions{
 		Point start = this.getSpawnPosition();
 		List<ISprite> spritesToSpawn = aiController.getExecuteConditionToSprites().get(this);
 		for(ISprite enemy : spritesToSpawn){
-			ISprite cloned = enemy.clone();
-			aiController.getSpriteFactory().getSpriteMap().addSprite(cloned);
+			ISprite cloned = aiController.getSpriteFactory().clone(enemy);
 			cloned.getSpriteProperties().setX(start.getX());
 			cloned.getSpriteProperties().setY(start.getY());
 		}
