@@ -22,7 +22,7 @@
           <artifactId>jsch</artifactId>
           <version>1.0.0</version>
           <scope>system</scope>
-          <systemPath>${project.basedir}/lib/jsch-0.1.5.3.jar</systemPath>
+          <systemPath>${project.basedir}/lib/jsch-0.1.53.jar</systemPath>
         </dependency>
         <dependency>
           <groupId>reflectutils</groupId>
