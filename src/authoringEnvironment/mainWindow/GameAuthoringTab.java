@@ -88,13 +88,13 @@ public class GameAuthoringTab extends AClickableWindow {
 	
 	private void updateViewpoint(KeyCode code) {
 		switch (code) {
-			case LEFT:	absoluteX.set(absoluteX.getValue() - 3);
+			case LEFT:	absoluteX.set(absoluteX.getValue() - 5);
 				break;
-			case RIGHT: absoluteX.set(absoluteX.getValue() + 3);
+			case RIGHT: absoluteX.set(absoluteX.getValue() + 5);
 				break;
-			case UP:	absoluteY.set(absoluteY.getValue() - 3);
+			case UP:	absoluteY.set(absoluteY.getValue() - 5);
 				break;
-			case DOWN:	absoluteY.set(absoluteY.getValue() + 3);
+			case DOWN:	absoluteY.set(absoluteY.getValue() + 5);
 				break;
 			default:
 		}

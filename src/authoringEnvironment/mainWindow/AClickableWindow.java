@@ -12,11 +12,17 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import resources.FrontEndData;
@@ -160,12 +166,12 @@ public abstract class AClickableWindow {
 	}
 	
 	public void setBackground(String background) {
-		myNewGamePane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
-				   "-fx-background-repeat: repeat;");		
+		//myNewGamePane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
+		//		   "-fx-background-repeat: repeat;");	
+		myNewGamePane.setBackground(new Background(new BackgroundImage(new Image(background), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 	}
 	
 	public String getBackground() {
-		// TODO Auto-generated method stub
 		return myNewGamePane.getStyle().replace("-fx-background-image: url(", "").replace(");", "").replace("-fx-background-repeat: repeat;", "").trim();
 	}
 
