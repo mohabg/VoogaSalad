@@ -2,6 +2,7 @@ package goals;
 
 import gameElements.ISprite;
 import gameElements.Sprite;
+import javafx.beans.property.IntegerProperty;
 import level.Level;
 
 /**
@@ -18,6 +19,9 @@ public class GoalChecker implements IGoalVisitor{
 		setLevel(myLevel);
 	}
 	
+	public GoalChecker(){
+		level= new Level();
+	}
 	
 
 	@Override
@@ -28,7 +32,7 @@ public class GoalChecker implements IGoalVisitor{
 //      System.out.println(getLevel().getCurrentPoints()); 
 //		System.out.println("goalboolean");
 //      System.out.println(goal.getNumPoints() < getLevel().getCurrentPoints());
-		return goal.getNumPoints() < getLevel().getCurrentPoints();
+		return goal.getNumPoints().intValue() < getLevel().getCurrentPoints();
 	}
 	
 	public boolean visit(StayAliveGoal goal){
@@ -49,7 +53,8 @@ public class GoalChecker implements IGoalVisitor{
 		System.out.println("reached kilchecker");
 
 		boolean bossBoolean=true;
-		for(Integer integer: goal.getBossIDList()){
+		for(IntegerProperty integerProperty: goal.getBossIDList().get()){
+			Integer integer=integerProperty.intValue();
 			if(getLevel().getSpriteMap().getSpriteIDList().contains(integer)){
 				bossBoolean=false;
 				break;

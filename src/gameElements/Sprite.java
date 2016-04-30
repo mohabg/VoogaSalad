@@ -31,7 +31,6 @@ public class Sprite implements ISprite, IEnemy{
 	private ISpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
-
 	private MapProperty<StringProperty, Behavior> behaviors;
 	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
@@ -54,7 +53,9 @@ public class Sprite implements ISprite, IEnemy{
 		ObservableMap<StringProperty, Behavior> om1 = FXCollections
 				.observableMap(new HashMap<StringProperty, Behavior>());
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
-
+		behaviors.sizeProperty().addListener((o, ov, nv) -> {
+			System.out.println("poo");
+		});
 		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
 		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
@@ -132,7 +133,8 @@ public class Sprite implements ISprite, IEnemy{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions, null);
+				behavior.execute(actions, null);
+				behavior.stop(actions, null);
 			}
 		}
 	}
@@ -176,6 +178,7 @@ public class Sprite implements ISprite, IEnemy{
 		this.myRef = myRef;
 	}
 
+	@Override
 	public Health getMyHealth() {
 		return myHealth;
 	}

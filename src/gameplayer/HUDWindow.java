@@ -8,12 +8,16 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import HUD.HUDEnum;
+import HUD.HeadsUpDisplay;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class HUDWindow{
-	PlayScreen myPlayScreen;
+	private HeadsUpDisplay myHUD;
 	private FlowPane myFlowPane;
+
+	PlayScreen myPlayScreen;
 	
 	public HUDWindow(PlayScreen myPlayScreen) {
 		this.myPlayScreen =  myPlayScreen;
@@ -54,5 +58,11 @@ public class HUDWindow{
 	
 	public Pane getPane(){
 		return myFlowPane;
+	}
+	
+	public void initHUD() {
+//		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
+		myHUD.addToHUDElement(HUDEnum.Up, myPlayScreen.getTime(), myPlayScreen.getHealth(), myPlayScreen.getScore());
+//		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
 	}
 }

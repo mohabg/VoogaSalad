@@ -8,7 +8,6 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
-import interfaces.ITab;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -40,14 +39,16 @@ public class LevelModel {
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
 		
-		myEvents = new SimpleListProperty<Event>(FXCollections.observableList(new ArrayList<Event>()));
-
+		myEvents = new SimpleListProperty<Event>(FXCollections.<Event>observableList(new ArrayList<Event>()));
+		myEvents.sizeProperty().addListener((o, ov, nv) -> {
+			System.out.println("i changed");
+		});
 //		myKeyMap = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		numGoals = new SimpleIntegerProperty(1);
 		myList = new ArrayList<Sprite>();
 	}
 
-	public LevelModel(ITab levelTab) {
+	public LevelModel(GameAuthoringTab levelTab) {
 		this();
 		myBackground = levelTab.getBackground();
 		
@@ -84,6 +85,15 @@ public class LevelModel {
 	}
 	public List<Event> getMyEvents(){
 		return myEvents;
+	}
+
+	public void setBackground(String background) {
+		myBackground = background;
+		
+	}
+
+	public void addSprites(List<Sprite> list) {
+		myList.addAll(list);		
 	}
 
 }

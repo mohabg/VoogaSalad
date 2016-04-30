@@ -49,4 +49,7 @@ public interface ISprite{
 	public Health getMyHealth();
 
 	public void addCollision(Collision damageCollision);
+	
+
+	public ISprite clone();
 }

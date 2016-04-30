@@ -2,6 +2,7 @@ package authoringEnvironment;
 
 import authoringEnvironment.mainWindow.AClickableWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.control.ScrollPane;
@@ -53,6 +54,10 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 	}
 	public PlayScreen getPlayScreen(){
 		return ps;
+	}
+	@Override
+	public void setPlayerViewSprite(ViewSprite viewsprite) {
+		setViewSprite(viewsprite);
 	}
 	
 

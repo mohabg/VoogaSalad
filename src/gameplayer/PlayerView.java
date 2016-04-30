@@ -1,8 +1,11 @@
 package gameplayer;
 
+import HUD.HUDEnum;
 import HUD.HeadsUpDisplay;
 import authoringEnvironment.ViewSprite;
 import highscoretable.HighScoreController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
@@ -11,14 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerView extends Screen {
-	private HeadsUpDisplay myHUD;
 	private Map<Integer, Map<Integer, ViewSprite>> myViewSpriteMap;
 	private Map<Integer, ViewSprite> myViewSprites;
 	private Map<Integer, String> myBackgrounds;
 
 	public PlayerView(){
 		super();
-		myHUD = new HeadsUpDisplay(getScene().getWidth(), getScene().getHeight());
 		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		myBackgrounds = new HashMap<Integer, String>();
@@ -26,17 +27,15 @@ public class PlayerView extends Screen {
 		myPane.getChildren().add(new HBox(new Button("a")));
 	}
 
-	private void initHUD() {
-//		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-//		//myHUD.addToHUDElement(HUDEnum.Up, myEngine.getGameTimeInSeconds(), myEngine.getCurrentLevel().getScore());
-//		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
-//		myPane.getChildren().add(myHUD.getHUD());
-	}
+	
 	public void setSprites(List<Integer> activeSprites) {
 		// System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
 		myPane.getChildren().removeAll(myViewSprites.values());
 		activeSprites.stream().forEach(s->{
-			myPane.getChildren().addAll(myViewSprites.get(s));
+			ViewSprite vs = myViewSprites.get(s);
+			if (vs != null) {
+				myPane.getChildren().add(vs);
+			}
 		});
 	}
 	

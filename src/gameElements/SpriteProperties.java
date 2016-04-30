@@ -1,6 +1,8 @@
 package gameElements;
 
 import gameElements.ISprite.spriteState;
+import goals.Goals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 /**
  * @author David Yan, Joe Jacob, Huijia Yu, Mohab Gabal
  */
+
 public class SpriteProperties implements ISpriteProperties{
 	
     private DoubleProperty myX;

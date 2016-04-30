@@ -4,10 +4,12 @@ import XStreamHandlers.FXConverters;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
+import authoringEnvironment.mainWindow.GameAuthoringTab;
+import events.Event;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import gameElements.Sprite;
-import interfaces.ITab;
 import interfaces.ITabPane;
 import level.Level;
 import level.LevelProperties;
@@ -99,8 +101,12 @@ public class GameLoader {
 	public static List<LevelModel> levelTabsToModels(ITabPane levels) {
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
-		for (ITab levelTab : levels.getITabs()) {
-			LevelModel newLM = new LevelModel(levelTab);
+		for (GameAuthoringTab levelTab : levels.getTabs()) {
+			LevelModel newLM = levelTab.getLevelModel();
+//			LevelModel newLM = new LevelModel(levelTab);
+			newLM.setBackground(levelTab.getBackground());
+			
+			newLM.addSprites(levelTab.getList());
 			levelModelList.add(newLM);
 		}
 		return levelModelList;
@@ -121,8 +127,11 @@ public class GameLoader {
 		Level newLevel = new Level();
 		LevelProperties lp = newLevel.getLevelProperties();
 		setLevelProperties(lp,id,"level"+id);
-//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
+//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
 		lp.setNumGoals(lm.getNumGoals());
+		List<Event> list = lm.getMyEvents();
+		for ( Event e: list)
+			newLevel.addEvent(e);
 		//newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
@@ -138,7 +147,10 @@ public class GameLoader {
 			if(s.isUserControlled()){
 				s.setUserControlled(true);
 				setUserControlledSpriteID(newLevel);
-				newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
+				//newLevel.getMyEventManager().setSpriteActions(s.getUserPressBehaviors());
+			}
+			else{
+				s.setUserControlled(false);
 			}
 		});
 		return viewsprites;

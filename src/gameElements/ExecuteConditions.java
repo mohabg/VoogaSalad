@@ -21,14 +21,17 @@ public class ExecuteConditions {
 
 	
 	private DoubleProperty probability;
+	@IgnoreField
 	private DoubleProperty distFromUser;
 	private DoubleProperty minDistFromUser;
 	private DoubleProperty maxDistFromUser;
 	private DoubleProperty frequency; //In seconds
 	private DoubleProperty maxDuration;
+	@IgnoreField
 	private DoubleProperty currentDuration;
 	@IgnoreField
 	private double runningTime;
+	@IgnoreField
 	private BooleanProperty enabled;
 	
 	public ExecuteConditions(){
@@ -108,5 +111,20 @@ public class ExecuteConditions {
 	}
 	public void disable(){
 		enabled.set(false);
+	}
+
+
+	public double getRunningTime() {
+		return runningTime;
+	}
+
+
+	public void setRunningTime(double runningTime) {
+		this.runningTime = runningTime;
+	}
+
+
+	public void visit(AIController aiController){
+		
 	}
 }

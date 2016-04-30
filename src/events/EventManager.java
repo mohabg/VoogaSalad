@@ -8,7 +8,10 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.SpriteMap;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -19,14 +22,13 @@ import level.LevelProperties;
  * @author gauravkumar
  *
  */
-public class EventManager implements IInputHandler {
+public class EventManager {
 	
-	private List<Event> myEvents;
-	private IInputHandler myInputHandler;
+	private ListProperty<Event> myEvents;
+	//private IInputHandler myInputHandler;
 	
 	public EventManager() {
-		myEvents = new ArrayList<Event>();
-		myInputHandler = new InputHandler();
+		myEvents = new SimpleListProperty(FXCollections.<Event>observableList(new ArrayList<Event>()));
 	}
 	
 	public void doEvents(IActions action, LevelProperties levProps) {
@@ -34,35 +36,49 @@ public class EventManager implements IInputHandler {
 			e.doEvent(action, levProps);
 		}
 	}
-
-	@Override
+	
+/*	@Override
 	public void mouseClickEvent(MouseEvent event) {
 		myInputHandler.mouseClickEvent(event);
+	}*/
+
+	public void keyPress(KeyCode code, IActions action, LevelProperties levProps) {
+		for ( Event e: myEvents) {
+			if ( e instanceof KeyPressEvent ) {
+				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
+				if (trigger.getCode().equals(code)) {
+					trigger.setIsTriggered(true);
+				}
+			}
+		}
 	}
 
-	@Override
-	public void keyPress(KeyEvent event, IActions action, LevelProperties levProps) {
-		myInputHandler.keyPress(event, action, levProps);
-	}
-	@Override
-	public void keyRelease(KeyEvent event, IActions action, LevelProperties levProps){
-		myInputHandler.keyRelease(event, action, levProps);
+	public void keyRelease(KeyCode code, IActions action, LevelProperties levProps){
+		for ( Event e: myEvents) {
+			if ( e instanceof KeyPressEvent ) {
+				KeyPressTrigger trigger = (KeyPressTrigger) e.getTrigger();
+				if (trigger.getCode().equals(code)) {
+					trigger.setIsTriggered(false);
+				}
+			}
+		}
 	}
 
-	@Override
-	public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
+	
+	/*public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
 		myInputHandler.setSpriteActions(userPressActions);
-	}
+	}*/
 	
 	public void addEvent(Event event) {
 		myEvents.add(event);
 	}
 
 	public void setEvents(List<Event> events) {
-		myEvents = events;
+		myEvents.get().clear();
+		myEvents.get().addAll(events);
 	}
 	
-	public void setInputHandler(IInputHandler handler) {
+	/*public void setInputHandler(IInputHandler handler) {
 		myInputHandler = handler; 
-	}
+	}*/
 }

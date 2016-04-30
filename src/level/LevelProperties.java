@@ -6,7 +6,7 @@ import gameElements.Score;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.Time;
-import goals.Goal.Goals;
+import goals.Goals;
 import goals.Goal;
 import goals.GoalProperties;
 import javafx.beans.property.*;
@@ -54,7 +54,7 @@ public class LevelProperties {
 		numGoals = new SimpleIntegerProperty(1);
 		goalList = new ArrayList<>();
 		goalProperties = new ArrayList<>();
-		goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
+	//	goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
 		keyMapping = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
@@ -73,6 +73,9 @@ public class LevelProperties {
 		keyMapping = new HashMap<KeyCode, KeyboardActions>();
 		numGoals.set(numberOfGoals);
 		collidingSprites = new Sprite[2];
+	}
+	public void addGoal(GoalProperties goal){
+		this.getGoalProperties().add(goal);
 	}
 
 	public void setCollidingSprites(ISprite spriteArr, ISprite spriteArr2) {

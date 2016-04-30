@@ -7,7 +7,6 @@ import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
-import interfaces.ITab;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * @author David Yan, Huijia Yu, Joe Jacob
  */
-public class GameAuthoringTab extends AClickableWindow implements ITab {
+public class GameAuthoringTab extends AClickableWindow {
 
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
@@ -83,24 +82,21 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 		return mySpriteMap.values().stream().collect(Collectors.toList());
 	}
 
-	@Override
 	public Tab getTab() {
 		return myTab;
 	}
 
-	@Override
 	public Node getTabContent() {
 		return myTab.getContent();
 	}
 
-	@Override
 	public void setTabContent(Node content) {
 
 //        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
         myTab.setContent(content);
     }
 
-	@Override
+	
 	public void setTabTitle(String tabTitle) {
 		myTab.setText(tabTitle);
 	}
@@ -114,7 +110,6 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 	 *            is a ViewSprite that's going to be copied and get its
 	 *            properties set between the Sprite properties.
 	 */
-	@Override
 	public void setViewSprite(ViewSprite view) {
 		AESpriteFactory sf = new AESpriteFactory();
 		ViewSprite copy = sf.clone(view);
@@ -122,10 +117,23 @@ public class GameAuthoringTab extends AClickableWindow implements ITab {
 		addWithClicking(copy);
 	}
 
-	@Override
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 
+	}
+
+	public void setPlayerViewSprite(ViewSprite viewsprite) {
+		AESpriteFactory sf = new AESpriteFactory();
+		ViewSprite copy = sf.clone(viewsprite);
+		Sprite player = sf.makeSprite(copy);
+		player.setUserControlled(true);
+		mySpriteMap.put(copy, player);
+		addWithClicking(copy);
+		
+	}
+	public LevelModel getLevelModel() {
+		// TODO Auto-generated method stub
+		return myLevelModel;
 	}
 
 }

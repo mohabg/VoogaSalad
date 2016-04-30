@@ -6,6 +6,10 @@ import gameElements.SpriteProperties;
 
 public class ThrustHorizontal extends Movement{
 	
+	public ThrustHorizontal() {
+		super();
+	}
+	
 	public ThrustHorizontal(double value){
 		super(value);
 	}

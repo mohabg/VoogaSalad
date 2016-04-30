@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.lang.reflect.Field;
 import java.util.AbstractMap.SimpleEntry;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
@@ -22,20 +23,20 @@ import javafx.util.StringConverter;
 
 public class SubclassComboBoxMaker {
 	
-	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Class<R> clazz, Property... property) {	
+	// we're making a combobox for the class of the childField
+	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Object parent, Field childField, Class<R> clazz, Property... property) {	
 		ComboBox<SimpleEntry<Class<R>, R>> comboBox = makeComboBox(clazz);
-		ChangeListener<SimpleEntry<Class<R>, R>> comboBoxListener = makeCBListener(property);
+		ChangeListener<SimpleEntry<Class<R>, R>> comboBoxListener = makeCBListener(parent, childField, property);
 		comboBox.valueProperty().addListener(comboBoxListener);
 		
 		return comboBox;
 	}
 	
-	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Property... property) {
+	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Object parent, Field childField, Property... property) {
 		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
 			ObjectProperty<SimpleEntry<Class<R>, R>> objProp = (ObjectProperty<SimpleEntry<Class<R>, R>>) o;
 			ComboBox subclassBox = (ComboBox) objProp.getBean();
 			Pane myComboBoxParent = (Pane) subclassBox.getParent();
-
 			myComboBoxParent.getChildren().clear();
 			
 			// switch corresponding instances	
@@ -43,7 +44,16 @@ public class SubclassComboBoxMaker {
 			
 			if (nv.getValue() == null) {		
 				nv.setValue(SettingsReflectUtils.newClassInstance(newClassType));
-				o.getValue().setValue(nv.getValue());
+			}
+			
+			o.getValue().setValue(nv.getValue());
+			
+			if (childField != null) {
+				try {
+					childField.set(parent, nv.getValue());
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					//e.printStackTrace();
+				}
 			}
 			
 			// only if it's a property
@@ -75,9 +85,11 @@ public class SubclassComboBoxMaker {
 				}
 			}		
 			
-			// populate combobox parent with new params
 			myComboBoxParent.getChildren().setAll(subclassBox);
-			myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new HashSet<HBox>(), false));			
+			if (!o.getValue().getKey().isEnum()) {
+				//System.out.println("new class change " + o.getValue().getKey());
+				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new ArrayList<HBox>(), false));
+			}
 		};
 		
 		return boxChangeListener;
