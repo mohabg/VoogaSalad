@@ -86,8 +86,10 @@ public class GameEditor implements IGameEditor {
 	public void updateGame() {
 
 		myGame.getCurrentLevel().update();
-	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead() + "is sprite dead");
-		
+		System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead() + "is sprite dead");
+		myGame.getCurrentLevel().getCurrentSprite().kill();
+		System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead() + "is sprite dead");
+
 		if (myGame.getCurrentLevel().getCurrentSprite().isDead()){
 	//		System.out.println("restart game");
 	// 		does restart game work???
