@@ -41,11 +41,13 @@ public class LevelProperties {
 	private ISprite[] collidingSprites;
 	private IntegerProperty goalCount;
 	private BooleanProperty isFinished;
+//  private BooleanProperty shouldRestart;
 	
 	public LevelProperties() {
 		score = new Score();
 		goalCount = new SimpleIntegerProperty(0);
 		isFinished = new SimpleBooleanProperty(false);
+//		shouldRestart = new SimpleBooleanProperty(false);
 		spriteMap = new SpriteMap();
 		levelID = new SimpleIntegerProperty(0);
 		levelName = new SimpleStringProperty("");
@@ -266,4 +268,17 @@ public class LevelProperties {
 		double angleToFace = Math.atan(getUserY() - sprite.getSpriteProperties().getY() / getUserX() - sprite.getSpriteProperties().getX());
         return angleToFace - sprite.getSpriteProperties().getAngle();
 	}
+/*
+	public BooleanProperty getShouldRestart() {
+		return shouldRestart;
+	}
+
+	public void setShouldRestart(BooleanProperty shouldRestart) {
+		this.shouldRestart = shouldRestart;
+	}
+	
+	public void setShouldRestart (Boolean bool){
+		setShouldRestart(new SimpleBooleanProperty(bool));
+	}
+	*/
 }

@@ -197,11 +197,12 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 	 */
 	public void setViewSprite(ViewSprite viewsprite) {
 		cloneAndInitViewSprite(viewsprite);
+		// initGameViewSprite(viewsprite)
 	}
 
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
 		ViewSprite copy = cloneAndInitViewSprite(viewsprite);
-		mySpriteMap.get(copy).setUserControlled(true);
+	//	mySpriteMap.get(copy).setUserControlled(true);
 	}
 	
 

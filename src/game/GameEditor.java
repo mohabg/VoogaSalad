@@ -85,7 +85,27 @@ public class GameEditor implements IGameEditor {
 
 	public void updateGame() {
 
+		//System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
+		//myGame.getCurrentLevel().getCurrentSprite().kill();
+	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
+
 		myGame.getCurrentLevel().update();
+	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
+		
+		// System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
+		// myGame.getCurrentLevel().getCurrentSprite().kill();
+		// System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead() + "is sprite dead");
+		/*if(!myGame.getCurrentLevel().getSpriteMap().getSpriteMap().containsKey(myGame.getCurrentLevel().getCurrentSprite())){
+			System.out.println("restart game");
+			myGame.restartGame();
+
+		}*/
+		if (myGame.getCurrentLevel().getCurrentSprite().isDead()){
+	//		System.out.println("restart game");
+	// 		does restart game work???
+			myGame.restartGame();
+		}
+
 		if (myGame.getCurrentLevel().getisFinished()){
 			if(myGame.getCurrentLevel().getLevelProperties().getNextLevel()!=null){
 				myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
