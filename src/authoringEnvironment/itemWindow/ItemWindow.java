@@ -9,7 +9,6 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.image.ImageView;
 import resources.FrontEndData;
 
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +38,6 @@ public class ItemWindow {
 	private Tab makeTab(String type) {
 		try {
 			ItemTab tab = new ItemTab();
-			// TOOD: Change type checking here
 			if (type.equals("Background")) {
 				tab.populateTab(fillBackground(type));
 			} else {
@@ -48,9 +46,8 @@ public class ItemWindow {
 			tab.setTabTitle(type);
 			return tab.getTab();
 		} catch (Exception e) {
-			// TODO throw exception
+            throw new TabException();
 		}
-		return null;
 	}
 
 	private List<ImageView> fillBackground(String type) {

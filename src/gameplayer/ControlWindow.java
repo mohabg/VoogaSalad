@@ -1,16 +1,11 @@
 package gameplayer;
 
-import java.io.File;
-import java.util.Collection;
-
 import authoringEnvironment.Settings;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import level.Level;
-import resources.FrontEndData;
+
+import java.io.File;
 
 public class ControlWindow{
 	private PlayScreen myPlayScreen;
@@ -30,18 +25,15 @@ public class ControlWindow{
 		pauseButton.setOnAction(e -> {
 			myPlayScreen.getEngine().pauseGameLoop();
 		});
-		
 		Button playButton = new Button("Play");
 		playButton.setOnAction(e -> {
 			myPlayScreen.getEngine().playGameLoop();
 		});
-		
 		Button restartButton = new Button("Restart");
 		restartButton.setOnAction(e -> {
 			File currGameFile = myPlayScreen.getGameFile();
 //			myPlayScreen = (PlayScreen) GameLoader.newGame(currGameFile);
 		});
-		
 		myFlowPane.getChildren().addAll(pauseButton, playButton, restartButton);
 	}
 	
