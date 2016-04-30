@@ -158,9 +158,6 @@ public abstract class AClickableWindow {
 
 	public void setClicking(ViewSprite sprite) {
 		sprite.setCursor(Cursor.HAND);
-
-		sprite.setFitHeight(sprite.getImage().getHeight() * 0.5);
-		sprite.setFitWidth(sprite.getImage().getWidth() * 0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 

@@ -39,7 +39,7 @@ public  class ItemTab{
             viewSprite.setPreserveRatio(true);
             myTilePane.getChildren().add(viewSprite);
         });
-        myTilePane.getStylesheets().add(FrontEndData.TILEPANE);
+        myTilePane.setId(FrontEndData.TILEPANE);
         setTabContent(myTilePane);
     }
 
