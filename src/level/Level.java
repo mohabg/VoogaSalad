@@ -201,6 +201,9 @@ public class Level implements ILevel {
 			
 			}
 			else if(sprite.isOutOfBounds()){
+				if(sprite.getMyRef().equals("pictures/red_enemy.png")){
+					sprite.kill();
+				}
 				sprite.kill();
 			}
 			removeDeadSprite(spriteID, spriteList);
@@ -317,6 +320,7 @@ public class Level implements ILevel {
 	}*/
 	
 	public void setCurrentSpriteID(Integer sprite) {
+		System.out.println("set current sprite id to " + sprite);
 		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
 		//setSpriteActions();
 	}

@@ -44,10 +44,16 @@ public class Gun extends Attack{
         	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
             getMovement().enable();
-            //Setting movement through authoring environment not working
-            Movement topDown = new MoveVertically(-50);
-            topDown.enable();
-             bullet.addBehavior(topDown);
+          //Setting movement through authoring environment not working
+            Behavior vertically;
+            if(bullet.isUserControlled()){
+            	vertically = new MoveVertically(-50);
+            }
+            else{
+            	vertically = new MoveVertically(50);
+            }
+            vertically.enable();
+             bullet.addBehavior(vertically);
         	setAmmunition(getAmmunition() - 1);
     }
 }
