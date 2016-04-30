@@ -119,13 +119,13 @@ public class VisualFactory {
 	}
 	
 
-	private <R> VBox makeFieldVBox(Field f, Object parentObj) {
+	private <R> VBox makeFieldVBox(Field f, Object model) {
 		VBox propVBox = GUIObjectMaker.makeVBox();
-
-		Class<R> clazz = (Class<R>) f.getType();
-		R fObj = (R) SettingsReflectUtils.fieldGetObject(f, parentObj);
-
-		List<HBox> props = makePropertyBoxes(parentObj, f, clazz, fObj, clazz.getName(), true);
+		
+		//Class<R> clazz = (Class<R>) f.getType();
+		R fObj = (R) SettingsReflectUtils.fieldGetObject(f,model);
+		System.out.println(fObj.getClass());
+		List<HBox> props = makePropertyBoxes(model, f, fObj, (Class<R>) f.getType(), true);
 		propVBox.getChildren().addAll(props);
 
 		return propVBox;
@@ -268,10 +268,29 @@ public class VisualFactory {
 	}
 
 		
-	public static <R, K> List<HBox> makePropertyBoxes(Object parent, Field field, Class<R> fieldClass, R fieldObject, String fieldName, boolean makeBox) {
+	public static <R, K> List<HBox> makePropertyBoxes(Object parent, Field field, R fieldObject, Class<R> fieldClass, boolean makeBox) {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();		
 		List<HBox> properties = new ArrayList<HBox>();
 		
+		//Class<R> fieldClass = field != null ? (Class<R>) field.getType() : (Class<R>) fieldObject.getClass();
+		String fieldName = field != null ? field.getName() : fieldObject.getClass().getName();
+		
+		
+		if (fieldObject == null) {
+			System.out.println("null fieldObject");
+			fieldClass = SettingsReflectUtils.getSubclass(fieldClass);
+			fieldObject = (R) SettingsReflectUtils.newClassInstance(fieldClass);
+			if (field != null) {
+				try {
+					field.set(fieldObject, parent);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		//System.out.println(fieldClass.getName() + " " + fieldName);
 		if (Property.class.isAssignableFrom(fieldClass)) {
 			fieldVBoxHBox.getChildren().addAll(SettingsObjectMaker.makeSettingsObject(fieldObject, fieldName));
 			properties.add(fieldVBoxHBox);
@@ -282,17 +301,6 @@ public class VisualFactory {
 		// parent is probably an abstract class and therefore
 		// impossible to make an instance
 
-		if (fieldObject == null) {
-			fieldObject = (R) SettingsReflectUtils.getSubclassInstance(fieldClass);
-			if (field != null) {
-				try {
-					field.set(fieldObject, parent);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-				}
-			}
-		}
 		
 		// make subclass combobox if necessary
 		if (makeBox && SubclassEnumerator.hasSubclasses(fieldClass)) {
@@ -301,13 +309,15 @@ public class VisualFactory {
 
 			VBox vb = GUIObjectMaker.makeVBox(subclassBox);
 			fieldVBoxHBox.getChildren().add(vb);
-			updateComboBoxValue((Class<R>) fieldObject.getClass(), fieldObject, subclassBox);
+			updateComboBoxValue(fieldClass, fieldObject, subclassBox);
 			properties.add(fieldVBoxHBox);
 			return properties;	
 		}
 		
-		// prevents us from trying to initialize java classes		
+		// prevents us from trying to initialize java classes	
+		System.out.println(fieldClass.getName());
 		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(fieldClass.getName())) {	
+			
 			Label propLabel = GUIObjectMaker.makeLabel(SettingsObjectMaker.convertCamelCase(fieldName));
 			VBox fieldVBox = GUIObjectMaker.makeVBox(propLabel);			
 			List<HBox> fieldHBoxes = new ArrayList<HBox>();
@@ -320,13 +330,12 @@ public class VisualFactory {
 						// TODO UNCOMMENT
 						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
 					} else {
-						String pName = childField.getName();
 						K otherFieldObject = (K) SettingsReflectUtils.fieldGetObject(childField, fieldObject);
 						
-						if (childField.isAnnotationPresent(SetFieldName.class)) {
-							pName = childField.getAnnotation(SetFieldName.class).label();
-						}
-						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, (Class<K>) childField.getType(), otherFieldObject, pName, true));
+//						if (childField.isAnnotationPresent(SetFieldName.class)) {
+//							field = childField.getAnnotation(SetFieldName.class).label();
+//						}
+						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, otherFieldObject, (Class<K>) childField.getType(), true));
 					}
 				}
 			}
@@ -336,7 +345,7 @@ public class VisualFactory {
 		} 
 		
 		properties.add(fieldVBoxHBox);
-
+		System.out.println(properties.size());
 		return properties;
 	}
 

@@ -44,6 +44,9 @@ public class SubclassComboBoxMaker {
 			
 			if (nv.getValue() == null) {		
 				nv.setValue(SettingsReflectUtils.newClassInstance(newClassType));
+				if (nv.getValue() == null) {
+					System.out.println("never changed");
+				}
 			}
 			
 			o.getValue().setValue(nv.getValue());
@@ -87,8 +90,7 @@ public class SubclassComboBoxMaker {
 			
 			myComboBoxParent.getChildren().setAll(subclassBox);
 			if (!o.getValue().getKey().isEnum()) {
-				//System.out.println("new class change " + o.getValue().getKey());
-				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), false));
+				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getValue(), o.getValue().getKey(), false));
 			}
 		};
 		

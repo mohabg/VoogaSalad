@@ -22,7 +22,7 @@ public abstract class Attack extends Behavior {
 	private IntegerProperty chargeTime;
 	private Movement movement;
 	private RefObject myRef;
-	private SpriteProperties target;
+	//private SpriteProperties target;
 	@IgnoreField
 	private boolean shotOnce;
 	
@@ -32,10 +32,10 @@ public abstract class Attack extends Behavior {
 	}
 	
 	public Attack(RefObject myRef){
-		this(myRef, 1 ,0);
+		this(myRef, 1 ,0, new MoveVertically());
 	}
 
-	public Attack(RefObject myRef, int ammunition, int chargeTime) {
+	public Attack(RefObject myRef, int ammunition, int chargeTime, Movement movement) {
 		super();
 		this.ammunition = new SimpleIntegerProperty(ammunition);
 		this.chargeTime = new SimpleIntegerProperty(chargeTime);
