@@ -6,6 +6,7 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -40,23 +41,13 @@ public class GameAuthoringTab extends AClickableWindow {
 	private ViewSprite currentSprite;
 	private SettingsWindow myWindow;
 	private ContextMenu contextMenu;
-	//private Map<ViewSprite, >
 	private LevelModel myLevelModel;
-//    private LevelProperties myLevelProperties;
-//    private AnchorPane myNewGamePane = new AnchorPane();
-
-	private void createContextMenu(){
-		MenuItem delete = new MenuItem("delete");
-		contextMenu.getItems().add(delete);
-		delete.setOnAction(event -> {
-            ((Pane) getTabContent()).getChildren().remove(currentSprite);
-            event.consume();
-        });
-		contextMenu.setAutoHide(true);
-	}
+	
+	private AESpriteFactory sf;
 
 	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, Integer levelID, SettingsWindow window) {
 		super(window);
+		sf = new AESpriteFactory();
 		String tabName = FrontEndData.TAB + levelID;
 		myTab = new Tab(tabName);
 		mySpriteMap = spriteMap;
@@ -86,28 +77,39 @@ public class GameAuthoringTab extends AClickableWindow {
 	public void initViewpoint() {
 		absoluteX = new SimpleDoubleProperty(0);
 		absoluteY = new SimpleDoubleProperty(0);
-		System.out.println("sdsds");
 		
 		myTab.getTabPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			updateViewpoint(key.getCode());		
+			if (myTab.isSelected()) {
+				updateViewpoint(key.getCode());
+			}
 			key.consume();
 		});
 	}
 	
 	private void updateViewpoint(KeyCode code) {
 		switch (code) {
-			case LEFT:	absoluteX.set(absoluteX.getValue() - 1);
+			case LEFT:	absoluteX.set(absoluteX.getValue() - 3);
 				break;
-			case RIGHT: absoluteX.set(absoluteX.getValue() + 1);
+			case RIGHT: absoluteX.set(absoluteX.getValue() + 3);
 				break;
-			case UP:	absoluteY.set(absoluteY.getValue() - 1);
+			case UP:	absoluteY.set(absoluteY.getValue() - 3);
 				break;
-			case DOWN:	absoluteY.set(absoluteY.getValue() + 1);
+			case DOWN:	absoluteY.set(absoluteY.getValue() + 3);
 				break;
 			default:
 		}
 		
 		System.out.println(code.getName() + " " + absoluteX.getValue() + " " + absoluteY.getValue());
+	}
+	
+	private void createContextMenu(){
+		MenuItem delete = new MenuItem("delete");
+		contextMenu.getItems().add(delete);
+		delete.setOnAction(event -> {
+            ((Pane) getTabContent()).getChildren().remove(currentSprite);
+            event.consume();
+        });
+		contextMenu.setAutoHide(true);
 	}
 
 	public List<Sprite> getList() {
@@ -123,9 +125,7 @@ public class GameAuthoringTab extends AClickableWindow {
 	}
 
 	public void setTabContent(Node content) {
-
-//        content.setStyle("  -fx-border-width: 1 2 3 4; -fx-border-color: black black black black ;");
-        myTab.setContent(content);
+		myTab.setContent(content);
     }
 
 	
@@ -142,27 +142,53 @@ public class GameAuthoringTab extends AClickableWindow {
 	 *            is a ViewSprite that's going to be copied and get its
 	 *            properties set between the Sprite properties.
 	 */
-	public void setViewSprite(ViewSprite view) {
-		AESpriteFactory sf = new AESpriteFactory();
-		ViewSprite copy = sf.clone(view);
-		mySpriteMap.put(copy, sf.makeSprite(copy));
-		addWithClicking(copy);
+	public void setViewSprite(ViewSprite viewsprite) {
+		cloneAndInitViewSprite(viewsprite);
 	}
 
+	public void setPlayerViewSprite(ViewSprite viewsprite) {
+		ViewSprite copy = cloneAndInitViewSprite(viewsprite);
+		mySpriteMap.get(copy).setUserControlled(true);
+	}
+	
+	private ViewSprite cloneAndInitViewSprite(ViewSprite viewsprite) {
+		ViewSprite copy = sf.clone(viewsprite);
+		Sprite sprite = sf.makeSprite(copy);
+		
+		// bind viewpoint
+		ISpriteProperties spriteProps = sprite.getSpriteProperties();
+		DoubleProperty spriteX = spriteProps.getXProperty();
+		absoluteX.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			spriteX.setValue(spriteX.getValue() - change);
+		});
+		
+		DoubleProperty spriteY = spriteProps.getYProperty();
+		absoluteY.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			spriteY.setValue(spriteY.getValue() - change);
+		});
+		
+		
+		mySpriteMap.put(copy, sprite);
+		addWithClicking(copy);
+		
+		return copy;
+	}
+	
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 		
 	}
-
-	public void setPlayerViewSprite(ViewSprite viewsprite) {
-		AESpriteFactory sf = new AESpriteFactory();
-		ViewSprite copy = sf.clone(viewsprite);
-		Sprite player = sf.makeSprite(copy);
-		player.setUserControlled(true);
-		mySpriteMap.put(copy, player);
-		addWithClicking(copy);
-		
+	
+	public DoubleProperty getAbsoluteX() {
+		return absoluteX;
 	}
+	
+	public DoubleProperty getAbsoluteY() {
+		return absoluteY;
+	}
+	
 	public LevelModel getLevelModel() {
 		// TODO Auto-generated method stub
 		return myLevelModel;
