@@ -1,2 +1,0 @@
-package authoringEnvironment.settingsWindow;
-

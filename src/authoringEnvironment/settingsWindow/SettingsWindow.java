@@ -8,6 +8,7 @@ import resources.FrontEndData;
 
 /**
  * @author David Yan
+ * Simple class to set the content of the SettingsPane aspect of the Authoring Environment
  */
 public class SettingsWindow {
 	private VBox myDisplay;

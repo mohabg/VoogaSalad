@@ -13,6 +13,7 @@ import resources.FrontEndData;
 
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
+ * Class that sets up the Borderpane that holds all the components for the Authoring Environment
  */
 
 public class MainAuthoringWindow extends Screen {

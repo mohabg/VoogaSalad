@@ -6,7 +6,12 @@ import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.control.ScrollPane;
-
+/**
+ * 
+ * @author davidyan, Joe Jacob, Huijia Yu
+ * LiveEditing window that retains functionality in the Authoring Environment to allow user ot edit while playing
+ *
+ */
 public class LiveEditing extends AClickableWindow implements IGameWindow {
 	PlayScreen ps;
 

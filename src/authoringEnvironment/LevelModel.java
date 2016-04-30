@@ -2,6 +2,8 @@ package authoringEnvironment;
 
 /**
  * @author David Yan, Joe Jacob
+ * Class to hold the information found in each level, including keybindings for level events and other level properties
+ * 
  */
 import authoringEnvironment.mainWindow.GameAuthoringTab;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
