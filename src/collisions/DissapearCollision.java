@@ -43,9 +43,4 @@ public class DissapearCollision extends Collision{
 	public void execute(IActions action, LevelProperties levProps) {
 
 	}
-	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-		
-	}
 }

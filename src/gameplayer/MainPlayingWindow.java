@@ -1,11 +1,14 @@
 package gameplayer;
 
+import java.util.HashMap;
+
 import authoringEnvironment.MainAuthoringWindow;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import resources.FrontEndData;
 
 public class MainPlayingWindow extends Screen {
+	
 	private ControlWindow myControlWindow;
 	private PlayScreen myPlayScreen;
 	private HUDWindow myHUDWindow;
@@ -17,12 +20,10 @@ public class MainPlayingWindow extends Screen {
 		myPlayScreen = playScreen;
 		this.gameName = gameName;
 		init();
-
 	}
 
 	public MainPlayingWindow(Screen parent, String gameName) {
 		this(parent, gameName, new PlayScreen(gameName));
-
 	}
 
 	private void init() {
@@ -34,7 +35,6 @@ public class MainPlayingWindow extends Screen {
 			MainAuthoringWindow myMainAuthoringWindow = new MainAuthoringWindow(this, gameName, myPlayScreen);
 			switchScene(myMainAuthoringWindow);
 		});
-		myHUDWindow.initHUD();
         createBorderPane();
 	}
 

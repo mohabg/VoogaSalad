@@ -9,11 +9,13 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.image.ImageView;
 import resources.FrontEndData;
 
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @author David Yan, Sam Toffler, Huijia Yu, Joe Jacob
+ * Generates the Item Window in the Authoring Environment that displays all possible sprites to use in the game
  */
 public class ItemWindow {
 	private TabPane myTabPane;
@@ -60,12 +62,15 @@ public class ItemWindow {
 		String p = FrontEndData.SpriteImages.getString(k);
 		ImageView bg = new ImageView(p);
 		bg.setOnMouseClicked(e -> {
+			System.out.println("background cliked");
 			myGameTabPane.setBackground(p);
 		});
 		return bg;
 	}
 
 	private List<ImageView> fillSprites(String type) {
+		
+		//Enumeration<String> imageNames = FrontEndData.SpriteImages.
 		return FrontEndData.SpriteImages.keySet().stream().filter(s -> s.startsWith(type))
 				.map(k -> makeViewSprite(k, type)).collect(Collectors.toList());
 	}

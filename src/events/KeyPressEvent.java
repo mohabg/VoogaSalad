@@ -1,22 +1,25 @@
 package events;
 
 import behaviors.IActions;
+import collisions.CollisionChecker;
+import collisions.CollisionHandler;
 import javafx.scene.input.KeyCode;
 import level.LevelProperties;
 
 public class KeyPressEvent extends Event {
 	
 	//private KeyCode myCode;
-
+	
 	public KeyPressEvent() {
-		super();
+		this(new CollisionChecker(), new CollisionHandler());
 	}
 	
 	public KeyPressEvent(Trigger trigger, Executable executable) {
 		//KeyPressTrigger press = (KeyPressTrigger) getTrigger();
 		//myCode = press.getCode();
-		setTrigger(trigger);
-		setExecutable(executable);
+		super("", trigger, executable);
+		//setTrigger(trigger);
+		//setExecutable(executable);
 	}
 
 	@Override

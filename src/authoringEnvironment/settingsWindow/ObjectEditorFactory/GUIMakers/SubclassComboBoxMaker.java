@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.lang.reflect.Field;
 import java.util.AbstractMap.SimpleEntry;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -22,15 +23,16 @@ import javafx.util.StringConverter;
 
 public class SubclassComboBoxMaker {
 	
-	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Class<R> clazz, Property... property) {	
+	// we're making a combobox for the class of the childField
+	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Object parent, Field childField, Class<R> clazz, Property... property) {	
 		ComboBox<SimpleEntry<Class<R>, R>> comboBox = makeComboBox(clazz);
-		ChangeListener<SimpleEntry<Class<R>, R>> comboBoxListener = makeCBListener(property);
+		ChangeListener<SimpleEntry<Class<R>, R>> comboBoxListener = makeCBListener(parent, childField, property);
 		comboBox.valueProperty().addListener(comboBoxListener);
 		
 		return comboBox;
 	}
 	
-	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Property... property) {
+	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Object parent, Field childField, Property... property) {
 		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
 			ObjectProperty<SimpleEntry<Class<R>, R>> objProp = (ObjectProperty<SimpleEntry<Class<R>, R>>) o;
 			ComboBox subclassBox = (ComboBox) objProp.getBean();
@@ -42,7 +44,12 @@ public class SubclassComboBoxMaker {
 			
 			if (nv.getValue() == null) {		
 				nv.setValue(SettingsReflectUtils.newClassInstance(newClassType));
-				o.getValue().setValue(nv.getValue());
+			}
+			
+			o.getValue().setValue(nv.getValue());
+			
+			if (childField != null) {
+				SettingsReflectUtils.fieldSetObject(childField, parent, nv.getValue());
 			}
 			
 			// only if it's a property
@@ -76,7 +83,7 @@ public class SubclassComboBoxMaker {
 			
 			myComboBoxParent.getChildren().setAll(subclassBox);
 			if (!o.getValue().getKey().isEnum()) {
-				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(o.getValue().getKey(), o.getValue().getValue(), o.getValue().getKey().getName(), new ArrayList<HBox>(), false));			
+				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getValue(), o.getValue().getKey(), false));
 			}
 		};
 		
@@ -86,7 +93,7 @@ public class SubclassComboBoxMaker {
 	private static <R> ComboBox<SimpleEntry<Class<R>, R>> makeComboBox(Class<R> clazz) {
 		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = GUIObjectMaker.makeComboBox();
 		
-		Map<String, Class<R>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		Map<String, Class<R>> allSubclasses = ClassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 		
 		// remove interfaces/abstract because they dont have instance vars

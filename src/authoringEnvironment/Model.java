@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * @author David Yan, Joe Jacob
+ * Model that contains all the information for the ViewSprites displayed on the screen
+ * Contains the property objects for binding and changing in the Authoring Environment
  */
 public class Model {
     private String myRef;

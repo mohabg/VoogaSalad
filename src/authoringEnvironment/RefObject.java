@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  * Created by davidyan on 4/12/16.
+ * Simple object containing the string image path for each sprite in the screen
  */
 public class RefObject {
     private StringProperty myRef;

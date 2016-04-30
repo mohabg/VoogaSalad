@@ -23,11 +23,5 @@ public class ActorCollision extends Collision{
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

@@ -17,10 +17,10 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 
 public class SpriteProperties implements ISpriteProperties{
-	
+	private DoubleProperty myY;
     private DoubleProperty myX;
-    private DoubleProperty myRelativeX;
-    private DoubleProperty myY;
+    
+    private DoubleProperty myRelativeX;   
     private DoubleProperty myRelativeY;
     private DoubleProperty myXvel;
     private DoubleProperty myYvel;
@@ -28,15 +28,11 @@ public class SpriteProperties implements ISpriteProperties{
     private DoubleProperty myHeight;
     private DoubleProperty myAngle;
     private DoubleProperty myLeftLimit;
-    private DoubleProperty myDownLimit;
-    private DoubleProperty myRightLimit;
     private DoubleProperty myUpLimit;
+    private DoubleProperty myRightLimit;
+    private DoubleProperty myDownLimit;
     private BooleanProperty myUserControlled;
     private BooleanProperty canMove;
-
-    @IgnoreField
-
-    private List<ISpriteProperties> myClones;
     
     public SpriteProperties(){
         myX = new SimpleDoubleProperty(0);
@@ -47,11 +43,10 @@ public class SpriteProperties implements ISpriteProperties{
         myHeight = new SimpleDoubleProperty(0);
         myAngle = new SimpleDoubleProperty(0);
         myUserControlled = new SimpleBooleanProperty(false);
-        myClones = new ArrayList<ISpriteProperties>();
         myLeftLimit=new SimpleDoubleProperty(0);
-        myRightLimit=new SimpleDoubleProperty(590);
-        myUpLimit=new SimpleDoubleProperty(850);
-        myDownLimit=new SimpleDoubleProperty(0);
+        myRightLimit=new SimpleDoubleProperty(530);
+        myDownLimit=new SimpleDoubleProperty(660);
+        myUpLimit=new SimpleDoubleProperty(0);
         myRelativeX = new SimpleDoubleProperty(0);
         myRelativeY = new SimpleDoubleProperty(0);
         canMove = new SimpleBooleanProperty(true);
@@ -76,7 +71,7 @@ public class SpriteProperties implements ISpriteProperties{
         myYvel.set(yVel);
         myLeftLimit.set(leftLimit);
         myRightLimit.set(rightLimit);
-        myUpLimit.set(upLimit);
+        myDownLimit.set(upLimit);
         myDownLimit.set(downLimit);
     }
     
@@ -105,10 +100,9 @@ public class SpriteProperties implements ISpriteProperties{
     			myYvel.doubleValue(), myWidth.doubleValue(), myHeight.doubleValue(), myAngle.doubleValue());
     	// If following original (such as shield)
     	// bindCloneProperties(clone);
-    	myClones.add(clone);
     	return clone;
     }
-
+/*
 	private void bindCloneProperties(SpriteProperties clone) {
 		clone.getMyX().bindBidirectional(myX);
     	clone.getYProperty().bindBidirectional(myY);
@@ -117,31 +111,33 @@ public class SpriteProperties implements ISpriteProperties{
     	clone.getYVelProperty().bindBidirectional(myYvel);
     	clone.getUserControlledProperty().bindBidirectional(myUserControlled);
 	}
+	*/
 	public void updatePos(){
-    	if(this.isUserControlled()){
-    		stayInBounds();
-    	}
     	myX.setValue(myX.getValue() + myXvel.getValue());
     	myY.setValue(myY.getValue() + myYvel.getValue());
     }
 
-	private void stayInBounds() {
-		if (myX.getValue()>myRightLimit.getValue())
+	public void stayInBounds() {
+		if (myX.getValue() + myWidth.doubleValue() > myRightLimit.getValue()){
     		myXvel.setValue(-myXvel.getValue());    	
-    	if (myX.getValue()<myLeftLimit.getValue())
+		}
+    	if (myX.getValue() < myLeftLimit.getValue()){
     		myXvel.setValue(-myXvel.getValue());
-    	if (myY.getValue()>myUpLimit.getValue())
+    	}
+    	if (myY.getValue() < myUpLimit.getValue()){
     		myYvel.setValue(-myYvel.getValue());
-    	if (myY.getValue()<myDownLimit.getValue())
+    	}
+    	if (myY.getValue() + myHeight.doubleValue() > myDownLimit.getValue()){
     		myYvel.setValue(-myYvel.getValue());
+    	}
 	}
+    
     public boolean isOutOfBounds(){
     	return myX.getValue() > myRightLimit.getValue() ||   	
-    			myX.getValue() < myLeftLimit.getValue() ||
-    				myY.getValue() > myUpLimit.getValue() ||
-    					myY.getValue()<myDownLimit.getValue();
+    			myX.getValue() + myWidth.doubleValue() < myLeftLimit.getValue() ||
+    				myY.getValue()  > myDownLimit.getValue() ||
+    					myY.getValue() + myHeight.doubleValue() < myUpLimit.getValue();
     }
-
 	public void setXVel(double Xvel) {
 		myXvel.set(Xvel);
 	}
@@ -224,11 +220,11 @@ public class SpriteProperties implements ISpriteProperties{
 	}
 
 	public double getMyYUpLimit() {
-		return myUpLimit.doubleValue();
+		return myDownLimit.doubleValue();
 	}
 
 	public void setMyYUpLimit(double myYUpLimit) {
-		this.myUpLimit.set(myYUpLimit);
+		this.myDownLimit.set(myYUpLimit);
 	}
 
 	public double getMyRelativeX() {

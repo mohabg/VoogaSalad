@@ -2,6 +2,8 @@ package events;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import behaviors.IActions;
+import collisions.CollisionChecker;
+import collisions.CollisionHandler;
 import level.LevelProperties;
 
 /**
@@ -10,7 +12,7 @@ import level.LevelProperties;
  *
  */
 public abstract class Event {
-	
+	@IgnoreField
 	private static String DEFAULT_EVENT_NAME = "unnamedEvent";
 	
 	private String name;
@@ -20,6 +22,7 @@ public abstract class Event {
 	private Executable executable;
 	
 	public Event() {
+		this("", new CollisionChecker(), new CollisionHandler());
 		name = DEFAULT_EVENT_NAME;
 	}
 	

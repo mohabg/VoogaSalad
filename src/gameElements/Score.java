@@ -27,8 +27,7 @@ public class Score {
 		scoreValue.setValue(scoreValue.getValue()-decrement);
 	}
 	public void setScoreValue(Integer currentPoints) {
-
-        this.scoreValue= new SimpleIntegerProperty(currentPoints);
+        this.scoreValue.set(currentPoints);
 	}
 	
 }

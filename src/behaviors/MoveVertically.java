@@ -14,6 +14,7 @@ public class MoveVertically extends Movement{
 
 	public MoveVertically(double value) {
 		super(value);
+		this.getBehaviorConditions().setProbability(1);
 	}
 
 	/**
@@ -25,8 +26,6 @@ public class MoveVertically extends Movement{
 	public void move(IActions actions) {
 		ISpriteProperties properties = actions.getSpriteProperties();
 		properties.setY(properties.getY() + getValue());
-
-	    //sprite.getSpriteProperties().setMyYvel(getValue());
 	}
 
 

@@ -8,6 +8,7 @@ import resources.FrontEndData;
 
 /**
  * @author David Yan
+ * Simple class to set the content of the SettingsPane aspect of the Authoring Environment
  */
 public class SettingsWindow {
 	private VBox myDisplay;
@@ -24,8 +25,9 @@ public class SettingsWindow {
      * that have been created in the VisualFactor.
      */
 	public void setContent(VBox mySpriteBox){
-        myDisplay.getChildren().clear();
-        myDisplay.getChildren().add(mySpriteBox);
+		myDisplay.getChildren().setAll(mySpriteBox);
+//        myDisplay.getChildren().clear();
+//        myDisplay.getChildren().add(mySpriteBox);
     }
 	
 	public VBox getBox(){

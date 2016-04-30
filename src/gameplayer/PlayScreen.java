@@ -2,6 +2,7 @@ package gameplayer;
 
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
+import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
@@ -45,9 +46,8 @@ public class PlayScreen {
 		myView = new PlayerView();
 		myEngine = new Engine(new GameEditor());
         setGameLevels(GameLoader.parseAndLoadGame(gameFile));
-
-
 	}
+	
 	public PlayScreen(String name){
 		this(new File(String.format(GameLoader.SAVED_FOLDER_DIRECTORY, name)));
 	}
@@ -90,7 +90,6 @@ public class PlayScreen {
 		myView.clearSprites();
 		currentLevel = myEngine.getCurrentLevel();
 		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
-
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
 		AIController enemyController = new AIController(sf);
 		currentLevel.setAIController(enemyController);
@@ -150,6 +149,11 @@ public class PlayScreen {
 		// TODO Auto-generated method stub
 		return myView;
 	}
+	
+	public Engine getEngine(){
+		return myEngine;
+	}
+
 	public DoubleProperty getTime() {
 		// TODO Auto-generated method stub
 		System.out.println(myEngine.getTimeProperty().doubleValue());
@@ -159,6 +163,7 @@ public class PlayScreen {
 		System.out.println(myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty().doubleValue());
 		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
 	}
+	
 	public IntegerProperty getScore() {
 		System.out.println(myEngine.getCurrentLevel().getScore());
 		return myEngine.getCurrentLevel().getScore();

@@ -8,7 +8,10 @@ import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import gameElements.SpriteMap;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -19,14 +22,14 @@ import level.LevelProperties;
  * @author gauravkumar
  *
  */
+
 public class EventManager {
 	
-	private List<Event> myEvents;
+	private ListProperty<Event> myEvents;
 	//private IInputHandler myInputHandler;
 	
 	public EventManager() {
-		myEvents = new ArrayList<Event>();
-		//myInputHandler = new InputHandler();
+		myEvents = new SimpleListProperty(FXCollections.<Event>observableList(new ArrayList<Event>()));
 	}
 	
 	public void doEvents(IActions action, LevelProperties levProps) {
@@ -51,6 +54,7 @@ public class EventManager {
 		}
 	}
 
+	
 	public void keyRelease(KeyCode code, IActions action, LevelProperties levProps){
 		for ( Event e: myEvents) {
 			if ( e instanceof KeyPressEvent ) {
@@ -72,7 +76,8 @@ public class EventManager {
 	}
 
 	public void setEvents(List<Event> events) {
-		myEvents = events;
+		myEvents.get().clear();
+		myEvents.get().addAll(events);
 	}
 	
 	/*public void setInputHandler(IInputHandler handler) {

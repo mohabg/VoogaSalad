@@ -19,29 +19,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 
+ * @author davidyan, Joe Jacob, Huijia Yu
+ * Initializes the overall Tab Pane object to hold the Game Authoring Tabs that represents each level of the game.
+ *
+ */
 public class GameMakerWindow implements ITabPane, IGameWindow {
 	private TabPane myTabPane;
 	private Map<Tab, GameAuthoringTab> myGameTabs;
 	private SettingsWindow myWindow;
 
-	public GameMakerWindow() {
-
-	}
-
-	public void init(SettingsWindow window) {
-		myTabPane = new TabPane();
+	public GameMakerWindow(TabPane tabPane, SettingsWindow settingsWindow) {
+		myWindow = settingsWindow;
+		
+		myTabPane = tabPane;
 		myTabPane.getStylesheets().add(FrontEndData.MAINWINDOW_STYLESHEET);
-		myGameTabs = new HashMap<>();
-		myWindow = window;
-		addNewTab();
-
 		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
 			Tab selectedTab = myTabPane.getSelectionModel().getSelectedItem();
 			GameAuthoringTab gat = myGameTabs.get(selectedTab);
 			gat.setCurrentSpriteNull();
 		});
+		
+		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
+	}
 
+	public void init() {	
+		addNewTab();
+
+		myTabPane.layoutXProperty().addListener((o, ov, nv) -> {
+			System.out.println("layout " + myTabPane.getLayoutX() + " " + myTabPane.getLayoutY());
+			System.out.println("translate " + myTabPane.getTranslateX() + " " + myTabPane.getTranslateY());
+		});
 	}
 
 	/**
@@ -52,9 +61,13 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 
 	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, myTabPane.getTabs().size() + 1, myWindow);
+		
 		myGameTabs.put(myTab.getTab(), myTab);
-
 		getTabPane().getTabs().add(myTab.getTab());
+		
+		// must be done after added to tabpane
+		myTab.initViewpoint();
+		
 		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -47,7 +48,7 @@ public class SettingsReflectUtils {
 
 	public static <R> Class<R> getSubclass(Class<R> clazz) {
 		// if it's not a user-made class, probably a java property
-		List<String> myProjectClassNames = SubclassEnumerator.getAllSimpleClassNames();
+		List<String> myProjectClassNames = ObjectEditorConstants.getInstance().getSimpleClassNames();
 		if (!myProjectClassNames.contains(clazz.getName())) {
 			if (Property.class.isAssignableFrom(clazz)) {
 				return (Class<R>) getPropertySubclass(clazz);
@@ -57,9 +58,8 @@ public class SettingsReflectUtils {
 			return clazz;
 		}
 		
-		// TODO MAKE AN EXCEPTION
-		// find an available subclass otherwise print an exception
-		Map<String, Class<R>> parentSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		
+		Map<String, Class<R>> parentSubclasses = ClassEnumerator.getAllSubclasses(clazz);
 		for (Class<R> sub : parentSubclasses.values()) {
 			if (!isAbstractOrInterface(sub)) {
 				return sub;
@@ -67,6 +67,16 @@ public class SettingsReflectUtils {
 		}
 		
 		return null;
+	}
+	
+	public static boolean hasSubclasses(Class<?> clazz) {
+		if (ClassEnumerator.getAllSubclasses(clazz).size() > 1) {
+			return true;
+		} else if (clazz.isEnum()) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	public static Class<?> getPropertySubclass(Class<?> clazz) {
@@ -103,10 +113,21 @@ public class SettingsReflectUtils {
 		return o;
 	}
 	
+	public static void fieldSetObject(Field childField, Object childObject, Object parentObject) {
+		//Object o = null;
+		try {
+			childField.set(childObject, parentObject);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		//return o;
+	}
+	
 	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
 		fields.addAll(Arrays.asList(type.getDeclaredFields()));
-
-		List<String> myProjectClassNames = SubclassEnumerator.getAllSimpleClassNames();
+		
+		List<String> myProjectClassNames = ClassEnumerator.getAllSimpleClassNames();
 		if (type.getSuperclass() != null && myProjectClassNames.contains(type.getSuperclass().getTypeName())) {
 			fields = getAllFields(fields, type.getSuperclass());
 		}

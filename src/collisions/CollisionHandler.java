@@ -20,7 +20,7 @@ public class CollisionHandler implements Executable {
 	private Collision collisionTwo;
 
 	public CollisionHandler() {
-		
+		this(new DamageCollision(), new CriticalHitCollision());
 	}
 
 	public CollisionHandler(Collision collisionOne, Collision collisionTwo) {

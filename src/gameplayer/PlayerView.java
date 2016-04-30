@@ -6,7 +6,14 @@ import authoringEnvironment.ViewSprite;
 import highscoretable.HighScoreController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 
 import java.util.HashMap;
@@ -16,13 +23,13 @@ import java.util.Map;
 public class PlayerView extends Screen {
 	private Map<Integer, Map<Integer, ViewSprite>> myViewSpriteMap;
 	private Map<Integer, ViewSprite> myViewSprites;
-	private Map<Integer, String> myBackgrounds;
+	private Map<Integer, StringProperty> myBackgrounds;
 
 	public PlayerView(){
 		super();
 		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
 		myViewSprites = new HashMap<Integer, ViewSprite>();
-		myBackgrounds = new HashMap<Integer, String>();
+		myBackgrounds = new HashMap<Integer, StringProperty>();
 		//TODO: find better way
 		myPane.getChildren().add(new HBox(new Button("a")));
 	}
@@ -32,20 +39,26 @@ public class PlayerView extends Screen {
 		// System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
 		myPane.getChildren().removeAll(myViewSprites.values());
 		activeSprites.stream().forEach(s->{
-			myPane.getChildren().addAll(myViewSprites.get(s));
+			ViewSprite vs = myViewSprites.get(s);
+			if (vs != null) {
+				myPane.getChildren().add(vs);
+			}
 		});
 	}
 	
 //	public Pane getPane() {
 //		return myPane;
 //	}
-	public void setBackgroundList(Integer id, String background){
-		
+	public void setBackgroundList(Integer id, StringProperty background){
+		myBackgrounds.put(id,  background);
 	}
 	public void setBackground(Integer id){
-		myPane.setStyle("-fx-background-image: url(" + myBackgrounds.get(id) + ");" + "\n" +
-				   "-fx-background-repeat: repeat;");	
-		
+		StringProperty backgroundName = myBackgrounds.get(id);
+		if (backgroundName.getValue() != "") {
+			myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));			
+		} else {
+		//myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		}
 	}
 	
 	public Map<Integer, ViewSprite> getViewSprites() {

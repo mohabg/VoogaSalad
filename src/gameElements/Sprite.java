@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import level.LevelProperties;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -26,13 +27,12 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite implements ISprite, IEnemy{
+public class Sprite implements ISprite{
 
 	private ISpriteProperties myProperties;
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 	private MapProperty<StringProperty, Behavior> behaviors;
-	private MapProperty<KeyCode, Executable> userPressBehaviors;
 
 	private RefObject myRef;
 
@@ -55,47 +55,48 @@ public class Sprite implements ISprite, IEnemy{
 		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
 
 		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
-		userPressBehaviors = new SimpleMapProperty<KeyCode, Executable>(om2);
 
 		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-		
+		/*Behavior topDown = new MoveVertically(2);
+		topDown.enable();
+		this.addBehavior(topDown);*/
 		myHealth = new Health(100);
 
 		myCollisions.add(new EnemyCollision());
 
-		Attack gun = new Gun();
-		addBehavior(gun);
-		userPressBehaviors.put(KeyCode.SPACE, gun);
-		gun.getBehaviorConditions().setProbability(0.5);
-		
-		Defense shield = new Shield();
-		addBehavior(shield);
-		userPressBehaviors.put(KeyCode.SHIFT, shield);
-
-
-		Behavior thrustForward = new ThrustVertical(-1);
-		addBehavior(thrustForward);
-		userPressBehaviors.put(KeyCode.UP, thrustForward);
-
-		Behavior thrustReverse = new ThrustVertical(1);
-		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
-		addBehavior(thrustReverse);
-		
-		Behavior moveLeft = new ThrustHorizontal(-1);
-		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
-		addBehavior(moveLeft);
-
-		Behavior moveRight = new ThrustHorizontal(1);
-		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
-		addBehavior(moveRight);
-		
-		Behavior moveTurnRight = new MoveTurn(2);
-		userPressBehaviors.put(KeyCode.A, moveTurnRight);
-		addBehavior(moveTurnRight);
-		
-		Behavior moveTurnLeft = new MoveTurn(358);
-		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
-		addBehavior(moveTurnLeft);
+//		Attack gun = new Gun();
+//		addBehavior(gun);
+//		userPressBehaviors.put(KeyCode.SPACE, gun);
+//		gun.getBehaviorConditions().setProbability(0.5);
+//		
+//		Defense shield = new Shield();
+//		addBehavior(shield);
+//		userPressBehaviors.put(KeyCode.SHIFT, shield);
+//
+//
+//		Behavior thrustForward = new ThrustVertical(-1);
+//		addBehavior(thrustForward);
+//		userPressBehaviors.put(KeyCode.UP, thrustForward);
+//
+//		Behavior thrustReverse = new ThrustVertical(1);
+//		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
+//		addBehavior(thrustReverse);
+//		
+//		Behavior moveLeft = new ThrustHorizontal(-1);
+//		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
+//		addBehavior(moveLeft);
+//
+//		Behavior moveRight = new ThrustHorizontal(1);
+//		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
+//		addBehavior(moveRight);
+//		
+//		Behavior moveTurnRight = new MoveTurn(2);
+//		userPressBehaviors.put(KeyCode.A, moveTurnRight);
+//		addBehavior(moveTurnRight);
+//		
+//		Behavior moveTurnLeft = new MoveTurn(358);
+//		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
+//		addBehavior(moveTurnLeft);
 
 	}
 	
@@ -116,7 +117,7 @@ public class Sprite implements ISprite, IEnemy{
 		this.behaviors.set(om2);
 	}
 
-	public Sprite(SpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
+	public Sprite(ISpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
 			MapProperty<StringProperty, Behavior> behaviors, RefObject myRef) {
 		this(myRef);
 		this.myProperties = properties;
@@ -124,40 +125,33 @@ public class Sprite implements ISprite, IEnemy{
 		this.behaviors.set(behaviors);
 	}
 
+
 	/**
 	 * Updates the sprite frame by frame
 	 */
-	public void update(IActions actions) {
+	public void update(IActions actions, LevelProperties levProps) {
+		actions.setSprite(this);
 		this.getSpriteProperties().updatePos();
-		for (Behavior behavior : behaviors.values()) {
+ 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions, null);
+				behavior.execute(actions, levProps);
+				behavior.stop(actions, levProps);
 			}
 		}
+		if(!this.getMyRef().equals("pictures/cipher.png")){
+			//System.out.println(this.hashCode() + " " + this.myProperties.getY() + " " + this.myProperties.getYVel());
+}
 	}
 
 	public Sprite getClone(){
 		return new Sprite(this.myProperties.getClone(), this.myHealth.getClone(), this.myCollisions, this.myRef);
 	}
 	
-	public MapProperty<KeyCode, Executable> getUserPressBehaviors() {
-		return userPressBehaviors;
-	}
 
 	public void addBehavior(Behavior behavior) {
 		behaviors.put(new SimpleStringProperty(behavior.getClass().getName()), behavior);
 
-	}
-
-	public void setUserPressBehaviors(Map<KeyCode, Executable> userBehaviors) {
-		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(userBehaviors);
-		this.userPressBehaviors.set(om2);
-	}
-
-	public void addUserPressBehavior(KeyCode key, Behavior behavior) {
-		this.userPressBehaviors.put(key, behavior);
-	}
-
+	}/*
 	public Map<String, Behavior> getBehaviors(){
 		Map<String, Behavior> fakeB = new HashMap<String, Behavior>();
 		for (StringProperty s : behaviors.keySet()) {
@@ -166,7 +160,7 @@ public class Sprite implements ISprite, IEnemy{
 
 		return fakeB;
 	}
-
+*/
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -254,15 +248,6 @@ public class Sprite implements ISprite, IEnemy{
 			addCollision(new EnemyCollision());
 		}
 	}
-	/**
-	 *
-	 * @param keyCode
-	 *            Checks if the KeyCode corresponds to an action
-	 * @return
-	 */
-	public Executable getUserPressBehavior(KeyCode keyCode) {
-		return userPressBehaviors.get(keyCode);
-	}
 	
 	public void takeDamage(double damage) {
 		//Damage defense before health
@@ -302,25 +287,12 @@ public class Sprite implements ISprite, IEnemy{
 		return this.getSpriteProperties().isOutOfBounds();
 	}
 
-	@Override
-	public IEnemy clone() {
-		ISpriteProperties clonedProperties = this.getSpriteProperties().getClone();
-		List<Collision> clonedCollisions = new ArrayList<>();
-		for(Collision col : this.getCollisions()){
-			clonedCollisions.add(col.clone());
-		}
-		IEnemy clone = new Sprite(clonedProperties, this.myHealth.getClone(), clonedCollisions, new RefObject(this.getMyRef()));
-		return clone;
+	public void setBehaviors(MapProperty<StringProperty, Behavior> behaviors) {
+		this.behaviors = behaviors;
 	}
 
 	@Override
-	public double getSpawnProbability() {
-		// TODO Auto-generated method stub
-		return 0;
-	}	
-
-	public void spawn() {
-		if (Math.random() < getSpawnProbability())
-			clone();
+	public MapProperty<StringProperty, Behavior> getBehaviors() {
+		return this.behaviors;
 	}
 }
