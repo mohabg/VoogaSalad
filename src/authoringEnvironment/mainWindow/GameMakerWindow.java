@@ -1,12 +1,8 @@
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.AESpriteFactory;
-/**
- * @author: David Yan, Joe Jacob, Huijia Yu
- */
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.itemWindow.ItemTab;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.Sprite;
 import interfaces.IGameWindow;
@@ -19,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * @author: David Yan, Joe Jacob, Huijia Yu
+ */
 /**
  * 
  * @author davidyan, Joe Jacob, Huijia Yu
@@ -32,7 +32,6 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 
 	public GameMakerWindow(TabPane tabPane, SettingsWindow settingsWindow) {
 		myWindow = settingsWindow;
-		
 		myTabPane = tabPane;
 		myTabPane.getStylesheets().add(FrontEndData.MAINWINDOW_STYLESHEET);
 		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
@@ -40,13 +39,11 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 			GameAuthoringTab gat = myGameTabs.get(selectedTab);
 			gat.setCurrentSpriteNull();
 		});
-		
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 	}
 
 	public void init() {	
 		addNewTab();
-
 		myTabPane.layoutXProperty().addListener((o, ov, nv) -> {
 			System.out.println("layout " + myTabPane.getLayoutX() + " " + myTabPane.getLayoutY());
 			System.out.println("translate " + myTabPane.getTranslateX() + " " + myTabPane.getTranslateY());
@@ -61,13 +58,10 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 
 	public void createNewTab(Map<ViewSprite, Sprite> mySpriteMap) {
 		GameAuthoringTab myTab = new GameAuthoringTab(mySpriteMap, myTabPane.getTabs().size() + 1, myWindow);
-		
 		myGameTabs.put(myTab.getTab(), myTab);
 		getTabPane().getTabs().add(myTab.getTab());
-		
 		// must be done after added to tabpane
 		myTab.initViewpoint();
-		
 		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
 

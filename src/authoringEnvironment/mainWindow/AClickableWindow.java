@@ -2,37 +2,20 @@ package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.settingsWindow.SettingsWindow;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorController;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorController;
+import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.ISprite;
-import gameElements.Sprite;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import resources.FrontEndData;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +26,6 @@ import java.util.Map;
  * Includes the Authoring Environment Screen and the Game Player Screen
  */
 public abstract class AClickableWindow {
-	
-	
-	
 	protected double orgSceneX, orgSceneY;
 	protected double orgTranslateX, orgTranslateY;
 	protected ViewSprite currentSprite;
@@ -63,8 +43,6 @@ public abstract class AClickableWindow {
 		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
 				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
 				"spriteProperties", "events"));
-		
-		
 		initOEC();
 	}
 
@@ -87,11 +65,9 @@ public abstract class AClickableWindow {
 			double offsetY = t.getSceneY() - orgSceneY;
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
-
 			ViewSprite dragSource = (ViewSprite) t.getSource();
 			dragSource.setX(newTranslateX);
 			dragSource.setY(newTranslateY);
-			// dragSource.setRotate(dragSource.getMySpriteProperties().getMyAngle());
 		}
 	};
 
@@ -99,12 +75,10 @@ public abstract class AClickableWindow {
 		@Override
 		public void handle(MouseEvent t) {
 			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
-			
 			orgTranslateX = mySprite.getX();
 			orgTranslateY = mySprite.getY();
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
-			
 			if (!t.isSecondaryButtonDown() && mySprite != currentSprite) {
 				currentSprite = mySprite;
 				updateSettingsPane(mySprite);
@@ -132,12 +106,10 @@ public abstract class AClickableWindow {
 		TabPane propertiesPane = new TabPane();
         //mySpriteTabPanes.get(spriteModel) != null
 		if (mySpriteTabPanes.containsKey(iSprite)) {
-			System.out.println("contained the key");
 			propertiesPane = mySpriteTabPanes.get(iSprite);
 		} else {
 			propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
 			mySpriteTabPanes.put(iSprite, propertiesPane);
-			System.out.println("didnt contained the key");
 		}
 		myBox.getChildren().add(propertiesPane);
 		return myBox;
@@ -158,12 +130,10 @@ public abstract class AClickableWindow {
 
 	public void setClicking(ViewSprite sprite) {
 		sprite.setCursor(Cursor.HAND);
-
 		sprite.setFitHeight(sprite.getImage().getHeight() * 0.5);
 		sprite.setFitWidth(sprite.getImage().getWidth() * 0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-
 		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
            makeRightClickEvent(sprite, e);
         });
