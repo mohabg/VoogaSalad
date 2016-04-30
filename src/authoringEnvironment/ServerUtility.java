@@ -13,6 +13,7 @@ import java.util.*;
 
 /**
  * Created by davidyan on 4/18/16.
+ * Simple server utility that allows users to save to and pull files from a server
  */
 public class ServerUtility {
     private static final String DIRECTORY = "VoogaSalad";

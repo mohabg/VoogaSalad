@@ -12,7 +12,8 @@ import javafx.scene.layout.VBox;
 import java.awt.*;
 
 /**
- * @author Huijia Yu
+ * @author Huijia Yu, David Yan, Joe Jacob
+ * Contains all the default object settings in addition to constants that represent the size of the screen
  */
 public class Settings {
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
