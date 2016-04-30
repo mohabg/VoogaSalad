@@ -32,7 +32,7 @@ public abstract class Movement extends Behavior{
 	}
 	@Override 
 	public void stop(IActions actions, LevelProperties levProps){
-		if(actions.getSpriteProperties().isUserControlled()){
+		if(actions.getSprite().equals(levProps.getSpriteMap().getUserControlledSprite())){
 			this.disable();
 		}
 	}

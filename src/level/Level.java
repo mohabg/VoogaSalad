@@ -190,7 +190,7 @@ public class Level implements ILevel {
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
 		for (Integer spriteID : spriteIDList) {
 			ISprite sprite = spriteMap.get(spriteID);
-			sprite.update(this.actions);
+			sprite.update(this.actions, this.levelProperties);
 			this.getPhysicsEngine().updateSprite(sprite);
 			if(spriteIsHero(sprite)){
 				sprite.getSpriteProperties().stayInBounds();
