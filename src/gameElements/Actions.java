@@ -11,13 +11,16 @@ public class Actions implements IActions{
 	
 	public Actions(){
 	}
+	
 	@Override
 	public void setSprite(ISprite iSprite){
 		this.sprite = iSprite;
 	}
+	
 	public void setSpriteFactory(SpriteFactory spriteFactory){
 		this.spriteFactory = spriteFactory;
 	}
+	
 	@Override
 	public Sprite makeSprite(double x, double y, RefObject myRef) {
 		return spriteFactory.makeSprite(x, y, myRef);
@@ -32,10 +35,12 @@ public class Actions implements IActions{
 	public ISpriteProperties getSpriteProperties() {
 		return sprite.getSpriteProperties();
 	}
+	
 	@Override
 	public boolean isUserAction() {
 		return this.sprite.isUserControlled();
 	}
+	
 	@Override
 	public boolean spriteCanMove() {
 		return this.getSpriteProperties().canMove();

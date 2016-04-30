@@ -63,39 +63,39 @@ public class Sprite implements ISprite{
 
 		myCollisions.add(new EnemyCollision());
 
-		Attack gun = new Gun();
-		addBehavior(gun);
-		userPressBehaviors.put(KeyCode.SPACE, gun);
-		gun.getBehaviorConditions().setProbability(0.5);
-		
-		Defense shield = new Shield();
-		addBehavior(shield);
-		userPressBehaviors.put(KeyCode.SHIFT, shield);
-
-
-		Behavior thrustForward = new ThrustVertical(-1);
-		addBehavior(thrustForward);
-		userPressBehaviors.put(KeyCode.UP, thrustForward);
-
-		Behavior thrustReverse = new ThrustVertical(1);
-		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
-		addBehavior(thrustReverse);
-		
-		Behavior moveLeft = new ThrustHorizontal(-1);
-		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
-		addBehavior(moveLeft);
-
-		Behavior moveRight = new ThrustHorizontal(1);
-		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
-		addBehavior(moveRight);
-		
-		Behavior moveTurnRight = new MoveTurn(2);
-		userPressBehaviors.put(KeyCode.A, moveTurnRight);
-		addBehavior(moveTurnRight);
-		
-		Behavior moveTurnLeft = new MoveTurn(358);
-		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
-		addBehavior(moveTurnLeft);
+//		Attack gun = new Gun();
+//		addBehavior(gun);
+//		userPressBehaviors.put(KeyCode.SPACE, gun);
+//		gun.getBehaviorConditions().setProbability(0.5);
+//		
+//		Defense shield = new Shield();
+//		addBehavior(shield);
+//		userPressBehaviors.put(KeyCode.SHIFT, shield);
+//
+//
+//		Behavior thrustForward = new ThrustVertical(-1);
+//		addBehavior(thrustForward);
+//		userPressBehaviors.put(KeyCode.UP, thrustForward);
+//
+//		Behavior thrustReverse = new ThrustVertical(1);
+//		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
+//		addBehavior(thrustReverse);
+//		
+//		Behavior moveLeft = new ThrustHorizontal(-1);
+//		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
+//		addBehavior(moveLeft);
+//
+//		Behavior moveRight = new ThrustHorizontal(1);
+//		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
+//		addBehavior(moveRight);
+//		
+//		Behavior moveTurnRight = new MoveTurn(2);
+//		userPressBehaviors.put(KeyCode.A, moveTurnRight);
+//		addBehavior(moveTurnRight);
+//		
+//		Behavior moveTurnLeft = new MoveTurn(358);
+//		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
+//		addBehavior(moveTurnLeft);
 
 	}
 	

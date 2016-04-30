@@ -42,7 +42,6 @@ public abstract class Screen {
 		try {
 			return new Scene(myPane, myPane.getPrefWidth(), myPane.getPrefHeight());
 		}
-
 		catch (Exception e) {
 			return myPane.getScene();
 

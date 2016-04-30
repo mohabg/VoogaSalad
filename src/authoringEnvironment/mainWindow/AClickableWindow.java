@@ -7,9 +7,13 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorContr
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
 import gameElements.ISprite;
 import gameElements.Sprite;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,6 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AClickableWindow {
+	
+	
+	
 	protected double orgSceneX, orgSceneY;
 	protected double orgTranslateX, orgTranslateY;
 	protected ViewSprite currentSprite;
@@ -33,16 +40,21 @@ public abstract class AClickableWindow {
 
 	public AClickableWindow(SettingsWindow window) {
 		myWindow = window;
+		
 		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
 		myNewGamePane = new AnchorPane();
 		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
 				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
 				"spriteProperties", "events"));
+		
+		
 		initOEC();
-
 	}
 
+	
+
+	
 	private void initOEC() {
 		for (StylesheetType type : StylesheetType.values()) {
 			myOEC.addObjectStylesheet(type, FrontEndData.STYLESHEET);
