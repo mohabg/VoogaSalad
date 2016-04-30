@@ -5,8 +5,6 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -93,7 +91,6 @@ public class SettingsReflectUtils {
 		} else if (clazz.isAssignableFrom(SimpleObjectProperty.class)) {
 			return SimpleObjectProperty.class;
 		}
-		// TODO throw error
 		return null;
 	}
 	
@@ -116,14 +113,11 @@ public class SettingsReflectUtils {
 	}
 	
 	public static void fieldSetObject(Field childField, Object childObject, Object parentObject) {
-		//Object o = null;
 		try {
 			childField.set(childObject, parentObject);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		
-		//return o;
 	}
 	
 	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {

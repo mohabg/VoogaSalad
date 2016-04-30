@@ -30,8 +30,6 @@ public class SettingsObjectMaker {
 			BooleanProperty bp = (BooleanProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
 		} else if (myProp instanceof StringProperty) {
-			// THIS PROBABLY REFERS TO IMAGE FILES..............
-			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeTextField(sp));
 		} 
@@ -54,29 +52,31 @@ public class SettingsObjectMaker {
 		return converted;
 	}
 	
-	public static Spinner<Double> makeDoubleSpinner(DoubleProperty dp) {
-		Spinner<Double> mySpinner = GUIObjectMaker.makeSpinner();
-		SpinnerValueFactory<Double> factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Spinner makeDoubleSpinner(DoubleProperty dp) {
+		Spinner mySpinner = GUIObjectMaker.makeSpinner();
+		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		
-		TextFormatter<Double> formatter = new TextFormatter<Double>(factory.getConverter(), factory.getValue());
+		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
 		
-		factory.valueProperty().bindBidirectional(dp.asObject());
+		factory.valueProperty().bindBidirectional(dp);
 		factory.valueProperty().bindBidirectional(formatter.valueProperty());
 		
 		return mySpinner;
 	}
 
-	public static Spinner<Integer> makeIntegerSpinner(IntegerProperty ip) {
-		Spinner<Integer> mySpinner = GUIObjectMaker.makeSpinner();
-		SpinnerValueFactory<Integer> factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Spinner makeIntegerSpinner(IntegerProperty ip) {
+		Spinner mySpinner = GUIObjectMaker.makeSpinner();
+		SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
 
-		TextFormatter<Integer> formatter = new TextFormatter<Integer>(factory.getConverter(), factory.getValue());
+		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
 		
-		factory.valueProperty().bindBidirectional(ip.asObject());
+		factory.valueProperty().bindBidirectional(ip);
 		factory.valueProperty().bindBidirectional(formatter.valueProperty());
 
 		return mySpinner;
