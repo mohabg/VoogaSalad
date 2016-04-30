@@ -102,7 +102,7 @@ public class GameEditor implements IGameEditor {
 			myGame.restartGame();
 
 		}*/
-		if (myGame.getCurrentLevel().getCurrentSprite().isDead()){
+		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
 	//		System.out.println("restart game");
 	// 		does restart game work???
 			Alert alert = new Alert(AlertType.INFORMATION);
