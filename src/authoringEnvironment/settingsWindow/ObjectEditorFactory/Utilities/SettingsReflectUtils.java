@@ -105,6 +105,17 @@ public class SettingsReflectUtils {
 		return o;
 	}
 	
+	public static void fieldSetObject(Field childField, Object childObject, Object parentObject) {
+		//Object o = null;
+		try {
+			childField.set(childObject, parentObject);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		//return o;
+	}
+	
 	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
 		fields.addAll(Arrays.asList(type.getDeclaredFields()));
 

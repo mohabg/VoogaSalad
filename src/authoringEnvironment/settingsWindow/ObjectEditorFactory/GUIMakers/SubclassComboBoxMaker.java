@@ -44,19 +44,12 @@ public class SubclassComboBoxMaker {
 			
 			if (nv.getValue() == null) {		
 				nv.setValue(SettingsReflectUtils.newClassInstance(newClassType));
-				if (nv.getValue() == null) {
-					System.out.println("never changed");
-				}
 			}
 			
 			o.getValue().setValue(nv.getValue());
 			
 			if (childField != null) {
-				try {
-					childField.set(parent, nv.getValue());
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
+				SettingsReflectUtils.fieldSetObject(childField, parent, nv.getValue());
 			}
 			
 			// only if it's a property
