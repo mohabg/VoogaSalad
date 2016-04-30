@@ -16,6 +16,20 @@
           <version>1.0.0</version>
           <scope>system</scope>
           <systemPath>${project.basedir}/lib/xstream-1.4.9.jar</systemPath>
+  </dependency>
+        <dependency>
+          <groupId>com.jcraft.jsch</groupId>
+          <artifactId>jsch</artifactId>
+          <version>1.0.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/jsch-0.1.5.3.jar</systemPath>
+        </dependency>
+        <dependency>
+          <groupId>reflectutils</groupId>
+          <artifactId>reflectutils</artifactId>
+          <version>1.0.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/reflectutils-0.9.20.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
