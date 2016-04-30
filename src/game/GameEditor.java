@@ -87,9 +87,10 @@ public class GameEditor implements IGameEditor {
 
 		//System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
 		//myGame.getCurrentLevel().getCurrentSprite().kill();
+	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
 
 		myGame.getCurrentLevel().update();
-		System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
+	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
 		
 		// System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
 		// myGame.getCurrentLevel().getCurrentSprite().kill();
@@ -99,8 +100,8 @@ public class GameEditor implements IGameEditor {
 			myGame.restartGame();
 
 		}*/
-		if (myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue()){
-			System.out.println("restart game");
+		if (myGame.getCurrentLevel().getCurrentSprite().isDead()){
+	//		System.out.println("restart game");
 	// 		does restart game work???
 			myGame.restartGame();
 		}

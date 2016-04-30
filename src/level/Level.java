@@ -195,7 +195,7 @@ public class Level implements ILevel {
 			if(spriteIsHero(sprite)){
 				sprite.getSpriteProperties().stayInBounds();
 				if (sprite.isDead()){
-					this.getLevelProperties().setShouldRestart(true);
+				//	this.getLevelProperties().setShouldRestart(true);
 					break;
 				}
 			
