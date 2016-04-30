@@ -122,4 +122,9 @@ public class ExecuteConditions {
 	public void setRunningTime(double runningTime) {
 		this.runningTime = runningTime;
 	}
+
+
+	public void visit(AIController aiController){
+		
+	}
 }

@@ -29,11 +29,16 @@ public class AttackConditions extends ExecuteConditions{
 	
 	
 	public boolean doesShoot(){
-		//use probability to return left right top
 		if(Math.random() >= myAttackProbability.doubleValue()){
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void visit(AIController aiController) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

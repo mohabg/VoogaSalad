@@ -49,4 +49,6 @@ public interface ISprite{
 	public void addCollision(Collision damageCollision);
 	
 	public Health getMyHealth();
+
+	public ISprite clone();
 }
