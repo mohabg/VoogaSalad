@@ -46,7 +46,9 @@ public interface ISprite{
 
 	public void setUserControlled(boolean userAction);
 
+
+
 	public void addCollision(Collision damageCollision);
-	
+
 	public Health getMyHealth();
 }

@@ -34,6 +34,4 @@ public class MenuBarElement {
 	public Menu getMenu() {
 		return myMenu;
 	}
-
-
 }

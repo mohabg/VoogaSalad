@@ -5,33 +5,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Physics.PhysicsEngine;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import behaviors.Attack;
 import behaviors.Behavior;
 import behaviors.Defense;
 import behaviors.Gun;
 import behaviors.IActions;
+import collisions.ActorCollision;
 import behaviors.MoveTurn;
 import behaviors.Shield;
 import behaviors.ThrustHorizontal;
 import behaviors.ThrustVertical;
-import collisions.Collision;
-import collisions.CollisionChecker;
-import collisions.CollisionHandler;
-import collisions.DamageCollision;
-import collisions.DissapearCollision;
-import collisions.EnemyCollision;
 import gameElements.AIController;
 import gameElements.Actions;
+import gameElements.ExecuteConditions;
 import gameElements.ISprite;
-import gameElements.ISprite.spriteState;
-import events.CollisionEvent;
 import events.Event;
 import events.EventManager;
 import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
-import events.Trigger;
-import gameElements.Score;
+import gameElements.SpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
@@ -45,8 +39,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
-import keyboard.KeyboardActionChecker;
-import keyboard.KeyboardActionFactory;
 
 
 
@@ -71,7 +63,9 @@ public class Level implements ILevel {
 
 	private Actions actions;
 	private EventManager myEventManager;
+	@IgnoreField
 	private AIController enemyController;
+	
 	
 	public Level() {
 
@@ -79,15 +73,11 @@ public class Level implements ILevel {
 		physicsEngine = new PhysicsEngine(0.9);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
-
+		enemyController = new AIController();
 		actions = new Actions();
 
 		myEventManager = new EventManager();
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DamageCollision(10), new EnemyCollision());
-		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
-				new DissapearCollision(), new EnemyCollision());
-		
+
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
@@ -103,9 +93,9 @@ public class Level implements ILevel {
 		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
 
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
+
 		
-		myEventManager.addEvent(hardCodedEvent);
-		myEventManager.addEvent(hardCodedEvent1);
+
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
 		myEventManager.addEvent(forward);
@@ -195,6 +185,7 @@ public class Level implements ILevel {
 	}
 
 	private void updateSprites() {
+		this.enemyController.update();
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
@@ -265,6 +256,14 @@ public class Level implements ILevel {
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
 		this.actions.setSpriteFactory(mySpriteFactory);
+		this.enemyController.setSpriteFactory(mySpriteFactory);
+		Map<ExecuteConditions, List<ISprite>> conditions = this.enemyController.getExecuteConditionToSprites();
+		ExecuteConditions spawn = new SpawnConditions();
+		List<ISprite> sprites = new ArrayList<>();
+		for(ISprite sprite : this.getSpriteMap().getSprites()){
+			sprites.add(sprite);
+		}
+		conditions.put(spawn, sprites);
 	}
 
 	public ISprite getCurrentSprite() {

@@ -32,8 +32,8 @@ public class Gun extends Attack{
 	
 	public Gun(RefObject myRef){
 		super(myRef);
-		this.getBehaviorConditions().setFrequency(20);
-		this.getBehaviorConditions().setProbability(0);
+		this.getBehaviorConditions().setFrequency(2);
+		this.getBehaviorConditions().setProbability(1);
 	}
 	/**
 	 * @param sprite The Sprite who's weapon you want to activate

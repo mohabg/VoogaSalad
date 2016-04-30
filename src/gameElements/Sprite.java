@@ -26,7 +26,7 @@ import java.util.*;
  * the user.
  */
 
-public class Sprite implements ISprite, IEnemy{
+public class Sprite implements ISprite{
 
 	private ISpriteProperties myProperties;
 	private Health myHealth;
@@ -133,7 +133,8 @@ public class Sprite implements ISprite, IEnemy{
 		this.getSpriteProperties().updatePos();
 		for (Behavior behavior : behaviors.values()) {
 			if(behavior.isReady(this)){
-				behavior.apply(actions, null);
+				behavior.execute(actions, null);
+				behavior.stop(actions, null);
 			}
 		}
 	}
@@ -302,27 +303,5 @@ public class Sprite implements ISprite, IEnemy{
 	
 	public boolean isOutOfBounds() {
 		return this.getSpriteProperties().isOutOfBounds();
-	}
-
-	@Override
-	public IEnemy clone() {
-		ISpriteProperties clonedProperties = this.getSpriteProperties().getClone();
-		List<Collision> clonedCollisions = new ArrayList<>();
-		for(Collision col : this.getCollisions()){
-			clonedCollisions.add(col.clone());
-		}
-		IEnemy clone = new Sprite(clonedProperties, this.myHealth.getClone(), clonedCollisions, new RefObject(this.getMyRef()));
-		return clone;
-	}
-
-	@Override
-	public double getSpawnProbability() {
-		// TODO Auto-generated method stub
-		return 0;
-	}	
-
-	public void spawn() {
-		if (Math.random() < getSpawnProbability())
-			clone();
 	}
 }

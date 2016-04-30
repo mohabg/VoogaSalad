@@ -77,6 +77,10 @@ public class Time {
 	public double getMyCurrentTime() {
 		return myCurrentTime.doubleValue();
 	}
+	
+	public DoubleProperty getMyTime(){
+		return myCurrentTime;
+	}
 
 	public void setMyCurrentTime(DoubleProperty myCurrentTime) {
 		this.myCurrentTime = myCurrentTime;

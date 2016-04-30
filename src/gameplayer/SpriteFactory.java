@@ -5,6 +5,7 @@ import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
 import collisions.Collision;
 import gameElements.Health;
+import gameElements.ISprite;
 import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -55,6 +56,17 @@ public class SpriteFactory {
 		clone.setWidth(imageWidth);
 		clone.setHeight(imageHeight);
 		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new HashMap<String,Behavior>(), myRef, vs, clone);
+	}
+	
+	public Sprite clone(ISprite sprite){
+		ISpriteProperties clonedProperties = sprite.getSpriteProperties().getClone();
+		List<Collision> clonedCollisions = new ArrayList<>();
+		for(Collision col : sprite.getCollisions()){
+			clonedCollisions.add(col.clone());
+		}
+		ViewSprite vs = new ViewSprite(sprite.getMyRef());
+		return createAndBindSprite(sprite.getMyHealth().getClone(), clonedCollisions, sprite.getBehaviors(), 
+				new RefObject(sprite.getMyRef()), vs, clonedProperties);
 	}
 	
 	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,

@@ -1,0 +1,13 @@
+#myFlowPane {
+	-fx-background-color: #121b3e;
+	-fx-hgap: 1000;
+	-fx-alignment: center;
+	-fx-vgap: 20;
+	-fx-font-family: verdana;
+	-fx-font-weight: bold;
+	-fx-font-size: 20;
+}
+
+.label{
+	-fx-text-fill: #ffffff;
+}

@@ -32,7 +32,10 @@ public class PlayerView extends Screen {
 		// System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
 		myPane.getChildren().removeAll(myViewSprites.values());
 		activeSprites.stream().forEach(s->{
-			myPane.getChildren().addAll(myViewSprites.get(s));
+			ViewSprite vs = myViewSprites.get(s);
+			if (vs != null) {
+				myPane.getChildren().add(vs);
+			}
 		});
 	}
 	
