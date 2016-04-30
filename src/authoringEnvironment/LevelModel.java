@@ -2,6 +2,8 @@ package authoringEnvironment;
 
 /**
  * @author David Yan, Joe Jacob
+ * Class to hold the information found in each level, including keybindings for level events and other level properties
+ * 
  */
 import authoringEnvironment.mainWindow.GameAuthoringTab;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
@@ -12,6 +14,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
@@ -31,10 +35,11 @@ public class LevelModel {
 	@IgnoreField
 	private List<Sprite> myList;
 	@IgnoreField
-	private String myBackground;
+	private StringProperty myBackground;
 
 	public LevelModel() {
-		myBackground = "";
+		myBackground = new SimpleStringProperty();
+		
 		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
 
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
@@ -81,7 +86,7 @@ public class LevelModel {
 		return numGoals.get();
 	}
 	
-	public String getBackground(){
+	public StringProperty getBackground(){
 		return myBackground;
 	}
 	public List<Event> getMyEvents(){
@@ -89,8 +94,7 @@ public class LevelModel {
 	}
 
 	public void setBackground(String background) {
-		myBackground = background;
-		
+		myBackground.setValue(background);	
 	}
 
 	public void addSprites(List<Sprite> list) {

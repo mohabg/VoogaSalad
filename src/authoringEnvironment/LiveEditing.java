@@ -6,7 +6,13 @@ import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.control.ScrollPane;
-
+import javafx.scene.input.MouseEvent;
+/**
+ * 
+ * @author davidyan, Joe Jacob, Huijia Yu
+ * LiveEditing window that retains functionality in the Authoring Environment to allow user ot edit while playing
+ *
+ */
 public class LiveEditing extends AClickableWindow implements IGameWindow {
 	PlayScreen ps;
 
@@ -58,6 +64,11 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 	@Override
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
 		setViewSprite(viewsprite);
+	}
+	@Override
+	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

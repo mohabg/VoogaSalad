@@ -22,6 +22,7 @@ import level.LevelProperties;
  * @author gauravkumar
  *
  */
+
 public class EventManager {
 	
 	private ListProperty<Event> myEvents;
@@ -53,6 +54,7 @@ public class EventManager {
 		}
 	}
 
+	
 	public void keyRelease(KeyCode code, IActions action, LevelProperties levProps){
 		for ( Event e: myEvents) {
 			if ( e instanceof KeyPressEvent ) {

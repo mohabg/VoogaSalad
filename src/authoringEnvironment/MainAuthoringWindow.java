@@ -8,11 +8,13 @@ import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameplayer.PlayScreen;
 import gameplayer.Screen;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import resources.FrontEndData;
 
 /**
  * @author David Yan, Joe Jacob, Huijia Yu
+ * Class that sets up the Borderpane that holds all the components for the Authoring Environment
  */
 
 public class MainAuthoringWindow extends Screen {
@@ -25,21 +27,23 @@ public class MainAuthoringWindow extends Screen {
     public MainAuthoringWindow(Screen parent, String gameName) {
         super(parent);
         initBorderPane();
+        ((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
+        myGameMakerWindow.init();
         myItemWindow = new ItemWindow(myGameMakerWindow);
         AuthoringMenubarCreator myMenubar = new AuthoringMenubarCreator(gameName);
         myMenubar.initMenuBar(this, myGameMakerWindow);
-        myGameMakerWindow.init(mySettingsWindow);
         
-        ((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
+        
+        
         setupScreen(myMenubar.getMenuBar());
-        
+       
     }
 
     private void initBorderPane() {
         myPane = new BorderPane();
         mySettingsWindow = new SettingsWindow();
         myPane.getStylesheets().add(FrontEndData.STARTING_STYLESHEET);
-        myGameMakerWindow = new GameMakerWindow();
+        myGameMakerWindow = new GameMakerWindow(new TabPane(), mySettingsWindow);
     }
 
     private void setupScreen(MenuBar menuBar) {

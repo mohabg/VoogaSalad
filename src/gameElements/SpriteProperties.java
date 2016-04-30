@@ -17,10 +17,10 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 
 public class SpriteProperties implements ISpriteProperties{
-	
+	private DoubleProperty myY;
     private DoubleProperty myX;
-    private DoubleProperty myRelativeX;
-    private DoubleProperty myY;
+    
+    private DoubleProperty myRelativeX;   
     private DoubleProperty myRelativeY;
     private DoubleProperty myXvel;
     private DoubleProperty myYvel;

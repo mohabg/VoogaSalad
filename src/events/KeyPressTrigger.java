@@ -6,7 +6,9 @@ import javafx.scene.input.KeyCode;
 public class KeyPressTrigger implements Trigger {
 	@IgnoreField
 	private boolean isTriggered;	
+	
 	private KeyCode code;
+	
 	
 	public KeyPressTrigger(){
 		this.isTriggered = false; 
