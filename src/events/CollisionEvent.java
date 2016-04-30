@@ -46,7 +46,8 @@ public class CollisionEvent extends Event {
 		}
 		for (int i = 0; i < spriteSet.size(); i++) {
 			for (int j = 0; j < spriteSet.size(); j++) {
-				if (spriteArr[i].getMyRef().equals(spriteOneType.get()) && spriteArr[j].getMyRef().equals(spriteTwoType.get())) {
+				if(spriteArr[j].getMyRef().equals("pictures/shootbullet.png")){
+				if (spriteArr[i].getMyRef().trim().equals(spriteOneType.get().trim()) && spriteArr[j].getMyRef().trim().equals(spriteTwoType.get().trim())) {
 					//checker.setSpriteOne(spriteArr[i]);
 					//checker.setSpriteTwo(spriteArr[j]);
 					checker.checkColliding(spriteArr[i],spriteArr[j]);
@@ -54,6 +55,7 @@ public class CollisionEvent extends Event {
 					if ( checker.isTriggered()) {
 						getExecutable().execute(action, levProps);
 					}
+				}
 				}
 			}
 		}

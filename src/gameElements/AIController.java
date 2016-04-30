@@ -16,7 +16,7 @@ public class AIController {
 	private Map<String, Movement> enemyMovements;
 	
 	public AIController(){
-		
+		this(null);
 	}
 	
 	public AIController(SpriteFactory spriteFactory){
