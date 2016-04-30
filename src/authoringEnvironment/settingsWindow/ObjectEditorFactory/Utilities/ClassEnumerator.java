@@ -23,6 +23,7 @@ public class ClassEnumerator {
 		return allClasses;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> superclass) {
 		Map<String, Class<R>> subclassNameMap = new HashMap<String, Class<R>>();
 		List<Class<?>> packageClasses = ObjectEditorConstants.getInstance().getAllClasses();

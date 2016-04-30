@@ -1,14 +1,13 @@
 package authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.lang.reflect.Field;
 import java.util.AbstractMap.SimpleEntry;
 
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.VisualFactory;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
@@ -16,7 +15,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
@@ -24,7 +22,7 @@ import javafx.util.StringConverter;
 public class SubclassComboBoxMaker {
 	
 	// we're making a combobox for the class of the childField
-	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Object parent, Field childField, Class<R> clazz, Property... property) {	
+	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Object parent, Field childField, Class<R> clazz, Property<?>... property) {	
 		ComboBox<SimpleEntry<Class<R>, R>> comboBox = makeComboBox(clazz);
 		ChangeListener<SimpleEntry<Class<R>, R>> comboBoxListener = makeCBListener(parent, childField, property);
 		comboBox.valueProperty().addListener(comboBoxListener);
@@ -32,10 +30,11 @@ public class SubclassComboBoxMaker {
 		return comboBox;
 	}
 	
-	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Object parent, Field childField, Property... property) {
+	@SuppressWarnings("unchecked")
+	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Object parent, Field childField, Property<?>... property) {
 		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
 			ObjectProperty<SimpleEntry<Class<R>, R>> objProp = (ObjectProperty<SimpleEntry<Class<R>, R>>) o;
-			ComboBox subclassBox = (ComboBox) objProp.getBean();
+			ComboBox<?> subclassBox = (ComboBox<?>) objProp.getBean();
 			Pane myComboBoxParent = (Pane) subclassBox.getParent();
 			myComboBoxParent.getChildren().clear();
 			
@@ -54,7 +53,7 @@ public class SubclassComboBoxMaker {
 			
 			// only if it's a property
 			if (ov != null && property.length == 1) {
-				Property prop = property[0];
+				Property<?> prop = property[0];
 				if(prop instanceof ListProperty) {
 					ListProperty<R> lpr = (ListProperty<R>) prop;
 					lpr.remove(ov.getValue());
@@ -90,6 +89,7 @@ public class SubclassComboBoxMaker {
 		return boxChangeListener;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <R> ComboBox<SimpleEntry<Class<R>, R>> makeComboBox(Class<R> clazz) {
 		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = GUIObjectMaker.makeComboBox();
 		

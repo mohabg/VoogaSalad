@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 import javafx.beans.property.Property;
@@ -17,6 +17,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class SettingsReflectUtils {
 	
+	@SuppressWarnings("unchecked")
 	public static <R> R newClassInstance(Class<R> clazz) {
 		if (clazz.isEnum()) {
 			return (R) clazz;
@@ -46,6 +47,7 @@ public class SettingsReflectUtils {
 		return newClassInstance(sub);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <R> Class<R> getSubclass(Class<R> clazz) {
 		// if it's not a user-made class, probably a java property
 		List<String> myProjectClassNames = ObjectEditorConstants.getInstance().getSimpleClassNames();

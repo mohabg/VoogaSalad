@@ -3,19 +3,13 @@ package authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.MapProperty;
 import javafx.beans.property.StringProperty;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class SettingsObjectMaker {
@@ -60,29 +54,29 @@ public class SettingsObjectMaker {
 		return converted;
 	}
 	
-	public static Spinner makeDoubleSpinner(DoubleProperty dp) {
-		Spinner mySpinner = GUIObjectMaker.makeSpinner();
-		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
+	public static Spinner<Double> makeDoubleSpinner(DoubleProperty dp) {
+		Spinner<Double> mySpinner = GUIObjectMaker.makeSpinner();
+		SpinnerValueFactory<Double> factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
 		
-		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
+		TextFormatter<Double> formatter = new TextFormatter<Double>(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
 		
-		factory.valueProperty().bindBidirectional(dp);
+		factory.valueProperty().bindBidirectional(dp.asObject());
 		factory.valueProperty().bindBidirectional(formatter.valueProperty());
 		
 		return mySpinner;
 	}
 
-	public static Spinner makeIntegerSpinner(IntegerProperty ip) {
-		Spinner mySpinner = GUIObjectMaker.makeSpinner();
-		SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
+	public static Spinner<Integer> makeIntegerSpinner(IntegerProperty ip) {
+		Spinner<Integer> mySpinner = GUIObjectMaker.makeSpinner();
+		SpinnerValueFactory<Integer> factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
 		mySpinner.setValueFactory(factory);
 
-		TextFormatter formatter = new TextFormatter(factory.getConverter(), factory.getValue());
+		TextFormatter<Integer> formatter = new TextFormatter<Integer>(factory.getConverter(), factory.getValue());
 		mySpinner.getEditor().setTextFormatter(formatter);
 		
-		factory.valueProperty().bindBidirectional(ip);
+		factory.valueProperty().bindBidirectional(ip.asObject());
 		factory.valueProperty().bindBidirectional(formatter.valueProperty());
 
 		return mySpinner;
@@ -100,7 +94,7 @@ public class SettingsObjectMaker {
 	public static TextField makeTextField(StringProperty sp) {
 		TextField textField = GUIObjectMaker.makeTextField(sp.toString());
 		
-		TextFormatter formatter = new TextFormatter(TextFormatter.IDENTITY_STRING_CONVERTER);
+		TextFormatter<String> formatter = new TextFormatter<String>(TextFormatter.IDENTITY_STRING_CONVERTER);
 		textField.setTextFormatter(formatter);
 		
 		textField.textProperty().bindBidirectional(sp);

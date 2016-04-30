@@ -113,20 +113,21 @@ public class GUIObjectMaker {
 		return vBox;
 	}
 	
-	public static ComboBox makeComboBox() {
-		ComboBox comboBox = makeStyledComboBox();
+	public static <T> ComboBox<T> makeComboBox() {
+		ComboBox<T> comboBox = makeStyledComboBox();
 		comboBox = addComboBoxOptions(comboBox);
 		return comboBox;
 	}
 	
 
-	public static ComboBox makeStyledComboBox() {
-		ComboBox comboBox = new ComboBox();
-		comboBox = (ComboBox) applyStylesheet(StylesheetType.COMBOBOX, comboBox);
+	@SuppressWarnings("unchecked")
+	public static <T> ComboBox<T> makeStyledComboBox() {
+		ComboBox<T> comboBox = new ComboBox<T>();
+		comboBox = (ComboBox<T>) applyStylesheet(StylesheetType.COMBOBOX, comboBox);
 		return comboBox;
 	}
 	
-	private static ComboBox addComboBoxOptions(ComboBox comboBox) {
+	private static <T> ComboBox<T> addComboBoxOptions(ComboBox<T> comboBox) {
 		return comboBox;
 	}
 
@@ -165,19 +166,20 @@ public class GUIObjectMaker {
 		return anchorPane;
 	}
 	
-	public static Spinner makeSpinner() {
-		Spinner spinner = makeStyledSpinner();
+	public static <T> Spinner<T> makeSpinner() {
+		Spinner<T> spinner = makeStyledSpinner();
 		spinner = addSpinnerOptions(spinner);
 		return spinner;
 	}
 	
-	public static Spinner makeStyledSpinner() {
-		Spinner spinner = new Spinner();
-		spinner = (Spinner) applyStylesheet(StylesheetType.SPINNER, spinner);
+	@SuppressWarnings("unchecked")
+	public static <T> Spinner<T> makeStyledSpinner() {
+		Spinner<T> spinner = new Spinner<T>();
+		spinner = (Spinner<T>) applyStylesheet(StylesheetType.SPINNER, spinner);
 		return spinner;
 	}
 	
-	public static Spinner addSpinnerOptions(Spinner spinner) {
+	public static <T> Spinner<T> addSpinnerOptions(Spinner<T> spinner) {
 		spinner.setEditable(true);
 		return spinner;
 	}
