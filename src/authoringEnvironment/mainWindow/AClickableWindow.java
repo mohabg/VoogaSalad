@@ -9,6 +9,7 @@ import gameElements.ISprite;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.TabPane;
@@ -19,14 +20,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import resources.FrontEndData;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,10 +55,9 @@ public abstract class AClickableWindow {
 
 	public AClickableWindow(SettingsWindow window) {
 		myWindow = window;
-		
 		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
-		myNewGamePane = new AnchorPane();
+		initGamePane();
 		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
 				"gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
 				"spriteProperties", "events"));
@@ -63,7 +66,10 @@ public abstract class AClickableWindow {
 		initOEC();
 	}
 
-	
+	private void initGamePane() {
+		myNewGamePane = new AnchorPane();
+		setBackground("");
+	}
 
 	
 	private void initOEC() {
@@ -166,13 +172,17 @@ public abstract class AClickableWindow {
 	}
 	
 	public void setBackground(String background) {
-		//myNewGamePane.setStyle("-fx-background-image: url(" + background + ");" + "\n" +
-		//		   "-fx-background-repeat: repeat;");	
-		myNewGamePane.setBackground(new Background(new BackgroundImage(new Image(background), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		if (background == "") {
+			myNewGamePane.setBackground(new Background(new BackgroundFill(Paint.valueOf("white"), null, null)));		
+		} else {
+			myNewGamePane.setBackground(new Background(new BackgroundImage(new Image(background), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		}
+		
+		myLevelModel.setBackground(background);
 	}
 	
-	public String getBackground() {
-		return myNewGamePane.getStyle().replace("-fx-background-image: url(", "").replace(");", "").replace("-fx-background-repeat: repeat;", "").trim();
+	public StringProperty getBackground() {
+		return myLevelModel.getBackground();
 	}
 
 	public abstract void initArea();

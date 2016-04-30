@@ -104,7 +104,7 @@ public class GameLoader {
 		for (GameAuthoringTab levelTab : levels.getTabs()) {
 			LevelModel newLM = levelTab.getLevelModel();
 //			LevelModel newLM = new LevelModel(levelTab);
-			newLM.setBackground(levelTab.getBackground());
+			newLM.setBackground(levelTab.getBackground().getValue());
 			
 			newLM.addSprites(levelTab.getList());
 			levelModelList.add(newLM);

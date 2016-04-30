@@ -61,6 +61,7 @@ public class ItemWindow {
 		String p = FrontEndData.SpriteImages.getString(k);
 		ImageView bg = new ImageView(p);
 		bg.setOnMouseClicked(e -> {
+			System.out.println("background cliked");
 			myGameTabPane.setBackground(p);
 		});
 		return bg;

@@ -10,6 +10,7 @@ import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -18,6 +19,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.Pane;
 import resources.FrontEndData;
 
@@ -38,10 +42,10 @@ public class GameAuthoringTab extends AClickableWindow {
 	
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
-	private ViewSprite currentSprite;
-	private SettingsWindow myWindow;
+	//private ViewSprite currentSprite;
+	//private SettingsWindow myWindow;
 	private ContextMenu contextMenu;
-	private LevelModel myLevelModel;
+	//private LevelModel myLevelModel;
 	
 	private AESpriteFactory sf;
 
@@ -84,6 +88,42 @@ public class GameAuthoringTab extends AClickableWindow {
 			}
 			key.consume();
 		});
+		
+		
+		absoluteX.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			BackgroundImage myIm = getMyNewGamePane().getBackground().getImages().get(0);
+			double horPos = myIm.getPosition().getHorizontalPosition();
+			horPos = horPos - change/200;
+			double verPos = myIm.getPosition().getVerticalPosition();
+			Side horSide = myIm.getPosition().getHorizontalSide();
+			Side verSide = myIm.getPosition().getVerticalSide();
+			boolean horPerc = myIm.getPosition().isHorizontalAsPercentage();
+			boolean verPerc = myIm.getPosition().isVerticalAsPercentage();
+			
+			BackgroundPosition newPos = new BackgroundPosition(horSide, horPos, horPerc, verSide, verPos, verPerc);
+			BackgroundImage newIm = new BackgroundImage(myIm.getImage(), myIm.getRepeatX(), myIm.getRepeatX(), newPos, myIm.getSize());
+			
+			getMyNewGamePane().setBackground(new Background(newIm));
+		});
+		
+		absoluteY.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			BackgroundImage myIm = getMyNewGamePane().getBackground().getImages().get(0);
+			double horPos = myIm.getPosition().getHorizontalPosition();
+			double verPos = myIm.getPosition().getVerticalPosition();
+			verPos = verPos - change/200;
+			Side horSide = myIm.getPosition().getHorizontalSide();
+			Side verSide = myIm.getPosition().getVerticalSide();
+			boolean horPerc = myIm.getPosition().isHorizontalAsPercentage();
+			boolean verPerc = myIm.getPosition().isVerticalAsPercentage();
+			
+			BackgroundPosition newPos = new BackgroundPosition(horSide, horPos, horPerc, verSide, verPos, verPerc);
+			BackgroundImage newIm = new BackgroundImage(myIm.getImage(), myIm.getRepeatX(), myIm.getRepeatX(), newPos, myIm.getSize());
+			
+			getMyNewGamePane().setBackground(new Background(newIm));
+		});
+		
 	}
 	
 	private void updateViewpoint(KeyCode code) {
@@ -178,7 +218,6 @@ public class GameAuthoringTab extends AClickableWindow {
 	
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
-		
 	}
 	
 	public DoubleProperty getAbsoluteX() {
