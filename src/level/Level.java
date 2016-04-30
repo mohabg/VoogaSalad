@@ -201,6 +201,9 @@ public class Level implements ILevel {
 			
 			}
 			else if(sprite.isOutOfBounds()){
+				if(sprite.getMyRef().equals("pictures/red_enemy.png")){
+					sprite.kill();
+				}
 				sprite.kill();
 			}
 			removeDeadSprite(spriteID, spriteList);
