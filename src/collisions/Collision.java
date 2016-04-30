@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
  * @see handleCollision
  */
 
-public abstract class Collision implements Executable {
+public abstract class Collision {
 	
 	private DoubleProperty value;
 	
@@ -28,8 +28,6 @@ public abstract class Collision implements Executable {
 	public Collision(double value){
 		this.value = new SimpleDoubleProperty(value);
 	}
-	
-	public abstract void execute(IActions action, LevelProperties levProps);
 	
 	public double getValue(){
 		return this.value.doubleValue();

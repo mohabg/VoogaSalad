@@ -8,15 +8,15 @@ import level.Level;
 
 public class PhysicsEngine {
 	private DoubleProperty drag;
-
+	private DoubleProperty gravity;
+	private double currentTime;
 	
-	public PhysicsEngine(DoubleProperty dragVal) {
-		drag = dragVal;
+	public PhysicsEngine(double dragVal, double gravity) {
+		this.drag = new SimpleDoubleProperty(dragVal);
+		this.gravity = new SimpleDoubleProperty(gravity);
+		currentTime = System.currentTimeMillis();
 	}
 	
-	public PhysicsEngine(Double dragVal){
-		this(new SimpleDoubleProperty(dragVal));
-	}
 	public PhysicsEngine(){
 		drag=new SimpleDoubleProperty(1);
 	}
@@ -27,15 +27,6 @@ public class PhysicsEngine {
 		}
 	}
 
-/*	// should this be private
-	public void thrustSprite(Sprite sprite, DoubleProperty intensity) {
-		sprite.getSpriteProperties().setMyXvelProperty(
-				new SimpleDoubleProperty(Math.sin(sprite.getAngle().getValue() * intensity.getValue())));
-		sprite.getSpriteProperties().setMyYvelProperty(
-				new SimpleDoubleProperty(Math.cos(sprite.getAngle().getValue() * intensity.getValue())));
-
-	}
-*/
 	// should this be private
 	// update method should not update sprite positions
 	public void updateSprite(ISprite sprite) {
@@ -49,22 +40,26 @@ public class PhysicsEngine {
 	}
 
 	private void updateSpriteVelocity(ISprite sprite) {
+		double elapsedTime = (this.currentTime - System.currentTimeMillis()) / 1000;
 		updateXVelocity(sprite);
-		updateYVelocity(sprite);
+		updateYVelocity(sprite, elapsedTime);
 	}
 
 	private void updateXVelocity(ISprite sprite) {
 		//DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyXvel().getValue() + sprite.getX().getValue());
-		
 		double newXVel= sprite.getSpriteProperties().getXVel() * getDrag().getValue();
 	//	sprite.setX(newLocation);
 		sprite.getSpriteProperties().setXVel(newXVel);
 
 	}
 
-	private void updateYVelocity(ISprite sprite) {
+	private void updateYVelocity(ISprite sprite, double elapsedTime) {
 	//	DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyYvel().getValue() + sprite.getY().getValue());
-		double newYVel = sprite.getSpriteProperties().getYVel() * getDrag().getValue();
+		double newYVel;
+		if(drag.doubleValue() == 0){
+			newYVel = sprite.getSpriteProperties().getYVel() + this.gravity.doubleValue() * elapsedTime;
+		}
+		newYVel = sprite.getSpriteProperties().getYVel() * getDrag().getValue();
 	//	sprite.setY(newLocation);
 		sprite.getSpriteProperties().setYVel(newYVel);
 

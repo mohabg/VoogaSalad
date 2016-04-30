@@ -14,5 +14,6 @@ public interface IActions {
 	public boolean isUserAction();
 	public boolean spriteCanMove();
 	public void setSprite(ISprite sprite);
-	
+	public ISprite getTarget();
+	public void setTarget(ISprite target);
 }

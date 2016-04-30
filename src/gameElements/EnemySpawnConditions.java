@@ -7,7 +7,7 @@ import authoringEnvironment.Settings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class SpawnConditions extends ExecuteConditions{
+public class EnemySpawnConditions extends ExecuteConditions{
 	
 
 	//^^This should be kept somewhere where the user can set respawn probability in the authoring environment
@@ -15,7 +15,7 @@ public class SpawnConditions extends ExecuteConditions{
 	private DoubleProperty myRespawnLeftProbability;
 	private DoubleProperty myRespawnRightProbability;
 
-	public SpawnConditions(){
+	public EnemySpawnConditions(){
 		super();
 	    this.setProbability(0.5);
 	    this.setFrequency(5);
@@ -55,21 +55,19 @@ public class SpawnConditions extends ExecuteConditions{
 				return new Point(Settings.getScreenWidth(),Settings.getScreenHeight()/2);
 			}
 		return null;
-		
 	}
 	@Override
 	public void visit(AIController aiController) {
 		if(this.isAIReady()){
-			spawnSprite(aiController);
+			spawnSprite(aiController, this.getSpawnPosition());
 		}
 	}
-	private void spawnSprite(AIController aiController) {
-		Point start = this.getSpawnPosition();
+	protected void spawnSprite(AIController aiController, Point point) {
 		List<ISprite> spritesToSpawn = aiController.getExecuteConditionToSprites().get(this);
 		for(ISprite enemy : spritesToSpawn){
 			ISprite cloned = aiController.getSpriteFactory().clone(enemy);
-			cloned.getSpriteProperties().setX(start.getX());
-			cloned.getSpriteProperties().setY(start.getY());
+			cloned.getSpriteProperties().setX(point.getX());
+			cloned.getSpriteProperties().setY(point.getY());
 		}
 	}
 }

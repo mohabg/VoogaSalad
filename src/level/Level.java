@@ -24,7 +24,7 @@ import events.EventManager;
 import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
-import gameElements.SpawnConditions;
+import gameElements.EnemySpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameplayer.SpriteFactory;
@@ -68,10 +68,9 @@ public class Level implements ILevel {
 	public Level() {
 
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0.9);
+		physicsEngine = new PhysicsEngine(0.9, 1);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
-		enemyController = new AIController();
 		actions = new Actions();
 
 		myEventManager = new EventManager();
@@ -251,14 +250,6 @@ public class Level implements ILevel {
 
 	public void setSpriteFactory(SpriteFactory mySpriteFactory) {
 		this.actions.setSpriteFactory(mySpriteFactory);
-		this.enemyController.setSpriteFactory(mySpriteFactory);
-		Map<ExecuteConditions, List<ISprite>> conditions = this.enemyController.getExecuteConditionToSprites();
-		ExecuteConditions spawn = new SpawnConditions();
-		List<ISprite> sprites = new ArrayList<>();
-		for(ISprite sprite : this.getSpriteMap().getSprites()){
-			sprites.add(sprite);
-		}
-		conditions.put(spawn, sprites);
 	}
 
 	public ISprite getCurrentSprite() {

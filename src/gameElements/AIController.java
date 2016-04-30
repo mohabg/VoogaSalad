@@ -1,5 +1,6 @@
 package gameElements;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,13 @@ public class AIController {
 		executeConditionToSprites = new HashMap<>();
 		enemyMovements = new HashMap<String, Movement>();
 		this.spriteFactory = spriteFactory;
+		Map<ExecuteConditions, List<ISprite>> conditions = this.getExecuteConditionToSprites();
+		ExecuteConditions spawn = new EnemySpawnConditions();
+		List<ISprite> sprites = new ArrayList<>();
+		for(ISprite sprite : this.getSpriteFactory().getSpriteMap().getSprites()){
+			sprites.add(sprite);
+		}
+		conditions.put(spawn, sprites);
 	}
 	
 	public void update(){

@@ -1,8 +1,5 @@
 package behaviors;
 
-import gameElements.Sprite;
-import gameplayer.SpriteFactory;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.LevelProperties;
