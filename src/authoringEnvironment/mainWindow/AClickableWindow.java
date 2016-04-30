@@ -98,14 +98,14 @@ public abstract class AClickableWindow {
 		TabPane propertiesPane = new TabPane();
         //mySpriteTabPanes.get(spriteModel) != null
 		if (mySpriteTabPanes.containsKey(iSprite)) {
+			System.out.println("contained the key");
 			propertiesPane = mySpriteTabPanes.get(iSprite);
 		} else {
-
 			propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
 			mySpriteTabPanes.put(iSprite, propertiesPane);
-
+			System.out.println("didnt contained the key");
 		}
-		myBox.getChildren().addAll(propertiesPane);
+		myBox.getChildren().add(propertiesPane);
 		return myBox;
 	}
 

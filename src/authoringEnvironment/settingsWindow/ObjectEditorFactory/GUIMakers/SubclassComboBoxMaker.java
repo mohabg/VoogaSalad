@@ -9,7 +9,7 @@ import java.util.AbstractMap.SimpleEntry;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.VisualFactory;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -93,7 +93,7 @@ public class SubclassComboBoxMaker {
 	private static <R> ComboBox<SimpleEntry<Class<R>, R>> makeComboBox(Class<R> clazz) {
 		ComboBox<SimpleEntry<Class<R>, R>> subclassBox = GUIObjectMaker.makeComboBox();
 		
-		Map<String, Class<R>> allSubclasses = SubclassEnumerator.getAllSubclasses(clazz);
+		Map<String, Class<R>> allSubclasses = ClassEnumerator.getAllSubclasses(clazz);
 		List<String> toRemove = new ArrayList<String>();
 		
 		// remove interfaces/abstract because they dont have instance vars

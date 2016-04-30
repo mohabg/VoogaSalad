@@ -24,8 +24,9 @@ public class SettingsWindow {
      * that have been created in the VisualFactor.
      */
 	public void setContent(VBox mySpriteBox){
-        myDisplay.getChildren().clear();
-        myDisplay.getChildren().add(mySpriteBox);
+		myDisplay.getChildren().setAll(mySpriteBox);
+//        myDisplay.getChildren().clear();
+//        myDisplay.getChildren().add(mySpriteBox);
     }
 	
 	public VBox getBox(){

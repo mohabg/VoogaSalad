@@ -1,6 +1,6 @@
 package authoringEnvironment.settingsWindow.ObjectEditorFactory;
 
-import authoringEnvironment.Settings;
+
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.SetFieldName;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
@@ -9,7 +9,7 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.GUIObje
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SettingsObjectMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SubclassComboBoxMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SubclassEnumerator;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 
 import javafx.beans.property.*;
 
@@ -267,7 +267,9 @@ public class VisualFactory {
 		List<HBox> properties = new ArrayList<HBox>();		
 		String fieldName = field != null ? field.getName() : fieldObject.getClass().getName();		
 		
+		// seems to not happen unless an instance can't be made
 		if (fieldObject == null) {
+			System.out.println("does this ever happen");
 			fieldClass = SettingsReflectUtils.getSubclass(fieldClass);
 			fieldObject = (R) SettingsReflectUtils.newClassInstance(fieldClass);
 			if (field != null) {
@@ -283,7 +285,7 @@ public class VisualFactory {
 		
 	
 		// make subclass combobox if necessary
-		if (makeBox && SubclassEnumerator.hasSubclasses(fieldClass)) {
+		if (makeBox && SettingsReflectUtils.hasSubclasses(fieldClass)) {
 			ComboBox<SimpleEntry<Class<R>, R>> subclassBox = null;
 			subclassBox = SubclassComboBoxMaker.makeSubclassComboBox(parent, field, fieldClass);
 
@@ -295,7 +297,7 @@ public class VisualFactory {
 		}
 		
 		// prevents us from trying to initialize java classes	
-		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(fieldClass.getName())) {			
+		if (ObjectEditorConstants.getInstance().getSimpleClassNames().contains(fieldClass.getName())) {
 			Label propLabel = GUIObjectMaker.makeLabel(SettingsObjectMaker.convertCamelCase(fieldName));
 			VBox fieldVBox = GUIObjectMaker.makeVBox(propLabel);			
 			List<HBox> fieldHBoxes = new ArrayList<HBox>();

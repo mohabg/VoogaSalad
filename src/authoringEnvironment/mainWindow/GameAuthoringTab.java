@@ -119,7 +119,7 @@ public class GameAuthoringTab extends AClickableWindow {
 
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
-
+		
 	}
 
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
