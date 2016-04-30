@@ -109,10 +109,6 @@ public abstract class AClickableWindow {
 				currentSprite = mySprite;
 				updateSettingsPane(mySprite);
 			}
-			
-			if (t.isSecondaryButtonDown()) {
-				makeRightClickEvent(mySprite, t);
-			}
 		}
 	};
 	
@@ -169,11 +165,7 @@ public abstract class AClickableWindow {
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 
 		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
-                ViewSprite myClone = new ViewSprite(sprite.getMyImage());
-                setViewSprite(myClone);
-            }
-            e.consume();
+           makeRightClickEvent(sprite, e);
         });
 	}
 

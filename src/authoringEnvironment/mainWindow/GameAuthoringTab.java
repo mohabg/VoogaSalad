@@ -19,6 +19,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -250,16 +251,18 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 
 	@Override
 	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
-		double xpos = t.getSceneX();
-		double ypos = t.getSceneY();
-		
-		ContextMenu menu = createContextMenu(mySprite);
-		menu.setX(xpos);
-		menu.setY(ypos);
-		
-		menu.setAutoHide(true);
-		menu.show(myNewGamePane, xpos, ypos);
-		
+		if (t.getButton() == MouseButton.SECONDARY) {
+			double xpos = t.getSceneX();
+			double ypos = t.getSceneY();
+			
+			ContextMenu menu = createContextMenu(mySprite);
+			menu.setX(xpos);
+			menu.setY(ypos);
+			
+			menu.setAutoHide(true);
+			menu.show(mySprite, xpos, ypos);
+        }
+        t.consume();
 	}
 
 
