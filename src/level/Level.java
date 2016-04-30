@@ -289,6 +289,7 @@ public class Level implements ILevel {
 	}*/
 	
 	public void setCurrentSpriteID(Integer sprite) {
+		System.out.println("set current sprite id to " + sprite);
 		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
 		//setSpriteActions();
 	}

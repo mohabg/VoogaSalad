@@ -206,6 +206,7 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 		// bind viewpoint
 		ISpriteProperties spriteProps = sprite.getSpriteProperties();
 		DoubleProperty spriteX = spriteProps.getXProperty();
+		
 		absoluteX.addListener((o, ov, nv) -> {
 			double change = nv.doubleValue() - ov.doubleValue();
 			spriteX.setValue(spriteX.getValue() - change);
@@ -260,9 +261,6 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 
 
 	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
 
 }
