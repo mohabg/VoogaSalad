@@ -3,10 +3,6 @@ package behaviors;
 import authoringEnvironment.RefObject;
 import gameElements.ExecuteConditions;
 import gameElements.Health;
-import gameElements.Sprite;
-import gameplayer.SpriteFactory;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import level.LevelProperties;
 
 /**
@@ -55,7 +51,7 @@ public abstract class Defense extends Behavior {
 	}
 	
 	/**
-	 * @param sprite Enables the defense of a sprite, provided the readyToDefend boolean is on
+	 * @param actions Enables the defense of a sprite, provided the readyToDefend boolean is on
 	 */
 	@Override
 	public void apply(IActions actions, LevelProperties levProps){

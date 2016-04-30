@@ -5,17 +5,14 @@ import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
-import events.Event;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
+import events.Event;
 import gameElements.Sprite;
 import interfaces.ITabPane;
 import level.Level;
 import level.LevelProperties;
-import javafx.scene.control.TextInputDialog;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -87,7 +84,7 @@ public class GameLoader {
 			fw.write(xml);
 			fw.close();
 		} catch (IOException e1) {
-			// TODO PRINT ERROR
+            throw new SaveGameException();
 		}
 	}
 
