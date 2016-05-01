@@ -2,7 +2,11 @@ package events;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.scene.input.KeyCode;
-
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
 public class KeyPressTrigger implements Trigger {
 	@IgnoreField
 	private boolean isTriggered;	

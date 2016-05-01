@@ -12,7 +12,11 @@ import level.ILevelProperties;
 import level.LevelProperties;
 
 import java.util.Collection;
-
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
 public class CollisionEvent extends Event {
 	
 	private StringProperty spriteOneType;

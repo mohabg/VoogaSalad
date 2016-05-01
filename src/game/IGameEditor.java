@@ -8,6 +8,11 @@ import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
 public interface IGameEditor {
 	
 	Game getGame();

@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import level.LevelProperties;
 
 /**
+ * Contains all of the events that occur in the game
  * 
  * @author gauravkumar
  *
