@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import resources.FrontEndData;
 
@@ -28,35 +29,40 @@ public abstract class GameFileScreen extends Screen {
     public GameFileScreen() {
         super();
         tabPane = new TabPane();
-        tabPane.getStylesheets().add("gameplayer/gameFileScreen.css");
-        // Settings.setGamePlayingSettings((Pane) tabPane);
         initTabs();
     }
     
     private void initTabs() {
         tabPane.getTabs().add(addTab(FrontEndData.ButtonLabels.getString("defaultgames"), FrontEndData.DEFAULT_DIRECTORY));
         tabPane.getTabs().add(addTab(FrontEndData.ButtonLabels.getString("savedgames"), FrontEndData.SAVED_DIRECTORY));
-        BorderPane pane = new BorderPane();
-        pane.setTop(ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("backtostart"), a-> {returnToStart();}));
-        myPane.getChildren().add(tabPane);
+        Button returnButton = new Button("<--");
+        returnButton.setOnAction(e -> {returnToStart();});
+        myPane = new BorderPane();
+        myPane.getStylesheets().add("gameplayer/gameFileScreen.css");
+        myPane.setId("pane");
+        ((BorderPane) myPane).setTop(returnButton);
+        ((BorderPane) myPane).setCenter(tabPane);
     }
     
     private Tab addTab(String title, File directory) {
         Tab tab = new Tab();
         tab.setText(title);
         ScrollPane myScroller = new ScrollPane();
-        myScroller.setContent(makeFlowPane(directory));
+        myScroller.setContent(makeScrollPane(directory));
         tab.setContent(myScroller);
         return tab;
     }
     
-    private FlowPane makeFlowPane(File flowDirectory) {
-        FlowPane flowPane = new FlowPane();
-        flowPane.getChildren()
-        .addAll(Arrays.stream(getGames(flowDirectory)).map(f -> makeDisplay(f)).collect(Collectors.toList()));
-        flowPane.setPrefHeight(Settings.getScreenHeight());
-        flowPane.setPrefWidth(0.4*Settings.getScreenWidth());
-        return flowPane;
+    private ScrollPane makeScrollPane(File flowDirectory) {
+    	ScrollPane scrollPane = new ScrollPane();
+    	scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    	
+        TilePane tilePane = new TilePane();
+        tilePane.setId("TilePane");
+        tilePane.getChildren().addAll(Arrays.stream(getGames(flowDirectory)).map(f -> makeDisplay(f)).collect(Collectors.toList()));
+        
+        scrollPane.setContent(tilePane);
+        return scrollPane;
     }
     
     private File[] getGames(File directory) {
@@ -87,8 +93,8 @@ public abstract class GameFileScreen extends Screen {
         myButton.setPrefWidth(FrontEndData.BUTTON_SIZE);
         
 //      myButton.getStylesheets().add("authoringEnvironment/itemWindow/TabStyles.css");
-        myButton.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
-        myButton.setId("button-style");
+//        myButton.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
+//        myButton.setId("button-style");
         return new VBox(myButton);
     }
     

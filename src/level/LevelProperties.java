@@ -77,6 +77,7 @@ public class LevelProperties implements ILevelProperties {
 		numGoals.set(numberOfGoals);
 		collidingSprites = new Sprite[2];
 	}
+	
 	public void addGoal(GoalProperties goal){
 		this.getGoalProperties().add(goal);
 	}

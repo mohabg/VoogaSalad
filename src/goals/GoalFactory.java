@@ -34,7 +34,8 @@ public class GoalFactory {
             }
 		if(goal==null){
 			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
-			goal=new StayAliveGoal(property);}
+			goal=new StayAliveGoal(property);
+		}
 		return goal;
 	}
 }

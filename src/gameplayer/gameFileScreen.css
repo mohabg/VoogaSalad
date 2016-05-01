@@ -1,3 +1,7 @@
+#pane{
+	-fx-background-color: #121b3e;
+}
+
 .tab-pane .tab-header-background{
 	-fx-background-color: #121b3e;
 }
@@ -16,8 +20,22 @@
 	-fx-text-fill: #7090cb;
 }
 
-#FlowPane {
+#TilePane {
 	-fx-background-color: #121b3e;
-	-fx-pref-tile-height: 10;
-	-fx-pref-tile-width: 10;
+	-fx-pref-tile-height: 50;
+	-fx-pref-tile-width: 200;
+	-fx-tile-alignment: top-center;
+	-fx-pref-columns: 2;
+	-fx-vgap: 5;
+}
+
+.button {
+	-fx-background-color: #121b3e;
+	-fx-text-fill: #ffffff;
+	-fx-font-family: verdana;
+	-fx-font-weight: bold;
+}
+
+.button:hover{
+	-fx-text-fill: #7090cb;
 }

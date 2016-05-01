@@ -36,8 +36,11 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 		myTabPane.getStylesheets().add(FrontEndData.MAINWINDOW_STYLESHEET);
 		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
 			Tab selectedTab = myTabPane.getSelectionModel().getSelectedItem();
-			GameAuthoringTab gat = myGameTabs.get(selectedTab);
-			gat.setCurrentSpriteNull();
+			
+				GameAuthoringTab gat = myGameTabs.get(selectedTab);
+			if (gat != null) {
+				gat.setCurrentSpriteNull();
+			}
 		});
 		myGameTabs = new HashMap<Tab, GameAuthoringTab>();
 	}
