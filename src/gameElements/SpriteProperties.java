@@ -1,12 +1,5 @@
 package gameElements;
 
-import gameElements.ISprite.spriteState;
-import goals.Goals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -50,7 +43,6 @@ public class SpriteProperties implements ISpriteProperties{
         myRelativeX = new SimpleDoubleProperty(0);
         myRelativeY = new SimpleDoubleProperty(0);
         canMove = new SimpleBooleanProperty(true);
-        
     }
 
     public SpriteProperties(double x, double y, double width, double height, double angle){

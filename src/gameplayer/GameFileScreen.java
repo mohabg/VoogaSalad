@@ -90,7 +90,6 @@ public abstract class GameFileScreen extends Screen {
         myButton.getStylesheets().add("authoringEnvironment/itemWindow/styles.css");
         myButton.setId("button-style");
         return new VBox(myButton);
-        
     }
     
     public abstract void setOnMouseClick(File file);

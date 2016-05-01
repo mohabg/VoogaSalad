@@ -1,15 +1,13 @@
 package game;
 
 import java.util.List;
-
 import gameElements.ISprite;
 import gameElements.Time;
 import authoringEnvironment.Settings;
-import gameElements.ViewPoint;
 import goals.Goal;
-import goals.GoalProperties;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
@@ -84,24 +82,20 @@ public class GameEditor implements IGameEditor {
 	}
 
 	public void updateGame() {
-
 		//System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
 		//myGame.getCurrentLevel().getCurrentSprite().kill();
 	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
 		myGame.getCurrentLevel().update();
-	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
-		
-		// System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
-		// myGame.getCurrentLevel().getCurrentSprite().kill();
-		// System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead() + "is sprite dead");
-		/*if(!myGame.getCurrentLevel().getSpriteMap().getSpriteMap().containsKey(myGame.getCurrentLevel().getCurrentSprite())){
-			System.out.println("restart game");
-			myGame.restartGame();
-
-		}*/
 		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
-	//		System.out.println("restart game");
 	// 		does restart game work???
+		/*	Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Look, an Information Dialog");
+			alert.setContentText("I have a great message for you!");
+
+			alert.showAndWait();
+		*/
+			
 			myGame.restartGame();
 		}
 
@@ -111,8 +105,6 @@ public class GameEditor implements IGameEditor {
 			}
 			myGame.setIsFinished(true);
 		}
-		//System.out.println(myGame.getIsFinished().toString()+"gameEditor");
-		//System.out.println(myGame.getIsFinished());
 	}
 
 	/*public void setResultForKeyPress(KeyEvent event) {

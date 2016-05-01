@@ -37,7 +37,7 @@ public abstract class Movement extends Behavior{
 		}
 	}
 	/**
-	 * @param sprite This method checks conditions for movement, and moves the sprite correspondingly
+	 * @param actions This method checks conditions for movement, and moves the sprite correspondingly
 	 */
 	@Override
 	public void apply(IActions actions, LevelProperties levProps) {

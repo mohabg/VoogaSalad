@@ -1,5 +1,7 @@
 package gameplayer;
 
+import HUD.HUDEnum;
+import HUD.HeadsUpDisplay;
 import authoringEnvironment.Settings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -8,10 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import HUD.HUDEnum;
-import HUD.HeadsUpDisplay;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class HUDWindow{
 	private HeadsUpDisplay myHUD;
@@ -26,7 +25,6 @@ public class HUDWindow{
 		myFlowPane.getStylesheets().add("gameplayer/HUDWindow.css");
 		myFlowPane.setId("myFlowPane");
 //		createFlowPane();
-		
 		DoubleProperty HUDHealth = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getProperty();
 		DoubleProperty HUDTime = myPlayScreen.getCurrentLevel().getLevelProperties().getTime().getMyTime();
 		DoubleProperty HUDScore = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getCurrentPoints());

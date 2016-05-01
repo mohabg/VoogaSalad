@@ -2,21 +2,13 @@ package gameplayer;
 
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
-import authoringEnvironment.Settings;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
 import gameElements.AIController;
 import gameElements.ISprite;
-import gameElements.Sprite;
-import gameElements.ViewPoint;
-import highscoretable.HighScoreController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyEvent;
@@ -59,7 +51,6 @@ public class PlayScreen {
 
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
-
 		// myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 		for (int i = 0; i < gameLevels.size(); i++) {
 			LevelModel lm = gameLevels.get(i);
@@ -69,21 +60,12 @@ public class PlayScreen {
 			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
 			myView.setBackgroundList(id, lm.getBackground());
 		}
-
 		myEngine.setCurrentLevel(0);
-		myEngine.getCurrentLevelID().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				setLevel();
-				
-			}
-		});
-		
-		
-		
+		myEngine.getCurrentLevelID().addListener((observable, oldValue, newValue) -> {
+            setLevel();
+        });
 		setLevel();
 		myEngine.gameLoop();
-
 	}
 
 	public void setLevel() {
@@ -98,13 +80,9 @@ public class PlayScreen {
 		activeSprites.addListener((ListChangeListener<Integer>) change -> {
             myView.setSprites(activeSprites);
         });
-
 		myView.setSprites(activeSprites);
 		myView.setBackground(currentLevel.getLevelProperties().getLevelID());
-
 		setKeys();
-
-
 	}
 
 	public File getGameFile() {
@@ -156,9 +134,9 @@ public class PlayScreen {
 
 	public DoubleProperty getTime() {
 		// TODO Auto-generated method stub
-		System.out.println(myEngine.getTimeProperty().doubleValue());
-		return myEngine.getTimeProperty();
+		return currentLevel.getLevelProperties().getTime().getMyCurrentTimeProperty();
 	}
+	
 	public DoubleProperty getHealth() {
 		System.out.println(myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty().doubleValue());
 		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
