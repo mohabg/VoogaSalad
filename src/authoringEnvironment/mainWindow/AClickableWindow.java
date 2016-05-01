@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -72,6 +73,8 @@ public abstract class AClickableWindow {
 			ViewSprite dragSource = (ViewSprite) t.getSource();
 			dragSource.setX(newTranslateX);
 			dragSource.setY(newTranslateY);
+			
+			t.consume();
 		}
 	};
 
@@ -83,10 +86,11 @@ public abstract class AClickableWindow {
 			orgTranslateY = mySprite.getY();
 			orgSceneX = t.getSceneX();
 			orgSceneY = t.getSceneY();
-			if (!t.isSecondaryButtonDown() && mySprite != currentSprite) {
+			if (t.getButton() != MouseButton.SECONDARY && mySprite != currentSprite) {
 				currentSprite = mySprite;
 				updateSettingsPane(mySprite);
 			}
+			t.consume();
 		}
 	};
 	

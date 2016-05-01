@@ -41,8 +41,7 @@ public class SettingsReflectUtils {
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			return null;
-			//throw new ReflectUtilsException(NEW_CLASS_INSTANCE_EXCEPTION);
+			throw new ReflectUtilsException(NEW_CLASS_INSTANCE_EXCEPTION);
 		}
 	}
 	
@@ -186,7 +185,7 @@ public class SettingsReflectUtils {
 			childField.set(childObject, parentObject);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
-			//throw new ReflectUtilsException(FIELD_SET_EXCEPTION);
+			throw new ReflectUtilsException(FIELD_SET_EXCEPTION);
 		}
 	}
 	

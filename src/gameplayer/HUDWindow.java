@@ -45,7 +45,7 @@ public class HUDWindow{
 		
 		StringProperty stringProp = new SimpleStringProperty();
 		DoubleProperty doubleProp = HUDProperty;
-		stringProp.set(doubleProp.getValue().toString());
+		stringProp.set(Integer.toString(doubleProp.getValue().intValue()));
 		doubleProp.addListener((o, ov, nv) -> {
 			stringProp.set(Integer.toString(o.getValue().intValue()));
 		});

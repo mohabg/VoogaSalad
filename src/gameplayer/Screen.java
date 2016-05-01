@@ -19,7 +19,6 @@ public abstract class Screen {
 	public Screen() {
 		myPane = new Pane();
 		Settings.setGamePlayingSettings(myPane);
-
 	}
 
 	public Screen(Screen parent) {

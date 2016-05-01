@@ -7,6 +7,7 @@ import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 /**
  * 
  * @author davidyan, Joe Jacob, Huijia Yu
@@ -20,6 +21,8 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 		super(window);
 		ps = myPlayScreen;
 		myLevelModel = new LevelModel(ps.getCurrentLevel());
+		
+		// TODO THIS IS RELATED TO THE WEIRD RESIZING
 		myNewGamePane = ps.getScreen().getPane();
 		myNewGamePane.getChildren().removeAll(ps.getViewSprites().values());
 		initArea();
@@ -27,8 +30,11 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 	
 	@Override
 	public void initArea() {
-		ScrollPane myNewGameArea = new ScrollPane();
-		myNewGameArea.setContent(myNewGamePane);
+		//ScrollPane myNewGameArea = new ScrollPane();
+		//myNewGameArea.setContent(myNewGamePane);
+		//myNewGamePane.get
+		Settings.setGamePaneSettings(myNewGamePane);
+		
 		myNewGamePane.setOnMouseClicked(e -> {
 			updateSettingsPane(myLevelModel);
 		});
@@ -56,8 +62,7 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 			}
 		}
 
-		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));
-		
+		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));		
 	}
 	public PlayScreen getPlayScreen(){
 		return ps;
@@ -69,6 +74,7 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 	@Override
 	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
 		// TODO Auto-generated method stub
+		t.consume();
 		
 	}
 	

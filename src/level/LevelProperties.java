@@ -24,7 +24,7 @@ import java.util.Map;
  * parameter to the constructor for Level.
  */
 
-public class LevelProperties {
+public class LevelProperties implements ILevelProperties {
 	
 	private IntegerProperty levelID;
 	private StringProperty levelName;
@@ -77,6 +77,7 @@ public class LevelProperties {
 		numGoals.set(numberOfGoals);
 		collidingSprites = new Sprite[2];
 	}
+	
 	public void addGoal(GoalProperties goal){
 		this.getGoalProperties().add(goal);
 	}
@@ -117,7 +118,7 @@ public class LevelProperties {
 		this.levelName.set(levelName);
 	}
 
-	public Integer getNextLevel() {
+	public Integer getNextLevelID() {
 		return nextLevel.intValue();
 	}
 

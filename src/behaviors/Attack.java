@@ -10,6 +10,7 @@ import gameElements.ExecuteConditions;
 import gameElements.SpriteProperties;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**
@@ -43,24 +44,27 @@ public abstract class Attack extends Behavior {
 		this.movement = movement;
 		this.myRef = myRef;
 	}
+	
 	@Override
-	public void execute(IActions actions, LevelProperties levProps){
+	public void execute(IActions actions, ILevelProperties levProps){
 		if(!shotOnce){
 			shotOnce = true;
 			super.execute(actions, levProps);
 		}
 	}
+	
 	@Override
-	public void stop(IActions actions, LevelProperties levProps){
+	public void stop(IActions actions, ILevelProperties levProps){
 		shotOnce = false;
 	}
+	
 	@Override
-	public void apply(IActions actions, LevelProperties levProps){
+	public void apply(IActions actions){
 		if(this.shotOnce){
-			shoot(actions, levProps);
+			shoot(actions);
 		}
 	}
-	public abstract void shoot(IActions actions, LevelProperties levProps);
+	public abstract void shoot(IActions actions);
     
 
 	public RefObject getMyRef(){

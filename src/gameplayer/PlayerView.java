@@ -9,6 +9,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -30,7 +31,8 @@ public class PlayerView extends Screen {
 		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		myBackgrounds = new HashMap<Integer, StringProperty>();
-		myPane.getChildren().add(new HBox(new Button("a")));
+		//TODO: find better way
+		myPane.getChildren().add(new Button("a"));
 	}
 
 	

@@ -12,7 +12,6 @@ import gameElements.Sprite;
 import gameElements.SpriteMap;
 import events.Event;
 import events.EventManager;
-import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import events.CollisionEvent;
@@ -23,7 +22,6 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -73,6 +71,7 @@ public class Level implements ILevel {
 		Event hardCodedEvent2 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
 				new PointsCollision(10), new EnemyCollision());
 		
+        
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
 		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
