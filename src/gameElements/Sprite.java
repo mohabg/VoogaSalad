@@ -53,21 +53,12 @@ public class Sprite implements ISprite{
 		ObservableList<Behavior> myBehaviorsList = FXCollections.observableList(new ArrayList<Behavior>());
 		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorsList);
 
-	/*	ObservableMap<StringProperty, Behavior> om1 = FXCollections
-				.observableMap(new HashMap<StringProperty, Behavior>());
-		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1); */
-		
-		ObservableList<Behavior> myBehaviorList = FXCollections.observableList(new ArrayList<Behavior>());
-		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorList);
+		myBehaviors.sizeProperty().addListener((o, ov, nv) -> {
+			System.out.println("i changed");
+		});
 
-		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
 
-		ObservableMap<KeyCode, Behavior> om3 = FXCollections.observableMap(new HashMap<KeyCode, Behavior>());
-		/*Behavior topDown = new MoveVertically(2);
-		topDown.enable();
-		this.addBehavior(topDown);*/
 		myHealth = new Health(100);
-
 		myCollisions.add(new EnemyCollision());
 
 //		Attack gun = new Gun();
@@ -113,18 +104,14 @@ public class Sprite implements ISprite{
 	
 	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			List<Behavior> myBehaviors, RefObject myRef) {
-		this(myRef);
-	
-		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
-	
+		this(myRef);	
+		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);	
 		ObservableList<Behavior> behaviorList=FXCollections.observableList(myBehaviors);
-		//Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
-		//ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
-		
+	
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myBehaviors.set(behaviorList);
-		//this.behaviors.set(om2);
+		this.myCollisions.set(ol);
 	}
 
 	public Sprite(ISpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
@@ -133,7 +120,7 @@ public class Sprite implements ISprite{
 		this.myProperties = properties;
 		this.myHealth = health;
 		this.myBehaviors.set(behaviors);
-	//	this.behaviors.set(behaviors);
+		this.myCollisions.set(myCollisions);
 	}
 
 
@@ -149,9 +136,6 @@ public class Sprite implements ISprite{
 				behavior.stop(actions, levProps);
 			}
 		}
-		if(!this.getMyRef().equals("pictures/cipher.png")){
-			//System.out.println(this.hashCode() + " " + this.myProperties.getY() + " " + this.myProperties.getYVel());
-}
 	}
 
 	public Sprite getClone(){
@@ -161,18 +145,8 @@ public class Sprite implements ISprite{
 
 	public void addBehavior(Behavior behavior) {
 		this.getBehaviors().add(behavior);
-	//	behaviors.put(new SimpleStringProperty(behavior.getClass().getName()), behavior);
-
-	}/*
-	public Map<String, Behavior> getBehaviors(){
-		Map<String, Behavior> fakeB = new HashMap<String, Behavior>();
-		for (StringProperty s : behaviors.keySet()) {
-			fakeB.put(s.getValue(), behaviors.get(s));
-		}
-
-		return fakeB;
 	}
-*/
+
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}

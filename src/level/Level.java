@@ -98,6 +98,7 @@ public class Level implements ILevel {
         Event hardCodedEvent2 = new CollisionEvent("pictures/dj_player_1.png", "pictures/SI_enemy_5.png",
                 new BounceCollision(), new ActorCollision());
 		
+        
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
 		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
