@@ -92,7 +92,7 @@ public class Sprite implements ISprite{
 	 */
 	public void update(IActions actions, LevelProperties levProps) {
 		actions.setSprite(this);
-		this.getSpriteProperties().updatePos();
+		//this.getSpriteProperties().updatePos();
  		for (Behavior behavior : this.getBehaviors()) {
 			if(behavior.isReady(this)){
 				behavior.execute(actions, levProps);

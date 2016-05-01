@@ -60,10 +60,13 @@ public class PlayScreen {
 			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
 			myView.setBackgroundList(id, lm.getBackground());
 		}
-		myEngine.setCurrentLevel(0);
+		
 		myEngine.getCurrentLevelID().addListener((observable, oldValue, newValue) -> {
             setLevel();
         });
+		
+		myEngine.setCurrentLevel(0);
+		
 		setLevel();
 		myEngine.gameLoop();
 	}

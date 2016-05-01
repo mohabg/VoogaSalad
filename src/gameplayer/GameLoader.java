@@ -10,6 +10,7 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 import events.Event;
 import gameElements.Sprite;
 import interfaces.ITabPane;
+import javafx.beans.property.ListProperty;
 import level.Level;
 import level.LevelProperties;
 
@@ -123,13 +124,11 @@ public class GameLoader {
 	static Level makeLevel(LevelModel lm, int id) {
 		Level newLevel = new Level();
 		LevelProperties lp = newLevel.getLevelProperties();
+
 		setLevelProperties(lp,id,"level"+id);
-//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
+//		lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
 		lp.setNumGoals(lm.getNumGoals());
-		List<Event> list = lm.getMyEvents();
-		for ( Event e: list)
-			newLevel.addEvent(e);
-		//newLevel.setEvents(lm.getMyEvents());
+		newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		return newLevel;
 	}

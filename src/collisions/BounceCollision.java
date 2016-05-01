@@ -15,7 +15,9 @@ public class BounceCollision extends Collision{
 	
 	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
 		ISprite actor = levelProperties.getSpriteForCollision(collision);
-		actor.getSpriteProperties().setYVel(getValue());
+		if(actor.getSpriteProperties().getYVel() > 0){
+			actor.getSpriteProperties().setYVel(getValue());
+		}
 	}
 	
 	@Override

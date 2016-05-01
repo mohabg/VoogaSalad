@@ -64,9 +64,11 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 
 		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));		
 	}
+	
 	public PlayScreen getPlayScreen(){
 		return ps;
 	}
+	
 	@Override
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
 		setViewSprite(viewsprite);

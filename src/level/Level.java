@@ -22,6 +22,9 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -58,7 +61,7 @@ public class Level implements ILevel {
 
 	public Level() {
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0.9, 0);
+		physicsEngine = new PhysicsEngine(0, 4);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
@@ -195,7 +198,6 @@ public class Level implements ILevel {
 		if (spriteMap.get(spriteID).isDead()) {
 			spriteMap.remove(spriteID);
 		}
-
 	}
 
 	/**
