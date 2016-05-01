@@ -4,9 +4,6 @@ import authoringEnvironment.Settings;
 import goals.Goal;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
-import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
@@ -98,6 +95,8 @@ public class GameEditor implements IGameEditor {
 
 		if (myGame.getCurrentLevel().getisFinished()){
 			if(myGame.getCurrentLevel().getLevelProperties().getNextLevel()!=null){
+                System.out.println("DICKS");
+
 				myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
 			}
 			myGame.setIsFinished(true);
@@ -107,5 +106,9 @@ public class GameEditor implements IGameEditor {
 	/*public void setResultForKeyPress(KeyEvent event) {
 		myGame.getCurrentLevel().handleKeyPress(event);
 	}*/
+
+    public void endMyGame(Alert myAlert){
+        myAlert.showAndWait();
+    }
 
 }
