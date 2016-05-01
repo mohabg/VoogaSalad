@@ -38,16 +38,12 @@ import java.util.stream.Collectors;
  */
 public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner {
 	// viewpoint coords
-	private DoubleProperty absoluteX;
-	private DoubleProperty absoluteY;
 	
 	private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;	
-	private AESpriteFactory sf;
 
 	public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, Integer levelID, SettingsWindow window) {
 		super(window);
-		sf = new AESpriteFactory();
 		String tabName = FrontEndData.TAB + levelID;
 		myTab = new Tab(tabName);
 		mySpriteMap = spriteMap;
@@ -55,7 +51,6 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 		myWindow = window;
         myLevelModel = new LevelModel();
 		initArea();
-		
 	}
 	
 	
@@ -73,69 +68,6 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 		mySpriteMap.keySet().forEach(c -> addWithClicking(c));
 	}
 	
-	public void initViewpoint() {
-		absoluteX = new SimpleDoubleProperty(0);
-		absoluteY = new SimpleDoubleProperty(0);
-		
-		myTab.getTabPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			if (myTab.isSelected()) {
-				updateViewpoint(key.getCode());
-			}
-			key.consume();
-		});
-		
-		
-		absoluteX.addListener((o, ov, nv) -> {
-			double change = nv.doubleValue() - ov.doubleValue();
-			BackgroundImage myIm = getMyNewGamePane().getBackground().getImages().get(0);
-			double horPos = myIm.getPosition().getHorizontalPosition();
-			horPos = horPos - change/200;
-			double verPos = myIm.getPosition().getVerticalPosition();
-			Side horSide = myIm.getPosition().getHorizontalSide();
-			Side verSide = myIm.getPosition().getVerticalSide();
-			boolean horPerc = myIm.getPosition().isHorizontalAsPercentage();
-			boolean verPerc = myIm.getPosition().isVerticalAsPercentage();
-			
-			BackgroundPosition newPos = new BackgroundPosition(horSide, horPos, horPerc, verSide, verPos, verPerc);
-			BackgroundImage newIm = new BackgroundImage(myIm.getImage(), myIm.getRepeatX(), myIm.getRepeatX(), newPos, myIm.getSize());
-			
-			getMyNewGamePane().setBackground(new Background(newIm));
-		});
-		
-		absoluteY.addListener((o, ov, nv) -> {
-			double change = nv.doubleValue() - ov.doubleValue();
-			BackgroundImage myIm = getMyNewGamePane().getBackground().getImages().get(0);
-			double horPos = myIm.getPosition().getHorizontalPosition();
-			double verPos = myIm.getPosition().getVerticalPosition();
-			verPos = verPos - change/200;
-			Side horSide = myIm.getPosition().getHorizontalSide();
-			Side verSide = myIm.getPosition().getVerticalSide();
-			boolean horPerc = myIm.getPosition().isHorizontalAsPercentage();
-			boolean verPerc = myIm.getPosition().isVerticalAsPercentage();
-			
-			BackgroundPosition newPos = new BackgroundPosition(horSide, horPos, horPerc, verSide, verPos, verPerc);
-			BackgroundImage newIm = new BackgroundImage(myIm.getImage(), myIm.getRepeatX(), myIm.getRepeatX(), newPos, myIm.getSize());
-			
-			getMyNewGamePane().setBackground(new Background(newIm));
-		});
-		
-	}
-	
-	private void updateViewpoint(KeyCode code) {
-		switch (code) {
-			case LEFT:	absoluteX.set(absoluteX.getValue() - 5);
-				break;
-			case RIGHT: absoluteX.set(absoluteX.getValue() + 5);
-				break;
-			case UP:	absoluteY.set(absoluteY.getValue() - 5);
-				break;
-			case DOWN:	absoluteY.set(absoluteY.getValue() + 5);
-				break;
-			default:
-		}
-		
-		System.out.println(code.getName() + " " + absoluteX.getValue() + " " + absoluteY.getValue());
-	}
 	
 	private ContextMenu createContextMenu(ViewSprite vs){
 		ContextMenu contextMenu = new ContextMenu();
@@ -189,42 +121,15 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 	 *            properties set between the Sprite properties.
 	 */
 	public void setViewSprite(ViewSprite viewsprite) {
-		cloneAndInitViewSprite(viewsprite);
+		initViewSprite(viewsprite);
 		// initGameViewSprite(viewsprite)
 	}
 
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
-		ViewSprite copy = cloneAndInitViewSprite(viewsprite);
+		initViewSprite(viewsprite);
 	//	mySpriteMap.get(copy).setUserControlled(true);
 	}
 	
-
-	private ViewSprite cloneAndInitViewSprite(ViewSprite viewsprite) {
-		ViewSprite copy = sf.clone(viewsprite);
-		Sprite sprite = sf.makeSprite(copy);
-		
-	
-		// bind viewpoint
-		ISpriteProperties spriteProps = sprite.getSpriteProperties();
-		DoubleProperty spriteX = spriteProps.getXProperty();
-		
-		absoluteX.addListener((o, ov, nv) -> {
-			double change = nv.doubleValue() - ov.doubleValue();
-			spriteX.setValue(spriteX.getValue() - change);
-		});
-		
-		DoubleProperty spriteY = spriteProps.getYProperty();
-		absoluteY.addListener((o, ov, nv) -> {
-			double change = nv.doubleValue() - ov.doubleValue();
-			spriteY.setValue(spriteY.getValue() - change);
-		});
-		
-		
-		mySpriteMap.put(copy, sprite);
-		addWithClicking(copy);
-		
-		return copy;
-	}
 	
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		myWindow.setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
@@ -263,5 +168,65 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
+
+
+	@Override
+	public void updateSpriteMap(ViewSprite copy, Sprite sprite) {
+		mySpriteMap.put(copy, sprite);
+	}
+
+
+	@Override
+	public void setViewpoint() {
+		myTab.getTabPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			if (myTab.isSelected()) {
+				updateViewpoint(key.getCode());
+			}
+			key.consume();
+		});
+	}
+	
+	@Override
+	public void updateViewpoint(KeyCode code) {
+		switch (code) {
+			case LEFT:	absoluteX.set(absoluteX.getValue() - 5);
+				break;
+			case RIGHT: absoluteX.set(absoluteX.getValue() + 5);
+				break;
+			case UP:	absoluteY.set(absoluteY.getValue() - 5);
+				break;
+			case DOWN:	absoluteY.set(absoluteY.getValue() + 5);
+				break;
+			default:
+		}
+	}
+
+
+	@Override
+	public ViewSprite initViewSprite(ViewSprite viewsprite) {
+		ViewSprite copy = sf.clone(viewsprite);
+		Sprite sprite = sf.makeSprite(copy);		
+	
+		// bind viewpoint
+		ISpriteProperties spriteProps = sprite.getSpriteProperties();
+		DoubleProperty spriteX = spriteProps.getXProperty();
+		
+		absoluteX.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			spriteX.setValue(spriteX.getValue() - change);
+		});
+		
+		DoubleProperty spriteY = spriteProps.getYProperty();
+		absoluteY.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			spriteY.setValue(spriteY.getValue() - change);
+		});
+		
+		updateSpriteMap(copy, sprite);
+		addWithClicking(copy);
+		
+		return copy;
+	}
+
 
 }

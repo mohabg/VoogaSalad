@@ -64,7 +64,7 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 		myGameTabs.put(myTab.getTab(), myTab);
 		getTabPane().getTabs().add(myTab.getTab());
 		// must be done after added to tabpane
-		myTab.initViewpoint();
+		myTab.setViewpoint();
 		getTabPane().getSelectionModel().select(myTab.getTab());
 	}
 
