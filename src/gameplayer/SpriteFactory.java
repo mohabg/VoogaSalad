@@ -14,23 +14,16 @@ import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.SpriteProperties;
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SpriteFactory {
-	//NEEDS SIGNIFICANT REFACTORING
+	
 	private Map<Integer, ViewSprite> myViewSprites;
 	private SpriteMap spriteMap;
 	
@@ -49,69 +42,80 @@ public class SpriteFactory {
 	public Map<Integer, ViewSprite> getMyViewSprites(){
 		return this.myViewSprites;
 	}
+	/*
 	public Sprite makeSprite(double x, double y, RefObject myRef){
-		return makeSprite(x, y, new Health(), new ArrayList<>(), new HashMap<>(), myRef);
+		return makeSprite(x, y, new Health(), new ArrayList<>(), new ArrayList<>(), myRef);
 	}
-
+*/
+	/*
 	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
-			Map<String, Behavior> myBehaviors, RefObject myRef) {
+			List<Behavior> behaviors, RefObject myRef) {
 		//TEMPORARY
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
 		ISpriteProperties sp = vs.getMySpriteProperties();
 		ObservableList<Collision> ol = FXCollections.observableList(myCollisions);
+		ObservableList<Behavior> bl = FXCollections.observableList(new ArrayList<>());
+		ListProperty<Behavior> myBehaviors = new SimpleListProperty<Behavior>(bl);
+		for(Behavior behavior : behaviors){
+			myBehaviors.add(behavior.getClone());
+		}
 		ListProperty<Collision> collisions = new SimpleListProperty<Collision>(ol);
-		ObservableMap<StringProperty, Behavior> om1 = FXCollections
-				.observableMap(new HashMap<StringProperty, Behavior>());
-		MapProperty<StringProperty, Behavior> behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
-		Sprite sprite = createAndBindSprite(myHealth, collisions, behaviors, myRef, vs, sp);
+		ObservableList<Behavior> behaviorsList = FXCollections.observableList(myBehaviors);
+		ListProperty<Behavior> newBehaviors = new SimpleListProperty<Behavior>(behaviorsList);
+		Sprite sprite = createAndBindSprite(myHealth, collisions, newBehaviors, myRef, vs, sp);
 		sprite.getSpriteProperties().setX(x);
 		sprite.getSpriteProperties().setY(y);
-		this.addToMap(vs, sprite);
 		return sprite;
 	}
+	*/
 
-	public Sprite makeSprite(double x, double y, ISpriteProperties clone, RefObject myRef) {
+	public Sprite makeSprite(double x, double y, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
-		double imageWidth = vs.getMySpriteProperties().getWidth();
-		double imageHeight = vs.getMySpriteProperties().getHeight();
-		clone.setWidth(imageWidth);
-		clone.setHeight(imageHeight);
-		ObservableList<Collision> ol = FXCollections.observableList(new ArrayList<Collision>());
-		ListProperty<Collision> myCollisions = new SimpleListProperty<Collision>(ol);
-		ObservableMap<StringProperty, Behavior> om1 = FXCollections
-				.observableMap(new HashMap<StringProperty, Behavior>());
-		MapProperty<StringProperty, Behavior> behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
-
-		return createAndBindSprite(new Health(), myCollisions, behaviors, myRef, vs, clone);
+		Sprite sprite = createAndBindSprite(new Health(), toCollisionListProperty(new ArrayList<Collision>()), 
+									toBehaviorListProperty(new ArrayList<Behavior>()), myRef, vs, vs.getMySpriteProperties());
+		sprite.getSpriteProperties().setX(x);
+		sprite.getSpriteProperties().setY(y);
+		return sprite;
 	}
 	
 	public Sprite clone(ISprite sprite){
+		ViewSprite vs = new ViewSprite(sprite.getMyRef());
 		ISpriteProperties clonedProperties = sprite.getSpriteProperties().getClone();
 		List<Collision> clonedCollisions = new ArrayList<>();
-		for(Collision col : sprite.getCollisions()){
-			clonedCollisions.add(col.clone());
-		}
-		ObservableList<Collision> ol = FXCollections.observableList(clonedCollisions);
-		ListProperty<Collision> myCollisions = new SimpleListProperty<Collision>(ol);
-		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(new HashMap<StringProperty, Behavior>());
+		List<Behavior> clonedBehaviors = new ArrayList<>();
 		
-		MapProperty<StringProperty, Behavior> map = new SimpleMapProperty<StringProperty, Behavior>(om2);
-		ViewSprite vs = new ViewSprite(sprite.getMyRef());
-		Sprite clone = this.createAndBindSprite(sprite.getMyHealth().getClone(), myCollisions, map, 
-				new RefObject(sprite.getMyRef()), vs, clonedProperties);
-		this.addToMap(vs, clone);
-		return clone;
+		cloneSpriteAttributes(sprite, clonedCollisions, clonedBehaviors);
+		
+		return this.createAndBindSprite(sprite.getMyHealth().getClone(), toCollisionListProperty(clonedCollisions),  
+							toBehaviorListProperty(clonedBehaviors), new RefObject(sprite.getMyRef()), vs, clonedProperties);
 	}
-	
-	private Sprite createAndBindSprite(Health myHealth, ListProperty<Collision> myCollisions, MapProperty<StringProperty, Behavior> myBehaviors,
+
+	private Sprite createAndBindSprite(Health myHealth, ListProperty<Collision> myCollisions, ListProperty<Behavior> myBehaviors,
 			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
 		Sprite s = new Sprite(sp, myHealth, myCollisions , myBehaviors, myRef);
 		vs.bindToSprite(s);
-		return s;
-	}
-
-	private void addToMap(ViewSprite vs, Sprite s) {
 		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
 		spriteMap.addSprite(s);
+		return s;
+	}
+	private void cloneSpriteAttributes(ISprite sprite, List<Collision> clonedCollisions,
+			List<Behavior> clonedBehaviors) {
+		for(Collision col : sprite.getCollisions()){
+			clonedCollisions.add(col.clone());
+		}
+		for(Behavior behavior : sprite.getBehaviors()){
+			clonedBehaviors.add(behavior);
+		}
+	}
+	private ListProperty<Collision> toCollisionListProperty(List<Collision> clonedCollisions) {
+		ObservableList<Collision> ol = FXCollections.observableList(clonedCollisions);
+		ListProperty<Collision> myCollisions = new SimpleListProperty<Collision>(ol);
+		return myCollisions;
+	}
+	
+	private ListProperty<Behavior> toBehaviorListProperty(List<Behavior> behaviors) {
+		ObservableList<Behavior> bl = FXCollections.observableList(behaviors);
+		ListProperty<Behavior> myBehaviors = new SimpleListProperty<Behavior>(bl);
+		return myBehaviors;
 	}
 }

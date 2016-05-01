@@ -1,8 +1,5 @@
 package gameElements;
 
-import java.awt.Point;
-import java.util.*;
-
 import authoringEnvironment.Settings;
 import behaviors.Behavior;
 import behaviors.Gun;
@@ -10,6 +7,9 @@ import behaviors.MoveVertically;
 import behaviors.Movement;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+
+import java.awt.*;
+import java.util.List;
 
 public class EnemySpawnConditions extends ExecuteConditions{
 	
@@ -41,8 +41,7 @@ public class EnemySpawnConditions extends ExecuteConditions{
 	}
 	
 	private Point getSpawnPosition(){
-		double rand = Math.random() * 30 + 4;
-		int newX = (int) (Settings.getScreenWidth() / rand);
+		int newX = (int) (Math.random() * 0.4* Settings.getScreenWidth());
 		return new Point(newX, 0);
 	}
 	@Override

@@ -5,11 +5,6 @@ import java.util.LinkedList;
 
 public class CircularQueue<T> extends LinkedList<T> {
 
-
-	/**
-	 *
-	 */
-
 	private static final long serialVersionUID = -3863020733937496042L;
 
 	private int index;

@@ -1,23 +1,9 @@
 
 package behaviors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import authoringEnvironment.RefObject;
-import collisions.Collision;
-import collisions.DamageCollision;
-import collisions.DissapearCollision;
-import collisions.PointsCollision;
-import gameElements.ExecuteConditions;
-import gameElements.Health;
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
-import gameElements.Sprite;
-import gameElements.SpriteProperties;
-import gameplayer.SpriteFactory;
 import level.LevelProperties;
 
 /**
@@ -36,7 +22,7 @@ public class Gun extends Attack{
 		this.getBehaviorConditions().setProbability(1);
 	}
 	/**
-	 * @param sprite The Sprite who's weapon you want to activate
+	 * @param actions The Sprite who's weapon you want to activate
 	 */
     @Override
     public void shoot(IActions actions, LevelProperties levProps) {

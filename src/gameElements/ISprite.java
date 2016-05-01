@@ -10,6 +10,7 @@ import collisions.Collision;
 import collisions.DamageCollision;
 import events.Executable;
 import gameplayer.SpriteFactory;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
@@ -50,5 +51,6 @@ public interface ISprite{
 	public Health getMyHealth();
 
 	public void addBehavior(Behavior behavior);
-	public MapProperty<StringProperty, Behavior> getBehaviors();
+	
+	public ListProperty<Behavior> getBehaviors();
 }

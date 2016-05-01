@@ -31,12 +31,15 @@ public class SpriteMap{
 		addToSpriteMap(sprite);
 		addToRefMap(sprite);
 	}
+	
 	public Map<String, List<ISprite>> getRefToSpritesMap(){
 		return this.refToSprites;
 	}
+	
 	public List<ISprite> getSpritesForImage(String imageUrl){
 		return this.refToSprites.get(imageUrl);
 	}
+	
 	private void addToRefMap(ISprite sprite) {
 		String imageUrl = sprite.getMyRef();
 		if(this.refToSprites.containsKey(imageUrl)){
@@ -53,21 +56,27 @@ public class SpriteMap{
 		spriteMap.put(++currentID, sprite);
 		activeSpriteIDs.add(currentID);
 	}
+	
 	public void put(Integer id, Sprite sprite){
 		this.spriteMap.put(id, sprite);
 	}
+	
 	public int getCurrentID(){
 		return currentID;
 	}
+	
 	public Map<Integer, ISprite> getSpriteMap(){
 		return spriteMap;
 	}
+	
 	public void setSpriteMap(Map<Integer, ISprite> spriteMap){
 		this.spriteMap = spriteMap;
 	}
+	
 	public ISprite get(int id){
 		return spriteMap.get(id);
 	}
+	
 	public void remove(int id){
 		spriteMap.remove(id);
 		activeSpriteIDs.removeIf(item->item.equals(id));

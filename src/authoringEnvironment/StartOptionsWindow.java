@@ -39,28 +39,21 @@ public class StartOptionsWindow extends Screen {
 	}
 
 	private void makeAndSetStartBox() {
-		// TODO CHANGE THIS TO USE REFLECTION
 		ImageView myLogo = new ImageView(FrontEndData.DEFAULT_IMAGE);
-
 		Button createNewButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("new"), (e -> {
 			TextInputDialog dialog = new TextInputDialog(FrontEndData.ButtonLabels.getString("SetGame"));
 			dialog.setContentText(FrontEndData.ButtonLabels.getString("InputGame"));
 			Optional<String> result = dialog.showAndWait();
 			result.ifPresent(r->{
 				switchScene(new MainAuthoringWindow(this, r));
-//				m.setKeys();
-				
 			});
 		}));
-
 		Button editButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("edit"), (e -> {
 			switchScene(new GameEditingFileScreen());
 		}));
-
 		Button playButton = ButtonFactory.makeButton(FrontEndData.ButtonLabels.getString("play"), (e -> {
 			switchScene(new GamePlayingFileScreen());
 		}));
-
 		startWindowBox.getChildren().addAll(myLogo, createNewButton, editButton, playButton);
 		((BorderPane) myPane).setCenter(startWindowBox);
 	}

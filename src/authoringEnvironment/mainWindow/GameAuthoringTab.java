@@ -10,31 +10,23 @@ import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import resources.FrontEndData;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -191,7 +183,7 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 	}
 
 	/**
-	 * @param view
+	 * @param viewsprite
 	 *            is a ViewSprite that's going to be copied and get its
 	 *            properties set between the Sprite properties.
 	 */
@@ -214,6 +206,7 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 		// bind viewpoint
 		ISpriteProperties spriteProps = sprite.getSpriteProperties();
 		DoubleProperty spriteX = spriteProps.getXProperty();
+		
 		absoluteX.addListener((o, ov, nv) -> {
 			double change = nv.doubleValue() - ov.doubleValue();
 			spriteX.setValue(spriteX.getValue() - change);
@@ -268,9 +261,6 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 
 
 	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
 
 }

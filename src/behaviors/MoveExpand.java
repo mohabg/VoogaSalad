@@ -1,9 +1,6 @@
 package behaviors;
 
 import gameElements.ISpriteProperties;
-import gameElements.Sprite;
-import gameElements.SpriteProperties;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -38,7 +35,7 @@ public class MoveExpand extends Movement{
 	
 	
 	/**
-	 * @param sprite The method takes a sprite, which will then be expanded by altering the width and the height of the sprite
+	 * @param actions The method takes a sprite, which will then be expanded by altering the width and the height of the sprite
 	 */
 	
 	@Override

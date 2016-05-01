@@ -10,6 +10,7 @@ public class SpawnMovement extends Movement {
 	public SpawnMovement(){
 		super();
 	}
+
 	public SpawnMovement(double value){
 		super(value);
 		x = Math.random() * Settings.getScreenWidth();
