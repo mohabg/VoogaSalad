@@ -212,6 +212,7 @@ public class Level implements ILevel {
 			this.getPhysicsEngine().updateSprite(sprite);
 			if(spriteIsHero(sprite)){
 				sprite.getSpriteProperties().stayInBounds();
+				//sprite.kill();
 				if (sprite.isDead()){
 				//	this.getLevelProperties().setShouldRestart(true);
 					break;

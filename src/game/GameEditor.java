@@ -80,6 +80,7 @@ public class GameEditor implements IGameEditor {
 	}
 
 	public void updateGame() {
+
 		myGame.getCurrentLevel().update();
 		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
 	// 		does restart game work???
@@ -89,8 +90,9 @@ public class GameEditor implements IGameEditor {
 			alert.setContentText("I have a great message for you!");
 
 			alert.showAndWait();
-		*/
-			
+<<<<<<< HEAD
+			*/
+
 			myGame.restartGame();
 		}
 
