@@ -3,12 +3,31 @@ package authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.ObjectEditorConstants;
 
-public class ClassEnumerator {
+/**
+ * Helpful reflection-based functions that deal with finding classes and their subclasses
+ * @author joejacob
+ */
+
+public class ClassEnumerator {	
+	public static String USER_DIR = "user.dir";
+	public static String DOT = ".";
+	public static String SLASH = "/";
+	public static String SPACE = " ";
+	public static String REPLACE_SPACE = "/";
+	public static String FILE_EXT = ".class";
 	
+	/**
+	 * returns all of the classes in the in this project within the packages specified in the ObjectEditorController
+	 * @return
+	 */
 	public static List<Class<?>> getAllClasses() {
 		List<Class<?>> allClasses = new ArrayList<Class<?>>();
 		
@@ -23,6 +42,11 @@ public class ClassEnumerator {
 		return allClasses;
 	}
 	
+	/**
+	 *  returns all of the classes in the in this project that are a subclass of superclass
+	 * @param superclass
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static <R>  Map<String, Class<R>> getAllSubclasses(Class<R> superclass) {
 		Map<String, Class<R>> subclassNameMap = new HashMap<String, Class<R>>();
@@ -39,6 +63,10 @@ public class ClassEnumerator {
 	}
 	
 
+	/**
+	 * returns all of the class names, retrieved by the Class.getName() method
+	 * @return
+	 */
 	public static List<String> getAllSimpleClassNames() {
 		List<String> readableClasses = new ArrayList<String>();
 		for(Class<?> c : ObjectEditorConstants.getInstance().getAllClasses()) {
@@ -62,13 +90,13 @@ public class ClassEnumerator {
     private static List<Class<?>> getClasses(String packageName) throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
-        String path = packageName.replace('.', '/');
+        String path = packageName.replace(DOT, SLASH);
         Enumeration<URL> resources = classLoader.getResources(path);
         List<File> dirs = new ArrayList<File>();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
-            String relative = new File(System.getProperty("user.dir")
-            		.replaceAll(" ", "%20"))
+            String relative = new File(System.getProperty(USER_DIR)
+            		.replaceAll(SPACE, "%20"))
             		.toURI()
             		.relativize(new File(resource.getFile()).toURI())
             		.getPath();
@@ -99,10 +127,10 @@ public class ClassEnumerator {
         File[] files = directory.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                assert !file.getName().contains(".");
-                classes.addAll(findClasses(file, packageName + "." + file.getName()));
-            } else if (file.getName().endsWith(".class")) {
-                classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
+                assert !file.getName().contains(DOT);
+                classes.addAll(findClasses(file, packageName + DOT + file.getName()));
+            } else if (file.getName().endsWith(FILE_EXT)) {
+                classes.add(Class.forName(packageName + DOT + file.getName().substring(0, file.getName().length() - FILE_EXT.length())));
             }
         }
         return classes;
