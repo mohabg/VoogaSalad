@@ -1,26 +1,20 @@
 package game;
 
-import javafx.util.Duration;
-import level.Level;
-import level.LevelProperties;
-import gameElements.Time;
-
-import java.util.Map;
-
 import authoringEnvironment.LiveEditing;
 import events.EventManager;
 import gameElements.ISprite;
-import gameElements.Sprite;
-import gameplayer.PlayScreen;
+import gameElements.Time;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.util.Duration;
+import level.Level;
+import level.LevelProperties;
+
+import java.util.Map;
 
 /**
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
@@ -126,16 +120,14 @@ public class Engine {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
     	myGameTime = new Time();
     //	System.out.println("game loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
-            new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent event) {
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME),
+                event -> {
                 	myGameTime.updateTime();
                     myEditor.updateGame();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
                     currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
-                   
-                }
-            }); 
+
+                });
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
         myGameLoop.getKeyFrames().add(keyFrame);
         playGameLoop();

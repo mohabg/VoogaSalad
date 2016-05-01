@@ -1,16 +1,16 @@
 package events;
 
-import java.util.Collection;
 import behaviors.IActions;
 import collisions.Collision;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
-import gameElements.ISprite;
 import collisions.DamageCollision;
-import gameElements.Sprite;
+import gameElements.ISprite;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import level.LevelProperties;
+
+import java.util.Collection;
 
 public class CollisionEvent extends Event {
 	

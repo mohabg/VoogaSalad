@@ -55,7 +55,7 @@ public abstract class Collision {
 				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-                //TODO: Throw exception
+                throw new CollisionException();
 			}
 		}
 	}
@@ -67,9 +67,9 @@ public abstract class Collision {
             return CollisionOneClass.getMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 		}
 		catch(Exception e){
-            //TODO: Throw exception
+            throw new CollisionException();
         }
-		return null;
+//		return null;
 	}
 	
 }
