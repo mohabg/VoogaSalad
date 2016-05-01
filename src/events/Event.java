@@ -4,6 +4,7 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import behaviors.IActions;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**
@@ -56,6 +57,6 @@ public abstract class Event {
 		this.trigger = trigger;
 	}
 	
-	public abstract void doEvent(IActions action, LevelProperties levProps);
+	public abstract void doEvent(IActions action, ILevelProperties levProps);
 
 }

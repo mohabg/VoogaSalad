@@ -25,7 +25,7 @@ public class Gun extends Attack{
 	 * @param actions The Sprite who's weapon you want to activate
 	 */
     @Override
-    public void shoot(IActions actions, LevelProperties levProps) {
+    public void shoot(IActions actions) {
     		ISpriteProperties properties = actions.getSpriteProperties();
         	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());

@@ -29,22 +29,8 @@ public class Game {
 	public Game(GameInfo gameInfo) {
 		this();
 		this.setGameInfo(gameInfo);
-		/*
-		 * myGameLevels = new ArrayList<Level>();
-		currLevelNum = 0;
-		myInfo = gameInfo;
-		isFinished=new SimpleBooleanProperty(false);
-		*/
-		 
 	}
 	
-	
-
-	/*
-	 * public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty
-	 * height){ this(gameInfo); viewPoint= new ViewPoint(width, height,
-	 * myGameLevels.get(currLevelNum).getCurrentSprite()); }
-	 */
 	public Game() {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
@@ -133,7 +119,6 @@ public class Game {
 
 	public void addLevel(int levelID, Level level) {
 		myGameLevels.add(level);
-		// myGameLevels.add(levelID, level);
 	}
 
 	public Level restartGame() {

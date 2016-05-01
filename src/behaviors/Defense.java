@@ -54,7 +54,7 @@ public abstract class Defense extends Behavior {
 	 * @param actions Enables the defense of a sprite, provided the readyToDefend boolean is on
 	 */
 	@Override
-	public void apply(IActions actions, LevelProperties levProps){
+	public void apply(IActions actions){
 			if(this.isEnabled()){
 				defend(actions);
 			}
