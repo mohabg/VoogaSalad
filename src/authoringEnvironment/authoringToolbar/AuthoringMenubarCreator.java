@@ -15,9 +15,11 @@ import resources.FrontEndData;
  */
 public class AuthoringMenubarCreator extends AbstractMenuBar{
 
+	private String myGameName;
 
 	public AuthoringMenubarCreator(String gameName) {
 		super(gameName);
+		myGameName = gameName;
 	}
 
 	/**
@@ -30,22 +32,22 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
 	 */
 	public void initMenuBar(MainAuthoringWindow mainAuthoringWindow, ITabPane window) {
 		MenuBarElement myBackMenu = getBackMenu(mainAuthoringWindow);
-		MenuBarElement myFileMenuMaker = getFileMenu(window);
+		MenuBarElement myFileMenuMaker = getFileMenu(mainAuthoringWindow, window);
 		MenuBarElement myGameMenu = getGameMenu(window);
 		MenuBarElement myPlayToggleMenu = getPlayToggle(mainAuthoringWindow, window);
 		myMenuBar.getStylesheets().add(FrontEndData.TAB_STYLESHEET);
 		myMenuBar.getMenus().addAll(myBackMenu.getMenu(), myFileMenuMaker.getMenu(), myGameMenu.getMenu(), myPlayToggleMenu.getMenu());
 	}
 	
-    private MenuBarElement getFileMenu(ITabPane window) {
+    private MenuBarElement getFileMenu(MainAuthoringWindow mainAuthoringWindow, ITabPane window) {
     	MenuBarElement myFileMenuMaker = new MenuBarElement();
         myFileMenuMaker.setName(FrontEndData.ButtonLabels.getString("FileMenu"));
         myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("FileMenu1"), e -> {
-            System.out.println("NOT IMPLEMENTED");
+            mainAuthoringWindow.reset();
         });
-//        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
-//            saveMyGame(window);
-//        });
+        myFileMenuMaker.setNewAction(FrontEndData.ButtonLabels.getString("SaveGameMenu1"), e -> {
+        	GameLoader.saveGame(myName, window);
+        });
         
         return myFileMenuMaker;
     }
@@ -67,7 +69,6 @@ public class AuthoringMenubarCreator extends AbstractMenuBar{
     	playToggleButton.setName(FrontEndData.ButtonLabels.getString("Play/Edit"));
     	playToggleButton.setNewAction(FrontEndData.ButtonLabels.getString("PlayOption"), e -> {
     		GameLoader.saveGame(myName, tabLevels);
-
     		MainPlayingWindow myMainPlayingWindow = new MainPlayingWindow(mainAuthoringWindow, myName);
     		mainAuthoringWindow.switchScene(myMainPlayingWindow);
     	});

@@ -25,12 +25,6 @@ public class GoalChecker implements IGoalVisitor{
 
 	@Override
 	public boolean visit(PointsGoal goal) {
-//		System.out.println("reached pointsgoalchecker");
-//	    System.out.println("goalpoints"+goal.getNumPoints());
-//	    System.out.println("levelpoints"+getLevel().getCurrentPoints());
-//      System.out.println(getLevel().getCurrentPoints()); 
-//		System.out.println("goalboolean");
-//      System.out.println(goal.getNumPoints() < getLevel().getCurrentPoints());
 		return goal.getNumPoints().intValue() < getLevel().getCurrentPoints();
 	}
 	

@@ -2,18 +2,10 @@ package level;
 
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
-import behaviors.*;
 import collisions.*;
-import events.*;
-<<<<<<< HEAD
-import gameElements.EnemySpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
-import behaviors.Attack;
-import behaviors.Behavior;
-import behaviors.Defense;
 import behaviors.Gun;
-import behaviors.IActions;
 import collisions.ActorCollision;
 import behaviors.MoveTurn;
 import behaviors.Shield;
@@ -21,33 +13,18 @@ import behaviors.ThrustHorizontal;
 import behaviors.ThrustVertical;
 import gameElements.AIController;
 import gameElements.Actions;
-import gameElements.ExecuteConditions;
 import gameElements.ISprite;
 import events.Event;
 import events.EventManager;
-import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
-import gameElements.EnemySpawnConditions;
-import gameElements.Sprite;
-import gameElements.SpriteMap;
-import behaviors.*;
 import events.CollisionEvent;
-import events.Event;
-import events.EventManager;
-import events.KeyPressEvent;
-import events.KeyPressTrigger;
-import collisions.*;
-=======
->>>>>>> f05597d8d22f3ff9baeec5a2bd91b6035169060c
-import gameElements.*;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -87,7 +64,7 @@ public class Level implements ILevel {
 	
 	public Level() {
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0, 1);
+		physicsEngine = new PhysicsEngine(0.9, 0);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
@@ -99,6 +76,8 @@ public class Level implements ILevel {
 				new DissapearCollision(), new EnemyCollision());
         Event hardCodedEvent2 = new CollisionEvent("pictures/dj_player_1.png", "pictures/SI_enemy_5.png",
                 new BounceCollision(), new ActorCollision());
+        Event hardCodedEvent3 = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png",
+                new PointsCollision(10), new EnemyCollision());
 		
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
@@ -121,6 +100,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(turnRight);
 		myEventManager.addEvent(turnLeft);
 		myEventManager.addEvent(hardCodedEvent2);
+		myEventManager.addEvent(hardCodedEvent3);
 		
 		populateGoals();
 		System.out.println("levelproperties"+getLevelProperties().getGoalList());
