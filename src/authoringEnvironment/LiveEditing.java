@@ -15,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * 
  * @author davidyan, Joe Jacob, Huijia Yu
- * LiveEditing window that retains functionality in the Authoring Environment to allow user ot edit while playing
+ * LiveEditing window that retains functionality in the Authoring Environment to allow user to edit while playing
  *
  */
 public class LiveEditing extends AClickableWindow implements IGameWindow {

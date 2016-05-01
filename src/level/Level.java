@@ -2,10 +2,11 @@ package level;
 
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
-import behaviors.Gun;
-import behaviors.IActions;
 import behaviors.*;
-import collisions.*;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.EnemyCollision;
+import collisions.PointsCollision;
 import events.*;
 import gameElements.SpawnConditions;
 import gameElements.Sprite;
@@ -22,14 +23,13 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
 import keyboard.IKeyboardAction.KeyboardActions;
-
+import resources.BackEndData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,14 +66,14 @@ public class Level implements ILevel {
 		goalFactory = new GoalFactory();
 		actions = new Actions();
 		myEventManager = new EventManager();
+		BackEndData data = new BackEndData();
 
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
+		Event hardCodedEvent = new CollisionEvent(data.BACKENDPROPERTIES.getString("bullet"), data.BACKENDPROPERTIES.getString("blackShipPlayer"),
 				new DamageCollision(10), new EnemyCollision());
-		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
+		Event hardCodedEvent1 = new CollisionEvent(data.BACKENDPROPERTIES.getString("bullet"), data.BACKENDPROPERTIES.getString("blackShipPlayer"),
 				new DissapearCollision(), new EnemyCollision());
-		Event hardCodedEvent2 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
+		Event hardCodedEvent2 = new CollisionEvent(data.BACKENDPROPERTIES.getString("bullet"), data.BACKENDPROPERTIES.getString("blackShipPlayer"),
 				new PointsCollision(10), new EnemyCollision());
-		
         
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());

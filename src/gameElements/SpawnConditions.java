@@ -1,17 +1,12 @@
 package gameElements;
 
-import java.awt.Point;
-import java.util.List;
-
 import authoringEnvironment.Settings;
-import behaviors.Behavior;
-import behaviors.Gun;
-import behaviors.MoveVertically;
-import behaviors.Movement;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import java.util.*;
+import java.awt.*;
+import java.util.List;
 public class SpawnConditions extends ExecuteConditions{
-	
+	private static final int MY_SCREEN_RANGE = (int) 0.4 * Settings.getScreenWidth();
 	public SpawnConditions(){
 		super();
 	}
@@ -29,9 +24,22 @@ public class SpawnConditions extends ExecuteConditions{
 	}
 	*/
 	private Point getSpawnPosition(){
-		int newX = (int) (Math.random() * 0.4 * Settings.getScreenWidth());
+		int newX = (int) (Math.random() * MY_SCREEN_RANGE);
 		return new Point(newX, 0);
 	}
+
+    private List<Point> getSpawnPosition(IntegerProperty myObjectY, IntegerProperty myObjectMovement, int myTotalScreenHeight){
+        List<Point> myPoints = new ArrayList<>();
+        int totalPartitions = myTotalScreenHeight/10;
+        int myCurrentScreenY = 0;
+        for(int i = 0; i<totalPartitions; i++){
+            int myX = (int) (Math.random() * MY_SCREEN_RANGE);
+            Point myTempPoint = new Point(myX, myCurrentScreenY);
+            myPoints.add(myTempPoint);
+        }
+        return myPoints;
+    }
+
 	@Override
 	public void visit(AIController aiController) {
 		if(this.isAIReady()){

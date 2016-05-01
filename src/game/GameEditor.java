@@ -13,6 +13,8 @@ import level.LevelProperties;
 /**
  * Used for editing the game. Can edit/set/remove goals, game info, current
  * level, keys,the user sprite, and Level Characteristics
+ * 
+ * @author gauravkumar
  */
 
 public class GameEditor implements IGameEditor {
