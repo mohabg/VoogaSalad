@@ -109,6 +109,7 @@ public class Sprite implements ISprite{
 	public void addBehavior(Behavior behavior) {
 		this.getBehaviors().add(behavior);
 	}
+	
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}

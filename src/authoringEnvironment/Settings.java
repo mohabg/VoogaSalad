@@ -54,7 +54,7 @@ public class Settings {
 		myPane.setPrefHeight(SCREEN_HEIGHT);
 	}
 
-	public static void setGamePaneSettings(AnchorPane myNewGamePane) {
+	public static void setGamePaneSettings(Pane myNewGamePane) {
 		myNewGamePane.getStyleClass().add("pane");
 		myNewGamePane.setPrefWidth(0.45 * SCREEN_WIDTH);
 		myNewGamePane.setPrefHeight(SCREEN_HEIGHT);
