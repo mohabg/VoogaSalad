@@ -31,15 +31,18 @@ public class Gun extends Attack{
             bullet.setUserControlled(actions.isUserAction());
             getMovement().enable();
           //Setting movement through authoring environment not working
-            Behavior vertically;
-            if(bullet.isUserControlled()){
-            	vertically = new MoveVertically(-50);
-            }
-            else{
-            	vertically = new MoveVertically(50);
-            }
-            vertically.enable();
-             bullet.addBehavior(vertically);
+            Behavior movement = this.getMovement();
+//            Behavior vertically;
+//            if(bullet.isUserControlled()){
+//            	vertically = new MoveVertically(-50);
+//            }
+//            else{
+//            	vertically = new MoveVertically(50);
+//            }
+           // vertically.enable();
+            // bullet.addBehavior(vertically);
+            movement.enable();
+            bullet.addBehavior(movement);
         	setAmmunition(getAmmunition() - 1);
     }
 }
