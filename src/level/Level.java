@@ -14,7 +14,7 @@ import gameElements.Actions;
 import gameElements.ExecuteConditions;
 import gameElements.ISprite;
 import events.*;
-import gameElements.EnemySpawnConditions;
+import gameElements.SpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import events.Event;
@@ -71,11 +71,11 @@ public class Level implements ILevel {
 		myEventManager = new EventManager();
 
 		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
-				new DamageCollision(10), new ActorCollision());
+				new DamageCollision(10), new EnemyCollision());
 		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
-				new DissapearCollision(), new ActorCollision());
+				new DissapearCollision(), new EnemyCollision());
 		Event hardCodedEvent2 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
-				new PointsCollision(10), new ActorCollision());
+				new PointsCollision(10), new EnemyCollision());
 		
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE), new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT), new Shield());
@@ -99,7 +99,6 @@ public class Level implements ILevel {
 		myEventManager.addEvent(turnLeft);
 
 		populateGoals();
-		System.out.println("levelproperties" + getLevelProperties().getGoalList());
 	}
 
 	public void addEvent(Event e) {
@@ -136,9 +135,6 @@ public class Level implements ILevel {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		spriteMap.addSprite(newSprite);
 		levelProperties.addSpriteType(newSprite);
-		// return new ID??
-		// checking for whether it is the main character-->should be done
-		// through the states pattern
 	}
 
 	/**
@@ -152,8 +148,9 @@ public class Level implements ILevel {
 	}
 
 	private void populateGoals() {
-		if (getLevelProperties().getGoalProperties().size() == 0)
+		if (getLevelProperties().getGoalProperties().size() == 0){
 			getLevelProperties().addGoal(new GoalProperties());
+		}
 		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
 			this.getGoalList().add(goalFactory.makeGoal(property));
 		}

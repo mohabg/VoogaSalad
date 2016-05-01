@@ -104,7 +104,7 @@ public class SpriteFactory {
 			clonedCollisions.add(col.clone());
 		}
 		for(Behavior behavior : sprite.getBehaviors()){
-			clonedBehaviors.add(behavior);
+			clonedBehaviors.add(behavior.getClone());
 		}
 	}
 	private ListProperty<Collision> toCollisionListProperty(List<Collision> clonedCollisions) {

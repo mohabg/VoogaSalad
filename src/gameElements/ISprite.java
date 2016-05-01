@@ -53,4 +53,6 @@ public interface ISprite{
 	public void addBehavior(Behavior behavior);
 	
 	public ListProperty<Behavior> getBehaviors();
+
+	public ExecuteConditions getSpawnConditions();
 }

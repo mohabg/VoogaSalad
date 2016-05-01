@@ -39,7 +39,7 @@ public class Gun extends Attack{
 	            	vertically = new MoveVertically(50);
 	            }
 	            vertically.enable();
-	             bullet.addBehavior(vertically);
+	             bullet.addBehavior(this.getMovement());
 	            setAmmunition(getAmmunition() - 1);
     }
 
