@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 public class GoalFactory {
 	private String path = "goals.";
 	
-	
+
 	
 	/**
 	 * @param myProperties GoalProperties object that you feed in to this class

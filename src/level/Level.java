@@ -96,7 +96,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(turnLeft);
 		myEventManager.addEvent(hardCodedEvent2);
 		populateGoals();
-		System.out.println(this.getGoalList().get(0) + " " + this.getGoalList().size());
+		System.out.println(this.getGoalList().get(0) + "size" + this.getGoalList().size());
 	}
 
 	public void addEvent(Event e) {
@@ -146,6 +146,7 @@ public class Level implements ILevel {
 	}
 
 	private void populateGoals() {
+		System.out.println("prepop" + this.getLevelProperties().getGoalProperties());
 		if (getLevelProperties().getGoalProperties().size() == 0){
 			getLevelProperties().addGoal(new GoalProperties());
 		}
@@ -161,9 +162,9 @@ public class Level implements ILevel {
 		int goalCount = this.getLevelProperties().getGoalCount();
 		for (Goal goal : goalList) {
 			System.out.println(goal.getGoal().toString());
-			System.out.println(goal.isFinished() + "is goal finished before check");
+			//System.out.println(goal.isFinished() + "is goal finished before check");
 			goal.acceptVisitor(goalChecker);
-			System.out.println(goal.isFinished() + "is goal finished after check");
+			//System.out.println(goal.isFinished() + "is goal finished after check");
 
 			if (goal.isFinished()) {
 				goalCount++;

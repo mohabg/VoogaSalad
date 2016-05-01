@@ -11,6 +11,7 @@ import goals.Goal;
 import goals.GoalProperties;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -37,7 +38,7 @@ public class LevelProperties implements ILevelProperties {
 	private Time time;
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private Map<String, List<Sprite>> spriteTypes;
-	private List<GoalProperties> goalProperties;
+	private ListProperty<GoalProperties> goalProperties;
 	private ISprite[] collidingSprites;
 	private IntegerProperty goalCount;
 	private BooleanProperty isFinished;
@@ -56,7 +57,12 @@ public class LevelProperties implements ILevelProperties {
 		previousLevel = new SimpleIntegerProperty(-1);
 		numGoals = new SimpleIntegerProperty(1);
 		goalList = new ArrayList<>();
-		goalProperties = new ArrayList<>();
+		
+		ObservableList observableGoalList = FXCollections.observableList(new ArrayList<GoalProperties>());
+		goalProperties=new SimpleListProperty<GoalProperties>(observableGoalList);
+		
+	//	goalProperties = new ArrayList<>();
+		
 	//	goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
@@ -212,7 +218,9 @@ public class LevelProperties implements ILevelProperties {
 	}
 
 	public void setGoalProperties(List<GoalProperties> goalProperties) {
-		this.goalProperties = goalProperties;
+		ObservableList observableGoalList = FXCollections.observableList(goalProperties);
+		this.goalProperties.set(observableGoalList);
+		
 	}
 
 	/*

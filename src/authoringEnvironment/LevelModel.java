@@ -10,6 +10,7 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
+import goals.GoalProperties;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -28,7 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LevelModel {
-	private ListProperty<Goal> myGoals;
+	private ListProperty<GoalProperties> myGoals;
+	//private ListProperty<GoalProperties> myGoalProperties;
 	private ListProperty<Event> myEvents;
 	@IgnoreField
 	private IntegerProperty numGoals;
@@ -40,8 +42,10 @@ public class LevelModel {
 	public LevelModel() {
 		myBackground = new SimpleStringProperty();
 		
-		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
-
+		myGoals = new SimpleListProperty<GoalProperties>(FXCollections.observableList(new ArrayList<GoalProperties>()));
+	
+		// myGoalProperties = new SimpleListProperty<GoalProperties>(FXCollections.observableList(new ArrayList<GoalProperties>()));
+		
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
 				.observableMap(new HashMap<KeyCode, KeyboardActions>());
 		
@@ -74,7 +78,7 @@ public class LevelModel {
 //		return myKeyMap;
 //	}
 
-	public List<Goal> getMyGoals() {
+	public List<GoalProperties> getMyGoals() {
 		return myGoals;
 	}
 	
@@ -100,5 +104,13 @@ public class LevelModel {
 	public void addSprites(List<Sprite> list) {
 		myList.addAll(list);		
 	}
+
+	/* public ListProperty<GoalProperties> getMyGoalProperties() {
+		return myGoalProperties;
+	}
+
+	public void setMyGoalProperties(ListProperty<GoalProperties> myGoalProperties) {
+		this.myGoalProperties = myGoalProperties;
+	} */
 
 }

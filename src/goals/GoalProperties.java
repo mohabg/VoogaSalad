@@ -36,9 +36,9 @@ public class GoalProperties {
 		setGoalName(goal.toString());
 		setIsFinished(false);
 		totalPoints=new SimpleIntegerProperty(100);
-		List<IntegerProperty> list = new ArrayList<IntegerProperty>();
-		ObservableList ol = FXCollections.observableList(list);
-		targetID=new SimpleListProperty<IntegerProperty>(ol);
+		
+		ObservableList targetIDList = FXCollections.observableList(new ArrayList<IntegerProperty>());
+		targetID=new SimpleListProperty<IntegerProperty>(targetIDList);
 
 	}
 	

@@ -124,13 +124,15 @@ public class GameLoader {
 		Level newLevel = new Level();
 		LevelProperties lp = newLevel.getLevelProperties();
 		setLevelProperties(lp,id,"level"+id);
+		setGoals(lp, lm);
 //			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
-		lp.setNumGoals(lm.getNumGoals());
+//		lp.setNumGoals(lm.getNumGoals());
 		List<Event> list = lm.getMyEvents();
 		for ( Event e: list)
 			newLevel.addEvent(e);
 		//newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
+		System.out.println("level setter" + newLevel.getLevelProperties().getGoalProperties());
 		return newLevel;
 	}
 
@@ -157,6 +159,12 @@ public class GameLoader {
 		newLevel.getLevelProperties().getSpriteMap().setUserControlledSpriteID(newLevel.getCurrentSpriteID());
 	}
 	
+	private static void setGoals(LevelProperties levelProperties, LevelModel levelModel){
+		levelProperties.setNumGoals(levelModel.getNumGoals());
+		System.out.println(levelModel.getMyGoals() + "setter");
+		levelProperties.setGoalProperties(levelModel.getMyGoals());
+		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
+	}
 
 	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
 		p.setLevelID(levelID);
