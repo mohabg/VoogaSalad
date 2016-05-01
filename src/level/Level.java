@@ -5,7 +5,7 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import behaviors.*;
 import collisions.*;
 import events.*;
-<<<<<<< HEAD
+
 import gameElements.EnemySpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
@@ -38,8 +38,6 @@ import events.EventManager;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import collisions.*;
-=======
->>>>>>> f05597d8d22f3ff9baeec5a2bd91b6035169060c
 import gameElements.*;
 import gameplayer.SpriteFactory;
 import goals.Goal;
