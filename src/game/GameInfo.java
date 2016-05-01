@@ -3,7 +3,9 @@ package game;
 import java.util.Date;
 
 /**
- * Describes the information of the game, including the date the game was created, the game author, and the game title. 
+ * Describes the information of the game, including the date the game was created, the game author, and the game title.
+ * 
+ *  @author gauravkumar
  */
 
 

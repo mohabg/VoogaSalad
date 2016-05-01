@@ -7,6 +7,11 @@ import javafx.scene.input.KeyCode;
 import level.ILevelProperties;
 import level.LevelProperties;
 
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
 public class KeyPressEvent extends Event {
 	
 	//private KeyCode myCode;
