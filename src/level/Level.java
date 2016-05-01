@@ -2,17 +2,17 @@ package level;
 
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
-import behaviors.Gun;
-import behaviors.IActions;
 import behaviors.*;
-import collisions.*;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.EnemyCollision;
+import collisions.PointsCollision;
 import events.*;
 import gameElements.SpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import events.Event;
 import events.EventManager;
-import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import events.CollisionEvent;
@@ -24,6 +24,7 @@ import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -60,7 +61,7 @@ public class Level implements ILevel {
 
 	public Level() {
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0, 1);
+		physicsEngine = new PhysicsEngine(0, 4);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
@@ -197,7 +198,6 @@ public class Level implements ILevel {
 		if (spriteMap.get(spriteID).isDead()) {
 			spriteMap.remove(spriteID);
 		}
-
 	}
 
 	/**

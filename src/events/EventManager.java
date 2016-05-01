@@ -30,7 +30,7 @@ public class EventManager {
 	//private IInputHandler myInputHandler;
 	
 	public EventManager() {
-		myEvents = new SimpleListProperty(FXCollections.<Event>observableList(new ArrayList<Event>()));
+		myEvents = new SimpleListProperty<Event>(FXCollections.observableList(new ArrayList<Event>()));
 	}
 	
 	public void doEvents(IActions action, LevelProperties levProps) {
@@ -76,9 +76,11 @@ public class EventManager {
 		myEvents.add(event);
 	}
 
+	
 	public void setEvents(List<Event> events) {
-		myEvents.get().clear();
-		myEvents.get().addAll(events);
+		//myEvents.get().clear();
+		//myEvents.get().addAll(events);
+		myEvents.addAll(events);
 	}
 	
 	/*public void setInputHandler(IInputHandler handler) {

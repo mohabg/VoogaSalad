@@ -28,7 +28,6 @@ public class Gun extends Attack{
         	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
             getMovement().enable();
-          //Setting movement through authoring environment not working
             Behavior movement = this.getMovement();
 //            Behavior vertically;
 //            if(bullet.isUserControlled()){

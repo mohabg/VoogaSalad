@@ -89,9 +89,11 @@ public class LevelModel {
 	public StringProperty getBackground(){
 		return myBackground;
 	}
+	
 	public List<Event> getMyEvents(){
 		return myEvents;
 	}
+
 
 	public void setBackground(String background) {
 		myBackground.setValue(background);	

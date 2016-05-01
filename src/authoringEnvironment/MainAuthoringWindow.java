@@ -23,9 +23,13 @@ public class MainAuthoringWindow extends Screen {
     private GameMakerWindow myGameMakerWindow;
     private SettingsWindow mySettingsWindow;
     public LiveEditing le;
+    private Screen myParent;
+    private String myGameName;
     
     public MainAuthoringWindow(Screen parent, String gameName) {
         super(parent);
+        myParent = parent;
+        myGameName = gameName;
         initBorderPane();
         ((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
         myGameMakerWindow.init();
@@ -63,4 +67,7 @@ public class MainAuthoringWindow extends Screen {
         return myGameMakerWindow;
     }
     
+    public void reset(){
+    	switchScene(new MainAuthoringWindow(this, myGameName));
+    }
 }

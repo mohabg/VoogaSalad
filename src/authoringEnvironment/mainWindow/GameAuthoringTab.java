@@ -63,6 +63,7 @@ public class GameAuthoringTab extends AClickableWindow implements ClipboardOwner
 	public void initArea() {
 		Settings.setGamePaneSettings((AnchorPane) myNewGamePane);
 
+		
 		myNewGamePane.setOnMouseClicked(e -> {
 			updateSettingsPane(myLevelModel);
 		});
