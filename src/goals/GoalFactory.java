@@ -19,8 +19,10 @@ public class GoalFactory {
 	public Goal makeGoal(GoalProperties myProperties){
 		Constructor<?> constructor = null;
 		Goal goal=null;
-		String goalType = myProperties.getGoalName().toString();
+		String goalType = myProperties.getGoalName().get();
+		System.out.println("goalType" + goalType);
 		try{
+			System.out.println(path+goalType);
 			Class<?> goalClass= Class.forName(path+goalType);
 			try{
 				constructor=goalClass.getConstructor(myProperties.getClass());
@@ -32,9 +34,13 @@ public class GoalFactory {
                 }
 		} catch (ClassNotFoundException exception){
             }
+		System.out.println("prename"+goal.getGoal().name());
 		if(goal==null){
 			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
-			goal=new StayAliveGoal(property);}
+			goal=new StayAliveGoal(property);
+			}
+		System.out.println("postname"+goal.getGoal().name());
+
 		return goal;
 	}
 }

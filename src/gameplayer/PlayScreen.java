@@ -55,6 +55,7 @@ public class PlayScreen {
 		for (int i = 0; i < gameLevels.size(); i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel = GameLoader.makeLevel(lm, i);
+			newLevel.populateGoals();
 			System.out.println("playscreen"+newLevel.getLevelProperties().getGoalProperties());
 			int id = newLevel.getLevelProperties().getLevelID();
 			myEngine.addLevel(id, newLevel);

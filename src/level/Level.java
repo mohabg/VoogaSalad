@@ -95,8 +95,9 @@ public class Level implements ILevel {
 		myEventManager.addEvent(turnRight);
 		myEventManager.addEvent(turnLeft);
 		myEventManager.addEvent(hardCodedEvent2);
-		populateGoals();
-		System.out.println(this.getGoalList().get(0) + "size" + this.getGoalList().size());
+		System.out.println(" constructor" + this.getLevelProperties().getGoalProperties() + " " + this.getLevelProperties().getGoalProperties());
+	//	populateGoals();
+	//	System.out.println(this.getGoalList().get(0) + "size" + this.getGoalList().size());
 	}
 
 	public void addEvent(Event e) {
@@ -145,7 +146,7 @@ public class Level implements ILevel {
 		getSpriteMap().put(spriteID, newSprite);
 	}
 
-	private void populateGoals() {
+	public void populateGoals() {
 		System.out.println("prepop" + this.getLevelProperties().getGoalProperties());
 		if (getLevelProperties().getGoalProperties().size() == 0){
 			getLevelProperties().addGoal(new GoalProperties());
@@ -156,6 +157,10 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
+		System.out.println(getLevelProperties().getGoalProperties() + "WTF!!");
+		//if (getLevelProperties().getGoalProperties().size() == 0) populateGoals();
+		System.out.println("size" + this.getGoalList().size());
+
 		GoalChecker goalChecker = new GoalChecker(this);
 		List<Goal> deleteGoals = new ArrayList<Goal>();
 		List<Goal> goalList = this.levelProperties.getGoalList();
