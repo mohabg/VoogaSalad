@@ -17,7 +17,11 @@ public class FrontEndData {
 	public static String ITEMPATHS = "resources/ItemPaths";
 	public static ResourceBundle ItemPaths = ResourceBundle.getBundle(ITEMPATHS);
 
-	public static ArrayList<String> TabTypes = new ArrayList<>(Arrays.asList("Player", "Enemy", "Background"));
+	public static ArrayList<String> TabTypes = new ArrayList<>(Arrays.asList("Player", "Enemy", "Background", "Obstacles"));
+	public static String TAB_TYPE_1 = "Player";
+	public static String TAB_TYPE_2 = "Enemy";
+	public static String  TAB_TYPE_3 = "Background";
+	public static String  TAB_TYPE_4 =  "Obstacles";
 	
 
 	public static String BUTTONLABELS = "resources/buttonlabels";

@@ -1,28 +1,17 @@
 package gameElements;
 
 import authoringEnvironment.Settings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
 import java.awt.*;
 import java.util.List;
 
 public class EnemySpawnConditions extends ExecuteConditions{
-	
 
-	//^^This should be kept somewhere where the user can set respawn probability in the authoring environment
-	private DoubleProperty myRespawnTopProbability;
-	private DoubleProperty myRespawnLeftProbability;
-	private DoubleProperty myRespawnRightProbability;
 
 	public EnemySpawnConditions(){
 		super();
 	    this.setProbability(1);
 	    this.setFrequency(3);
-		myRespawnTopProbability = new SimpleDoubleProperty(0.3);
-		myRespawnLeftProbability = new SimpleDoubleProperty(0.6);
-		myRespawnRightProbability = new SimpleDoubleProperty(1);
-
 	}
 	@Override
 	public boolean isAIReady() {
@@ -37,7 +26,7 @@ public class EnemySpawnConditions extends ExecuteConditions{
 	}
 	
 	private Point getSpawnPosition(){
-		int newX = (int) (Math.random() * 0.4* Settings.getScreenWidth());
+		int newX = (int) (Math.random() * 0.4 * Settings.getScreenWidth());
 		return new Point(newX, 0);
 	}
 	@Override
