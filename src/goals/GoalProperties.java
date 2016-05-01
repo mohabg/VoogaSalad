@@ -3,7 +3,7 @@ package goals;
 import java.util.ArrayList;
 import java.util.List;
 
-import goals.Goals;
+import goals.GoalEnum;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -25,13 +25,13 @@ import javafx.collections.ObservableList;
 
 public class GoalProperties {
 	private StringProperty goalName;
-	private Goals myGoal;
+	private GoalEnum myGoal;
 	private BooleanProperty isFinished;
 	private IntegerProperty totalPoints;
 	private ListProperty<IntegerProperty> targetID;
 
 	
-	public GoalProperties(Goals goal){
+	public GoalProperties(GoalEnum goal){
 		setMyGoal(goal);
 		setGoalName(goal.toString());
 		setIsFinished(false);
@@ -43,15 +43,15 @@ public class GoalProperties {
 	}
 	
 	public GoalProperties(){
-		this(Goals.StayAliveGoal);
+		this(GoalEnum.StayAliveGoal);
 	}
 	
-	public GoalProperties(Goals goal, IntegerProperty points){
+	public GoalProperties(GoalEnum goal, IntegerProperty points){
 		this(goal);
 		this.setTotalPoints(points.intValue());
 	}
 	
-	public GoalProperties(Goals goal, ListProperty<IntegerProperty> targets){
+	public GoalProperties(GoalEnum goal, ListProperty<IntegerProperty> targets){
 		this(goal);
 		targetID=targets;
 		
@@ -75,11 +75,11 @@ public class GoalProperties {
 	}
 
 	
-	public Goals getMyGoal() {
+	public GoalEnum getMyGoal() {
 		return myGoal;
 	}
 
-	public void setMyGoal(Goals myGoal) {
+	public void setMyGoal(GoalEnum myGoal) {
 		this.myGoal = myGoal;
 	}
 	

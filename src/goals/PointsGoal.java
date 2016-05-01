@@ -19,7 +19,7 @@ public class PointsGoal extends Goal implements IGoal{
 	}
 
 	public PointsGoal(){
-		super(new GoalProperties(Goals.PointsGoal));
+		super(new GoalProperties(GoalEnum.PointsGoal));
 		setNumPoints();
 	}
 	

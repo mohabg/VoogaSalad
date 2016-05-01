@@ -35,7 +35,7 @@ public abstract class Goal implements IGoal{
 	public boolean isFinished(){
 		return goalProperties.isFinished();
 	}
-	public Goals getGoal(){
+	public GoalEnum getGoal(){
 		return goalProperties.getMyGoal();
 	}
 	

@@ -36,20 +36,15 @@ public class Engine {
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS 0.017
 	
 	private Timeline myGameLoop;
-	private EventManager myEventManager;
 	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
 	private boolean isPaused;
 	private BooleanProperty isGameFinished;
-//    private PlayScreen myGameScreen;
 
 
 	public Engine() {
-		myEventManager = new EventManager();
-//		this.myGameScreen = myGameScreen;
 		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
-//		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 		isGameFinished = new SimpleBooleanProperty(false);
 	}

@@ -8,7 +8,7 @@ public class StayAliveGoal extends Goal implements IGoal{
 	}
 	
 	public StayAliveGoal(){
-		super(new GoalProperties(Goals.StayAliveGoal));
+		super(new GoalProperties(GoalEnum.StayAliveGoal));
 	}
 	@Override
 	public void acceptVisitor(IGoalVisitor visitor){

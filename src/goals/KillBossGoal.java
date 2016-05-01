@@ -18,7 +18,7 @@ public class KillBossGoal extends Goal implements IGoal {
 	}
 	
 	public KillBossGoal(){
-		super(new GoalProperties(Goals.KillBossGoal));
+		super(new GoalProperties(GoalEnum.KillBossGoal));
 		bossIDList = new SimpleListProperty<IntegerProperty>(FXCollections.<IntegerProperty>observableList(new ArrayList<IntegerProperty>()));
 		setBossIDList();
 	//	List<Integer> list = new ArrayList<Integer>();

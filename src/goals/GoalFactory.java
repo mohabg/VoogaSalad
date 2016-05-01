@@ -33,7 +33,7 @@ public class GoalFactory {
 		} catch (ClassNotFoundException exception){
             }
 		if(goal==null){
-			GoalProperties property=new GoalProperties(Goals.StayAliveGoal);
+			GoalProperties property=new GoalProperties(GoalEnum.StayAliveGoal);
 			goal=new StayAliveGoal(property);
 		}
 		return goal;

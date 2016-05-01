@@ -9,6 +9,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import events.Event;
 import gameElements.Sprite;
+import goals.GoalProperties;
 import interfaces.ITabPane;
 import level.Level;
 import level.LevelProperties;
@@ -124,7 +125,8 @@ public class GameLoader {
 		Level newLevel = new Level();
 		LevelProperties lp = newLevel.getLevelProperties();
 		setLevelProperties(lp,id,"level"+id);
-//		lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
+		lp.setGoalList(lm.getMyGoals());
+		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
 		lp.setNumGoals(lm.getNumGoals());
 			newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
