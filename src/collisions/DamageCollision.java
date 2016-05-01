@@ -29,7 +29,7 @@ public class DamageCollision extends Collision{
 	 * @param collision The Enemy sprite that you want to cause damage to
 	 */
 	public void handleCollision(EnemyCollision collision, LevelProperties levelProperties){
-		if(this.isCollidingWithUser(levelProperties)){
+		if(!(collision.isCollidingWithUser(levelProperties))){
 			damageSprite(collision, levelProperties);
 		}
 	}
@@ -38,7 +38,7 @@ public class DamageCollision extends Collision{
 	 * @param collision The Actor sprite that you want to cause damage to
 	 */
 	public void handleCollision(ActorCollision collision, LevelProperties levelProperties){
-		if( !(this.isCollidingWithUser(levelProperties)) ){
+		if( collision.isCollidingWithUser(levelProperties) ){
 			damageSprite(collision, levelProperties);
 		}
 	}
