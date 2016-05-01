@@ -15,6 +15,7 @@ import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**
@@ -30,19 +31,29 @@ public class Shield extends Defense{
 	public Shield(RefObject myRef, Health health){
 		super(myRef, health);
 	}
-
+/*
 	@Override
 	public void defend(IActions actions) {
 		ISpriteProperties properties = actions.getSpriteProperties();
 		actions.makeSprite(properties.getX(), 
 								properties.getY(),
-								properties.getClone(),
 								this.getMyRef());
 		//TODO: Shield sprite needs collisions
 	}
+*/
+	@Override
+	public void stop(IActions actions, ILevelProperties levProps) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
+	public Behavior getClone() {
+		return new Shield(this.getMyRef(), this.getHealth());
+	}
+
+	@Override
+	public void defend(IActions actions) {
 		// TODO Auto-generated method stub
 		
 	}

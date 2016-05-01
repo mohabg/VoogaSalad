@@ -8,6 +8,7 @@ import collisions.DamageCollision;
 import gameElements.ISprite;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class CollisionEvent extends Event {
 	
 
 	@Override
-	public void doEvent(IActions action, LevelProperties levProps) {
+	public void doEvent(IActions action, ILevelProperties levProps) {
 		CollisionChecker checker = (CollisionChecker) getTrigger();
 		Collection<ISprite> spriteSet = levProps.getSpriteMap().getSprites();
 		ISprite[] spriteArr = new ISprite[spriteSet.size()];

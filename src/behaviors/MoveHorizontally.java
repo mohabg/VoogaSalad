@@ -18,8 +18,10 @@ public class MoveHorizontally extends Movement{
 	public void move(IActions actions) {
 	ISpriteProperties properties = actions.getSpriteProperties();
 	properties.setX(properties.getX() + getValue());
-     // sprite.getSpriteProperties().setMyXvel(getValue());
-
+	}
+	@Override
+	public Behavior getClone() {
+		return new MoveHorizontally(getValue());
 	}
 
 }

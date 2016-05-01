@@ -2,6 +2,7 @@ package behaviors;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 	/**
@@ -19,6 +20,9 @@ public abstract class Movement extends Behavior{
 	public Movement(double value){
 		super();
 		this.value = new SimpleDoubleProperty(value);
+		this.value.addListener((o, ov, nv) -> {
+			System.out.println("my new value is " + this.getValue());
+		});
 	}
 	
 	public double getValue(){
@@ -26,12 +30,12 @@ public abstract class Movement extends Behavior{
 	}
 	
 	@Override
-	public void execute(IActions actions, LevelProperties levProps){
+	public void execute(IActions actions, ILevelProperties levProps){
 		this.enable();
-		apply(actions, levProps);
+		apply(actions);
 	}
 	@Override 
-	public void stop(IActions actions, LevelProperties levProps){
+	public void stop(IActions actions, ILevelProperties levProps){
 		if(actions.getSprite().equals(levProps.getSpriteMap().getUserControlledSprite())){
 			this.disable();
 		}
@@ -40,7 +44,7 @@ public abstract class Movement extends Behavior{
 	 * @param actions This method checks conditions for movement, and moves the sprite correspondingly
 	 */
 	@Override
-	public void apply(IActions actions, LevelProperties levProps) {
+	public void apply(IActions actions) {
 		if(actions.spriteCanMove() && this.isEnabled()){
 			move(actions);
 		}

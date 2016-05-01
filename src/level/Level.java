@@ -2,23 +2,20 @@ package level;
 
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
+import behaviors.Gun;
+import behaviors.IActions;
+import behaviors.*;
 import collisions.*;
+import events.*;
+import gameElements.SpawnConditions;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
-import behaviors.Gun;
-import collisions.ActorCollision;
-import behaviors.MoveTurn;
-import behaviors.Shield;
-import behaviors.ThrustHorizontal;
-import behaviors.ThrustVertical;
-import gameElements.AIController;
-import gameElements.Actions;
-import gameElements.ISprite;
 import events.Event;
 import events.EventManager;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import events.CollisionEvent;
+import gameElements.*;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
@@ -35,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 /**
  * This is the class for level in the game. It has spriteMap, which is a map of
  * Integer(spriteIDs) to Sprites. Any time someone wants the program to know a
@@ -50,7 +45,7 @@ import java.util.Map;
  */
 
 public class Level implements ILevel {
-	
+
 	private LevelProperties levelProperties;
 	private Map<KeyboardActions, IKeyboardAction> keyboardActionMap;
 	private PhysicsEngine physicsEngine;
@@ -60,8 +55,7 @@ public class Level implements ILevel {
 	private EventManager myEventManager;
 	@IgnoreField
 	private AIController enemyController;
-	
-	
+
 	public Level() {
 		levelProperties = new LevelProperties();
 		physicsEngine = new PhysicsEngine(0.9, 0);
@@ -69,16 +63,15 @@ public class Level implements ILevel {
 		goalFactory = new GoalFactory();
 		actions = new Actions();
 		myEventManager = new EventManager();
-		
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png", 
+
+		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
 				new DamageCollision(10), new EnemyCollision());
-		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png", 
+		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
 				new DissapearCollision(), new EnemyCollision());
-        Event hardCodedEvent2 = new CollisionEvent("pictures/dj_player_1.png", "pictures/SI_enemy_5.png",
-                new BounceCollision(), new ActorCollision());
-        Event hardCodedEvent3 = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png",
-                new PointsCollision(10), new EnemyCollision());
+		Event hardCodedEvent2 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
+				new PointsCollision(10), new EnemyCollision());
 		
+        
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
 		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
@@ -87,10 +80,10 @@ public class Level implements ILevel {
 		Event right = new KeyPressEvent(new KeyPressTrigger(KeyCode.RIGHT), new ThrustHorizontal(1));
 		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
-		
+
 		myEventManager.addEvent(hardCodedEvent);
 		myEventManager.addEvent(hardCodedEvent1);
-        myEventManager.addEvent(hardCodedEvent2);
+		myEventManager.addEvent(hardCodedEvent2);
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
 		myEventManager.addEvent(forward);
@@ -100,20 +93,17 @@ public class Level implements ILevel {
 		myEventManager.addEvent(turnRight);
 		myEventManager.addEvent(turnLeft);
 		myEventManager.addEvent(hardCodedEvent2);
-		myEventManager.addEvent(hardCodedEvent3);
-		
 		populateGoals();
-		System.out.println("levelproperties"+getLevelProperties().getGoalList());
 	}
-	
+
 	public void addEvent(Event e) {
 		myEventManager.addEvent(e);
 	}
-	
+
 	@Override
 	public void update() {
 		updateSprites();
-		myEventManager.doEvents(actions,getLevelProperties());
+		myEventManager.doEvents(actions, getLevelProperties());
 		setisFinished(completeGoals());
 		this.levelProperties.getTime().updateTime();
 	}
@@ -140,9 +130,6 @@ public class Level implements ILevel {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		spriteMap.addSprite(newSprite);
 		levelProperties.addSpriteType(newSprite);
-		// return new ID??
-		// checking for whether it is the main character-->should be done
-		// through the states pattern
 	}
 
 	/**
@@ -154,10 +141,11 @@ public class Level implements ILevel {
 	public void updateSpriteID(Integer spriteID, Sprite newSprite) {
 		getSpriteMap().put(spriteID, newSprite);
 	}
-	
 
 	private void populateGoals() {
-		if(getLevelProperties().getGoalProperties().size()==0) getLevelProperties().addGoal(new GoalProperties());
+		if (getLevelProperties().getGoalProperties().size() == 0){
+			getLevelProperties().addGoal(new GoalProperties());
+		}
 		for (GoalProperties property : getLevelProperties().getGoalProperties()) {
 			this.getGoalList().add(goalFactory.makeGoal(property));
 		}
@@ -165,12 +153,12 @@ public class Level implements ILevel {
 
 	private boolean completeGoals() {
 		GoalChecker goalChecker = new GoalChecker(this);
-		List<Goal> deleteGoals= new ArrayList<Goal>();
+		List<Goal> deleteGoals = new ArrayList<Goal>();
 		List<Goal> goalList = this.levelProperties.getGoalList();
 		int goalCount = this.getLevelProperties().getGoalCount();
 		for (Goal goal : goalList) {
 			goal.acceptVisitor(goalChecker);
-			if (goal.isFinished()){
+			if (goal.isFinished()) {
 				goalCount++;
 				deleteGoals.add(goal);
 			}
@@ -190,25 +178,18 @@ public class Level implements ILevel {
 			this.getPhysicsEngine().updateSprite(sprite);
 			if(spriteIsHero(sprite)){
 				sprite.getSpriteProperties().stayInBounds();
-				//sprite.kill();
-				if (sprite.isDead()){
-				//	this.getLevelProperties().setShouldRestart(true);
-					break;
-				}
 			}
 			else if(sprite.isOutOfBounds()){
-				if(sprite.getMyRef().equals("pictures/red_enemy.png")){
 					sprite.kill();
-				}
-				sprite.kill();
 			}
 			removeDeadSprite(spriteID, spriteList);
-		}
+			}
 	}
 
-	private boolean spriteIsHero(ISprite sprite){
+	private boolean spriteIsHero(ISprite sprite) {
 		return this.levelProperties.getUserControlledSprite().equals(sprite);
 	}
+
 	private void removeDeadSprite(Integer spriteID, List<Integer> deadSpriteList) {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		if (spriteMap.get(spriteID).isDead()) {
@@ -224,12 +205,12 @@ public class Level implements ILevel {
 		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
 		myEventManager.keyPress(key.getCode(), actions, this.levelProperties);
 	}
-	
-	public void handleKeyRelease(KeyEvent key){
+
+	public void handleKeyRelease(KeyEvent key) {
 		actions.setSprite(this.levelProperties.getSpriteMap().getUserControlledSprite());
 		myEventManager.keyRelease(key.getCode(), actions, this.levelProperties);
 	}
-	
+
 	public int getCurrentPoints() {
 		return getScore().intValue();
 
@@ -271,7 +252,6 @@ public class Level implements ILevel {
 		return physicsEngine;
 	}
 
-
 	public void setPhysicsEngine(PhysicsEngine physicsEngine) {
 		this.physicsEngine = physicsEngine;
 	}
@@ -279,6 +259,7 @@ public class Level implements ILevel {
 	public EventManager getMyEventManager() {
 		return myEventManager;
 	}
+
 	public List<Goal> getGoalList() {
 		return this.levelProperties.getGoalList();
 	}
@@ -307,24 +288,26 @@ public class Level implements ILevel {
 		return this.levelProperties.getSpriteMap();
 	}
 
-
 	public Integer getCurrentSpriteID() {
 		return this.getLevelProperties().getSpriteMap().getCurrentID();
 	}
 
-	/*public void setSpriteActions() {
-		myEventManager.setSpriteActions(levelProperties.getSpriteMap().getCurrentSprite().getUserPressBehaviors());
-	}*/
-	
+	/*
+	 * public void setSpriteActions() {
+	 * myEventManager.setSpriteActions(levelProperties.getSpriteMap().
+	 * getCurrentSprite().getUserPressBehaviors()); }
+	 */
+
 	public void setCurrentSpriteID(Integer sprite) {
 		System.out.println("set current sprite id to " + sprite);
 		this.getLevelProperties().getSpriteMap().setUserControlledSpriteID(sprite);
-		//setSpriteActions();
+		// setSpriteActions();
 	}
 
 	public void setAIController(AIController enemyController) {
 		this.enemyController = enemyController;
-}
+	}
+
 	public void setEvents(List<Event> myEvents) {
 		this.myEventManager.setEvents(myEvents);
 	}

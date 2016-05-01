@@ -49,6 +49,11 @@ public class PatternMovement extends Movement {
 		
 	}
 
+	@Override
+	public Behavior getClone() {
+		return new PatternMovement(this.getValue());
+	}
+
 
 /*
 	@Override

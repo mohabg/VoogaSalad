@@ -9,6 +9,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -31,17 +32,20 @@ public class PlayerView extends Screen {
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		myBackgrounds = new HashMap<Integer, StringProperty>();
 		//TODO: find better way
-		myPane.getChildren().add(new HBox(new Button("a")));
+		myPane.getChildren().add(new Button("a"));
 	}
 
 	
 	public void setSprites(List<Integer> activeSprites) {
 		// System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
-		myPane.getChildren().removeAll(myViewSprites.values());
+		//myPane.getChildren().removeAll(myViewSprites.values());
+		this.clearSprites();
 		activeSprites.stream().forEach(s->{
 			ViewSprite vs = myViewSprites.get(s);
 			if (vs != null) {
-				myPane.getChildren().add(vs);
+				System.out.println(vs.getMyImage() + " x: " + vs.getX() + " " + " y: " + vs.getY());
+				myPane.getChildren().add(0, vs);
+				//myPane.getChildren().add(vs);
 			}
 		});
 	}

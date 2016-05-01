@@ -45,6 +45,11 @@ public class MoveExpand extends Movement{
         properties.setHeight((properties.getHeight() + getValue()));
 		
 	}
+
+	@Override
+	public Behavior getClone() {
+		return new MoveExpand(this.expandY.doubleValue(), this.expandX.doubleValue());
+	}
 	
 
 }
