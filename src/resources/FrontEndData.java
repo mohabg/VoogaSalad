@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
  * @author Huijia Yu
  */
 public class FrontEndData {
+	public static String APPLICATION_CSS = "application/application.css";
+	
 	public static String TAB = "Level ";
 	public static String VIEWSPRITE = "authoringEnvironment.ViewSprite";
 
