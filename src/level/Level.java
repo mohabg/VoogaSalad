@@ -95,6 +95,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(turnLeft);
 		myEventManager.addEvent(hardCodedEvent2);
 		populateGoals();
+		System.out.println(this.getGoalList().get(0) + " " + this.getGoalList().size());
 	}
 
 	public void addEvent(Event e) {
