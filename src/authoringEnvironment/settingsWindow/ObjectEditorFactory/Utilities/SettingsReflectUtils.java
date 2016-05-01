@@ -32,16 +32,17 @@ public class SettingsReflectUtils {
 	 * @param clazz
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	public static <R> R newClassInstance(Class<R> clazz) {
 		if (clazz.isEnum()) {
-			return (R) clazz;
+			return clazz.getEnumConstants()[0];
 		}
 		
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			throw new ReflectUtilsException(NEW_CLASS_INSTANCE_EXCEPTION);
+			return null;
+			//throw new ReflectUtilsException(NEW_CLASS_INSTANCE_EXCEPTION);
 		}
 	}
 	
@@ -67,7 +68,7 @@ public class SettingsReflectUtils {
 	 * @param clazz
 	 * @return
 	 */
-	public static <R> Object getSubclassInstance(Class<R> clazz) {
+	public static <R> R getSubclassInstance(Class<R> clazz) {
 		Class<R> sub = getSubclass(clazz);
 		return newClassInstance(sub);
 	}
@@ -180,11 +181,12 @@ public class SettingsReflectUtils {
 	 * @param childObject
 	 * @param parentObject
 	 */
-	public static void fieldSetObject(Field childField, Object childObject, Object parentObject) {
+	public static <R, K> void fieldSetObject(Field childField, R childObject, K parentObject) {
 		try {
 			childField.set(childObject, parentObject);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new ReflectUtilsException(FIELD_SET_EXCEPTION);
+			e.printStackTrace();
+			//throw new ReflectUtilsException(FIELD_SET_EXCEPTION);
 		}
 	}
 	

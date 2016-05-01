@@ -124,8 +124,8 @@ public class VisualFactory {
 	private <R> VBox makeFieldVBox(Field f, Object model) {
 		VBox propVBox = GUIObjectMaker.makeVBox();
 		
-		Object fObj = SettingsReflectUtils.fieldGetObject(f,model);
-		List<HBox> props = makePropertyBoxes(model, f, (R) fObj, (Class<R>) f.getType(), true);
+		R fObj = (R) SettingsReflectUtils.fieldGetObject(f,model);
+		List<HBox> props = makePropertyBoxes(model, f, fObj, (Class<R>) f.getType(), true);
 		propVBox.getChildren().addAll(props);
 
 		return propVBox;
@@ -161,7 +161,7 @@ public class VisualFactory {
 	@SuppressWarnings("unchecked")
 	private <R> VBox addSingleParameter(Class<R> rType, ListProperty<R> lpr) {
 		VBox retVBox = GUIObjectMaker.makeVBox();
-		Object rObj = null;
+		R rObj = null;
 		
 		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBox = SubclassComboBoxMaker.makeSubclassComboBox(lpr, null, rType, lpr);
 		retVBox.getChildren().add(mySubclassBox);	
@@ -170,10 +170,10 @@ public class VisualFactory {
 		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
 			rType = SettingsReflectUtils.getSubclass(rType);	
 		}				
-		rObj = SettingsReflectUtils.getSubclassInstance(rType);	
-		lpr.add((R) rObj);	// listener won't add it to the list when it's first added
+		rObj = (R) SettingsReflectUtils.getSubclassInstance(rType);	
+		lpr.add(rObj);	// listener won't add it to the list when it's first added
 		
-		updateComboBoxValue((Class<R>) rObj.getClass(), (R) rObj, mySubclassBox); 
+		updateComboBoxValue((Class<R>) rObj.getClass(), rObj, mySubclassBox); 
 	
 		return retVBox;
 	}
@@ -235,8 +235,8 @@ public class VisualFactory {
 	@SuppressWarnings("unchecked")
 	private <R,T> HBox addDoubleParameter(Class<R> rType, Class<T> tType, MapProperty<R,T> mprt) {
 		HBox retHBox = GUIObjectMaker.makeHBox();
-		Object rListElement = null;
-		Object tListElement = null;
+		R rListElement = null;
+		T tListElement = null;
 		
 		VBox elementBoxKey = GUIObjectMaker.makeVBox();	
 		ComboBox<SimpleEntry<Class<R>, R>> mySubclassBoxKey = SubclassComboBoxMaker.makeSubclassComboBox(mprt, null, rType, mprt);		
@@ -247,7 +247,7 @@ public class VisualFactory {
 			rType = SettingsReflectUtils.getSubclass(rType);	
 		} 
 		rListElement = SettingsReflectUtils.newClassInstance(rType);
-		updateComboBoxValue((Class<R>) rListElement.getClass(), (R) rListElement, mySubclassBoxKey);
+		updateComboBoxValue((Class<R>) rListElement.getClass(), rListElement, mySubclassBoxKey);
 		
 		
 		VBox elementBoxValue = GUIObjectMaker.makeVBox();	
@@ -259,9 +259,9 @@ public class VisualFactory {
 			tType = SettingsReflectUtils.getSubclass(tType);	
 		}
 		tListElement = SettingsReflectUtils.newClassInstance(tType);		
-		updateComboBoxValue((Class<T>) tListElement.getClass(), (T) tListElement, mySubclassBoxValue);
+		updateComboBoxValue((Class<T>) tListElement.getClass(), tListElement, mySubclassBoxValue);
 
-		mprt.put((R) rListElement, (T) tListElement);
+		mprt.put(rListElement, tListElement);
 		retHBox.getChildren().addAll(elementBoxKey, elementBoxValue);
 		return retHBox;
 	}
@@ -275,9 +275,8 @@ public class VisualFactory {
 		
 		// seems to not happen unless an instance can't be made
 		if (fieldObject == null) {
-			System.out.println("does this ever happen");
 			fieldClass = SettingsReflectUtils.getSubclass(fieldClass);
-			fieldObject = SettingsReflectUtils.newClassInstance(fieldClass);
+			fieldObject = (R) SettingsReflectUtils.newClassInstance(fieldClass);
 			if (field != null) {
 				SettingsReflectUtils.fieldSetObject(field, fieldObject, parent);
 			}
@@ -309,6 +308,7 @@ public class VisualFactory {
 			List<HBox> fieldHBoxes = new ArrayList<HBox>();
 			
 			List<Field> allFields = SettingsReflectUtils.getAllFields(new ArrayList<Field>(), fieldClass);
+		
 			for (Field childField : allFields) {
 				childField.setAccessible(true);			
 				if (!childField.isAnnotationPresent(IgnoreField.class) && !childField.getType().isAnnotationPresent(IgnoreField.class)) {
@@ -316,11 +316,11 @@ public class VisualFactory {
 						// TODO UNCOMMENT
 						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
 					} else {
-						Object otherFieldObject = SettingsReflectUtils.fieldGetObject(childField, fieldObject);						
+						K childFieldObject = (K) SettingsReflectUtils.fieldGetObject(childField, fieldObject);						
 //						if (childField.isAnnotationPresent(SetFieldName.class)) {
 //							field = childField.getAnnotation(SetFieldName.class).label();
 //						}
-						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, (K) otherFieldObject, (Class<K>) childField.getType(), true));
+						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, childFieldObject, (Class<K>) childField.getType(), true));
 					}
 				}
 			}

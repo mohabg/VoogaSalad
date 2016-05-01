@@ -12,6 +12,7 @@ public class KeyPressTrigger implements Trigger {
 	
 	public KeyPressTrigger(){
 		this.isTriggered = false; 
+		this.code = KeyCode.A;
 	}
 	
 	public KeyPressTrigger(KeyCode Code) {

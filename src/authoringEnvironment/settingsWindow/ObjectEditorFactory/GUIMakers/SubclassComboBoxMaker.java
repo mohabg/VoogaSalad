@@ -22,7 +22,7 @@ import javafx.util.StringConverter;
 public class SubclassComboBoxMaker {
 	
 	// we're making a combobox for the class of the childField
-	public static <R> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(Object parent, Field childField, Class<R> clazz, Property<?>... property) {	
+	public static <R, K> ComboBox<SimpleEntry<Class<R>, R>> makeSubclassComboBox(K parent, Field childField, Class<R> clazz, Property... property) {	
 		ComboBox<SimpleEntry<Class<R>, R>> comboBox = makeComboBox(clazz);
 		ChangeListener<SimpleEntry<Class<R>, R>> comboBoxListener = makeCBListener(parent, childField, property);
 		comboBox.valueProperty().addListener(comboBoxListener);
@@ -31,10 +31,10 @@ public class SubclassComboBoxMaker {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static <R, T> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(Object parent, Field childField, Property<?>... property) {
+	private static <R, T, K> ChangeListener<SimpleEntry<Class<R>, R>> makeCBListener(K parent, Field childField, Property... property) {
 		ChangeListener<SimpleEntry<Class<R>, R>> boxChangeListener = (o, ov, nv) -> {
 			ObjectProperty<SimpleEntry<Class<R>, R>> objProp = (ObjectProperty<SimpleEntry<Class<R>, R>>) o;
-			ComboBox<?> subclassBox = (ComboBox<?>) objProp.getBean();
+			ComboBox subclassBox = (ComboBox) objProp.getBean();
 			Pane myComboBoxParent = (Pane) subclassBox.getParent();
 			myComboBoxParent.getChildren().clear();
 			
@@ -53,7 +53,7 @@ public class SubclassComboBoxMaker {
 			
 			// only if it's a property
 			if (ov != null && property.length == 1) {
-				Property<?> prop = property[0];
+				Property prop = property[0];
 				if(prop instanceof ListProperty) {
 					ListProperty<R> lpr = (ListProperty<R>) prop;
 					lpr.remove(ov.getValue());
@@ -82,6 +82,7 @@ public class SubclassComboBoxMaker {
 			
 			myComboBoxParent.getChildren().setAll(subclassBox);
 			if (!o.getValue().getKey().isEnum()) {
+				System.out.println(o.getValue().getKey());
 				myComboBoxParent.getChildren().addAll(VisualFactory.makePropertyBoxes(parent, childField, o.getValue().getValue(), o.getValue().getKey(), false));
 			}
 		};
