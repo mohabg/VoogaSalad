@@ -104,10 +104,6 @@ public class GameEditor implements IGameEditor {
 		}
 	}
 
-	/*public void setResultForKeyPress(KeyEvent event) {
-		myGame.getCurrentLevel().handleKeyPress(event);
-	}*/
-
     public void endMyGame(Alert myAlert){
         myAlert.showAndWait();
     }
