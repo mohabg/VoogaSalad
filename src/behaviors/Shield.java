@@ -15,6 +15,7 @@ import gameElements.SpriteProperties;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**
@@ -41,7 +42,7 @@ public class Shield extends Defense{
 	}
 */
 	@Override
-	public void stop(IActions actions, LevelProperties levProps) {
+	public void stop(IActions actions, ILevelProperties levProps) {
 		// TODO Auto-generated method stub
 		
 	}
