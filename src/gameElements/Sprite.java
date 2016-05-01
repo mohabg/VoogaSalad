@@ -55,8 +55,8 @@ public class Sprite implements ISprite{
 		ObservableList<Behavior> myBehaviorsList = FXCollections.observableList(new ArrayList<Behavior>());
 		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorsList);
 
-		myHealth = new Health(100);
 
+		myHealth = new Health(100);
 		myCollisions.add(new EnemyCollision());
 	}
 	
@@ -67,11 +67,10 @@ public class Sprite implements ISprite{
 	
 	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
 			List<Behavior> myBehaviors, RefObject myRef) {
-		this(myRef);
-	
-		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
-	
+		this(myRef);	
+		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);	
 		ObservableList<Behavior> behaviorList=FXCollections.observableList(myBehaviors);
+
 		this.myCollisions.set(ol);
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
@@ -84,7 +83,7 @@ public class Sprite implements ISprite{
 		this.myProperties = properties;
 		this.myHealth = health;
 		this.myBehaviors.set(behaviors);
-	//	this.behaviors.set(behaviors);
+		this.myCollisions.set(myCollisions);
 	}
 
 

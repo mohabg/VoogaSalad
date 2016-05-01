@@ -44,7 +44,6 @@ public class Gun extends Attack{
             movement.enable();
             bullet.addBehavior(movement);
         	setAmmunition(getAmmunition() - 1);
-
     }
 
 	@Override
