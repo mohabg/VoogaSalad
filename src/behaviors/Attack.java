@@ -18,6 +18,7 @@ import level.LevelProperties;
  * bullets take to charge(IntegerProperty chargeTime), and ApplyBehavior conditions, which has attributes that help
  * determine whether an enemy sprite is eligible to shoot.
  * @see ExecuteConditions
+ * @author mohabgabal
  */
 
 

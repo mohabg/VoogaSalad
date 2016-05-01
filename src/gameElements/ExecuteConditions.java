@@ -21,13 +21,13 @@ public class ExecuteConditions {
 
 	
 	private DoubleProperty probability;
+	private DoubleProperty frequency; //In seconds
 	@IgnoreField
 	private DoubleProperty distFromUser;
 	@IgnoreField
 	private DoubleProperty minDistFromUser;
 	@IgnoreField
 	private DoubleProperty maxDistFromUser;
-	private DoubleProperty frequency; //In seconds
 	@IgnoreField
 	private DoubleProperty maxDuration;
 	@IgnoreField
@@ -39,10 +39,10 @@ public class ExecuteConditions {
 	
 	public ExecuteConditions(){
 		probability = new SimpleDoubleProperty(0);
+		maxDuration = new SimpleDoubleProperty(0);
 		distFromUser = new SimpleDoubleProperty(0);
 		minDistFromUser = new SimpleDoubleProperty(0);
 		maxDistFromUser = new SimpleDoubleProperty(0);
-		maxDuration = new SimpleDoubleProperty(0);
 		currentDuration = new SimpleDoubleProperty(0);
 		frequency = new SimpleDoubleProperty(0);
 		runningTime = System.currentTimeMillis();
@@ -70,12 +70,6 @@ public class ExecuteConditions {
 		}
 		return false;
 	}
-	public double getMinDistFromUser(){
-		return minDistFromUser.doubleValue();
-	}
-	public double getMaxDistFromUser(){
-		return maxDistFromUser.doubleValue();
-	}
 	public double getCurrentDuration() {
 		return currentDuration.doubleValue();
 	}
@@ -94,12 +88,6 @@ public class ExecuteConditions {
 	public void setProbability(double probability) {
 		this.probability.set(probability);
 	}
-	public double getDistFromUser() {
-		return distFromUser.doubleValue();
-	}
-	public void setDistFromUser(double distFromUser) {
-		this.distFromUser.set(distFromUser);
-	}
 	public void setFrequency(double frequency){
 		this.frequency.set(frequency);
 	}
@@ -115,19 +103,32 @@ public class ExecuteConditions {
 	public void disable(){
 		enabled.set(false);
 	}
-
-
 	public double getRunningTime() {
 		return runningTime;
 	}
-
-
+	
 	public void setRunningTime(double runningTime) {
 		this.runningTime = runningTime;
 	}
 
 
-	public void visit(AIController aiController){
-		
+	public DoubleProperty getMinDistFromUser() {
+		return minDistFromUser;
 	}
+
+
+	public void setMinDistFromUser(DoubleProperty minDistFromUser) {
+		this.minDistFromUser = minDistFromUser;
+	}
+
+
+	public double getMaxDistFromUser() {
+		return maxDistFromUser.doubleValue();
+	}
+
+
+	public void setMaxDistFromUser(double maxDistFromUser) {
+		this.maxDistFromUser.set(maxDistFromUser);
+	}
+
 }

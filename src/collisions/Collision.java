@@ -29,7 +29,7 @@ public abstract class Collision {
 		return this.value.doubleValue();
 	}
 	
-	public boolean isCollidingWithUser(LevelProperties levelProperties){
+	public boolean isCollidingWithUser(ILevelProperties levelProperties){
 		ISprite collidingSprite = levelProperties.getSpriteForCollision(this);
 		return collidingSprite.isUserControlled();
 	}

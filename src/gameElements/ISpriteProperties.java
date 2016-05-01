@@ -2,6 +2,7 @@ package gameElements;
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
 
 
 public interface ISpriteProperties {
@@ -26,19 +27,23 @@ public interface ISpriteProperties {
 	public void setHeight(double imageHeight);
 	public void setAngle(double angle);
 	
-	public boolean isUserControlled();
+	public double getRightLimit();
+	public double getLeftLimit();
+	public double getUpLimit();
+	public double getDownLimit();
 	
-	public DoubleProperty getXProperty();
-	public DoubleProperty getYProperty();
-	public DoubleProperty getHeightProperty();
-	public DoubleProperty getWidthProperty();
-	public DoubleProperty getAngleProperty();
+	public boolean isUserControlled();
 	
 	public ISpriteProperties getClone();
 	public void setUserControlled(boolean bool);
-	public boolean isOutOfBounds();
 	public void disableMovement();
+	public boolean isOutOfBounds();
+	public void stayInBounds();
 	public void updatePos();
 	public boolean canMove();
-	public void stayInBounds();
+	public DoubleProperty getXProperty();
+	public DoubleProperty getYProperty();
+	public Property<Number> getHeightProperty();
+	public Property<Number> getWidthProperty();
+	public Property<Number> getAngleProperty();
 }

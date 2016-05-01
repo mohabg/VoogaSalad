@@ -16,8 +16,8 @@ public class MoveHorizontally extends Movement{
 
 	@Override
 	public void move(IActions actions) {
-	ISpriteProperties properties = actions.getSpriteProperties();
-	properties.setX(properties.getX() + getValue());
+		ISpriteProperties properties = actions.getSpriteProperties();
+		properties.setX(properties.getX() + getValue());
 	}
 	@Override
 	public Behavior getClone() {

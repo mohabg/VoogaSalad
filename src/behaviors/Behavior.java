@@ -13,7 +13,6 @@ import level.LevelProperties;
 /**
  * 
  * This is the interface the Sprite uses to execute all of its actions.
- *
  */
 public abstract class Behavior implements Executable{
 

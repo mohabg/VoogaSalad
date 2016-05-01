@@ -1,49 +1,80 @@
 package gameElements;
 
-import java.awt.Point;
-import java.util.List;
-
 import authoringEnvironment.Settings;
-import behaviors.Behavior;
-import behaviors.Gun;
-import behaviors.MoveVertically;
-import behaviors.Movement;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
+import java.util.*;
+import java.awt.*;
+import java.util.List;
+/**
+ * 
+ * @author mohabgabal
+ *
+ */
 public class SpawnConditions extends ExecuteConditions{
-	
+
+	private double MY_SCREEN_RANGE =  0.4 * Settings.getScreenWidth();
+    private IntegerProperty numberToSpawn;
+
 	public SpawnConditions(){
-		super();
+        super();
+        this.numberToSpawn = new SimpleIntegerProperty(0);
 	}
-	/*
+	private List<Point>  getSpawnPositions(){
+        List<Point> myPoints = new ArrayList<>();
+        for(int i = 0; i < numberToSpawn.getValue(); i++) {
+            int newX = (int) (Math.random() * MY_SCREEN_RANGE);
+            myPoints.add(new Point(newX, 0));
+        }
+		return myPoints;
+	}
+
+    private List<Point> getSpawnPositions(int myTotalScreenHeight){
+        List<Point> myPoints = new ArrayList<>();
+        int myCurrentScreenY = 0;
+        for(int i = 0; i < numberToSpawn.get(); i++){
+            int myX =  (int) (Math.random() * MY_SCREEN_RANGE);
+            Point myTempPoint = new Point(myX, myCurrentScreenY);
+            myPoints.add(myTempPoint);
+        }
+        return myPoints;
+    }
+
 	@Override
-	public boolean isAIReady() {
-		if (Math.random() < getProbability()) {
-			double elapsedTime = System.currentTimeMillis() - this.getRunningTime();
-			if (elapsedTime >= this.getFrequency() * 1000) {
-				this.setRunningTime(System.currentTimeMillis());
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-	private Point getSpawnPosition(){
-		int newX = (int) (Math.random() * 0.4 * Settings.getScreenWidth());
-		return new Point(newX, 0);
-	}
-	@Override
-	public void visit(AIController aiController) {
+	public void visit(SpawnController aiController) {
 		if(this.isAIReady()){
-			spawnSprite(aiController, this.getSpawnPosition());
+            for(ISprite sprite : aiController.getSpritesToSpawn()){
+                if(sprite.getSpriteProperties().canMove()){
+                	List<Point> points = this.getSpawnPositions();
+                	for(int i = 0; i < this.numberToSpawn.get(); i++){
+                		spawnSprite(aiController, sprite, points.get(i));
+                	}
+                }
+                else{
+                	List<Point> points = this.getSpawnPositions(Settings.getScreenHeight());
+                	for(int i = 0; i < this.numberToSpawn.get(); i++){
+                		spawnSprite(aiController, sprite, points.get(i));
+                	}
+                }
+            }
 		}
 	}
-	protected void spawnSprite(AIController aiController, Point point) {
-		List<ISprite> spritesToSpawn = aiController.getSpritesToSpawn();
-		for(ISprite enemy : spritesToSpawn){
-			ISprite cloned = aiController.getSpriteFactory().clone(enemy);
-			cloned.getSpriteProperties().setX(point.getX());
-			cloned.getSpriteProperties().setY(point.getY());
-		}
-	}
+	protected void spawnSprite(SpawnController aiController, ISprite sprite, Point point) {
+            ISprite cloned = aiController.getSpriteFactory().clone(sprite);
+            cloned.getSpriteProperties().setX(point.getX());
+            cloned.getSpriteProperties().setY(point.getY());
+    }
+    public int getNumberToSpawn() {
+        return numberToSpawn.get();
+    }
+
+    public IntegerProperty numberToSpawnProperty() {
+        return numberToSpawn;
+    }
+
+    public void setNumberToSpawn(int numberToSpawn) {
+        this.numberToSpawn.set(numberToSpawn);
+    }
+
 }

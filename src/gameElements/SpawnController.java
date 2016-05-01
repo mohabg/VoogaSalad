@@ -10,16 +10,16 @@ import behaviors.Movement;
 import gameplayer.SpriteFactory;
 
 @IgnoreField
-public class AIController {
+public class SpawnController {
 	
 	private SpriteFactory spriteFactory;
 	private List<ISprite> spritesToSpawn;
 	
-	public AIController(){
+	public SpawnController(){
 		this(null);
 	}
 	
-	public AIController(SpriteFactory spriteFactory){
+	public SpawnController(SpriteFactory spriteFactory){
 		spritesToSpawn = new ArrayList<>();
 		this.spriteFactory = spriteFactory;
 		for(ISprite sprite : this.getSpriteFactory().getSpriteMap().getSprites()){
@@ -34,7 +34,7 @@ public class AIController {
 			this.accept(sprite.getSpawnConditions());
 		}
 	}
-	public void accept(ExecuteConditions conditions){
+	public void accept(SpawnConditions conditions){
 		conditions.visit(this);
 	}
 	public void setSpriteFactory(SpriteFactory spriteFactory) {

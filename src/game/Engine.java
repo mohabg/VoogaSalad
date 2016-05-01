@@ -29,6 +29,7 @@ import java.util.Map;
 /**
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
  * 
+ * @author gauravkumar
  */
 
 public class Engine {

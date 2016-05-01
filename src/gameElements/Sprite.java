@@ -7,7 +7,6 @@ import collisions.ActorCollision;
 import collisions.Collision;
 import collisions.EnemyCollision;
 import events.Executable;
-import gameElements.ISprite.spriteState;
 import gameplayer.SpriteFactory;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -92,7 +91,6 @@ public class Sprite implements ISprite{
 	 */
 	public void update(IActions actions, LevelProperties levProps) {
 		actions.setSprite(this);
-		//this.getSpriteProperties().updatePos();
  		for (Behavior behavior : this.getBehaviors()) {
 			if(behavior.isReady(this)){
 				behavior.execute(actions, levProps);
@@ -199,18 +197,6 @@ public class Sprite implements ISprite{
 	}
 	
 	public void takeDamage(double damage) {
-		//Damage defense before health
-		for(Behavior behavior : this.getBehaviors()){
-			if(behavior instanceof Defense){
-				Defense defense = (Defense) behavior;
-				if(defense.isEnabled()){
-					defense.takeDamage(damage);
-					if(defense.getHealth().isDead()){
-						return;
-					}
-				}
-			}
-		}
 		this.getHealth().takeDamage(damage);
 	}
 
@@ -223,19 +209,6 @@ public class Sprite implements ISprite{
 			}
 		}
 	}
-	
-	private Map<StringProperty, Behavior> changeKeysToProperties(Map<String, Behavior> myBehaviors) {
-		Map<StringProperty, Behavior> testMap = new HashMap<StringProperty, Behavior>();
-		for(String key : myBehaviors.keySet()) {
-			testMap.put(new SimpleStringProperty(key), myBehaviors.get(key));
-		}
-		return testMap;
-	}
-	
-	public boolean isOutOfBounds() {
-		return this.getSpriteProperties().isOutOfBounds();
-	}
-
 	public void setBehaviors(ListProperty<Behavior> behaviors) {
 		this.myBehaviors = behaviors;
 	}
@@ -251,5 +224,10 @@ public class Sprite implements ISprite{
 
 	public void setSpawnConditions(SpawnConditions spawnConditions) {
 		this.spawnConditions = spawnConditions;
+	}
+
+	@Override
+	public boolean isOutOfBounds() {
+		return this.getSpriteProperties().isOutOfBounds();
 	}
 }

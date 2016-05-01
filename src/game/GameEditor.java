@@ -13,6 +13,8 @@ import level.LevelProperties;
 /**
  * Used for editing the game. Can edit/set/remove goals, game info, current
  * level, keys,the user sprite, and Level Characteristics
+ * 
+ * @author gauravkumar
  */
 
 public class GameEditor implements IGameEditor {
@@ -70,10 +72,6 @@ public class GameEditor implements IGameEditor {
 	public Integer getUserSprite() {
 		return myGame.getCurrentLevel().getCurrentSpriteID();
 	}
-
-	public void setSpriteActions() {
-		//myGame.getCurrentLevel().setSpriteActions();
-	}
 	
 	public void setUserSprite(Integer sprite) {
 		myGame.getCurrentLevel().setCurrentSpriteID(sprite);
@@ -82,15 +80,6 @@ public class GameEditor implements IGameEditor {
 	public void updateGame() {
 		myGame.getCurrentLevel().update();
 		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
-	// 		does restart game work???
-		/*	Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information Dialog");
-			alert.setHeaderText("Look, an Information Dialog");
-			alert.setContentText("I have a great message for you!");
-
-			alert.showAndWait();
-			*/
-
 			myGame.restartGame();
 		}
 

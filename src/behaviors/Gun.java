@@ -18,8 +18,6 @@ public class Gun extends Attack{
 	
 	public Gun(RefObject myRef){
 		super(myRef);
-		this.getBehaviorConditions().setFrequency(2);
-		this.getBehaviorConditions().setProbability(1);
 	}
 	/**
 	 * @param actions The Sprite who's weapon you want to activate
@@ -30,18 +28,7 @@ public class Gun extends Attack{
         	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
             getMovement().enable();
-            Behavior movement = this.getMovement();
-//            Behavior vertically;
-//            if(bullet.isUserControlled()){
-//            	vertically = new MoveVertically(-50);
-//            }
-//            else{
-//            	vertically = new MoveVertically(50);
-//            }
-           // vertically.enable();
-            // bullet.addBehavior(vertically);
-            movement.enable();
-            bullet.addBehavior(movement);
+            bullet.addBehavior(getMovement());
         	setAmmunition(getAmmunition() - 1);
     }
 

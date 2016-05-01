@@ -19,9 +19,5 @@ public class ActorCollision extends Collision{
 	public Collision clone() {
 		return new ActorCollision();
 	}
-	public void execute(IActions action, LevelProperties levProps) {
-		// TODO Auto-generated method stub
-
-	}
 	
 }

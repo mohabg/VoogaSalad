@@ -3,6 +3,7 @@ package gameElements;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -90,42 +91,38 @@ public class SpriteProperties implements ISpriteProperties{
 		canMove.set(true);
 	}
 
-
 	public SpriteProperties getClone(){
     	SpriteProperties clone = new SpriteProperties(myX.doubleValue(), myY.doubleValue(), myXvel.doubleValue(), 
     			myYvel.doubleValue(), myWidth.doubleValue(), myHeight.doubleValue(), myAngle.doubleValue());
-    	// If following original (such as shield)
-    	// bindCloneProperties(clone);
     	return clone;
     }
-/*
-	private void bindCloneProperties(SpriteProperties clone) {
-		clone.getMyX().bindBidirectional(myX);
-    	clone.getYProperty().bindBidirectional(myY);
-    	clone.getAngleProperty().bindBidirectional(myAngle);
-    	clone.getXVelProperty().bindBidirectional(myXvel);
-    	clone.getYVelProperty().bindBidirectional(myYvel);
-    	clone.getUserControlledProperty().bindBidirectional(myUserControlled);
-	}
-	*/
 	public void updatePos(){
     	myX.setValue(myX.getValue() + myXvel.getValue());
     	myY.setValue(myY.getValue() + myYvel.getValue());
     }
-//MOVE TO PHYSICS
 	public void stayInBounds() {
-		if (myX.getValue() + myWidth.doubleValue() > myRightLimit.getValue()){
-    		myXvel.setValue(-myXvel.getValue());    	
+		double myX = this.getX();
+		double myY = this.getY();
+		if (myX + getWidth() > getRightLimit()){
+    		reverseXVel();    	
 		}
-    	if (myX.getValue() < myLeftLimit.getValue()){
-    		myXvel.setValue(-myXvel.getValue());
+    	if (myX < getLeftLimit()){
+    		reverseXVel();
     	}
-    	if (myY.getValue() < myUpLimit.getValue()){
-    		myYvel.setValue(-myYvel.getValue());
+    	if (myY < getUpLimit()){
+    		reverseYVel();
     	}
-    	if (myY.getValue() + myHeight.doubleValue() > myDownLimit.getValue()){
-    		myYvel.setValue(-myYvel.getValue());
+    	if (myY + getHeight() > getDownLimit()){
+    		reverseYVel();
     	}
+	}
+
+	private void reverseYVel() {
+		setYVel(getYVel() * -1);
+	}
+
+	private void reverseXVel() {
+		setXVel(getXVel() * -1);
 	}
     
     public boolean isOutOfBounds(){
@@ -191,38 +188,6 @@ public class SpriteProperties implements ISpriteProperties{
 		this.myUserControlled.set(userControlled);
 	}
 
-	public double getMyXLeftLimit() {
-		return myLeftLimit.doubleValue();
-	}
-
-	public void setMyXLeftLimit(double myXLeftLimit) {
-		this.myLeftLimit.set(myXLeftLimit);
-	}
-
-	public double getMyYDownLimit() {
-		return myDownLimit.doubleValue();
-	}
-
-	public void setMyYDownLimit(double myYDownLimit) {
-		this.myDownLimit.set(myYDownLimit);
-	}
-
-	public double getMyXRightLimit() {
-		return myRightLimit.doubleValue();
-	}
-
-	public void setMyRightLimit(double myRightLimit) {
-		this.myRightLimit.set(myRightLimit);
-	}
-
-	public double getMyYUpLimit() {
-		return myDownLimit.doubleValue();
-	}
-
-	public void setMyYUpLimit(double myYUpLimit) {
-		this.myDownLimit.set(myYUpLimit);
-	}
-
 	public double getMyRelativeX() {
 		return myRelativeX.doubleValue();
 	}
@@ -242,39 +207,6 @@ public class SpriteProperties implements ISpriteProperties{
 	public BooleanProperty getUserControlledProperty() {
 		return this.myUserControlled;
 	}
-
-	public DoubleProperty getYVelProperty() {
-		return this.myYvel;
-	}
-
-	public DoubleProperty getXVelProperty() {
-		return this.myXvel;
-	}
-
-	public DoubleProperty getAngleProperty() {
-		return this.myAngle;
-	}
-	
-	@Override
-	public DoubleProperty getYProperty() {
-		return this.myY;
-	}
-
-	@Override
-	public DoubleProperty getXProperty() {
-		return this.myX;
-	}
-
-	@Override
-	public DoubleProperty getHeightProperty() {
-		return this.myHeight;
-	}
-
-	@Override
-	public DoubleProperty getWidthProperty() {
-		return this.myWidth;
-	}
-
 	@Override
 	public double getXVel() {
 		return this.myXvel.doubleValue();
@@ -283,6 +215,51 @@ public class SpriteProperties implements ISpriteProperties{
 	@Override
 	public double getYVel() {
 		return this.myYvel.doubleValue();
+	}
+
+	@Override
+	public double getRightLimit() {
+		return this.myRightLimit.doubleValue();
+	}
+
+	@Override
+	public double getLeftLimit() {
+		return this.myLeftLimit.doubleValue();
+	}
+
+	@Override
+	public double getUpLimit() {
+		return this.myUpLimit.doubleValue();
+	}
+
+	@Override
+	public double getDownLimit() {
+		return this.myDownLimit.doubleValue();
+	}
+
+	@Override
+	public DoubleProperty getXProperty() {
+		return this.myX;
+	}
+
+	@Override
+	public DoubleProperty getYProperty() {
+		return this.myY;
+	}
+
+	@Override
+	public Property<Number> getHeightProperty() {
+		return this.myHeight;
+	}
+
+	@Override
+	public Property<Number> getWidthProperty() {
+		return this.myWidth;
+	}
+
+	@Override
+	public Property<Number> getAngleProperty() {
+		return this.myAngle;
 	}
 
 }

@@ -7,7 +7,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import level.Level;
 
 public class PhysicsEngine {
 	private DoubleProperty drag;
@@ -19,6 +18,7 @@ public class PhysicsEngine {
 		enableGravity = new SimpleBooleanProperty(false);
 		this.drag = new SimpleDoubleProperty(dragVal);
 		this.gravity = new SimpleDoubleProperty(gravity);
+		this.enableGravity = new SimpleBooleanProperty();
 		currentTime = System.currentTimeMillis();
 	}
 	
@@ -64,7 +64,7 @@ public class PhysicsEngine {
 		}
 			sprite.getSpriteProperties().setYVel(newYVel);
 	}
-
+	
 	public DoubleProperty getDrag() {
 		return drag;
 	}
@@ -76,11 +76,8 @@ public class PhysicsEngine {
 	public boolean isGravityEnabled() {
 		return enableGravity.get();
 	}
-
-	public void enableGravity() {
-		this.enableGravity.set(true);
-	}
-	public void disableGravity(){
-		this.enableGravity.set(false);
+	public void setEnableGravity(boolean enable) {
+		this.enableGravity.set(enable);
+		
 	}
 }
