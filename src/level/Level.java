@@ -12,7 +12,6 @@ import gameElements.Sprite;
 import gameElements.SpriteMap;
 import events.Event;
 import events.EventManager;
-import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
 import events.CollisionEvent;
@@ -23,6 +22,7 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.scene.input.KeyCode;
@@ -61,7 +61,7 @@ public class Level implements ILevel {
 
 	public Level() {
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0, 1);
+		physicsEngine = new PhysicsEngine(0.9, 0);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
