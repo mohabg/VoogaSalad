@@ -145,15 +145,14 @@ public class Game {
 	}
 
 
-
 	public void setIsFinished(BooleanProperty isFinished) {
 		this.isFinished = isFinished;
 	}
 	
 	public void setIsFinished(boolean finished){
 		BooleanProperty finish=new SimpleBooleanProperty();
-		finish.set(false);
-		setIsFinished(finished);
+		finish.set(finished);
+		setIsFinished(finish);
 	}
 	/*
 	 * public void setViewPoint(double myWidth, double myHeight, Sprite sprite){

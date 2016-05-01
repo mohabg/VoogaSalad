@@ -84,14 +84,14 @@ public class GameEditor implements IGameEditor {
 
 		myGame.getCurrentLevel().update();
 		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
-	// 		does restart game work???
+		// 	does restart game work???
 		/*	Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Look, an Information Dialog");
 			alert.setContentText("I have a great message for you!");
 
 			alert.showAndWait();
-			*/
+		*/
 
 			myGame.restartGame();
 		}
