@@ -160,7 +160,11 @@ public class Level implements ILevel {
 		List<Goal> goalList = this.levelProperties.getGoalList();
 		int goalCount = this.getLevelProperties().getGoalCount();
 		for (Goal goal : goalList) {
+			System.out.println(goal.getGoal().toString());
+			System.out.println(goal.isFinished() + "is goal finished before check");
 			goal.acceptVisitor(goalChecker);
+			System.out.println(goal.isFinished() + "is goal finished after check");
+
 			if (goal.isFinished()) {
 				goalCount++;
 				deleteGoals.add(goal);

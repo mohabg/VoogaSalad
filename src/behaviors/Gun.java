@@ -2,6 +2,7 @@
 package behaviors;
 
 import authoringEnvironment.RefObject;
+import collisions.DamageCollision;
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
 import level.LevelProperties;
@@ -32,15 +33,18 @@ public class Gun extends Attack{
 	            getMovement().enable();
 	          //Setting movement through authoring environment not working
 	            Behavior movement = this.getMovement();
-//	            Behavior vertically;
-//	            if(bullet.isUserControlled()){
-//	            	vertically = new MoveVertically(-50);
-//	            }
-//	            else{
-//	            	vertically = new MoveVertically(50);
-//	            }
-	           // vertically.enable();
-	           // bullet.addBehavior(vertically);
+	            Behavior vertically;
+	            if(bullet.isUserControlled()){
+	            	vertically = new MoveVertically(-50);
+	            }
+	            else{
+	            	vertically = new MoveVertically(50);
+	            }
+	            vertically.enable();
+	           bullet.addBehavior(vertically);
+	           
+	           DamageCollision damage=new DamageCollision(5);
+	           bullet.addCollision(damage);
 	            movement.enable();
 	            bullet.addBehavior(movement);
 	        	setAmmunition(getAmmunition() - 1);

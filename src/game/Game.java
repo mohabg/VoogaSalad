@@ -25,20 +25,16 @@ public class Game {
 	private int currLevelNum;
 	private ViewPoint viewPoint;
 	private BooleanProperty isFinished;
-	
+
 	public Game(GameInfo gameInfo) {
 		this();
 		this.setGameInfo(gameInfo);
 		/*
-		 * myGameLevels = new ArrayList<Level>();
-		currLevelNum = 0;
-		myInfo = gameInfo;
-		isFinished=new SimpleBooleanProperty(false);
-		*/
-		 
+		 * myGameLevels = new ArrayList<Level>(); currLevelNum = 0; myInfo =
+		 * gameInfo; isFinished=new SimpleBooleanProperty(false);
+		 */
+
 	}
-	
-	
 
 	/*
 	 * public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty
@@ -49,18 +45,18 @@ public class Game {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = new GameInfo();
-		isFinished=new SimpleBooleanProperty(false);
+		isFinished = new SimpleBooleanProperty(false);
 
 	}
-	
-	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height){
+
+	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height) {
 		this(gameInfo);
-		viewPoint=new ViewPoint(width, height);
+		viewPoint = new ViewPoint(width, height);
 	}
-	
-	public Game(DoubleProperty width, DoubleProperty height){
+
+	public Game(DoubleProperty width, DoubleProperty height) {
 		this();
-		viewPoint=new ViewPoint(width, height);
+		viewPoint = new ViewPoint(width, height);
 	}
 
 	public GameInfo getGameInfo() {
@@ -91,15 +87,15 @@ public class Game {
 
 	public Level getCurrentLevel() {
 		// System.out.println(currLevelNum);
-		if(myGameLevels.get(currLevelNum).equals(null)){
+		if (myGameLevels.get(currLevelNum).equals(null)) {
 			System.out.println("hi");
-        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        	alert.setTitle("Game Information");
-        	alert.setHeaderText("Game Result");
-        	alert.setContentText("Congrats you've won the game bitch");
-        	alert.showAndWait();
-        	return null;
-		}else{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Game Information");
+			alert.setHeaderText("Game Result");
+			alert.setContentText("Congrats you've won the game bitch");
+			alert.showAndWait();
+			return null;
+		} else {
 			return myGameLevels.get(currLevelNum);
 		}
 
@@ -123,7 +119,7 @@ public class Game {
 		levelProperties.setLevelID(levelID);
 		newLevel.setLevelProperties(levelProperties);
 		myGameLevels.add(levelID, newLevel);
-	//	viewPoint.updateViewPoint(newLevel);
+		// viewPoint.updateViewPoint(newLevel);
 
 	}
 
@@ -136,18 +132,18 @@ public class Game {
 		// myGameLevels.add(levelID, level);
 	}
 
-	public Level restartGame() {			
+	public Level restartGame() {
 		return myGameLevels.get(0);
 	}
 
 	public ViewPoint getViewPoint() {
 		return viewPoint;
 	}
-
+ 
 	public void setViewPoint(ViewPoint viewPoint) {
 		this.viewPoint = viewPoint;
 	}
-	
+
 	public BooleanProperty getIsFinished() {
 		return isFinished;
 	}
@@ -156,12 +152,10 @@ public class Game {
 		this.isFinished.set(isFinished);
 	}
 
-
-
 	public boolean hasNextLevel() {
 		return this.myGameLevels.size() > this.getCurrentLevel().getLevelProperties().getNextLevelID();
 	}
-	
+
 	/*
 	 * public void setViewPoint(double myWidth, double myHeight, Sprite sprite){
 	 * 
