@@ -97,10 +97,12 @@ public class GameEditor implements IGameEditor {
 		}
 
 		if (myGame.getCurrentLevel().getisFinished()){
-			if(myGame.getCurrentLevel().getLevelProperties().getNextLevel()!=null){
-				myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevel());
+			if(myGame.hasNextLevel()){
+				myGame.nextLevel(myGame.getCurrentLevel().getLevelProperties().getNextLevelID());
+			} 
+			else{
+				myGame.setIsFinished(true);
 			}
-			myGame.setIsFinished(true);
 		}
 	}
 

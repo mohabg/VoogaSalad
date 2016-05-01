@@ -116,7 +116,7 @@ public class LevelProperties {
 		this.levelName.set(levelName);
 	}
 
-	public Integer getNextLevel() {
+	public Integer getNextLevelID() {
 		return nextLevel.intValue();
 	}
 
