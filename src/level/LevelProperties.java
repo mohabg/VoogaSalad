@@ -174,9 +174,9 @@ public class LevelProperties {
 		this.time = time;
 	}
 
-	public Integer getCurrentPoints() {
+	public DoubleProperty getCurrentPoints() {
 		// return score.getScoreValue().get();
-		return getScore().getValue();
+		return getScore();
 	}
 
 	public void setCurrentPoints(Integer currentPoints) {
@@ -218,7 +218,7 @@ public class LevelProperties {
 	/*
 	 * public void setScore(Score score) { this.score = score; }
 	 */
-	public IntegerProperty getScore() {
+	public DoubleProperty getScore() {
 		return getScoreObject().getScoreValue();
 	}
 

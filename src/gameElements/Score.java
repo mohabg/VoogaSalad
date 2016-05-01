@@ -1,23 +1,25 @@
 package gameElements;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Score {
 
-	private IntegerProperty scoreValue;
+	private DoubleProperty scoreValue;
 	
 	public Score(){
-		scoreValue = new SimpleIntegerProperty(0);
+		scoreValue = new SimpleDoubleProperty(0);
 	}
 	public Score(Integer score){
 		this();
 		this.scoreValue.set(score);
 	}
-	public IntegerProperty getScoreValue() {
+	public DoubleProperty getScoreValue() {
 		return scoreValue;
 	}
-	public void setScoreValue(IntegerProperty scoreValue) {
+	public void setScoreValue(DoubleProperty scoreValue) {
 		this.scoreValue = scoreValue;
 	}
 	public void addScore(int increment){

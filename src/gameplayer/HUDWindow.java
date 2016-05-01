@@ -27,7 +27,7 @@ public class HUDWindow{
 //		createFlowPane();
 		DoubleProperty HUDHealth = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getProperty();
 		DoubleProperty HUDTime = myPlayScreen.getCurrentLevel().getLevelProperties().getTime().getMyTime();
-		DoubleProperty HUDScore = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getCurrentPoints());
+		DoubleProperty HUDScore = myPlayScreen.getCurrentLevel().getLevelProperties().getCurrentPoints();
 		DoubleProperty HUDLives = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getNumLives();
 		DoubleProperty HUDLevelNumber = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getLevelID());
 	

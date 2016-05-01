@@ -142,7 +142,7 @@ public class PlayScreen {
 		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
 	}
 	
-	public IntegerProperty getScore() {
+	public DoubleProperty getScore() {
 		System.out.println(myEngine.getCurrentLevel().getScore());
 		return myEngine.getCurrentLevel().getScore();
 	}

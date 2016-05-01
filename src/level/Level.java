@@ -55,6 +55,7 @@ import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -101,10 +102,12 @@ public class Level implements ILevel {
 		actions = new Actions();
 		myEventManager = new EventManager();
 		
-		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png", 
 				new DamageCollision(10), new EnemyCollision());
-		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png", 
 				new DissapearCollision(), new EnemyCollision());
+		Event hardCodedEvent2 = new CollisionEvent("pictures/shootbullet.png", "pictures/player/black_ship.png", 
+				new PointsCollision(10), new EnemyCollision());
 		
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
@@ -125,6 +128,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(right);
 		myEventManager.addEvent(turnRight);
 		myEventManager.addEvent(turnLeft);
+		myEventManager.addEvent(hardCodedEvent2);
 		
 		populateGoals();
 		System.out.println("levelproperties"+getLevelProperties().getGoalList());
@@ -279,7 +283,7 @@ public class Level implements ILevel {
 		this.levelProperties.getGoalList().add(goal);
 	}
 
-	public IntegerProperty getScore() {
+	public DoubleProperty getScore() {
 		return levelProperties.getScore();
 	}
 
