@@ -24,5 +24,10 @@ public class MoveVertically extends Movement{
 		properties.setY(properties.getY() + getValue());
 	}
 
+	@Override
+	public Behavior getClone() {
+		return new MoveVertically(getValue());
+	}
+
 
 }

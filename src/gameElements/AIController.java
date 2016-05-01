@@ -13,29 +13,25 @@ import gameplayer.SpriteFactory;
 public class AIController {
 	
 	private SpriteFactory spriteFactory;
-	private Map<ExecuteConditions, List<ISprite>> executeConditionToSprites;
+	private List<ISprite> spritesToSpawn;
 	
 	public AIController(){
 		this(null);
 	}
 	
 	public AIController(SpriteFactory spriteFactory){
-		executeConditionToSprites = new HashMap<>();
+		spritesToSpawn = new ArrayList<>();
 		this.spriteFactory = spriteFactory;
-		Map<ExecuteConditions, List<ISprite>> conditions = this.getExecuteConditionToSprites();
-		ExecuteConditions spawn = new EnemySpawnConditions();
-		List<ISprite> sprites = new ArrayList<>();
 		for(ISprite sprite : this.getSpriteFactory().getSpriteMap().getSprites()){
 			if(!sprite.equals(this.spriteFactory.getSpriteMap().getUserControlledSprite())){
-				sprites.add(sprite);
+				spritesToSpawn.add(sprite);
 			}
 		}
-		conditions.put(spawn, sprites);
 	}
 	
 	public void update(){
-		for(ExecuteConditions executeCondition : executeConditionToSprites.keySet()){
-				this.accept(executeCondition);
+		for(ISprite sprite : this.spritesToSpawn){
+			this.accept(sprite.getSpawnConditions());
 		}
 	}
 	public void accept(ExecuteConditions conditions){
@@ -45,16 +41,16 @@ public class AIController {
 		this.spriteFactory = spriteFactory;
 	}
 
-	public Map<ExecuteConditions, List<ISprite>> getExecuteConditionToSprites() {
-		return executeConditionToSprites;
-	}
-
-	public void setExecuteConditionToSprites(Map<ExecuteConditions, List<ISprite>> spawnConditionsForSprites) {
-		this.executeConditionToSprites = spawnConditionsForSprites;
-	}
-	
 	public SpriteFactory getSpriteFactory() {
 		return this.spriteFactory;
+	}
+
+	public List<ISprite> getSpritesToSpawn() {
+		return spritesToSpawn;
+	}
+
+	public void setSpritesToSpawn(List<ISprite> spritesToSpawn) {
+		this.spritesToSpawn = spritesToSpawn;
 	}
 
 	

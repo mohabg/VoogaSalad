@@ -51,5 +51,8 @@ public interface ISprite{
 	public Health getMyHealth();
 
 	public void addBehavior(Behavior behavior);
+	
 	public ListProperty<Behavior> getBehaviors();
+
+	public ExecuteConditions getSpawnConditions();
 }

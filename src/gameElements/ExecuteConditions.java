@@ -23,9 +23,12 @@ public class ExecuteConditions {
 	private DoubleProperty probability;
 	@IgnoreField
 	private DoubleProperty distFromUser;
+	@IgnoreField
 	private DoubleProperty minDistFromUser;
+	@IgnoreField
 	private DoubleProperty maxDistFromUser;
 	private DoubleProperty frequency; //In seconds
+	@IgnoreField
 	private DoubleProperty maxDuration;
 	@IgnoreField
 	private DoubleProperty currentDuration;

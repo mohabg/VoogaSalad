@@ -1,18 +1,21 @@
 package gameElements;
 
-import authoringEnvironment.Settings;
-
-import java.awt.*;
+import java.awt.Point;
 import java.util.List;
 
-public class EnemySpawnConditions extends ExecuteConditions{
-
-
-	public EnemySpawnConditions(){
+import authoringEnvironment.Settings;
+import behaviors.Behavior;
+import behaviors.Gun;
+import behaviors.MoveVertically;
+import behaviors.Movement;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+public class SpawnConditions extends ExecuteConditions{
+	
+	public SpawnConditions(){
 		super();
-	    this.setProbability(1);
-	    this.setFrequency(3);
 	}
+	/*
 	@Override
 	public boolean isAIReady() {
 		if (Math.random() < getProbability()) {
@@ -24,7 +27,7 @@ public class EnemySpawnConditions extends ExecuteConditions{
 		}
 		return false;
 	}
-	
+	*/
 	private Point getSpawnPosition(){
 		int newX = (int) (Math.random() * 0.4 * Settings.getScreenWidth());
 		return new Point(newX, 0);
@@ -36,7 +39,7 @@ public class EnemySpawnConditions extends ExecuteConditions{
 		}
 	}
 	protected void spawnSprite(AIController aiController, Point point) {
-		List<ISprite> spritesToSpawn = aiController.getExecuteConditionToSprites().get(this);
+		List<ISprite> spritesToSpawn = aiController.getSpritesToSpawn();
 		for(ISprite enemy : spritesToSpawn){
 			ISprite cloned = aiController.getSpriteFactory().clone(enemy);
 			cloned.getSpriteProperties().setX(point.getX());
