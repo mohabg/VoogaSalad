@@ -46,21 +46,17 @@ public class PhysicsEngine {
 	}
 
 	private void updateXVelocity(ISprite sprite) {
-		//DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyXvel().getValue() + sprite.getX().getValue());
 		double newXVel= sprite.getSpriteProperties().getXVel() * getDrag().getValue();
-	//	sprite.setX(newLocation);
 		sprite.getSpriteProperties().setXVel(newXVel);
 
 	}
 
 	private void updateYVelocity(ISprite sprite, double elapsedTime) {
-	//	DoubleProperty newLocation = new SimpleDoubleProperty(sprite.getSpriteProperties().getMyYvel().getValue() + sprite.getY().getValue());
-		double newYVel;
+	    double newYVel;
 		if(drag.doubleValue() == 0){
 			newYVel = sprite.getSpriteProperties().getYVel() + this.gravity.doubleValue() * elapsedTime;
 		}
 		newYVel = sprite.getSpriteProperties().getYVel() * getDrag().getValue();
-	//	sprite.setY(newLocation);
 		sprite.getSpriteProperties().setYVel(newYVel);
 
 	}

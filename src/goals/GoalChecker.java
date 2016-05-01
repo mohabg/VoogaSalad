@@ -1,7 +1,6 @@
 package goals;
 
 import gameElements.ISprite;
-import gameElements.Sprite;
 import javafx.beans.property.IntegerProperty;
 import level.Level;
 
@@ -52,7 +51,6 @@ public class GoalChecker implements IGoalVisitor{
 	
 	public boolean visit(KillBossGoal goal){
 		System.out.println("reached kilchecker");
-
 		boolean bossBoolean=true;
 		for(IntegerProperty integerProperty: goal.getBossIDList().get()){
 			Integer integer=integerProperty.intValue();
@@ -62,7 +60,6 @@ public class GoalChecker implements IGoalVisitor{
 			}
 		}
 		return bossBoolean;
-		
 	}
 	
 
