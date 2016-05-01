@@ -30,19 +30,15 @@ public class PlayerView extends Screen {
 		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
 		myViewSprites = new HashMap<Integer, ViewSprite>();
 		myBackgrounds = new HashMap<Integer, StringProperty>();
-		//TODO: find better way
 		myPane.getChildren().add(new HBox(new Button("a")));
 	}
 
 	
 	public void setSprites(List<Integer> activeSprites) {
-		// System.out.println("printing setsprites"+ currentLevel.getSpriteMap().getSpriteMap().size());
-		//myPane.getChildren().removeAll(myViewSprites.values());
 		this.clearSprites();
 		activeSprites.stream().forEach(s->{
 			ViewSprite vs = myViewSprites.get(s);
 			if (vs != null) {
-				System.out.println(vs.getMyImage() + " x: " + vs.getX() + " " + " y: " + vs.getY());
 				myPane.getChildren().add(0, vs);
 				//myPane.getChildren().add(vs);
 			}
