@@ -4,6 +4,8 @@ import gameElements.ViewPoint;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.Alert;
 import level.Level;
 import level.LevelProperties;
 
@@ -89,7 +91,18 @@ public class Game {
 
 	public Level getCurrentLevel() {
 		// System.out.println(currLevelNum);
-		return myGameLevels.get(currLevelNum);
+		if(myGameLevels.get(currLevelNum).equals(null)){
+			System.out.println("hi");
+        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        	alert.setTitle("Game Information");
+        	alert.setHeaderText("Game Result");
+        	alert.setContentText("Congrats you've won the game bitch");
+        	alert.showAndWait();
+        	return null;
+		}else{
+			return myGameLevels.get(currLevelNum);
+		}
+
 	}
 
 	public void createLevel(int levelID, Level level) {
@@ -134,24 +147,21 @@ public class Game {
 	public void setViewPoint(ViewPoint viewPoint) {
 		this.viewPoint = viewPoint;
 	}
-
-
-
+	
 	public BooleanProperty getIsFinished() {
 		return isFinished;
 	}
 
+	public void setIsFinished(boolean isFinished) {
+		this.isFinished.set(isFinished);
+	}
 
 
-	public void setIsFinished(BooleanProperty isFinished) {
-		this.isFinished = isFinished;
+
+	public boolean hasNextLevel() {
+		return this.myGameLevels.size() > this.getCurrentLevel().getLevelProperties().getNextLevelID();
 	}
 	
-	public void setIsFinished(boolean finished){
-		BooleanProperty finish=new SimpleBooleanProperty();
-		finish.set(false);
-		setIsFinished(finished);
-	}
 	/*
 	 * public void setViewPoint(double myWidth, double myHeight, Sprite sprite){
 	 * 

@@ -7,12 +7,19 @@ import gameElements.Time;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import level.Level;
 import level.LevelProperties;
@@ -127,27 +134,66 @@ public class Engine {
 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME),
                 event -> {
-//                	myGameTime.updateTime();
-                    myEditor.updateGame();
                     isGameFinished = myEditor.getGame().getIsFinished();
+                    if(isGameFinished.get()){
+                    	myGameLoop.stop();
+                    	Stage stage = new Stage();
+                        StackPane pane = new StackPane();
+                        pane.getChildren().add(new Label("Hello world"));
+                        stage.setScene(new Scene(pane, 100, 100));
+                        stage.showAndWait();
+                    }
+                    myEditor.updateGame();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
                     currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
 
                 });
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
         myGameLoop.getKeyFrames().add(keyFrame);
+        myGameLoop.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                    	Stage stage = new Stage();
+                        StackPane pane = new StackPane();
+                        pane.getChildren().add(new Label("Hello world"));
+                        stage.setScene(new Scene(pane, 100, 100));
+                        stage.showAndWait();
+                    	/*Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                		alert.setTitle("Game Information");
+                		alert.setHeaderText("Game Result");
+                		alert.setContentText("Congrats you've won the game bitch");
+                		alert.showAndWait(); */                   
+                    }
+                });
+
+            }
+        });
         playGameLoop();
         if ( isPaused )
         	pauseGameLoop();
         if ( isGameFinished.getValue() ) {
+        	myGameLoop.stop();
+        	/*pauseGameLoop();
         	Alert alert = new Alert(Alert.AlertType.INFORMATION);
         	alert.setTitle("Game Information");
         	alert.setHeaderText("Game Result");
         	alert.setContentText("Congrats you've won the game bitch");
-        	alert.showAndWait();       	
+        	alert.showAndWait();*/       	
         }
         	
     }
+
+	private void endGame() {
+		myGameLoop.stop();
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Game Information");
+		alert.setHeaderText("Game Result");
+		alert.setContentText("Congrats you've won the game bitch");
+		alert.showAndWait();
+	}
     
     public void pauseGameLoop() {
     	isPaused = true;
@@ -166,14 +212,5 @@ public class Engine {
     /*public void setResultForKeyPress(KeyEvent event) {
     	myEditor.setResultForKeyPress(event);
     }*/
-
-    public void endGame(){
-        pauseGameLoop();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText("Look, an Information Dialog");
-        alert.setContentText("I have a great message for you!");
-        alert.showAndWait();
-    }
 
 }
