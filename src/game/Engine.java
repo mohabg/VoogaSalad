@@ -26,13 +26,12 @@ import java.util.Map;
 
 public class Engine {
 	
-	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
+	private static final double TIME_PER_FRAME = 0.017;// 60 FPS 0.017
 	
 	private Timeline myGameLoop;
 	private EventManager myEventManager;
 	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
-	private Time myGameTime;
 	private boolean isPaused;
 	private BooleanProperty isGameFinished;
 //    private PlayScreen myGameScreen;
@@ -43,7 +42,6 @@ public class Engine {
 //		this.myGameScreen = myGameScreen;
 		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
-		myGameTime = new Time();
 //		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 		isGameFinished = new SimpleBooleanProperty(false);
@@ -120,14 +118,16 @@ public class Engine {
     /**
 	 * Starts the game loop
 	 */
+
+
     
     public void gameLoop() {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
-    	myGameTime = new Time();
     //	System.out.println("game loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
+
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME),
                 event -> {
-                	myGameTime.updateTime();
+//                	myGameTime.updateTime();
                     myEditor.updateGame();
                     isGameFinished = myEditor.getGame().getIsFinished();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
@@ -158,14 +158,7 @@ public class Engine {
     	isPaused = false;
     	myGameLoop.play();
     }
-    
-    public double getGameTimeInSeconds() {
-    	return myGameTime.getTime()/1000;
-}
 
-    public DoubleProperty getTimeProperty() {
-    	return myGameTime.getMyCurrentTimeProperty();
-    }
     
     public IntegerProperty getCurrentLevelID(){
     	return currentLevelID;
@@ -173,5 +166,14 @@ public class Engine {
     /*public void setResultForKeyPress(KeyEvent event) {
     	myEditor.setResultForKeyPress(event);
     }*/
+
+    public void endGame(){
+        pauseGameLoop();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Look, an Information Dialog");
+        alert.setContentText("I have a great message for you!");
+        alert.showAndWait();
+    }
 
 }

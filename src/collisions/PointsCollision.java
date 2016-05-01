@@ -17,7 +17,7 @@ public class PointsCollision extends Collision{
 		super(value);
 	}
 	public void handleCollision(EnemyCollision enemy, LevelProperties levelProperties){
-		Integer newScore = (int) (levelProperties.getCurrentPoints() + getValue());
+		Integer newScore = (int) (levelProperties.getCurrentPoints().doubleValue() + getValue());
 		levelProperties.setCurrentPoints(newScore);
 	}
 	@Override
