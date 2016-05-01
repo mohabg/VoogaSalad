@@ -1,9 +1,6 @@
 package collisions;
 
-import behaviors.IActions;
-import events.Executable;
 import gameElements.ISprite;
-import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.LevelProperties;
@@ -13,8 +10,6 @@ import java.lang.reflect.Method;
 /**
  * Describes the different behaviors of collision. Has the sprite that is colliding as an instance variable,
  *
- * @see applyEffects
- * @see handleCollision
  */
 
 public abstract class Collision {
@@ -55,7 +50,6 @@ public abstract class Collision {
 				methodToInvoke.invoke(one, params);
 			}
 			catch(Exception e){
-                throw new CollisionException();
 			}
 		}
 	}
@@ -67,9 +61,8 @@ public abstract class Collision {
             return CollisionOneClass.getMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 		}
 		catch(Exception e){
-            throw new CollisionException();
         }
-//		return null;
+		return null;
 	}
 	
 }
