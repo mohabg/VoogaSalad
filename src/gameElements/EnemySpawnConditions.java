@@ -5,6 +5,7 @@ import java.util.*;
 
 import authoringEnvironment.Settings;
 import behaviors.Behavior;
+import behaviors.Gun;
 import behaviors.MoveVertically;
 import behaviors.Movement;
 import javafx.beans.property.DoubleProperty;
@@ -21,7 +22,7 @@ public class EnemySpawnConditions extends ExecuteConditions{
 	public EnemySpawnConditions(){
 		super();
 	    this.setProbability(1);
-	    this.setFrequency(3);
+	    this.setFrequency(5);
 		myRespawnTopProbability = new SimpleDoubleProperty(0.3);
 		myRespawnLeftProbability = new SimpleDoubleProperty(0.6);
 		myRespawnRightProbability = new SimpleDoubleProperty(1);
@@ -40,7 +41,7 @@ public class EnemySpawnConditions extends ExecuteConditions{
 	}
 	
 	private Point getSpawnPosition(){
-		double rand = Math.random() * 35;
+		double rand = Math.random() * 30 + 4;
 		int newX = (int) (Settings.getScreenWidth() / rand);
 		return new Point(newX, 0);
 	}
@@ -56,6 +57,8 @@ public class EnemySpawnConditions extends ExecuteConditions{
 			ISprite cloned = aiController.getSpriteFactory().clone(enemy);
 			cloned.getSpriteProperties().setX(point.getX());
 			cloned.getSpriteProperties().setY(point.getY());
+			Behavior gun = new Gun();
+			cloned.addBehavior(gun);
 		}
 	}
 }

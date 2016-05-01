@@ -25,4 +25,9 @@ public class ThrustHorizontal extends Movement{
 		properties.setYVel(currentYVelocity + yOrientation * getValue());
 	}
 
+	@Override
+	public Behavior getClone() {
+		return new ThrustHorizontal(this.getValue());
+	}
+
 }

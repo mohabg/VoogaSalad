@@ -46,4 +46,9 @@ public class Shield extends Defense{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Behavior getClone() {
+		return new Shield(this.getMyRef(), this.getHealth());
+	}
 }

@@ -188,26 +188,34 @@ public class Level implements ILevel {
 		SpriteMap spriteMap = this.levelProperties.getSpriteMap();
 		List<Integer> spriteList = new ArrayList<Integer>();
 		List<Integer> spriteIDList = new ArrayList<Integer>(spriteMap.getSpriteMap().keySet());
-		for (Integer spriteID : spriteIDList) {
-			ISprite sprite = spriteMap.get(spriteID);
-			sprite.update(this.actions, this.levelProperties);
-			this.getPhysicsEngine().updateSprite(sprite);
-			if(spriteIsHero(sprite)){
-				sprite.getSpriteProperties().stayInBounds();
-				if (sprite.isDead()){
-				//	this.getLevelProperties().setShouldRestart(true);
-					break;
-				}
-			
+		Object updateLock = new Object();
+		//synchronized (this) {
+			for (Integer spriteID : spriteIDList) {
+				
+					ISprite sprite = spriteMap.get(spriteID);
+					if(sprite.getMyRef().equals("pictures/shootbullet.png")){
+						continue;
+					}
+					
+					//System.out.println("sprite ID " + spriteID + " all ids: " + spriteIDList);
+					//synchronized (updateLock) {
+						sprite.update(this.actions, this.levelProperties);
+					//}
+					this.getPhysicsEngine().updateSprite(sprite);
+					if(spriteIsHero(sprite)){
+						sprite.getSpriteProperties().stayInBounds();
+						if (sprite.isDead()){
+						//	this.getLevelProperties().setShouldRestart(true);
+							break;
+						}
+					
+					}
+					else if(sprite.isOutOfBounds()){
+						sprite.kill();
+					}
+					removeDeadSprite(spriteID, spriteList);
 			}
-			else if(sprite.isOutOfBounds()){
-				if(sprite.getMyRef().equals("pictures/red_enemy.png")){
-					sprite.kill();
-				}
-				sprite.kill();
-			}
-			removeDeadSprite(spriteID, spriteList);
-		}
+		//}
 	}
 	private boolean spriteIsHero(ISprite sprite){
 		return this.levelProperties.getUserControlledSprite().equals(sprite);

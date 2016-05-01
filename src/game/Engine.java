@@ -29,7 +29,7 @@ import javafx.event.EventHandler;
 
 public class Engine {
 	
-	private static final double TIME_PER_FRAME = 0.017;// 60 FPS
+	private static final double TIME_PER_FRAME = 0.017;// 60 FPS 0.017
 	
 	private Timeline myGameLoop;
 	private EventManager myEventManager;

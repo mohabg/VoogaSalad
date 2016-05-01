@@ -3,18 +3,26 @@ package gameplayer;
 import authoringEnvironment.RefObject;
 import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
+import behaviors.Gun;
+import behaviors.MoveVertically;
 import collisions.Collision;
+import events.Executable;
 import gameElements.Health;
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameElements.SpriteMap;
 import gameElements.SpriteProperties;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SpriteFactory {
-	
+	//NEEDS SIGNIFICANT REFACTORING
 	private Map<Integer, ViewSprite> myViewSprites;
 	private SpriteMap spriteMap;
 	
@@ -42,26 +50,24 @@ public class SpriteFactory {
 		return this.myViewSprites;
 	}
 	public Sprite makeSprite(double x, double y, RefObject myRef){
-		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new HashMap<String, Behavior>(), myRef);
+		return makeSprite(x, y, new Health(), new ArrayList<>(), new HashMap<>(), myRef);
 	}
 
 	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
 			Map<String, Behavior> myBehaviors, RefObject myRef) {
+		//TEMPORARY
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
 		ISpriteProperties sp = vs.getMySpriteProperties();
-		sp.setX(x);
-		sp.setY(y);
-		return createAndBindSprite(myHealth, myCollisions, myBehaviors, myRef, vs, sp);
-
-	}
-	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, Map<String, Behavior> myBehaviors,
-			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
-		//TEMPORARY
-		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
-		vs.bindToSprite(s);
-		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
-		spriteMap.addSprite(s);
-		return s;
+		ObservableList<Collision> ol = FXCollections.observableList(myCollisions);
+		ListProperty<Collision> collisions = new SimpleListProperty<Collision>(ol);
+		ObservableMap<StringProperty, Behavior> om1 = FXCollections
+				.observableMap(new HashMap<StringProperty, Behavior>());
+		MapProperty<StringProperty, Behavior> behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
+		Sprite sprite = createAndBindSprite(myHealth, collisions, behaviors, myRef, vs, sp);
+		sprite.getSpriteProperties().setX(x);
+		sprite.getSpriteProperties().setY(y);
+		this.addToMap(vs, sprite);
+		return sprite;
 	}
 
 	public Sprite makeSprite(double x, double y, ISpriteProperties clone, RefObject myRef) {
@@ -70,7 +76,13 @@ public class SpriteFactory {
 		double imageHeight = vs.getMySpriteProperties().getHeight();
 		clone.setWidth(imageWidth);
 		clone.setHeight(imageHeight);
-		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new HashMap<String,Behavior>(), myRef, vs, clone);
+		ObservableList<Collision> ol = FXCollections.observableList(new ArrayList<Collision>());
+		ListProperty<Collision> myCollisions = new SimpleListProperty<Collision>(ol);
+		ObservableMap<StringProperty, Behavior> om1 = FXCollections
+				.observableMap(new HashMap<StringProperty, Behavior>());
+		MapProperty<StringProperty, Behavior> behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
+
+		return createAndBindSprite(new Health(), myCollisions, behaviors, myRef, vs, clone);
 	}
 	
 	public Sprite clone(ISprite sprite){
@@ -79,17 +91,27 @@ public class SpriteFactory {
 		for(Collision col : sprite.getCollisions()){
 			clonedCollisions.add(col.clone());
 		}
+		ObservableList<Collision> ol = FXCollections.observableList(clonedCollisions);
+		ListProperty<Collision> myCollisions = new SimpleListProperty<Collision>(ol);
+		ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(new HashMap<StringProperty, Behavior>());
+		
+		MapProperty<StringProperty, Behavior> map = new SimpleMapProperty<StringProperty, Behavior>(om2);
 		ViewSprite vs = new ViewSprite(sprite.getMyRef());
-		return this.createAndBindSprite(sprite.getMyHealth().getClone(), clonedCollisions, sprite.getBehaviors(), 
+		Sprite clone = this.createAndBindSprite(sprite.getMyHealth().getClone(), myCollisions, map, 
 				new RefObject(sprite.getMyRef()), vs, clonedProperties);
+		this.addToMap(vs, clone);
+		return clone;
 	}
 	
-	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, MapProperty<StringProperty, Behavior> myBehaviors,
+	private Sprite createAndBindSprite(Health myHealth, ListProperty<Collision> myCollisions, MapProperty<StringProperty, Behavior> myBehaviors,
 			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
-		Sprite s = new Sprite(sp, myHealth, new SimpleListProperty<Collision>() , myBehaviors, myRef);
+		Sprite s = new Sprite(sp, myHealth, myCollisions , myBehaviors, myRef);
 		vs.bindToSprite(s);
+		return s;
+	}
+
+	private void addToMap(ViewSprite vs, Sprite s) {
 		myViewSprites.put(spriteMap.getCurrentID()+1, vs);
 		spriteMap.addSprite(s);
-		return s;
 	}
 }

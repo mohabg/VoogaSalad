@@ -37,5 +37,10 @@ public class ThrustVertical extends Movement{
 
 	}
 
+	@Override
+	public Behavior getClone() {
+		return new ThrustVertical(this.getValue());
+	}
+
 
 }

@@ -138,9 +138,6 @@ public class Sprite implements ISprite{
 				behavior.stop(actions, levProps);
 			}
 		}
-		if(!this.getMyRef().equals("pictures/cipher.png")){
-			//System.out.println(this.hashCode() + " " + this.myProperties.getY() + " " + this.myProperties.getYVel());
-}
 	}
 
 	public Sprite getClone(){

@@ -26,5 +26,10 @@ public class SpawnMovement extends Movement {
 		myProperties.setY(y + getValue()); //add angle stuff
 		
 	}
+	@Override
+	public Behavior getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
