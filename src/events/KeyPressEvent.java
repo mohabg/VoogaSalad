@@ -4,6 +4,7 @@ import behaviors.IActions;
 import collisions.CollisionChecker;
 import collisions.CollisionHandler;
 import javafx.scene.input.KeyCode;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 public class KeyPressEvent extends Event {
@@ -23,7 +24,7 @@ public class KeyPressEvent extends Event {
 	}
 
 	@Override
-	public void doEvent(IActions action, LevelProperties levProps) {
+	public void doEvent(IActions action, ILevelProperties levProps) {
 		KeyPressTrigger press = (KeyPressTrigger) getTrigger();
 		action.setSprite(levProps.getSpriteMap().getUserControlledSprite());
 		if ( press.isTriggered()) {
