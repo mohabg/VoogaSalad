@@ -126,7 +126,7 @@ public class Game {
 		// myGameLevels.add(levelID, level);
 	}
 
-	public Level restartGame() {
+	public Level restartGame() {			
 		return myGameLevels.get(0);
 	}
 
