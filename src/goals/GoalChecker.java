@@ -46,7 +46,6 @@ public class GoalChecker implements IGoalVisitor{
 			}
 		}
 	//	System.out.println("enemyboolean" + enemyBoolean);
-		System.out.println("enemyboolean" + enemyBoolean);
 		return enemyBoolean;
 	}
 	

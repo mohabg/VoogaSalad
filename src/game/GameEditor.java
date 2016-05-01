@@ -1,5 +1,8 @@
 package game;
 
+import java.util.List;
+import gameElements.ISprite;
+import gameElements.Time;
 import authoringEnvironment.Settings;
 import goals.Goal;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -15,7 +18,6 @@ import level.LevelProperties;
 public class GameEditor implements IGameEditor {
 
 	private Game myGame;
-
 	public GameEditor() {
 		myGame = new Game(new SimpleDoubleProperty(Settings.getScreenWidth()), 
 				new SimpleDoubleProperty(Settings.getScreenHeight()));
@@ -78,7 +80,6 @@ public class GameEditor implements IGameEditor {
 	}
 
 	public void updateGame() {
-
 		myGame.getCurrentLevel().update();
 		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
 	// 		does restart game work???

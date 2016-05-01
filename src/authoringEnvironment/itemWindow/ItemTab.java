@@ -20,14 +20,14 @@ public  class ItemTab{
 	private Tab myTab;
     private TilePane myTilePane;
     
-    private static double IMAGE_HEIGHT;
+    private static double IMAGE_WIDTH;
     private static double OFFSET = 50;
 
     public ItemTab() {
         myTab = new Tab();
         myTilePane = new TilePane();
         Settings.setTilePaneSettings(myTilePane);
-        IMAGE_HEIGHT = myTilePane.getTileHeight() - OFFSET;
+        IMAGE_WIDTH = myTilePane.getTileWidth() - OFFSET;
     }
     /** 
      * this adds the sprites to the tab
@@ -35,7 +35,9 @@ public  class ItemTab{
      */
     public void populateTab(List<ImageView> list){
         list.forEach(viewSprite -> {
-            viewSprite.setFitHeight(IMAGE_HEIGHT);
+        	viewSprite.maxHeight(viewSprite.getFitHeight());
+        	viewSprite.maxWidth(viewSprite.getFitWidth());
+            viewSprite.setFitWidth(IMAGE_WIDTH);
             viewSprite.setPreserveRatio(true);
             myTilePane.getChildren().add(viewSprite);
         });

@@ -26,13 +26,14 @@ public class HUDWindow{
 		myFlowPane.setId("myFlowPane");
 //		createFlowPane();
 		DoubleProperty HUDHealth = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getProperty();
-//		DoubleProperty HUDTime = myPlayScreen.getCurrentLevel().getLevelProperties().getTime().getMyTime();
-		DoubleProperty HUDScore = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getCurrentPoints());
+		DoubleProperty HUDTime = myPlayScreen.getCurrentLevel().getLevelProperties().getTime().getMyTime();
+		DoubleProperty HUDScore = myPlayScreen.getCurrentLevel().getLevelProperties().getCurrentPoints();
 		DoubleProperty HUDLives = myPlayScreen.getCurrentLevel().getLevelProperties().getUserControlledSprite().getMyHealth().getNumLives();
 		DoubleProperty HUDLevelNumber = new SimpleDoubleProperty(myPlayScreen.getCurrentLevel().getLevelProperties().getLevelID());
 	
 		addHUDElement("Health: ", HUDHealth);
 		addHUDElement("Lives: ", HUDLives);
+		addHUDElement("Time: ", HUDTime);
 		addHUDElement("Score: ", HUDScore);
 		addHUDElement("Level Number: ", HUDLevelNumber);
 	}
@@ -46,7 +47,7 @@ public class HUDWindow{
 		DoubleProperty doubleProp = HUDProperty;
 		stringProp.set(doubleProp.getValue().toString());
 		doubleProp.addListener((o, ov, nv) -> {
-			stringProp.set(o.getValue().toString());
+			stringProp.set(Integer.toString(o.getValue().intValue()));
 		});
 		HUDValue.textProperty().bindBidirectional(stringProp);
 		HUDHbox.getChildren().addAll(HUDKey, HUDValue);
