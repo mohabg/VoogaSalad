@@ -2,6 +2,46 @@ package level;
 
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
+import behaviors.Attack;
+import behaviors.Behavior;
+import behaviors.Defense;
+import behaviors.Gun;
+import behaviors.IActions;
+import collisions.*;
+import behaviors.MoveTurn;
+import behaviors.Shield;
+import behaviors.ThrustHorizontal;
+import behaviors.ThrustVertical;
+import gameElements.AIController;
+import gameElements.Actions;
+import gameElements.ExecuteConditions;
+import gameElements.ISprite;
+import events.*;
+import gameElements.EnemySpawnConditions;
+import gameElements.Sprite;
+import gameElements.SpriteMap;
+import behaviors.Attack;
+import behaviors.Behavior;
+import behaviors.Defense;
+import behaviors.Gun;
+import behaviors.IActions;
+import collisions.ActorCollision;
+import behaviors.MoveTurn;
+import behaviors.Shield;
+import behaviors.ThrustHorizontal;
+import behaviors.ThrustVertical;
+import gameElements.AIController;
+import gameElements.Actions;
+import gameElements.ExecuteConditions;
+import gameElements.ISprite;
+import events.Event;
+import events.EventManager;
+import events.Executable;
+import events.KeyPressEvent;
+import events.KeyPressTrigger;
+import gameElements.EnemySpawnConditions;
+import gameElements.Sprite;
+import gameElements.SpriteMap;
 import behaviors.*;
 import events.CollisionEvent;
 import events.Event;
@@ -60,7 +100,12 @@ public class Level implements ILevel {
 		goalFactory = new GoalFactory();
 		actions = new Actions();
 		myEventManager = new EventManager();
-		Event hardCoded = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", new PointsCollision(10), new EnemyCollision());
+		
+		Event hardCodedEvent = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DamageCollision(10), new EnemyCollision());
+		Event hardCodedEvent1 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", 
+				new DissapearCollision(), new EnemyCollision());
+		
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
 		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
@@ -69,7 +114,9 @@ public class Level implements ILevel {
 		Event right = new KeyPressEvent(new KeyPressTrigger(KeyCode.RIGHT), new ThrustHorizontal(1));
 		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
-		myEventManager.addEvent(hardCoded);
+		
+		myEventManager.addEvent(hardCodedEvent);
+		myEventManager.addEvent(hardCodedEvent1);
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
 		myEventManager.addEvent(forward);
@@ -78,7 +125,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(right);
 		myEventManager.addEvent(turnRight);
 		myEventManager.addEvent(turnLeft);
-		//myEventManager.setInputHandler(new InputHandler());
+		
 		populateGoals();
 		System.out.println("levelproperties"+getLevelProperties().getGoalList());
 	}
@@ -167,6 +214,7 @@ public class Level implements ILevel {
 			this.getPhysicsEngine().updateSprite(sprite);
 			if(spriteIsHero(sprite)){
 				sprite.getSpriteProperties().stayInBounds();
+				//sprite.kill();
 				if (sprite.isDead()){
 				//	this.getLevelProperties().setShouldRestart(true);
 					break;

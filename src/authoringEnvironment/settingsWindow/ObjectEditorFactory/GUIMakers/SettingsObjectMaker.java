@@ -3,19 +3,13 @@ package authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.MapProperty;
 import javafx.beans.property.StringProperty;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class SettingsObjectMaker {
@@ -36,8 +30,6 @@ public class SettingsObjectMaker {
 			BooleanProperty bp = (BooleanProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeBooleanCheckbox(bp));
 		} else if (myProp instanceof StringProperty) {
-			// THIS PROBABLY REFERS TO IMAGE FILES..............
-			// DROP DOWN OF IMAGE FILES TO CHOOSE FROM
 			StringProperty sp = (StringProperty) myProp;
 			propVBox.getChildren().addAll(propLabelName, makeTextField(sp));
 		} 
@@ -60,6 +52,7 @@ public class SettingsObjectMaker {
 		return converted;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Spinner makeDoubleSpinner(DoubleProperty dp) {
 		Spinner mySpinner = GUIObjectMaker.makeSpinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, 0);
@@ -74,6 +67,7 @@ public class SettingsObjectMaker {
 		return mySpinner;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Spinner makeIntegerSpinner(IntegerProperty ip) {
 		Spinner mySpinner = GUIObjectMaker.makeSpinner();
 		SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-10000, 10000, 0);
@@ -100,7 +94,7 @@ public class SettingsObjectMaker {
 	public static TextField makeTextField(StringProperty sp) {
 		TextField textField = GUIObjectMaker.makeTextField(sp.toString());
 		
-		TextFormatter formatter = new TextFormatter(TextFormatter.IDENTITY_STRING_CONVERTER);
+		TextFormatter<String> formatter = new TextFormatter<String>(TextFormatter.IDENTITY_STRING_CONVERTER);
 		textField.setTextFormatter(formatter);
 		
 		textField.textProperty().bindBidirectional(sp);
