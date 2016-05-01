@@ -61,7 +61,7 @@ public class Level implements ILevel {
 
 	public Level() {
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0.9, 0);
+		physicsEngine = new PhysicsEngine(0, 4);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
@@ -198,7 +198,6 @@ public class Level implements ILevel {
 		if (spriteMap.get(spriteID).isDead()) {
 			spriteMap.remove(spriteID);
 		}
-
 	}
 
 	/**

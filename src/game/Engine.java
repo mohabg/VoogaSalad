@@ -137,8 +137,8 @@ public class Engine {
                     	myGameLoop.stop();
                     	Stage stage = new Stage();
                         StackPane pane = new StackPane();
-                        pane.getChildren().add(new Label("Hello world"));
-                        stage.setScene(new Scene(pane, 100, 100));
+                        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
+                        stage.setScene(new Scene(pane, 700, 700));
                         stage.showAndWait();
                     }
                     myEditor.updateGame();
@@ -155,8 +155,8 @@ public class Engine {
                     public void run() {
                     	Stage stage = new Stage();
                         StackPane pane = new StackPane();
-                        pane.getChildren().add(new Label("Hello world"));
-                        stage.setScene(new Scene(pane, 100, 100));
+                        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
+                        stage.setScene(new Scene(pane, 700, 700));
                         stage.showAndWait();
                     	/*Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 		alert.setTitle("Game Information");

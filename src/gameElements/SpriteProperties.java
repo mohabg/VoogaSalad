@@ -1,5 +1,6 @@
 package gameElements;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,10 +13,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class SpriteProperties implements ISpriteProperties{
 	private DoubleProperty myY;
     private DoubleProperty myX;
-    
-    private DoubleProperty myRelativeX;   
+    @IgnoreField
+    private DoubleProperty myRelativeX; 
+    @IgnoreField
     private DoubleProperty myRelativeY;
+    @IgnoreField
     private DoubleProperty myXvel;
+    @IgnoreField
     private DoubleProperty myYvel;
     private DoubleProperty myWidth;
     private DoubleProperty myHeight;
@@ -108,7 +112,7 @@ public class SpriteProperties implements ISpriteProperties{
     	myX.setValue(myX.getValue() + myXvel.getValue());
     	myY.setValue(myY.getValue() + myYvel.getValue());
     }
-
+//MOVE TO PHYSICS
 	public void stayInBounds() {
 		if (myX.getValue() + myWidth.doubleValue() > myRightLimit.getValue()){
     		myXvel.setValue(-myXvel.getValue());    	
