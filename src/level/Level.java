@@ -4,15 +4,8 @@ import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import behaviors.Gun;
 import behaviors.IActions;
+import behaviors.*;
 import collisions.*;
-import behaviors.MoveTurn;
-import behaviors.Shield;
-import behaviors.ThrustHorizontal;
-import behaviors.ThrustVertical;
-import gameElements.AIController;
-import gameElements.Actions;
-import gameElements.ExecuteConditions;
-import gameElements.ISprite;
 import events.*;
 import gameElements.SpawnConditions;
 import gameElements.Sprite;
@@ -22,11 +15,14 @@ import events.EventManager;
 import events.Executable;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
+import events.CollisionEvent;
+import gameElements.*;
 import gameplayer.SpriteFactory;
 import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -64,7 +60,7 @@ public class Level implements ILevel {
 
 	public Level() {
 		levelProperties = new LevelProperties();
-		physicsEngine = new PhysicsEngine(0.9, 0);
+		physicsEngine = new PhysicsEngine(0, 1);
 		keyboardActionMap = new HashMap<KeyboardActions, IKeyboardAction>();
 		goalFactory = new GoalFactory();
 		actions = new Actions();
@@ -77,10 +73,10 @@ public class Level implements ILevel {
 		Event hardCodedEvent2 = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png",
 				new PointsCollision(10), new EnemyCollision());
 		
-		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE), new Gun());
-		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT), new Shield());
-		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP), new ThrustVertical(-1));
-		Event reverse = new KeyPressEvent(new KeyPressTrigger(KeyCode.DOWN), new ThrustVertical(1));
+		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
+		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
+		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
+		Event reverse = new KeyPressEvent(new KeyPressTrigger(KeyCode.DOWN),new ThrustVertical(1));
 		Event left = new KeyPressEvent(new KeyPressTrigger(KeyCode.LEFT), new ThrustHorizontal(-1));
 		Event right = new KeyPressEvent(new KeyPressTrigger(KeyCode.RIGHT), new ThrustHorizontal(1));
 		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
@@ -97,7 +93,7 @@ public class Level implements ILevel {
 		myEventManager.addEvent(right);
 		myEventManager.addEvent(turnRight);
 		myEventManager.addEvent(turnLeft);
-
+		myEventManager.addEvent(hardCodedEvent2);
 		populateGoals();
 	}
 
@@ -110,7 +106,7 @@ public class Level implements ILevel {
 		updateSprites();
 		myEventManager.doEvents(actions, getLevelProperties());
 		setisFinished(completeGoals());
-
+		this.levelProperties.getTime().updateTime();
 	}
 
 	public void deleteSprite(Integer spriteID) {
@@ -241,7 +237,7 @@ public class Level implements ILevel {
 		this.levelProperties.getGoalList().add(goal);
 	}
 
-	public IntegerProperty getScore() {
+	public DoubleProperty getScore() {
 		return levelProperties.getScore();
 	}
 

@@ -2,9 +2,13 @@ package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.ObjectEditorController;
+
+import authoringEnvironment.itemWindow.ImageResizing.DragResizer;
+import authoringEnvironment.itemWindow.ImageResizing.IOnDragResizeEventListener;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.ObjectEditorController;
+
 import gameElements.ISprite;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -130,8 +134,6 @@ public abstract class AClickableWindow {
 
 	public void setClicking(ViewSprite sprite) {
 		sprite.setCursor(Cursor.HAND);
-		sprite.setFitHeight(sprite.getImage().getHeight() * 0.5);
-		sprite.setFitWidth(sprite.getImage().getWidth() * 0.5);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {

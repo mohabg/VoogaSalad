@@ -43,6 +43,10 @@ public class ItemWindow {
 			} else {
 				tab.populateTab(fillSprites(type));
 			}
+			
+			if(type.equals("Obstacles")){
+				tab.getTab().getContent().setId("obstaclesTab");
+			}
 			tab.setTabTitle(type);
 			return tab.getTab();
 		} catch (Exception e) {
@@ -59,7 +63,6 @@ public class ItemWindow {
 		String p = FrontEndData.SpriteImages.getString(k);
 		ImageView bg = new ImageView(p);
 		bg.setOnMouseClicked(e -> {
-			System.out.println("background cliked");
 			myGameTabPane.setBackground(p);
 		});
 		return bg;

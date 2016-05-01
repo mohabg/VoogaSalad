@@ -1,5 +1,8 @@
 package gameElements;
 
+import java.awt.Point;
+import java.util.List;
+
 import authoringEnvironment.Settings;
 import behaviors.Behavior;
 import behaviors.Gun;
@@ -7,16 +10,10 @@ import behaviors.MoveVertically;
 import behaviors.Movement;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-
-import java.awt.*;
-import java.util.List;
-
 public class SpawnConditions extends ExecuteConditions{
 	
 	public SpawnConditions(){
 		super();
-	    this.setProbability(1);
-	    this.setFrequency(5);
 	}
 	/*
 	@Override
@@ -32,7 +29,7 @@ public class SpawnConditions extends ExecuteConditions{
 	}
 	*/
 	private Point getSpawnPosition(){
-		int newX = (int) (Math.random() * 0.4* Settings.getScreenWidth());
+		int newX = (int) (Math.random() * 0.4 * Settings.getScreenWidth());
 		return new Point(newX, 0);
 	}
 	@Override

@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Main;
 
 
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
@@ -9,7 +9,6 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.GUIObje
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SettingsObjectMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.GUIMakers.SubclassComboBoxMaker;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.SettingsReflectUtils;
-import authoringEnvironment.settingsWindow.ObjectEditorFactory.Utilities.ClassEnumerator;
 
 import javafx.beans.property.*;
 
@@ -93,6 +92,7 @@ public class VisualFactory {
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	private VBox makeParameterizedVBox(Field f, Object model) {
 		VBox myV = null;
 		
@@ -120,6 +120,7 @@ public class VisualFactory {
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	private <R> VBox makeFieldVBox(Field f, Object model) {
 		VBox propVBox = GUIObjectMaker.makeVBox();
 		
@@ -131,6 +132,7 @@ public class VisualFactory {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	private <R> VBox singleParamType(Class<R> rType, Object prop) {
 		VBox singleParamVBox = GUIObjectMaker.makeVBox();
 		
@@ -156,6 +158,7 @@ public class VisualFactory {
 		return singleParamVBox;
 	}
 
+	@SuppressWarnings("unchecked")
 	private <R> VBox addSingleParameter(Class<R> rType, ListProperty<R> lpr) {
 		VBox retVBox = GUIObjectMaker.makeVBox();
 		R rObj = null;
@@ -165,7 +168,7 @@ public class VisualFactory {
 		
 		// get a proper subclass of R if necessary
 		if (rType.isInterface() || Modifier.isAbstract(rType.getModifiers())) {
-			rType = (Class<R>) SettingsReflectUtils.getSubclass(rType);	
+			rType = SettingsReflectUtils.getSubclass(rType);	
 		}				
 		rObj = (R) SettingsReflectUtils.getSubclassInstance(rType);	
 		lpr.add(rObj);	// listener won't add it to the list when it's first added
@@ -192,6 +195,7 @@ public class VisualFactory {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	private <R, T> VBox doubleParamType(Class<R> rType, Class<T> tType, Object prop) {
 		VBox doubleParamVBox = GUIObjectMaker.makeVBox();
 		
@@ -228,6 +232,7 @@ public class VisualFactory {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private <R,T> HBox addDoubleParameter(Class<R> rType, Class<T> tType, MapProperty<R,T> mprt) {
 		HBox retHBox = GUIObjectMaker.makeHBox();
 		R rListElement = null;
@@ -239,9 +244,9 @@ public class VisualFactory {
 		
 		// get a proper subclass of R if necessary
 		if (SettingsReflectUtils.isAbstractOrInterface(rType)) {
-			rType = (Class<R>) SettingsReflectUtils.getSubclass(rType);	
+			rType = SettingsReflectUtils.getSubclass(rType);	
 		} 
-		rListElement = (R) SettingsReflectUtils.newClassInstance(rType);
+		rListElement = SettingsReflectUtils.newClassInstance(rType);
 		updateComboBoxValue((Class<R>) rListElement.getClass(), rListElement, mySubclassBoxKey);
 		
 		
@@ -251,9 +256,9 @@ public class VisualFactory {
 		
 		// get a proper subclass of T if necessary
 		if (SettingsReflectUtils.isAbstractOrInterface(tType)) {
-			tType = (Class<T>) SettingsReflectUtils.getSubclass(tType);	
+			tType = SettingsReflectUtils.getSubclass(tType);	
 		}
-		tListElement = (T) SettingsReflectUtils.newClassInstance(tType);		
+		tListElement = SettingsReflectUtils.newClassInstance(tType);		
 		updateComboBoxValue((Class<T>) tListElement.getClass(), tListElement, mySubclassBoxValue);
 
 		mprt.put(rListElement, tListElement);
@@ -262,6 +267,7 @@ public class VisualFactory {
 	}
 
 		
+	@SuppressWarnings("unchecked")
 	public static <R, K> List<HBox> makePropertyBoxes(Object parent, Field field, R fieldObject, Class<R> fieldClass, boolean makeBox) {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();		
 		List<HBox> properties = new ArrayList<HBox>();		
@@ -269,7 +275,6 @@ public class VisualFactory {
 		
 		// seems to not happen unless an instance can't be made
 		if (fieldObject == null) {
-			System.out.println("does this ever happen");
 			fieldClass = SettingsReflectUtils.getSubclass(fieldClass);
 			fieldObject = (R) SettingsReflectUtils.newClassInstance(fieldClass);
 			if (field != null) {
@@ -303,6 +308,7 @@ public class VisualFactory {
 			List<HBox> fieldHBoxes = new ArrayList<HBox>();
 			
 			List<Field> allFields = SettingsReflectUtils.getAllFields(new ArrayList<Field>(), fieldClass);
+		
 			for (Field childField : allFields) {
 				childField.setAccessible(true);			
 				if (!childField.isAnnotationPresent(IgnoreField.class) && !childField.getType().isAnnotationPresent(IgnoreField.class)) {
@@ -310,11 +316,11 @@ public class VisualFactory {
 						// TODO UNCOMMENT
 						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
 					} else {
-						K otherFieldObject = (K) SettingsReflectUtils.fieldGetObject(childField, fieldObject);						
+						K childFieldObject = (K) SettingsReflectUtils.fieldGetObject(childField, fieldObject);						
 //						if (childField.isAnnotationPresent(SetFieldName.class)) {
 //							field = childField.getAnnotation(SetFieldName.class).label();
 //						}
-						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, otherFieldObject, (Class<K>) childField.getType(), true));
+						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, childFieldObject, (Class<K>) childField.getType(), true));
 					}
 				}
 			}
