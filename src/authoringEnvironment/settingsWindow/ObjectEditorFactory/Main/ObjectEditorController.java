@@ -1,4 +1,4 @@
-package authoringEnvironment.settingsWindow.ObjectEditorFactory;
+package authoringEnvironment.settingsWindow.ObjectEditorFactory.Main;
 
 import java.util.List;
 
