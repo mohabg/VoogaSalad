@@ -2,10 +2,11 @@ package level;
 
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
-import behaviors.Gun;
-import behaviors.IActions;
 import behaviors.*;
-import collisions.*;
+import collisions.DamageCollision;
+import collisions.DissapearCollision;
+import collisions.EnemyCollision;
+import collisions.PointsCollision;
 import events.*;
 import gameElements.SpawnConditions;
 import gameElements.Sprite;
@@ -22,7 +23,6 @@ import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
 import javafx.beans.property.DoubleProperty;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.scene.input.KeyCode;

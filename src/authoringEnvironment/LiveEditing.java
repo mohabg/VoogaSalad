@@ -2,7 +2,6 @@ package authoringEnvironment;
 
 import authoringEnvironment.mainWindow.AClickableWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
-import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.control.ScrollPane;
@@ -11,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * 
  * @author davidyan, Joe Jacob, Huijia Yu
- * LiveEditing window that retains functionality in the Authoring Environment to allow user ot edit while playing
+ * LiveEditing window that retains functionality in the Authoring Environment to allow user to edit while playing
  *
  */
 public class LiveEditing extends AClickableWindow implements IGameWindow {
