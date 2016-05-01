@@ -35,8 +35,8 @@ public  class ItemTab{
      */
     public void populateTab(List<ImageView> list){
         list.forEach(viewSprite -> {
-            viewSprite.setFitHeight(IMAGE_HEIGHT);
-            viewSprite.setPreserveRatio(true);
+//            viewSprite.setFitHeight(IMAGE_HEIGHT);
+//            viewSprite.setPreserveRatio(true);
             myTilePane.getChildren().add(viewSprite);
         });
         myTilePane.setId(FrontEndData.TILEPANE);

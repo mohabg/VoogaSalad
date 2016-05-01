@@ -26,4 +26,9 @@
 	-fx-alignment: top-center;
 	-fx-pref-tile-height: 105;
 	-fx-pref-tile-width: 105;
+} 
+
+#obstaclesTab {
+	-fx-pref-tile-width: 150;
+	-fx-alignment: top-center;
 }

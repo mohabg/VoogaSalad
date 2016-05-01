@@ -3,10 +3,12 @@ package level;
 import Physics.PhysicsEngine;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import behaviors.*;
+import events.CollisionEvent;
 import events.Event;
 import events.EventManager;
 import events.KeyPressEvent;
 import events.KeyPressTrigger;
+import collisions.*;
 import gameElements.*;
 import gameplayer.SpriteFactory;
 import goals.Goal;
@@ -58,6 +60,7 @@ public class Level implements ILevel {
 		goalFactory = new GoalFactory();
 		actions = new Actions();
 		myEventManager = new EventManager();
+		Event hardCoded = new CollisionEvent("pictures/shootbullet.png", "pictures/black_ship.png", new PointsCollision(10), new EnemyCollision());
 		Event shooting = new KeyPressEvent(new KeyPressTrigger(KeyCode.SPACE),new Gun());
 		Event defense = new KeyPressEvent(new KeyPressTrigger(KeyCode.SHIFT),new Shield());
 		Event forward = new KeyPressEvent(new KeyPressTrigger(KeyCode.UP),new ThrustVertical(-1));
@@ -66,6 +69,7 @@ public class Level implements ILevel {
 		Event right = new KeyPressEvent(new KeyPressTrigger(KeyCode.RIGHT), new ThrustHorizontal(1));
 		Event turnRight = new KeyPressEvent(new KeyPressTrigger(KeyCode.A), new MoveTurn(2));
 		Event turnLeft = new KeyPressEvent(new KeyPressTrigger(KeyCode.D), new MoveTurn(358));
+		myEventManager.addEvent(hardCoded);
 		myEventManager.addEvent(shooting);
 		myEventManager.addEvent(defense);
 		myEventManager.addEvent(forward);
