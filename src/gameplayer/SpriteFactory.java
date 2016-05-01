@@ -43,7 +43,8 @@ public class SpriteFactory {
 		return this.myViewSprites;
 	}
 	public Sprite makeSprite(double x, double y, RefObject myRef){
-		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new ArrayList<Behavior>(), myRef);
+
+		return makeSprite(x, y, new Health(), new ArrayList<Collision>(), new ArrayList< Behavior>(), myRef);
 	}
 
 	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
@@ -56,6 +57,7 @@ public class SpriteFactory {
 
 	}
 	private Sprite createAndBindSprite(Health myHealth, List<Collision> myCollisions, List<Behavior> myBehaviors,
+
 			RefObject myRef, ViewSprite vs, ISpriteProperties sp) {
 		//TEMPORARY
 		Sprite s = new Sprite(sp, myHealth, myCollisions, myBehaviors, myRef);
@@ -71,7 +73,8 @@ public class SpriteFactory {
 		double imageHeight = vs.getMySpriteProperties().getHeight();
 		clone.setWidth(imageWidth);
 		clone.setHeight(imageHeight);
-		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new SimpleListProperty<Behavior>(), myRef, vs, clone);
+
+		return createAndBindSprite(new Health(), new ArrayList<Collision>(), new ArrayList<Behavior>(), myRef, vs, clone);
 	}
 	
 	public Sprite clone(ISprite sprite){

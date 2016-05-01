@@ -90,7 +90,9 @@ public class GameEditor implements IGameEditor {
 			alert.setContentText("I have a great message for you!");
 
 			alert.showAndWait();
+<<<<<<< HEAD
 			*/
+
 			myGame.restartGame();
 		}
 

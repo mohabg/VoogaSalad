@@ -33,7 +33,6 @@ public class Sprite implements ISprite{
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 	private ListProperty<Behavior> myBehaviors;
-//	private MapProperty<StringProperty, Behavior> behaviors;
 
 	private RefObject myRef;
 
@@ -54,9 +53,12 @@ public class Sprite implements ISprite{
 		ObservableList<Behavior> myBehaviorsList = FXCollections.observableList(new ArrayList<Behavior>());
 		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorsList);
 
-	//	ObservableMap<StringProperty, Behavior> om1 = FXCollections
-	//			.observableMap(new HashMap<StringProperty, Behavior>());
-//		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1);
+	/*	ObservableMap<StringProperty, Behavior> om1 = FXCollections
+				.observableMap(new HashMap<StringProperty, Behavior>());
+		behaviors = new SimpleMapProperty<StringProperty, Behavior>(om1); */
+		
+		ObservableList<Behavior> myBehaviorList = FXCollections.observableList(new ArrayList<Behavior>());
+		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorList);
 
 		ObservableMap<KeyCode, Executable> om2 = FXCollections.observableMap(new HashMap<KeyCode, Executable>());
 
@@ -105,7 +107,8 @@ public class Sprite implements ISprite{
 	}
 	
 	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions, RefObject myRef){
-		this(myProperties, myHealth, myCollisions, new SimpleListProperty<Behavior>(), myRef);
+
+		this(myProperties, myHealth, myCollisions, new ArrayList<Behavior>(), myRef);
 	}
 	
 	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions,
@@ -113,19 +116,14 @@ public class Sprite implements ISprite{
 		this(myRef);
 	
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);
-		
-		
-		
-		ObservableList<Behavior> myBehaviorsList = FXCollections.observableList(new ArrayList<Behavior>());
-		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorsList);
-		
-	//	Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
-	//	ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
+	
+		ObservableList<Behavior> behaviorList=FXCollections.observableList(myBehaviors);
+		//Map<StringProperty, Behavior> testMap = changeKeysToProperties(myBehaviors);		
+		//ObservableMap<StringProperty, Behavior> om2 = FXCollections.observableMap(testMap);
 		
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
-		
-		//this.myBehaviors.set(om2);
+		this.myBehaviors.set(behaviorList);
 		//this.behaviors.set(om2);
 	}
 
@@ -135,6 +133,7 @@ public class Sprite implements ISprite{
 		this.myProperties = properties;
 		this.myHealth = health;
 		this.myBehaviors.set(behaviors);
+	//	this.behaviors.set(behaviors);
 	}
 
 
