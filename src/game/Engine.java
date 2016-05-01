@@ -130,8 +130,6 @@ public class Engine {
     
     public void gameLoop() {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
-    //	System.out.println("game loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
-
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME),
                 event -> {
                     isGameFinished = myEditor.getGame().getIsFinished();
@@ -144,7 +142,6 @@ public class Engine {
                         stage.showAndWait();
                     }
                     myEditor.updateGame();
-             //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
                     currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
 
                 });
@@ -209,8 +206,5 @@ public class Engine {
     public IntegerProperty getCurrentLevelID(){
     	return currentLevelID;
     }
-    /*public void setResultForKeyPress(KeyEvent event) {
-    	myEditor.setResultForKeyPress(event);
-    }*/
 
 }
