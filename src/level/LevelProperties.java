@@ -45,6 +45,7 @@ public class LevelProperties {
 	
 	public LevelProperties() {
 		score = new Score();
+		time = new Time();
 		goalCount = new SimpleIntegerProperty(0);
 		isFinished = new SimpleBooleanProperty(false);
 //		shouldRestart = new SimpleBooleanProperty(false);

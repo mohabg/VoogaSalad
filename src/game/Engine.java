@@ -35,7 +35,6 @@ public class Engine {
 	private EventManager myEventManager;
 	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
-	private Time myGameTime;
 	private boolean isPaused;
 //    private PlayScreen myGameScreen;
 
@@ -45,7 +44,6 @@ public class Engine {
 //		this.myGameScreen = myGameScreen;
 		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
-		myGameTime = new Time();
 //		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 	}
@@ -124,12 +122,10 @@ public class Engine {
     
     public void gameLoop() {
     	myGameLoop.setCycleCount(Timeline.INDEFINITE );
-    	myGameTime = new Time();
     //	System.out.println("game loop"+ myEditor.getCurrentLevel().getGoalList().size()); 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(TIME_PER_FRAME), 
             new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                	myGameTime.updateTime();
                     myEditor.updateGame();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
                     currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
@@ -152,14 +148,7 @@ public class Engine {
     	isPaused = false;
     	myGameLoop.play();
     }
-    
-    public double getGameTimeInSeconds() {
-    	return myGameTime.getTime()/1000;
-}
 
-    public DoubleProperty getTimeProperty() {
-    	return myGameTime.getMyCurrentTimeProperty();
-    }
     
     public IntegerProperty getCurrentLevelID(){
     	return currentLevelID;

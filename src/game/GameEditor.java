@@ -3,6 +3,7 @@ package game;
 import java.util.List;
 
 import gameElements.ISprite;
+import gameElements.Time;
 import authoringEnvironment.Settings;
 import gameElements.ViewPoint;
 import goals.Goal;
@@ -22,7 +23,6 @@ import level.LevelProperties;
 public class GameEditor implements IGameEditor {
 
 	private Game myGame;
-
 	public GameEditor() {
 		myGame = new Game(new SimpleDoubleProperty(Settings.getScreenWidth()), new SimpleDoubleProperty(Settings.getScreenHeight()));
 	}
@@ -88,7 +88,6 @@ public class GameEditor implements IGameEditor {
 		//System.out.println(myGame.getCurrentLevel().getLevelProperties().getShouldRestart().getValue());
 		//myGame.getCurrentLevel().getCurrentSprite().kill();
 	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
-
 		myGame.getCurrentLevel().update();
 	//	System.out.println(myGame.getCurrentLevel().getCurrentSprite().isDead());
 		

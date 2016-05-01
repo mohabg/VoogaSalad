@@ -119,7 +119,7 @@ public class Level implements ILevel {
 		updateSprites();
 		myEventManager.doEvents(actions,getLevelProperties());
 		setisFinished(completeGoals());
-
+		this.levelProperties.getTime().updateTime();
 	}
 
 	public void deleteSprite(Integer spriteID) {
