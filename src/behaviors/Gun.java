@@ -26,7 +26,7 @@ public class Gun extends Attack{
     @Override
     public void shoot(IActions actions) {
     		ISpriteProperties properties = actions.getSpriteProperties();
-        	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
+        	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), properties.getAngle(), getMyRef());
             bullet.setUserControlled(actions.isUserAction());
             getMovement().enable();
             bullet.addBehavior(getMovement());

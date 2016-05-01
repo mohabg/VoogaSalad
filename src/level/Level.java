@@ -26,6 +26,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import keyboard.IKeyboardAction;
@@ -279,5 +280,10 @@ public class Level implements ILevel {
 	}
 	public void setEnableGravity(BooleanProperty booleanProperty){
 		this.physicsEngine.setEnableGravity(booleanProperty);
+	}
+
+	public void setStartTime(DoubleProperty time) {
+		this.levelProperties.getTime().setMyCurrentTime(time);
+		
 	}
 }

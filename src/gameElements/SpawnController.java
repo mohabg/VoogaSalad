@@ -2,6 +2,7 @@ package gameElements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,25 +14,15 @@ import gameplayer.SpriteFactory;
 public class SpawnController {
 	
 	private SpriteFactory spriteFactory;
-	private List<ISprite> spritesToSpawn;
-	
-	public SpawnController(){
-		this(null);
-	}
 	
 	public SpawnController(SpriteFactory spriteFactory){
-		spritesToSpawn = new ArrayList<>();
 		this.spriteFactory = spriteFactory;
-		for(ISprite sprite : this.getSpriteFactory().getSpriteMap().getSprites()){
-			if(!sprite.equals(this.spriteFactory.getSpriteMap().getUserControlledSprite())){
-				spritesToSpawn.add(sprite);
-			}
-		}
 	}
 	
 	public void update(){
-		for(ISprite sprite : this.spritesToSpawn){
-			this.accept(sprite.getSpawnConditions());
+		Iterator<ISprite> spriteIt = this.spriteFactory.getSpriteMap().getSprites().iterator();
+		while(spriteIt.hasNext()){
+			this.accept(spriteIt.next().getSpawnConditions());
 		}
 	}
 	public void accept(SpawnConditions conditions){
@@ -43,14 +34,6 @@ public class SpawnController {
 
 	public SpriteFactory getSpriteFactory() {
 		return this.spriteFactory;
-	}
-
-	public List<ISprite> getSpritesToSpawn() {
-		return spritesToSpawn;
-	}
-
-	public void setSpritesToSpawn(List<ISprite> spritesToSpawn) {
-		this.spritesToSpawn = spritesToSpawn;
 	}
 
 	

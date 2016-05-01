@@ -24,7 +24,6 @@ public class MoveTurn extends Movement {
 	public void move(IActions actions) {
 		ISpriteProperties properties = actions.getSpriteProperties();
 		properties.setAngle(properties.getAngle() + getValue());
-		
 	}
 
 	@Override

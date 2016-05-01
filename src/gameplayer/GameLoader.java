@@ -129,6 +129,7 @@ public class GameLoader {
 		setLevelProperties(lp,id,"level"+id);
 		lp.setGoalList(lm.getMyGoals());
 		newLevel.setEnableGravity(lm.getEnableGravity());
+		newLevel.setStartTime(lm.getStartTime());
 		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
 		lp.setNumGoals(lm.getNumGoals());
 		newLevel.setEvents(lm.getMyEvents());

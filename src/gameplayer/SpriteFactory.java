@@ -4,7 +4,6 @@ import authoringEnvironment.RefObject;
 import authoringEnvironment.ViewSprite;
 import behaviors.Behavior;
 import behaviors.Gun;
-import behaviors.MoveVertically;
 import collisions.Collision;
 import events.Executable;
 import gameElements.Health;
@@ -42,39 +41,14 @@ public class SpriteFactory {
 	public Map<Integer, ViewSprite> getMyViewSprites(){
 		return this.myViewSprites;
 	}
-	/*
-	public Sprite makeSprite(double x, double y, RefObject myRef){
-		return makeSprite(x, y, new Health(), new ArrayList<>(), new ArrayList<>(), myRef);
-	}
-*/
-	/*
-	public Sprite makeSprite(double x, double y, Health myHealth, List<Collision> myCollisions,
-			List<Behavior> behaviors, RefObject myRef) {
-		//TEMPORARY
-		ViewSprite vs = new ViewSprite(myRef.getMyRef());
-		ISpriteProperties sp = vs.getMySpriteProperties();
-		ObservableList<Collision> ol = FXCollections.observableList(myCollisions);
-		ObservableList<Behavior> bl = FXCollections.observableList(new ArrayList<>());
-		ListProperty<Behavior> myBehaviors = new SimpleListProperty<Behavior>(bl);
-		for(Behavior behavior : behaviors){
-			myBehaviors.add(behavior.getClone());
-		}
-		ListProperty<Collision> collisions = new SimpleListProperty<Collision>(ol);
-		ObservableList<Behavior> behaviorsList = FXCollections.observableList(myBehaviors);
-		ListProperty<Behavior> newBehaviors = new SimpleListProperty<Behavior>(behaviorsList);
-		Sprite sprite = createAndBindSprite(myHealth, collisions, newBehaviors, myRef, vs, sp);
-		sprite.getSpriteProperties().setX(x);
-		sprite.getSpriteProperties().setY(y);
-		return sprite;
-	}
-	*/
-
-	public Sprite makeSprite(double x, double y, RefObject myRef) {
+	
+	public Sprite makeSprite(double x, double y, double angle, RefObject myRef) {
 		ViewSprite vs = new ViewSprite(myRef.getMyRef());
 		Sprite sprite = createAndBindSprite(new Health(), toCollisionListProperty(new ArrayList<Collision>()), 
 									toBehaviorListProperty(new ArrayList<Behavior>()), myRef, vs, vs.getMySpriteProperties());
 		sprite.getSpriteProperties().setX(x);
 		sprite.getSpriteProperties().setY(y);
+		sprite.getSpriteProperties().setAngle(angle);
 		return sprite;
 	}
 	

@@ -48,10 +48,8 @@ public class PhysicsEngine {
 	}
 
 	private void updateXVelocity(ISprite sprite) {
-		if(!this.isGravityEnabled()){
 			double newXVel= sprite.getSpriteProperties().getXVel() * getDrag().getValue();
 			sprite.getSpriteProperties().setXVel(newXVel);
-		}
 	}
 
 	private void updateYVelocity(ISprite sprite, double elapsedTime) {

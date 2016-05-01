@@ -47,6 +47,7 @@ public class Sprite implements ISprite{
 	public Sprite(RefObject myRef) {
 		this.myRef = myRef;
 		this.spawnConditions = new SpawnConditions();
+		this.spawnConditions.setSpriteToSpawn(this);
 		myProperties = new SpriteProperties();
 		ObservableList<Collision> myCollisionList = FXCollections.observableList(new ArrayList<Collision>());
 		myCollisions = new SimpleListProperty<Collision>(myCollisionList);

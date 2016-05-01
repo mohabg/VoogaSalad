@@ -1,6 +1,7 @@
 package gameElements;
 
 import authoringEnvironment.Settings;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -16,7 +17,9 @@ public class SpawnConditions extends ExecuteConditions{
 
 	private double MY_SCREEN_RANGE =  0.4 * Settings.getScreenWidth();
     private IntegerProperty numberToSpawn;
-
+    @IgnoreField
+    private ISprite spriteToSpawn;
+    
 	public SpawnConditions(){
         super();
         this.numberToSpawn = new SimpleIntegerProperty(0);
@@ -43,20 +46,18 @@ public class SpawnConditions extends ExecuteConditions{
 
 	public void visit(SpawnController aiController) {
 		if(this.isAIReady()){
-            for(ISprite sprite : aiController.getSpritesToSpawn()){
-                if(sprite.getSpriteProperties().canMove()){
+                if(spriteToSpawn.getSpriteProperties().canMove()){
                 	List<Point> points = this.getSpawnPositions();
                 	for(int i = 0; i < this.numberToSpawn.get(); i++){
-                		spawnSprite(aiController, sprite, points.get(i));
+                		spawnSprite(aiController, spriteToSpawn, points.get(i));
                 	}
                 }
                 else{
                 	List<Point> points = this.getSpawnPositions(Settings.getScreenHeight());
                 	for(int i = 0; i < this.numberToSpawn.get(); i++){
-                		spawnSprite(aiController, sprite, points.get(i));
+                		spawnSprite(aiController, spriteToSpawn, points.get(i));
                 	}
                 }
-            }
 		}
 	}
 	protected void spawnSprite(SpawnController aiController, ISprite sprite, Point point) {
@@ -75,5 +76,8 @@ public class SpawnConditions extends ExecuteConditions{
     public void setNumberToSpawn(int numberToSpawn) {
         this.numberToSpawn.set(numberToSpawn);
     }
+	public void setSpriteToSpawn(ISprite spriteToSpawn) {
+		this.spriteToSpawn = spriteToSpawn;
+	}
 
 }

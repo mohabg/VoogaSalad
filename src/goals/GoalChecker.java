@@ -56,7 +56,10 @@ public class GoalChecker implements IGoalVisitor{
 		return bossBoolean;
 	}
 	
-
+	public boolean visit(TimeGoal goal){
+		return this.getLevel().getLevelProperties().getTime().getTime() <= goal.getEndTime().doubleValue();
+	}
+	
 	@Override
 	public boolean visit(Goal goal) {
 		System.out.println("reached blank checker");

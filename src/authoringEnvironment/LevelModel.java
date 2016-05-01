@@ -11,9 +11,11 @@ import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -35,6 +37,7 @@ public class LevelModel {
 	private ListProperty<Goal> myGoals;
 	private ListProperty<Event> myEvents;
 	private BooleanProperty enableGravity;
+	private DoubleProperty startTime;
 	@IgnoreField
 	private IntegerProperty numGoals;
 	@IgnoreField
@@ -46,7 +49,7 @@ public class LevelModel {
 		myBackground = new SimpleStringProperty();
 		enableGravity = new SimpleBooleanProperty();
 		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
-
+		startTime = new SimpleDoubleProperty(0);
 		myEvents = new SimpleListProperty<Event>(FXCollections.<Event>observableList(new ArrayList<Event>()));
 		numGoals = new SimpleIntegerProperty(1);
 		myList = new ArrayList<Sprite>();
@@ -91,9 +94,16 @@ public class LevelModel {
 		return myEvents;
 	}
 
-
 	public void setBackground(String background) {
 		myBackground.setValue(background);	
+	}
+
+	public DoubleProperty getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(DoubleProperty startTime) {
+		this.startTime = startTime;
 	}
 
 	public void addSprites(List<Sprite> list) {

@@ -35,7 +35,7 @@ public abstract class Attack extends Behavior {
 	}
 	
 	public Attack(RefObject myRef){
-		this(myRef, 1 , new MoveVertically());
+		this(myRef, 1 , new MoveForward());
 	}
 
 	public Attack(RefObject myRef, int ammunition, Movement movement) {
