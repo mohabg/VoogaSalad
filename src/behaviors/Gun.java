@@ -45,4 +45,9 @@ public class Gun extends Attack{
             bullet.addBehavior(movement);
         	setAmmunition(getAmmunition() - 1);
     }
+
+	@Override
+	public Behavior getClone() {
+		return new Gun(this.getMyRef());
+	}
 }

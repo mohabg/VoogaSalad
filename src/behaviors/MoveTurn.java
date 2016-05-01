@@ -27,4 +27,9 @@ public class MoveTurn extends Movement {
 		
 	}
 
+	@Override
+	public Behavior getClone() {
+		return new MoveTurn(this.getValue());
+	}
+
 }

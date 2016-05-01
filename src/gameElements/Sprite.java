@@ -33,6 +33,7 @@ public class Sprite implements ISprite{
 	private Health myHealth;
 	private ListProperty<Collision> myCollisions;
 	private ListProperty<Behavior> myBehaviors;
+	private SpawnConditions spawnConditions;
 
 	private RefObject myRef;
 
@@ -46,6 +47,7 @@ public class Sprite implements ISprite{
 
 	public Sprite(RefObject myRef) {
 		this.myRef = myRef;
+		this.spawnConditions = new SpawnConditions();
 		myProperties = new SpriteProperties();
 		ObservableList<Collision> myCollisionList = FXCollections.observableList(new ArrayList<Collision>());
 		myCollisions = new SimpleListProperty<Collision>(myCollisionList);
@@ -53,48 +55,9 @@ public class Sprite implements ISprite{
 		ObservableList<Behavior> myBehaviorsList = FXCollections.observableList(new ArrayList<Behavior>());
 		myBehaviors = new SimpleListProperty<Behavior>(myBehaviorsList);
 
-		myBehaviors.sizeProperty().addListener((o, ov, nv) -> {
-			System.out.println("i changed");
-		});
-
 
 		myHealth = new Health(100);
 		myCollisions.add(new EnemyCollision());
-
-//		Attack gun = new Gun();
-//		addBehavior(gun);
-//		userPressBehaviors.put(KeyCode.SPACE, gun);
-//		gun.getBehaviorConditions().setProbability(0.5);
-//		
-//		Defense shield = new Shield();
-//		addBehavior(shield);
-//		userPressBehaviors.put(KeyCode.SHIFT, shield);
-//
-//
-//		Behavior thrustForward = new ThrustVertical(-1);
-//		addBehavior(thrustForward);
-//		userPressBehaviors.put(KeyCode.UP, thrustForward);
-//
-//		Behavior thrustReverse = new ThrustVertical(1);
-//		userPressBehaviors.put(KeyCode.DOWN, thrustReverse);
-//		addBehavior(thrustReverse);
-//		
-//		Behavior moveLeft = new ThrustHorizontal(-1);
-//		userPressBehaviors.put(KeyCode.LEFT, moveLeft);
-//		addBehavior(moveLeft);
-//
-//		Behavior moveRight = new ThrustHorizontal(1);
-//		userPressBehaviors.put(KeyCode.RIGHT, moveRight);
-//		addBehavior(moveRight);
-//		
-//		Behavior moveTurnRight = new MoveTurn(2);
-//		userPressBehaviors.put(KeyCode.A, moveTurnRight);
-//		addBehavior(moveTurnRight);
-//		
-//		Behavior moveTurnLeft = new MoveTurn(358);
-//		userPressBehaviors.put(KeyCode.D, moveTurnLeft);
-//		addBehavior(moveTurnLeft);
-
 	}
 	
 	public Sprite(ISpriteProperties myProperties, Health myHealth, List<Collision> myCollisions, RefObject myRef){
@@ -107,11 +70,11 @@ public class Sprite implements ISprite{
 		this(myRef);	
 		ObservableList<Collision> ol = FXCollections.observableArrayList(myCollisions);	
 		ObservableList<Behavior> behaviorList=FXCollections.observableList(myBehaviors);
-	
+
+		this.myCollisions.set(ol);
 		this.myProperties = myProperties;
 		this.myHealth = myHealth;
 		this.myBehaviors.set(behaviorList);
-		this.myCollisions.set(ol);
 	}
 
 	public Sprite(ISpriteProperties properties, Health health, ListProperty<Collision> myCollisions,
@@ -146,7 +109,6 @@ public class Sprite implements ISprite{
 	public void addBehavior(Behavior behavior) {
 		this.getBehaviors().add(behavior);
 	}
-
 	public String getMyRef() {
 		return myRef.getMyRef();
 	}
@@ -280,5 +242,13 @@ public class Sprite implements ISprite{
 	@Override
 	public ListProperty<Behavior> getBehaviors() {
 		return this.myBehaviors;
+	}
+
+	public SpawnConditions getSpawnConditions() {
+		return spawnConditions;
+	}
+
+	public void setSpawnConditions(SpawnConditions spawnConditions) {
+		this.spawnConditions = spawnConditions;
 	}
 }

@@ -45,4 +45,5 @@ public abstract class Behavior implements Executable{
 	public void setBehaviorConditions(ExecuteConditions behaviorConditions) {
 		this.behaviorConditions = behaviorConditions;
 	}
+	public abstract Behavior getClone();
 }

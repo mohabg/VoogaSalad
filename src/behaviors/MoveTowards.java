@@ -3,7 +3,7 @@ package behaviors;
 public class MoveTowards extends Movement{
 
 	public MoveTowards(){
-		
+		super();
 	}
 	
 	@Override
@@ -11,6 +11,11 @@ public class MoveTowards extends Movement{
 		double thisX = actions.getSpriteProperties().getX();
 		double thisY = actions.getSpriteProperties().getY();
 		
+	}
+
+	@Override
+	public Behavior getClone() {
+		return new MoveTowards();
 	}
 
 }
