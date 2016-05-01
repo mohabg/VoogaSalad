@@ -7,9 +7,12 @@ import gameElements.Time;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Alert;
 import javafx.util.Duration;
 import level.Level;
 import level.LevelProperties;
@@ -30,6 +33,7 @@ public class Engine {
 	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
 	private boolean isPaused;
+	private BooleanProperty isGameFinished;
 //    private PlayScreen myGameScreen;
 
 
@@ -40,6 +44,7 @@ public class Engine {
 		myGameLoop = new Timeline();
 //		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
+		isGameFinished = new SimpleBooleanProperty(false);
 	}
 	
 	public Engine(IGameEditor editor) {
@@ -122,6 +127,7 @@ public class Engine {
                 event -> {
 //                	myGameTime.updateTime();
                     myEditor.updateGame();
+                    isGameFinished = myEditor.getGame().getIsFinished();
              //       myEditor.getGame().getViewPoint().updateViewPoint(getCurrentLevel());
                     currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
 
@@ -131,6 +137,14 @@ public class Engine {
         playGameLoop();
         if ( isPaused )
         	pauseGameLoop();
+        if ( isGameFinished.getValue() ) {
+        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        	alert.setTitle("Game Information");
+        	alert.setHeaderText("Game Result");
+        	alert.setContentText("Congrats you've won the game bitch");
+        	alert.showAndWait();       	
+        }
+        	
     }
     
     public void pauseGameLoop() {
