@@ -22,6 +22,7 @@ import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
@@ -276,7 +277,7 @@ public class Level implements ILevel {
 	public void setEvents(List<Event> myEvents) {
 		this.myEventManager.setEvents(myEvents);
 	}
-	public void setEnableGravity(boolean enable){
-		this.physicsEngine.setEnableGravity(enable);
+	public void setEnableGravity(BooleanProperty booleanProperty){
+		this.physicsEngine.setEnableGravity(booleanProperty);
 	}
 }

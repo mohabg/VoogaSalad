@@ -101,10 +101,6 @@ public class Engine {
     public Integer getUserSprite() {
         return myEditor.getUserSprite();
     }
-
-    public void setSpriteActions() {
-        myEditor.setSpriteActions();
-    }
     
     public void setUserSprite(Integer sprite) {
     	myEditor.setUserSprite(sprite);
@@ -153,12 +149,7 @@ public class Engine {
                         StackPane pane = new StackPane();
                         pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
                         stage.setScene(new Scene(pane, 700, 700));
-                        stage.showAndWait();
-                    	/*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                		alert.setTitle("Game Information");
-                		alert.setHeaderText("Game Result");
-                		alert.setContentText("Congrats you've won the game bitch");
-                		alert.showAndWait(); */                   
+                        stage.showAndWait();                  
                     }
                 });
 
@@ -168,13 +159,7 @@ public class Engine {
         if ( isPaused )
         	pauseGameLoop();
         if ( isGameFinished.getValue() ) {
-        	myGameLoop.stop();
-        	/*pauseGameLoop();
-        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        	alert.setTitle("Game Information");
-        	alert.setHeaderText("Game Result");
-        	alert.setContentText("Congrats you've won the game bitch");
-        	alert.showAndWait();*/       	
+        	myGameLoop.stop();     	
         }
         	
     }

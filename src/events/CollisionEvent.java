@@ -28,8 +28,6 @@ public class CollisionEvent extends Event {
 
 	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
 		super("", new CollisionChecker(), new CollisionHandler(one, two));
-		//setExecutable(new CollisionHandler(collisionOne, collisionTwo));
-		//setTrigger(new CollisionChecker());
 		spriteOneType = new SimpleStringProperty();
 		spriteOneType.set(typeOne);
 		spriteTwoType = new SimpleStringProperty();

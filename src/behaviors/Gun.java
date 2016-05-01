@@ -5,6 +5,7 @@ import authoringEnvironment.RefObject;
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
 import level.LevelProperties;
+import resources.BackEndData;
 
 /**
  * Describes the type of attack where ammunition from a sprite is fired. When applied, a bullet will come out. 
@@ -13,7 +14,7 @@ import level.LevelProperties;
 public class Gun extends Attack{
 
 	public Gun(){
-		this(new RefObject("pictures/shootbullet.png"));
+		this(new RefObject(new BackEndData().BACKENDPROPERTIES.getString("bullet")));
 	}
 	
 	public Gun(RefObject myRef){
@@ -29,7 +30,6 @@ public class Gun extends Attack{
             bullet.setUserControlled(actions.isUserAction());
             getMovement().enable();
             bullet.addBehavior(getMovement());
-        	setAmmunition(getAmmunition() - 1);
     }
 
 	@Override

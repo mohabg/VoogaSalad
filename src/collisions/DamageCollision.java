@@ -5,6 +5,7 @@ import behaviors.IActions;
 import gameElements.ISprite;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**

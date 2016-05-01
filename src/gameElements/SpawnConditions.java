@@ -41,7 +41,6 @@ public class SpawnConditions extends ExecuteConditions{
         return myPoints;
     }
 
-	@Override
 	public void visit(SpawnController aiController) {
 		if(this.isAIReady()){
             for(ISprite sprite : aiController.getSpritesToSpawn()){

@@ -63,7 +63,7 @@ public class ExecuteConditions {
 			double elapsedTime = System.currentTimeMillis() - runningTime;
 			if (elapsedTime >= frequency.doubleValue() * 1000) {
 				runningTime = System.currentTimeMillis();
-				if (getDistFromUser() >= getMinDistFromUser() && getDistFromUser() <= getMaxDistFromUser()) {
+				if (this.distFromUser.doubleValue() >= getMinDistFromUser() && this.distFromUser.doubleValue() <= getMaxDistFromUser()) {
 					return true;
 				}
 			}
@@ -112,8 +112,8 @@ public class ExecuteConditions {
 	}
 
 
-	public DoubleProperty getMinDistFromUser() {
-		return minDistFromUser;
+	public double getMinDistFromUser() {
+		return minDistFromUser.doubleValue();
 	}
 
 

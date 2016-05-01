@@ -78,7 +78,6 @@ public class Game {
 	}
 
 	public Level getCurrentLevel() {
-		// System.out.println(currLevelNum);
 		if(myGameLevels.get(currLevelNum).equals(null)){
 			System.out.println("hi");
         	Alert alert = new Alert(Alert.AlertType.INFORMATION);

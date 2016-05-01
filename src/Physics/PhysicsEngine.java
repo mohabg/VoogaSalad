@@ -57,10 +57,10 @@ public class PhysicsEngine {
 	private void updateYVelocity(ISprite sprite, double elapsedTime) {
 	    double newYVel;
 		if(this.isGravityEnabled()){
-			newYVel = sprite.getSpriteProperties().getYVel() * getDrag().getValue();
+			newYVel = sprite.getSpriteProperties().getYVel() + this.gravity.doubleValue() * elapsedTime;
 		}
 		else{
-			newYVel = sprite.getSpriteProperties().getYVel() + this.gravity.doubleValue() * elapsedTime;
+			newYVel = sprite.getSpriteProperties().getYVel() * getDrag().getValue();
 		}
 			sprite.getSpriteProperties().setYVel(newYVel);
 	}
@@ -76,8 +76,8 @@ public class PhysicsEngine {
 	public boolean isGravityEnabled() {
 		return enableGravity.get();
 	}
-	public void setEnableGravity(boolean enable) {
-		this.enableGravity.set(enable);
+	public void setEnableGravity(BooleanProperty booleanProperty) {
+		this.enableGravity = booleanProperty;
 		
 	}
 }

@@ -24,7 +24,6 @@ import level.LevelProperties;
 
 public abstract class Attack extends Behavior {
 	
-	private IntegerProperty ammunition;
 	private Movement movement;
 	private RefObject myRef;
 	@IgnoreField
@@ -41,7 +40,6 @@ public abstract class Attack extends Behavior {
 
 	public Attack(RefObject myRef, int ammunition, Movement movement) {
 		super();
-		this.ammunition = new SimpleIntegerProperty(ammunition);
 		this.movement = movement;
 		this.myRef = myRef;
 	}
@@ -77,16 +75,5 @@ public abstract class Attack extends Behavior {
 	}
 	public void setMovement(Movement movement) {
 		this.movement = movement;
-	}
-	public int getAmmunition() {
-		return ammunition.get();
-	}
-
-	public void setAmmunition(int ammunition) {
-		this.ammunition.set(ammunition);
-    }
-
-	public boolean hasAmmunitionLeft() {
-		return ammunition.get() > 0;
 	}
 }
