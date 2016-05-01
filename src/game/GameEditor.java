@@ -1,12 +1,12 @@
 package game;
 
+import java.util.List;
+import gameElements.ISprite;
+import gameElements.Time;
 import authoringEnvironment.Settings;
 import goals.Goal;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
-import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
@@ -18,7 +18,6 @@ import level.LevelProperties;
 public class GameEditor implements IGameEditor {
 
 	private Game myGame;
-
 	public GameEditor() {
 		myGame = new Game(new SimpleDoubleProperty(Settings.getScreenWidth()), 
 				new SimpleDoubleProperty(Settings.getScreenHeight()));
@@ -81,7 +80,6 @@ public class GameEditor implements IGameEditor {
 	}
 
 	public void updateGame() {
-
 		myGame.getCurrentLevel().update();
 		if (myGame.getCurrentLevel().getSpriteMap().getUserControlledSprite().isDead()){
 	// 		does restart game work???
@@ -109,5 +107,9 @@ public class GameEditor implements IGameEditor {
 	/*public void setResultForKeyPress(KeyEvent event) {
 		myGame.getCurrentLevel().handleKeyPress(event);
 	}*/
+
+    public void endMyGame(Alert myAlert){
+        myAlert.showAndWait();
+    }
 
 }

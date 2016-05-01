@@ -134,15 +134,15 @@ public class PlayScreen {
 
 	public DoubleProperty getTime() {
 		// TODO Auto-generated method stub
-		System.out.println(myEngine.getTimeProperty().doubleValue());
-		return myEngine.getTimeProperty();
+		return currentLevel.getLevelProperties().getTime().getMyCurrentTimeProperty();
 	}
+	
 	public DoubleProperty getHealth() {
 		System.out.println(myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty().doubleValue());
 		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
 	}
 	
-	public IntegerProperty getScore() {
+	public DoubleProperty getScore() {
 		System.out.println(myEngine.getCurrentLevel().getScore());
 		return myEngine.getCurrentLevel().getScore();
 	}

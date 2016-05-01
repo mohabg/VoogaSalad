@@ -1,4 +1,4 @@
-
+ 
 package behaviors;
 
 import authoringEnvironment.RefObject;
@@ -26,20 +26,25 @@ public class Gun extends Attack{
 	 */
     @Override
     public void shoot(IActions actions, LevelProperties levProps) {
-    		ISpriteProperties properties = actions.getSpriteProperties();
-        	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
-            bullet.setUserControlled(actions.isUserAction());
-            getMovement().enable();
-          //Setting movement through authoring environment not working
-            Behavior vertically;
-            if(bullet.isUserControlled()){
-            	vertically = new MoveVertically(-50);
-            }
-            else{
-            	vertically = new MoveVertically(50);
-            }
-            vertically.enable();
-             bullet.addBehavior(vertically);
-        	setAmmunition(getAmmunition() - 1);
+	    		ISpriteProperties properties = actions.getSpriteProperties();
+	        	ISprite bullet = actions.makeSprite(properties.getX(), properties.getY(), getMyRef());
+	            bullet.setUserControlled(actions.isUserAction());
+	            getMovement().enable();
+	          //Setting movement through authoring environment not working
+	            Behavior vertically;
+	            if(bullet.isUserControlled()){
+	            	vertically = new MoveVertically(-50);
+	            }
+	            else{
+	            	vertically = new MoveVertically(50);
+	            }
+	            vertically.enable();
+	             bullet.addBehavior(this.getMovement());
+	            setAmmunition(getAmmunition() - 1);
     }
+
+	@Override
+	public Behavior getClone() {
+		return new Gun(this.getMyRef());
+	}
 }

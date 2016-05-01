@@ -45,6 +45,7 @@ public class LevelProperties {
 	
 	public LevelProperties() {
 		score = new Score();
+		time = new Time();
 		goalCount = new SimpleIntegerProperty(0);
 		isFinished = new SimpleBooleanProperty(false);
 //		shouldRestart = new SimpleBooleanProperty(false);
@@ -173,9 +174,9 @@ public class LevelProperties {
 		this.time = time;
 	}
 
-	public Integer getCurrentPoints() {
+	public DoubleProperty getCurrentPoints() {
 		// return score.getScoreValue().get();
-		return getScore().getValue();
+		return getScore();
 	}
 
 	public void setCurrentPoints(Integer currentPoints) {
@@ -217,7 +218,7 @@ public class LevelProperties {
 	/*
 	 * public void setScore(Score score) { this.score = score; }
 	 */
-	public IntegerProperty getScore() {
+	public DoubleProperty getScore() {
 		return getScoreObject().getScoreValue();
 	}
 

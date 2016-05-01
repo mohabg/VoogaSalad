@@ -1,8 +1,5 @@
 package game;
 
-import java.util.List;
-
-import gameElements.Sprite;
 import gameElements.ViewPoint;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -13,6 +10,7 @@ import level.Level;
 import level.LevelProperties;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Can get/set information about the game in this class, including what the

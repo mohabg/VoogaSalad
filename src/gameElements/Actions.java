@@ -26,12 +26,6 @@ public class Actions implements IActions{
 	public Sprite makeSprite(double x, double y, RefObject myRef) {
 		return spriteFactory.makeSprite(x, y, myRef);
 	}
-
-	@Override
-	public Sprite makeSprite(double x, double y, ISpriteProperties clone, RefObject myRef) {
-		return spriteFactory.makeSprite(x, y, clone, myRef);
-	}
-
 	@Override
 	public ISpriteProperties getSpriteProperties() {
 		return sprite.getSpriteProperties();
