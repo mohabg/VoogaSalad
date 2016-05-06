@@ -36,8 +36,7 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 		myTabPane.getStylesheets().add(FrontEndData.MAINWINDOW_STYLESHEET);
 		myTabPane.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
 			Tab selectedTab = myTabPane.getSelectionModel().getSelectedItem();
-			
-				GameAuthoringTab gat = myGameTabs.get(selectedTab);
+            GameAuthoringTab gat = myGameTabs.get(selectedTab);
 			if (gat != null) {
 				gat.setCurrentSpriteNull();
 			}
@@ -110,7 +109,6 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 
 	public void setViewSprite(ViewSprite vs) {
 		getCurrentTab().setViewSprite(vs);
-
 	}
 
 	public void setBackground(String bg) {

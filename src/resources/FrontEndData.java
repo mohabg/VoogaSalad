@@ -56,4 +56,6 @@ public class FrontEndData {
             "spriteProperties", "events"};
     public static final String DEFAULT_BACKGROUND = "";
 
+    public static final String COPYIMAGE = "Copy Image Ref";
+
 }

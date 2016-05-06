@@ -1,12 +1,12 @@
 package authoringEnvironment;
 
 import authoringEnvironment.mainWindow.AClickableWindow;
+import authoringEnvironment.mainWindow.VisualManager;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.ObjectEditorController;
 import authoringEnvironment.settingsWindow.SettingsWindow;
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
-import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
 import javafx.scene.Node;
@@ -28,12 +28,12 @@ import java.util.Map;
  *
  */
 public class LiveEditing extends AClickableWindow implements IGameWindow {
-	PlayScreen ps;
+	private PlayScreen ps;
     private LevelModel myLevelModel;
     private Map<ISprite, TabPane> mySpriteMap;
     private SettingsWindow myWindow;
     private ObjectEditorController myOEC;
-
+    private VisualManager myVisualManager;
 
     public LiveEditing(PlayScreen myPlayScreen, SettingsWindow window) {
 		super();
@@ -41,6 +41,7 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 		myLevelModel = (new LevelModel(ps.getCurrentLevel()));
         mySpriteMap = new HashMap<>();
         myWindow = window;
+        myVisualManager = new VisualManager();
 		setMyNewGamePane(ps.getScreen().getPane());
 		getMyNewGamePane().getChildren().removeAll(ps.getViewSprites().values());
 		initArea();
@@ -83,8 +84,8 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
         ImageView mySprite = (ImageView) mySource;
         setOrgTranslateX(mySprite.getX());
         setOrgTranslateY(mySprite.getY());
-        setCurrentNode((ViewSprite) mySprite);
-        updateSettingsPane((ViewSprite) mySprite);
+        setCurrentNode(mySprite);
+        updateSettingsPane(mySprite);
     }
 
 
@@ -97,22 +98,8 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 				break;
 			}
 		}
-
-		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));
+		myWindow.setContent(myVisualManager.setSettingsContent(ps.getSprites().get(ID), mySpriteMap));
 	}
-
-    public VBox setSettingsContent(ISprite iSprite) {
-        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
-        TabPane propertiesPane = new TabPane();
-        if (mySpriteMap.containsKey(iSprite)) {
-            propertiesPane = mySpriteMap.get(iSprite);
-        } else {
-            propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
-            mySpriteMap.put(iSprite, propertiesPane);
-        }
-        myBox.getChildren().add(propertiesPane);
-        return myBox;
-    }
 
     public VBox setSettingsContent(LevelModel myLevel) {
 		setCurrentNode(null);
@@ -136,20 +123,12 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 
     }
 
-    public void updateSpriteMap(ViewSprite copy, Sprite sprite) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public ViewSprite initViewSprite(ViewSprite viewsprite) {
 		// bind viewpoint
 		ISpriteProperties spriteProps = viewsprite.getMySpriteProperties();
-		
 		addWithClicking(viewsprite);
-		
 		return viewsprite;
 	}
-
 
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
