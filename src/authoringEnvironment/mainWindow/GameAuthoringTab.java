@@ -54,6 +54,15 @@ public class GameAuthoringTab extends AClickableWindow {
 		mySpriteMap.keySet().forEach(c -> addWithClicking(c));
 	}
 
+    public ViewSprite initViewSprite(ViewSprite viewsprite) {
+        AESpriteFactory sf = new AESpriteFactory();
+        ViewSprite copy = sf.clone(viewsprite);
+        Sprite sprite = sf.makeSprite(copy);
+        mySpriteMap.put(copy, sprite);
+        addWithClicking(copy);
+        return copy;
+    }
+
     @Override
     public void rightClickEvent(Node currNode, double x, double y) {
         ViewSprite myCurrSprite = (ViewSprite) currNode;
@@ -79,15 +88,6 @@ public class GameAuthoringTab extends AClickableWindow {
         updateSettingsPane(mySprite);
     }
 
-    public ViewSprite initViewSprite(ViewSprite viewsprite) {
-        AESpriteFactory sf = new AESpriteFactory();
-        ViewSprite copy = sf.clone(viewsprite);
-        Sprite sprite = sf.makeSprite(copy);
-        mySpriteMap.put(copy, sprite);
-        addWithClicking(copy);
-        return copy;
-    }
-
 	public List<Sprite> getList() {return mySpriteMap.values().stream().collect(Collectors.toList());}
 
 	public Tab getTab() {
@@ -109,5 +109,4 @@ public class GameAuthoringTab extends AClickableWindow {
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
 
     public void updateSettingsPane(LevelModel clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(clickedSprite));}
-
 }
