@@ -56,8 +56,6 @@ public abstract class AClickableWindow {
 		myWindow = window;
 		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
-	
-		
 		initGamePane();
 		initOEC();
 		initViewpoint();
@@ -67,7 +65,6 @@ public abstract class AClickableWindow {
 		myNewGamePane = new AnchorPane();
 		setBackground("");
 	}
-
 	
 	private void initOEC() {
 		myOEC = new ObjectEditorController(Arrays.asList("authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
@@ -88,7 +85,6 @@ public abstract class AClickableWindow {
 			ViewSprite dragSource = (ViewSprite) t.getSource();
 			dragSource.setX(newTranslateX);
 			dragSource.setY(newTranslateY);
-			
 			t.consume();
 		}
 	};
@@ -116,7 +112,6 @@ public abstract class AClickableWindow {
 	public void initViewpoint() {
 		absoluteX = new SimpleDoubleProperty(0);
 		absoluteY = new SimpleDoubleProperty(0);
-		
 		absoluteX.addListener((o, ov, nv) -> {
 			double change = nv.doubleValue() - ov.doubleValue();
 			BackgroundImage myIm = getMyNewGamePane().getBackground().getImages().get(0);
@@ -127,10 +122,8 @@ public abstract class AClickableWindow {
 			Side verSide = myIm.getPosition().getVerticalSide();
 			boolean horPerc = myIm.getPosition().isHorizontalAsPercentage();
 			boolean verPerc = myIm.getPosition().isVerticalAsPercentage();
-			
 			BackgroundPosition newPos = new BackgroundPosition(horSide, horPos, horPerc, verSide, verPos, verPerc);
 			BackgroundImage newIm = new BackgroundImage(myIm.getImage(), myIm.getRepeatX(), myIm.getRepeatX(), newPos, myIm.getSize());
-			
 			getMyNewGamePane().setBackground(new Background(newIm));
 		});
 		
@@ -144,10 +137,8 @@ public abstract class AClickableWindow {
 			Side verSide = myIm.getPosition().getVerticalSide();
 			boolean horPerc = myIm.getPosition().isHorizontalAsPercentage();
 			boolean verPerc = myIm.getPosition().isVerticalAsPercentage();
-			
 			BackgroundPosition newPos = new BackgroundPosition(horSide, horPos, horPerc, verSide, verPos, verPerc);
 			BackgroundImage newIm = new BackgroundImage(myIm.getImage(), myIm.getRepeatX(), myIm.getRepeatX(), newPos, myIm.getSize());
-			
 			getMyNewGamePane().setBackground(new Background(newIm));
 		});
 		
@@ -166,7 +157,6 @@ public abstract class AClickableWindow {
 	 *            model used to generate visual elements that are added to a new
 	 *            VBox and displayed in the Settings Window
 	 */
-
 	public VBox setSettingsContent(ISprite iSprite) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesPane = new TabPane();
@@ -207,7 +197,6 @@ public abstract class AClickableWindow {
 	public Pane getMyNewGamePane() {
 		return myNewGamePane;
 	}
-	
 	
 	public abstract ViewSprite initViewSprite(ViewSprite viewsprite);
 	

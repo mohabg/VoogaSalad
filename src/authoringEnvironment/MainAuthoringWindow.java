@@ -2,6 +2,7 @@ package authoringEnvironment;
 
 import authoringEnvironment.authoringToolbar.AuthoringMenubarCreator;
 import authoringEnvironment.authoringToolbar.LEMenuBarCreator;
+import authoringEnvironment.itemWindow.ItemTab;
 import authoringEnvironment.itemWindow.ItemWindow;
 import authoringEnvironment.mainWindow.GameMakerWindow;
 import authoringEnvironment.settingsWindow.SettingsWindow;
@@ -18,6 +19,7 @@ import resources.FrontEndData;
  */
 
 public class MainAuthoringWindow extends Screen {
+	private ItemTab myItemTab;
     private ItemWindow myItemWindow;
     //	private AbstractMenuBar myMenubar;
     private GameMakerWindow myGameMakerWindow;
@@ -33,7 +35,14 @@ public class MainAuthoringWindow extends Screen {
         initBorderPane();
         ((BorderPane) myPane).setCenter(myGameMakerWindow.getTabPane());
         myGameMakerWindow.init();
-        myItemWindow = new ItemWindow(myGameMakerWindow);
+        
+        myItemTab = new ItemTab();
+        myItemTab.addImageToTab("pictures/player/galaga_ship.png");
+        
+        myItemWindow = new ItemWindow();
+        myItemWindow = new ItemWindow();
+        myItemWindow.addNewTab(myItemTab.getTab());
+      
         AuthoringMenubarCreator myMenubar = new AuthoringMenubarCreator(gameName);
         myMenubar.initMenuBar(this, myGameMakerWindow);
         setupScreen(myMenubar.getMenuBar());
@@ -56,7 +65,11 @@ public class MainAuthoringWindow extends Screen {
         super(parent);
         initBorderPane();
         le = new LiveEditing(myPlayScreen, mySettingsWindow);
-        myItemWindow = new ItemWindow(le);
+        
+        myItemTab.addImageToTab("pictures/player/galaga_ship.png");
+        myItemWindow = new ItemWindow();
+        myItemWindow.addNewTab(myItemTab.getTab());
+        
         LEMenuBarCreator myMenubar = new LEMenuBarCreator(gameName);
         myMenubar.initMenuBar(this, le);
         ((BorderPane) myPane).setCenter(le.getMyNewGamePane());
