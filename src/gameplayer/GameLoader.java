@@ -7,11 +7,8 @@ import authoringEnvironment.ViewSprite;
 import authoringEnvironment.mainWindow.GameAuthoringTab;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-import events.Event;
 import gameElements.Sprite;
-import goals.GoalProperties;
 import interfaces.ITabPane;
-import javafx.beans.property.ListProperty;
 import level.Level;
 import level.LevelProperties;
 
@@ -103,8 +100,6 @@ public class GameLoader {
 		for (GameAuthoringTab levelTab : levels.getTabs()) {
 			LevelModel newLM = levelTab.getLevelModel();
 //			LevelModel newLM = new LevelModel(levelTab);
-			newLM.setBackground(levelTab.getBackground().getValue());
-			
 			newLM.addSprites(levelTab.getList());
 			levelModelList.add(newLM);
 		}

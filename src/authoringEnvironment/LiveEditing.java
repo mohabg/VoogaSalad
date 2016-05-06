@@ -1,17 +1,26 @@
 package authoringEnvironment;
 
 import authoringEnvironment.mainWindow.AClickableWindow;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.ObjectEditorController;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.ISprite;
 import gameElements.ISpriteProperties;
 import gameElements.Sprite;
 import gameplayer.PlayScreen;
 import interfaces.IGameWindow;
-import javafx.beans.property.DoubleProperty;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Node;
+import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import resources.FrontEndData;
+
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * @author davidyan, Joe Jacob, Huijia Yu
@@ -20,27 +29,37 @@ import javafx.scene.layout.AnchorPane;
  */
 public class LiveEditing extends AClickableWindow implements IGameWindow {
 	PlayScreen ps;
+    private LevelModel myLevelModel;
+    private Map<ISprite, TabPane> mySpriteMap;
+    private SettingsWindow myWindow;
+    private ObjectEditorController myOEC;
 
-	public LiveEditing(PlayScreen myPlayScreen, SettingsWindow window) {
-		super(window);
+
+    public LiveEditing(PlayScreen myPlayScreen, SettingsWindow window) {
+		super();
 		ps = myPlayScreen;
-		myLevelModel = new LevelModel(ps.getCurrentLevel());
-		
-		myNewGamePane = ps.getScreen().getPane();
-		myNewGamePane.getChildren().removeAll(ps.getViewSprites().values());
+		myLevelModel = (new LevelModel(ps.getCurrentLevel()));
+        mySpriteMap = new HashMap<>();
+        myWindow = window;
+		setMyNewGamePane(ps.getScreen().getPane());
+		getMyNewGamePane().getChildren().removeAll(ps.getViewSprites().values());
 		initArea();
-		setViewpoint();
+        initOEC();
 	}
-	
-	@Override
-	public void initArea() {
-		Settings.setGamePaneSettings(myNewGamePane);
-		
-		myNewGamePane.setOnMouseClicked(e -> {
+
+    private void initOEC() {
+        myOEC = new ObjectEditorController(Arrays.asList(FrontEndData.PACKAGE_NAMES));
+        for (StylesheetType type : StylesheetType.values()) {
+            myOEC.addObjectStylesheet(type, FrontEndData.STYLESHEET);
+        }
+    }
+
+
+    public void initArea() {
+		Settings.setGamePaneSettings(getMyNewGamePane());
+        getMyNewGamePane().setOnMouseClicked(e -> {
 			updateSettingsPane(myLevelModel);
 		});
-
-		//ps.getViewSprites().values().forEach(c -> addWithClicking(c));
 		ps.getViewSprites().values().forEach(c -> initViewSprite(c));
 	}
 
@@ -53,9 +72,24 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 
 	}
 
+    @Override
+    public void clickEvent(Node mySource, double x, double y) {
+        ((ImageView) mySource).setX(x);
+        ((ImageView) mySource).setY(y);
+    }
 
-	@Override
-	public void updateSettingsPane(ViewSprite clickedSprite) {
+    @Override
+    public void dragEvent(Node mySource) {
+        ImageView mySprite = (ImageView) mySource;
+        setOrgTranslateX(mySprite.getX());
+        setOrgTranslateY(mySprite.getY());
+        setCurrentNode((ViewSprite) mySprite);
+        updateSettingsPane((ViewSprite) mySprite);
+    }
+
+
+    @Override
+	public void updateSettingsPane(Node clickedSprite) {
 		Integer ID = null;
 		for(Integer i : ps.getViewSprites().keySet()) {
 			if (clickedSprite.equals(ps.getViewSprites().get(i))) {
@@ -64,11 +98,30 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 			}
 		}
 
-		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));		
+		myWindow.setContent(setSettingsContent(ps.getSprites().get(ID)));
 	}
-	
-	
-	
+
+    public VBox setSettingsContent(ISprite iSprite) {
+        VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+        TabPane propertiesPane = new TabPane();
+        if (mySpriteMap.containsKey(iSprite)) {
+            propertiesPane = mySpriteMap.get(iSprite);
+        } else {
+            propertiesPane = myOEC.makeObjectEditorTabPane(iSprite);
+            mySpriteMap.put(iSprite, propertiesPane);
+        }
+        myBox.getChildren().add(propertiesPane);
+        return myBox;
+    }
+
+    public VBox setSettingsContent(LevelModel myLevel) {
+		setCurrentNode(null);
+		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
+		TabPane propertiesList = myOEC.makeObjectEditorTabPane(myLevel);
+		myBox.getChildren().addAll(propertiesList);
+		return myBox;
+	}
+
 	public PlayScreen getPlayScreen(){
 		return ps;
 	}
@@ -77,64 +130,33 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
 		setViewSprite(viewsprite);
 	}
-	@Override
-	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
-		t.consume();	
-	}
 
-	@Override
-	public void setViewpoint() {
-		myNewGamePane.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			updateViewpoint(key.getCode());
-			key.consume();
-		});		
-	}
+    @Override
+    public void rightClickEvent(Node currNode, double x, double y) {
 
-	@Override
-	public void updateViewpoint(KeyCode code) {
-		switch (code) {
-			case O:	absoluteX.set(absoluteX.getValue() - 5);
-				break;
-			case P: absoluteX.set(absoluteX.getValue() + 5);
-				break;
-			case L:	absoluteY.set(absoluteY.getValue() - 5);
-				break;
-			case K:	absoluteY.set(absoluteY.getValue() + 5);
-				break;
-			default:
-		}
-		
-		System.out.println(code.getName() + " " + absoluteX.getValue() + " " + absoluteY.getValue());
-	}
+    }
 
-	@Override
-	public void updateSpriteMap(ViewSprite copy, Sprite sprite) {
+    public void updateSpriteMap(ViewSprite copy, Sprite sprite) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public ViewSprite initViewSprite(ViewSprite viewsprite) {
 		// bind viewpoint
 		ISpriteProperties spriteProps = viewsprite.getMySpriteProperties();
-		
-		DoubleProperty spriteX = spriteProps.getXProperty();	
-		absoluteX.addListener((o, ov, nv) -> {
-			double change = nv.doubleValue() - ov.doubleValue();
-			spriteX.setValue(spriteX.getValue() - change);
-		});
-		
-		DoubleProperty spriteY = spriteProps.getYProperty();
-		absoluteY.addListener((o, ov, nv) -> {
-			double change = nv.doubleValue() - ov.doubleValue();
-			spriteY.setValue(spriteY.getValue() - change);
-		});
-		
 		
 		addWithClicking(viewsprite);
 		
 		return viewsprite;
 	}
-	
 
+
+    @Override
+    public void lostOwnership(Clipboard clipboard, Transferable contents) {
+
+    }
+
+    public void updateSettingsPane(LevelModel clickedSprite) {
+        myWindow.setContent(setSettingsContent(clickedSprite));
+    }
 }

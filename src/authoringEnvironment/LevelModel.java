@@ -10,28 +10,12 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
-import javafx.scene.input.KeyCode;
-import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
-import resources.BackEndData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import Physics.PhysicsEngine;
 
 public class LevelModel {
 	private ListProperty<Goal> myGoals;
@@ -57,8 +41,7 @@ public class LevelModel {
 
 	public LevelModel(GameAuthoringTab levelTab) {
 		this();
-		myBackground = levelTab.getBackground();
-		
+
 		myList.addAll(((GameAuthoringTab) levelTab).getList());
 	}
 

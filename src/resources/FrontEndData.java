@@ -51,4 +51,9 @@ public class FrontEndData {
 
     public final static double BUTTON_SIZE = 200;
 
+    public static final String[] PACKAGE_NAMES = {"authoringEnvironment", "behaviors", "collisions", "game", "gameElements",
+            "gameplayer", "goals", "highscoretable", "HUD", "interfaces", "keyboard", "level",
+            "spriteProperties", "events"};
+    public static final String DEFAULT_BACKGROUND = "";
+
 }
