@@ -44,7 +44,7 @@ import resources.FrontEndData;
 import java.awt.datatransfer.ClipboardOwner;
 
 public abstract class AClickableScreen implements ClipboardOwner{
-	private double mySceneX, mySceneY;
+    private double mySceneX, mySceneY;
     private double myTranslateX, myTranslateY;
     private Node currentNode;
     private Pane myNewGamePane;
@@ -62,8 +62,8 @@ public abstract class AClickableScreen implements ClipboardOwner{
 			double offsetY = t.getSceneY() - mySceneY;
 			double newTranslateX = myTranslateX + offsetX;
 			double newTranslateY = myTranslateY + offsetY;
-            Node dragSource = (Node) t.getSource();
-            clickEvent(dragSource, newTranslateX, newTranslateY);
+            		Node dragSource = (Node) t.getSource();
+            		clickEvent(dragSource, newTranslateX, newTranslateY);
 			t.consume();
 		}
 	};
