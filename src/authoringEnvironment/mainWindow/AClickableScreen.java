@@ -1,3 +1,28 @@
+// This entire file is part of my masterpiece.
+// David Yan
+// Important Note: I renamed this class from AClickableWindow to AClickableScreen.
+//
+// I have added a brief summary of the class below, but I go into more detail information could in the Analysis
+// markdown file.
+// The main thought behind my masterpiece is creating a very flexible abstract window, or screen, class that allows users
+// to make display screens from this abstract screen. Within the screens made from this abstract class, users can add Nodes
+// to the screen, and any Nodes that are added to the screen immediately have drag and drop functionality implemented.
+// Additionally, this abstract class allows users to set custom methods for when node is clicked, dragged, and even
+// when nodes are right clicked on the screen to fit their specific project. In that way, users can customize exactly how
+// drag and drop functionality should work in their projects, in addition to allowing for users to define what happens
+// when nodes on the screen are clicked or dragged. (This will be shown in the implementation example).
+// Originally, this class was hard-coded to only accept our custom ViewSprite objects, and the events for clicks and
+// drags were tailored only toward our project. While they worked well for our project’s purposes, gave no power
+// to anyone else using the class to define custom methods for what happens during these click/drag events for themselves.
+// When I began refactoring, I first made sure that users were able to add very flexible Node objects to the screen, thus
+// allowing for many more types of objects to be able to be displayed within the screen.
+// Overall, this class gives tremendous flexibility to the user and alleviates the headache of setting up drag and
+// drop/click events for Nodes on a screen. With this class, all the user can add nodes to the screen using the
+// addWithClicking() method then fill in three methods that tell the screen and nodes what to do when a
+// node is clicked, dragged, or right-clicked. The class is extremely flexible as every object on the screen is a Node,
+// which allows for more types of custom objects to be added.
+
+
 package authoringEnvironment.mainWindow;
 
 import javafx.event.EventHandler;
@@ -18,13 +43,13 @@ import java.awt.datatransfer.ClipboardOwner;
  * Abstract class that contains all methods needed to handle drag and drop and click events of Screens 
  * Includes the Authoring Environment Screen and the Game Player Screen
  */
-public abstract class AClickableWindow implements ClipboardOwner{
+public abstract class AClickableScreen implements ClipboardOwner{
 	private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
     private Node currentNode;
     private Pane myNewGamePane;
 
-    public AClickableWindow() {
+    public AClickableScreen() {
         myNewGamePane = new AnchorPane();
         setBackground(FrontEndData.DEFAULT_BACKGROUND);
 	}
@@ -89,9 +114,7 @@ public abstract class AClickableWindow implements ClipboardOwner{
     }
     public abstract void updateSettingsPane(Node clickedSprite);
 
-    public void setCurrentNode(Node currentNode) {
-        this.currentNode = currentNode;
-    }
+    public void setCurrentNode(Node currentNode) {this.currentNode = currentNode;}
 
     public void setMyNewGamePane(Pane myNewGamePane) {
         this.myNewGamePane = myNewGamePane;

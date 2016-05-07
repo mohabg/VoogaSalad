@@ -1,6 +1,6 @@
 package authoringEnvironment;
 
-import authoringEnvironment.mainWindow.AClickableWindow;
+import authoringEnvironment.mainWindow.AClickableScreen;
 import authoringEnvironment.mainWindow.VisualManager;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.ObjectEditorController;
@@ -27,7 +27,7 @@ import java.util.Map;
  * LiveEditing window that retains functionality in the Authoring Environment to allow user to edit while playing
  *
  */
-public class LiveEditing extends AClickableWindow implements IGameWindow {
+public class LiveEditing extends AClickableScreen implements IGameWindow {
 	private PlayScreen ps;
     private LevelModel myLevelModel;
     private Map<ISprite, TabPane> mySpriteMap;

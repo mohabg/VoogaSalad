@@ -1,3 +1,7 @@
+// This entire file is part of my masterpiece, but is an implementation example only.
+// David Yan
+// This class extends the AClickableScreen class that represented my masterpiece
+// More details about this class can be found in the Analysis writeup
 
 package authoringEnvironment.mainWindow;
 
@@ -26,7 +30,7 @@ import java.util.stream.Collectors;
  * Main window in the Authoring Environment that allows users to set up the game to play.
  * Initializes the Sprites to be used in the game.
  */
-public class GameAuthoringTab extends AClickableWindow {
+public class GameAuthoringTab extends AClickableScreen {
     private VisualManager visualManager;
     private Tab myTab;
 	private Map<ViewSprite, Sprite> mySpriteMap;
@@ -90,9 +94,7 @@ public class GameAuthoringTab extends AClickableWindow {
 
 	public List<Sprite> getList() {return mySpriteMap.values().stream().collect(Collectors.toList());}
 
-	public Tab getTab() {
-		return myTab;
-	}
+	public Tab getTab() {return myTab;}
 
     public LevelModel getLevelModel() {return myLevelModel;}
 
