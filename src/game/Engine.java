@@ -30,6 +30,11 @@ import java.util.Map;
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
  * 
  * @author gauravkumar
+ * 
+ * I thought that this would be a good part of my code masterpiece because it shows the overarching functionality that I was trying to 
+ * create. I really made an effort to refactor the game loop here, as it is the single most vital structure in terms of playing a game.
+ * I believe that this class is well designed because it does not attempt to do too many things; the engine has its specific functions
+ * and lets the rest of the program underneath its covers, so it shows how our entire project has been compartmentalized effectively.
  */
 //THIS ENTIRE FILE IS A PART OF MY MASTERPIECE
 //GAURAV KUMAR
