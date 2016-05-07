@@ -4,12 +4,15 @@
 // The Code Masterpiece allowed us to define very clear and custom events for the classes that extended this class in our
 // project. One particular class that used this abstract window, or screen, class was the GameAuthoringTab class
 // (shown below) that has a screen embedded within a Tab.
+//
 // As you can see below, the types of custom objects we were adding to the screen were ViewSprites within our project.
-// The initArea() method was the main method that added all of our sprites to the abstract screen class, so that any
-// Nodes added through the addWithClicking() method called within that method were automatically added to the screen and
-// give basic drag and drop functionality.
+// The initViewSprite() method was the main method that created our ViewSprites, and initArea() method was the main
+// method that added all of our sprites to the abstract screen class, so that any Nodes added through the
+// addWithClicking() method called within that method were automatically added to the screen and given basic drag and
+// drop functionality.
 // From there, custom methods were written for what should happen to the Node and the screen during a click event,
 // a drag event, and even a right-click event.
+//
 // All I had to really do for defining custom click/drag events was just override the clickEvent, rightClickEvent, and
 // dragEvent methods to define custom events for my project when a node is clicked, right clicked, or dragged.
 // For example, during a click event I decided use our group’s custom VisualFactory calls to populate the settings window
@@ -41,11 +44,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * @author David Yan, Huijia Yu, Joe Jacob
- * Main window in the Authoring Environment that allows users to set up the game to play.
- * Initializes the Sprites to be used in the game.
- */
 public class GameAuthoringTab extends AClickableScreen {
     private VisualManager visualManager;
     private Tab myTab;

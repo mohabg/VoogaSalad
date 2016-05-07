@@ -2,7 +2,7 @@
 // David Yan
 // Important Note: I renamed this class from AClickableWindow to AClickableScreen.
 //
-// I have added a brief summary of the class below, but I go into more detail information could in the Analysis
+// I have added a brief summary of the class below, but I go into more detail in the Analysis
 // markdown file.
 // The main thought behind my masterpiece is creating a very flexible abstract window, or screen, class that allows users
 // to make display screens from this abstract screen. Within the screens made from this abstract class, users can add Nodes
@@ -24,8 +24,8 @@
 // node is clicked, dragged, or right-clicked.
 // The design also follows the Open/Closed principle, where the class is fully open to extension but closed for modification,
 // and this code follows that principle in that a user can extend this class to override the click/drag methods to create
-// their own custom methods or events for clicking/dragging, but the user cannot alter the underlying source code
-// for this class.
+// their own custom methods or events for clicking/dragging, but the user can extend the functionality provided by this
+// class with no need to make any changes to any part of the existing project besides creating a new class.
 
 
 package authoringEnvironment.mainWindow;
