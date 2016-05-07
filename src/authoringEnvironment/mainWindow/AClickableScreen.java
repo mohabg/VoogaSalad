@@ -11,16 +11,21 @@
 // when nodes are right clicked on the screen to fit their specific project. In that way, users can customize exactly how
 // drag and drop functionality should work in their projects, in addition to allowing for users to define what happens
 // when nodes on the screen are clicked or dragged. (This will be shown in the implementation example).
+//
 // Originally, this class was hard-coded to only accept our custom ViewSprite objects, and the events for clicks and
 // drags were tailored only toward our project. While they worked well for our project’s purposes, gave no power
 // to anyone else using the class to define custom methods for what happens during these click/drag events for themselves.
+//
 // When I began refactoring, I first made sure that users were able to add very flexible Node objects to the screen, thus
-// allowing for many more types of objects to be able to be displayed within the screen.
+// allowing flexibility for more general types of objects to be able to be displayed within the screen.
 // Overall, this class gives tremendous flexibility to the user and alleviates the headache of setting up drag and
-// drop/click events for Nodes on a screen. With this class, all the user can add nodes to the screen using the
-// addWithClicking() method then fill in three methods that tell the screen and nodes what to do when a
-// node is clicked, dragged, or right-clicked. The class is extremely flexible as every object on the screen is a Node,
-// which allows for more types of custom objects to be added.
+// drop/click events for Nodes on a screen. With this class, the user can add nodes to the screen using the
+// addWithClicking() method, then fill in three methods that tell the screen and nodes what to do when a
+// node is clicked, dragged, or right-clicked.
+// The design also follows the Open/Closed principle, where the class is fully open to extension but closed for modification,
+// and this code follows that principle in that a user can extend this class to override the click/drag methods to create
+// their own custom methods or events for clicking/dragging, but the user cannot alter the underlying source code
+// for this class.
 
 
 package authoringEnvironment.mainWindow;
@@ -34,15 +39,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import resources.FrontEndData;
-
 import java.awt.datatransfer.ClipboardOwner;
 
-/**
- * @author davidyan, Huijia Yu
- * Refactored by David Yan
- * Abstract class that contains all methods needed to handle drag and drop and click events of Screens 
- * Includes the Authoring Environment Screen and the Game Player Screen
- */
 public abstract class AClickableScreen implements ClipboardOwner{
 	private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
@@ -116,19 +114,11 @@ public abstract class AClickableScreen implements ClipboardOwner{
 
     public void setCurrentNode(Node currentNode) {this.currentNode = currentNode;}
 
-    public void setMyNewGamePane(Pane myNewGamePane) {
-        this.myNewGamePane = myNewGamePane;
-    }
+    public void setMyNewGamePane(Pane myNewGamePane) {this.myNewGamePane = myNewGamePane;}
 
-    public Pane getMyNewGamePane() {
-        return myNewGamePane;
-    }
+    public Pane getMyNewGamePane() {return myNewGamePane;}
 
-    public void setOrgTranslateX(double orgTranslateX) {
-        this.orgTranslateX = orgTranslateX;
-    }
+    public void setOrgTranslateX(double orgTranslateX) {this.orgTranslateX = orgTranslateX;}
 
-    public void setOrgTranslateY(double orgTranslateY) {
-        this.orgTranslateY = orgTranslateY;
-    }
+    public void setOrgTranslateY(double orgTranslateY) {this.orgTranslateY = orgTranslateY;}
 }
