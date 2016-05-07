@@ -1,5 +1,6 @@
 // This entire file is part of my masterpiece.
 // David Yan
+//
 // Important Note: I renamed this class from AClickableWindow to AClickableScreen.
 // Important Note #2: The implementation example of this class is in the GameAuthoringTab class. 
 //

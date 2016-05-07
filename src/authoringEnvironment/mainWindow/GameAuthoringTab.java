@@ -1,5 +1,6 @@
-// This entire file is part of my masterpiece, but is an IMPLEMENTATION EXAMPLE ONLY.
+// This entire file is part of my masterpiece.
 // David Yan
+// This class but is a masterpiece IMPLEMENTATION EXAMPLE ONLY.
 // This class extends the abstract AClickableScreen masterpiece class
 // The Code Masterpiece allowed us to define very clear and custom events for the classes that extended this class in our
 // project. One particular class that used this abstract window, or screen, class was the GameAuthoringTab class
