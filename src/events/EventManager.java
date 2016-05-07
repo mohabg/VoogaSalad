@@ -27,7 +27,6 @@ import level.LevelProperties;
 public class EventManager {
 	
 	private ListProperty<Event> myEvents;
-	//private IInputHandler myInputHandler;
 	
 	public EventManager() {
 		myEvents = new SimpleListProperty<Event>(FXCollections.observableList(new ArrayList<Event>()));
@@ -38,11 +37,6 @@ public class EventManager {
 			e.doEvent(action, levProps);
 		}
 	}
-	
-/*	@Override
-	public void mouseClickEvent(MouseEvent event) {
-		myInputHandler.mouseClickEvent(event);
-	}*/
 
 	public void keyPress(KeyCode code, IActions action, LevelProperties levProps) {
 		for ( Event e: myEvents) {
@@ -66,11 +60,6 @@ public class EventManager {
 			}
 		}
 	}
-
-	
-	/*public void setSpriteActions(MapProperty<KeyCode, Executable> userPressActions) {
-		myInputHandler.setSpriteActions(userPressActions);
-	}*/
 	
 	public void addEvent(Event event) {
 		myEvents.add(event);
@@ -78,12 +67,6 @@ public class EventManager {
 
 	
 	public void setEvents(List<Event> events) {
-		//myEvents.get().clear();
-		//myEvents.get().addAll(events);
 		myEvents.addAll(events);
 	}
-	
-	/*public void setInputHandler(IInputHandler handler) {
-		myInputHandler = handler; 
-	}*/
 }

@@ -12,11 +12,14 @@ import level.ILevelProperties;
 import level.LevelProperties;
 
 import java.util.Collection;
+import java.util.Map;
 /**
  * 
  * @author gauravkumar
  *
  */
+//THIS ENTIRE FILE IS A PART OF MY MASTERPIECE
+//GAURAV KUMAR
 public class CollisionEvent extends Event {
 	
 	private StringProperty spriteOneType;
@@ -28,12 +31,8 @@ public class CollisionEvent extends Event {
 
 	public CollisionEvent(String typeOne, String typeTwo, Collision one, Collision two) {
 		super("", new CollisionChecker(), new CollisionHandler(one, two));
-		//setExecutable(new CollisionHandler(collisionOne, collisionTwo));
-		//setTrigger(new CollisionChecker());
-		spriteOneType = new SimpleStringProperty();
-		spriteOneType.set(typeOne);
-		spriteTwoType = new SimpleStringProperty();
-		spriteTwoType.set(typeTwo);
+		spriteOneType = new SimpleStringProperty(typeOne);
+		spriteTwoType = new SimpleStringProperty(typeTwo);
 	}
 
 	
@@ -41,25 +40,20 @@ public class CollisionEvent extends Event {
 	@Override
 	public void doEvent(IActions action, ILevelProperties levProps) {
 		CollisionChecker checker = (CollisionChecker) getTrigger();
-		Collection<ISprite> spriteSet = levProps.getSpriteMap().getSprites();
-		ISprite[] spriteArr = new ISprite[spriteSet.size()];
-		int index = 0;
-		for (ISprite sprite : spriteSet) {
-			spriteArr[index] = sprite;
-			index++;
-		}
-		for (int i = 0; i < spriteSet.size(); i++) {
-			for (int j = 0; j < spriteSet.size(); j++) {
-				if (spriteArr[i].getMyRef().trim().equals(spriteOneType.get().trim()) && spriteArr[j].getMyRef().trim().equals(spriteTwoType.get().trim())) {
-					//checker.setSpriteOne(spriteArr[i]);
-					//checker.setSpriteTwo(spriteArr[j]);
-					checker.checkColliding(spriteArr[i],spriteArr[j]);
-					if ( checker.isTriggered()) { 
-						levProps.setCollidingSprites(spriteArr[i], spriteArr[j]);
-						CollisionHandler handler = (CollisionHandler) this.getExecutable();
-						spriteArr[i].addCollision(handler.getCollisionOne());
-						spriteArr[j].addCollision(handler.getCollisionTwo());
-						getExecutable().execute(action, levProps);
+		Map<Integer, ISprite> sprites = levProps.getSpriteMap().getSpriteMap();
+		for ( Integer i = 0; i < sprites.size(); i++) {
+			for ( Integer j = 0; j < sprites.size(); j++) {
+				if (sprites.containsKey(i) && sprites.containsKey(j) && i != j) {
+					if (sprites.get(i).getMyRef().trim().equals(spriteOneType.get().trim()) && 
+							sprites.get(j).getMyRef().trim().equals(spriteTwoType.get().trim())) {
+						checker.checkColliding(sprites.get(i),sprites.get(j));
+						if ( checker.isTriggered()) { 
+							levProps.setCollidingSprites(sprites.get(i), sprites.get(j));
+							CollisionHandler handler = (CollisionHandler) this.getExecutable();
+							sprites.get(i).addCollision(handler.getCollisionOne());
+							sprites.get(j).addCollision(handler.getCollisionTwo());
+							getExecutable().execute(action, levProps);
+						}
 					}
 				}
 			}

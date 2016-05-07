@@ -3,6 +3,7 @@ package collisions;
 import behaviors.IActions;
 import gameElements.ISprite;
 import gameElements.Sprite;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**
@@ -22,7 +23,7 @@ public class AddLifePowerUpCollision extends Collision{
 	/**
 	 * @param other Checks the behavior of the other sprite that this collided with, and implements that corresponding behavior
 	 */
-	public void handleCollision(ActorCollision other, LevelProperties levelProperties){
+	public void handleCollision(ActorCollision other, ILevelProperties levelProperties){
 		ISprite collidingSprite = levelProperties.getSpriteForCollision(other);
 		collidingSprite.getMyHealth().addLife();
 	}

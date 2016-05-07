@@ -38,7 +38,7 @@ public class Game {
 		currLevelNum = 0;
 		myInfo = new GameInfo();
 		isFinished=new SimpleBooleanProperty(false);
-
+		
 	}
 	
 	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height){
@@ -78,13 +78,11 @@ public class Game {
 	}
 
 	public Level getCurrentLevel() {
-		// System.out.println(currLevelNum);
 		if(myGameLevels.get(currLevelNum).equals(null)){
-			System.out.println("hi");
         	Alert alert = new Alert(Alert.AlertType.INFORMATION);
         	alert.setTitle("Game Information");
         	alert.setHeaderText("Game Result");
-        	alert.setContentText("Congrats you've won the game bitch");
+        	alert.setContentText("Congrats you've won the game");
         	alert.showAndWait();
         	return null;
 		}else{
@@ -107,12 +105,9 @@ public class Game {
 
 	public void createLevel(int levelID, LevelProperties levelProperties) {
 		Level newLevel = new Level();
-		// System.out.println("bug" + newLevel.getGoalList().size());
 		levelProperties.setLevelID(levelID);
 		newLevel.setLevelProperties(levelProperties);
 		myGameLevels.add(levelID, newLevel);
-	//	viewPoint.updateViewPoint(newLevel);
-
 	}
 
 	/**

@@ -31,7 +31,8 @@ import java.util.Map;
  * 
  * @author gauravkumar
  */
-
+//THIS ENTIRE FILE IS A PART OF MY MASTERPIECE
+//GAURAV KUMAR
 public class Engine {
 	
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS 0.017
@@ -42,15 +43,12 @@ public class Engine {
 	private IGameEditor myEditor;
 	private boolean isPaused;
 	private BooleanProperty isGameFinished;
-//    private PlayScreen myGameScreen;
 
 
 	public Engine() {
 		myEventManager = new EventManager();
-//		this.myGameScreen = myGameScreen;
 		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
-//		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 		isGameFinished = new SimpleBooleanProperty(false);
 	}
@@ -66,11 +64,7 @@ public class Engine {
 	public void setMyEditor(IGameEditor myEditor) {
 		this.myEditor = myEditor;
 	}
-
-	public Engine(LiveEditing liveEditing, GameEditor gameEditor) {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	public void setGameInfo(GameInfo gameInfo) {
         myEditor.setGameInfo(gameInfo);
     }
@@ -96,7 +90,6 @@ public class Engine {
 
     public void setCurrentLevel(int levelIndex) {
         myEditor.setCurrentLevel(levelIndex);
-        //myEventManager = myEditor.getCurrentLevel().getMyEventManager();
     }
 
     public void getNumLevels() {
@@ -135,16 +128,10 @@ public class Engine {
                 event -> {
                     isGameFinished = myEditor.getGame().getIsFinished();
                     if(isGameFinished.get()){
-                    	myGameLoop.stop();
-                    	Stage stage = new Stage();
-                        StackPane pane = new StackPane();
-                        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
-                        stage.setScene(new Scene(pane, 700, 700));
-                        stage.showAndWait();
+                    	endGame();
                     }
                     myEditor.updateGame();
                     currentLevelID.set(myEditor.getCurrentLevel().getLevelProperties().getLevelID());
-
                 });
         myGameLoop.setCycleCount(Timeline.INDEFINITE);  
         myGameLoop.getKeyFrames().add(keyFrame);
@@ -154,16 +141,7 @@ public class Engine {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                    	Stage stage = new Stage();
-                        StackPane pane = new StackPane();
-                        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
-                        stage.setScene(new Scene(pane, 700, 700));
-                        stage.showAndWait();
-                    	/*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                		alert.setTitle("Game Information");
-                		alert.setHeaderText("Game Result");
-                		alert.setContentText("Congrats you've won the game bitch");
-                		alert.showAndWait(); */                   
+                    	endGame();
                     }
                 });
 
@@ -173,24 +151,18 @@ public class Engine {
         if ( isPaused )
         	pauseGameLoop();
         if ( isGameFinished.getValue() ) {
-        	myGameLoop.stop();
-        	/*pauseGameLoop();
-        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        	alert.setTitle("Game Information");
-        	alert.setHeaderText("Game Result");
-        	alert.setContentText("Congrats you've won the game bitch");
-        	alert.showAndWait();*/       	
+        	myGameLoop.stop();     	
         }
         	
     }
 
 	private void endGame() {
 		myGameLoop.stop();
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Game Information");
-		alert.setHeaderText("Game Result");
-		alert.setContentText("Congrats you've won the game bitch");
-		alert.showAndWait();
+		Stage stage = new Stage();
+        StackPane pane = new StackPane();
+        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
+        stage.setScene(new Scene(pane, 700, 700));
+        stage.showAndWait();  
 	}
     
     public void pauseGameLoop() {
