@@ -51,18 +51,18 @@ public abstract class AClickableScreen implements ClipboardOwner{
     public AClickableScreen() {
         myNewGamePane = new AnchorPane();
         setBackground(FrontEndData.DEFAULT_BACKGROUND);
-	}
+    }
 
     public abstract void clickEvent(Node mySource, double x, double y);
-
-	private EventHandler<MouseEvent> nodeOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+    
+    private EventHandler<MouseEvent> nodeOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent t) {
 			double offsetX = t.getSceneX() - orgSceneX;
 			double offsetY = t.getSceneY() - orgSceneY;
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 			Node dragSource = (Node) t.getSource();
-            clickEvent(dragSource, newTranslateX, newTranslateY);
+            		clickEvent(dragSource, newTranslateX, newTranslateY);
 			t.consume();
 		}
 	};
@@ -91,10 +91,10 @@ public abstract class AClickableScreen implements ClipboardOwner{
     }
 
     public void setClicking(Node sprite) {
-		sprite.setCursor(Cursor.HAND);
-		sprite.setOnMousePressed(nodeOnMousePressedEventHandler);
-		sprite.setOnMouseDragged(nodeOnMouseDraggedEventHandler);
-		sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+	sprite.setCursor(Cursor.HAND);
+	sprite.setOnMousePressed(nodeOnMousePressedEventHandler);
+	sprite.setOnMouseDragged(nodeOnMouseDraggedEventHandler);
+	sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
            makeRightClickEvent(e);
         });
 	}
