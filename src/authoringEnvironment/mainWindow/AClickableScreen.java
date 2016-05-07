@@ -14,7 +14,7 @@
 // when nodes on the screen are clicked or dragged. (This will be shown in the implementation example).
 //
 // Originally, this class was hard-coded to only accept our custom ViewSprite objects, and the events for clicks and
-// drags were tailored only toward our project. While they worked well for our project’s purposes, gave no power
+// drags were tailored only toward our project. While they worked well for our project’s purposes, they gave no power
 // to anyone else using the class to define custom methods for what happens during these click/drag events for themselves.
 //
 // When I began refactoring, I first made sure that users were able to add very flexible Node objects to the screen, thus
@@ -43,8 +43,8 @@ import resources.FrontEndData;
 import java.awt.datatransfer.ClipboardOwner;
 
 public abstract class AClickableScreen implements ClipboardOwner{
-	private double orgSceneX, orgSceneY;
-    private double orgTranslateX, orgTranslateY;
+	private double mySceneX, mySceneY;
+    private double myTranslateX, myTranslateY;
     private Node currentNode;
     private Pane myNewGamePane;
 
@@ -57,12 +57,12 @@ public abstract class AClickableScreen implements ClipboardOwner{
     
     private EventHandler<MouseEvent> nodeOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent t) {
-			double offsetX = t.getSceneX() - orgSceneX;
-			double offsetY = t.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
+			double offsetX = t.getSceneX() - mySceneX;
+			double offsetY = t.getSceneY() - mySceneY;
+			double newTranslateX = myTranslateX + offsetX;
+			double newTranslateY = myTranslateY + offsetY;
 			Node dragSource = (Node) t.getSource();
-            		clickEvent(dragSource, newTranslateX, newTranslateY);
+            clickEvent(dragSource, newTranslateX, newTranslateY);
 			t.consume();
 		}
 	};
@@ -72,8 +72,8 @@ public abstract class AClickableScreen implements ClipboardOwner{
     private EventHandler<MouseEvent> nodeOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent t) {
             Node mySprite = ((Node) (t.getSource()));
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
+            mySceneX = t.getSceneX();
+            mySceneY = t.getSceneY();
             dragEvent(mySprite);
             t.consume();
         }
@@ -94,9 +94,7 @@ public abstract class AClickableScreen implements ClipboardOwner{
 	sprite.setCursor(Cursor.HAND);
 	sprite.setOnMousePressed(nodeOnMousePressedEventHandler);
 	sprite.setOnMouseDragged(nodeOnMouseDraggedEventHandler);
-	sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-           makeRightClickEvent(e);
-        });
+	sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> makeRightClickEvent(e));
 	}
 
     public void addWithClicking(Node sprite) {
@@ -119,7 +117,7 @@ public abstract class AClickableScreen implements ClipboardOwner{
 
     public Pane getMyNewGamePane() {return myNewGamePane;}
 
-    public void setOrgTranslateX(double orgTranslateX) {this.orgTranslateX = orgTranslateX;}
+    public void setMyTranslateX(double myTranslateX) {this.myTranslateX = myTranslateX;}
 
-    public void setOrgTranslateY(double orgTranslateY) {this.orgTranslateY = orgTranslateY;}
+    public void setMyTranslateY(double myTranslateY) {this.myTranslateY = myTranslateY;}
 }

@@ -82,8 +82,8 @@ public class LiveEditing extends AClickableScreen implements IGameWindow {
     @Override
     public void dragEvent(Node mySource) {
         ImageView mySprite = (ImageView) mySource;
-        setOrgTranslateX(mySprite.getX());
-        setOrgTranslateY(mySprite.getY());
+        setMyTranslateX(mySprite.getX());
+        setMyTranslateY(mySprite.getY());
         setCurrentNode(mySprite);
         updateSettingsPane(mySprite);
     }
