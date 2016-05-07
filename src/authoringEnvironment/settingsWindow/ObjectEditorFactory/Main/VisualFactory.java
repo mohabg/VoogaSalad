@@ -26,17 +26,27 @@ import java.util.*;
 
 
 /**
+ * main class for generating and populating the tabpane that shows 
+ * an object's fields and editing options
  * @author David Yan, Joe Jacob, Huijia Yu
  */
 public class VisualFactory {
 	private final String ADD = "Add";
-	
+	private final String SPACE = " ";
+	private final String FIELD = "Field";
+	private final String FIELD_EXCEPTION_ERROR = "is a primitive.";
+	private final String IN = "in";
 	
 	public VisualFactory() {
 		
 	}
 
 
+	/**
+	 * returns the corresponding tabpane representation for an object model
+	 * @param model
+	 * @return
+	 */
 	public TabPane getMyTabs(Object model) {
 		TabPane myTabs = GUIObjectMaker.makeTabPane();
 
@@ -46,7 +56,7 @@ public class VisualFactory {
 			f.setAccessible(true);		
 			if(!f.isAnnotationPresent(IgnoreField.class) && !f.getType().isAnnotationPresent(IgnoreField.class)) {
 				if(f.getType().isPrimitive()) {
-					throw new FieldTypeException("Field " + f.getType().getName() + " " + f.getName() + " in " + f.getDeclaringClass().getName() + " is a primitive");
+					throw new FieldTypeException(FIELD, SPACE, f.getType().getName(), SPACE, f.getName(), SPACE, IN ,SPACE, f.getDeclaringClass().getName(), SPACE, FIELD_EXCEPTION_ERROR);
 				}		
 				myTabs.getTabs().add(getOneTab(f, model));
 			}
@@ -189,7 +199,6 @@ public class VisualFactory {
 				break;
 			}
 		}
-		
 
 		mySubclassBox.setValue(rBoxItem);
 	}
@@ -267,6 +276,16 @@ public class VisualFactory {
 	}
 
 		
+	/**
+	 * makes the property boxes and binds the field to parent for the corresponding fieldObject
+	 * makes a subclass combobox if makeBox = true
+	 * @param parent
+	 * @param field
+	 * @param fieldObject
+	 * @param fieldClass
+	 * @param makeBox
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static <R, K> List<HBox> makePropertyBoxes(Object parent, Field field, R fieldObject, Class<R> fieldClass, boolean makeBox) {
 		HBox fieldVBoxHBox = GUIObjectMaker.makeHBox();		
@@ -311,17 +330,9 @@ public class VisualFactory {
 		
 			for (Field childField : allFields) {
 				childField.setAccessible(true);			
-				if (!childField.isAnnotationPresent(IgnoreField.class) && !childField.getType().isAnnotationPresent(IgnoreField.class)) {
-					if(childField.getType().isPrimitive()) {
-						// TODO UNCOMMENT
-						//throw new FieldTypeException("Field " + otherField.getType().getName() + " " + otherField.getName() + " in " + otherField.getDeclaringClass().getName() + " is a primitive");
-					} else {
-						K childFieldObject = (K) SettingsReflectUtils.fieldGetObject(childField, fieldObject);						
-//						if (childField.isAnnotationPresent(SetFieldName.class)) {
-//							field = childField.getAnnotation(SetFieldName.class).label();
-//						}
-						fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, childFieldObject, (Class<K>) childField.getType(), true));
-					}
+				if (!childField.isAnnotationPresent(IgnoreField.class) && !childField.getType().isAnnotationPresent(IgnoreField.class)) {		
+					K childFieldObject = (K) SettingsReflectUtils.fieldGetObject(childField, fieldObject);						
+					fieldHBoxes.addAll(makePropertyBoxes(fieldObject, childField, childFieldObject, (Class<K>) childField.getType(), true));
 				}
 			}
 			
