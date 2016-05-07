@@ -16,6 +16,11 @@ import java.util.Map;
 /**
  * 
  * @author gauravkumar
+ * 
+ * I really wanted to include this piece of code in the masterpiece because it shows a chunk of the event hierarchy that I worked so
+ * hard to create. This is well designed because of its simplicity; it extends the Event abstract class that holds getters and setters
+ * for its instance fields, so the only real thing that this class needs to account for is executing the collision it is given. This
+ * shows how simple such a powerful piece of code can be, as this is what drives all the collisions within the game.
  *
  */
 //THIS ENTIRE FILE IS A PART OF MY MASTERPIECE
