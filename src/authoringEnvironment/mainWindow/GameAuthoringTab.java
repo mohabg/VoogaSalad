@@ -53,23 +53,23 @@ public class GameAuthoringTab extends AClickableScreen {
     private SettingsWindow mySettingsWindow;
 
     public GameAuthoringTab(Map<ViewSprite, Sprite> spriteMap, Integer levelID, SettingsWindow window) {
-		super();
+	super();
         currSpriteMap = new HashMap<>();
-		myTab = new Tab(FrontEndData.TAB + levelID);
-		mySpriteMap = spriteMap;
-		mySettingsWindow = window;
+	myTab = new Tab(FrontEndData.TAB + levelID);
+	mySpriteMap = spriteMap;
+	mySettingsWindow = window;
         myLevelModel = new LevelModel();
         visualManager = new VisualManager();
-		initArea();
+	initArea();
 	}
 
     public void initArea() {
-		Settings.setGamePaneSettings(getMyNewGamePane());
-		getMyNewGamePane().setOnMouseClicked(e -> {
-			updateSettingsPane(myLevelModel);
-		});
-		myTab.setContent(getMyNewGamePane());
-		mySpriteMap.keySet().forEach(c -> addWithClicking(c));
+	Settings.setGamePaneSettings(getMyNewGamePane());
+	getMyNewGamePane().setOnMouseClicked(e -> {
+		updateSettingsPane(myLevelModel);
+	});
+	myTab.setContent(getMyNewGamePane());
+	mySpriteMap.keySet().forEach(c -> addWithClicking(c));
 	}
 
     public ViewSprite initViewSprite(ViewSprite viewsprite) {
@@ -105,23 +105,23 @@ public class GameAuthoringTab extends AClickableScreen {
         setCurrentNode(mySprite);
         updateSettingsPane(mySprite);
     }
-	public List<Sprite> getList() {return mySpriteMap.values().stream().collect(Collectors.toList());}
-
-	public Tab getTab() {return myTab;}
-	
-	public LevelModel getLevelModel() {return myLevelModel;}
-
-	public void setTabTitle(String tabTitle) {myTab.setText(tabTitle);}
-
-	public void setCurrentSpriteNull() {setCurrentNode(null);}
-
-	public void setViewSprite(ViewSprite viewsprite) {initViewSprite(viewsprite);}
-
-	public void setPlayerViewSprite(ViewSprite viewsprite) {initViewSprite(viewsprite);}
-	
-	public void updateSettingsPane(Node clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(mySpriteMap.get(clickedSprite), currSpriteMap));}
-	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
-	
-	public void updateSettingsPane(LevelModel clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(clickedSprite));}
+    public List<Sprite> getList() {return mySpriteMap.values().stream().collect(Collectors.toList());}
+    
+    public Tab getTab() {return myTab;}
+    
+    public LevelModel getLevelModel() {return myLevelModel;}
+    
+    public void setTabTitle(String tabTitle) {myTab.setText(tabTitle);}
+    
+    public void setCurrentSpriteNull() {setCurrentNode(null);}
+    
+    public void setViewSprite(ViewSprite viewsprite) {initViewSprite(viewsprite);}
+    
+    public void setPlayerViewSprite(ViewSprite viewsprite) {initViewSprite(viewsprite);}
+    
+    public void updateSettingsPane(Node clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(mySpriteMap.get(clickedSprite), currSpriteMap));}
+    @Override
+    public void lostOwnership(Clipboard clipboard, Transferable contents) {}
+    
+    public void updateSettingsPane(LevelModel clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(clickedSprite));}
 }
