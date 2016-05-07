@@ -1,6 +1,7 @@
 // This entire file is part of my masterpiece.
 // David Yan
 // Important Note: I renamed this class from AClickableWindow to AClickableScreen.
+// Important Note #2: The implementation example of this class is in the GameAuthoringTab class. 
 //
 // I have added a brief summary of the class below, but I go into more detail in the Analysis
 // markdown file.
@@ -24,7 +25,7 @@
 // node is clicked, dragged, or right-clicked.
 // The design also follows the Open/Closed principle, where the class is fully open to extension but closed for modification,
 // and this code follows that principle in that a user can extend this class to override the click/drag methods to create
-// their own custom methods or events for clicking/dragging, but the user can extend the functionality provided by this
+// their own custom methods or events for clicking/dragging. The user can extend the functionality provided by this
 // class with no need to make any changes to any part of the existing project besides creating a new class.
 
 
