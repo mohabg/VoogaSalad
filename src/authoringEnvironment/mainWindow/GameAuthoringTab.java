@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 public class GameAuthoringTab extends AClickableScreen {
     private VisualManager visualManager;
     private Tab myTab;
-	private Map<ViewSprite, Sprite> mySpriteMap;
+    private Map<ViewSprite, Sprite> mySpriteMap;
     private LevelModel myLevelModel;
     private Map<ISprite, TabPane> currSpriteMap;
     private SettingsWindow mySettingsWindow;
@@ -105,12 +105,11 @@ public class GameAuthoringTab extends AClickableScreen {
         setCurrentNode(mySprite);
         updateSettingsPane(mySprite);
     }
-
 	public List<Sprite> getList() {return mySpriteMap.values().stream().collect(Collectors.toList());}
 
 	public Tab getTab() {return myTab;}
-
-    public LevelModel getLevelModel() {return myLevelModel;}
+	
+	public LevelModel getLevelModel() {return myLevelModel;}
 
 	public void setTabTitle(String tabTitle) {myTab.setText(tabTitle);}
 
@@ -119,10 +118,10 @@ public class GameAuthoringTab extends AClickableScreen {
 	public void setViewSprite(ViewSprite viewsprite) {initViewSprite(viewsprite);}
 
 	public void setPlayerViewSprite(ViewSprite viewsprite) {initViewSprite(viewsprite);}
-
-    public void updateSettingsPane(Node clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(mySpriteMap.get(clickedSprite), currSpriteMap));}
+	
+	public void updateSettingsPane(Node clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(mySpriteMap.get(clickedSprite), currSpriteMap));}
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
-
-    public void updateSettingsPane(LevelModel clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(clickedSprite));}
+	
+	public void updateSettingsPane(LevelModel clickedSprite) {mySettingsWindow.setContent(visualManager.setSettingsContent(clickedSprite));}
 }
