@@ -62,7 +62,7 @@ public abstract class AClickableScreen implements ClipboardOwner{
 			double offsetY = t.getSceneY() - mySceneY;
 			double newTranslateX = myTranslateX + offsetX;
 			double newTranslateY = myTranslateY + offsetY;
-			Node dragSource = (Node) t.getSource();
+            Node dragSource = (Node) t.getSource();
             clickEvent(dragSource, newTranslateX, newTranslateY);
 			t.consume();
 		}
@@ -92,10 +92,10 @@ public abstract class AClickableScreen implements ClipboardOwner{
     }
 
     public void setClicking(Node sprite) {
-	sprite.setCursor(Cursor.HAND);
-	sprite.setOnMousePressed(nodeOnMousePressedEventHandler);
-	sprite.setOnMouseDragged(nodeOnMouseDraggedEventHandler);
-	sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> makeRightClickEvent(e));
+	    sprite.setCursor(Cursor.HAND);
+	    sprite.setOnMousePressed(nodeOnMousePressedEventHandler);
+	    sprite.setOnMouseDragged(nodeOnMouseDraggedEventHandler);
+	    sprite.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> makeRightClickEvent(e));
 	}
 
     public void addWithClicking(Node sprite) {
