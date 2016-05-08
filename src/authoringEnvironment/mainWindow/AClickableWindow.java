@@ -3,24 +3,19 @@ package authoringEnvironment.mainWindow;
 import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
-
 import authoringEnvironment.settingsWindow.SettingsWindow;
-import gameElements.Sprite;
-import javafx.scene.Node;
-import resources.FrontEndData;
-import java.util.Map;
-
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.ObjectEditorController;
-
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
+import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
@@ -30,7 +25,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-
+import resources.FrontEndData;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
@@ -38,8 +33,9 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+
 /**
- * 
  * @author davidyan, Huijia Yu
  * Abstract class that contains all methods needed to handle drag and drop and click events of Screens 
  * Includes the Authoring Environment Screen and the Game Player Screen

@@ -11,6 +11,7 @@
  * principle of object-oriented design because it 'extended' the AClickableWindow class while keeping 
  * the source code of AClickableWindow intact.
  */
+
 package authoringEnvironment;
 
 import authoringEnvironment.mainWindow.AClickableWindow;
