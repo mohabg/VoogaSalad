@@ -4,6 +4,9 @@ import gameElements.ISpriteProperties;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+// This entire file is part of my masterpiece.
+// Jesse Rencurrell Pollack
+
 public class MoveForward extends Movement{
 
 	public MoveForward(){
