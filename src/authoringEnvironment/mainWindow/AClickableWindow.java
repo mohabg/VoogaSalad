@@ -4,33 +4,32 @@ import authoringEnvironment.AESpriteFactory;
 import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 
-import authoringEnvironment.itemWindow.ImageResizing.DragResizer;
-import authoringEnvironment.itemWindow.ImageResizing.IOnDragResizeEventListener;
 import authoringEnvironment.settingsWindow.SettingsWindow;
+import gameElements.Sprite;
+import javafx.scene.Node;
+import resources.FrontEndData;
+import java.util.Map;
+
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Constants.StylesheetType;
 import authoringEnvironment.settingsWindow.ObjectEditorFactory.Main.ObjectEditorController;
 
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
-import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import resources.FrontEndData;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -39,7 +38,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 /**
  * 
  * @author davidyan, Huijia Yu
@@ -191,8 +189,6 @@ public abstract class AClickableWindow implements ClipboardOwner {
 		});
 		
 	}
-
-	
 	
 	public void updateViewpoint(KeyCode code) {
 		switch (code) {
@@ -207,7 +203,6 @@ public abstract class AClickableWindow implements ClipboardOwner {
 			default:
 		}
 	}
-
 	
 	public void updateSettingsPane(LevelModel clickedSprite) {
 		myWindow.setContent(setSettingsContent(clickedSprite));
@@ -217,7 +212,7 @@ public abstract class AClickableWindow implements ClipboardOwner {
 	public VBox setSettingsContent(ISprite iSprite) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesPane = new TabPane();
-        //mySpriteTabPanes.get(spriteModel) != null
+		
 		if (mySpriteTabPanes.containsKey(iSprite)) {
 			propertiesPane = mySpriteTabPanes.get(iSprite);
 		} else {

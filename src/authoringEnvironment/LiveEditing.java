@@ -2,7 +2,14 @@
 // Joe Jacob
 
 /**
+ * This class's purpose is to project the game authoring for a single level 
+ * within the live editing environment. 
  * 
+ * I think this class is well-designed because it effectively uses both the features of 
+ * implementing interfaces and using the abstract class hierarchy, which avoids the need to check 
+ * class types and reusing code, respectively. Additionally, this class is a product of the OO
+ * principle of object-oriented design because it 'extended' the AClickableWindow class while keeping 
+ * the source code of AClickableWindow intact.
  */
 package authoringEnvironment;
 

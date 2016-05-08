@@ -1,6 +1,17 @@
 // This entire file is part of my masterpiece.
 // Joe Jacob
 
+/**
+ * This class's purpose is to project the game authoring for a single level 
+ * within the game authoring environment. 
+ * 
+ * I think this class is well-designed because it effectively uses both the features of 
+ * implementing interfaces and using the abstract class hierarchy, which avoids the need to check 
+ * class types and reusing code, respectively. Additionally, this class is a product of the OO
+ * principle of object-oriented design because it 'extended' the AClickableWindow class while keeping 
+ * the source code of AClickableWindow intact.
+ */
+
 package authoringEnvironment.mainWindow;
 
 import authoringEnvironment.LevelModel;
@@ -12,7 +23,6 @@ import interfaces.IGameWindow;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
 import resources.FrontEndData;
 import java.util.List;
 import java.util.Map;
@@ -48,14 +58,15 @@ public class GameAuthoringTab extends AClickableWindow implements IGameWindow{
 		});
 
 		setTabContent(getMyNewGamePane());
-
 		mySpriteMap.keySet().forEach(c -> addWithClicking(c));
 	}
 
+	@Override
 	public void setViewSprite(ViewSprite viewsprite) {
 		initViewSprite(viewsprite);
 	}
 	
+	@Override
 	public void updateSettingsPane(ViewSprite clickedSprite) {
 		getMySettingsWindow().setContent(setSettingsContent(mySpriteMap.get(clickedSprite)));
 	}
@@ -81,8 +92,7 @@ public class GameAuthoringTab extends AClickableWindow implements IGameWindow{
 		Sprite sprite = getSpriteFactory().makeSprite(copy);		
 	
 		bindSpritePos(copy, sprite);
-		updateSpriteMap(copy, sprite);
-		
+		updateSpriteMap(copy, sprite);	
 		
 		return copy;
 	}
