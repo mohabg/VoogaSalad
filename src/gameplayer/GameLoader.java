@@ -101,11 +101,11 @@ public class GameLoader {
 
 		List<LevelModel> levelModelList = new ArrayList<LevelModel>();
 		for (GameAuthoringTab levelTab : levels.getTabs()) {
-			LevelModel newLM = levelTab.getLevelModel();
+			LevelModel newLM = levelTab.getMyLevelModel();
 //			LevelModel newLM = new LevelModel(levelTab);
 			newLM.setBackground(levelTab.getBackground().getValue());
 			
-			newLM.addSprites(levelTab.getList());
+			newLM.addSprites(levelTab.getSpriteList());
 			levelModelList.add(newLM);
 		}
 		return levelModelList;

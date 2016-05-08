@@ -120,7 +120,7 @@ public class GameMakerWindow implements ITabPane, IGameWindow {
 	}
 
 	public void setPlayerViewSprite(ViewSprite viewsprite) {
-		getCurrentTab().setPlayerViewSprite(viewsprite);
+		getCurrentTab().setViewSprite(viewsprite);
 	}
 
 	

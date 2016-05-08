@@ -59,7 +59,7 @@ public class LevelModel {
 		this();
 		myBackground = levelTab.getBackground();
 		
-		myList.addAll(((GameAuthoringTab) levelTab).getList());
+		myList.addAll(((GameAuthoringTab) levelTab).getSpriteList());
 	}
 
 	public LevelModel(Level l) {

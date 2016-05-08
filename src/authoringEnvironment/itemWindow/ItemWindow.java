@@ -80,7 +80,7 @@ public class ItemWindow {
 		ViewSprite viewsprite = new ViewSprite(p);
 		if (type.equals("Player")) {
 			viewsprite.setOnMouseClicked(e -> {
-				myGameTabPane.setPlayerViewSprite(viewsprite);
+				myGameTabPane.setViewSprite(viewsprite);
 			});
 		} else {
 			viewsprite.setOnMouseClicked(e -> {

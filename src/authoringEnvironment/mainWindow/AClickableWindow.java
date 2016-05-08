@@ -19,6 +19,9 @@ import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -29,6 +32,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import resources.FrontEndData;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,25 +46,24 @@ import java.util.Map;
  * Abstract class that contains all methods needed to handle drag and drop and click events of Screens 
  * Includes the Authoring Environment Screen and the Game Player Screen
  */
-public abstract class AClickableWindow {
-	protected double orgSceneX, orgSceneY;
-	protected double orgTranslateX, orgTranslateY;
-	protected ViewSprite currentSprite;
-	protected Map<ISprite, TabPane> mySpriteTabPanes;
-	protected SettingsWindow myWindow;
-	protected ObjectEditorController myOEC;
-	protected Pane myNewGamePane;
-	protected LevelModel myLevelModel;
-	protected AESpriteFactory sf;
-	protected DoubleProperty absoluteX;
-	protected DoubleProperty absoluteY;
+public abstract class AClickableWindow implements ClipboardOwner {
+	private double orgSceneX, orgSceneY;
+	private double orgTranslateX, orgTranslateY;
+	private ViewSprite currentSprite;
+	private Map<ISprite, TabPane> mySpriteTabPanes;
+	private SettingsWindow myWindow;
+	private ObjectEditorController myOEC;
+	private Pane myNewGamePane;
+	private LevelModel myLevelModel;
+	private AESpriteFactory sf;
+	private DoubleProperty absoluteX;
+	private DoubleProperty absoluteY;
 	
 	public AClickableWindow(SettingsWindow window) {
 		sf = new AESpriteFactory();
 		myWindow = window;
 		mySpriteTabPanes = new HashMap<>();
 		myLevelModel = new LevelModel();
-	
 		
 		initGamePane();
 		initOEC();
@@ -78,7 +85,7 @@ public abstract class AClickableWindow {
 		}
 	}
 	
-	protected EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+	private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
 			double offsetX = t.getSceneX() - orgSceneX;
@@ -93,7 +100,7 @@ public abstract class AClickableWindow {
 		}
 	};
 
-	protected EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
+	private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
 			ViewSprite mySprite = ((ViewSprite) (t.getSource()));
@@ -109,9 +116,41 @@ public abstract class AClickableWindow {
 		}
 	};
 	
-	public abstract void makeRightClickEvent(ViewSprite mySprite, MouseEvent t);
+	public void makeRightClickEvent(ViewSprite mySprite, MouseEvent t) {
+		if (t.getButton() == MouseButton.SECONDARY) {
+			double xpos = t.getSceneX();
+			double ypos = t.getSceneY();
+			
+			ContextMenu menu = createContextMenu(mySprite);
+			menu.setX(xpos);
+			menu.setY(ypos);
+			
+			menu.setAutoHide(true);
+			menu.show(mySprite, xpos, ypos);
+        }
+        t.consume();
+	}
 	
-	public abstract void updateSettingsPane(ViewSprite clickedSprite);
+	private ContextMenu createContextMenu(ViewSprite vs){
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem delete = new MenuItem("Delete Sprite");
+		MenuItem copy = new MenuItem("Copy Image Ref");
+		contextMenu.getItems().addAll(delete, copy);
+		
+		delete.setOnAction(event -> {
+            ((Pane) getTabContent()).getChildren().remove(vs);
+            event.consume();
+        });
+		
+		copy.setOnAction(event -> {
+			 StringSelection stringSelection = new StringSelection(vs.getMyImage());
+			 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();		 
+			 clipboard.setContents(stringSelection, this);
+		});
+		
+		contextMenu.setAutoHide(true);
+		return contextMenu;
+	}
 
 	public void initViewpoint() {
 		absoluteX = new SimpleDoubleProperty(0);
@@ -152,21 +191,29 @@ public abstract class AClickableWindow {
 		});
 		
 	}
+
 	
-	public abstract void setViewpoint();
 	
-	public abstract void updateViewpoint(KeyCode code);
+	public void updateViewpoint(KeyCode code) {
+		switch (code) {
+			case LEFT:	absoluteX.set(absoluteX.getValue() - 5);
+				break;
+			case RIGHT: absoluteX.set(absoluteX.getValue() + 5);
+				break;
+			case UP:	absoluteY.set(absoluteY.getValue() - 5);
+				break;
+			case DOWN:	absoluteY.set(absoluteY.getValue() + 5);
+				break;
+			default:
+		}
+	}
+
 	
 	public void updateSettingsPane(LevelModel clickedSprite) {
 		myWindow.setContent(setSettingsContent(clickedSprite));
 	}
 
-	/**
-	 * @param iSprite
-	 *            model used to generate visual elements that are added to a new
-	 *            VBox and displayed in the Settings Window
-	 */
-
+	
 	public VBox setSettingsContent(ISprite iSprite) {
 		VBox myBox = new VBox(FrontEndData.VBOX_SPACING);
 		TabPane propertiesPane = new TabPane();
@@ -189,13 +236,31 @@ public abstract class AClickableWindow {
 		return myBox;
 	}
 
+	public void bindSpritePos(ViewSprite copy, Sprite sprite) {
+		// bind viewpoint
+		ISpriteProperties spriteProps = sprite.getSpriteProperties();
+		DoubleProperty spriteX = spriteProps.getXProperty();
+		
+		absoluteX.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			spriteX.setValue(spriteX.getValue() - change);
+		});
+		
+		DoubleProperty spriteY = spriteProps.getYProperty();
+		absoluteY.addListener((o, ov, nv) -> {
+			double change = nv.doubleValue() - ov.doubleValue();
+			spriteY.setValue(spriteY.getValue() - change);
+		});
+		
+		addWithClicking(copy);
+	}
+	
 	public void addWithClicking(ViewSprite sprite) {
 		setClicking(sprite);
 		myNewGamePane.getChildren().add(sprite);
 	}
 
-	public void setClicking(ViewSprite sprite) {
-		
+	public void setClicking(ViewSprite sprite) {	
 		sprite.setCursor(Cursor.HAND);
 		sprite.setOnMousePressed(circleOnMousePressedEventHandler);
 		sprite.setOnMouseDragged(circleOnMouseDraggedEventHandler);
@@ -208,11 +273,37 @@ public abstract class AClickableWindow {
 		return myNewGamePane;
 	}
 	
+	public void setMyNewGamePane(Pane newPane) {
+		myNewGamePane = newPane;
+	}
 	
-	public abstract ViewSprite initViewSprite(ViewSprite viewsprite);
+	public AESpriteFactory getSpriteFactory() {
+		return sf;
+	}
 	
-	public abstract void updateSpriteMap(ViewSprite copy, Sprite sprite);
+	public SettingsWindow getMySettingsWindow(){
+		return myWindow;
+	}
 	
+	public void setMySettingsWindow(SettingsWindow newWindow) {
+		myWindow = newWindow;
+	}
+	
+	public LevelModel getMyLevelModel() {
+		return myLevelModel;
+	}
+	
+	public void setMyLevelModel(LevelModel newModel) {
+		myLevelModel = newModel;
+	}
+	
+	public ViewSprite getCurrentSprite() {
+		return currentSprite;
+	}
+	
+	public void setCurrentSprite(ViewSprite currSprite) {
+		currentSprite = currSprite;
+	}
 	
 	public void setBackground(String background) {
 		if (background == "") {
@@ -227,9 +318,23 @@ public abstract class AClickableWindow {
 	public StringProperty getBackground() {
 		return myLevelModel.getBackground();
 	}
+	
+	@Override
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+		return;
+	}
 
 	public abstract void initArea();
 
 	public abstract void setViewSprite(ViewSprite vs);
+	
+	public abstract ViewSprite initViewSprite(ViewSprite viewsprite);
+	
+	public abstract void updateSpriteMap(ViewSprite copy, Sprite sprite);
 
+	public abstract void setViewpoint();
+	
+	public abstract Node getTabContent();
+	
+	public abstract void updateSettingsPane(ViewSprite clickedSprite);
 }
