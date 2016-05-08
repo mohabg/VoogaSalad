@@ -147,7 +147,6 @@ public class Level implements ILevel {
 	}
 
 	public void populateGoals() {
-		System.out.println("prepop" + this.getLevelProperties().getGoalProperties());
 		if (getLevelProperties().getGoalProperties().size() == 0){
 			getLevelProperties().addGoal(new GoalProperties());
 		}

@@ -1,8 +1,8 @@
 package goals;
 
-public enum Goals {
-	StayAliveGoal,
+public enum GoalEnum {
 	PointsGoal,
+	StayAliveGoal,
 	KillBossGoal,
 	TimeGoal;
 }

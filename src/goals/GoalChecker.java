@@ -25,19 +25,10 @@ public class GoalChecker implements IGoalVisitor{
 
 	@Override
 	public boolean visit(PointsGoal goal) {
-//		System.out.println("reached pointsgoalchecker");
-//	    System.out.println("goalpoints"+goal.getNumPoints());
-//	    System.out.println("levelpoints"+getLevel().getCurrentPoints());
-//      System.out.println(getLevel().getCurrentPoints()); 
-//		System.out.println("goalboolean");
-//      System.out.println(goal.getNumPoints() < getLevel().getCurrentPoints());
 		return goal.getNumPoints().intValue() < getLevel().getCurrentPoints();
 	}
 	
 	public boolean visit(StayAliveGoal goal){
-		//System.out.println("reached visit() method in stay alive checker");
-
-	// System.out.println("spritesize"+level.getSpriteMap().getSprites().size());
 		boolean enemyBoolean=true;
 		for(ISprite sprite: level.getSpriteMap().getSprites()){
 			if(!sprite.isUserControlled()){
@@ -45,7 +36,6 @@ public class GoalChecker implements IGoalVisitor{
 				break;
 			}
 		}
-//		System.out.println("enemyboolean" + enemyBoolean);
 		return enemyBoolean;
 	}
 	
@@ -62,14 +52,18 @@ public class GoalChecker implements IGoalVisitor{
 		return bossBoolean;
 	}
 	
-
+/*
 	@Override
 	public boolean visit(Goal goal) {
 		System.out.println("reached blank checker");
 
-		// TODO Auto-generated method stub
 		return false;
 	}
+*/	
+	public boolean visit(TimeGoal goal){
+		return this.getLevel().getLevelProperties().getTime().getTime() <= goal.getEndTime().doubleValue();
+	}
+	
 	
 	public Level getLevel() {
 		return level;

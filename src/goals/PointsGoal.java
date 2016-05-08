@@ -19,7 +19,7 @@ public class PointsGoal extends Goal implements IGoal{
 	}
 
 	public PointsGoal(){
-		super(new GoalProperties(Goals.PointsGoal));
+		super(new GoalProperties(GoalEnum.PointsGoal));
 		setNumPoints();
 	}
 	
@@ -33,12 +33,9 @@ public class PointsGoal extends Goal implements IGoal{
 	}
 	@Override
 	public void acceptVisitor(IGoalVisitor visitor){
-		//System.out.println("accept points visitor" + visitor.visit(this));
 
 		setIsFinished(visitor.visit(this));
 		
-		// System.out.println("reached accept visitor" + getGoalProperties().isFinished());
-
 
 	}
 	

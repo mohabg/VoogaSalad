@@ -18,12 +18,10 @@ public class KillBossGoal extends Goal implements IGoal {
 	}
 	
 	public KillBossGoal(){
-		super(new GoalProperties(Goals.KillBossGoal));
+		super(new GoalProperties(GoalEnum.KillBossGoal));
 		bossIDList = new SimpleListProperty<IntegerProperty>(FXCollections.<IntegerProperty>observableList(new ArrayList<IntegerProperty>()));
 		setBossIDList();
-	//	List<Integer> list = new ArrayList<Integer>();
-	//	ObservableList ol = FXCollections.observableList(list);
-	//	bossIDList=new SimpleListProperty<Integer>(ol);
+
 	}
 
 	public void setBossIDList() {
@@ -35,7 +33,6 @@ public class KillBossGoal extends Goal implements IGoal {
 	}
 
 	public void setBossIDList(ListProperty<IntegerProperty> bossIDList) {
-	//	ObservableList ol = FXCollections.observableList(bossIDList);
 		this.bossIDList=bossIDList;
 	}
 	
