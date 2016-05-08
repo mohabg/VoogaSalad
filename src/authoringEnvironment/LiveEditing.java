@@ -41,7 +41,7 @@ public class LiveEditing extends AClickableWindow implements IGameWindow {
 		});
 
 		//ps.getViewSprites().values().forEach(c -> addWithClicking(c));
-		ps.getViewSprites().values().forEach(c -> initViewSprite(c));
+		ps.getViewSprites().values().forEach(c -> initViewSprite((ViewSprite) c));
 	}
 
 	@Override
