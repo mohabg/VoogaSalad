@@ -4,11 +4,15 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import level.ILevelProperties;
 import level.LevelProperties;
-
-	/**
-	 * Superclass for Movements--takes the sprite that wants to be used as an instance variable, and a subclass of movement is called
-	 * to move the sprite 
-	 */
+/**
+ * THIS ENTIRE FILE IS PART OF MY MASTERPIECE
+ * 
+ * This class is provided as an example of the type of class that would extend from Behavior. It is made abstract in order to reduce 
+ * duplicated code amongst its subclasses, since different movements have a lot in common. It is worthy to note that the method that 
+ * must now be implemented is no longer "apply", but "move" instead.
+ * @author mohabgabal
+ *
+ */
 
 public abstract class Movement extends Behavior{
 

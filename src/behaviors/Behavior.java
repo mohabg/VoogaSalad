@@ -11,8 +11,16 @@ import level.ILevelProperties;
 import level.LevelProperties;
 
 /**
+ * THIS ENTIRE FILE IS PART OF MY MASTERPIECE
  * 
- * This is the interface the Sprite uses to execute all of its actions.
+ * This class provides an abstraction of the different behaviors that a sprite can execute. This class provides two abstract methods for extension,
+ * one of which simply returns another instance of this object, while the other actually executes the behavior. It contains an instance
+ * of ExecuteConditions which is used for enemy AI to determine when they should take certain actions. By having all behaviors be executed 
+ * through the apply method, updating the sprite boils down to simply going through all of its behaviors and calling apply() on it, if the
+ * conditions are ready. Thus, it is easy to add new behaviors and the sprite class does not need to know anything at all about which behaviors
+ * it has.
+ * @author mohabgabal
+ *
  */
 public abstract class Behavior implements Executable{
 
