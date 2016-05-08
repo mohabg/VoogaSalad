@@ -9,7 +9,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import events.Event;
 import gameElements.Sprite;
+import goals.GoalProperties;
 import interfaces.ITabPane;
+import javafx.beans.property.ListProperty;
 import level.Level;
 import level.LevelProperties;
 
@@ -123,14 +125,16 @@ public class GameLoader {
 	static Level makeLevel(LevelModel lm, int id) {
 		Level newLevel = new Level();
 		LevelProperties lp = newLevel.getLevelProperties();
+
 		setLevelProperties(lp,id,"level"+id);
 		setGoals(lp, lm);
-//			lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
-//		lp.setNumGoals(lm.getNumGoals());
-		List<Event> list = lm.getMyEvents();
-		for ( Event e: list)
-			newLevel.addEvent(e);
-		//newLevel.setEvents(lm.getMyEvents());
+
+	//lp.setGoalList(lm.getMyGoals());
+		newLevel.setEnableGravity(lm.getEnableGravity());
+		newLevel.setStartTime(lm.getStartTime());
+		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
+	//	lp.setNumGoals(lm.getNumGoals());
+		newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
 		System.out.println("level setter" + newLevel.getLevelProperties().getGoalProperties());
 		return newLevel;
@@ -161,8 +165,9 @@ public class GameLoader {
 	
 	private static void setGoals(LevelProperties levelProperties, LevelModel levelModel){
 		levelProperties.setNumGoals(levelModel.getNumGoals());
-		System.out.println(levelModel.getMyGoals() + "setter");
-		levelProperties.setGoalProperties(levelModel.getMyGoals());
+		//System.out.println(levelModel.getMyGoals() + "setter");
+		levelProperties.setGoalList(levelModel.getMyGoals());
+	//	levelProperties.setGoalProperties(levelModel.getMyGoals());
 		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
 	}
 

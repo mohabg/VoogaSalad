@@ -29,6 +29,7 @@ import java.util.Map;
 /**
  * Contains the game loop, the gameTime, and the Editor, basically everything that the game authoring environment needs directly 
  * 
+ * @author gauravkumar
  */
 
 public class Engine {
@@ -36,20 +37,15 @@ public class Engine {
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS 0.017
 	
 	private Timeline myGameLoop;
-	private EventManager myEventManager;
 	private IntegerProperty currentLevelID;
 	private IGameEditor myEditor;
 	private boolean isPaused;
 	private BooleanProperty isGameFinished;
-//    private PlayScreen myGameScreen;
 
 
 	public Engine() {
-		myEventManager = new EventManager();
-//		this.myGameScreen = myGameScreen;
 		currentLevelID = new SimpleIntegerProperty(0);
 		myGameLoop = new Timeline();
-//		myTimeProperty = new SimpleDoubleProperty(0);
 		isPaused = false;
 		isGameFinished = new SimpleBooleanProperty(false);
 	}
@@ -105,10 +101,6 @@ public class Engine {
     public Integer getUserSprite() {
         return myEditor.getUserSprite();
     }
-
-    public void setSpriteActions() {
-        myEditor.setSpriteActions();
-    }
     
     public void setUserSprite(Integer sprite) {
     	myEditor.setUserSprite(sprite);
@@ -137,8 +129,8 @@ public class Engine {
                     	myGameLoop.stop();
                     	Stage stage = new Stage();
                         StackPane pane = new StackPane();
-                        pane.getChildren().add(new Label("Hello world"));
-                        stage.setScene(new Scene(pane, 100, 100));
+                        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
+                        stage.setScene(new Scene(pane, 700, 700));
                         stage.showAndWait();
                     }
                     myEditor.updateGame();
@@ -155,14 +147,9 @@ public class Engine {
                     public void run() {
                     	Stage stage = new Stage();
                         StackPane pane = new StackPane();
-                        pane.getChildren().add(new Label("Hello world"));
-                        stage.setScene(new Scene(pane, 100, 100));
-                        stage.showAndWait();
-                    	/*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                		alert.setTitle("Game Information");
-                		alert.setHeaderText("Game Result");
-                		alert.setContentText("Congrats you've won the game bitch");
-                		alert.showAndWait(); */                   
+                        pane.getChildren().add(new Label("YOU HAVE COMPLETED THE GAME"));
+                        stage.setScene(new Scene(pane, 700, 700));
+                        stage.showAndWait();                  
                     }
                 });
 
@@ -172,13 +159,7 @@ public class Engine {
         if ( isPaused )
         	pauseGameLoop();
         if ( isGameFinished.getValue() ) {
-        	myGameLoop.stop();
-        	/*pauseGameLoop();
-        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        	alert.setTitle("Game Information");
-        	alert.setHeaderText("Game Result");
-        	alert.setContentText("Congrats you've won the game bitch");
-        	alert.showAndWait();*/       	
+        	myGameLoop.stop();     	
         }
         	
     }

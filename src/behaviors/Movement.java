@@ -20,9 +20,6 @@ public abstract class Movement extends Behavior{
 	public Movement(double value){
 		super();
 		this.value = new SimpleDoubleProperty(value);
-		this.value.addListener((o, ov, nv) -> {
-			System.out.println("my new value is " + this.getValue());
-		});
 	}
 	
 	public double getValue(){

@@ -1,11 +1,14 @@
 package goals;
 
+import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.IgnoreField;
+
 /**
  * Describes the goals for the level. 
  */
 
 
 public abstract class Goal implements IGoal{
+	@IgnoreField
 	private GoalProperties goalProperties;
 	
 	public Goal(GoalProperties myProperties){

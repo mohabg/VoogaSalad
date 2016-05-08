@@ -1,11 +1,11 @@
 package collisions;
 
 import behaviors.Behavior;
-import behaviors.Defense;
 import behaviors.IActions;
 import gameElements.ISprite;
 import gameElements.Sprite;
 import javafx.beans.property.DoubleProperty;
+import level.ILevelProperties;
 import level.LevelProperties;
 
 /**

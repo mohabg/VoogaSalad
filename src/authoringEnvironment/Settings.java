@@ -38,14 +38,14 @@ public class Settings {
 		myTabPane.setPrefHeight(SCREEN_HEIGHT);
 		myTabPane.setPrefWidth(0.25 * SCREEN_WIDTH);
 	}
-	
+
 	public static void setControlWindowSettings(Pane myPane){
 		myPane.setPrefHeight(SCREEN_HEIGHT);
-		myPane.setPrefWidth(0.25 * SCREEN_WIDTH);
+		myPane.setPrefWidth(0.3 * SCREEN_WIDTH);
 	}
 	
 	public static void setPlayScreenSettings(Pane myPane){
-		myPane.setPrefWidth(0.45 * SCREEN_WIDTH);
+		myPane.setPrefWidth(0.4 * SCREEN_WIDTH);
 		myPane.setPrefHeight(SCREEN_HEIGHT);
 	}
 	
@@ -55,7 +55,7 @@ public class Settings {
 	}
 
 	public static void setGamePaneSettings(Pane myNewGamePane) {
-		myNewGamePane.getStyleClass().add("pane");
+		//myNewGamePane.getStyleClass().add("pane");
 		myNewGamePane.setPrefWidth(0.45 * SCREEN_WIDTH);
 		myNewGamePane.setPrefHeight(SCREEN_HEIGHT);
 	}

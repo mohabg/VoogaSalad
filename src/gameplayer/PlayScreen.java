@@ -5,7 +5,7 @@ import authoringEnvironment.LevelModel;
 import authoringEnvironment.ViewSprite;
 import game.Engine;
 import game.GameEditor;
-import gameElements.AIController;
+import gameElements.SpawnController;
 import gameElements.ISprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -62,10 +62,13 @@ public class PlayScreen {
 			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
 			myView.setBackgroundList(id, lm.getBackground());
 		}
-		myEngine.setCurrentLevel(0);
+		
 		myEngine.getCurrentLevelID().addListener((observable, oldValue, newValue) -> {
             setLevel();
         });
+		
+		myEngine.setCurrentLevel(0);
+		
 		setLevel();
 		myEngine.gameLoop();
 	}
@@ -76,7 +79,7 @@ public class PlayScreen {
 		System.out.println("setLevel" + currentLevel.getLevelProperties().getGoalProperties());
 		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
-		AIController enemyController = new AIController(sf);
+		SpawnController enemyController = new SpawnController(sf);
 		currentLevel.setAIController(enemyController);
 		currentLevel.setSpriteFactory(sf);
 		activeSprites = currentLevel.getSpriteMap().getActiveSprites();

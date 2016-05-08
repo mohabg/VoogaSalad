@@ -8,7 +8,7 @@ import gameElements.SpriteProperties;
 
 public interface IActions {
 
-	public ISprite makeSprite(double x, double y, RefObject myRef);
+	public ISprite makeSprite(double x, double y, double angle, RefObject myRef);
 	public ISpriteProperties getSpriteProperties();
 	public boolean isUserAction();
 	public boolean spriteCanMove();

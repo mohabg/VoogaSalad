@@ -7,20 +7,19 @@ import javafx.scene.input.KeyCode;
 import level.ILevelProperties;
 import level.LevelProperties;
 
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
 public class KeyPressEvent extends Event {
-	
-	//private KeyCode myCode;
 	
 	public KeyPressEvent() {
 		this(new CollisionChecker(), new CollisionHandler());
 	}
 	
 	public KeyPressEvent(Trigger trigger, Executable executable) {
-		//KeyPressTrigger press = (KeyPressTrigger) getTrigger();
-		//myCode = press.getCode();
 		super("", trigger, executable);
-		//setTrigger(trigger);
-		//setExecutable(executable);
 	}
 
 	@Override

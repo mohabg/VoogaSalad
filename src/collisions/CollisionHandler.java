@@ -62,19 +62,17 @@ public class CollisionHandler implements Executable {
 		Class<? extends Collision> CollisionOneClass = one.getClass();
 		Class<? extends Collision> CollisionTwoClass = two.getClass();
 		try{
-			Method[] methods = CollisionOneClass.getMethods();
 			Method method = CollisionOneClass.getDeclaredMethod("handleCollision", CollisionTwoClass, levelProperties.getClass());
 			return true;
 		}
 		catch(NoSuchMethodException e){
-            //TODO: Throw exception
+           
         }
 		return false;
 	}
 
 	@Override
 	public void execute(IActions action, ILevelProperties levProps) {
-		// TODO Auto-generated method stub
 		applyCollision(collisionOne,collisionTwo,levProps);
 	}
 

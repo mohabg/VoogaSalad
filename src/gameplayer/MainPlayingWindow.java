@@ -28,6 +28,8 @@ public class MainPlayingWindow extends Screen {
 
 	private void init() {
 		myPane = new BorderPane();
+		myPane.getStylesheets().add("gameplayer/MainPlayingWindow.css");
+		myPane.setId("pane");
 		myControlWindow = new ControlWindow(myPlayScreen);
 		myHUDWindow = new HUDWindow(myPlayScreen);
 		toggleButton = new Button(FrontEndData.ButtonLabels.getString("Toggle"));

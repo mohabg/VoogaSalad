@@ -4,7 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class TimeGoal extends Goal implements IGoal{
-	private DoubleProperty endTime;
+private DoubleProperty endTime;
 	
 	public TimeGoal(GoalProperties myProperties){
 		super(myProperties);
@@ -16,7 +16,7 @@ public class TimeGoal extends Goal implements IGoal{
 	}
 	
 	public void acceptVisitor(IGoalVisitor visitor){
-		setIsFinished(visitor.visit(this));
+		visitor.visit(this);
 	}
 
 	public DoubleProperty getEndTime() {

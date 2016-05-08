@@ -8,6 +8,11 @@ import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
 import level.LevelProperties;
 
+/**
+ * 
+ * @author gauravkumar
+ *
+ */
 public interface IGameEditor {
 	
 	Game getGame();
@@ -22,12 +27,7 @@ public interface IGameEditor {
 	void deleteGoal(Goal goal);
 	void setLevelProperties(LevelProperties levelProperties);
 	Integer getUserSprite();
-	void setSpriteActions();
 	void setUserSprite(Integer sprite);
 	
-	//TODO: suggestions for better implementation?
-//    List<Integer> updateGame();
     void updateGame();
-	
-	//void setResultForKeyPress(KeyEvent event);
 }

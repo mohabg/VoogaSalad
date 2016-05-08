@@ -17,15 +17,7 @@ import javafx.scene.input.KeyCode;
 import level.LevelProperties;
 
 public interface ISprite{
-	
-	public enum spriteState{
-		User,
-		Enemy,
-		Obstacle,
-		Offense,
-		Defense
-	}
-	
+
 	public void update(IActions actions, LevelProperties levProps);
 
 	public String getMyRef();
@@ -54,5 +46,5 @@ public interface ISprite{
 	
 	public ListProperty<Behavior> getBehaviors();
 
-	public ExecuteConditions getSpawnConditions();
+	public SpawnConditions getSpawnConditions();
 }

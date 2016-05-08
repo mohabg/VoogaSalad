@@ -23,8 +23,8 @@ public class Actions implements IActions{
 	}
 	
 	@Override
-	public Sprite makeSprite(double x, double y, RefObject myRef) {
-		return spriteFactory.makeSprite(x, y, myRef);
+	public Sprite makeSprite(double x, double y, double angle, RefObject myRef) {
+		return spriteFactory.makeSprite(x, y, angle, myRef);
 	}
 	@Override
 	public ISpriteProperties getSpriteProperties() {

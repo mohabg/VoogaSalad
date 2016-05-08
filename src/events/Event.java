@@ -17,9 +17,9 @@ public abstract class Event {
 	private static String DEFAULT_EVENT_NAME = "unnamedEvent";
 	
 	private String name;
-	//@IgnoreField
+
 	private Trigger trigger;
-	//@IgnoreField
+
 	private Executable executable;
 	
 	public Event() {

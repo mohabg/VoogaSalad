@@ -16,6 +16,8 @@ import java.util.List;
  * Can get/set information about the game in this class, including what the
  * current level is and game info. One can create and delete levels and restart
  * the game.
+ * 
+ * @author gauravkumar
  */
 
 public class Game {
@@ -78,16 +80,15 @@ public class Game {
 	}
 
 	public Level getCurrentLevel() {
-		// System.out.println(currLevelNum);
-		if (myGameLevels.get(currLevelNum).equals(null)) {
+		if(myGameLevels.get(currLevelNum).equals(null)){
 			System.out.println("hi");
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Game Information");
-			alert.setHeaderText("Game Result");
-			alert.setContentText("Congrats you've won the game bitch");
-			alert.showAndWait();
-			return null;
-		} else {
+        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        	alert.setTitle("Game Information");
+        	alert.setHeaderText("Game Result");
+        	alert.setContentText("Congrats you've won the game bitch");
+        	alert.showAndWait();
+        	return null;
+		}else{
 			return myGameLevels.get(currLevelNum);
 		}
 
@@ -143,14 +144,8 @@ public class Game {
 		this.isFinished.set(isFinished);
 	}
 
+
 	public boolean hasNextLevel() {
 		return this.myGameLevels.size() > this.getCurrentLevel().getLevelProperties().getNextLevelID();
 	}
-
-	/*
-	 * public void setViewPoint(double myWidth, double myHeight, Sprite sprite){
-	 * 
-	 * setViewPoint(new ViewPoint(new SimpleDoubleProperty(myWidth), new
-	 * SimpleDoubleProperty(myHeight), sprite)); }
-	 */
 }

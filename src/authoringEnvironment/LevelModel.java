@@ -10,9 +10,12 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
-import goals.GoalProperties;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,16 +25,19 @@ import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
 import level.Level;
-import level.LevelProperties;
+import resources.BackEndData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import Physics.PhysicsEngine;
+
 public class LevelModel {
-	private ListProperty<GoalProperties> myGoals;
-	//private ListProperty<GoalProperties> myGoalProperties;
+	private ListProperty<Goal> myGoals;
 	private ListProperty<Event> myEvents;
+	private BooleanProperty enableGravity;
+	private DoubleProperty startTime;
 	@IgnoreField
 	private IntegerProperty numGoals;
 	@IgnoreField
@@ -41,19 +47,10 @@ public class LevelModel {
 
 	public LevelModel() {
 		myBackground = new SimpleStringProperty();
-		
-		myGoals = new SimpleListProperty<GoalProperties>(FXCollections.observableList(new ArrayList<GoalProperties>()));
-	
-		// myGoalProperties = new SimpleListProperty<GoalProperties>(FXCollections.observableList(new ArrayList<GoalProperties>()));
-		
-		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections
-				.observableMap(new HashMap<KeyCode, KeyboardActions>());
-		
+		enableGravity = new SimpleBooleanProperty();
+		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
+		startTime = new SimpleDoubleProperty(0);
 		myEvents = new SimpleListProperty<Event>(FXCollections.<Event>observableList(new ArrayList<Event>()));
-		myEvents.sizeProperty().addListener((o, ov, nv) -> {
-			System.out.println("i changed");
-		});
-//		myKeyMap = new SimpleMapProperty<KeyCode, KeyboardActions>(om1);
 		numGoals = new SimpleIntegerProperty(1);
 		myList = new ArrayList<Sprite>();
 	}
@@ -67,18 +64,17 @@ public class LevelModel {
 
 	public LevelModel(Level l) {
 		this();
-		LevelProperties myProperties = l.getLevelProperties();
-//		List<GoalProperties> goalproperties = l.getGoalList().stream().map(goal->goal.getGoalProperties()).collect(Collectors.toList());
-//		myGoals.addAll(myProperties.getGoalProperties().stream().map(gp-> gp.getMyGoal()).collect(Collectors.toList()));
-
 	}
 
+	public BooleanProperty getEnableGravity() {
+		return enableGravity;
+	}
 
-//	public Map<KeyCode, KeyboardActions> getMyKeyMap() {
-//		return myKeyMap;
-//	}
+	public void setEnableGravity(BooleanProperty enableGravity) {
+		this.enableGravity = enableGravity;
+	}
 
-	public List<GoalProperties> getMyGoals() {
+	public List<Goal> getMyGoals() {
 		return myGoals;
 	}
 	
@@ -93,6 +89,7 @@ public class LevelModel {
 	public StringProperty getBackground(){
 		return myBackground;
 	}
+	
 	public List<Event> getMyEvents(){
 		return myEvents;
 	}
@@ -101,16 +98,18 @@ public class LevelModel {
 		myBackground.setValue(background);	
 	}
 
+	public DoubleProperty getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(DoubleProperty startTime) {
+		this.startTime = startTime;
+	}
+
 	public void addSprites(List<Sprite> list) {
 		myList.addAll(list);		
 	}
 
-	/* public ListProperty<GoalProperties> getMyGoalProperties() {
-		return myGoalProperties;
-	}
 
-	public void setMyGoalProperties(ListProperty<GoalProperties> myGoalProperties) {
-		this.myGoalProperties = myGoalProperties;
-	} */
 
 }
