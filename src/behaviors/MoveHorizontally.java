@@ -2,9 +2,8 @@ package behaviors;
 
 import gameElements.ISpriteProperties;
 
-/**
- * Moves a pre-defined sprite horizontally by an amount defined by the instance variable moveX
- */
+// This entire file is part of my masterpiece.
+// Jesse Rencurrell Pollack
 
 public class MoveHorizontally extends Movement{
 	public MoveHorizontally() {
