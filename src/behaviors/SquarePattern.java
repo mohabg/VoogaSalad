@@ -1,11 +1,16 @@
+// This entire file is part of my masterpiece.
+// Tavo Loaiza
 package behaviors;
 
 import behaviors.PatternMovement;
 import gameElements.Vector;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class SquarePattern extends PatternMovement {
 
-	private static final double DEFAULT_SIZE = 5;
+
+	private static final int DEFAULT_SIZE = 5;
 
 	public SquarePattern() {
 		super();
@@ -26,7 +31,7 @@ public class SquarePattern extends PatternMovement {
 
 	public void setSquare(double size, int period){
 		setSize(size);
-		this.period = period;
+		this.period = new SimpleIntegerProperty(period);
 	}
 
 	public void setSize(double size){
