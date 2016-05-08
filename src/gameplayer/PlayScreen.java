@@ -1,3 +1,13 @@
+// This entire file is part of my masterpiece.
+// HUIJIA YU
+//This class is the basis for the actual game. The purpose of my
+//masterpiece was to refactor it so in order to add to its flexibility,
+//so that it could be used generally without needing to change much
+//(following the open closed principle). This class is an example of the 
+//mediator design pattern, as well as the controller in the MVC model. 
+//The assumption underlying this class's design is that the engine 
+//is structured with levels as the main focus.
+
 package gameplayer;
 
 import authoringEnvironment.AESpriteFactory;
@@ -11,6 +21,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import level.Level;
 
@@ -27,127 +38,113 @@ import java.util.Map;
  *
  */
 public class PlayScreen {
-	private ObservableList<Integer> activeSprites;
-	private Engine myEngine;
-	private PlayerView myView;
+	// private ObservableList<Integer> activeSprites;
+	private IEngine myEngine;
+	private IView myView;
 	private File gameFile;
-	private Level currentLevel;
+	// private Level currentLevel;
 
 	public PlayScreen(File newGameFile) {
 		gameFile = newGameFile;
 		myView = new PlayerView();
 		myEngine = new Engine(new GameEditor());
-        setGameLevels(GameLoader.parseAndLoadGame(gameFile));
+		setGameLevels(GameLoader.parseAndLoadGame(gameFile));
 	}
-	
-	public PlayScreen(String name){
+
+	public PlayScreen(String name) {
 		this(new File(String.format(GameLoader.SAVED_FOLDER_DIRECTORY, name)));
 	}
 
-    public void init(){
-        setKeys();
-
-    }
-
 
 	public void setGameLevels(List<LevelModel> gameLevels) {
-		// myViewSprites = GameLoader.makeLevelViewSpriteMap(gameLevels);
 		for (int i = 0; i < gameLevels.size(); i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel = GameLoader.makeLevel(lm, i);
 			int id = newLevel.getLevelProperties().getLevelID();
 			myEngine.addLevel(id, newLevel);
-			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
+			myView.setLevelSprites((Number) id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
 			myView.setBackgroundList(id, lm.getBackground());
 		}
-		
+
 		myEngine.getCurrentLevelID().addListener((observable, oldValue, newValue) -> {
-            setLevel();
-        });
-		
-		myEngine.setCurrentLevel(0);
-		
-		setLevel();
-		myEngine.gameLoop();
+			setLevel(newValue);
+		});
+
+		setLevel(0);
+		myEngine.start();
 	}
 
-	public void setLevel() {
-		myView.clearSprites();
-		currentLevel = myEngine.getCurrentLevel();
-		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
-		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
-		SpawnController enemyController = new SpawnController(sf);
-		currentLevel.setAIController(enemyController);
-		currentLevel.setSpriteFactory(sf);
-		activeSprites = currentLevel.getSpriteMap().getActiveSprites();
-		activeSprites.addListener((ListChangeListener<Integer>) change -> {
-            myView.setSprites(activeSprites);
-        });
-		myView.setSprites(activeSprites);
-		myView.setBackground(currentLevel.getLevelProperties().getLevelID());
+	public void setLevel(Number newValue) {
+
+		setActiveSpriteListener();
 		setKeys();
+		setViewLevel(newValue);
+		setEngineLevel(newValue);
 	}
+
+	private void setActiveSpriteListener() {
+		myEngine.getActiveSprites().addListener((ListChangeListener<Integer>) change -> {
+			myView.setActiveSprites(myEngine.getActiveSprites());
+		});
+	}
+
+	private void setKeys() {
+		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
+			myEngine.getCurrentLevel().handleKeyPress(key);
+			key.consume();
+		});
+	}
+
+	private void setEngineLevel(Number newValue) {
+		Level currentLevel = myEngine.getCurrentLevel();
+		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
+		currentLevel.setAIController(new SpawnController(sf));
+		currentLevel.setSpriteFactory(sf);
+
+	}
+
+	private void setViewLevel(Number levelID) {
+		myView.selectLevelSprites(levelID);
+		myView.setBackground(levelID);
+
+	}
+	public void play() {
+		myEngine.start();
+	}
+
+	public void addSprite(ViewSprite vs) {
+		AESpriteFactory sf = new AESpriteFactory();
+		myView.getViewSprites().put(myEngine.getCurrentLevel().getCurrentSpriteID() + 1, vs);
+		myEngine.getCurrentLevel().addSprite(sf.makeSprite(vs));
+
+	}
+
+	
 
 	public File getGameFile() {
 		return gameFile;
 	}
 
-	public void play() {
-		myEngine.playGameLoop();
-	}
-
 	public Level getCurrentLevel() {
-		return currentLevel;
+		return myEngine.getCurrentLevel();
 	}
 
 	public Map<Integer, ISprite> getSprites() {
 		return myEngine.getSpriteMap();
 	}
 
-	public Map<Integer, ViewSprite> getViewSprites() {
+	public Map<Integer, Node> getViewSprites() {
 		return myView.getViewSprites();
 	}
 
-	public void setKeys() {
-		myView.getPane().addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-			System.out.println(key.getCode());
-			currentLevel.handleKeyPress(key);
-			key.consume();
-		});
-		myView.getPane().addEventFilter(KeyEvent.KEY_RELEASED, key -> {
-			currentLevel.handleKeyRelease(key);
-			key.consume();
-		});
-	}
-
-	public void addSprite(ViewSprite vs) {
-		AESpriteFactory sf = new AESpriteFactory();
-		myView.getViewSprites().put(currentLevel.getCurrentSpriteID() + 1, vs);
-		currentLevel.addSprite(sf.makeSprite(vs));
-
-	}
 	public Screen getScreen() {
 		// TODO Auto-generated method stub
-		return myView;
-	}
-	
-	public Engine getEngine(){
-		return myEngine;
+		return (Screen) myView;
 	}
 
-	public DoubleProperty getTime() {
-		// TODO Auto-generated method stub
-		return currentLevel.getLevelProperties().getTime().getMyCurrentTimeProperty();
+	public Engine getEngine() {
+		return (Engine) myEngine;
 	}
-	
-	public DoubleProperty getHealth() {
-		System.out.println(myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty().doubleValue());
-		return myEngine.getCurrentLevel().getCurrentSprite().getMyHealth().getProperty();
-	}
-	
-	public DoubleProperty getScore() {
-		System.out.println(myEngine.getCurrentLevel().getScore());
-		return myEngine.getCurrentLevel().getScore();
-	}
+
 
 }

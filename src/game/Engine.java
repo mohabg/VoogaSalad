@@ -4,6 +4,7 @@ import authoringEnvironment.LiveEditing;
 import events.EventManager;
 import gameElements.ISprite;
 import gameElements.Time;
+import gameplayer.IEngine;
 import goals.Goal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,6 +14,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -32,7 +34,7 @@ import java.util.Map;
  * @author gauravkumar
  */
 
-public class Engine {
+public class Engine implements IEngine {
 	
 	private static final double TIME_PER_FRAME = 0.017;// 60 FPS 0.017
 	
@@ -85,6 +87,8 @@ public class Engine {
         myEditor.createLevel(levelIndex, levelProperties);
     }
     
+	@Override
+
     public void addLevel(Integer levelIndex, Level level) {
     	myEditor.addLevel(levelIndex, level);
     }
@@ -187,5 +191,19 @@ public class Engine {
     public IntegerProperty getCurrentLevelID(){
     	return currentLevelID;
     }
+
+
+
+	@Override
+	public void start() {
+		gameLoop();
+		
+	}
+
+	@Override
+	public ObservableList<Integer> getActiveSprites() {
+		// TODO Auto-generated method stub
+		return getCurrentLevel().getSpriteMap().getActiveSprites();
+	}
 
 }

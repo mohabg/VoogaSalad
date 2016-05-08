@@ -58,10 +58,5 @@ public class HUDWindow{
 	public Pane getPane(){
 		return myFlowPane;
 	}
-	
-	public void initHUD() {
-//		myHUD.addToHUDElement(HUDEnum.Up, pauseButton);
-		myHUD.addToHUDElement(HUDEnum.Up, myPlayScreen.getTime(), myPlayScreen.getHealth(), myPlayScreen.getScore());
-//		myHUD.addToHUDElement(HUDEnum.Up, currentLevel.getCurrentSprite().getHealth().getProperty());
-	}
+
 }

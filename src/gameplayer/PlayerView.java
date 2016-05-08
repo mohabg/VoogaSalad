@@ -1,92 +1,95 @@
+// This entire file is part of my masterpiece.
+// HUIJIA YU
+//This class displays the game. It implements both
+//an abstract superclass and an interface. This class effectively
+//encapsulates the implementation of the view of a level-
+//based game engine. It has no dependencies, and is closed, which 
+//would allow it to easily be used in a different project.
+
 package gameplayer;
 
-import HUD.HUDEnum;
-import HUD.HeadsUpDisplay;
-import authoringEnvironment.ViewSprite;
 import highscoretable.HighScoreController;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.HBox;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerView extends Screen {
-	private Map<Integer, Map<Integer, ViewSprite>> myViewSpriteMap;
-	private Map<Integer, ViewSprite> myViewSprites;
-	private Map<Integer, StringProperty> myBackgrounds;
+public class PlayerView extends Screen implements IView {
+	private Map<Number, Map<Integer, Node>> myViewSpriteMap;
+	private Map<Integer, Node> myViewSprites;
+	private Map<Number, StringProperty> myBackgrounds;
 
-	public PlayerView(){
+	public PlayerView() {
 		super();
-		myViewSpriteMap = new HashMap<Integer, Map<Integer, ViewSprite>>();
-		myViewSprites = new HashMap<Integer, ViewSprite>();
-		myBackgrounds = new HashMap<Integer, StringProperty>();
-		//TODO: find better way
-		myPane.getChildren().add(new Button("a"));
+		myViewSpriteMap = new HashMap<Number, Map<Integer, Node>>();
+		myViewSprites = new HashMap<Integer, Node>();
+		myBackgrounds = new HashMap<Number, StringProperty>();
+		
+		myPane.getChildren().add(new Button(""));
 	}
 
-	
-	public void setSprites(List<Integer> activeSprites) {
+	@Override
+	public void setActiveSprites(List<Integer> activeSprites) {
 		this.clearSprites();
-		activeSprites.stream().forEach(s->{
-			ViewSprite vs = myViewSprites.get(s);
+		activeSprites.stream().forEach(s -> {
+			Node vs = myViewSprites.get(s);
 			if (vs != null) {
 				myPane.getChildren().add(0, vs);
-				//myPane.getChildren().add(vs);
 			}
 		});
 	}
-	
-//	public Pane getPane() {
-//		return myPane;
-//	}
-	public void setBackgroundList(Integer id, StringProperty background){
-		myBackgrounds.put(id,  background);
+
+	@Override
+	public void setBackgroundList(Number id, StringProperty background) {
+		myBackgrounds.put(id, background);
 	}
-	public void setBackground(Integer id){
+
+	public void setBackground(Number id) {
 		StringProperty backgroundName = myBackgrounds.get(id);
-		if (backgroundName.getValue() != "") {
-			myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));			
-		} else {
-		//myPane.setBackground(new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		try{
+			myPane.setBackground(
+					new Background(new BackgroundImage(new Image(backgroundName.get()), BackgroundRepeat.REPEAT,
+							BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		} 
+		catch(Exception e){
+			
 		}
 	}
-	
-	public Map<Integer, ViewSprite> getViewSprites() {
+
+	public Map<Integer, Node> getViewSprites() {
 		return myViewSprites;
 	}
-	public void makeHighScoreTable(){
+
+	public void makeHighScoreTable() {
 		HighScoreController hsc = new HighScoreController();
-//		hsc.addHighScore(myEngine.getScore(), myEngine.getName());
-		hsc.addHighScore(10.1, "game");
 		myPane.getChildren().clear();
 		myPane.getChildren().add(hsc.getTable());
-		
+
 	}
 
-	public void setViewSprites(int id, Map<Integer, ViewSprite> levelSprites) {
-		myViewSpriteMap.put(id, levelSprites);
-//		myViewSprites = levelSprites;
-	}
-
-	public void setLevelSprites(Integer levelID) {
+	@Override
+	public void selectLevelSprites(Number levelID) {
 		myViewSprites = myViewSpriteMap.get(levelID);
-		
+
 	}
 
 	public void clearSprites() {
 		myPane.getChildren().removeAll(myViewSprites.values());
 	}
-	
-	
+
+	@Override
+	public void setLevelSprites(Number levelID, Map<Integer, Node> map) {
+		myViewSpriteMap.put(levelID, map);
+
+	}
+
 }

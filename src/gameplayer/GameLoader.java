@@ -12,6 +12,7 @@ import gameElements.Sprite;
 import goals.GoalProperties;
 import interfaces.ITabPane;
 import javafx.beans.property.ListProperty;
+import javafx.scene.Node;
 import level.Level;
 import level.LevelProperties;
 
@@ -137,8 +138,8 @@ public class GameLoader {
 		return newLevel;
 	}
 
-	static Map<Integer, ViewSprite> setLevelSprites(Level newLevel, List<Sprite> list) {
-		Map<Integer, ViewSprite> viewsprites = new HashMap<Integer, ViewSprite>();
+	static Map<Integer, Node> setLevelSprites(Level newLevel, List<Sprite> list) {
+		Map<Integer, Node> viewsprites = new HashMap<Integer, Node>();
 		List<Sprite> visList = list;
 		AESpriteFactory sf = new AESpriteFactory();
 		list.forEach(s -> {

@@ -16,6 +16,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,11 @@ import java.util.Map;
 
 public class SpriteFactory {
 	
-	private Map<Integer, ViewSprite> myViewSprites;
+	private Map<Integer, Node> myViewSprites;
 	private SpriteMap spriteMap;
 	
-	public SpriteFactory(Map<Integer, ViewSprite> myViewSprites, SpriteMap mySpriteMap ) {
-		this.myViewSprites = myViewSprites;
+	public SpriteFactory(Map<Integer, Node> map, SpriteMap mySpriteMap ) {
+		this.myViewSprites = map;
 		this.spriteMap = mySpriteMap;
 	}
 
@@ -38,7 +39,7 @@ public class SpriteFactory {
 	public void setSpriteMap(SpriteMap spriteMap) {
 		this.spriteMap = spriteMap;
 	}
-	public Map<Integer, ViewSprite> getMyViewSprites(){
+	public Map<Integer, Node> getMyViewSprites(){
 		return this.myViewSprites;
 	}
 	
