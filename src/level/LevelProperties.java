@@ -9,6 +9,7 @@ import gameElements.Time;
 import goals.GoalEnum;
 import goals.Goal;
 import goals.GoalProperties;
+import goals.IGoal;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +35,7 @@ public class LevelProperties implements ILevelProperties {
 	private IntegerProperty numGoals;
 	private Score score;
 	private SpriteMap spriteMap;
-	private List<Goal> goalList;
+	private List<IGoal> goalList;
 	private Time time;
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private Map<String, List<Sprite>> spriteTypes;
@@ -165,11 +166,11 @@ public class LevelProperties implements ILevelProperties {
 			spriteTypes.get(sprite.getMyRef()).add(sprite);
 	}
 
-	public List<Goal> getGoalList() {
+	public List<IGoal> getGoalList() {
 		return goalList;
 	}
 
-	public void setGoalList(List<Goal> goalList) {
+	public void setGoalList(List<IGoal> goalList) {
 		this.goalList = goalList;
 	}
 

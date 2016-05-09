@@ -9,16 +9,17 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class KillBossGoal extends Goal implements IGoal {
+public class KillBossGoal implements IGoal {
 	private ListProperty<IntegerProperty> bossIDList;
+	private GoalProperties goalProperties;
 
 	public KillBossGoal(GoalProperties myProperties) {
-		super(myProperties);
+		goalProperties=myProperties;
 		setBossIDList();
 	}
 	
 	public KillBossGoal(){
-		super(new GoalProperties(GoalEnum.KillBossGoal));
+		goalProperties=new GoalProperties(GoalEnum.KillBossGoal);
 		bossIDList = new SimpleListProperty<IntegerProperty>(FXCollections.<IntegerProperty>observableList(new ArrayList<IntegerProperty>()));
 		setBossIDList();
 
@@ -39,7 +40,22 @@ public class KillBossGoal extends Goal implements IGoal {
 	@Override
 	public void acceptVisitor(IGoalVisitor visitor){
 		// System.out.println("acceptpointsvisitor");
-		setIsFinished(visitor.visit(this));
+		getGoalProperties().setIsFinished(visitor.visit(this));
 	}
+	
+
+	public GoalProperties getGoalProperties() {
+		return goalProperties;
+	}
+
+	public void setGoalProperties(GoalProperties goalProperties) {
+		this.goalProperties = goalProperties;
+	}
+
+	@Override
+	public Boolean isFinished() {
+		return this.getGoalProperties().isFinished();
+	}
+	
 
 }
