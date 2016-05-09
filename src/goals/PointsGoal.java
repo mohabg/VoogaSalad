@@ -8,17 +8,18 @@ import javafx.beans.property.SimpleIntegerProperty;
  * getTotalPoints() method of the goalProperties. 
  */
 
-public class PointsGoal implements IGoal{
+public class PointsGoal extends Goal implements IGoal{
 
 	private IntegerProperty numPoints;
-	private GoalProperties goalProperties;
+	
 	public PointsGoal(GoalProperties myProperties) {
-		goalProperties=myProperties;
-		setNumPoints();		
+		super(myProperties);
+		setNumPoints();
+		
 	}
 
 	public PointsGoal(){
-		goalProperties=new GoalProperties(GoalEnum.PointsGoal);
+		super(new GoalProperties(GoalEnum.PointsGoal));
 		setNumPoints();
 	}
 	
@@ -32,21 +33,13 @@ public class PointsGoal implements IGoal{
 	}
 	@Override
 	public void acceptVisitor(IGoalVisitor visitor){
-		getGoalProperties().setIsFinished(visitor.visit(this));
+		//System.out.println("accept points visitor" + visitor.visit(this));
+
+		setIsFinished(visitor.visit(this));
 		
+		// System.out.println("reached accept visitor" + getGoalProperties().isFinished());
 
-	}
 
-	public GoalProperties getGoalProperties() {
-		return goalProperties;
-	}
-
-	public void setGoalProperties(GoalProperties goalProperties) {
-		this.goalProperties = goalProperties;
 	}
 	
-	@Override
-	public Boolean isFinished() {
-		return this.getGoalProperties().isFinished();
-	}
 }

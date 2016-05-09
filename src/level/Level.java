@@ -22,7 +22,6 @@ import goals.Goal;
 import goals.GoalChecker;
 import goals.GoalFactory;
 import goals.GoalProperties;
-import goals.IGoal;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -69,7 +68,6 @@ public class Level implements ILevel {
 		actions = new Actions();
 		myEventManager = new EventManager();
 		populateGoals();
-		
 	}
 
 	public void addEvent(Event e) {
@@ -118,7 +116,7 @@ public class Level implements ILevel {
 		getSpriteMap().put(spriteID, newSprite);
 	}
 
-	public void populateGoals() {
+	private void populateGoals() {
 		if (getLevelProperties().getGoalProperties().size() == 0){
 			getLevelProperties().addGoal(new GoalProperties());
 		}
@@ -128,24 +126,17 @@ public class Level implements ILevel {
 	}
 
 	private boolean completeGoals() {
-		//if (getLevelProperties().getGoalProperties().size() == 0) populateGoals();
-
 		GoalChecker goalChecker = new GoalChecker(this);
-		List<IGoal> deleteGoals = new ArrayList<IGoal>();
-		List<IGoal> goalList = this.levelProperties.getGoalList();
+		List<Goal> deleteGoals = new ArrayList<Goal>();
+		List<Goal> goalList = this.levelProperties.getGoalList();
 		int goalCount = this.getLevelProperties().getGoalCount();
-		for (IGoal goal : goalList) {
-		//	System.out.println(goal.getGoal().toString());
-			//System.out.println(goal.isFinished() + "is goal finished before check");
+		for (Goal goal : goalList) {
 			goal.acceptVisitor(goalChecker);
-			//System.out.println(goal.isFinished() + "is goal finished after check");
-
 			if (goal.isFinished()) {
 				goalCount++;
 				deleteGoals.add(goal);
 			}
 		}
-		this.getLevelProperties().setGoalCount(goalCount);
 		goalList.removeAll(deleteGoals);
 		return goalCount >= getLevelProperties().getNumGoals();
 	}
@@ -207,8 +198,8 @@ public class Level implements ILevel {
 		this.goalFactory = goalFactory;
 	}
 
-	public void deleteGoal(IGoal goal) {
-		List<IGoal> goalList = this.levelProperties.getGoalList();
+	public void deleteGoal(Goal goal) {
+		List<Goal> goalList = this.levelProperties.getGoalList();
 		goalList.remove(goal);
 		if (levelProperties.getNumGoals() > goalList.size()) {
 			levelProperties.setNumGoals(levelProperties.getNumGoals() - 1);
@@ -243,11 +234,11 @@ public class Level implements ILevel {
 		return myEventManager;
 	}
 
-	public List<IGoal> getGoalList() {
+	public List<Goal> getGoalList() {
 		return this.levelProperties.getGoalList();
 	}
 
-	public void setGoalList(List<IGoal> goalList) {
+	public void setGoalList(List<Goal> goalList) {
 		this.levelProperties.setGoalList(goalList);
 	}
 

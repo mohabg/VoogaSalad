@@ -32,8 +32,6 @@ public class ControlWindow{
 		Button restartButton = new Button("Restart");
 		restartButton.setOnAction(e -> {
 			File currGameFile = myPlayScreen.getGameFile();
-			
-	//		myPlayScreen.getEngine()
 			System.out.println("restart");
 			myPlayScreen.getEngine().getMyEditor().getGame().restartGame();
 //			myPlayScreen = (PlayScreen) GameLoader.newGame(currGameFile);

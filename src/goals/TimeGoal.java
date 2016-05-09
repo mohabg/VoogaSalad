@@ -3,12 +3,12 @@ package goals;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class TimeGoal implements IGoal{
-private DoubleProperty endTime;
-private GoalProperties goalProperties;
+public class TimeGoal extends Goal implements IGoal{
+
+	private DoubleProperty endTime;
 	
 	public TimeGoal(GoalProperties myProperties){
-		goalProperties=myProperties;
+		super(myProperties);
 		endTime = new SimpleDoubleProperty(0);
 	}
 	
@@ -17,7 +17,7 @@ private GoalProperties goalProperties;
 	}
 	
 	public void acceptVisitor(IGoalVisitor visitor){
-		getGoalProperties().setIsFinished(visitor.visit(this));
+		visitor.visit(this);
 	}
 
 	public DoubleProperty getEndTime() {
@@ -26,18 +26,5 @@ private GoalProperties goalProperties;
 
 	public void setEndTime(DoubleProperty endTime) {
 		this.endTime = endTime;
-	}
-	
-	public GoalProperties getGoalProperties() {
-		return goalProperties;
-	}
-
-	public void setGoalProperties(GoalProperties goalProperties) {
-		this.goalProperties = goalProperties;
-	}
-	
-	@Override
-	public Boolean isFinished() {
-		return this.getGoalProperties().isFinished();
 	}
 }
