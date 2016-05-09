@@ -127,16 +127,13 @@ public class GameLoader {
 		LevelProperties lp = newLevel.getLevelProperties();
 
 		setLevelProperties(lp,id,"level"+id);
-		setGoals(lp, lm);
-
-	//lp.setGoalList(lm.getMyGoals());
+		lp.setGoalList(lm.getMyGoals());
 		newLevel.setEnableGravity(lm.getEnableGravity());
 		newLevel.setStartTime(lm.getStartTime());
 		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));	
-	//	lp.setNumGoals(lm.getNumGoals());
+		lp.setNumGoals(lm.getNumGoals());
 		newLevel.setEvents(lm.getMyEvents());
 //			lp.setKeyMapping(lm.getMyKeyMap());
-		System.out.println("level setter" + newLevel.getLevelProperties().getGoalProperties());
 		return newLevel;
 	}
 
@@ -163,13 +160,6 @@ public class GameLoader {
 		newLevel.getLevelProperties().getSpriteMap().setUserControlledSpriteID(newLevel.getCurrentSpriteID());
 	}
 	
-	private static void setGoals(LevelProperties levelProperties, LevelModel levelModel){
-		levelProperties.setNumGoals(levelModel.getNumGoals());
-		//System.out.println(levelModel.getMyGoals() + "setter");
-		levelProperties.setGoalList(levelModel.getMyGoals());
-	//	levelProperties.setGoalProperties(levelModel.getMyGoals());
-		//lp.setGoalProperties(lm.getMyGoals().stream().map(g -> new GoalProperties(g)).collect(Collectors.toList()));
-	}
 
 	private static void setLevelProperties(LevelProperties p, Integer levelID, String tabName){
 		p.setLevelID(levelID);

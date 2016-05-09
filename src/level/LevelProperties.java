@@ -9,10 +9,8 @@ import gameElements.Time;
 import goals.GoalEnum;
 import goals.Goal;
 import goals.GoalProperties;
-import goals.IGoal;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.input.KeyCode;
 import keyboard.IKeyboardAction.KeyboardActions;
@@ -35,11 +33,11 @@ public class LevelProperties implements ILevelProperties {
 	private IntegerProperty numGoals;
 	private Score score;
 	private SpriteMap spriteMap;
-	private List<IGoal> goalList;
+	private List<Goal> goalList;
 	private Time time;
 	private Map<KeyCode, KeyboardActions> keyMapping;
 	private Map<String, List<Sprite>> spriteTypes;
-	private ListProperty<GoalProperties> goalProperties;
+	private List<GoalProperties> goalProperties;
 	private ISprite[] collidingSprites;
 	private IntegerProperty goalCount;
 	private BooleanProperty isFinished;
@@ -58,12 +56,7 @@ public class LevelProperties implements ILevelProperties {
 		previousLevel = new SimpleIntegerProperty(-1);
 		numGoals = new SimpleIntegerProperty(1);
 		goalList = new ArrayList<>();
-		
-		ObservableList observableGoalList = FXCollections.observableList(new ArrayList<GoalProperties>());
-		goalProperties=new SimpleListProperty<GoalProperties>(observableGoalList);
-		
-	//	goalProperties = new ArrayList<>();
-		
+		goalProperties = new ArrayList<>();
 	//	goalProperties.add(new GoalProperties(Goals.StayAliveGoal));
 		HashMap<KeyCode, KeyboardActions> myBehaviorsMap = new HashMap<KeyCode, KeyboardActions>();
 		ObservableMap<KeyCode, KeyboardActions> om1 = FXCollections.observableMap(myBehaviorsMap);
@@ -166,11 +159,11 @@ public class LevelProperties implements ILevelProperties {
 			spriteTypes.get(sprite.getMyRef()).add(sprite);
 	}
 
-	public List<IGoal> getGoalList() {
+	public List<Goal> getGoalList() {
 		return goalList;
 	}
 
-	public void setGoalList(List<IGoal> goalList) {
+	public void setGoalList(List<Goal> goalList) {
 		this.goalList = goalList;
 	}
 
@@ -220,9 +213,7 @@ public class LevelProperties implements ILevelProperties {
 	}
 
 	public void setGoalProperties(List<GoalProperties> goalProperties) {
-		ObservableList observableGoalList = FXCollections.observableList(goalProperties);
-		this.goalProperties.set(observableGoalList);
-		
+		this.goalProperties = goalProperties;
 	}
 
 	/*

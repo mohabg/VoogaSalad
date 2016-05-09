@@ -27,30 +27,28 @@ public class Game {
 	private int currLevelNum;
 	private ViewPoint viewPoint;
 	private BooleanProperty isFinished;
-
+	
 	public Game(GameInfo gameInfo) {
 		this();
 		this.setGameInfo(gameInfo);
-
 	}
-
 	
 	public Game() {
 		myGameLevels = new ArrayList<Level>();
 		currLevelNum = 0;
 		myInfo = new GameInfo();
-		isFinished = new SimpleBooleanProperty(false);
+		isFinished=new SimpleBooleanProperty(false);
 
 	}
-
-	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height) {
+	
+	public Game(GameInfo gameInfo, DoubleProperty width, DoubleProperty height){
 		this(gameInfo);
-		viewPoint = new ViewPoint(width, height);
+		viewPoint=new ViewPoint(width, height);
 	}
-
-	public Game(DoubleProperty width, DoubleProperty height) {
+	
+	public Game(DoubleProperty width, DoubleProperty height){
 		this();
-		viewPoint = new ViewPoint(width, height);
+		viewPoint=new ViewPoint(width, height);
 	}
 
 	public GameInfo getGameInfo() {
@@ -112,7 +110,7 @@ public class Game {
 		levelProperties.setLevelID(levelID);
 		newLevel.setLevelProperties(levelProperties);
 		myGameLevels.add(levelID, newLevel);
-		// viewPoint.updateViewPoint(newLevel);
+	//	viewPoint.updateViewPoint(newLevel);
 
 	}
 
@@ -131,11 +129,11 @@ public class Game {
 	public ViewPoint getViewPoint() {
 		return viewPoint;
 	}
- 
+
 	public void setViewPoint(ViewPoint viewPoint) {
 		this.viewPoint = viewPoint;
 	}
-
+	
 	public BooleanProperty getIsFinished() {
 		return isFinished;
 	}
@@ -144,8 +142,8 @@ public class Game {
 		this.isFinished.set(isFinished);
 	}
 
-
 	public boolean hasNextLevel() {
 		return this.myGameLevels.size() > this.getCurrentLevel().getLevelProperties().getNextLevelID();
 	}
+	
 }

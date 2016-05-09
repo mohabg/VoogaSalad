@@ -29,6 +29,9 @@ public class GoalChecker implements IGoalVisitor{
 	}
 	
 	public boolean visit(StayAliveGoal goal){
+		//System.out.println("reached visit() method in stay alive checker");
+
+	//System.out.println("spritesize"+level.getSpriteMap().getSprites().size());
 		boolean enemyBoolean=true;
 		for(ISprite sprite: level.getSpriteMap().getSprites()){
 			if(!sprite.isUserControlled()){
@@ -36,6 +39,7 @@ public class GoalChecker implements IGoalVisitor{
 				break;
 			}
 		}
+	//	System.out.println("enemyboolean" + enemyBoolean);
 		return enemyBoolean;
 	}
 	
@@ -52,11 +56,17 @@ public class GoalChecker implements IGoalVisitor{
 		return bossBoolean;
 	}
 	
-
 	public boolean visit(TimeGoal goal){
 		return this.getLevel().getLevelProperties().getTime().getTime() <= goal.getEndTime().doubleValue();
 	}
 	
+	@Override
+	public boolean visit(Goal goal) {
+		System.out.println("reached blank checker");
+
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	public Level getLevel() {
 		return level;

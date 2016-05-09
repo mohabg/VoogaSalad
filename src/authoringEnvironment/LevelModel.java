@@ -10,7 +10,6 @@ import authoringEnvironment.settingsWindow.ObjectEditorFactory.Annotations.Ignor
 import events.Event;
 import gameElements.Sprite;
 import goals.Goal;
-import goals.IGoal;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -35,7 +34,7 @@ import java.util.List;
 import Physics.PhysicsEngine;
 
 public class LevelModel {
-	private ListProperty<IGoal> myGoals;
+	private ListProperty<Goal> myGoals;
 	private ListProperty<Event> myEvents;
 	private BooleanProperty enableGravity;
 	private DoubleProperty startTime;
@@ -49,7 +48,7 @@ public class LevelModel {
 	public LevelModel() {
 		myBackground = new SimpleStringProperty();
 		enableGravity = new SimpleBooleanProperty();
-		myGoals = new SimpleListProperty<IGoal>(FXCollections.observableList(new ArrayList<IGoal>()));
+		myGoals = new SimpleListProperty<Goal>(FXCollections.observableList(new ArrayList<Goal>()));
 		startTime = new SimpleDoubleProperty(0);
 		myEvents = new SimpleListProperty<Event>(FXCollections.<Event>observableList(new ArrayList<Event>()));
 		numGoals = new SimpleIntegerProperty(1);
@@ -75,7 +74,7 @@ public class LevelModel {
 		this.enableGravity = enableGravity;
 	}
 
-	public List<IGoal> getMyGoals() {
+	public List<Goal> getMyGoals() {
 		return myGoals;
 	}
 	
@@ -110,7 +109,5 @@ public class LevelModel {
 	public void addSprites(List<Sprite> list) {
 		myList.addAll(list);		
 	}
-
-
 
 }

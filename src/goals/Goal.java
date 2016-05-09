@@ -35,12 +35,15 @@ public abstract class Goal implements IGoal{
 		goalProperties.setIsFinished(isFinished);
 	}
 	
-	public Boolean isFinished(){
+	public boolean isFinished(){
 		return goalProperties.isFinished();
 	}
 	public GoalEnum getGoal(){
 		return goalProperties.getMyGoal();
 	}
 	
+	public void acceptVisitor(IGoalVisitor visitor){
+		setIsFinished(visitor.visit(this));
 
+	}
 }
