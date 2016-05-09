@@ -55,6 +55,8 @@ public class PlayScreen {
 		for (int i = 0; i < gameLevels.size(); i++) {
 			LevelModel lm = gameLevels.get(i);
 			Level newLevel = GameLoader.makeLevel(lm, i);
+			newLevel.populateGoals();
+			System.out.println("playscreen"+newLevel.getLevelProperties().getGoalProperties());
 			int id = newLevel.getLevelProperties().getLevelID();
 			myEngine.addLevel(id, newLevel);
 			myView.setViewSprites(id, GameLoader.setLevelSprites(newLevel, lm.getMySpriteList()));
@@ -74,6 +76,7 @@ public class PlayScreen {
 	public void setLevel() {
 		myView.clearSprites();
 		currentLevel = myEngine.getCurrentLevel();
+		System.out.println("setLevel" + currentLevel.getLevelProperties().getGoalProperties());
 		myView.setLevelSprites(currentLevel.getLevelProperties().getLevelID());
 		SpriteFactory sf = new SpriteFactory(myView.getViewSprites(), currentLevel.getSpriteMap());
 		SpawnController enemyController = new SpawnController(sf);

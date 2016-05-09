@@ -2,6 +2,7 @@
 package behaviors;
 
 import authoringEnvironment.RefObject;
+import collisions.DamageCollision;
 import gameElements.ISprite;
 import gameElements.ISpriteProperties;
 import level.LevelProperties;
